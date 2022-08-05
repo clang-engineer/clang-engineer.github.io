@@ -16,3 +16,8 @@ author: "Zero"
 
 # Disqus config
 disqus-shortname: ""
+
+collections:
+  wiki:
+    output: true
+    permalink: /:collection/:path/

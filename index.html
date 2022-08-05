@@ -34,7 +34,7 @@ about: 'about.html'
         {% include pagination.html %}
     </div>
 
-    {% for post in paginator.posts %}
+    {% for post in site.wiki %}
 
     <article class="post">
         <header class="post-header">
@@ -56,7 +56,6 @@ about: 'about.html'
             </time> 
         </footer>
     </article>
-
     {% endfor %}
 
     {% include pagination.html %}
