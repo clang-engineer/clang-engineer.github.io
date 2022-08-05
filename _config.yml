@@ -1,19 +1,18 @@
-name: Your New Jekyll Site
-description: Blogging about stuffs
+name: 천천히 사는 개발자 0'의 기록
+description: 개발, 메모, 일상..
 meta_description: "Your New Jekyll Site, Blogging about stuffs"
 
 markdown: kramdown
 highlighter: rouge
 logo: false
 paginate: 15
-baseurl: /kasper
 domain_name: "http://yourblog-domain.com"
 google_analytics: "UA-XXXXXXXX-X"
 plugins: [jekyll-paginate]
 
 # Details for the RSS feed generator
 url: ""
-author: "Your Name"
+author: "Zero"
 
 # Disqus config
 disqus-shortname: ""
