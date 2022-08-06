@@ -5,7 +5,7 @@ title: Recent Wiki Pages
 
 {% assign documents = site.wiki | sort: 'updated' | reverse %}
 {% for document in documents %}
-<article class="post">
+<article class="post wide-post">
 	<header class="post-header">
 		<h2 class="post-title"><a href="{{ document.url | relative_url }}">{{ document.title }}</a></h2>
 	</header>
