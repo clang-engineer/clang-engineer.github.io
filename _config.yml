@@ -12,7 +12,7 @@ plugins: [jekyll-paginate]
 
 # Details for the RSS feed generator
 url: ""
-author: "Zero"
+author: "zero"
 
 # Disqus config
 disqus-shortname: ""
