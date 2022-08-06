@@ -28,5 +28,32 @@ about: 'about.html'
 
 
 <main id="content" class="content" role="main">
-    {% include recent-wiki-list.html %}
+	<article>
+		{% assign documents = site.wiki | sort: 'updated' | reverse %}
+		{% for document in documents limit : 5 %}
+		<section class="post">
+			<header class="post-header">
+				<h2 class="post-title"><a href="{{ document.url | relative_url }}">{{ document.title }}</a></h2>
+			</header>
+			<section class="post-excerpt">
+				{{ document.content | strip_html | truncate: 100 }} <a class="read-more" href="{{ document.url | relative_url }}">&raquo;</a>
+			</section>
+			<footer class="post-meta">
+				{% if site.author %}
+					<img class="author-thumb" src="{{'/assets/images/profile.png' | relative_url}}" alt="Author's profile picture" nopin="nopin" />
+					{{ site.author }}
+				{% endif %}
+				{% if document.categories.size > 0 %} 
+					{{ document.categories | array_to_sentence_string | prepend: 'on ' }} 
+				{% endif %}
+				<time class="post-date" datetime="{{ post.date | date:"%Y-%m-%d" }}">
+					{{ document.date | date_to_string }}
+				</time> 
+			</footer>
+		</section>
+		{% endfor %}
+		<footer>
+			<a class="read-more" href="{{ site.baseurl | relative_url }}/wiki-list">More articles</a>
+		</footer>
+	</article>
 </main>
