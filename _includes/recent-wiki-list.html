@@ -1,5 +1,5 @@
-{% assign documents = site.wiki | sort: 'updated' | reverse | limit: 30 %}
-{% for document in documents %}
+{% assign documents = site.wiki | sort: 'updated' | reverse %}
+{% for document in documents limit : 5 %}
 <article class="post">
 	<header class="post-header">
 		<h2 class="post-title"><a href="{{ document.url | relative_url }}">{{ document.title }}</a></h2>
