@@ -1,0 +1,10 @@
+.index {
+	> footer {
+		display: flex;
+		justify-content: center;
+		a {
+			color: grey;
+			font-size: 1.2em;
+		}
+	}
+}

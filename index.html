@@ -28,7 +28,7 @@ about: 'about.html'
 
 
 <main id="content" class="content" role="main">
-	<article>
+	<article class="index">
 		{% assign documents = site.wiki | sort: 'updated' | reverse %}
 		{% for document in documents limit : 5 %}
 		<section class="post">
@@ -53,7 +53,7 @@ about: 'about.html'
 		</section>
 		{% endfor %}
 		<footer>
-			<a class="read-more" href="{{ site.baseurl | relative_url }}/wiki-list">More articles</a>
+			<a class="read-more" href="{{ site.baseurl | relative_url }}/wiki-list"> 전체 문서 리스트 보기 ({{ site.wiki | size | minus : 1 }} 항목) >> </a>
 		</footer>
 	</article>
 </main>
