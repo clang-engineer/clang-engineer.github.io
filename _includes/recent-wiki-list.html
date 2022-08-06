@@ -1,0 +1,22 @@
+{% for wiki in site.wikis %}
+<article class="post">
+	<header class="post-header">
+		<h2 class="post-title"><a href="{{ wiki.url | relative_url }}">{{ wiki.title }}</a></h2>
+	</header>
+	<section class="post-excerpt">
+		{{ wiki.content | strip_html | truncate: 100 }} <a class="read-more" href="{{ wiki.url | relative_url }}">&raquo;</a>
+	</section>
+	<footer class="post-meta">
+		{% if site.author %}
+			<img class="author-thumb" src="{{'/assets/images/profile.png' | relative_url}}" alt="Author's profile picture" nopin="nopin" />
+			{{ site.author }}
+		{% endif %}
+		{% if wiki.categories.size > 0 %} 
+			{{ wiki.categories | array_to_sentence_string | prepend: 'on ' }} 
+		{% endif %}
+		<time class="post-date" datetime="{{ post.date | date:"%Y-%m-%d" }}">
+			{{ wiki.date | date_to_string }}
+		</time> 
+	</footer>
+</article>
+{% endfor %}
