@@ -11,4 +11,6 @@
 // Import partials from `sass_dir` (defaults to `_sass`)
 @import "syntax";
 @import "markdown_toc";
-@import "_index";
+@import "index";
+@import "custom-icon";
+@import "dropdown";
