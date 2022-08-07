@@ -12,18 +12,7 @@ about: 'about.html'
                     <img src="{{ page.logo }}" alt="Blog Logo" />
                 </a>
             {% endif %}
-		<div>
-		<div class="nav-btn-wrapper">
-			<div class="dropdown">
-			  <button class="dropdown-btn icon-link"> MENU LIST</button>
-			  <div class="dropdown-content">
-				<a href="{{'feed.xml' | relative_url }} ">RSS</a>
-				<a href="#">Link 1</a>
-				<a href="#">Link 2</a>
-				<a href="#">Link 3</a>
-			  </div>
-			</div>
-		</div>
+			{% include dropdown.html%}
     </nav>
     <div class="vertical">
         <div class="main-header-content inner">
