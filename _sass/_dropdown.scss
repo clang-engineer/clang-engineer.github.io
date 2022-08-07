@@ -5,58 +5,83 @@
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
-  position: relative;
-  display: inline-block;
+	position: relative;
+	display: inline-block;
+
+	&:hover {
+		.dropdown-content {display: block;}
+		.dropdown-btn {
+			color: #222;
+			border-color: #fff;
+			background: #fff;
+			transition: all 0.1s ease;
+		}
+	}
+
+	.dropdown-btn, .dropdown-content a {
+		height: 38px;
+		padding: 0 20px;
+		color: #9EABB3;
+		text-align: center;
+		font-size: 12px;
+		text-transform: uppercase;
+		line-height: 35px;
+		white-space: nowrap;
+		background: rgba(0,0,0,0.1);
+		transition: all ease 0.3s;
+		text-decoration: none;
+		font-family: 'Open Sans', sans-serif;
+		color: #fff;
+	}
+
+	.dropdown-btn, .dropdown-content {
+		border: transparent 1px solid;
+		border-radius: 3px;
+		border-color: rgba(255,255,255,0.6);
+		width: 130px;
+	}
+	/* Dropdown Content (Hidden by Default) */
+	.dropdown-content {
+		position: absolute;
+		display: none;
+		top: 38px;
+		box-sizing: border-box;
+
+		a {
+			display: block;
+			&:hover {
+				background-color: #ddd;
+			}
+		}
+	}
+
 }
 
-/* Dropdown Button */
-.dropdown-btn, .dropdown-content a {
-    height: 38px;
-    padding: 0 20px;
-    color: #9EABB3;
-    text-align: center;
-    font-size: 12px;
-    text-transform: uppercase;
-    line-height: 35px;
-    white-space: nowrap;
-    background: rgba(0,0,0,0.1);
-    transition: all ease 0.3s;
-	text-decoration: none;
-    font-family: 'Open Sans', sans-serif;
-	color: #fff;
+.dropdown.subpath {
+	.dropdown-btn, .dropdown-content {
+		background-color: transparent;
+		color: #9EABB3;
+	}
+
+	&:hover {
+		.dropdown-btn {
+			border: 1px solid #bfc8cd;
+			color: #9EABB3;
+			transition: all 0.1s ease;
+		}
+	}
+
+	.dropdown-content {
+		border: 1px solid #bfc8cd;
+		border-top: none;
+	}
+
+	.dropdown-content a {
+		background: transparent;
+		color: #9EABB3;
+		&:hover {
+			background: #9EABB3;
+			color: white;
+		}
+	}
 }
-
-.dropdown-btn, .dropdown-content {
-    border: transparent 1px solid;
-    border-radius: 3px;
-	border-color: rgba(255,255,255,0.6);
-	width: 130px;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  z-index: 1;
-  top: 38px;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  display: block;
-  &:hover {
-	background-color: #ddd;
-  }
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropdown-btn {
-	color: #222;
-	border-color: #fff;
-	background: #fff;
-	transition: all 0.1s ease;
-}
-
