@@ -31,7 +31,7 @@ layout: default
 			{{ document.categories | array_to_sentence_string | prepend: 'on ' }} 
 		{% endif %}
 		<time class="post-date" datetime="{{ post.date | date:"%Y-%m-%d" }}">
-			{{ document.date | date_to_string }}
+			{{ document.updated | date: "%Y.%m.%d" }}
 		</time> 
 	</footer>
 </section>
