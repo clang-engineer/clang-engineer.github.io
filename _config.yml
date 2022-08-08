@@ -26,3 +26,8 @@ collections:
 github:
   url: https://github.com/yorez/yorez.github.io
   branch: develop
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
