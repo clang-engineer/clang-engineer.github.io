@@ -1,0 +1,16 @@
+<section class="share">
+    <h4>About this post</h4>
+	{% assign doc_id = page.id | remove: '/wiki/' %}
+	<a href="{{ site.github.url }}/blame/{{ site.github.branch }}/_wiki/{{doc_id}}.md" target=_blank title=history">
+		<i class="fas fa-code-branch"></i>
+        <span class="hidden">history</span>
+    </a>
+	<a href="{{ site.github.url }}/issues/new?title={{page.title}}&body=내용을 입력해주세요." target=_blank title=comment">
+		<i class="fas fa-comments"></i>
+        <span class="hidden">comment</span>
+    </a>
+	<a href="{{ site.github.url }}/edit/{{ site.github.branch }}/_wiki/{{doc_id}}.md" target=_blank title=edit">
+		<i class="fas fa-pen"></i>
+        <span class="hidden">edit</span>
+    </a>
+</section>
