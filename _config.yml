@@ -6,8 +6,8 @@ markdown: kramdown
 highlighter: rouge
 logo: false
 paginate: 15
-domain_name: "http://yourblog-domain.com"
-google_analytics: "UA-XXXXXXXX-X"
+domain_name: "https://yorez.github.io"
+google_analytics: "G-3438E60K5Q"
 plugins: [jekyll-paginate]
 
 # Details for the RSS feed generator
