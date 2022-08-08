@@ -31,3 +31,9 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
+
+utterances:
+  repo: yorez/yorez.github.io
+  issue-term: url
+  label: Comment
+  branch: master
