@@ -22,7 +22,12 @@ post_class: post-template
                 {% if page.categories.size > 0 %}
                     {{ page.categories | array_to_sentence_string | prepend: 'on ' }}
                 {% endif %}
-                <time class="post-date" datetime="{{ page.date | date:"%Y-%m-%d" }}">{{ page.date | date_to_string }}</time>
+                <time class="post-date" >
+					CREATED: {{ page.date | date: "%Y.%m.%d" }}
+				</time>
+                <time class="post-date" >
+					UPDATED: {{ page.updated | date: "%Y.%m.%d" }}
+				</time>
             </section>
         </header>
 

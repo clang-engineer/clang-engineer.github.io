@@ -1,0 +1,13 @@
+.post {
+	.post-date {
+		padding: 0 10px 0 10px;
+		margin: 0px;
+		border: none;
+		&:first-child {
+			padding-left: 0;
+		}
+		&:last-child {
+			border-left: #d5dbde 1px solid; 
+		}
+	}
+}
