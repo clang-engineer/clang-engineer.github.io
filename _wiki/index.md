@@ -1,5 +1,5 @@
 ---
-layout  : wikiindex
+layout  : page
 title   : root
 toc     : true
 public  : true
