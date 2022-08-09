@@ -19,22 +19,38 @@
 			font-size: 4rem;
 			&:before {
 				content:"⠁";
+				padding-right: 8px;
 			}
 		}
 		h2 {
-			&:before { content:"⠉"; }
+			&:before { 
+				content:"⠉"; 
+				padding-right: 8px;
+			}
 		}
 		h3 {
-			&:before { content:"⠋"; }
+			&:before { 
+				content:"⠋"; 
+				padding-right: 8px;
+			}
 		}
 		h4 {
-			&:before { content:"⠛"; }
+			&:before {
+				content:"⠛"; 
+				padding-right: 8px;
+			}
 		}
 		h5 {
-			&:before { content:"⠟"; }
+			&:before {
+				content:"⠟"; 
+				padding-right: 8px;
+			}
 		}
 		h6 {
-			&:before { content:"⠿"; }
+			&:before {
+				content:"⠿"; 
+				padding-right: 8px;
+			}
 		}
 	}
 }

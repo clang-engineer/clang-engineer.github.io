@@ -3,7 +3,7 @@ layout  : wiki
 title   : tmux cheat sheet
 summary : 
 date    : 2021-11-30 15:56:19 +0900
-updated : 2022-07-26 10:39:16 +0900
+updated : 2022-08-09 13:39:10 +0900
 tags    : 
 toc     : true
 public  : true
