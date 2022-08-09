@@ -20,37 +20,47 @@
 			&:before {
 				content:"⠁";
 				padding-right: 8px;
-				color: blueviolet;
+				color: #845EC2;
 			}
 		}
+
 		h2 {
 			&:before { 
 				content:"⠉"; 
 				padding-right: 8px;
+				color: #2C73D2;
 			}
 		}
+
 		h3 {
 			&:before { 
 				content:"⠋"; 
 				padding-right: 8px;
+				color: #0081CF;
 			}
 		}
+
 		h4 {
 			&:before {
 				content:"⠛"; 
 				padding-right: 8px;
+				color: #0089BA;
 			}
 		}
+		
 		h5 {
 			&:before {
 				content:"⠟"; 
 				padding-right: 8px;
+				color: #008E9B;
 			}
 		}
+
 		h6 {
 			&:before {
 				content:"⠿"; 
 				padding-right: 8px;
+				color: #008F7A;
 			}
 		}
 	}
