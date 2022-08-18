@@ -126,6 +126,7 @@ regenerate: true
 * [[etc/on-my-zsh]]
 * [[etc/dont-worry]]
 * [[etc/letsenc-to-keycrt]]
+* [[etc/gdb]]
 
 ## [[window/index]]
 
