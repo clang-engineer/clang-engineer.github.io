@@ -183,6 +183,7 @@ list
 list 100
 list function
 list -
+list start,end
 
 set listsize count
 set listsize unlimited
