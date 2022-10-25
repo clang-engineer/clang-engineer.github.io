@@ -145,6 +145,7 @@ regenerate: true
 * [[java/occupy-multiple-port]]
 * [[java/list-to-map-transform]]
 * [[java/spring-boot-boodha-banner]]
+* [[java/spring-boot-nyan-cat-banner]]
 * [[java/spring-vs-code-debugging]]
 
 ## [[javascript/index]]
