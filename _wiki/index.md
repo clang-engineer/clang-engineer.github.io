@@ -153,6 +153,7 @@ regenerate: true
 * [[javascript/npm-install-err]]
 
 ## [[machine-learning/index]]
+* [[machine-learning/decision-tree]]
  
 ## [[chrome/index]]
 * [[chrome/useful-plugin]]
