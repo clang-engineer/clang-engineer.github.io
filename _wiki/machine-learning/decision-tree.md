@@ -3,7 +3,7 @@ layout  : wiki
 title   : Decision Tree (의사 결정 나무)
 summary : 
 date    : 2022-11-03 08:28:20 +0900
-updated : 2022-11-03 08:33:07 +0900
+updated : 2022-11-03 08:39:46 +0900
 tags    : 
 toc     : true
 public  : true
@@ -16,7 +16,7 @@ latex   : false
 # Decision Tree (의사 결정 나무)
 
 - titinic 생존자 예측
-- 
+ 
 ```python
 import pandas as pd
 import sklearn
