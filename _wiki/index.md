@@ -151,6 +151,8 @@ regenerate: true
 ## [[javascript/index]]
 * [[javascript/axios-collection-set-send]]
 * [[javascript/npm-install-err]]
+
+## [[machine-learning/index]]
  
 ## [[chrome/index]]
 * [[chrome/useful-plugin]]
