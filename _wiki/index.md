@@ -155,6 +155,7 @@ regenerate: true
 ## [[machine-learning/index]]
 * [[machine-learning/decision-tree]]
 * [[machine-learning/svm]]
+* [[machine-learning/knn]]
  
 ## [[chrome/index]]
 * [[chrome/useful-plugin]]
