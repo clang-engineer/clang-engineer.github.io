@@ -162,6 +162,7 @@ regenerate: true
 
 ## [[css/index]]
 * [[css/global-variable]]
+* [[css/mui]]
 
 ## [[cheat-sheet/index]]
 * [[cheat-sheet/link]]
