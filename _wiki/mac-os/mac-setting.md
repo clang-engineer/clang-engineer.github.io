@@ -13,6 +13,13 @@ latex   : false
 * TOC
 {:toc}
 
+# 기본
+1. 독 위치 조정
+(system settings >> Desktop & Dock)
+2. 세벌식 변경
+3. 자동 대소문자 전환 끄기
+(system settings >> keyboard >> text >> capitalize words automatically)
+
 # Brew로 기존에 사용하던 맥 라이브러리들 옮기기 
 
 ## 1. 기존 사용하던 pc에서 Brewfile 생성
@@ -29,6 +36,14 @@ $ brew bundle dump
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+### m1의 경우
+별도로 환경 변수 설정
+```sh
+touch ~/.zshrc
+export PATH=/opt/homebrew/bin:$PATH
+source ~/.zshrc
 ```
 
 ## 3. 백업한 Brewfile 실행
