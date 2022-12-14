@@ -13,7 +13,8 @@ latex   : false
 * TOC
 {:toc}
 
-# 기본
+# 기본 설정
+
 1. 독 위치 조정
 (system settings >> Desktop & Dock)
 2. 세벌식 변경
@@ -27,7 +28,7 @@ latex   : false
 
 # Brew로 기존에 사용하던 맥 라이브러리들 옮기기 
 
-## 1. 기존 사용하던 pc에서 Brewfile 생성
+1. 기존 사용하던 pc에서 Brewfile 생성
 
 ```sh
 $ brew install mac
@@ -37,13 +38,13 @@ $ brew bundle dump
 - brew bundle dump의 결과 Brewfile이 생성됨 누락된 어플리케이션이 있다면 수동으로 설치
 (brew cask를 활용하여 gui 기반의 어플리케이션을 관리한다면 Brewfile에 추가됨)
 
-## 2. 신규pc에서 Homebrew 설치
+2. 신규pc에서 Homebrew 설치
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
 
-### m1의 경우
+- m1의 경우
 별도로 환경 변수 설정
 ```sh
 touch ~/.zshrc
@@ -51,7 +52,7 @@ export PATH=/opt/homebrew/bin:$PATH
 source ~/.zshrc
 ```
 
-## 3. 백업한 Brewfile 실행
+ 3. 백업한 Brewfile 실행
 
 - 백업 파일 다운로드
 
@@ -63,6 +64,11 @@ $ curl -O https://raw.githubusercontent.com/yorez/dotfiles/master/Brewfile
  
 ```sh
 brew bundle
+```
+
+# oh my zsh 설치
+```
+$ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
 # dotfile설정
