@@ -196,5 +196,7 @@ $ echo
  >> ${HOME}/.zshrc
 ```
 
+# hammerspoon 설정
+- privacy & security >> accessibility 
  
-> 출처: https://johngrib.github.io/wiki/migrate-to-new-macbook/
+> 참조: https://johngrib.github.io/wiki/migrate-to-new-macbook/
