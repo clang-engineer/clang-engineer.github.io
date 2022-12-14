@@ -19,6 +19,8 @@ latex   : false
 2. 세벌식 변경
 3. 자동 대소문자 전환 끄기
 (system settings >> keyboard >> text >> capitalize words automatically)
+4. 대소문자 전환 capslock 활성화
+(system settings >> keyboard >> input sources)
 
 # Brew로 기존에 사용하던 맥 라이브러리들 옮기기 
 
@@ -191,3 +193,7 @@ $ echo
 - 드래그 활성화에서 세 손가락으로 드래그하기
  
 > 출처: https://johngrib.github.io/wiki/migrate-to-new-macbook/
+
+
+
+# 유
