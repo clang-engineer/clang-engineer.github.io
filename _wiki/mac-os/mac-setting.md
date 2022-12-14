@@ -150,6 +150,14 @@ vim 실행 >> :PlugInstall
 - 라이선스를 갖고 있는 IDE를 추가로 설치
 
 # tmux 설정
+- 사용하는 쉘 rc 파일에 tmux 자동 실행 스크립트 추가
+
+```sh
+# zsh 의 경우
+case $- in *i*)
+    [ -z "$TMUX" ] && exec tmux
+esac
+```
 
 # zsh 설정
 1. intall zsh
