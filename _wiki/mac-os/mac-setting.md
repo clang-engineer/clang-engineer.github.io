@@ -92,6 +92,8 @@ user git
     identityfile ~/.ssh/id_rsa_planit-zero
 ```
 
+> 각각 별개 인증서 필요
+
 ## 4. 연결 확인
 ```sh
 ssh -T github.com-yorez
@@ -195,5 +197,4 @@ $ echo
 > 출처: https://johngrib.github.io/wiki/migrate-to-new-macbook/
 
 
-
-# 유
+# 유용한 brew
