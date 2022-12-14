@@ -21,6 +21,9 @@ latex   : false
 (system settings >> keyboard >> text >> capitalize words automatically)
 4. 대소문자 전환 capslock 활성화
 (system settings >> keyboard >> input sources)
+5. 세 손가락 드래그
+- 시스템 환경설정 - 손쉬운 사용 - 포인트 제어기 - 트랙패드 옵션
+- 드래그 활성화에서 세 손가락으로 드래그하기
 
 # Brew로 기존에 사용하던 맥 라이브러리들 옮기기 
 
@@ -62,6 +65,8 @@ $ curl -O https://raw.githubusercontent.com/yorez/dotfiles/master/Brewfile
 brew bundle
 ```
 
+# dotfile설정
+- https://github.com/yorez/dotfiles 의 설정파일들을 링크
 
 # git ssh 환경 설정
 
@@ -190,9 +195,7 @@ $ echo
 
 # mac 추가 설정
 
-## 세 손가락 드래그
-- 시스템 환경설정 - 손쉬운 사용 - 포인트 제어기 - 트랙패드 옵션
-- 드래그 활성화에서 세 손가락으로 드래그하기
+
  
 > 출처: https://johngrib.github.io/wiki/migrate-to-new-macbook/
 
