@@ -3,7 +3,7 @@ layout  : wiki
 title   : 맥북 셋팅
 summary : 
 date    : 2022-02-05 16:24:30 +0900
-updated : 2022-07-19 13:28:20 +0900
+updated : 2022-12-16 08:29:32 +0900
 tags    : 
 toc     : true
 public  : true
@@ -206,5 +206,13 @@ $ echo
 
 # hammerspoon 설정
 - privacy & security >> accessibility 
+
+# brew install list
+- brew install neovim
+- brew install —cask google-chrome
+- brew install --cask jetbrains-toolbox
+- brew install --cask intellij-idea
+- brew install --cask gureumkim
+
  
 > 참조: https://johngrib.github.io/wiki/migrate-to-new-macbook/
