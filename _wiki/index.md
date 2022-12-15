@@ -127,6 +127,7 @@ regenerate: true
 * [[etc/dont-worry]]
 * [[etc/letsenc-to-keycrt]]
 * [[etc/gdb]]
+* [[etc/terminal-scroll-not-work]]
 
 ## [[window/index]]
 
