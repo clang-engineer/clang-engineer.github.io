@@ -13,7 +13,7 @@ latex   : false
 * TOC
 {:toc}
 
-# 기본 설정
+# 1. 기본 설정
 
 1. 독 위치 조정
 (system settings >> Desktop & Dock)
@@ -26,7 +26,7 @@ latex   : false
 - 시스템 환경설정 - 손쉬운 사용 - 포인트 제어기 - 트랙패드 옵션
 - 드래그 활성화에서 세 손가락으로 드래그하기
 
-# Brew로 기존에 사용하던 맥 라이브러리들 옮기기 
+# 2. Brew로 기존에 사용하던 맥 라이브러리들 옮기기 
 
 1. 기존 사용하던 pc에서 Brewfile 생성
 
@@ -44,49 +44,46 @@ $ brew bundle dump
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
 
-- m1의 경우
-별도로 환경 변수 설정
+- m1의 경우 별도로 환경 변수 설정
 ```sh
 touch ~/.zshrc
 export PATH=/opt/homebrew/bin:$PATH
 source ~/.zshrc
 ```
 
- 3. 백업한 Brewfile 실행
-
-- 백업 파일 다운로드
+3. 백업 Brew 파일 다운로드
 
 ```sh
 $ curl -O https://raw.githubusercontent.com/yorez/dotfiles/master/Brewfile
 ```
 
-- Brewfile 다운받은 위치에서 brew bundle 실행
+4. Brewfile 다운받은 위치에서 brew bundle 실행
  
 ```sh
 brew bundle
 ```
 
-# oh my zsh 설치
+# 3. dotfile설정
+- oh my zsh 별도 설치
 ```
 $ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
-
-# dotfile설정
 - https://github.com/yorez/dotfiles 의 설정파일들을 링크
 
-# git ssh 환경 설정
 
-## 1. sshkey 생성
+# 4. git ssh 환경 설정
+
+1. sshkey 생성
 
 ```sh
 ssh-keygen
 ```
 
-## 2. github에 공개키 등록
+2. github에 공개키 등록
 
 - 1.에서 생성한 공개키를 github settings - SSH and GPG keys - SSH keys에 등록
 
-## 3. local pc 개인키 등록 
+3. local pc 개인키 등록 
 
 - ~/.ssh/config 파일을 생성하고 다음과 값이 추가
  
@@ -105,7 +102,7 @@ user git
 
 > 각각 별개 인증서 필요
 
-## 4. 연결 확인
+4. 연결 확인
 ```sh
 ssh -T github.com-yorez
 ssh -T github.com-planit-zero
@@ -113,12 +110,12 @@ ssh -T github.com-planit-zero
 
 # vim 환경 설정
 
-## 1. neovim download
+1. neovim download
 ```sh
 $ brew install neovim
 ```
 
-## 2. plugin manager 설치 
+2. plugin manager 설치 
  
 ```sh 
 # vundle 을 사용할 경우
@@ -129,7 +126,7 @@ $ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plu
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 ```
 
-## 3. plugin 설치
+3. plugin 설치
  
 ```sh
 # vim을 사용할 경우
@@ -153,15 +150,23 @@ vim 실행 >> :PlugInstall
 - 라이선스를 갖고 있는 IDE를 추가로 설치
 
 # tmux 설정
+- 사용하는 쉘 rc 파일에 tmux 자동 실행 스크립트 추가
+
+```sh
+# zsh 의 경우
+case $- in *i*)
+    [ -z "$TMUX" ] && exec tmux
+esac
+```
 
 # zsh 설정
-## 1. intall zsh
+1. intall zsh
 ```sh
 sudo apt-get update
 sudo apt-get intall zsh -y
 chsh -s /usr/bin/zsh # change default shell
 ```
-## 2. install on my zsh
+2. install on my zsh
 ```sh
 # Curl을 이용한 설치
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -169,9 +174,9 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 # wget을 이용한 설치
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
-## 3. zsh 플러그인 설정 
+3. zsh 플러그인 설정 
 
-### 1. Autojump
+3-1. Autojump
 ```sh
 $ brew install autojump
 
@@ -179,7 +184,7 @@ $ brew install autojump
 plugins=(get autojump)
 ```
 
-### 2. Auto Suggestions
+3-2. Auto Suggestions
 
 ```sh
 $ brew install zsh-autosuggestions  # git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -189,7 +194,7 @@ $ echo
  >> ~/.zshrc
 ```
 
-### 3. Syntax Highlighting
+3-3. Syntax Highlighting
 
 ```sh
 $ brew install zsh-syntax-highlighting  # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
@@ -199,11 +204,7 @@ $ echo
  >> ${HOME}/.zshrc
 ```
 
-# mac 추가 설정
-
-
+# hammerspoon 설정
+- privacy & security >> accessibility 
  
-> 출처: https://johngrib.github.io/wiki/migrate-to-new-macbook/
-
-
-# 유용한 brew
+> 참조: https://johngrib.github.io/wiki/migrate-to-new-macbook/
