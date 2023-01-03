@@ -31,7 +31,7 @@ about: 'about.html'
 	<article class="index">
 		{% assign documents = site.wiki | sort: 'updated' | reverse %}
 		{% for document in documents limit : 5 %}
-		{% if document.public == true}
+		{% if document.public == true %}
 		<section class="post">
 			<header class="post-header">
 				<h2 class="post-title"><a href="{{ document.url | relative_url }}">{{ document.title }}</a></h2>
