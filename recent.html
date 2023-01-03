@@ -15,6 +15,7 @@ layout: default
 <article class="index">
 {% assign documents = site.wiki | sort: 'updated' | reverse %}
 {% for document in documents %}
+{% if document.public == true %}
 <section class="post">
 	<header class="post-header">
 		<h2 class="post-title"><a href="{{ document.url | relative_url }}">{{ document.title }}</a></h2>
@@ -36,5 +37,6 @@ layout: default
 	</footer>
 </section>
 </article>
+{% endif %}
 {% endfor %}
 </main>
