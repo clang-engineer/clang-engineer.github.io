@@ -53,7 +53,8 @@ regenerate: true
 * [[git/remote]]
 * [[git/github-githubusercontent]]
 * [[git/etc]]
-
+* [[git/restore]]
+ 
 ## [[data-structure/index]]
 * [[data-structure/array-list]]
 * [[data-structure/array-list-of-struct]]
