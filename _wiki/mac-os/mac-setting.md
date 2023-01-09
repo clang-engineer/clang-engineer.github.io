@@ -208,11 +208,9 @@ $ echo
 - privacy & security >> accessibility 
 
 # brew install list
-- brew install neovim
-- brew install —cask google-chrome
+- brew install —-cask google-chrome
 - brew install --cask jetbrains-toolbox
 - brew install --cask intellij-idea
-- brew install --cask gureumkim
 
  
 > 참조: https://johngrib.github.io/wiki/migrate-to-new-macbook/
