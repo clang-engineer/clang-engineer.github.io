@@ -52,9 +52,9 @@ regenerate: true
 * [[git/shortlog]]
 * [[git/remote]]
 * [[git/github-githubusercontent]]
-* [[git/etc]]
 * [[git/restore]]
 * [[git/git-flow]]
+* [[git/etc]]
  
 ## [[data-structure/index]]
 * [[data-structure/array-list]]
