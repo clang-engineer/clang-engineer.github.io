@@ -6,10 +6,10 @@ layout: page
 {{page.path}}
 {{page.name}}
 
-{% assign documents = site.wiki | sort: 'updated' | reverse %}
+{% assign documents = site.wikis | sort: 'updated' | reverse %}
 {% for document in documents limit : 1 %}
 <p>
 {{document.path}}
 {{document.name}}
-</p>>
+</p>
 {% endfor %}

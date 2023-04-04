@@ -29,7 +29,7 @@ about: 'about.html'
 
 <main id="content" class="content" role="main">
 	<article class="index">
-		{% assign documents = site.wiki | sort: 'updated' | reverse %}
+		{% assign documents = site.wikis | sort: 'updated' | reverse %}
 		{% for document in documents limit : 5 %}
 		{% if document.public == true %}
 		<section class="post">
@@ -55,7 +55,7 @@ about: 'about.html'
 		{% endif %}
 		{% endfor %}
 		<footer>
-			<a class="read-more" href="{{ site.baseurl | relative_url }}/recent"> 전체 문서 리스트 보기 ({{ site.wiki | size | minus : 1 }} 항목) >> </a>
+			<a class="read-more" href="{{ site.baseurl | relative_url }}/recent"> 전체 문서 리스트 보기 ({{ site.wikis | size | minus : 1 }} 항목) >> </a>
 		</footer>
 	</article>
 </main>
