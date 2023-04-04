@@ -13,7 +13,7 @@ layout: default
 
 <main id="content" class="content" role="main">
 <article class="index">
-{% assign documents = site.wiki | sort: 'updated' | reverse %}
+{% assign documents = site.wikis | sort: 'updated' | reverse %}
 {% for document in documents %}
 {% if document.public == true %}
 <section class="post">

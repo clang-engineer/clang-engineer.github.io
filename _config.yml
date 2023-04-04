@@ -18,7 +18,7 @@ author: "zero"
 disqus-shortname: ""
 
 collections:
-  wiki:
+  wikis:
     output: true
     permalink: /:collection/:path/
 
