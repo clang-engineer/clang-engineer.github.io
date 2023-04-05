@@ -4,7 +4,7 @@ layout: page
 
 {% assign categories = site.wikis | where: "layout", "category" %}
 {% for category in categories %}
-	<h1> {{ category.title }} </h1>
+	<h1><a href="{{ category.url}}"> {{ category.title }} </a></h1>
 	{% assign parent_path =  category.url | split: '/' | slice: 0, 3 | join: "/" %}
 	{% assign wikis = site.wikis | where: "layout", "wiki"  | where: "public", true %}
 	<ul>

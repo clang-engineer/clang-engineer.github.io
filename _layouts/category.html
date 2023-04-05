@@ -5,8 +5,7 @@ layout: page
 
 
 {% assign parent_uri = page.url | remove: '/index' %}
-
-{% assign documents = site.wikis | where_exp: 'item', 'item.url contains parent_uri' | where: 'layout', 'wiki' | sort: 'updated' | reverse %}
+{% assign documents = site.wikis | where_exp: 'item', 'item.url contains parent_uri' | where: 'layout', 'wiki' | where: 'public', true | sort: 'updated' | reverse %}
 {% for document in documents %}
 <h2 class="category-title">
 	<a href="{{document.url}}"> 

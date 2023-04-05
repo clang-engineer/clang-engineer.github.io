@@ -20,3 +20,19 @@
 hr {
 	margin: 4rem 0 4rem 0;
 }
+
+
+a {
+	text-decoration: none;
+	&:hover {
+		color: #845EC2;
+	}
+}
+
+ul {
+	list-style: none;
+}
+
+ol, ul {
+	padding-left: 1.5rem;
+}
