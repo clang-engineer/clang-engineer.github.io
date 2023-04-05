@@ -1,4 +1,12 @@
 .post {
+	.post-title {
+		font-size: 4rem !important;
+		&:before {
+			content: "\2800";
+			padding-right: 1rem;
+			color: #845EC2;
+		}
+	}
 	.post-date {
 		padding: 0 10px 0 10px;
 		margin: 0px;
@@ -16,50 +24,55 @@
 
 	.post-content {
 		h1 {
-			font-size: 4rem;
+			font-size: 3.6rem;
 			&:before {
-				content:"⠁";
-				padding-right: 8px;
+				content:"\2801";
+				padding-right: 1rem;
 				color: #845EC2;
 			}
 		}
 
 		h2 {
+			font-size: 3rem;
 			&:before { 
-				content:"⠃"; 
-				padding-right: 8px;
+				content:"\2803"; 
+				padding-right: 1rem;
 				color: #2C73D2;
 			}
 		}
 
 		h3 {
+			font-size: 2.4rem;
 			&:before { 
-				content:"⠉"; 
-				padding-right: 8px;
+				content:"\2809"; 
+				padding-right: 1rem;
 				color: #0081CF;
 			}
 		}
 
 		h4 {
+			font-size: 1.8rem;
 			&:before {
-				content:"⠙"; 
-				padding-right: 8px;
+				content:"\2819"; 
+				padding-right: 1rem;
 				color: #0089BA;
 			}
 		}
-		
+
 		h5 {
+			font-size: 1.2rem;
 			&:before {
-				content:"⠑"; 
-				padding-right: 8px;
+				content:"\2811"; 
+				padding-right: 1rem;
 				color: #008E9B;
 			}
 		}
 
 		h6 {
+			font-size: 1rem;
 			&:before {
-				content:"⠋"; 
-				padding-right: 8px;
+				content:"\280B"; 
+				padding-right: 1rem;
 				color: #008F7A;
 			}
 		}
