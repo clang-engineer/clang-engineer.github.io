@@ -12,5 +12,3 @@ latex   : false
 ---
 * TOC
 {:toc}
-
-# linux 관련 주제

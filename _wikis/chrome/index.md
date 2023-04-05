@@ -12,5 +12,3 @@ latex   : false
 ---
 * TOC
 {:toc}
-
-# chrome

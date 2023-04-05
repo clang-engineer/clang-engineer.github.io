@@ -3,14 +3,17 @@ layout: page
 ---
 {{content}}
 
-
 {% assign parent_uri = page.url | remove: '/index' %}
 {% assign documents = site.wikis | where_exp: 'item', 'item.url contains parent_uri' | where: 'layout', 'wiki' | where: 'public', true | sort: 'updated' | reverse %}
-{% for document in documents %}
-<h2 class="category-title">
-	<a href="{{document.url}}"> 
-		<div> {{document.title}} </div>
-		<div class="date"> >> {{document.updated | date: "%Y-%m-%d %H:%M"}} </div>
-	</a>
-</h2>
-{% endfor %}
+<ul>
+	{% for document in documents %}
+	<li>
+		<h2 class="category-title">
+			<a href="{{document.url}}"> 
+				<div> {{document.title}} </div>
+				<div class="date"> >> {{document.updated | date: "%Y-%m-%d %H:%M"}} </div>
+			</a>
+		</h2>
+	</li>
+	{% endfor %}
+</ul>
