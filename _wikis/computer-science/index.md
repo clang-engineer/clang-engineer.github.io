@@ -12,5 +12,3 @@ latex   : false
 ---
 * TOC
 {:toc}
-
-# 컴퓨터 원리 관련 주제

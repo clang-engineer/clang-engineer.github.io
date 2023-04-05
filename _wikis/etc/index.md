@@ -12,5 +12,3 @@ latex   : false
 ---
 * TOC
 {:toc}
-
-# 잡다 주제

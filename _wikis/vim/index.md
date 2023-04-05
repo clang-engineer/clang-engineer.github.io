@@ -12,5 +12,3 @@ latex   : false
 ---
 * TOC
 {:toc}
-
-# vim 관련 주제

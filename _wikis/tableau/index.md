@@ -12,5 +12,3 @@ latex   : false
 ---
 * TOC
 {:toc}
-
-# 태블로 관련 주제

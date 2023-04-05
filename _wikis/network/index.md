@@ -12,5 +12,3 @@ latex   : false
 ---
 * TOC
 {:toc}
-
-# network 관련 주제

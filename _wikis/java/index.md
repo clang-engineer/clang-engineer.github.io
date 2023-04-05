@@ -12,5 +12,3 @@ latex   : false
 ---
 * TOC
 {:toc}
-
-# spring 관련 주제
