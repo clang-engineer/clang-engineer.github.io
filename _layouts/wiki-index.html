@@ -2,7 +2,7 @@
 layout: page
 ---
 
-{% assign categories = site.wikis | where: "layout", "category" %}
+{% assign categories = site.wikis | where: "layout", "category" | where: "public", "true" %}
 {% for category in categories %}
 	<h1><a href="{{ category.url}}"> {{ category.title }} </a></h1>
 	{% assign parent_path =  category.url | split: '/' | slice: 0, 3 | join: "/" %}
