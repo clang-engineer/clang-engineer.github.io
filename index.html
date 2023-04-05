@@ -29,7 +29,7 @@ about: 'about.html'
 
 <main id="content" class="content" role="main">
 	<article class="index">
-		{% assign documents = site.wikis | sort: 'updated' | reverse %}
+		{% assign documents = site.wikis | sort: 'updated' | where: "layout", "wiki" | reverse %}
 		{% for document in documents limit : 5 %}
 		{% if document.public == true %}
 		<section class="post">
