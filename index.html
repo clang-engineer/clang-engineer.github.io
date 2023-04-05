@@ -32,7 +32,7 @@ about: 'about.html'
 		{% assign documents = site.wikis | sort: 'updated' | where: "layout", "wiki" | reverse %}
 		{% for document in documents limit : 5 %}
 		{% if document.public == true %}
-		<section class="post">
+		<section class="post summary">
 			<header class="post-header">
 				<h2 class="post-title"><a href="{{ document.url | relative_url }}">{{ document.title }}</a></h2>
 			</header>
