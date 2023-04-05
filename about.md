@@ -1,7 +1,9 @@
 ---
+title: About me
 layout: page
 ---
-# about me
+
+# who am i
 
 - 수학과 통계학을 좋아합니다.
 - 독서를 통해 지식 얻는 과정을 즐거워합니다.
@@ -9,6 +11,8 @@ layout: page
 - 키보드를 좋아합니다. 60프로 이하 배열, hhkb배열을 선호합니다.
 - 세벌식 자판을 사용합니다.
 - vim을 업무에서 적극 사용하려 노력합니다.
+
+--- 
 
 # certificate
 
@@ -18,6 +22,8 @@ layout: page
 - 웹디자인기능사
 - 사회조사분석사
 - 컴퓨터 활용능력 1급
+
+---
 
 # develop style
 
