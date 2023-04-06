@@ -6,7 +6,7 @@ date    : 2022-07-20 08:42:36 +0900
 updated : 2022-07-21 16:41:32 +0900
 tags    : 
 toc     : true
-public  : true
+public  : false
 parent  : [[memo/index]]
 latex   : false
 ---
