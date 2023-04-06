@@ -1,4 +1,5 @@
 .post {
+	padding-bottom: 0;
 	.post-title {
 		font-size: 4rem !important;
 		&:before {
@@ -23,9 +24,6 @@
 		margin: 1.5rem 0 1.5rem 0;
 	}
 
-	&.summary {
-		padding-bottom: 0;
-	}
 
 	&.wiki .post-meta {
 		text-align: right;
