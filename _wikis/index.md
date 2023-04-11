@@ -130,6 +130,7 @@ regenerate: true
 * [[etc/letsenc-to-keycrt]]
 * [[etc/gdb]]
 * [[etc/terminal-scroll-not-work]]
+* [[etc/pigeon-coding]]
 
 ## [[window/index]]
 
