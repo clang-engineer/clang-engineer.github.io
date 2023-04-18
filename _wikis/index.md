@@ -131,6 +131,7 @@ regenerate: true
 * [[etc/gdb]]
 * [[etc/terminal-scroll-not-work]]
 * [[etc/pigeon-coding]]
+* [[etc/roadmap.sh]]
 
 ## [[window/index]]
 
