@@ -73,6 +73,7 @@
 		}
 
 		h2 {
+			padding-left: 0.5rem;
 			font-size: 3rem;
 			&:before { 
 				content:"\2803"; 
@@ -82,6 +83,7 @@
 		}
 
 		h3 {
+			padding-left: 1rem;
 			font-size: 2.4rem;
 			&:before { 
 				content:"\2809"; 
@@ -91,6 +93,7 @@
 		}
 
 		h4 {
+			padding-left: 1.5rem;
 			font-size: 1.8rem;
 			&:before {
 				content:"\2819"; 
@@ -100,6 +103,7 @@
 		}
 
 		h5 {
+			padding-left: 2rem;
 			font-size: 1.2rem;
 			&:before {
 				content:"\2811"; 
@@ -109,6 +113,7 @@
 		}
 
 		h6 {
+			padding-left: 2.5rem;
 			font-size: 1rem;
 			&:before {
 				content:"\280B"; 
