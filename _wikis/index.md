@@ -7,27 +7,19 @@ comment : false
 regenerate: true
 ---
 
-## [[vim/index]]
+## [[algorithm/index]]
+* [[algorithm/greedy]]
 
-* [[vim/plugin]]
-* [[vim/neovim-swap-error]]
-* [[vim/shortcut]]
-* [[vim/change-encoding]]
-* [[vim/cheat-sheet]]
-* [[vim/neovim-init-setting]];
-* [[vim/conquer-of-completion]]
-* [[vim/option]]
 
-## [[linux/index]]
+## [[computer-science/index]]
+* [[computer-science/computer-metaphor]]
+* [[computer-science/return-exit-diff]]
 
-* [[linux/command]]
-* [[linux/shell-script]]
-* [[linux/confirm-cpu-usage]]
-* [[linux/confirm-memory-usage]]
-* [[linux/systemd]]
-* [[linux/journalctl]]
-* [[linux/bashrc-profile]]
-* [[linux/grep]]
+
+## [[c-lang/index]]
+* [[c-lang/size_t]]
+* [[c-lang/c-complile-extension-err]]
+
 
 ## [[cli/index]]
 * [[cli/jobs]]
@@ -37,25 +29,22 @@ regenerate: true
 * [[cli/nohup]]
 * [[cli/scp]]
  
-## [[git/index]]
-* [[git/cheat-sheet]]
-* [[git/diff]]
-* [[git/branch]]
-* [[git/reset]]
-* [[git/multi-account]]
-* [[git/multi-config]]
-* [[git/stash]]
-* [[git/clean]]
-* [[git/revert]]
-* [[git/merge]]
-* [[git/log]]
-* [[git/shortlog]]
-* [[git/remote]]
-* [[git/github-githubusercontent]]
-* [[git/restore]]
-* [[git/git-flow]]
-* [[git/etc]]
  
+## [[chrome/index]]
+* [[chrome/useful-plugin]]
+
+
+## [[css/index]]
+* [[css/global-variable]]
+* [[css/mui]]
+
+
+## [[cheat-sheet/index]]
+* [[cheat-sheet/link]]
+* [[cheat-sheet/tmux]]
+* [[cheat-sheet/git]]
+
+
 ## [[data-structure/index]]
 * [[data-structure/array-list]]
 * [[data-structure/array-list-of-struct]]
@@ -80,35 +69,13 @@ regenerate: true
 * [[data-structure/binary-search]]
 * [[data-structure/interpolation-search]]
 
-## [[study/index]]
-* [[study/modoocode-cpp]]
-* [[study/hot-tcpip]]
-* [[study/hot-data-structure]]
-* [[study/learn-vim-script-hard-way]]
-* [[study/taste-like-developer]]
 
-## [[information-security/index]]
-* [[information-security/ch01-system]]
-* [[information-security/ch02-network]]
-* [[information-security/ch03-application]]
-
-## [[algorithm/index]]
-* [[algorithm/greedy]]
-
-## [[computer-science/index]]
-* [[computer-science/computer-metaphor]]
-* [[computer-science/return-exit-diff]]
-
-## [[c-lang/index]]
-* [[c-lang/size_t]]
-* [[c-lang/c-complile-extension-err]]
-
-## [[mac-os/index]]
-* [[mac-os/mac-setting]]
-* [[mac-os/mac-md-to-pdf-convert]]
-
+## [[docker/index]]
+* [[docker/docker-help]]
+* [[docker/install-offline]]
+ 
+ 
 ## [[etc/index]]
-
 * [[etc/stack-edit]]
 * [[etc/markdown-syntax]]
 * [[etc/erdcloud]]
@@ -133,13 +100,32 @@ regenerate: true
 * [[etc/pigeon-coding]]
 * [[etc/roadmap.sh]]
 
-## [[window/index]]
 
-* [[window/service-manager]]
+## [[git/index]]
+* [[git/cheat-sheet]]
+* [[git/diff]]
+* [[git/branch]]
+* [[git/reset]]
+* [[git/multi-account]]
+* [[git/multi-config]]
+* [[git/stash]]
+* [[git/clean]]
+* [[git/revert]]
+* [[git/merge]]
+* [[git/log]]
+* [[git/shortlog]]
+* [[git/remote]]
+* [[git/github-githubusercontent]]
+* [[git/restore]]
+* [[git/git-flow]]
+* [[git/etc]]
+ 
+ 
+## [[information-security/index]]
+* [[information-security/ch01-system]]
+* [[information-security/ch02-network]]
+* [[information-security/ch03-application]]
 
-## [[tableau/index]]
-* [[tableau/tableau-trusted-ticket]]
-* [[tableau/tableau-chrome80-issue]]
 
 ## [[java/index]]
 * [[java/occupy-multiple-port]]
@@ -153,27 +139,56 @@ regenerate: true
 * [[java/spring-boot-nyan-cat-banner]]
 * [[java/spring-vs-code-debugging]]
 
+
 ## [[javascript/index]]
 * [[javascript/axios-collection-set-send]]
 * [[javascript/npm-install-err]]
+
+ 
+## [[linux/index]]
+* [[linux/command]]
+* [[linux/shell-script]]
+* [[linux/confirm-cpu-usage]]
+* [[linux/confirm-memory-usage]]
+* [[linux/systemd]]
+* [[linux/journalctl]]
+* [[linux/bashrc-profile]]
+* [[linux/grep]]
+ 
+ 
+## [[mac-os/index]]
+* [[mac-os/mac-setting]]
+* [[mac-os/mac-md-to-pdf-convert]]
+
 
 ## [[machine-learning/index]]
 * [[machine-learning/decision-tree]]
 * [[machine-learning/svm]]
 * [[machine-learning/knn]]
  
-## [[chrome/index]]
-* [[chrome/useful-plugin]]
+ 
+## [[study/index]]
+* [[study/modoocode-cpp]]
+* [[study/hot-tcpip]]
+* [[study/hot-data-structure]]
+* [[study/learn-vim-script-hard-way]]
+* [[study/taste-like-developer]]
 
-## [[css/index]]
-* [[css/global-variable]]
-* [[css/mui]]
 
-## [[cheat-sheet/index]]
-* [[cheat-sheet/link]]
-* [[cheat-sheet/tmux]]
-* [[cheat-sheet/git]]
+## [[tableau/index]]
+* [[tableau/tableau-trusted-ticket]]
+* [[tableau/tableau-chrome80-issue]]
 
-## [[docker/index]]
-* [[docker/docker-help]]
-* [[docker/install-offline]]
+## [[vim/index]]
+* [[vim/plugin]]
+* [[vim/neovim-swap-error]]
+* [[vim/shortcut]]
+* [[vim/change-encoding]]
+* [[vim/cheat-sheet]]
+* [[vim/neovim-init-setting]];
+* [[vim/conquer-of-completion]]
+* [[vim/option]]
+
+## [[window/index]]
+* [[window/service-manager]]
+
