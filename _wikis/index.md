@@ -14,6 +14,7 @@ regenerate: true
 ## [[c-lang/index]]
 * [[c-lang/size_t]]
 * [[c-lang/c-complile-extension-err]]
+* [[c-lang/google-clang-guide]]
 
 
 ## [[cheat-sheet/index]]

@@ -7,7 +7,7 @@ layout: page
 	<h1><a href="{{ category.url}}"> {{ category.title }} </a></h1>
 	{% assign parent_path =  category.url | split: '/' | slice: 0, 3 | join: "/" %}
 	{% assign wikis = site.wikis | where: "layout", "wiki"  | where: "public", true | sort_natural: "title" %}
-	<div style="padding-left: 1rem">
+	<div>
 	{% for wiki in wikis %}
 		{% assign wiki_path =  wiki.url | split: '/' | slice: 0, 3 | join: "/" %}
 		{% if wiki_path == parent_path %}
