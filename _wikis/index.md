@@ -11,14 +11,24 @@ regenerate: true
 * [[algorithm/greedy]]
 
 
-## [[computer-science/index]]
-* [[computer-science/computer-metaphor]]
-* [[computer-science/return-exit-diff]]
-
-
 ## [[c-lang/index]]
 * [[c-lang/size_t]]
 * [[c-lang/c-complile-extension-err]]
+
+
+## [[cheat-sheet/index]]
+* [[cheat-sheet/link]]
+* [[cheat-sheet/tmux]]
+* [[cheat-sheet/git]]
+ 
+ 
+## [[chrome/index]]
+* [[chrome/useful-plugin]]
+
+
+## [[computer-science/index]]
+* [[computer-science/computer-metaphor]]
+* [[computer-science/return-exit-diff]]
 
 
 ## [[cli/index]]
@@ -30,19 +40,9 @@ regenerate: true
 * [[cli/scp]]
  
  
-## [[chrome/index]]
-* [[chrome/useful-plugin]]
-
-
 ## [[css/index]]
 * [[css/global-variable]]
 * [[css/mui]]
-
-
-## [[cheat-sheet/index]]
-* [[cheat-sheet/link]]
-* [[cheat-sheet/tmux]]
-* [[cheat-sheet/git]]
 
 
 ## [[data-structure/index]]
