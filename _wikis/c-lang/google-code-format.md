@@ -78,10 +78,23 @@ Plug 'rhysd/vim-clang-format'
 
 ## 2. vim-clang-format 설정
 ```vim
-" clang-format을 사용하기 위한 설정
-let g:clang_format#style = 'Google'
-let g:clang_format#auto_format = 0
-let g:clang_format#auto_format_on_save = 0
+" set indent tab size to 2, use spaces instead of tabs
+let g:clang_format#style_options = {
+\ 'BasedOnStyle': 'Google',
+\ 'IndentWidth': 2,
+\ 'UseTab': 'Never',
+\ 'TabWidth': 2,
+\ }
+
+
+" detect code style from .clang-format file
+let g:clang_format#detect_style_file = 1
+
+" auto format on save
+let g:clang_format#auto_format = 1
+
+
+autocmd FileType c,cpp nnoremap <buffer> <leader>cf :ClangFormat<CR>
 ```
 
 > reference
