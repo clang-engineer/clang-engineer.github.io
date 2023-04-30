@@ -1,6 +1,6 @@
 ---
 layout  : wiki
-title   : java interview
+title   : java 관련 질문
 summary : 
 date    : 2023-04-30 15:54:10 +0900
 updated : 2023-04-30 18:43:44 +0900

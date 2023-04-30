@@ -1,6 +1,6 @@
 ---
 layout  : wiki
-title   : Spring Frame Work 면접 질문
+title   : Spring Frame Work 관련 질문
 summary : 
 date    : 2023-04-30 19:02:20 +0900
 updated : 2023-04-30 19:02:50 +0900
