@@ -1,13 +1,13 @@
 ---
 layout  : wiki
-title   : java 관련 질문
+title   : Java Check Point
 summary : 
 date    : 2023-04-30 15:54:10 +0900
-updated : 2023-04-30 18:43:44 +0900
+updated : 2023-05-01 20:04:20 +0900
 tags    : 
 toc     : true
 public  : false
-parent  : [[interview/index]]
+parent  : [[check-point/index]]
 latex   : false
 ---
 * TOC

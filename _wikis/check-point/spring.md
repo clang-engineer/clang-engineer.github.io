@@ -1,13 +1,13 @@
 ---
 layout  : wiki
-title   : Spring Frame Work 관련 질문
+title   : Spring Frame Work Check Point
 summary : 
 date    : 2023-04-30 19:02:20 +0900
-updated : 2023-04-30 19:02:50 +0900
+updated : 2023-05-01 20:05:51 +0900
 tags    : 
 toc     : true
-public  : false
-parent  : [[interview/index]]
+public  : true
+parent  : [[check-point/index]]
 latex   : false
 ---
 * TOC

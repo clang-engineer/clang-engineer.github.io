@@ -1,13 +1,13 @@
 ---
 layout  : wiki
-title   : Web 질문
+title   : Web Check Point
 summary : 
 date    : 2023-04-30 20:44:42 +0900
-updated : 2023-04-30 20:44:58 +0900
+updated : 2023-05-01 20:03:48 +0900
 tags    : 
 toc     : true
 public  : true
-parent  : 
+parent  : [[check-point/index]]
 latex   : false
 ---
 * TOC
