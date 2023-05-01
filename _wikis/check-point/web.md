@@ -6,7 +6,7 @@ date    : 2023-04-30 20:44:42 +0900
 updated : 2023-05-01 20:03:48 +0900
 tags    : 
 toc     : true
-public  : true
+public  : false
 parent  : [[check-point/index]]
 latex   : false
 ---
