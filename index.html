@@ -29,9 +29,8 @@ about: 'about.html'
 
 <main id="content" class="content" role="main">
 	<article class="index">
-		{% assign documents = site.wikis | sort: 'updated' | where: "layout", "wiki" | reverse %}
+		{% assign documents = site.wikis | sort: 'updated' | where: "layout", "wiki" | where: "public", "true" | reverse %}
 		{% for document in documents limit : 5 %}
-		{% if document.public == true %}
 		<section class="post summary">
 			<header class="post-header">
 				<h2 class="post-title"><a href="{{ document.url | relative_url }}">{{ document.title }}</a></h2>
@@ -54,7 +53,6 @@ about: 'about.html'
 				</time> 
 			</footer>
 		</section>
-		{% endif %}
 		{% endfor %}
 		<footer>
 			<a class="read-more" href="{{ site.baseurl | relative_url }}/recent"> 전체 문서 리스트 보기 ({{ site.wikis | size | minus : 1 }} 항목) >> </a>
