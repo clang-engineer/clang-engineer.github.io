@@ -3,10 +3,10 @@ layout  : wiki
 title   : C++ Check Point
 summary : 
 date    : 2023-05-01 17:03:29 +0900
-updated : 2023-05-01 20:05:01 +0900
+updated : 2023-05-01 20:07:36 +0900
 tags    : 
 toc     : true
-public  : true
+public  : false
 parent  : [[check-point/index]]
 latex   : false
 ---

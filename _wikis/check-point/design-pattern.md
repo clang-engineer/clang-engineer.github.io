@@ -3,10 +3,10 @@ layout  : wiki
 title   : Design 패턴
 summary : 
 date    : 2023-05-01 14:49:19 +0900
-updated : 2023-05-01 20:02:56 +0900
+updated : 2023-05-01 20:07:36 +0900
 tags    : 
 toc     : true
-public  : true
+public  : false
 parent  : [[check-point/index]]
 latex   : false
 ---

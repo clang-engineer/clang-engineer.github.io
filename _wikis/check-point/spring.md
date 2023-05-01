@@ -3,10 +3,10 @@ layout  : wiki
 title   : Spring Frame Work Check Point
 summary : 
 date    : 2023-04-30 19:02:20 +0900
-updated : 2023-05-01 20:05:51 +0900
+updated : 2023-05-01 20:07:36 +0900
 tags    : 
 toc     : true
-public  : true
+public  : false
 parent  : [[check-point/index]]
 latex   : false
 ---
