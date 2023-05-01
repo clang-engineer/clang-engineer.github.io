@@ -1,13 +1,13 @@
 ---
 layout  : wiki
-title   : Database 관련 질문
+title   : Database Check Point
 summary : 
 date    : 2023-04-30 20:29:48 +0900
-updated : 2023-04-30 20:29:48 +0900
+updated : 2023-05-01 20:05:51 +0900
 tags    : 
 toc     : true
 public  : false
-parent  : [[interview/index]]]
+parent  : [[check-point/index]]]
 latex   : false
 ---
 * TOC

@@ -1,13 +1,13 @@
 ---
 layout  : wiki
-title   : 자료구조 관련 질문
+title   : Data Structure Check Point
 summary : 
 date    : 2023-04-30 20:29:31 +0900
-updated : 2023-04-30 20:29:31 +0900
+updated : 2023-05-01 20:04:48 +0900
 tags    : 
 toc     : true
 public  : false
-parent  : [[interview/index]]
+parent  : [[check-point/index]]
 latex   : false
 ---
 * TOC

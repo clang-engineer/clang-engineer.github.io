@@ -17,6 +17,15 @@ regenerate: true
 * [[c-lang/google-clang-guide]]
 * [[c-lang/google-code-format]]
 
+## [[check-point/index]]
+* [[check-point/java]]
+* [[check-point/spring]]
+* [[check-point/web]]
+* [[check-point/sql]]
+* [[check-point/data-structure]]
+* [[check-point/web]]
+* [[check-point/design-pattern]]
+
 
 ## [[cheat-sheet/index]]
 * [[cheat-sheet/link]]
@@ -127,15 +136,6 @@ regenerate: true
 * [[information-security/ch01-system]]
 * [[information-security/ch02-network]]
 * [[information-security/ch03-application]]
-
-## [[interview/index]]
-* [[interview/java]]
-* [[interview/spring]]
-* [[interview/web]]
-* [[interview/sql]]
-* [[interview/data-structure]]
-* [[interview/web]]
-* [[interview/design-pattern]]
 
 
 ## [[java/index]]
