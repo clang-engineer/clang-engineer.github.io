@@ -135,6 +135,7 @@ regenerate: true
 * [[interview/sql]]
 * [[interview/data-structure]]
 * [[interview/web]]
+* [[interview/design-pattern]]
 
 
 ## [[java/index]]
