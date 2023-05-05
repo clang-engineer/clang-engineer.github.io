@@ -25,6 +25,7 @@ regenerate: true
 * [[check-point/data-structure]]
 * [[check-point/web]]
 * [[check-point/design-pattern]]
+* [[check-point/computer-science]]
 
 
 ## [[cheat-sheet/index]]
