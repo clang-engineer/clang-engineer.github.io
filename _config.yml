@@ -24,7 +24,7 @@ collections:
 
 
 github:
-  url: https://github.com/yorez/yorez.github.io
+  url: https://github.com/yorez
   branch: develop
 
 plugins:
