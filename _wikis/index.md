@@ -41,6 +41,7 @@ regenerate: true
 ## [[computer-science/index]]
 * [[computer-science/computer-metaphor]]
 * [[computer-science/return-exit-diff]]
+* [[computer-science/software-license]]
 
 
 ## [[cli/index]]
