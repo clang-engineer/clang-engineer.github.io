@@ -6,12 +6,12 @@ markdown: kramdown
 highlighter: rouge
 logo: false
 paginate: 15
-domain_name: "https://yorez.github.io"
+domain_name: "https://hhkbdev.github.io"
 google_analytics: "G-3438E60K5Q"
 plugins: [jekyll-paginate]
 
 # Details for the RSS feed generator
-url: "https://yorez.github.io"
+url: "https://hhkbdev.github.io"
 author: "zero"
 
 # Disqus config
@@ -24,7 +24,7 @@ collections:
 
 
 github:
-  url: https://github.com/yorez
+  url: https://github.com/hhkbdev
   branch: develop
 
 plugins:
@@ -33,7 +33,7 @@ plugins:
   - jekyll-seo-tag
 
 utterances:
-  repo: yorez/yorez.github.io
+  repo: hhkbdev/hhkbdev.github.io
   issue-term: url
   label: Comment
   branch: master
