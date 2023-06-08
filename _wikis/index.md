@@ -112,6 +112,8 @@ regenerate: true
 * [[etc/terminal-scroll-not-work]]
 * [[etc/pigeon-coding]]
 * [[etc/roadmap.sh]]
+* [[etc/internal-network-certificate]]
+ 
 
 
 ## [[git/index]]
