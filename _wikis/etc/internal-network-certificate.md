@@ -3,7 +3,7 @@ layout  : wiki
 title   : 내부망에서 인터넷 사용시 인증서의 식별
 summary : 
 date    : 2023-06-08 14:41:35 +0900
-updated : 2023-06-08 14:55:21 +0900
+updated : 2023-06-09 15:50:47 +0900
 tags    : 
 toc     : true
 public  : true
@@ -41,9 +41,9 @@ latex   : false
 
 	2. java의 경우 (gradle, maven)
 	- 인증서 등록
-	keytool -import -trustcacerts -keystore <사용중인 java설치 경로>/Contents/Home/lib/security/cacerts -storepass <인증서 패스워드> -alias ewalker_ssl -file <인증서 파일 경로>
+	keytool -import -trustcacerts -keystore \<사용중인 java설치 경로\>/Contents/Home/lib/security/cacerts -storepass \<인증서 패스워드\> -alias ewalker_ssl -file \<인증서 파일 경로\>
 	- 등록된 인증서 확인 
-	keytool -list -keystore <사용중인 java설치 경로>/Contents/Home/lib/security/cacerts -storepass <인증서 패스워드>
+	keytool -list -keystore \<사용중인 java설치 경로\>/Contents/Home/lib/security/cacerts -storepass \<인증서 패스워드\>
 	
 	
 	
