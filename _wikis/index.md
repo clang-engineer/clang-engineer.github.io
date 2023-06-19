@@ -170,6 +170,7 @@ regenerate: true
 * [[linux/journalctl]]
 * [[linux/bashrc-profile]]
 * [[linux/grep]]
+* [[linux/ag]]
  
  
 ## [[mac-os/index]]
