@@ -6,12 +6,12 @@ markdown: kramdown
 highlighter: rouge
 logo: false
 paginate: 15
-domain_name: "https://hhkbdev.github.io"
+domain_name: "https://clang-engineer.github.io"
 google_analytics: "G-3438E60K5Q"
 plugins: [jekyll-paginate]
 
 # Details for the RSS feed generator
-url: "https://hhkbdev.github.io"
+url: "https://clang-engineer.github.io"
 author: "zero"
 
 # Disqus config
@@ -24,7 +24,7 @@ collections:
 
 
 github:
-  url: https://github.com/hhkbdev
+  url: https://github.com/clang-engineer
   branch: develop
 
 plugins:
