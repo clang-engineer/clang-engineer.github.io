@@ -32,3 +32,12 @@ layout: page
 - 작업과정에서 TDD, DDD를 적극 활용합니다.
 - program <-> user-interface사이에서 데이터 흐름을 관장하는 작업을 선호합니다.
 - 유지보수가 쉽고 가독성이 좋은 코드를 만들고자 합니다.
+
+
+---
+
+# contact
+
+- email: [clang.engineer@gmail.com](mailto:clang.engineer@gmail.com)
+- github: [https://github.com/clang-engineer](https://github.com/clang-engineer){:target="_blank"}
+
