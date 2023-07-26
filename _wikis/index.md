@@ -182,6 +182,10 @@ regenerate: true
 * [[machine-learning/decision-tree]]
 * [[machine-learning/svm]]
 * [[machine-learning/knn]]
+
+
+## [[math/index]]
+* [[math/binomial-coefficient]]  
  
  
 ## [[study/index]]
@@ -208,4 +212,3 @@ regenerate: true
 
 ## [[window/index]]
 * [[window/service-manager]]
-
