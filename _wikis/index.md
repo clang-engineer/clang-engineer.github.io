@@ -171,6 +171,7 @@ regenerate: true
 * [[linux/bashrc-profile]]
 * [[linux/grep]]
 * [[linux/ag]]
+* [[linux/normaluser-service-80]]
  
  
 ## [[mac-os/index]]
