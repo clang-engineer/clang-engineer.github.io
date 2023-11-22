@@ -135,6 +135,7 @@ regenerate: true
 * [[git/github-githubusercontent]]
 * [[git/restore]]
 * [[git/git-flow]]
+* [[git/change-commit-autho-at-once]]
 * [[git/etc]]
  
  
