@@ -86,7 +86,6 @@ explain select * from table_name;
 - index를 사용하지 않도록 하려면 `ignore index(index_name)`을 사용한다.
 - 사용하는 query에 맞춰서 적절하게 index를 걸어줘야 query가 빠르게 처리될 수 있다.
 
-
   
 # 참조
 * [유튜브 쉬운코드](https://www.youtube.com/watch?v=IMDH4iAQ6zM&list=PLcXyemr8ZeoREWGhhZi5FZs6cvymjIBVe&index=25)
