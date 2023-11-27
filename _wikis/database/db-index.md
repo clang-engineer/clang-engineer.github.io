@@ -14,7 +14,6 @@ latex   : false
 {:toc}
 
 # index가 중요한 이유
-
 - index를 사용하지 않으면, 데이터를 찾기 위해 모든 데이터를 순차적으로 검색해야 한다.
 - index를 사용하면, 데이터를 찾기 위해 모든 데이터를 순차적으로 검색하지 않아도 된다.
 - index는 B+Tree기반의 자료구조를 사용하기 때문에 시간복잡도가 O(n)에서 O(log n)으로 줄어든다.
@@ -36,6 +35,10 @@ latex   : false
 ## non-unique index
 - index에 중복된 값이 있는 경우
 
+## multicolumn index
+- 여러 column을 하나의 index로 묶어서 사용하는 경우
+- multicolumn index의 경우, index의 순서가 중요하다. (index의 순서에 따라서 성능이 달라질 수 있다.)
+
 ## covering index
 - index에 데이터가 모두 포함되어 있는 경우 (index만으로 데이터를 조회할 수 있는 경우)
 - index만으로 데이터를 조회할 수 있기 때문에, 테이블에 접근하지 않아도 된다. 때문에, 성능이 매우 빠르다.
@@ -45,6 +48,19 @@ latex   : false
 - 시간복잡도가 O(1)이기 때문에 매우 빠르다.
 - 하지만, hash table은 정렬되어 있지 않기 때문에 범위 검색에는 적합하지 않다. (동등 비교에만 적합하다.)
 - multicolumn index의 경우 전체 column을 hash한 값을 index로 사용한다. 때문에, 전제 attributes에 대한 조회만 가능하다.
+
+## clustered index
+- index의 leaf node가 데이터를 가지고 있는 경우
+- index의 leaf node가 데이터를 가지고 있기 때문에, index만으로 데이터를 조회할 수 있다. 때문에, 테이블에 접근하지 않아도 된다. 때문에, 성능이 매우 빠르다.
+- 하지만, index의 leaf node가 데이터를 가지고 있기 때문에, index의 크기가 커진다.
+- 하나의 테이블에 하나의 clustered index만 생성할 수 있다.
+
+## non-clustered index
+- index의 leaf node가 데이터를 가지고 있지 않은 경우
+- index의 leaf node가 데이터를 가지고 있지 않기 때문에, index만으로 데이터를 조회할 수 없다. 때문에, 테이블에 접근해야 한다. 때문에, 성능이 느리다.
+- 하지만, index의 leaf node가 데이터를 가지고 있지 않기 때문에, index의 크기가 작다.
+- 하나의 테이블에 여러개의 non-clustered index를 생성할 수 있다.
+
 
 # index 관련 명령
 ## index 생성
