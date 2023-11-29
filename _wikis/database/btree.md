@@ -99,5 +99,5 @@ B tree는 BST(Binary Search Tree)의 일반화된 형태이다.
 - leaf 노드에서 삭제하고 필요하면 재조정
 
 
-# 참고
+# 참고 & 출처
 - [쉬운코드](https://www.youtube.com/watch?v=bqkcoSm_rCs&list=PLcXyemr8ZeoREWGhhZi5FZs6cvymjIBVe&index=26)
