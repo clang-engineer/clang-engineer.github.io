@@ -60,6 +60,7 @@ regenerate: true
 
 ## [[database/index]]
 * [[database/index-summary]]
+* [[database/btree]]
 
 
 ## [[data-structure/index]]
