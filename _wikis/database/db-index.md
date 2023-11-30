@@ -104,4 +104,4 @@ explain select * from table_name;
 
   
 # 참고 & 출처
-* [유튜브 쉬운코드](https://www.youtube.com/watch?v=IMDH4iAQ6zM&list=PLcXyemr8ZeoREWGhhZi5FZs6cvymjIBVe&index=25)
+* [쉬운코드](https://www.youtube.com/@ez.)
