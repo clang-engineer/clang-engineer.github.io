@@ -49,4 +49,4 @@ latex   : false
 
 
 # 참고 & 출처
-- [쉬운코드](https://www.youtube.com/watch?v=zowzVqx3MQ4&list=PLcXyemr8ZeoREWGhhZi5FZs6cvymjIBVe&index=30)
+- [쉬운코드](https://www.youtube.com/@ez.)

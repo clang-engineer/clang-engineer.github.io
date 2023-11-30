@@ -100,4 +100,4 @@ B tree는 BST(Binary Search Tree)의 일반화된 형태이다.
 
 
 # 참고 & 출처
-- [쉬운코드](https://www.youtube.com/watch?v=bqkcoSm_rCs&list=PLcXyemr8ZeoREWGhhZi5FZs6cvymjIBVe&index=26)
+- [쉬운코드](https://www.youtube.com/@ez.)
