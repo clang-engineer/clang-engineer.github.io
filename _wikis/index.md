@@ -122,6 +122,7 @@ regenerate: true
 * [[etc/internal-network-certificate]]
 * [[etc/indent-with-tab-vs-space]]
 * [[etc/proxy-vs-reverse-proxy]]
+* [[etc/easy-code-progress-check]]
  
 
 
