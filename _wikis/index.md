@@ -198,6 +198,10 @@ regenerate: true
 ## [[math/index]]
 * [[math/binomial-coefficient]]  
  
+
+## [[programming/index]]
+* [[programming/multi-tasking-threading-processing-programming]]
+  
  
 ## [[study/index]]
 * [[study/modoocode-cpp]]
