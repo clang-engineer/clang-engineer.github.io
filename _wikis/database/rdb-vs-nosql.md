@@ -62,4 +62,5 @@ latex   : false
 
 # 참고 & 출처
 - [쉬운코드](https://www.youtube.com/@ez./playlists)
-- [CAP 이론](https://onduway.tistory.com/106)
+- [CAP 이론](https://ko.wikipedia.org/wiki/CAP_%EC%A0%95%EB%A6%AC)
+- [ACID](https://ko.wikipedia.org/wiki/ACID)
