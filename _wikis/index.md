@@ -63,6 +63,7 @@ regenerate: true
 * [[database/btree]]
 * [[database/paritioning-sharding-replication]]
 * [[database/db-connection-pool]]
+* [[database/rdb-vs-nosql]]
 
 
 ## [[data-structure/index]]
