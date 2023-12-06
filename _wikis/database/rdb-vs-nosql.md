@@ -59,3 +59,7 @@ latex   : false
 - Redis는 memory에 데이터를 저장하기 때문에, 데이터의 크기가 memory보다 큰 경우에는 사용하기 어렵다. (Redis는 disk에 데이터를 저장할 수 있지만, disk에 데이터를 저장하는 경우에는 성능이 떨어진다.)
 - Redis는 memory 이기 때문에, 일반적인 db에 비해 빠르다.
 
+
+# 참고 & 출처
+- [쉬운코드](https://www.youtube.com/@ez./playlists)
+- [CAP 이론](https://onduway.tistory.com/106)
