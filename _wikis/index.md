@@ -171,6 +171,9 @@ regenerate: true
 * [[javascript/axios-collection-set-send]]
 * [[javascript/npm-install-err]]
 
+
+## [[jpa/index]]
+* [[jpa/hibernate-1stLevel-vs-2ndLevel-cache]]
  
 ## [[linux/index]]
 * [[linux/command]]
