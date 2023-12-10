@@ -1,5 +1,5 @@
 ---
-layout  : wiki
+layout  : layout
 title   : chrome
 summary : 
 date    : 2021-10-05 11:46:31 +0900

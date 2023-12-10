@@ -1,5 +1,5 @@
 ---
-layout  : wiki
+layout  : layout
 title   : algorithm
 summary : 
 date    : 2021-11-16 08:36:19 +0900
