@@ -1,5 +1,5 @@
 ---
-layout  : wiki
+layout  : category
 title   : Database
 summary : 
 date    : 2023-11-27 13:06:39 +0900

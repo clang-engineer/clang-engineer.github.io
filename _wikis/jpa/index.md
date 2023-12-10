@@ -1,5 +1,5 @@
 ---
-layout  : wiki
+layout  : category
 title   : JPA
 summary : 
 date    : 2023-12-10 17:20:27 +0900
