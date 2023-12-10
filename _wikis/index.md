@@ -173,7 +173,7 @@ regenerate: true
 
 
 ## [[jpa/index]]
-* [[jpa/hibernate-1stLevel-vs-2ndLevel-cache]]
+* [[jpa/hibernate-first-level-vs-second-level-cache]]
  
 ## [[linux/index]]
 * [[linux/command]]
