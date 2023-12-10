@@ -64,6 +64,7 @@ regenerate: true
 * [[database/paritioning-sharding-replication]]
 * [[database/db-connection-pool]]
 * [[database/rdb-vs-nosql]]
+* [[database/pessimistic-optimistic-locking]]
 
 
 ## [[data-structure/index]]
