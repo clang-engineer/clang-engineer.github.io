@@ -1,5 +1,5 @@
 ---
-layout  : wiki
+layout  : layout
 title   : Programming
 summary : 
 date    : 2023-12-01 08:47:21 +0900
