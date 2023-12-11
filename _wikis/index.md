@@ -61,6 +61,7 @@ regenerate: true
 ## [[database/index]]
 * [[database/index-summary]]
 * [[database/avl-tree]]
+* [[database/red-black-tree]]
 * [[database/btree]]
 * [[database/paritioning-sharding-replication]]
 * [[database/db-connection-pool]]
