@@ -7,7 +7,7 @@ updated : 2023-11-29 09:45:08 +0900
 tags    : 
 toc     : true
 public  : true
-parent  : [[database/index]]
+parent  : [[data-structure/index]]
 latex   : false
 ---
 * TOC

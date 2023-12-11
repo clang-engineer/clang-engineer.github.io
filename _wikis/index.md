@@ -60,9 +60,6 @@ regenerate: true
 
 ## [[database/index]]
 * [[database/index-summary]]
-* [[database/avl-tree]]
-* [[database/red-black-tree]]
-* [[database/btree]]
 * [[database/paritioning-sharding-replication]]
 * [[database/db-connection-pool]]
 * [[database/rdb-vs-nosql]]
@@ -80,8 +77,6 @@ regenerate: true
 * [[data-structure/circular-queue]]
 * [[data-structure/list-base-queue]]
 * [[data-structure/deque]]
-* [[data-structure/binary-tree]]
-* [[data-structure/binary-tree-traverse]]
 * [[data-structure/priority-que-with-heap]]
 * [[data-structure/bubble-sort]]
 * [[data-structure/selection-sort]]
@@ -92,6 +87,11 @@ regenerate: true
 * [[data-structure/radix-sort]]
 * [[data-structure/binary-search]]
 * [[data-structure/interpolation-search]]
+* [[data-structure/binary-tree]]
+* [[data-structure/binary-tree-traverse]]
+* [[data-structure/avl-tree]]
+* [[data-structure/red-black-tree]]
+* [[data-structure/btree]]
 
 
 ## [[docker/index]]
