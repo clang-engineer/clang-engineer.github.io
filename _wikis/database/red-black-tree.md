@@ -25,4 +25,4 @@ latex   : false
 - Root node는 Black이다.
 - 모든 nil(leaf) node는 Black이다.
 - Red node의 자식은 모두 Black이다. (Red node는 연속해서 나타날 수 없다.)
-- 임의의 노드로부터 leaf node까지의 모든 경로에는 Black node의 개수가 동일하다.
+- 임의의 노드로부터 leaf node까지의 모든 경로에는 Black node의 개수가 동일하다. (Black height가 동일하다.)
