@@ -64,6 +64,8 @@ regenerate: true
 * [[database/db-connection-pool]]
 * [[database/rdb-vs-nosql]]
 * [[database/pessimistic-optimistic-locking]]
+* [[database/acid.md]]
+* [[database/transaction-isolation-level]]
 
 
 ## [[data-structure/index]]
