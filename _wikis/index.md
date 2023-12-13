@@ -66,6 +66,7 @@ regenerate: true
 * [[database/pessimistic-optimistic-locking]]
 * [[database/acid.md]]
 * [[database/transaction-isolation-level]]
+* [[database/funtional-dependency-normalization]]
 
 
 ## [[data-structure/index]]
