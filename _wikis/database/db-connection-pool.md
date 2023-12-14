@@ -35,13 +35,13 @@ latex   : false
 
 
 # 적절한 connection 수 찾는 방법 
-1. 모니터링 환경 구축 (서서 리소스, 서버 스레드 수, DBCP 등)
+1. 모니터링 환경 구축 (서버 리소스, 서버 스레드 수, DBCP 등)
 2. 백엔드 시스템 부하 테스트 (JMeter, Gatling, nGrinder 등)
 3. request per second (RPS), average response time (ART) 등을 측정하여 적절한 connection 수를 찾음 
   
 ## 상세
 1. 백엔드 서버, DB서버의 CPU, Memory, Disk I/O, Network I/O 등의 리소스가 부족한 경우
-- 리소스 추가 ex. 서버 추가, DB서버 추가, cache layer 추가, sharing 등)
+- 리소스 추가 ex. 서버 추가, DB서버 추가, cache layer 추가, sharding 등)
 2. thread per request 모델이라면 active thread 수가 적절한지 확인
 - 전체 스레드 중 active 스레드의 비율이 높다면, 스레드의 총 개수를 늘려야 함
 3. DBCP의 active connection 수가 적절한지 확인
