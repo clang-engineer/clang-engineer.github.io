@@ -1,9 +1,9 @@
 ---
 layout  : category
-title   : Database
+title   : JPA
 summary : 
-date    : 2023-11-27 13:06:39 +0900
-updated : 2023-11-27 13:12:26 +0900
+date    : 2023-12-10 17:20:27 +0900
+updated : 2023-12-10 17:20:43 +0900
 tags    : 
 toc     : true
 public  : true

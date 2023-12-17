@@ -60,10 +60,13 @@ regenerate: true
 
 ## [[database/index]]
 * [[database/index-summary]]
-* [[database/btree]]
 * [[database/paritioning-sharding-replication]]
 * [[database/db-connection-pool]]
 * [[database/rdb-vs-nosql]]
+* [[database/pessimistic-optimistic-locking]]
+* [[database/acid.md]]
+* [[database/transaction-isolation-level]]
+* [[database/funtional-dependency-normalization]]
 
 
 ## [[data-structure/index]]
@@ -77,8 +80,6 @@ regenerate: true
 * [[data-structure/circular-queue]]
 * [[data-structure/list-base-queue]]
 * [[data-structure/deque]]
-* [[data-structure/binary-tree]]
-* [[data-structure/binary-tree-traverse]]
 * [[data-structure/priority-que-with-heap]]
 * [[data-structure/bubble-sort]]
 * [[data-structure/selection-sort]]
@@ -89,11 +90,17 @@ regenerate: true
 * [[data-structure/radix-sort]]
 * [[data-structure/binary-search]]
 * [[data-structure/interpolation-search]]
+* [[data-structure/binary-tree]]
+* [[data-structure/binary-tree-traverse]]
+* [[data-structure/avl-tree]]
+* [[data-structure/red-black-tree]]
+* [[data-structure/btree]]
 
 
 ## [[docker/index]]
 * [[docker/docker-help]]
 * [[docker/install-offline]]
+* [[docker/operation-not-permitted]]
  
  
 ## [[etc/index]]
@@ -171,6 +178,9 @@ regenerate: true
 * [[javascript/axios-collection-set-send]]
 * [[javascript/npm-install-err]]
 
+
+## [[jpa/index]]
+* [[jpa/hibernate-first-level-vs-second-level-cache]]
  
 ## [[linux/index]]
 * [[linux/command]]

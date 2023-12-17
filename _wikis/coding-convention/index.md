@@ -1,5 +1,5 @@
 ---
-layout  : wiki
+layout  : category
 title   : coding convention
 summary : 
 date    : 2021-10-05 15:34:06 +0900
