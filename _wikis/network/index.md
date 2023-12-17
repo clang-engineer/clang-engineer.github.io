@@ -1,5 +1,5 @@
 ---
-layout  : wiki
+layout  : layout
 title   : network
 summary : 
 date    : 2021-10-05 15:31:57 +0900
