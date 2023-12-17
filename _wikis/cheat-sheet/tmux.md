@@ -3,15 +3,16 @@ layout  : wiki
 title   : tmux cheat sheet
 summary : 
 date    : 2021-11-30 15:56:19 +0900
-updated : 2022-08-09 13:39:10 +0900
+updated : 2023-12-17 11:11:18 +0900
 tags    : 
 toc     : true
 public  : true
-parent  : 
+parent  : [[cheat-sheet/index]]
 latex   : false
 ---
 * TOC
 {:toc}
+
 
 
 # tmux sessions
@@ -105,3 +106,7 @@ join-pane -s 2 -t 1
 - / : search
 - # : list paste buffers
 - q : quit
+ 
+ 
+# ![cheatsheet](https://github.com/clang-engineer/clang-engineer.github.io/assets/39648594/a0c5a05e-7a05-40ea-bd1a-9afc4ad999f9)
+
