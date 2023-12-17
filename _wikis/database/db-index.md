@@ -38,6 +38,7 @@ latex   : false
 ## multicolumn index
 - 여러 column을 하나의 index로 묶어서 사용하는 경우
 - multicolumn index의 경우, index의 순서가 중요하다. (index의 순서에 따라서 성능이 달라질 수 있다.)
+- A, B, C 컬럼으로 결합 인덱스를 생성한 경우 A를 조건으로 조회하면 인덱스를 사용할 수 있지만, B, C를 조건으로 조회하면 인덱스를 사용할 수 없다.
 
 ## covering index
 - index에 데이터가 모두 포함되어 있는 경우 (index만으로 데이터를 조회할 수 있는 경우)
