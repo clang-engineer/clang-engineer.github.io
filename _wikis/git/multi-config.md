@@ -3,7 +3,7 @@ layout  : wiki
 title   : 디렉토리 별 gitconfig 설정하기
 summary : 
 date    : 2022-07-14 09:05:55 +0900
-updated : 2022-07-14 09:37:56 +0900
+updated : 2023-12-20 10:46:51 +0900
 tags    : 
 toc     : true
 public  : true
@@ -42,8 +42,9 @@ git config --global user.emal xxx@gmail.com
     name = xxx
     email = xxx@gmail.com
 
-[includeIf "gitdir:~/workspace/company"]
+[includeIf "gitdir:~/workspace/company/"]   // 경로 인식 과정에서 이슈가 있었다. company로 하면 인식x, company/로 하면 하위 디렉터리 인식
     path = ~/workspace/company/company.inc
+    
 ```
 
 ## 확인
