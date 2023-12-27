@@ -1,27 +1,25 @@
 ---
 layout  : wiki
-title   : 배열기반 stack
+title   : 연결 리스트 기반 스택
 summary : 
-date    : 2022-02-15 22:54:56 +0900
-updated : 2022-02-18 10:41:26 +0900
+date    : 2022-02-17 14:46:56 +0900
+updated : 2023-12-28 08:45:40 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/index]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC
 {:toc}
 
 ## 소개
-- 나중에 들어간 것이 먼저 나오는 구조.
-- 후입선출 방식의 자료구조, LIFO(Last-In, First-Out)구조의 자료구조.
+- 스택은 저장된 순서의 역순으로 조회(삭제)가 가능한 연결 리스트의 일종으로 볼 수 있음.
 
 ## main.c
-
 ```c
 #include <stdio.h>
-#include "ArrayBaseStack.h"
+#include "ListBaseStack.h"
 
 int main(void) {
     Stack stack;
@@ -40,24 +38,26 @@ int main(void) {
 }
 ```
 
-## ArrayBaseStack.h
-
+## ListBaseStack.h
 ```c
-#ifndef __AB_STACK_H__
-#define __AB_STACK_H__
+#ifndef __LB_STACK_H__
+#define __LB_STACK_H__
 
 #define TRUE 1
 #define FALSE 0
-#define STACK_LEN 100
 
 typedef int Data;
 
-typedef struct _arrayStack {
-    Data stackArr[STACK_LEN];
-    int topIndex;
-} ArrayStack;
+typedef struct _node {
+    Data data;
+    struct _node *next;
+} Node;
 
-typedef ArrayStack Stack;
+typedef struct _listStack {
+    Node *head;
+} ListStack;
+
+typedef ListStack Stack;
 
 void StackInit(Stack *pstack);
 
@@ -72,41 +72,48 @@ Data SPeek(Stack *pstack);
 #endif
 ```
 
-## ArrayBaseStack.c
-
+## ListBaseStack.c
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include "ArrayBaseStack.h"
+#include "ListBaseStack.h"
 
 void StackInit(Stack *pstack) {
-    pstack->topIndex = -1;
+    pstack->head = NULL;
 }
 
 int SIsEmpty(Stack *pstack) {
-    if (pstack->topIndex == -1)
+    if (pstack->head == NULL)
         return TRUE;
     else
         return FALSE;
 }
 
 void SPush(Stack *pstack, Data data) {
-    pstack->topIndex += 1;
-    pstack->stackArr[pstack->topIndex] = data;
+    Node *newNode = (Node *) malloc(sizeof(Node));
+
+    newNode->data = data;
+    newNode->next = pstack->head;
+
+    pstack->head = newNode;
 }
 
 Data SPop(Stack *pstack) {
-    int rIdx;
+    Data rdata;
+    Node *rnode;
 
     if (SIsEmpty(pstack)) {
         printf("Stack Memory Error!");
         exit(-1);
     }
 
-    rIdx = pstack->topIndex;
-    pstack->topIndex -= 1;
+    rdata = pstack->head->data;
+    rnode = pstack->head;
 
-    return pstack->stackArr[rIdx];
+    pstack->head = pstack->head->next;
+    free(rnode);
+
+    return rdata;
 }
 
 Data SPeek(Stack *pstack) {
@@ -115,6 +122,6 @@ Data SPeek(Stack *pstack) {
         exit(-1);
     }
 
-    return pstack->stackArr[pstack->topIndex];
+    return pstack->head->data;
 }
 ```

@@ -3,11 +3,11 @@ layout  : wiki
 title   : 힙 정렬(Heap Sort) 
 summary : 
 date    : 2022-02-20 23:06:58 +0900
-updated : 2022-02-20 23:16:51 +0900
+updated : 2023-12-28 08:44:59 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/heap-sort]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC

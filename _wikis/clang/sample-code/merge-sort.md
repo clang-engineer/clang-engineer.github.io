@@ -3,11 +3,11 @@ layout  : wiki
 title   : 병합 정렬(Merge Sort)
 summary : 
 date    : 2022-02-21 00:16:10 +0900
-updated : 2022-02-21 00:28:35 +0900
+updated : 2023-12-28 08:45:48 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/index]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC

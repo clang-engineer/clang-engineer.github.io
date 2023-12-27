@@ -3,11 +3,11 @@ layout  : wiki
 title   : 연결 리스트 기반 큐
 summary : 
 date    : 2022-02-17 20:56:40 +0900
-updated : 2022-02-17 21:00:18 +0900
+updated : 2023-12-28 08:45:30 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/index]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC

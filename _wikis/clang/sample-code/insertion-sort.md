@@ -3,11 +3,11 @@ layout  : wiki
 title   : 삽입 정렬(Insertion Sort)
 summary : 
 date    : 2022-02-20 19:59:55 +0900
-updated : 2022-02-20 20:02:12 +0900
+updated : 2023-12-28 08:45:09 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/index]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC
