@@ -15,7 +15,7 @@ latex   : false
 
 # B tree 개념 
 - B tree는 데이터베이스에서 사용되는 자료구조로서, 데이터를 저장하는데 사용되는 트리형 자료구조이다.
-B tree는 BST(Binary Search Tree)의 일반화된 형태이다.
+- B tree는 BST(Binary Search Tree)의 일반화된 형태이다.
 - 자녀 노드의 최대 개수를 늘리기 위해서 부모 노드에 key를 하나 이상 저장한다.
 - 부모 노드의 key들을 오름차순으로 정렬한다.
 - 정렬된 순서에 따라 자녀 노드들의 key값의 범위가 결정된다.
