@@ -6,8 +6,8 @@ date    : 2022-02-20 19:00:20 +0900
 updated : 2022-02-20 19:39:23 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/index]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC

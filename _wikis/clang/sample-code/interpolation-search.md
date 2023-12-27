@@ -3,11 +3,11 @@ layout  : wiki
 title   : 보간탐색
 summary : 
 date    : 2022-02-25 22:33:13 +0900
-updated : 2022-02-25 23:20:35 +0900
+updated : 2023-12-28 08:45:17 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/index]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC

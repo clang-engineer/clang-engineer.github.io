@@ -3,11 +3,11 @@ layout  : wiki
 title   : Node로 만든 연결된 리스트 자료구조
 summary : 
 date    : 2022-01-07 09:36:42 +0900
-updated : 2022-02-17 23:42:25 +0900
+updated : 2023-12-28 08:45:24 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/index]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC

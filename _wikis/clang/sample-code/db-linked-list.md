@@ -3,11 +3,11 @@ layout  : wiki
 title   : 양방향 연결 리스트
 summary : 
 date    : 2022-02-13 23:03:27 +0900
-updated : 2022-02-17 23:29:31 +0900
+updated : 2023-12-28 08:44:26 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/index]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC
