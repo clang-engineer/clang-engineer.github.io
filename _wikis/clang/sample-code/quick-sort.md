@@ -3,11 +3,11 @@ layout  : wiki
 title   : 퀵 정렬(Quick Sort)
 summary : 
 date    : 2022-02-25 10:37:18 +0900
-updated : 2022-02-25 14:59:03 +0900
+updated : 2023-12-28 08:45:55 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/index]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC

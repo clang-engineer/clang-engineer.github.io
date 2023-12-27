@@ -3,11 +3,11 @@ layout  : wiki
 title   : 선택 정렬 (Seletion Sort)
 summary : 
 date    : 2022-02-20 19:37:59 +0900
-updated : 2022-02-20 19:43:45 +0900
+updated : 2023-12-28 08:46:11 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : [[data-structure/index]]
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC

@@ -3,11 +3,11 @@ layout  : wiki
 title   : 원형큐
 summary : 
 date    : 2022-02-17 20:33:58 +0900
-updated : 2022-02-17 23:18:28 +0900
+updated : 2023-12-28 08:46:11 +0900
 tags    : 
 toc     : true
-public  : true
-parent  : 
+public  : false
+parent  : [[clang/index]]
 latex   : false
 ---
 * TOC
