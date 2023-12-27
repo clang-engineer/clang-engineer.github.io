@@ -11,11 +11,11 @@ regenerate: true
 * [[algorithm/greedy]]
 
 
-## [[c-lang/index]]
-* [[c-lang/size_t]]
-* [[c-lang/c-complile-extension-err]]
-* [[c-lang/google-clang-guide]]
-* [[c-lang/google-code-format]]
+## [[clang/index]]
+* [[clang/size_t]]
+* [[clang/c-complile-extension-err]]
+* [[clang/google-clang-guide]]
+* [[clang/google-code-format]]
 
 ## [[check-point/index]]
 * [[check-point/java]]
