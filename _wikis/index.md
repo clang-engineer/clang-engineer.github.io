@@ -154,6 +154,7 @@ regenerate: true
 * [[git/restore]]
 * [[git/git-flow]]
 * [[git/change-commit-autho-at-once]]
+* [[git/commit-message-convention]]
 * [[git/etc]]
  
  
