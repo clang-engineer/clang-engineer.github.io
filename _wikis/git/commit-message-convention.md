@@ -130,8 +130,54 @@ Reviewed-by: Z
 Refs: #123
 ```
 
+# .gitmessage
+- 커밋 메세지를 템플릿화하여 사용할 수 있다.
+- 프로젝트 루트에 .gitmessage 파일을 생성한다.
+- .gitmessage 파일에 커밋 메세지 템플릿을 작성한다.
+- .git/config 파일에 [commit] template = .gitmessage 를 추가한다.
+- git commit 명령어를 통해 커밋 메세지를 작성한다.
+- 전역으로 설정하고 싶다면 git config --global commit.template .gitmessage 명령어를 사용한다.
 
-# 참고
+## gitmessage 예제
+```
+# Title: Summary, imperative, start upper case, don't end with a period
+# No more than 50 chars. #### 50 chars is here:  #
+
+# Remember blank line between title and body.
+
+# Body: Explain *what* and *why* (not *how*). Include task ID (Jira issue).
+# Wrap at 72 chars. ################################## which is here:  #
+
+# At the end: Include Co-authored-by for all contributors. 
+# Include at least one empty line before it. Format: 
+# Co-authored-by: name <user@users.noreply.github.com>
+#
+# How to Write a Git Commit Message:
+# https://chris.beams.io/posts/git-commit/
+#
+# 1. Separate subject from body with a blank line
+# 2. Limit the subject line to 50 characters
+# 3. Capitalize the subject line
+# 4. Do not end the subject line with a period
+# 5. Use the imperative mood in the subject line
+# 6. Wrap the body at 72 characters
+# 7. Use the body to explain what and why vs. how
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Your branch is up to date with 'origin/main'.
+#
+# Changes to be committed:
+#       new file:   installation.md
+#
+```
+
+
+# 참고 & 출처
 - [https://www.conventionalcommits.org/](https://www.conventionalcommits.org/)
 - [https://udacity.github.io/git-styleguide/]](https://udacity.github.io/git-styleguide/)
 - [https://www.lesstif.com/gitbook/github-push-pr-pull-request-issue-129008869.html](https://www.lesstif.com/gitbook/github-push-pr-pull-request-issue-129008869.html)
+- [https://gist.github.com/lisawolderiksen/a7b99d94c92c6671181611be1641c733](https://gist.github.com/lisawolderiksen/a7b99d94c92c6671181611be1641c733)
+- [https://cbea.ms/git-commit/](https://cbea.ms/git-commit/)
