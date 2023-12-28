@@ -134,7 +134,8 @@ Refs: #123
 - 커밋 메세지를 템플릿화하여 사용할 수 있다.
 - 프로젝트 루트에 .gitmessage 파일을 생성한다.
 - .gitmessage 파일에 커밋 메세지 템플릿을 작성한다.
-- .git/config 파일에 [commit] template = .gitmessage 를 추가한다.
+- .git/config 파일에 [commit] template = .gitmessage 를 추가한다. (git config commit.template .gitmessage)
+- git config --local list 명령어를 통해 설정이 잘 되었는지 확인한다.
 - git commit 명령어를 통해 커밋 메세지를 작성한다.
 - 전역으로 설정하고 싶다면 git config --global commit.template .gitmessage 명령어를 사용한다.
 
