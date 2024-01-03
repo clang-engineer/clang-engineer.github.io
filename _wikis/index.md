@@ -97,6 +97,7 @@ regenerate: true
 * [[data-structure/avl-tree]]
 * [[data-structure/red-black-tree]]
 * [[data-structure/btree]]
+* [[data-structure/array-vs-list]]
 
 
 ## [[docker/index]]
