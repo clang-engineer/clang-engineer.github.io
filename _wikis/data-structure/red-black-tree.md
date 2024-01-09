@@ -13,7 +13,6 @@ latex   : false
 * TOC
 {:toc}
 
-
 # Red Black Tree란?
 - Red Black Tree는 균형 이진 탐색 트리의 일종이다.
 - Red Black Tree는 BST의 일종으로, 모든 노드의 왼쪽 서브트리와 오른쪽 서브트리의 높이 차이가 1 이하인 트리를 말한다.
