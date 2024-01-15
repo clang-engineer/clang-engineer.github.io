@@ -215,6 +215,7 @@ regenerate: true
  
 
 ## [[programming/index]]
+* [[programming/immutable-object]]
 * [[programming/multi-tasking-threading-processing-programming]]
   
  
