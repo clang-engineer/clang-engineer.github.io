@@ -17,6 +17,7 @@ regenerate: true
 * [[clang/google-clang-guide]]
 * [[clang/google-code-format]]
 
+
 ## [[clang/sample-code/index]]
 * [[clang/sample-code/array-list]]
 * [[clang/sample-code/array-list-of-struct]]
@@ -39,6 +40,7 @@ regenerate: true
 * [[clang/sample-code/interpolation-search]]
 * [[clang/sample-code/binary-tree]]
 * [[clang/sample-code/binary-tree-traverse]]
+
 
 ## [[check-point/index]]
 * [[check-point/java]]
@@ -136,7 +138,6 @@ regenerate: true
 * [[etc/easy-code-progress-check]]
  
 
-
 ## [[git/index]]
 * [[git/cheat-sheet]]
 * [[git/diff]]
@@ -165,9 +166,6 @@ regenerate: true
 * [[information-security/ch03-application]]
 
 
-## [[issue/index]]
-* [[issue/ngrinder-not-work]]
-
 
 ## [[java/index]]
 * [[java/occupy-multiple-port]]
@@ -189,6 +187,7 @@ regenerate: true
 
 ## [[jpa/index]]
 * [[jpa/hibernate-first-level-vs-second-level-cache]]
+ 
  
 ## [[linux/index]]
 * [[linux/command]]
@@ -235,6 +234,11 @@ regenerate: true
 * [[tableau/tableau-trusted-ticket]]
 * [[tableau/tableau-chrome80-issue]]
 
+
+## [[tools/index]]
+* [[tools/ngrinder-not-work]]
+
+
 ## [[vim/index]]
 * [[vim/plugin]]
 * [[vim/neovim-swap-error]]
@@ -244,6 +248,7 @@ regenerate: true
 * [[vim/neovim-init-setting]];
 * [[vim/conquer-of-completion]]
 * [[vim/option]]
+
 
 ## [[window/index]]
 * [[window/service-manager]]
