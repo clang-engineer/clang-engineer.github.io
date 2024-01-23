@@ -136,6 +136,7 @@ regenerate: true
 * [[etc/indent-with-tab-vs-space]]
 * [[etc/proxy-vs-reverse-proxy]]
 * [[etc/easy-code-progress-check]]
+* [[etc/flab-resume]]
  
 
 ## [[git/index]]
