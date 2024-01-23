@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-01-23 09:05:35 +0900
+updated : 2024-01-23 11:49:59 +0900
 tags    : 
 toc     : true
 public  : false
@@ -39,3 +39,15 @@ latex   : false
 
 ## 작업 방식
 - 카카오 오븐, slack, google meet
+
+
+
+# 무신사
+
+## 프로젝트 요약
+- Stress Test Tool과 APM Tool을 사용한 성능 튜닝
+
+
+## 기술명세를 통한 커뮤니케이션
+
+## Database Connection Pool 튜닝
