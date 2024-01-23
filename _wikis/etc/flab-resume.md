@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-01-23 11:49:59 +0900
+updated : 2024-01-24 08:54:04 +0900
 tags    : 
 toc     : true
 public  : false
@@ -51,3 +51,4 @@ latex   : false
 ## 기술명세를 통한 커뮤니케이션
 
 ## Database Connection Pool 튜닝
+- ngrinder를 통한 부하 테스트와 Pinpoint, Prometheus를 통한 모니터링
