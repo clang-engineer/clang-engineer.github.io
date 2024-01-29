@@ -53,6 +53,10 @@ latex   : false
 - ngrinder를 통한 부하 테스트와 Pinpoint, Prometheus를 통한 모니터링
 
 
+# 카카오 스타일 
+
+# 카카오 페이
+
 # 식스샵
 ## 브랜치 관리, 문서화 (README, WIKI)
 
@@ -67,3 +71,6 @@ latex   : false
 ## 캐싱 전략
 - 로컬 캐싱, 글로벌 캐싱
 - Maxmemory, 데이터 Eviction 정책 LRU, LFU 
+
+## MySQL Replication 구성
+- Master-Slave 구성
