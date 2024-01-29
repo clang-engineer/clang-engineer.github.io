@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-01-24 08:54:04 +0900
+updated : 2024-01-29 10:02:40 +0900
 tags    : 
 toc     : true
 public  : false
@@ -41,7 +41,6 @@ latex   : false
 - 카카오 오븐, slack, google meet
 
 
-
 # 무신사
 
 ## 프로젝트 요약
@@ -52,3 +51,19 @@ latex   : false
 
 ## Database Connection Pool 튜닝
 - ngrinder를 통한 부하 테스트와 Pinpoint, Prometheus를 통한 모니터링
+
+
+# 식스샵
+## 브랜치 관리, 문서화 (README, WIKI)
+
+## 분산처리환경 대용량 트래픽 처리 
+- sticky session, session clustering, session storage(redis, memcached)
+
+## AOP를 활용한 로그인 체크 로직 분리
+- 커스텀 어노테이션 사용
+
+## 단위 테스트 작성
+
+## 캐싱 전략
+- 로컬 캐싱, 글로벌 캐싱
+- Maxmemory, 데이터 Eviction 정책 LRU, LFU 
