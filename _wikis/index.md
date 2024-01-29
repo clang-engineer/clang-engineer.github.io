@@ -219,8 +219,8 @@ regenerate: true
  
 
 ## [[programming/index]]
-* [[programming/immutable-object]]
-* [[programming/multi-tasking-threading-processing-programming]]
+* [[programming/immutable-object]]  <!-- easy code1-->
+* [[programming/multi-tasking-threading-processing-programming]] <!-- easy code3-->
   
  
 ## [[study/index]]
