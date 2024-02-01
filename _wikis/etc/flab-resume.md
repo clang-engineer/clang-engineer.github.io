@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-01-29 10:02:40 +0900
+updated : 2024-02-02 08:27:22 +0900
 tags    : 
 toc     : true
 public  : false
@@ -56,6 +56,10 @@ latex   : false
 # 카카오 스타일 
 
 # 카카오 페이
+- Scale out 고려하여 개발 - session 공유 위해 Redis 사용
+- aws s3 사용하여 가용성 및 안정성 확보
+- 문서화: api spec (swagger), erd
+- db io, 조인 최소화
 
 # 식스샵
 ## 브랜치 관리, 문서화 (README, WIKI)
