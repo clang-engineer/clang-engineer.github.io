@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-02-02 08:27:22 +0900
+updated : 2024-02-02 08:49:38 +0900
 tags    : 
 toc     : true
 public  : false
@@ -40,6 +40,7 @@ latex   : false
 ## 작업 방식
 - 카카오 오븐, slack, google meet
 
+---
 
 # 무신사
 
@@ -52,14 +53,48 @@ latex   : false
 ## Database Connection Pool 튜닝
 - ngrinder를 통한 부하 테스트와 Pinpoint, Prometheus를 통한 모니터링
 
+---
 
 # 카카오 스타일 
+
+---
 
 # 카카오 페이
 - Scale out 고려하여 개발 - session 공유 위해 Redis 사용
 - aws s3 사용하여 가용성 및 안정성 확보
 - 문서화: api spec (swagger), erd
 - db io, 조인 최소화
+
+---
+
+# 넥슨
+## 샘플1
+
+### 개요
+- Mapper 기반 -> JPA
+- ncp 사용
+- junit 단위 테스트
+
+### 프로젝트 관리
+- jenkins ci/cd -> ci - webhook을 통한 자동 배포 + 빌드 완료 후 shell 사용해서 결과 댓글, cd - shell script
+
+
+## 샘플2
+### 개요
+- JPA 대신 Mybatis 사용 (jpa 단점)
+ 
+### 프로젝트 관리
+- git-flow (merge request(develop) -> review)
+- kakao oven
+
+### 상세 기능
+1. 회원관리
+- sticky session, session clustering, redis
+- memcached vs redis
+
+2. AOP를 사용한 권한 관리
+
+---
 
 # 식스샵
 ## 브랜치 관리, 문서화 (README, WIKI)
