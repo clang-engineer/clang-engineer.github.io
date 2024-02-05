@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-02-05 14:09:19 +0900
+updated : 2024-02-05 17:51:26 +0900
 tags    : 
 toc     : true
 public  : false
@@ -94,6 +94,8 @@ latex   : false
 
 2. AOP를 사용한 권한 관리
 
+3. MySQL Replication 구성
+- Master-Slave 구성방
 ---
 
 # 식스샵
@@ -111,5 +113,3 @@ latex   : false
 - 로컬 캐싱, 글로벌 캐싱
 - Maxmemory, 데이터 Eviction 정책 LRU, LFU 
 
-## MySQL Replication 구성
-- Master-Slave 구성방식
