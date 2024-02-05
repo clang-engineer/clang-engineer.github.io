@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-02-02 08:49:38 +0900
+updated : 2024-02-05 14:09:19 +0900
 tags    : 
 toc     : true
 public  : false
@@ -112,4 +112,4 @@ latex   : false
 - Maxmemory, 데이터 Eviction 정책 LRU, LFU 
 
 ## MySQL Replication 구성
-- Master-Slave 구성
+- Master-Slave 구성방식
