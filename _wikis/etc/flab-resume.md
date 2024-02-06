@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-02-06 11:42:21 +0900
+updated : 2024-02-06 16:29:26 +0900
 tags    : 
 toc     : true
 public  : false
@@ -98,7 +98,7 @@ latex   : false
 - Master-Slave 구성방
 ---
 
-# HYPER CONNECT
+# HYPER CONNECT1
 - 소개(개발 스타일) -> 경력 -> 프로젝트 -> 학력 및 자격증
 
 ## 경력
@@ -115,6 +115,30 @@ latex   : false
 1. 공간 인덱싱을 통해 latency 20% 감소
 2. api 별 latency를 측정하고 기준치 초과시 개선 >> db index, 쿼리 튜닝
 3. github action + docker 로 ci/cd 체계 구축
+
+
+---
+
+# HYPER CONNECT2
+- 이력 -> 포트폴리오
+
+## 포폴1
+- 버전관리, 문서화(github, 카카오 오븐)
+- 고립을 통한 단위 테스트 작성
+- 서버 확장을 고려한 설계 - 데이터 정합성 문제에 부딪히지 않기 위해 stateless 한 설계
+- sticky session, session clustering, global session전략의 비교와 선택
+- aop와 추상화를 통한 코드 효율
+- disk i/o가 다빈도 발생하는 부분에 대해 캐싱을 적용. tps 감소. ttl, eviction 정책 사용l을 통한 메모리 관리
+- @Transactional 전파레벨에 대한 내용
+- TransactionSynchronization, TransactionSynchronizationManager
+- 쿼리 튜닝 - explain, 인덱스 설정 과정
+- redis transaction 문제 처리 
+- jenkins, ssh 공개키, scp를 사용한 ci, docker를 사용한 cd
+- vault 서버를 사용한 설정값 관리
+- MySQL Replication
+- Nginx Reversed Proxy를 사용한 로드밸런싱
+- Ngrinder를 사용한 성능 테스트 - scale out, redis caching, nginx micro caching 등을 통한 최적화 과정(tps, latency, cpu 사용량 등을 관찰)
+- visual vm을 사용한 모니터링
 
 
 ---
