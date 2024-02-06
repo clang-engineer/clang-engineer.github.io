@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-02-06 16:43:20 +0900
+updated : 2024-02-06 16:46:33 +0900
 tags    : 
 toc     : true
 public  : false
@@ -141,6 +141,7 @@ latex   : false
 - visual vm을 사용한 모니터링
 
 ---
+
 # 채널 코퍼레이션1,2
 - 노션 양식
 - 데이터 정합성을 위한 아웃박스 패턴
