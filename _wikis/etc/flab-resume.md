@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-02-06 16:29:26 +0900
+updated : 2024-02-06 16:43:20 +0900
 tags    : 
 toc     : true
 public  : false
@@ -139,6 +139,12 @@ latex   : false
 - Nginx Reversed Proxy를 사용한 로드밸런싱
 - Ngrinder를 사용한 성능 테스트 - scale out, redis caching, nginx micro caching 등을 통한 최적화 과정(tps, latency, cpu 사용량 등을 관찰)
 - visual vm을 사용한 모니터링
+
+---
+# 채널 코퍼레이션1,2
+- 노션 양식
+- 데이터 정합성을 위한 아웃박스 패턴
+- 구글 코딩 컨벤션
 
 
 ---
