@@ -3,7 +3,7 @@ layout  : wiki
 title   : Flab resume 
 summary : 
 date    : 2024-01-23 08:38:09 +0900
-updated : 2024-02-05 17:51:26 +0900
+updated : 2024-02-06 11:42:21 +0900
 tags    : 
 toc     : true
 public  : false
@@ -96,6 +96,27 @@ latex   : false
 
 3. MySQL Replication 구성
 - Master-Slave 구성방
+---
+
+# HYPER CONNECT
+- 소개(개발 스타일) -> 경력 -> 프로젝트 -> 학력 및 자격증
+
+## 경력
+- 기간, 역할
+- 수행 >> 개선
+
+1. 데이터 수집 및 가공 로직 개선하여 db저장 데이터 크기 10% 축소
+2. 메모리 누수 추적하여 메모리 사용량 20%이하로 안정화
+3. admin 페이지 개발
+
+## 프로젝트
+- 개요 >> 사용자 예측 >> 핵심 기능 개요
+
+1. 공간 인덱싱을 통해 latency 20% 감소
+2. api 별 latency를 측정하고 기준치 초과시 개선 >> db index, 쿼리 튜닝
+3. github action + docker 로 ci/cd 체계 구축
+
+
 ---
 
 # 식스샵
