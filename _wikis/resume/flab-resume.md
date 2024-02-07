@@ -7,7 +7,7 @@ updated : 2024-02-06 16:46:33 +0900
 tags    : 
 toc     : true
 public  : false
-parent  : [[etc/index]]
+parent  : [[resume/index]]
 latex   : false
 ---
 * TOC
