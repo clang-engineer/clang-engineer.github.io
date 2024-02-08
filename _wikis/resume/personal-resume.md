@@ -39,3 +39,7 @@ path를 제한할때는 중첩 라우터와 라우터 가드를 사용해 1차�
 - xss에 대응하기 위해 Content-Security-Policy 헤더를 설정하여 script, style, img, font등의 리소스를 제한하였습니다. 
 - 출처를 제한하는 referrer-policy 헤더를 설정하여 외부로부터의 요청을 제한하였습니다. strict-origin-when-cross-origin으로 설정하여 동일 출처 요청에 대해서는 전체 url을 전송하고, 다른 출처 요청에 대해서는 동일 출처 요청과 동일한 출처 요청에 대해서는 출처만을 전송하도록 하였습니다.
 - permission-policy 헤더를 설정하여 불필요한 웹 기능을 제한하였습니다. (camera, geolocation, midi, microphone등)
+
+
+3. 개발 생산성 향상을 위한 환경 구성
+
