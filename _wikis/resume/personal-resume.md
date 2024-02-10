@@ -16,30 +16,25 @@ latex   : false
 
 1. 세션 관리 정책
 
-- 설계 과정에서 sticky, cluster, global, stateless 등의 세션관리 방식이 검토되었습니다. 이중 서버 증설 관점에서 sticky 세션은 한 서버에 과부하가 걸릴 수 있다는 단점이, cluster 세션은 여러 서버의 자원을 소모하는 단점이 있기 때문에 후보에서 제외되었습니다.
- 때문에 global session(redis or memcached) 또는 stateless session(jwt token) 방식에 대한 고민을 하였습니다. global 세션 관리방식은 세션 만료 시간 데이터 갱신등을 중앙에서 관리하고 여러 서버간 공유할 수 있다는 장점이 있지만 특정 아키텍처에 대한 의존성과 추가적인 운영 오버헤드가 생긴다는 단점이 있었습니다. token 방식은 별도로 서버에 세션 정보를 저장할 필요가 없으므로 서버 부담이 줄고 별도 third party 오버헤드가 없다는 장점이 있지만, token이 통신 과정에서 탈취될 수 있으므로 xss, csrf와 같은 보안 취약점이 줄 수 있다는 단점이 있었습니다. 
- 고민끝에 솔루션이 차후 사용자가 늘어남에 따라 확장은 필수적이지만, 서버 간에 세션 공유가 불필요할 것으로 예상되었기 때문에 별도의 오버헤드없는 token(jwt)를 통한 인증 방식을 사용하고 보안 취약점은 이중 토큰(access, refresh), csrf token등의 방법을 통해 보완하였습니다.
- 최종 구현한 인증 절차는 최초 로그인시 사용자에게 1시간의 access token을 발급하고 동시에 하루 또는 일주일(설정에 따라 다름)의 refresh token을 별도의 저장소(db)에 저장하도록 하였습니다. 
- 사용자는 로그인시 응답받은 token을 브라우저 storage에 저장해놓고 매 요청시 axios interceptor 설정을 통해 token을 header에 담아서 전송하도록 하였습니다.
- 서버에서는 전달받은 토큰의 유효성을 검사하고, access token이 만료되었을 때 refresh token을 db에서 조회해 검증하고 유효할 시 새로운 access token을 재발급하고 사용자는 재발급된 토큰 응답이 오면 브라우저 storage공간의 토큰을 갱신하도록 하였습니다. 
- 후에 refresh token의 저장공간을 redis로 변경하자는등의 논의가 있었으나, 갱신 주기를 고려했을 때 오버헤드가 크지 않을 것으로 판단되었고 ecache를 사용한 별도의 cache 레이어도 있었기 때문에 별도의 변경은 없었습니다.
+- 설계 과정에서 sticky, cluster, global, stateless 등의 세션관리 방식이 검토되었습니다. 이중 서버 증설 관점에서 sticky 세션은 한 서버에 과부하가 걸릴 수 있다는 단점이, cluster 세션은 여러 서버의 자원을 소모하는 단점이 있기 때문에 후보에서 제외하였습니다.
+ 때문에 global session(redis or memcached) 또는 stateless session(jwt token) 방식에 대한 고민을 하였습니다. global 세션 관리방식은 세션 만료 시간 데이터 갱신등을 중앙에서 관리하고 여러 서버간 공유할 수 있다는 장점이 있지만 특정 아키텍처에 대한 의존성과 서드파티 운영 오버헤드가 생긴다는 단점이 있었습니다. token 방식은 별도로 서버에 세션 정보를 저장할 필요가 없으므로 서버 부담이 줄고 별도 서드파티 운영 오버헤드가 발생하지 않는다는 장점이 있지만, token이 통신 과정에서 탈취될 수 있으므로 xss, csrf와 같은 보안 취약점이 발생할 수 있다는 단점이 있었습니다. 
+ 개발하고 있는 솔루션의 특성을 고려했을 때 차후 사용자가 늘어남에 따라 확장은 필수적이지만, 별도의 세션 통제와 같은 global 세션방식의 이점이 불필요하였고, 고객사마다 특정 사설망에서 솔루션을 운영할 수 있어야했기 때문에 별도의 서드파티 운영 오버헤드가 발생하지 않는 token 인증 방식을 선택하였습니다. 
+- 구현한 최종 인증 절차는 최초 로그인시 사용자에게 1시간의 atk(access token)와 동시에 하루 또는 일주일의 rtk(refresh token)을 발급하도록 하였습니다. 사용자는 응답받은 atk, atk 발급시간, rtk를 각각 브라우저 storage(atk는 session storage, rtk는 local storage)에 저장해놓고 atk가 만료되었거나 존재하지 않을 경우에는 rtk를 사용하여 새로운 atk를 발급받고 아닐 시에는 header에 atk를 담아 요청을 보내도록 하였습니다. 
+- token을 사용할 때 발생하는 보안 취약점은 이중 토큰(access, refresh), jwt 인증키 암호화등의 방법을 통해 보완 하였고 atk, rtk 전달시에 쿠기가 아닌 요청 header에 정보를담아 전달함으로써 csrf에 대한 보안 취약점을 방지하였습니다.
+- axios interceptor 설정을 통해 atk를 요청 header에 담는 절차와 rtk를 통한 atk갱신 절차를 공통화하였습니다.
+- 후에 redis에 atk, rtk 그리고 각 토큰의 만료 시간을 설정하여 토큰 검증 시간을 줄여 성능을 향상시킬 수 있을 것으로 예상됩니다. 
 
 2. 보안, 권한 관리 정책
-- api를 통제하기 위해 아래와 같이 api를 구분하고 1차로 권한을 검사하였습니다. 
-1. /api/** >> 인증 필요 private api
-2. /api/admin/**, /management/** >> 인증 외에 추가적인 권한이 필요한 admin api
-3. /api/authenticate, /api/register, /management/health 등 >> 인증 불필요 public api
+- api 접근을 통제하기 위해 아래와 같이 api를 구분하고 1차로 권한을 검사하였습니다. 
+1. /api/authenticate, /api/register, /management/health 등 >> 인증이 불필요한 public api
+2. 1. 이외에 /api/** >> 인증 필요 private api
+3. /api/admin/**, /management/** >> 인증 외에 추가적인 권한이 필요한 admin api
 
-<!-- 이후 인증이 필요한 api들은 spring security 설정에 jwt token을 검사하는 필터를 추가하여 token에 대한 유효성을 검사하였습니다. jwt token은 access token과 refresh token으로 나누어 사용자의 권한을 검사하였습니다. access token은 사용자의 권한을 검사하고, refresh token은 access token이 만료되었을 때 새로운 access token을 발급하는 역할을 하였습니다. 이를 통해 사용자의 권한을 검사하고, 보안 취약점을 방지하였습니다. -->
-jwt을 사용한 인증 절차를 거친 후에는 2차로 스프링의 security 모듈의 PreAuthorize 어노테이션을 사용하여 api별 사용자 접근 권한을 제한하였습니다.
-
- front-end 단에서는 전역 상태인 redux store에 로그인한 사용자의 권한 정보를 저장하고, 사용자의 권한에 따라 router path를 제한하였습니다.
-path를 제한할때는 중첩 라우터와 라우터 가드를 사용해 1차로 public, private, admin등으로 router path를 구분하였고, 2차로 필요시 사용자의 router path접근 권한을 검사하여 접근을 제한하였습니다.
-
-- xss에 대응하기 위해 Content-Security-Policy 헤더를 설정하여 script, style, img, font등의 리소스를 제한하였습니다. 
-- 출처를 제한하는 referrer-policy 헤더를 설정하여 외부로부터의 요청을 제한하였습니다. strict-origin-when-cross-origin으로 설정하여 동일 출처 요청에 대해서는 전체 url을 전송하고, 다른 출처 요청에 대해서는 동일 출처 요청과 동일한 출처 요청에 대해서는 출처만을 전송하도록 하였습니다.
-- permission-policy 헤더를 설정하여 불필요한 웹 기능을 제한하였습니다. (camera, geolocation, midi, microphone등)
-
+- private api들에 대해 접근할 경우 인증 절차를 거친 후에는 2차로 spring security 모듈의 PreAuthorize 어노테이션을 사용하여 사용자 api 접근 권한을 제한하였습니다.
+- Content-Security-Policy 헤더를 설정하여 script, style, img, font등 시스템에서 사용할 수 있는 리소스의 유형과 출처를 제한하였습니다. 이를 통해 xss 공격을 방지하였습니다.
+- Permission-Policy 헤더를 설정하여 불필요한 웹 기능을 제한하였습니다. (camera, geolocation, midi, microphone등)
+- Referrer-Policy 헤더를 설정하여 정보 보호를 강화하였습니다. strict-origin-when-cross-origin으로 설정하여 tls를 통해 전송되는 동일 출처 요청에 대해서만 referrer를 전송하도록 하였습니다.
+- front-end 에서는 사용자가 앱에 최초 접근시 중앙 저장소(redux store)에 사용자의 권한 정보를 설정하고, 권한에 따라 router 접근을 제한하였습니다. 중첩 라우터와 라우터 가드를 사용해 api와 마찬가지로 public, private, admin등으로 router path를 구분하여 사용자의 접근을 제한하였습니다.
 
 3. 개발 생산성 향상을 위한 환경 구성
 
