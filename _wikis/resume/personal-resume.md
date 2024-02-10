@@ -14,7 +14,7 @@ latex   : false
 {:toc}
 
 
-1. 세션 관리 정책
+# 1. 세션 관리 정책
 
 - 설계 과정에서 sticky, cluster, global, stateless 등의 세션관리 방식이 검토되었습니다. 이중 서버 증설 관점에서 sticky 세션은 한 서버에 과부하가 걸릴 수 있다는 단점이, cluster 세션은 여러 서버의 자원을 소모하는 단점이 있기 때문에 후보에서 제외하였습니다.
  때문에 global session(redis or memcached) 또는 stateless session(jwt token) 방식에 대한 고민을 하였습니다. global 세션 관리방식은 세션 만료 시간 데이터 갱신등을 중앙에서 관리하고 여러 서버간 공유할 수 있다는 장점이 있지만 특정 아키텍처에 대한 의존성과 서드파티 운영 오버헤드가 생긴다는 단점이 있었습니다. token 방식은 별도로 서버에 세션 정보를 저장할 필요가 없으므로 서버 부담이 줄고 별도 서드파티 운영 오버헤드가 발생하지 않는다는 장점이 있지만, token이 통신 과정에서 탈취될 수 있으므로 xss, csrf와 같은 보안 취약점이 발생할 수 있다는 단점이 있었습니다. 
@@ -24,7 +24,7 @@ latex   : false
 - axios interceptor 설정을 통해 atk를 요청 header에 담는 절차와 rtk를 통한 atk갱신 절차를 공통화하였습니다.
 - 후에 redis에 atk, rtk 그리고 각 토큰의 만료 시간을 설정하여 토큰 검증 시간을 줄여 성능을 향상시킬 수 있을 것으로 예상됩니다. 
 
-2. 보안, 권한 관리 정책
+# 2. 보안, 권한 관리 정책
 - api 접근을 통제하기 위해 아래와 같이 api를 구분하고 1차로 권한을 검사하였습니다. 
 1. /api/authenticate, /api/register, /management/health 등 >> 인증이 불필요한 public api
 2. 1. 이외에 /api/** >> 인증 필요 private api
@@ -36,6 +36,11 @@ latex   : false
 - Referrer-Policy 헤더를 설정하여 정보 보호를 강화하였습니다. strict-origin-when-cross-origin으로 설정하여 tls를 통해 전송되는 동일 출처 요청에 대해서만 referrer를 전송하도록 하였습니다.
 - front-end 에서는 사용자가 앱에 최초 접근시 중앙 저장소(redux store)에 사용자의 권한 정보를 설정하고, 권한에 따라 router 접근을 제한하였습니다. 중첩 라우터와 라우터 가드를 사용해 api와 마찬가지로 public, private, admin등으로 router path를 구분하여 사용자의 접근을 제한하였습니다.
 
-3. 개발 생산성 향상을 위한 환경 구성
+# 3. 개발 생산성 향상을 위한 환경 구성
+다수의 개발자가 협업하여 개발을 진행할 때, 개발환경을 통일화하고, 개발 생산성을 향상시키기 위해 아래와 같은 환경을 구성하였습니다.
+- 개발환경과 운영환경을 분리하기 위해 backend, frontend 모두 dev, prod 프로파일을 각각 구분하여 설정하였습니다.
+<!-- - backend는 gradle을 사용하여 빌드 및 의존성 관리를, frontend는 webpack과 npm을 사용하여 빌드 및 의존성 관리를 하였습니다. -->
+- gradle을 사용하여 빌드 및 의존성 관리를 하였습니다. dev, prod 프로파일에서 사용하는 의존성을 각각 분리하였고, dev환경에서는 h2 데이터베이스를 사용하고 prod 프로파일에서는 postgresql 데이터베이스를 사용하도록 환경을 구성하였습니다.
+- slf4j와 @Aspect를 사용하여 로깅 포인트를 설정하였고, 프로파일별로 logging 설정을 구분하여 개발자들의 디버깅을 용이하게 하고 운영환경 로그를 최소화하여 성능을 향상시키도록 설정하였습니다.  
 
-4. 캐싱 정책
+# 4. 성능 향상 정책
