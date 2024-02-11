@@ -36,16 +36,29 @@ latex   : false
 - Referrer-Policy 헤더를 설정하여 정보 보호를 강화하였습니다. strict-origin-when-cross-origin으로 설정하여 tls를 통해 전송되는 동일 출처 요청에 대해서만 referrer를 전송하도록 하였습니다.
 - front-end 에서는 사용자가 앱에 최초 접근시 중앙 저장소(redux store)에 사용자의 권한 정보를 설정하고, 권한에 따라 router 접근을 제한하였습니다. 중첩 라우터와 라우터 가드를 사용해 api와 마찬가지로 public, private, admin등으로 router path를 구분하여 사용자의 접근을 제한하였습니다.
 
-# 3. 개발 생산성 향상을 위한 환경 구성
-다수의 개발자가 협업하여 개발을 진행할 때, 개발환경을 통일화하고, 개발 생산성을 향상시키기 위해 아래와 같은 환경을 구성하였습니다.
-- 의존성 관리와 빌드를 위한 도구로 backend는 gradle을, frontend는 npm 및 webpack을 사용하였습니다.
-- 개발환경과 운영환경을 각각 분리하기 위해 backend, frontend 모두 개발, 운영환경에 따라 설정파일을 분리하여 사용하였습니다. 
-(ex> build.gradle, build-dev.gradle, build-prod.gradle, webpack.common.js, webpack.dev.js, webpack.prod.js)
+# 3. 개발 환경 구성
+아래와 같이 개발환경을 구성하기 위해 아래와 같은 정책을 수립하였습니다.
+
+## 3.1. backend
+- spring boot를 사용하여 개발하였고 생산성 향상을 위해 kotlin을 사용하였습니다.
+- 보다 유연한 의존성 관리와 빌드를 위해 xml기반의 maven이 아닌 groovy, kotlin등의 동적 스크립트 언어를 지원하는 gradle을 사용하였습니다.
+- 개발환경과 운영환경을 각각 분리하기 위해 gradle 설정을 분리하여 사용하였습니다. (ex> build.gradle, build-dev.gradle, build-prod.gradle) 
 - 작업자가 개발 과정에서 database 접속 문제로 인한 시간 낭비를 줄이기 위해 dev환경에서는 h2 file db를 각자의 로컬 pc에서 사용하도록 하였고, 실제 운영환경에서는 postgresql을 사용하도록 하였습니다. 
 서버 배포 전에는 docker-compose를 사용하여 실제 운영환경과 동일한 환경에서 테스트를 진행하였습니다.
+- @ControllerAdvice, @ExceptionHandler를 사용하여 예외처리를 공통화하였고 에러 응답 코드와 미리 정의된 i18n key를 사용하여 에러 메시지를 관리하도록 하였습니다.
 - slf4j와 @Aspect를 사용하여 로깅 포인트를 설정하였고, 프로파일별로 logging 설정을 구분하여 개발자들의 디버깅을 용이하게 하고 운영환경 로그를 최소화하여 성능을 향상시키도록 설정하였습니다.  
 - mapstruct를 사용하여 dto와 entity간의 변환을 자동화하였습니다.
 - kotlin data class를 사용하여 객체의 getter, setter, equals, hashcode, toString등을 자동화하였습니다.
+
+## 3.2. frontend
+- react를 사용하여 개발하였고 생산성 향상을 위해 typescript를 사용하였습니다.
+- 의존성 관리와 빌드를 위한 도구로 각각 npm, webpack을 사용하였습니다.
+- 개발환경과 운영환경을 분리하기 위해 webpack설정을 분리하여 사용하였습니다. (ex> webpack.common.js, webpack.dev.js, webpack.prod.js)
+- dev환경에서 빌드할 경우 source map을 사용하여 디버깅을 용이하게 하였고, prod환경에서 빌드할 경우 난독화, 압축, 캐싱등의 최적화 설정을 추가하여 성능을 향상시켰습니다.
+- store 전역 설정에 error와 alert 메시지를 관리하는 middleware를 추가하여 에러처리를 공통화하였고, 에러 응답 코드와 미리 정의된 i18n key를 사용하여 에러 메시지를 관리하도록 하였습니다.
+
+# 4. 코드 품질 관리 정책
+
 
 # 4. JPA 성능 최적화 정책
 JPA를 보다 효과적으로 사용하기 위해 아래와 같은 정책을 수립하였습니다.
