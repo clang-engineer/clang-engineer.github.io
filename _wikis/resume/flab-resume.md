@@ -13,6 +13,14 @@ latex   : false
 * TOC
 {:toc}
 
+# 넥슨
+## 소개 
+- 웹 개발자가 된 이유
+- 협업 경험
+- 효율성에 공헌한 경험
+- 동료를 위해 공헌한 경험
+- 문서화에 대한 경험 (Redmine) 
+
 # NAVER
 
 ## Scale up이 아닌 Scale out을 선택한 이유
