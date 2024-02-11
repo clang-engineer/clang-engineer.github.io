@@ -21,6 +21,33 @@ latex   : false
 - 동료를 위해 공헌한 경험
 - 문서화에 대한 경험 (Redmine) 
 
+## 포트폴리오1
+- 개요 (브랜치 관리 전략, orm tool - mybatis, )
+- 분산환경에서 세션 공유 방법 (sticky session, session clustering, redis)
+- rest api 설계
+- swagger를 통한 api 문서화
+- i18n을 통한 다국어 지원 (LocaleChangeInterceptor)
+- AOP를 사용한 로그인 체크 로직 분리
+- jenkins 를 사용한 ci (webhook, gitub comment, email)
+- 캐싱을 통한 성능 향상 전략
+- 실시간 데이터 처리를 위한 전략 (polling, long polling, websocket)
+
+---
+
+# 무신사
+## 소개
+- 어떤 것을 중요시하는 개발자인지
+
+## 포트폴리오1
+- 대용량 트래픽 처리를 위한 scale out을 위한 설계 
+- 세션 정합성 문제
+- 캐시를 통한 성능 개선 
+- redis 활용, maxmemory, cache eviction 정책을 통한 메모리 관리
+- 중복제거를 위한 interceptor, argument resolver
+- jpa 성능 최적화 - lazy loading, n+1 문제 해결
+
+---
+
 # NAVER
 
 ## Scale up이 아닌 Scale out을 선택한 이유
