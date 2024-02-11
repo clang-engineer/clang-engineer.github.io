@@ -38,9 +38,11 @@ latex   : false
 
 # 3. 개발 생산성 향상을 위한 환경 구성
 다수의 개발자가 협업하여 개발을 진행할 때, 개발환경을 통일화하고, 개발 생산성을 향상시키기 위해 아래와 같은 환경을 구성하였습니다.
-- 개발환경과 운영환경을 분리하기 위해 backend, frontend 모두 dev, prod 프로파일을 각각 구분하여 설정하였습니다.
-<!-- - backend는 gradle을 사용하여 빌드 및 의존성 관리를, frontend는 webpack과 npm을 사용하여 빌드 및 의존성 관리를 하였습니다. -->
-- gradle을 사용하여 빌드 및 의존성 관리를 하였습니다. 공통 설정과 dev, prod 프로파일에서 사용하는 설정, 의존성 패키지를 분리하였고, dev환경에서는 h2 데이터베이스를 사용하는 환경이 prod 프로파일에서는 postgresql 데이터베이스를 사용하는 환경을 구성하였습니다.
+- 의존성 관리와 빌드를 위한 도구로 backend는 gradle을, frontend는 npm 및 webpack을 사용하였습니다.
+- 개발환경과 운영환경을 각각 분리하기 위해 backend, frontend 모두 개발, 운영환경에 따라 설정파일을 분리하여 사용하였습니다. 
+(ex> build.gradle, build-dev.gradle, build-prod.gradle, webpack.common.js, webpack.dev.js, webpack.prod.js)
+- 작업자가 개발 과정에서 database 접속 문제로 인한 시간 낭비를 줄이기 위해 dev환경에서는 h2 file db를 각자의 로컬 pc에서 사용하도록 하였고, 실제 운영환경에서는 postgresql을 사용하도록 하였습니다. 
+서버 배포 전에는 docker-compose를 사용하여 실제 운영환경과 동일한 환경에서 테스트를 진행하였습니다.
 - slf4j와 @Aspect를 사용하여 로깅 포인트를 설정하였고, 프로파일별로 logging 설정을 구분하여 개발자들의 디버깅을 용이하게 하고 운영환경 로그를 최소화하여 성능을 향상시키도록 설정하였습니다.  
 - mapstruct를 사용하여 dto와 entity간의 변환을 자동화하였습니다.
 - kotlin data class를 사용하여 객체의 getter, setter, equals, hashcode, toString등을 자동화하였습니다.
@@ -49,9 +51,9 @@ latex   : false
 JPA를 보다 효과적으로 사용하기 위해 아래와 같은 정책을 수립하였습니다.
 
 - 다대일 관계가 필요한 경우 서로 다른 생명주기의 개체 간에는 참조를 사용하고, 같은 생명주기 내 개체 간에는 값 타입을 사용하도록 하였습니다. (many to one과 element collection을 구분하여 사용)
-- 개체 간 참조시 데이터 모델링의 복잡도를 낮추기 위해 one to many를 사용하는 것이 아닌, many to one을 사용하여 참조를 하도록 하였습니다.
-- 의도하지 않은 N+1 문제를 방지하기 위해 FetchType.LAZY을 개체 간 관계 설정시 기본으로 사용하도록 하였습니다.
-- fetch join이 필요한 경우 @EntityGraph를 사용하여 연관된 엔티티를 직접 명시하여 fetch join을 사용하도록 하였습니다.
+- 개체 간 참조시 복잡도를 낮추기 위해 one to many를 지양하고, 되도록 many to one을 사용하여 개체 간 참조하도록 하였습니다.
+- 다대다 관계가 필요한 경우 다른 생명주기의 객체 간에는 중간 엔티티를 추가하여 다대일 관계로 풀어내도록 하고, many to many는 
+- N+1 문제를 방지하기 위해 FetchType.LAZY 설정을 관계의 기본으로 하고, fetch join이 필요한 경우 @EntityGraph 설정에 연관된 엔티티 정보를 직접 명시 하였습니다.
 - embeddable을 사용하여 엔티티의 복잡성을 줄이고, 엔티티의 생명주기를 관리하도록 하였습니다.
 - query dsl보다는 jpa criteria를 사용하여 쿼리를 작성하도록 하였습니다. 이를 통해 별도의 라이브러리 의존성을 줄이고, jpa의 표준화된 쿼리 작성 방식을 사용하도록 하였습니다.
 - 엔티티의 변경 이력을 관리하기 위해 @MappedSuperclass, @EntityListeners, @EntityListeners를 사용하여 audit 정보를 엔티티 별로 추가하고 이를 공통화하도록 하였습니다.
