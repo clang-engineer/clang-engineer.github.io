@@ -22,6 +22,7 @@ latex   : false
 - 구현한 최종 인증 절차는 최초 로그인시 사용자에게 1시간의 atk(access token)와 동시에 하루 또는 일주일의 rtk(refresh token)을 발급하도록 하였습니다. 사용자는 응답받은 atk, atk 발급시간, rtk를 각각 브라우저 storage(atk는 session storage, rtk는 local storage)에 저장해놓고 atk가 만료되었거나 존재하지 않을 경우에는 rtk를 사용하여 새로운 atk를 발급받고 아닐 시에는 header에 atk를 담아 요청을 보내도록 하였습니다. 
 - token을 사용할 때 발생하는 보안 취약점은 이중 토큰(access, refresh), jwt 인증키 암호화등의 방법을 통해 보완 하였고 atk, rtk 전달시에 쿠키가 아닌 request header에 담아 전달함으로써 csrf에 대한 보안 취약점을 방지하였습니다.
 - axios interceptor 설정을 통해 atk를 요청 header에 담는 절차와 rtk를 통한 atk갱신 절차를 공통화하였습니다.
+- 사용가가 앱에 최초 접근시 브라우저의 storage에 저장된 atk, rtk를 사용하여 private api를 호출하고 정상적으로 응답을 받았을 경우에는 기본 라우터로 이동하도록 하였고, 그렇지 않을 경우에는 로그인 페이지로 이동하도록 하였습니다.
 - 후에 별도 메모리 db에 (ex> redis)에 atk, rtk 그리고 각 토큰의 만료 시간을 설정함으로써 토큰 검증 시간을 줄여 성능을 향상시킬 수 있을 것으로 예상됩니다. 
 
 # 2. 보안, 권한 관리 정책
@@ -34,7 +35,8 @@ latex   : false
 - Content-Security-Policy 헤더를 설정하여 script, style, img, font등 시스템에서 사용할 수 있는 리소스의 유형과 출처를 제한하였습니다. 이를 통해 xss 공격을 방지하였습니다.
 - Permission-Policy 헤더를 설정하여 불필요한 웹 기능을 제한하였습니다. (camera, geolocation, midi, microphone등)
 - Referrer-Policy 헤더를 설정하여 정보 보호를 강화하였습니다. strict-origin-when-cross-origin으로 설정하여 tls를 통해 전송되는 동일 출처 요청에 대해서만 referrer를 전송하도록 하였습니다.
-- front-end 에서는 사용자가 앱에 최초 접근시 중앙 저장소(redux store)에 사용자의 권한 정보를 설정하고, 권한에 따라 router 접근을 제한하였습니다. 중첩 라우터와 라우터 가드를 사용해 api와 마찬가지로 public, private, admin등으로 router path를 구분하여 사용자의 접근을 제한하였습니다.
+- 사용자가 로그인시 브라우저 메모리 공간(redux store)에 권한 정보를 설정하고, 이에 따라 router 경로를 제한하였습니다. 이때 중첩 라우터와 라우터 가드를 사용해 api와 마찬가지로 public, private, admin등으로 구분하여 경로 설정을 구분하고 관리하였습니다.
+
 
 # 3. 개발 환경 구성
 개발환경을 구성하기 위해 아래와 같은 정책을 수립하였습니다.
@@ -45,10 +47,10 @@ latex   : false
 - 개발환경과 운영환경을 각각 분리하기 위해 gradle 설정을 분리하여 사용하였습니다. (ex> build.gradle, build-dev.gradle, build-prod.gradle) 
 - 작업자가 개발 과정에서 database 접속 문제로 인한 시간 낭비를 줄이기 위해 dev환경에서는 h2 file db를 각자의 로컬 pc에서 사용하도록 하였고, 실제 운영환경에서는 postgresql을 사용하도록 하였습니다. 
 서버 배포 전에는 docker-compose를 사용하여 실제 운영환경과 동일한 환경에서 테스트를 진행하였습니다.
-- @ControllerAdvice, @ExceptionHandler를 사용하여 예외처리를 공통화하였고 에러 응답 코드와 미리 정의된 i18n key를 사용하여 에러 메시지를 관리하도록 하였습니다.
-- slf4j와 @Aspect를 사용하여 로깅 포인트를 설정하였고, 프로파일별로 logging 설정을 구분하여 개발자들의 디버깅을 용이하게 하고 운영환경 로그를 최소화하여 성능을 향상시키도록 설정하였습니다.  
-- mapstruct를 사용하여 dto와 entity간의 변환을 자동화하였습니다.
-- kotlin data class를 사용하여 객체의 getter, setter, equals, hashcode, toString등을 자동화하였습니다.
+- @ControllerAdvice, @ExceptionHandler를 사용하여 예외처리를 공통화하였고 에러 응답 코드와 미리 정의된 i18n key를 사용하여 메시지를 관리하도록 하였습니다.
+- slf4j와 @Aspect를 사용하여 로깅 포인트를 설정하였고, 프로파일별로 logging 설정을 구분하여 개발자들의 디버깅을 용이하게 하고 운영환경 로그를 최소화하여 성능을 향상시키도록 설정하였습니다.
+- 기존 프로젝트들에서 lombok을 사용하여 객체의 getter, setter, equals, hashcode, toString등을 자동화하였지만, kotlin data class 사용으로 인해 lombok의 효용성이 줄었다고 판단하여 
+의존성을 제거하였습니다. 대신 객체 변환과정에서 코드 중복을 줄이기 위해 mapstruct를 사용하였고 dto와 entity간의 변환을 자동화하였습니다.
 - 사용자의 모든 요청은 DTO를 통해 전달되도록 하였고, DTO를 통해 전달된 요청은 @Valid를 사용하여 검증하도록 하였습니다. 
 - 사용자의 모든 응답은 DTO를 통해 전달되도록 하였습니다다.
 
@@ -57,11 +59,14 @@ latex   : false
 - 의존성 관리와 빌드를 위한 도구로 각각 npm, webpack을 사용하였습니다.
 - 개발환경과 운영환경을 분리하기 위해 webpack설정을 분리하여 사용하였습니다. (ex> webpack.common.js, webpack.dev.js, webpack.prod.js)
 - dev환경에서 빌드할 경우 source map을 사용하여 디버깅을 용이하게 하였고, prod환경에서 빌드할 경우 난독화, 압축, 캐싱등의 최적화 설정을 추가하여 성능을 향상시켰습니다.
-- store 전역 설정에 error와 alert 메시지를 관리하는 middleware를 추가하여 에러처리를 공통화하였고, 에러 응답 코드와 미리 정의된 i18n key를 사용하여 에러 메시지를 관리하도록 하였습니다.
-- redux middleware를 사용하여 action과 reducer를 통해 비동기 처리를 관리하였고, redux-thunk를 사용하여 비동기 처리를 관리하도록 하였습니다.
-- redux toolkit의 createSlice를 사용하여 action과 reducer를 통합하여 관리하였고, immer를 사용하여 불변성을 유지하도록 하였습니다.
+- 전역 상태 관리를 위해 redux를 사용하였고, error와 alert 메시지를 관리하는 middleware를 추가하여 에러처리를 공통화하였습니다. 에러 응답시 에러 코드와 미리 정의된 i18n key를 사용하여 메시지를 관리하도록 하였습니다.
+- redux toolkit의 createSlice를 사용하여 action과 reducer를 통합하여 관리하였고, immer를 사용하여 불변성을 유지하도록 하였습니다. 이 과정에서 createSlice가 지원하는 extraReducers와 createAsyncThunk를 사용하여 비동기 액션을 보다 효율적으로 관리하였습니다. builder에서는 addCase, addMatcher를 구분하여 createAsyncThunk의 pending, fulfilled, rejected에 따라 상태를 관리하였습니다.
+
 
 # 4. 코딩 컨벤션 정책
+- 소나큐브를 별도로 구성하여 코드 품질을 관리하였습니다. 이를 통해 개발자들이 코드 품질을 쉽게 확인할 수 있도록 하였습니다. backend에서는 jacoco 리포트를 연동하여 코드 커버리지, 코드 품질을 개발자들이 쉽게 확인할 수 있도록 하였습니다. frontend에서는 jest 리포트를 연동하여 코드 커버리지, 코드 품질을 개발자들이 쉽게 확인할 수 있도록 하였습니다.
+- husky와 lint-staged를 사용하여 코드 커밋 전에 코드 스타일을 점검하였습니다. git pre-commit hook을 사용하여 코드 커밋 전에 kotlin은 ktlint, typescript는 eslint를 사용하여 코드 스타일을 점검하였습니다.
+
 ## 4.1. backend
 - checkstyle을 사용하여 코드 스타일을 통일하였습니다. google kotlin code style을 기본으로 하고, 필요에 따라 커스텀하여 사용하였습니다. 
 - 코드의 가독성을 높이기 위해 코드 포맷터를 사용하여 코드 스타일을 통일하였습니다. (backend: ktlint, frontend: prettier)
