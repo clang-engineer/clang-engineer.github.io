@@ -37,7 +37,7 @@ latex   : false
 - front-end 에서는 사용자가 앱에 최초 접근시 중앙 저장소(redux store)에 사용자의 권한 정보를 설정하고, 권한에 따라 router 접근을 제한하였습니다. 중첩 라우터와 라우터 가드를 사용해 api와 마찬가지로 public, private, admin등으로 router path를 구분하여 사용자의 접근을 제한하였습니다.
 
 # 3. 개발 환경 구성
-아래와 같이 개발환경을 구성하기 위해 아래와 같은 정책을 수립하였습니다.
+개발환경을 구성하기 위해 아래와 같은 정책을 수립하였습니다.
 
 ## 3.1. backend
 - spring boot를 사용하여 개발하였고 생산성 향상을 위해 kotlin을 사용하였습니다.
@@ -49,6 +49,8 @@ latex   : false
 - slf4j와 @Aspect를 사용하여 로깅 포인트를 설정하였고, 프로파일별로 logging 설정을 구분하여 개발자들의 디버깅을 용이하게 하고 운영환경 로그를 최소화하여 성능을 향상시키도록 설정하였습니다.  
 - mapstruct를 사용하여 dto와 entity간의 변환을 자동화하였습니다.
 - kotlin data class를 사용하여 객체의 getter, setter, equals, hashcode, toString등을 자동화하였습니다.
+- 사용자의 모든 요청은 DTO를 통해 전달되도록 하였고, DTO를 통해 전달된 요청은 @Valid를 사용하여 검증하도록 하였습니다. 
+- 사용자의 모든 응답은 DTO를 통해 전달되도록 하였습니다다.
 
 ## 3.2. frontend
 - react를 사용하여 개발하였고 생산성 향상을 위해 typescript를 사용하였습니다.
@@ -56,9 +58,22 @@ latex   : false
 - 개발환경과 운영환경을 분리하기 위해 webpack설정을 분리하여 사용하였습니다. (ex> webpack.common.js, webpack.dev.js, webpack.prod.js)
 - dev환경에서 빌드할 경우 source map을 사용하여 디버깅을 용이하게 하였고, prod환경에서 빌드할 경우 난독화, 압축, 캐싱등의 최적화 설정을 추가하여 성능을 향상시켰습니다.
 - store 전역 설정에 error와 alert 메시지를 관리하는 middleware를 추가하여 에러처리를 공통화하였고, 에러 응답 코드와 미리 정의된 i18n key를 사용하여 에러 메시지를 관리하도록 하였습니다.
+- redux middleware를 사용하여 action과 reducer를 통해 비동기 처리를 관리하였고, redux-thunk를 사용하여 비동기 처리를 관리하도록 하였습니다.
+- redux toolkit의 createSlice를 사용하여 action과 reducer를 통합하여 관리하였고, immer를 사용하여 불변성을 유지하도록 하였습니다.
 
-# 4. 코드 품질 관리 정책
+# 4. 코딩 컨벤션 정책
+## 4.1. backend
+- checkstyle을 사용하여 코드 스타일을 통일하였습니다. google kotlin code style을 기본으로 하고, 필요에 따라 커스텀하여 사용하였습니다. 
+- 코드의 가독성을 높이기 위해 코드 포맷터를 사용하여 코드 스타일을 통일하였습니다. (backend: ktlint, frontend: prettier)
+- junit을 사용하여 테스트 코드를 작성하고 jacoco를 사용하여 코드 커버리지를 검사하였습니다. sonarqube에 jacoco 리포트를 연동하여 코드 커버리지, 코드 품질을 개발자들이 쉽게 확인할 수 있도록 하였습니다개
+- 코드의 품질을 높이기 위해 정적 분석 도구를 사용하여 코드 품질을 검사하였습니다. (backend: sonarqube, frontend: eslint)
+- 코드의 품질을 높이기 위해 코드 리뷰를 통해 코드 품질을 검사하였습니다. (backend: github pull request, frontend: gitlab merge request)
+- 코드의 품질을 높이기 위해 테스트 코드를 작성하여 코드 품질을 검사하였습니다. (backend: junit, frontend: jest)
 
+## 4.2. frontend
+- eslint를 사용하여 코드 스타일을 통일하였습니다. eslint-config-airbnb를 기본으로 하고, 필요에 따라 커스텀하여 사용하였습니다. eslint-plugin-prettier를 사용하여 코드 포맷터를 사용하여 코드 스타일을 통일하였습니다.
+- prettier를 사용하여 코드 스타일을 통일하였습니다. 코드 포맷터를 사용하여 코드 스타일을 통일하였습니다.
+- jest를 사용하여 테스트 코드를 작성하였습니다. sonarqube에 jest 리포트를 연동하여 코드 커버리지, 코드 품질을 개발자들이 쉽게 확인할 수 있도록 하였습니다
 
 # 4. JPA 성능 최적화 정책
 JPA를 보다 효과적으로 사용하기 위해 아래와 같은 정책을 수립하였습니다.
