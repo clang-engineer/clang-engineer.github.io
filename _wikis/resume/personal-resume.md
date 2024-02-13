@@ -50,7 +50,9 @@ latex   : false
 - 작업자가 개발 과정에서 database 접속 문제로 인한 시간 낭비를 줄이기 위해 dev환경에서는 h2 file db를 각자의 로컬 pc에서 사용하도록 하였고, 실제 운영환경에서는 postgresql을 사용하도록 하였습니다. 
 서버 배포 전에는 docker-compose를 사용하여 실제 운영환경과 동일한 환경에서 테스트를 진행하였습니다.
 - @ControllerAdvice, @ExceptionHandler를 사용하여 예외처리를 공통화하였고 에러 응답 코드와 미리 정의된 i18n key를 사용하여 메시지를 관리하도록 하였습니다.
-- slf4j와 @Aspect를 사용하여 로깅 포인트를 설정하였고, 프로파일별로 logging 설정을 구분하여 개발자들의 디버깅을 용이하게 하고 운영환경 로그를 최소화하여 성능을 향상시키도록 설정하였습니다.
+- logback 설정을 통해서 개발과 운영환경에서의 로그 출력을 통제하고 RollingFileAppender를 사용해서 로그 파일을 생성하도록 하였습니다.
+debug, info등 로깅 level을 구분하여 개발시 로그 확인을 원할히하고 운영환경에서 필요한 출력 로그를 최소화하여 성능을 향상시키도록 설정하였습니다.
+- 개발환경에서 @Profile과 @Aspect를 사용하여 dev 환경에서 로그를 상세하게 확인할 수 있도록 별도의 설정을 추가하였습니다. @AfterThrowing을 사용하여 예외 발생시 로그를 기록하고 @Around를 사용하여 메서드 호출 전후에 로그를 출력하도록 하였습니다.
 - 기존 프로젝트들에서 lombok을 사용하여 객체의 getter, setter, equals, hashcode, toString등을 자동화하였지만, kotlin data class 사용으로 인해 lombok의 효용성이 줄었다고 판단하여 
 의존성을 제거하였습니다. 대신 객체 변환과정에서 코드 중복을 줄이기 위해 mapstruct를 사용하였고 dto와 entity간의 변환을 자동화하였습니다.
 - 사용자의 모든 요청은 DTO를 통해 전달되도록 하였고, DTO를 통해 전달된 요청은 @Valid를 사용하여 검증하도록 하였습니다. 
