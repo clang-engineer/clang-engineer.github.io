@@ -23,8 +23,9 @@ latex   : false
 ## 1.2 언어 및 빌드 도구
 - backend는 보다 유연한 의존성 관리와 빌드를 위해 xml기반의 maven이 아닌 groovy, kotlin등의 동적 스크립트 언어를 지원하는 gradle을 사용하였습니다.
 - frontend는 의존성 관리와 빌드를 위해 npm, webpack을 사용하였습니다.
-- 각각의 빌드 환경은 개발환경과 운영환경을 분리하여 사용하였습니다. (ex> backend: gradle, profile_dev.gradle, profile_prod.gradle, frontend: webpack.common.js, webpack.dev.js, webpack.prod.js)
-- 개발시 database장애 또는 네트워크 문제등으로 인한 업무 지연을 최소화하기 위해 h2 설정을 추가하여 각 작업자가 환경과 무관하게 개발할 수 있도록 하였습니다.  (h2 file db + liquibase)
+- 개발 또는 운영환경에 따라 다른 설정을 사용하여 효율적으로 개발하고 운영할 수 있도록 하였습니다. (ex> backend: gradle, profile_dev.gradle, profile_prod.gradle, frontend: webpack.common.js, webpack.dev.js, webpack.prod.js)
+- 개발시 database장애 또는 네트워크 문제등으로 인한 업무 지연을 최소화하기 위해 h2 설정을 추가하여 각 작업자가 환경과 무관하게 개발할 수 있도록 하였습니다. (h2 file db + liquibase)
+- 작업자간 코드 스타일을 통일하기 위해 backend는 ktlint, frontend는 eslint, prettier를 사용하여 코드 스타일을 통일하였습니다. 
 - 빌드시에는 코드 스타일을 점검하고 코드 품질을 검사하였습니다. (backend: ktlint, sonarqube, frontend: eslint, sonarqube)
 - 빌드시에는 코드 커버리지를 검사하였습니다. (backend: jacoco, sonarqube, frontend: jest, sonarqube)
 - 빌드시에는 테스트 코드를 실행하였습니다. (backend: junit, frontend: jest)
@@ -43,6 +44,11 @@ latex   : false
 - backend는 logback 설정을 통해서 개발과 운영환경에서의 로그 출력을 통제하고 debug, info등 로깅 level을 구분하여 개발시 로그 확인을 원할히하고 운영환경에서 필요한 출력 로그를 최소화하여 성능을 향상시키도록 설정하였습니다. 분산환경에서 로그를 통합 관리하기 위해 별도의 로그 서버를 구축하고 logstash를 사용하여 로그를 수집하도록 하였습니다. logback의 LogstashTcpSocketAppender를 사용하여 운영환경에서는 logstash agent를 사용하여 kibana로 로그를 수집하도록 하였습니다.
 - backend는 @Profile과 @Aspect를 사용하여 dev 환경에서 로그를 상세하게 확인할 수 있도록 별도의 설정을 추가하였습니다. @AfterThrowing을 사용하여 예외 발생시 로그를 기록하고 @Around를 사용하여 메서드 호출 전후에 로그를 출력하도록 하였습니다.
 - frontend는 dev환경에서 빌드할 경우 source map을 사용하여 디버깅을 용이하게 하였습니다.
+
+## 1.6 코드 품질 관리 정책
+### backend
+- ktlint를 사용하여 빌드시 코드 스타일을 점검하도록 하였습니다. compileKotlin 태스크의 의존성 task로 ktlintFormat을 추가하여 포맷팅을 자동화하였습니다.
+- jacoco를 사용하여 코드 커버리지를 검사하였습니다. check 태스크의 의존성 task로 jacocoTestReport를 추가하여 코드 커버리지를 자동화하였습니다.
 
 ## 1.6 기타
 - 기존 프로젝트들에서 lombok을 사용하여 객체의 getter, setter, equals, hashcode, toString등을 자동화하였지만, kotlin data class 사용으로 인해 lombok의 효용성이 줄었다고 판단하여 
