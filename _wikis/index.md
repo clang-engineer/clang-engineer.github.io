@@ -219,6 +219,7 @@ regenerate: true
  
 
 ## [[programming/index]]
+* [[programming/synchronous-vs-asynchronous]]
 * [[programming/immutable-object]]  <!-- easy code1-->
 * [[programming/multi-tasking-threading-processing-programming]] <!-- easy code3-->
   
