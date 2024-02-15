@@ -59,14 +59,11 @@ latex   : false
 
 ## 4.1. backend
 - junit을 사용하여 테스트 코드를 작성하고 jacoco를 사용하여 코드 커버리지를 검사하였습니다. sonarqube에 jacoco 리포트를 연동하여 코드 커버리지, 코드 품질을 개발자들이 쉽게 확인할 수 있도록 하였습니다.
-- ktlint를 사용하여 빌드시 코드 스타일을 점검하도록 하였습니다. compileKotlin 태스크의 의존성 task로 ktlintFormat을 추가하여 compile 전에 코드 스타일을 자동으로 포맷팅하였습니다.
-- checkstyle을 사용하여 코드 스타일을 통일하였습니다. google kotlin code style을 기본으로 하고, 필요에 따라 커스텀하여 사용하였습니다. 
-- 코드의 가독성을 높이기 위해 코드 포맷터를 사용하여 코드 스타일을 통일하였습니다. (backend: ktlint, frontend: prettier)
-- junit을 사용하여 테스트 코드를 작성하고 jacoco를 사용하여 코드 커버리지를 검사하였습니다. sonarqube에 jacoco 리포트를 연동하여 코드 커버리지, 코드 품질을 개발자들이 쉽게 확인할 수 있도록 하였습니다개
+- ktlint를 사용하여 빌드시 코드 스타일을 통일하나도록 하였습니다. compileKotlin 태스크의 의존성 task로 ktlintFormat을 추가하여 compile 전에 코드 스타일을 자동으로 포맷팅하였습니다.
 
 ## 4.2. frontend
 - jest를 사용하여 테스트 코드를 작성하였고 sonarqube에 jest 리포트를 연동하여 코드 커버리지, 코드 품질을 개발자들이 쉽게 확인할 수 있도록 하였습니다.
-- eslint를 사용하여 코드 스타일을 통일하였습니다. eslint-config-airbnb를 기본으로 하고, 필요에 따라 커스텀하여 사용하였습니다. eslint-plugin-prettier를 사용하여 코드 포맷터를 사용하여 코드 스타일을 통일하였습니다.
+- eslint를 사용하여 코드 스타일을 통일하였습니다. type
 - prettier를 사용하여 코드 스타일을 통일하였습니다. 코드 포맷터를 사용하여 코드 스타일을 통일하였습니다.
 - jest를 사용하여 테스트 코드를 작성하였습니다. sonarqube에 jest 리포트를 연동하여 코드 커버리지, 코드 품질을 개발자들이 쉽게 확인할 수 있도록 하였습니다
 - husky와 lint-staged를 사용하여 커밋 전에 prettier로 코드 포맷팅을 자동화하였습니다. (git pre-commit hook)
