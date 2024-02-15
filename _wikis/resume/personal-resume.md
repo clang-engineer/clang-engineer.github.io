@@ -47,7 +47,7 @@ latex   : false
 2. 1. 이외에 /api/** >> 인증 필요 private api
 3. /api/admin/**, /management/** >> 인증 외에 추가적인 권한이 필요한 admin api
 
-- private api들에 대해 접근할 경우 인증 절차를 거친 후에는 2차로 spring security 모듈의 PreAuthorize 어노테이션을 사용하여 사용자 api 접근 권한을 제한하였습니다.
+- private api들에 대해 접근할 경우 인증 절차를 거친 후에는 2차로 spring security 모듈의 PreAuthorize 어노테이션을 사용하여 권한에 따라  api 접근을 제한하였습니다.
 - CSP(Content-Security-Policy) 헤더를 설정하여 script, style, img, font등의 자원별로 허용할 출처를 제한하였습니다. 이를 통해 xss 공격을 방지하였습니다.
 - Permission-Policy 헤더를 설정하여 사용할 수 있는 기능을 제한하였습니다. (ex> 제한: camera, geolocation, gyroscope, magnetometer, microphone, midi, payment, sync-xhr. 허용: fullscreen(self))
 - Referrer-Policy 헤더를 설정하여 불필요한 출처 정보 노출을 방지하였습니다. 제한은 strict-origin-when-cross-origin으로 설정하여 tls를 통해 전송되는 동일 출처 요청에 대해서만 referrer를 전송하도록 하였습니다.
@@ -70,6 +70,8 @@ latex   : false
 
 
 # 5. 성능 향상 정책
+- WebMvcConfigurer를 사용하여 정적 자원을 캐싱하고, gzip을 사용하여 응답 데이터를 압축하여 성능을 향상시켰습니다.
+- 서버에서 정적 자원 응답시 Cache-Control 헤더를 설정하여 브라우저 캐싱을 통해 성능을 향상시켰습니다. public헤더를 사용하여 부하분산시에 프록시 서버에서도 캐싱할 수 있도록 하였습니다.
 - 실시간 데이터 계산(키 몸무게 입력시 bmi 항목, 총점 항목), 
 - 단일 세션 단위로 관리되는 hibernate 1차 캐시와 다중 세션간 공유되는 hibernate 2차 캐시를 함께 사용하여 시스템 성능을 극대화하였습니다.
 - 성응 향상을 위해 분산 환경에서 hibernate 2차 캐시를 사용하여 같은 쿼리에 대한 캐싱을 하기로 하고 1차 캐시를 사용할지 고민이 되었습니다. 1차 캐시를 사욜하면 모든 엔티티들에 대해서 캐시할 수 있는 장점이 있지만 분산환경에서 엔티티 갱신시 노드간 일관성을 유지하기가 어렵기 때문 입니다. 시스템 설계를 할 때 jpa로 시스템이 사용되는 메타 영역을 설정하고 사용자가 동적으로 조정하는 데이터 영역이 별도의 layer(jooq or mybatis등의 동적 쿼리 생성에 최적화된 orm)를 사용할 것으로 협의되덨기 때문에 동적 변경이 불필
