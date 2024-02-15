@@ -122,3 +122,41 @@ JPA를 보다 효과적으로 사용하기 위해 아래와 같은 정책을 수
 - embeddable을 사용하여 한 개체 안에서 발생하는 엔티티 복잡도를 줄이도록 하였습니다. 이 과정에서 이를 사욜하여 한 개체 안의 속성을 별도로 구분하고 물리 테이블도 이에 따라 분리하였습니다.
 - query dsl보다는 jpa criteria를 사용하여 쿼리를 작성하도록 하였습니다. 이를 통해 별도의 서드파티 의존성을 줄이고, jpa의 표준화된 쿼리 작성 방식을 사용하도록 하였습니다.
 - 엔티티의 변경 이력을 관리하기 위해 @EnableJpaAuditing, @MappedSuperclass, @EntityListeners 사용하여 audit 정보를 엔티티들이 공통으로 관리할 수 있도록 하였습니다.
+
+
+
+# EditorConfig
+
+- .editorconfig를 프로젝트 루트에 추가하면 상이한 에디터간에 일관된 코드 스타일을 유지할 수 있다.
+- 줄바꿈 문자, 인코딩, 줄 끝 공백, 들여쓰기 타입, 들여쓰기 크기 등을 설정할 수 있다.
+
+# EsLint
+
+- 일관성 있는 코드 컨벤션 유지를 위해 사용 (코드 구현 방식을 통일)
+- .eslintrc.json을 프로젝트 루트에 추가하면 코드 품질을 검사할 수 있다.
+- .eslintignore를 프로젝트 루트에 추가하면 검사에서 제외할 파일을 설정할 수 있다.:
+
+# Prettier
+
+- 코드 포맷팅을 위해 사용 (코드 스타일을 통일)
+- .prettierrc를 프로젝트 루트에 추가하면 코드 포맷팅을 설정할 수 있다.
+- .prettierignore를 프로젝트 루트에 추가하면 포맷팅에서 제외할 파일을 설정할 수 있다.
+
+# .npmrc
+
+- npm 패키지 설치 시 사용할 레지스트리를 설정할 수 있다.
+- legacy-peer-deps = true: npm 7에서 peerDependencies를 설치할 때 오류가 발생하는 경우 사용
+- registry = https://registry.npmjs.org: npm 패키지를 설치할 레지스트리를 설정
+- @fortawesome:registry=https://npm.fontawesome.com/: fontawesome 패키지를 설치할 레지스트리를 설정
+- //npm.fontawesome.com/:\_authToken=YOUR
+- //npm.fontawesome.com/:\_authToken=YOUR: fontawesome 패키지를 설치할 때 사용할 인증 토큰을 설정
+- @fortawesome:registry=https://npm.fontawesome.com/: fontawesome 패키지를 설치할 레지스트리를 설정
+
+# husky & lint-staged
+
+- git commit 시 코드 품질을 검사하고 코드 포맷팅을 적용할 수 있다.
+- husky: git hook을 설정할 수 있다.
+- lint-staged: git에 staged된 파일을 대상으로 코드 품질을 검사하고 코드 포맷팅을 적용할 수 있다.
+- commit전에 prettier로 코드 포맷팅을 적용하고 eslint로 코드 품질을 검사한다. 
+- .huskyrc를 프로젝트 루트에 추가하면 git hook을 설정할 수 있다.
+- .lintstagedrc.js 파일을 프로젝트 루트에 추가하면 lint-staged 설정을 할 수 있다.
