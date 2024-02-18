@@ -35,7 +35,7 @@ latex   : false
 
 - 설계 과정에서 sticky, cluster, global, stateless 등의 세션관리 방식이 검토되었습니다. 이중 서버 증설 관점에서 sticky 세션은 한 서버에 과부하가 걸릴 수 있다는 단점이, cluster 세션은 모든 서버가 동일한 세션 객체를 가져야 하므로 많은 메모리를 소모하게되고 서버 개수가 증가함에 따라 동기화 과정에서 성능 저하가 크다는 단점이 있기 때문에 후보에서 제외하였습니다.
  때문에 global session(redis or memcached) 또는 stateless session(jwt token) 방식에 대한 고민을 하였습니다. global 세션 관리방식은 세션 만료 시간등을 중앙에서 관리하고 여러 서버간 데이터를 공유할 수 있다는 장점이 있지만 별도의 서드파티 운영 오버헤드가 생긴다는 단점이 있었습니다. stateless 방식은 별도로 서버에 세션 정보를 저장할 필요가 없으므로 서버 부담이 줄고 별도 서드파티 운영 오버헤드가 발생하지 않는다는 장점이 있지만, token이 통신 과정에서 탈취됐을 때 xss, csrf와 같은 보안 취약하다는 단점이 있었습니다. 
- 개발하고 있는 솔루션의 특성을 고려했을 때 차후 사용자가 늘어남에 따라 확장은 필수적이지만, 별도의 세션 통제와 같은 global 세션방식의 이점이 불필요하였고, 고객사마다 사설망에서 솔루션을 운영할 수 있어야했기 때문에 별도의 서드파티 운영 오버헤드없이 쉽게 부하분산할 수 있는 stateless 인증 방식을 선택하였습니다. 
+ 개발하고 있는 솔루션의 특성을 고려했을 때 차후 사용자가 늘어남에 따라 부하 분산을 위한 구조가 필요하지만, 별도의 세션 통제와 같은 global 세션방식의 이점이 불필요하였고, 고객사마다 사설망에서 솔루션을 운영할 수 있어야했기 때문에 별도의 서드파티 운영 오버헤드없이 쉽게 부하분산할 수 있는 stateless 인증 방식을 선택하였습니다. 
 - 구현한 최종 인증 절차는 우선 최초 로그인시 사용자에게 1시간동안 유효한 atk(access token)와 하루 또는 일주일동안 유효한 rtk(refresh token)을 발급하도록 하였습니다. 사용자는 응답받은 atk, atk 발급시간, rtk를 각각 브라우저 storage(atk는 session storage, rtk는 local storage)에 저장해놓고 atk가 만료되었거나 존재하지 않을 경우에는 rtk를 사용하여 새로운 atk를 발급받고 아닐 시에는 header에 atk를 담아 요청을 보내도록 하였습니다. 
 - token을 사용할 때 발생하는 보안 취약점은 이중 토큰(access, refresh), 인증키 암호화등의 방법을 통해 보완 하였고 atk, rtk 전달시에 쿠키가 아닌 request header에 token을 담아 전달함으로써 노출을 최소화하고 csrf에 대한 취약점을 방지하였습니다.
 - axios interceptor 설정을 통해 atk를 요청 header에 담는 절차와 rtk를 통한 atk갱신 절차를 공통화하였습니다. 
@@ -49,7 +49,7 @@ latex   : false
 2. 1. 이외에 /api/** >> 인증 필요 private api
 3. /api/admin/**, /management/** >> 인증 외에 추가적인 권한이 필요한 admin api
 
-- private api들에 대해 접근할 경우 인증 절차를 거친 후에는 2차로 spring security 모듈의 PreAuthorize 어노테이션을 사용하여 권한에 따라 접근을 제한하였습니다.
+- private api들에 대해 접근할 경우 인증 절차를 거친 후에는 2차로 spring security 모듈의 PreAuthorize 어노테이션을 사용하여 메소드 호출 전에 권한을 추가로 검사하였습니다.
 - CSP(Content-Security-Policy) 헤더를 설정하여 script, style, img, font등의 자원별로 허용할 출처를 제한하였습니다. 기본적으로 self로 설정하여 동일 출처에서만 자원을 사용할 수 있도록 하였고, script-src는 self, unsafe-inline, unsafe-eval을 허용, style-src는 self, unsafe-inline을 허용하도록 하였습니다. 이런 설정들을 통해 xss 공격을 방지하였습니다.
 - Permission-Policy 헤더를 설정하여 사용할 수 있는 기능을 제한하였습니다. (ex> 제한: camera, geolocation, gyroscope, magnetometer, microphone, midi, payment, sync-xhr. 허용: fullscreen(self))
 - Referrer-Policy 헤더를 설정하여 불필요한 출처 정보 노출을 방지하였습니다. 제한은 strict-origin-when-cross-origin으로 설정하여 tls를 통해 전송되는 동일 출처 요청에 대해서만 referrer를 전송하도록 하였습니다.
