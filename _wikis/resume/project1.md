@@ -53,5 +53,5 @@ JPA를 보다 효과적으로 사용하기 위해 아래와 같은 정책을 수
 - 한 개체에 속성이 많아 복잡도가 높아지는 경우 @Embeddable을 사용하여 별도 값 타입을 분리하였습니다.
 - 다대다 관계가 필요한 경우 다른 생명주기의 객체 간에는 중간 엔티티를 추가하여 다대일 관계로 풀어내도록 하고, 하나의 엔티티가 관계 형성의 완전한 주체가 되는 경우만 many to many를 예외적으로 허용하여 개체 간 복잡도를 낮췄습니다.
 - @OneToMany, @ManyToMany, @ElementCollection을 사용할 때 N+1 문제를 방지하기 위해  fetch join이 필요한 경우 각 쿼리에 @EntityGraph를 사용하여 명시적으로 fetch join을 사용하도록 하였습니다. (FetchType.EAGER를 사용하지 않은 이유는 모든 쿼리에 대해 fetch join을 사용하면 성능이 저하될 수 있기 때문입니다.)
-- query dsl보다는 jpa criteria를 사용하여 쿼리를 작성하도록 하였습니다. 이를 통해 별도의 서드파티 의존성을 줄이고, jpa의 표준화된 쿼리 작성 방식을 사용하도록 하였습니다.
+- 동적 쿼리를 작성하기 위해 QueryDSL 환경을 구축하는 대신 JPA Specification을 사용하여 동적 쿼리를 작성하였습니다. 이를 통해 별도의 서드파티 의존성을 줄이고, JPA의 표준화된 쿼리 작성 방식을 사용하도록 하였습니다.
 - 엔티티의 변경 이력을 관리하기 위해 @EnableJpaAuditing, @MappedSuperclass, @EntityListeners 사용하여 audit 정보를 엔티티들이 공통으로 관리할 수 있도록 하였습니다.
