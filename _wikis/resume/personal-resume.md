@@ -1,18 +1,3 @@
----
-layout  : wiki
-title   : Personal resume 
-summary : 
-date    : 2024-01-23 08:38:09 +0900
-updated : 2024-02-06 16:46:33 +0900
-tags    : 
-toc     : true
-public  : false
-parent  : [[resume/index]]
-latex   : false
----
-* TOC
-{:toc}
-
 # 1. 개발 환경 구성
 
 ## 1.1. backend
