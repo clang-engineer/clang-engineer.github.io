@@ -1,3 +1,5 @@
+$braille-pattern-font-family: "Segoe UI Symbol, DejaVu Sans Mono, Unifont, sans-serif";
+
 .post {
 	padding-bottom: 0;
 	.post-title {
@@ -66,6 +68,7 @@
 		h1 {
 			font-size: 3.3rem;
 			&:before {
+				font-family: $braille-pattern-font-family;
 				content:"\2801";
 				padding-right: 1rem;
 				color: #845EC2;
@@ -76,6 +79,7 @@
 			padding-left: 0.5rem;
 			font-size: 3rem;
 			&:before { 
+				font-family: $braille-pattern-font-family;
 				content:"\2803"; 
 				padding-right: 1rem;
 				color: #2C73D2;
@@ -86,6 +90,7 @@
 			padding-left: 1rem;
 			font-size: 2.4rem;
 			&:before { 
+				font-family: $braille-pattern-font-family;
 				content:"\2809"; 
 				padding-right: 1rem;
 				color: #0081CF;
@@ -96,6 +101,7 @@
 			padding-left: 1.5rem;
 			font-size: 1.8rem;
 			&:before {
+				font-family: $braille-pattern-font-family;
 				content:"\2819"; 
 				padding-right: 1rem;
 				color: #0089BA;
@@ -106,6 +112,7 @@
 			padding-left: 2rem;
 			font-size: 1.2rem;
 			&:before {
+				font-family: $braille-pattern-font-family;
 				content:"\2811"; 
 				padding-right: 1rem;
 				color: #008E9B;
@@ -116,6 +123,7 @@
 			padding-left: 2.5rem;
 			font-size: 1rem;
 			&:before {
+				font-family: $braille-pattern-font-family;
 				content:"\280B"; 
 				padding-right: 1rem;
 				color: #008F7A;
