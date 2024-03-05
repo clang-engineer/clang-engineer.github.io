@@ -33,7 +33,7 @@ plugins:
   - jekyll-seo-tag
 
 utterances:
-  repo: hhkbdev/hhkbdev.github.io
+  repo: clang-engineer/clang-engineer.github.io
   issue-term: url
   label: Comment
   branch: master
