@@ -2,8 +2,8 @@
 layout  : wiki
 title   : Immutable Object
 summary : 
-date    : 2024-01-15 14:44:23 +0900
-updated : 2024-01-15 14:44:34 +0900
+date    : 2024-03-05 14:58:06 +0900
+updated : 2024-03-05 14:58:50 +0900
 tags    : 
 toc     : true
 public  : true
