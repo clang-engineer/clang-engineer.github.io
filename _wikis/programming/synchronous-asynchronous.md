@@ -1,18 +1,17 @@
 ---
 layout  : wiki
-title   : Synchronous vs Asynchronous 
+title   : Synchronous and Asnychronous Programming
 summary : 
-date    : 2024-02-15 08:27:15 +0900
-updated : 2024-02-15 08:27:31 +0900
+date    : 2024-03-05 15:02:03 +0900
+updated : 2024-03-05 15:02:43 +0900
 tags    : 
 toc     : true
-public  : false
-parent  : 
+public  : true
+parent  : [[programming/index]]
 latex   : false
 ---
 * TOC
 {:toc}
-
 
 # Synchronous
 - Synchronous 프로그래밍은 순차적으로 실행되는 프로그래밍 방식이다. 즉, 한 작업이 끝나야 다음 작업을 수행할 수 있다. 
