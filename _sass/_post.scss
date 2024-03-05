@@ -25,6 +25,7 @@ $braille-pattern-font-family: "Segoe UI Symbol, DejaVu Sans Mono, Unifont, sans-
 	.post-meta {
 		margin: 1.5rem 0 1.5rem 0;
 		display: flex;
+		justify-content: space-between;
 
 		.site-author {
 			margin-right: 1rem;

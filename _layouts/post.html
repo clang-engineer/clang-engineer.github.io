@@ -19,6 +19,8 @@ post_class: post-template
         <header class="post-header">
             <h1 class="post-title">{{ page.title }}</h1>
             <section class="post-meta">
+                <div>
+
                 {% if page.categories.size > 0 %}
                     {{ page.categories | array_to_sentence_string | prepend: 'on ' }}
                 {% endif %}
@@ -28,6 +30,12 @@ post_class: post-template
                 <time class="post-date" >
 					UPDATED: {{ page.updated | date: "%Y.%m.%d" }}
 				</time>
+                </div>
+                <div style="text-align: center;">
+                    <a href="http://hits.dwyl.com/{{ site.url | remove_first: 'https://' | remove_first: 'http://' }}/{{ page.url | remove_first: '/' | replace: '/', '-' }}" target="_blank">
+                      <img src="http://hits.dwyl.com/{{ site.url | remove_first: 'https://' | remove_first: 'http://' }}/{{ page.url | remove_first: '/' | replace: '/', '-' }}.svg" />
+                    </a>
+                  </div> 
             </section>
         </header>
 
