@@ -45,6 +45,12 @@ latex   : false
 3. DBCP의 active connection 수가 적절한지 확인
 - DBCP의 active connection 수가 적절하지 않다면, 사용할 백엔드 서버 수를 고려하여 DBCP의 maximumPoolSize를 늘려야 함 
 
+## 성능 측정 지표 
+- Thoroughput: 시간당 처리량 TPS, RPS등으로 불리며 시스템이 얼마나 많은 요청을 처리할 수 있는지를 나타냄
+- Latency: 응답 시간, ART 등으로 불리며 시스템이 얼마나 빠르게 응답하는지를 나타냄 (ART + Network Latency)
+- TPS (Transaction Per Second) : 초당 처리할 수 있는 트랜잭션 수
+- RPS (Request Per Second) : 초당 처리할 수 있는 요청 수
+- ART (Average Response Time) : 평균 응답 시간 (시스템이 요청을 받은 시점부터 응답을 보낼 때까지의 시간)
 
 # 참고 & 출처
 - [쉬운코드](https://www.youtube.com/@ez.)
