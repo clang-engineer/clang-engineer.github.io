@@ -3,10 +3,10 @@ layout  : wiki
 title   : interview 회고
 summary : 
 date    : 2024-03-06 21:18:23 +0900
-updated : 2024-03-06 21:27:00 +0900
+updated : 2024-03-07 08:34:36 +0900
 tags    : 
 toc     : true
-public  : true
+public  : false
 parent  : 
 latex   : false
 ---
