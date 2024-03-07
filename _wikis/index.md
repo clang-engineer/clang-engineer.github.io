@@ -10,6 +10,7 @@ public  : true
 
 # [[os/index]]
 * [[os/program-process-related-word]]
+* [[os/thread-type]]
 
 # [[programming/index]]
 * [[programming/immutable-object]]
