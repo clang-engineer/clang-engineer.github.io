@@ -11,6 +11,7 @@ public  : true
 # [[os/index]]
 * [[os/program-process-related-word]]
 * [[os/thread-type]]
+* [[os/spinlock-mutex-semaphore]]
 
 # [[programming/index]]
 * [[programming/immutable-object]]
