@@ -2,7 +2,7 @@
 layout: page
 ---
 
-{% assign categories = site.wikis | where: "layout", "category" | where: "public", "true" | sort_natural: "title" %}
+<!-- {% assign categories = site.wikis | where: "layout", "category" | where: "public", "true" | sort_natural: "title" %}
 {% for category in categories %}
 	<h1><a href="{{ category.url}}"> {{ category.title }} </a></h1>
 	{% assign parent_path =  category.url | split: '/' | slice: 0, 3 | join: "/" %}
@@ -15,4 +15,49 @@ layout: page
 		{% endif %}
 	{% endfor %}
 	</div>
-{% endfor %}
+{% endfor %} -->
+
+{{content}}
+
+<script>
+(function() {
+	document.querySelector('#markdown-toc').remove();
+
+	var wikis = {{ site.wikis | where: "public", true | jsonify }};
+
+    // 모든 요소를 찾아서 패턴을 교체합니다.
+    function replacePatternInElements() {
+        var elements = document.querySelectorAll('*');
+        elements.forEach(function(element) {
+            if (element.childNodes.length === 1 && element.firstChild.nodeType === Node.TEXT_NODE) {
+                var text = element.textContent.trim();
+                var regex = /\[\[([\w/-]+)\]\]/g;
+				var matches = text.match(regex)
+
+				if (matches) {
+					var wiki = wikis.find(function(wiki) {
+						const url = wiki.id.replace("/wikis/", "");
+						const target = matches[0].replace("[[", "").replace("]]", "");
+						
+						return url === target;
+					});
+
+					if (wiki) {
+						var a = document.createElement('a');
+						a.href = wiki.id;
+						a.textContent = `${wiki.title}`;
+						element.innerHTML = element.innerHTML.replace(matches[0], a.outerHTML);
+					} else {
+						element.parentElement.removeChild(element);
+					}		
+						
+				}
+            }
+        });
+    }
+
+    replacePatternInElements();
+})();
+
+
+</script>
