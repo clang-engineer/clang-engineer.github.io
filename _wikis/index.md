@@ -10,6 +10,7 @@ public  : true
 
 # [[os/index]]
 * [[os/program-process-related-word]]
+* [[os/cpu-io-bound]]
 * [[os/thread-type]]
 * [[os/spinlock-mutex-semaphore]]
 
