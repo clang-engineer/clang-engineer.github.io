@@ -3,7 +3,7 @@ layout  : wiki
 title   : CPU Bound vs I/O Bound
 summary : 
 date    : 2024-03-19 22:48:58 +0900
-updated : 2024-03-21 08:23:30 +0900
+updated : 2024-03-21 08:27:09 +0900
 tags    : 
 toc     : true
 public  : true
@@ -30,7 +30,8 @@ latex   : false
 
 # Question
 ## Q1. 듀얼 코어 CPU에서 동작할 CPU Bound 프로그램을 구현한다면 몇 개의 스레드를 사용하는 것이 좋을까?
-- A. 2개의 스레드를 사용하는 것이 좋다. CPU Bound 프로그램은 CPU Burst가 많은 프로그램이므로 CPU를 최대한 활용하기 위해 스레드를 최대한 활용하는 것이 좋다.
+- A. 2개의 스레드를 사용하는 것이 좋다. CPU Bound 프로그램은 CPU Burst가 많은 프로그램이므로 CPU를 최대한 활용하기 위해 각 코어에 하나씩 스레드를 할당하는 것이 좋다.
+2개이상의 스레드를 사용해도 각 스레드가 동시에 실행될 수 있는 스레드의 개수는 CPU의 코어 개수와 같다.
 > Goetz (2002, 2006) 에 따르면, CPU Bound 프로그램에서 적절한 스레드 수는 CPU 코어 수 + 1.
 
 ## Q2. I/O Bound 프로그램을 구현한다면 몇 개의 스레드를 사용하는 것이 좋을까?
