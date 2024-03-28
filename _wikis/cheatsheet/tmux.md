@@ -3,7 +3,7 @@ layout  : wiki
 title   : tmux cheat sheet
 summary : 
 date    : 2021-11-30 15:56:19 +0900
-updated : 2023-12-17 11:11:18 +0900
+updated : 2024-03-28 09:35:38 +0900
 tags    : 
 toc     : true
 public  : true
@@ -13,19 +13,19 @@ latex   : false
 * TOC
 {:toc}
 
+# tmux 세션
+- tmux는 세션을 생성하여 여러개의 터미널을 관리할 수 있게 해준다.
 
-
-# tmux sessions
-## new session
-```shell
+1. 세션 생성
+```bash
 tmux
 tmux new
 tmux new-session
 tmux new -s sessionname
 ```
 
-## attach session 
-```shell
+2. 세션 접속
+```bash
 tmux a
 tmux att
 tmux attach
@@ -33,22 +33,22 @@ tmux attach-session
 tmux a -t sessionname
 ```
 
-## remove session
-```shell
-tmux kill-ses
+3. 세션 종료
+```bash
+tmux kill-session
 tmux kill-session -t sessionname
 ```
 
-## key bindings
+4. 단축키
 - <ctrl+b> + $ : rename session
 - <ctrl+b> + d : detach session
 - <ctrl+b> + ) : next session
 - <ctrl+b> + ( : previous session
 
 # tmux windows
-- 브라우저의 탭과 유사함 
+- 브라우저의 탭과 유사한 개념
  
-## key bindings
+## 기본 단축키
 - <ctrl+b> + c : create window
 - <ctrl+b> + n : move to next window
 - <ctrl+b> + p : move to previous window
@@ -65,15 +65,16 @@ tmux kill-session -t sessionname
 ## merge two window
 ```sh
 // ctrl + b + : 로 tmux 명령 입력창 활성화
-// This will move the 2nd window as a pane to the 1st window. The opposite command is break-pane
+// 아래 명령어는 2번 윈도우를 1번 윈도우로 합치는 명령어. 반대로 하는 명령어는 break-pane
 // tmux join-pane [-bdhv] [-l size | -p percentage] [-s src-pane] [-t dst-pane]
 join-pane -s 2 -t 1 
+break-pane -s 1 -t 2
 ```
 
 # tmux panes
-- 화면을 여러개로 나눠쓸 때 사용하는 개념
+- 윈도우를 여러개의 패널로 나눠서 사용할 수 있다.
 
-## key bindings
+## 기본 단축키
 - <ctrl+b> + % : vertical split
 - <ctrl+b> + " : horizontal split
 - <ctrl+b> + <left> : move to pane to the right
@@ -88,7 +89,7 @@ join-pane -s 2 -t 1
 - <ctrl+b> + x : kill pane
 - <ctrl+b> + <ctrl+o> : swap pane
 
-# tmux copy mode
+# tmux 복사
 ## key bindings
 - <ctrl+b> + [ : enter copy mode
 - <ctrl+b> + ] : paster from buffer
@@ -109,4 +110,3 @@ join-pane -s 2 -t 1
  
  
 # ![cheatsheet](https://github.com/clang-engineer/clang-engineer.github.io/assets/39648594/a0c5a05e-7a05-40ea-bd1a-9afc4ad999f9)
-
