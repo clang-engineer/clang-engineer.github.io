@@ -3,7 +3,7 @@ layout  : wiki
 title   : tmux cheat sheet
 summary : 
 date    : 2021-11-30 15:56:19 +0900
-updated : 2024-03-29 10:17:24 +0900
+updated : 2024-03-29 10:20:07 +0900
 tags    : 
 toc     : true
 public  : true
@@ -107,7 +107,7 @@ break-pane -s 1 -t 2
 - k : move cursor up
 - l : move cursor right
 - / : search
-- # : list paste buffers
+- \# : list paste buffers
 - q : quit
  
  
