@@ -29,3 +29,7 @@ public  : true
 
 # [[issue/index]]
 * [[issue/ssh-broken-pipe]]
+
+
+# [[chectsheet/index]]
+* [[cheatsheet/tmux]]
