@@ -3,7 +3,7 @@ layout  : wiki
 title   : tmux cheat sheet
 summary : 
 date    : 2021-11-30 15:56:19 +0900
-updated : 2024-03-28 09:35:38 +0900
+updated : 2024-03-29 10:17:24 +0900
 tags    : 
 toc     : true
 public  : true
@@ -13,6 +13,8 @@ latex   : false
 * TOC
 {:toc}
 
+![cheatsheet](https://github.com/clang-engineer/clang-engineer.github.io/assets/39648594/a0c5a05e-7a05-40ea-bd1a-9afc4ad999f9)
+ 
 # tmux 세션
 - tmux는 세션을 생성하여 여러개의 터미널을 관리할 수 있게 해준다.
 
@@ -109,4 +111,3 @@ break-pane -s 1 -t 2
 - q : quit
  
  
-# ![cheatsheet](https://github.com/clang-engineer/clang-engineer.github.io/assets/39648594/a0c5a05e-7a05-40ea-bd1a-9afc4ad999f9)
