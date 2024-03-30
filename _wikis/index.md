@@ -21,6 +21,7 @@ public  : true
 
 # [[database/index]]
 * [[database/dbcp]]
+* [[database/concurrency-control]]
 
 
 # [[interview/index]]
