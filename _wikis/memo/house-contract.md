@@ -3,7 +3,7 @@ layout  : wiki
 title   : 
 summary : 
 date    : 2024-03-30 17:58:48 +0900
-updated : 2024-03-30 18:45:35 +0900
+updated : 2024-03-31 15:39:48 +0900
 tags    : 
 toc     : true
 public  : false
@@ -24,3 +24,14 @@ latex   : false
 - [] 6 현 거주지(등본상) 건물등기부등본(1개월이내/말소사항포함/제출용)
 - [x] 7 지방세 세목별과세증명서(1개월이내)
 (발급기준:전국자치단체, 직전~당해년도, 재산세(주택)과세사실 없음)
+
+
+## 체증식, 거치 1년, 2억
+
+
+- https://billionaire2027100.com/entry/%EB%94%94%EB%94%A4%EB%8F%8C%EB%8C%80%EC%B6%9C-%EC%84%9C%EB%A5%98-%ED%9B%84%EA%B8%B0
+
+
+
+- https://new-purple.com/%EC%B2%B4%EC%A6%9D%EC%8B%9D-%EC%9B%90%EB%A6%AC%EA%B8%88%EA%B7%A0%EB%93%B1-%EC%9B%90%EA%B8%88%EA%B7%A0%EB%93%B1-%EC%9C%A0%EB%A6%AC%ED%95%9C%EB%B0%A9%EB%B2%95-%EB%B9%84%EA%B5%90-%EC%8B%9C%EB%82%98/
+
