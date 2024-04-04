@@ -123,3 +123,17 @@ break-pane -s 1 -t 2
     \# : list paste buffers
     q : quit
     ```
+
+
+# tmux 스크롤 하기
+- tmux에서 스크롤을 하기 위해서는 복사모드로 들어가야 한다.
+```txt
+<ctrl+b> + [ : enter copy mode
+```
+
+## 마우스로 스크롤하기
+- 위의 방법은 키보드로 스크롤하는 방법이다. 마우스로 스크롤하기 위해서는 마우스모드를 활성화 해야 한다.
+- .tmux.conf 파일에 아래 내용을 추가한다.
+```txt
+set -g mouse on
+```
