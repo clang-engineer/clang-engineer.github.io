@@ -100,6 +100,21 @@ break-pane -s 1 -t 2
     <ctrl+b> + <ctrl+o> : swap pane
     ```
 
+## tmux pane resize
+- 패널의 크기를 조절할 수 있다.
+
+    ```txt
+    // <ctrl+b> + : 로 tmux 명령 입력창 활성화 후 아래 명령어 입력
+    :resize-pane -D (Resizes the current pane down) 
+    :resize-pane -U (Resizes the current pane upward) 
+    :resize-pane -L (Resizes the current pane left) 
+    :resize-pane -R (Resizes the current pane right) 
+    :resize-pane -D 10 (Resizes the current pane down by 10 cells) 
+    :resize-pane -U 10 (Resizes the current pane upward by 10 cells) 
+    :resize-pane -L 10 (Resizes the current pane left by 10 cells) 
+    :resize-pane -R 10 (Resizes the current pane right by 10 cells) 
+    ```
+
 # tmux 복사
 
 - 복사모드로 들어가서 복사하고 붙여넣기를 할 수 있다.
