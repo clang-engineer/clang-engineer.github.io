@@ -1,6 +1,6 @@
 ---
 layout  : wiki
-title   : Concurrency Control
+title   : Schedule Serializability
 summary : 
 date    : 2024-03-30 20:17:39 +0900
 updated : 2024-03-30 20:17:54 +0900
@@ -27,6 +27,7 @@ latex   : false
 - 여러 트랜잭션들이 동시에 실행되기 때문에 성능이 좋지만, 일관성을 유지하기 위한 별도의 병행 제어가 필요하다.
 
 # Confilct Serializable
+- Non-serial Schedule이 일관성 있는 상태로 실행되는 것을 보장하는 속성이다.
 - Confilct Serializable은 Schedule이 일관성 있는 상태로 실행되는 것을 보장하는 속성이다.
 
 ## 1. Conflict of two Operations
@@ -42,6 +43,9 @@ latex   : false
 
 ## 3. Conflict Serializable
 - Schedule이 다른 임의의 Serial Schedule과 Conflict equivalent 할때 Conflict Serializable 하다고 한다. (또는 conflict serializablity 속성을 가진다고 한다.)
+
+# Quiz. conflict serializable한 non-serial schedule을 허용하기 위해서 어떤 방식으로 구현해야 하는가? 
+- 여러 트랜잭션이 실행될 때마다 해당 schedule이 conflict serializable한지 확인하는 방식은 비용이 많이 든다. 때문에, 여러 트랜잭션을 동시에 실행해도 schedule이 conflict serializable하도록 보장하는 프로토콜 방식을 사용한다.
 
 # Concurrency Control
 - 모든 Schedule이 Confilct Serializable 하도록 하는 것을 Concurrency Control이라고 한다.
