@@ -1,9 +1,9 @@
 ---
 layout  : wiki
-title   : Schedule Serializability
+title   : Schedule Serializability 
 summary : 
 date    : 2024-03-30 20:17:39 +0900
-updated : 2024-03-30 20:17:54 +0900
+updated : 2024-04-12 17:14:51 +0900
 tags    : 
 toc     : true
 public  : true
