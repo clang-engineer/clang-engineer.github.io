@@ -44,7 +44,7 @@ latex   : false
 ## 3. Conflict Serializable
 - Schedule이 다른 임의의 Serial Schedule과 Conflict equivalent 할때 Conflict Serializable 하다고 한다. (또는 conflict serializablity 속성을 가진다고 한다.)
 
-# Quiz. conflict serializable한 non-serial schedule을 허용하기 위해서 어떤 방식으로 구현해야 하는가? 
+# Q. conflict serializable한 non-serial schedule을 허용하기 위해서 어떤 방식으로 구현해야 하는가? 
 - 여러 트랜잭션이 실행될 때마다 해당 schedule이 conflict serializable한지 확인하는 방식은 비용이 많이 든다. 때문에, 여러 트랜잭션을 동시에 실행해도 schedule이 conflict serializable하도록 보장하는 프로토콜 방식을 사용한다.
 
 # Concurrency Control
