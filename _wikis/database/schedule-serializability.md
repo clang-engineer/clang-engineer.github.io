@@ -49,4 +49,4 @@ latex   : false
 
 # Concurrency Control
 - 모든 Schedule이 Confilct Serializable 하도록 하는 것을 Concurrency Control이라고 한다.
-- 트랜잭션의 ACID 속성 중 I(Isolation)을 사용해 Concurrency Control을 구현할 수 있고 이를 Isolation Level이라고 한다.
+- 트랜잭션의 ACID 속성 중 I(Isolation)을 사용해 Concurrency Control을 제어할 수 있고 이를 Isolation Level이라고 한다.
