@@ -18,22 +18,15 @@ public  : true
 * [[programming/immutable-object]]
 * [[programming/synchronous-asynchronous]]
 
-
 # [[database/index]]
 * [[database/dbcp]]
 * [[database/serializability]]
 * [[database/recoverability]]
 * [[database/isolation-level]]
 
-
-# [[interview/index]]
-* [[interview/review]]
-
-
 # [[issue/index]]
 * [[issue/ssh-broken-pipe]]
 * [[issue/neovim-cpp-setting]]
-
 
 # [[chectsheet/index]]
 * [[cheatsheet/tmux]]
