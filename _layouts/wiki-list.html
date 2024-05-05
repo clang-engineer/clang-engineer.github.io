@@ -1,63 +1,9 @@
 ---
 layout: page
 ---
-
-<!-- {% assign categories = site.wikis | where: "layout", "category" | where: "public", "true" | sort_natural: "title" %}
-{% for category in categories %}
-	<h1><a href="{{ category.url}}"> {{ category.title }} </a></h1>
-	{% assign parent_path =  category.url | split: '/' | slice: 0, 3 | join: "/" %}
-	{% assign wikis = site.wikis | where: "layout", "wiki"  | where: "public", true | sort_natural: "title" %}
-	<div>
-	{% for wiki in wikis %}
-		{% assign wiki_path =  wiki.url | split: '/' | slice: 0, 3 | join: "/" %}
-		{% if wiki_path == parent_path %}
-			<h3><a href="{{ wiki.url }}">{{ wiki.title }}</a></h3>
-		{% endif %}
-	{% endfor %}
-	</div>
-{% endfor %} -->
-
-{{content}}
-
-<script>
-(function() {
-	document.querySelector('#markdown-toc').remove();
-
-	var wikis = {{ site.wikis | where: "public", true | jsonify }};
-
-    // 모든 요소를 찾아서 패턴을 교체합니다.
-    function replacePatternInElements() {
-        var elements = document.querySelectorAll('*');
-        elements.forEach(function(element) {
-            if (element.childNodes.length === 1 && element.firstChild.nodeType === Node.TEXT_NODE) {
-                var text = element.textContent.trim();
-                var regex = /\[\[([\w/-]+)\]\]/g;
-				var matches = text.match(regex)
-
-				if (matches) {
-					var wiki = wikis.find(function(wiki) {
-						const url = wiki.id.replace("/wikis/", "");
-						const target = matches[0].replace("[[", "").replace("]]", "");
-						
-						return url === target;
-					});
-
-					if (wiki) {
-						var a = document.createElement('a');
-						a.href = wiki.id;
-						a.textContent = `${wiki.title}`;
-						element.innerHTML = element.innerHTML.replace(matches[0], a.outerHTML);
-					} else {
-						element.parentElement.removeChild(element);
-					}		
-						
-				}
-            }
-        });
-    }
-
-    replacePatternInElements();
-})();
-
-
-</script>
+<div class="post-main" style="display:block">
+    <article class="post-content wiki-list">
+        {{ content }}
+    </article>
+</div>
+{% include createLink.html %}
