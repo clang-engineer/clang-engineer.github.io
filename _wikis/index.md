@@ -21,8 +21,8 @@ public  : true
 
 # [[database/index]]
 * [[database/dbcp]]
-* [[database/schedule-serializability]]
-* [[database/schedule-recoverablity]]
+* [[database/serializability]]
+* [[database/recoverability]]
 * [[database/isolation-level]]
 
 
