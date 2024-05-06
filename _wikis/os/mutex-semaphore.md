@@ -3,7 +3,7 @@ layout  : wiki
 title   : Mutex vs Semaphore
 summary : 
 date    : 2024-03-12 13:15:17 +0900
-updated : 2024-05-06 11:52:00 +0900
+updated : 2024-05-06 19:24:55 +0900
 tags    : 
 toc     : true
 public  : true
@@ -14,7 +14,7 @@ latex   : false
 {:toc}
 
 # 관련 용어
-- race condition: 여러 프로세스/스레드가 동시에 같은 데이터를 조작할 때 타이밍이나 접근 순서에 따라 결과가 달라지 수 있는 상황
+- race condition: 여러 프로세스/스레드가 동시에 같은 데이터를 조작할 때 타이밍이나 접근 순서에 따라 결과가 달라질 수 있는 상황
 - synchronization(동기화): 여러 프로세스/스레드를 동시에 실행해도 공유 데이터의 일관성을 유지하는 것
 - critical section: 공유 데이터의 일관성을 보장하기 위해 하나의 프로세스/스레드만 진입해서 실행 가능한 영역
 
