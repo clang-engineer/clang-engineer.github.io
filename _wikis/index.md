@@ -12,7 +12,7 @@ public  : true
 * [[os/program-process-related-word]]
 * [[os/cpu-io-bound]]
 * [[os/thread-type]]
-* [[os/spinlock-mutex-semaphore]]
+* [[os/mutex-semaphore]]
 
 # [[programming/index]]
 * [[programming/immutable-object]]
