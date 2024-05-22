@@ -23,6 +23,7 @@ public  : true
 * [[database/serializability]]
 * [[database/recoverability]]
 * [[database/isolation-level]]
+* [[database/btree]]
 
 # [[issue/index]]
 * [[issue/ssh-broken-pipe]]
