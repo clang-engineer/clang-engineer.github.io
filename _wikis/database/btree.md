@@ -69,6 +69,9 @@ latex   : false
 2. DB에서 데이터를 조회할 때 secondary storage에 최대한 적게 접근하는 것이 성능 면에서 좋다.
 3. file system이 block 단위로 데이터를 읽고 쓰기 때문에 연관된 데이터를 모아서 저장하면 더 효율적으로 읽고 쓸 수 있다.
 
+> self-balancing BST의 노드들을 연속적으로 저장하면 B tree와 비슷한 성능을 낼 수 있다. 그러나 self-balancing BST는 노드들을 연속적으로 저장하지 않는다.
+> 
+
 # 참고 & 출처
 - [쉬운코드](https://www.youtube.com/@ez./playlists)
 - [B tree - Wikipedia](https://en.wikipedia.org/wiki/B-tree)
