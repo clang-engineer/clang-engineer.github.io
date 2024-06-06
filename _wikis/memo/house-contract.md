@@ -3,7 +3,7 @@ layout  : wiki
 title   : 
 summary : 
 date    : 2024-03-30 17:58:48 +0900
-updated : 2024-03-31 15:39:48 +0900
+updated : 2024-06-06 12:08:47 +0900
 tags    : 
 toc     : true
 public  : false
@@ -28,10 +28,7 @@ latex   : false
 
 ## 체증식, 거치 1년, 2억
 
-
 - https://billionaire2027100.com/entry/%EB%94%94%EB%94%A4%EB%8F%8C%EB%8C%80%EC%B6%9C-%EC%84%9C%EB%A5%98-%ED%9B%84%EA%B8%B0
-
-
 
 - https://new-purple.com/%EC%B2%B4%EC%A6%9D%EC%8B%9D-%EC%9B%90%EB%A6%AC%EA%B8%88%EA%B7%A0%EB%93%B1-%EC%9B%90%EA%B8%88%EA%B7%A0%EB%93%B1-%EC%9C%A0%EB%A6%AC%ED%95%9C%EB%B0%A9%EB%B2%95-%EB%B9%84%EA%B5%90-%EC%8B%9C%EB%82%98/
 
