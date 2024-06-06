@@ -31,3 +31,7 @@ public  : true
 
 # [[chectsheet/index]]
 * [[cheatsheet/tmux]]
+
+# [[memo/index]]
+- [[memo/jhipster]] 
+
