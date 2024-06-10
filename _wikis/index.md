@@ -25,6 +25,9 @@ public  : true
 * [[database/isolation-level]]
 * [[database/btree]]
 
+# [[linux/index]]
+* [[linux/service]]
+
 # [[issue/index]]
 * [[issue/ssh-broken-pipe]]
 * [[issue/neovim-cpp-setting]]
