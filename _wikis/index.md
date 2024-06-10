@@ -17,6 +17,7 @@ public  : true
 # [[programming/index]]
 * [[programming/immutable-object]]
 * [[programming/synchronous-asynchronous]]
+* [[programming/thread-pool]]
 
 # [[database/index]]
 * [[database/dbcp]]
