@@ -28,8 +28,19 @@
 - 운영환경에서는 runtimeChunk제거를 통해 서버로의 http 요청 수를 줄이고 압축, 난독화를 통해 파일 크기를 줄여 성능을 향상했습니다.
 - 초기 개발 단계에 도메인 모델을 우선으로 구축하고 이에 대응하는 임시 json api 서버를 구축하여 프론트엔드 개발이 백엔드 개발과 병행될 수 있도록 하였습니다.
 
+>> autoprefixer: webpack -> postcss-loader 설정으로 추가
+>> runtimeChunk: webpack -> optimization 설정으로 추가하여 http 요청수를 줄임. runtimeChunk를 제거하면(false) 런타임 정보가 메인 번들에 포함되게 됨)
+
+
+
 ## 코드 품질 관리 및 테스트 정책  
 - editorconfig를 사용하여 에디터간 일관된 코드 스타일을 유지하도록 하였습니다. .editorconfig를 프로젝트 루트에 추가하고 줄 바꿈 문자, 인코딩, 줄 끝 공백, 들여쓰기 타입, 들여쓰기 크기 등의 문서 입력 기본 설정을 제어하였습니다.
+
+>> 줄바꿈 문자: LF (vs CRLF) - crlf는 윈도우에서만 사용되는 문자로, git에서는 LF로만 관리하도록 설정. 바이트 코드 차이로 인한 문제를 방지.
+>> trim_trailing_whitespace: true - 끝 공백 제거
+>> insert_final_newline: true - 마지막 줄에 빈 줄 추가
+>> indent_style: space - 탭 대신 스페이스 사용
+>> indent_size: 2 - 들여쓰기 크기 2로 설정
 
 1. backend
 - junit을 사용하여 테스트 코드를 작성하고 jacoco를 사용하여 코드 커버리지를 검사하였습니다. sonarqube에 jacoco 리포트를 연동하여 코드 커버리지, 코드 품질을 개발자들이 쉽게 확인할 수 있도록 하였습니다.
