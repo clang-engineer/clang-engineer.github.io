@@ -39,3 +39,5 @@ public  : true
 # [[memo/index]]
 - [[memo/jhipster]] 
 
+# [[mathematics/index]]
+- [[mathematics/euclidean-algorithm]]
