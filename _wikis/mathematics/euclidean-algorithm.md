@@ -3,7 +3,7 @@ layout  : wiki
 title   : Euclidean algorithm
 summary : 
 date    : 2024-08-22 09:31:50 +0900
-updated : 2024-08-22 09:33:39 +0900
+updated : 2024-08-22 09:46:25 +0900
 tags    : 
 toc     : true
 public  : true
@@ -18,7 +18,7 @@ latex   : false
 - 두 정수 a, b에 대해 a를 b로 나눈 나머지를 r이라고 하면, a와 b의 최대공약수는 b와 r의 최대공약수와 같다.
 - 이를 반복하여 나머지가 0이 될 때까지 반복하면, 나누는 수가 최대공약수가 된다.
 
-# 구현
+# 예시
 ```txt
 - MOD연산이란? 두 값을 나눈 나머지를 구하는 연산!
 
