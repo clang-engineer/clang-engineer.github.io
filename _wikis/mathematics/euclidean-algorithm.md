@@ -45,3 +45,12 @@ int gcd(int a, int b) {
     return gcd(b, a % b);
 }
 ```
+
+# 최대공약수(GCD: Greatest Common Divisor)와 최소공배수(LCM: Least Common Multiple)
+- 두 수 a, b의 최대공약수를 GCD(a, b), 최소공배수를 LCM(a, b)라고 하면, 다음과 같은 관계가 성립한다.
+- GCD(a, b) * LCM(a, b) = a * b
+```cpp
+int lcm(int a, int b) {
+    return a * b / gcd(a, b);
+}
+```
