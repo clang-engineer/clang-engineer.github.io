@@ -45,20 +45,3 @@ int gcd(int a, int b) {
     return gcd(b, a % b);
 }
 ```
-
-# 최대공약수(GCD: Greatest Common Divisor)와 최소공배수(LCM: Least Common Multiple)
-- 두 수 a, b의 최대공약수는 a와 b의 공통된 약수 중 가장 큰 수이다. (ex> 12와 18의 최대공약수는 6)
-- 두 수 a, b의 최소공배수는 a와 b의 공통된 배수 중 가장 작은 수이다. (ex> 12와 18의 최소공배수는 36)
-- 두 수 a, b의 최대공약수를 GCD(a, b), 최소공배수를 LCM(a, b)라고 하면, 다음과 같은 관계가 성립한다.
-- GCD(a, b) * LCM(a, b) = a * b
-```cpp
-int lcm(int a, int b) {
-    return a * b / gcd(a, b);
-}
-```
-
-## 증명
-- a = GCD(a, b) * x, b = GCD(a, b) * y라고 하자.
-- a * b = GCD(a, b) * x * GCD(a, b) * y = GCD(a, b)^2 * x * y
-- GCD(a, b) * LCM(a, b) = GCD(a, b) * a * b / GCD(a, b) = GCD(a, b)^2 * x * y
-- 따라서, GCD(a, b) * LCM(a, b) = a * b이다.

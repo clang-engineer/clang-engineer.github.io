@@ -41,3 +41,4 @@ public  : true
 
 # [[mathematics/index]]
 - [[mathematics/euclidean-algorithm]]
+- [[mathematics/gcd-lcm]]
