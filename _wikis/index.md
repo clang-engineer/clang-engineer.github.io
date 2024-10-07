@@ -42,3 +42,7 @@ public  : true
 # [[mathematics/index]]
 - [[mathematics/euclidean-algorithm]]
 - [[mathematics/gcd-lcm]]
+
+
+# [[cpp/index]]
+- [[cpp/read-string-by-separator]]
