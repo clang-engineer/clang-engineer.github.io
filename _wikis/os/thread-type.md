@@ -3,7 +3,7 @@ layout  : wiki
 title   : Thread 종류 정리
 summary : 
 date    : 2024-03-07 21:58:02 +0900
-updated : 2024-03-07 21:58:22 +0900
+updated : 2024-10-12 21:12:23 +0900
 tags    : 
 toc     : true
 public  : true
@@ -28,7 +28,7 @@ latex   : false
 - 인텔의 하이퍼스레딩 기술이 이에 해당한다. (물리적 코어가 1개인데 논리적 코어가 2개인 경우)
 - 만약에 싱글 코어 CPU에서 하드웨어 스레드가 두개라면 OS는 이 CPU를 듀얼 코어로 인식하고 듀얼 코어에 맞춰서 OS 레벨의 스레드들을 스케쥴링 한다.
 
-## Q. 인텔 듀얼 코어에 CPU에 hyper-threading이 적용됐다면 하드웨어 스레드는 몇 개인가?
+## Q. 인텔 듀얼 코어 CPU에 hyper-threading이 적용됐다면 하드웨어 스레드는 몇 개인가?
 - A. 4개
 
 
