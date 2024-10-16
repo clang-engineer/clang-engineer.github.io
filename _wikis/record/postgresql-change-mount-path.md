@@ -3,7 +3,7 @@ layout  : wiki
 title   : Postgresql 마운트 경로 변경
 summary : 
 date    : 2024-10-16 14:12:42 +0900
-updated : 2024-10-16 14:12:55 +0900
+updated : 2024-10-16 14:50:22 +0900
 tags    : 
 toc     : true
 public  : true
@@ -47,7 +47,8 @@ sudo systemctl start postgresql
 sudo systemctl status postgresql
 ```
 
-# 6. 데이터베이스 경로 확인
+# 6. 데이터 디렉토리 경로 확인
 ```bash
+// su - postgres
 psql -U postgres -c "SHOW data_directory;"
 ```
