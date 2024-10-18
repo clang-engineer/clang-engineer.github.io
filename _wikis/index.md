@@ -45,7 +45,7 @@ public  : true
 
 
 # [[cpp/index]]
-- [[cpp/read-string-by-separator]]
+- [[cpp/string-split]]
 
 # [[record/index]]
 - [[record/postgresql-change-mount-path]]
