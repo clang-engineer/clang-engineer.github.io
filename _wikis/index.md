@@ -52,3 +52,7 @@ public  : true
 
 # [[record/index]]
 - [[record/postgresql-change-mount-path]]
+
+
+# [[vim/index]]
+- [[vim/learn-vimscript-the-hard-way]]
