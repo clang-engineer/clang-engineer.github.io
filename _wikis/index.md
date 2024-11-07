@@ -49,6 +49,7 @@ public  : true
 - [[cpp/remove-vs-erase]]
 - [[cpp/find-substr-in-string]]
 - [[cpp/google-clang-guide]]
+- [[cpp/char-string-int]]
 
 # [[record/index]]
 - [[record/postgresql-change-mount-path]]
