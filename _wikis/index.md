@@ -42,6 +42,7 @@ public  : true
 # [[mathematics/index]]
 - [[mathematics/euclidean-algorithm]]
 - [[mathematics/gcd-lcm]]
+- [[mathematics/is-power-of-two]]
 
 
 # [[cpp/index]]
