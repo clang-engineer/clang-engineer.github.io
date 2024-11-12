@@ -3,7 +3,7 @@ layout  : wiki
 title   : tableau trusted ticket
 summary : 
 date    : 2021-10-05 10:56:05 +0900
-updated : 2022-01-28 09:20:25 +0900
+updated : 2024-11-12 09:12:51 +0900
 tags    : tableau trusted ticket
 toc     : true
 public  : true
@@ -80,7 +80,6 @@ curl -k -d '{"username": "admin"}' \
 -x POST https://xx.xx.xx.xx/trusted
 ```
 
-
 ## 로그 level 변경
 
 정상적인 티켓 발급이 이루어지지 않을 경우 원인 파악을 위한 로그 확인이 필요한다.
@@ -93,7 +92,9 @@ tsm pending-changes apply
 변경 후 정상적용을 위해 **서버 재부팅** 이 필요하다.
 
 ### 로그 경로
-```
+- [태블로 로그 파일 경로 도움말](https://help.tableau.com/current/server/ko-kr/logs_loc.htm)
+
+```txt
 //window
 ProgramData\Tableau\Tableau Server\data\tabsvc\logs\vizqlserver\vizql-*.log
 
