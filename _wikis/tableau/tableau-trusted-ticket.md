@@ -3,7 +3,7 @@ layout  : wiki
 title   : tableau trusted ticket
 summary : 
 date    : 2021-10-05 10:56:05 +0900
-updated : 2024-11-12 09:12:51 +0900
+updated : 2024-11-12 16:14:11 +0900
 tags    : tableau trusted ticket
 toc     : true
 public  : true
@@ -92,7 +92,6 @@ tsm pending-changes apply
 변경 후 정상적용을 위해 **서버 재부팅** 이 필요하다.
 
 ### 로그 경로
-- [태블로 로그 파일 경로 도움말](https://help.tableau.com/current/server/ko-kr/logs_loc.htm)
 
 ```txt
 //window
@@ -102,4 +101,6 @@ ProgramData\Tableau\Tableau Server\data\tabsvc\logs\vizqlserver\vizql-*.log
 /var/opt/tableau/tablea_server/data/tabsvc/logs/vizqlserver/vizqlserver_node*-*.log.*
 ```
 
->  [https://help.tableau.com/current/server/ko-kr/trusted_auth.htm](https://help.tableau.com/current/server/ko-kr/trusted_auth.htm)
+> 참조
+- [https://help.tableau.com/current/server/ko-kr/logs_loc.htm](https://help.tableau.com/current/server/ko-kr/logs_loc.htm)
+- [https://help.tableau.com/current/server/ko-kr/trusted_auth.htm](https://help.tableau.com/current/server/ko-kr/trusted_auth.htm)
