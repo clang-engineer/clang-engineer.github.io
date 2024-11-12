@@ -58,3 +58,8 @@ public  : true
 
 # [[vim/index]]
 - [[vim/learn-vimscript-the-hard-way]]
+
+
+# [[tableau/index]]
+- [[tableau/tableau-chrome80-issue.md]]
+- [[tableau/tableau-trusted-ticket.md]]
