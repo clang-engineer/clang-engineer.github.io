@@ -7,7 +7,7 @@ updated : 2024-11-20 08:47:49 +0900
 tags    : 
 toc     : true
 public  : true
-parent  : 
+parent  : [[javascript/index]]
 latex   : false
 ---
 * TOC
@@ -20,11 +20,27 @@ latex   : false
 - ajax 는 기본적으로 javascript 객체를 json 형식으로 직렬화하여 전송하는데, set과 map은 json으로 직렬화할 수 있는 일반적이 객체가 아니기 때문에 전송이 안되었다.
 
 # 해결
-- set, map type의 데이터를 직렬화가 가능한 array로 변환하여 전송하면 된다.
-- set, map type의 데이터를 array로 변환하는 방법은 [...set]과 [...map]을 사용하면 된다.
+1. set, map type의 데이터를 직렬화가 가능한 object로 변환하여 전송하면 된다.
+2. set, map type의 데이터를 직렬화가 가능한 array로 변환하여 전송하면 된다.
 
+
+# 방식 1-1. Object.fromEntries 사용하여 일반 객체로 변환
 ```javascript
 const set = new Set([1, 2, 3]);
 const map = new Map([['a', 1], ['b', 2], ['c', 3]]);
-axios.post('url', { set: [...set], map: [...map] });
+axios.post('url', { set: Object.fromEntries(set), map: Object.fromEntries(map) }); // { set: { 1: 1, 2: 2, 3: 3 }, map: { a: 1, b: 2, c: 3 } }
+```
+
+# 방식 1-2. ...spread 사용하여 일반 객체로 변환
+```javascript
+const set = new Set([1, 2, 3]);
+const map = new Map([['a', 1], ['b', 2], ['c', 3]]);
+axios.post('url', { set: { ...set }, map: { ...map } }); // { set: { 1: 1, 2: 2, 3: 3 }, map: { a: 1, b: 2, c: 3 } }
+```
+
+# 방식 2. Array.from 사용하여 배열로 변환
+```javascript
+const set = new Set([1, 2, 3]);
+const map = new Map([['a', 1], ['b', 2], ['c', 3]]);
+axios.post('url', { set: Array.from(set), map: Array.from(map) });
 ```
