@@ -68,3 +68,4 @@ public  : true
 # [[javascript/index]]
 - [[javascript/axios-collection-send-err]]
 - [[javascript/npm-install-err]]
+- [[javascript/require-vs-import]]
