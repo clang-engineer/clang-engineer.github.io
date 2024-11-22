@@ -63,3 +63,9 @@ public  : true
 # [[tableau/index]]
 - [[tableau/tableau-chrome80-issue.md]]
 - [[tableau/tableau-trusted-ticket.md]]
+
+
+# [[javascript/index]]
+- [[javascript/axios-collection-send-err]]
+- [[javascript/npm-install-err]]
+- [[javascript/require-vs-import]]
