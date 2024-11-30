@@ -35,6 +35,10 @@ latex   : false
 - ItemProcessor: Step에서 사용되는 Item을 가공하는 인터페이스.
 - ItemWriter: Step에서 사용되는 Item을 저장하는 인터페이스.
 
+## Job 관련 인터페이스
+- JobParameters: Job을 실행할 때 전달되는 파라미터를 저장하는 객체.
+- JobRegistry: Job을 등록하고 관리하는 인터페이스. (Job을 등록하고, Job을 실행할 때 사용)
+- JobExplorer: JobExecution과 JobInstance를 조회하는 인터페이스.
 
 
 # Spring Batch를 사용한 배치 작업의 흐름
@@ -51,6 +55,7 @@ latex   : false
 - JobInstance의 정보를 저장하는 테이블.
 - 배치가 수행되면 Job이 생성이 되고, 해당 잡 인스턴스에 대해서 관련된 모든 정보를 가진 최상위 테이블.
 - JobInstance는 JobParameters를 가지고 있으며, JobParameters가 동일하면 같은 JobInstance로 간주한다.
+- JobInstance가 한번 실행되고 완료되면, 기존의 JobInstance를 다시 실행할 수 없다. (중복 실행 방지)
 
 # BATCH_JOB_EXECUTION
 - JobExecution의 정보를 저장하는 테이블.
