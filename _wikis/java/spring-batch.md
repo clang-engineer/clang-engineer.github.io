@@ -54,6 +54,7 @@ latex   : false
 # BATCH_JOB_EXECUTION
 - JobExecution의 정보를 저장하는 테이블.
 - Job이 매번 실행될때, JobExecution이라는 새로운 객체가 생성되고, 해당 객체에 대한 정보를 저장하는 테이블.
+(* 동일한 JobInstance에 대해서 JobParameters가 다르면, JobExecution이 생성된다.)
 
 # BATCH_JOB_EXECUTION_PARAMS
 - JobParameters의 정보를 저장하는 테이블.
