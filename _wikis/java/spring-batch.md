@@ -50,11 +50,11 @@ latex   : false
 ##  BATCH_JOB_INSTANCE
 - JobInstance의 정보를 저장하는 테이블.
 - 배치가 수행되면 Job이 생성이 되고, 해당 잡 인스턴스에 대해서 관련된 모든 정보를 가진 최상위 테이블.
+- JobInstance는 JobParameters를 가지고 있으며, JobParameters가 동일하면 같은 JobInstance로 간주한다.
 
 # BATCH_JOB_EXECUTION
 - JobExecution의 정보를 저장하는 테이블.
 - Job이 매번 실행될때, JobExecution이라는 새로운 객체가 생성되고, 해당 객체에 대한 정보를 저장하는 테이블.
-(* 동일한 JobInstance에 대해서 JobParameters가 다르면, JobExecution이 생성된다.)
 
 # BATCH_JOB_EXECUTION_PARAMS
 - JobParameters의 정보를 저장하는 테이블.
