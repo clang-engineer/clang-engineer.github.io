@@ -1,4 +1,4 @@
----
+[---](---)
 layout  : wiki-list
 title   : Wiki List - 202403~
 toc     : true
@@ -69,6 +69,7 @@ public  : true
 - [[javascript/axios-collection-send-err]]
 - [[javascript/npm-install-err]]
 - [[javascript/require-vs-import]]
+- [[javascript/function-declaration]]
 
 
 # [[java/index]]
