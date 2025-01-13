@@ -1,4 +1,4 @@
-[---](---)
+---
 layout  : wiki-list
 title   : Wiki List - 202403~
 toc     : true
@@ -74,3 +74,7 @@ public  : true
 
 # [[java/index]]
 - [[java/spring-batch]]
+
+
+# [[etc/index]]
+- [[etc/uri-url-urn]]
