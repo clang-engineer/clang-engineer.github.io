@@ -74,6 +74,8 @@ public  : true
 
 # [[java/index]]
 - [[java/spring-batch]]
+- [[java/spring-property-setting]]
+- [[java/figure-out-compiled-java-version]]
 
 
 # [[etc/index]]
