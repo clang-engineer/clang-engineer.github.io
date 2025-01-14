@@ -79,3 +79,4 @@ public  : true
 # [[etc/index]]
 - [[etc/uri-url-urn]]
 - [[etc/offline-runtime-enviroment]]
+- [[etc/postgresql-backup]]
