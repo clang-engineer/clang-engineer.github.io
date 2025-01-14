@@ -82,3 +82,4 @@ public  : true
 - [[etc/uri-url-urn]]
 - [[etc/offline-runtime-enviroment]]
 - [[etc/postgresql-backup]]
+- [[etc/nginx-cheatsheet]]
