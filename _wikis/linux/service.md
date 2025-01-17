@@ -34,7 +34,18 @@ latex   : false
 - 정리하면, /usr/lib/systemd/system/은 시스템 소프트웨어가 설치될 때 기본 서비스 파일을 저장하는 디렉터리이고, /etc/systemd/system/은 사용자나 시스템 관리자가 서비스 파일을 수정하거나 커스텀 서비스를 추가할 때 사용하는 디렉터리입니다.
 
 
+## 서비스 파일 예시
+```bash
+[Unit]
+Description=Service Description  # 서비스 설명
+After=network.target               # 네트워크가 활성화된 후에 서비스를 시작하도록 설정 (httpd 서비스 등, 네트워크가 필요한 서비스에 사용)
 
+[Service]
+ExecStart=/home/{username}/{path_to_script}  # 실행할 스크립트 경로
 
+User={username}  # 서비스를 실행할 사용자
+Group={groupname}  # 서비스를 실행할 그룹
 
-
+[Install]
+WantedBy=multi-user.target # 서비스를 multi-user.target에 등록 (시스템 부팅 시 실행)
+```
