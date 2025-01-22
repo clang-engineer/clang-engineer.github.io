@@ -3,7 +3,7 @@ layout  : wiki
 title   : 
 summary : 
 date    : 2025-01-21 11:43:59 +0900
-updated : 2025-01-22 09:35:33 +0900
+updated : 2025-01-22 11:15:22 +0900
 tags    : 
 toc     : true
 public  : false
@@ -46,3 +46,18 @@ latex   : false
 - case design == 코호트 탐색
 - output items == 출력 항목
 
+
+---
+## api 요청
+실행 -> 구독 -> 조회
+1. {apiUrl}/api/inquiry/level/run
+2. {apiUrl}/sse/subscribe/OUTPUT_ITEMS_RUN
+3. {apiUrl}/api/inquiry/level/data
+
+> 조건 변경 없으면 3. 으로 바로 조회
+
+## backend
+1. sse query 셋팅
+
+# 코드
+- GropuID >> 사용자 id
