@@ -29,6 +29,7 @@ public  : true
 # [[linux/index]]
 * [[linux/service]]
 * [[linux/package-structure]]
+* [[linux/log]]
 
 # [[issue/index]]
 * [[issue/ssh-broken-pipe]]
