@@ -83,3 +83,4 @@ public  : true
 - [[etc/offline-runtime-enviroment]]
 - [[etc/postgresql-backup]]
 - [[etc/nginx-cheatsheet]]
+- [[etc/create-ubuntu-development-environment-on-windows]]
