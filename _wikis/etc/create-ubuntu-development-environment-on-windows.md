@@ -3,7 +3,7 @@ layout  : wiki
 title   : Windows에서 Ubuntu 개발 환경 구축하기
 summary : 
 date    : 2025-01-25 13:49:25 +0900
-updated : 2025-01-25 13:49:33 +0900
+updated : 2025-01-26 17:47:55 +0900
 tags    : 
 toc     : true
 public  : true
@@ -35,7 +35,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-L
 - 설치 후 실행하면 사용자 이름과 비밀번호를 설정합니다.
 
 > [Microsoft Store - Ubuntu](https://apps.microsoft.com/search?query=ubunto+20.04&hl=ko-kr&gl=KR)
-> [Microsoft Store - Windows Terminal Preview](https://apps.microsoft.com/detail/9n8g5rfz9xk3?hl=en-US&gl=KR) 를 설치하면 더 편리하게 우분투를 사용할 수 있습니다.
+> [Microsoft Store - Windows Terminal Preview](https://apps.microsoft.com/detail/9n8g5rfz9xk3?hl=en-US&gl=KR) 를 설치하면 더 편리하게 우분투를 사용할 수 있습니다. (wt 실행)
 
 # 개발 환경 구축
 - Ubuntu에서 필요한 개발 환경을 구축합니다.
