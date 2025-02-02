@@ -86,3 +86,4 @@ public  : true
 - [[etc/postgresql-backup]]
 - [[etc/nginx-cheatsheet]]
 - [[etc/create-ubuntu-development-environment-on-windows]]
+- [[etc/leetcode-cli]]
