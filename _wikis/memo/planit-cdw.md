@@ -3,7 +3,7 @@ layout  : wiki
 title   : 
 summary : 
 date    : 2025-01-21 11:43:59 +0900
-updated : 2025-02-02 20:05:35 +0900
+updated : 2025-02-02 20:06:27 +0900
 tags    : 
 toc     : true
 public  : false
@@ -63,6 +63,10 @@ latex   : false
 - GropuID >> 사용자 id
 
 
+---
+# 숙지 필요 코드
+- core >> JobExecutorTest
+- domain >> cds >> sql 
 
 
 ---
