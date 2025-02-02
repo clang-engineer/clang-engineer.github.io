@@ -3,7 +3,7 @@ layout  : wiki
 title   : 
 summary : 
 date    : 2025-01-21 11:43:59 +0900
-updated : 2025-01-22 11:15:22 +0900
+updated : 2025-02-02 20:05:35 +0900
 tags    : 
 toc     : true
 public  : false
@@ -61,3 +61,10 @@ latex   : false
 
 # 코드
 - GropuID >> 사용자 id
+
+
+
+
+---
+# 확인 필요
+- ddl 생성할 때 룩업인 경우 뭘까? (DdlSqlServiceVerticaTest)
