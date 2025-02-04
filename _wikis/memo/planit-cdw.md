@@ -3,7 +3,7 @@ layout  : wiki
 title   : 
 summary : 
 date    : 2025-01-21 11:43:59 +0900
-updated : 2025-02-02 20:19:28 +0900
+updated : 2025-02-04 11:50:42 +0900
 tags    : 
 toc     : true
 public  : false
@@ -72,3 +72,4 @@ latex   : false
 ---
 # 확인 필요
 - ddl 생성할 때 룩업인 경우 뭘까? (DdlSqlServiceVerticaTest)
+- sql mode vs query mode
