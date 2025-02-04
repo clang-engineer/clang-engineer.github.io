@@ -64,7 +64,7 @@ module.exports = {
   "description": "default webpack configuration for spa",
   "scripts": {
     "start": "npm run webapp:dev --",  // -- 는 뒤에 따로오는 옵션을 앞에 있는 명령어에 전달하기 위함
-    "webapp:dev": "npm run webpack-dev-server -- --config webpack/webpack.dev.js",
+    "webapp:dev": "npm run webpack-dev-server -- --config webpack/webpack.dev.js",  // --config 옵션을 사용해서 webpack 설정파일을 전달
     "webpack-dev-server": "webpack serve"
   },
   "devDependencies": {
@@ -79,6 +79,122 @@ module.exports = {
   },
   "cacheDirectories": [
     "node_modules"
+  ]
+}
+```
+
+---
+
+# step2. javascript대신 typescript 사용하기
+- typescript를 사용하면 코드의 가독성을 높일 수 있고, 타입스크립트의 장점을 활용할 수 있습니다.
+- ts-loader를 사용하여 typescript를 웹팩에서 사용할 수 있습니다.
+- ts-loader는 tsconfig.json 파일을 참조하여 빌드를 수행하기 때문에 tsconfig.json 파일을 반드시 생성해야 합니다.
+
+1. tsloader, typescript 의존성 추가
+```bash
+npm install --save-dev typescript ts-loader
+```
+
+
+2. webpack 설정파일 수정
+```javascript
+// webpack/webpack.dev.js
+module.exports = {
+  entry: path.resolve(__dirname, '../src/main/webapp/app/index.ts'),  // js 대신 ts 파일을 사용
+  // ...
+  resolve: {
+    extensions: ['.js', '.ts'], // .ts 파일을 읽을 수 있도록 설정
+  },
+  // ts-loader 설정
+  module: {
+    rules: [
+      {
+        test: /\.ts$/, // TypeScript 파일을 처리
+        use: 'ts-loader', // ts-loader 사용
+        exclude: /node_modules/, // node_modules는 제외
+      },
+    ],
+  },
+  // ...
+};
+```
+
+3. tsconfig.json 파일 생성
+- ts-loader가 작동하기 위해서 tsconfig.json파일이 반드시 필요하므로 우선적으로 빈 tsconfig.json 파일을 생성합니다.
+
+---
+
+# step3. react 사용하기
+- webpack + typescript 설정에 react관련 설정을 추가합니다.
+
+1. react, react-dom 의존성 추가
+- react를 사용하기 위해서는 react, react-dom 패키지를 설치해야 합니다.
+```bash
+npm install --save react react-dom @types/react @types/react-dom
+```
+
+2. webpack 설정파일 수정
+```javascript
+// webpack/webpack.dev.js
+module.exports = {
+  entry: path.resolve(__dirname, '../src/main/webapp/app/index.tsx'),  // ts 대신 tsx 파일을 사용
+  // ...
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx'], // .tsx 파일을 읽을 수 있도록 설정
+  },
+  // ts-loader 설정
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/, // .tsx 파일을 읽을 때 ts-loader를 사용하도록 설정
+        use: 'ts-loader', 
+        exclude: /node_modules/, // node_modules는 제외
+      },
+    ],
+  },
+  // ...
+};
+```
+
+3. index.tsx 파일 생성
+- src/main/webapp/app 디렉토리에 index.tsx 파일을 생성합니다.
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const App = () => <h1>Hello, React Without Babel!</h1>;
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+4. index.html 파일 수정
+- src/main/webapp/index.html 파일을 수정합니다.
+```html
+<!-- src/main/webapp/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webpack Dev Server Example</title>
+</head>
+<body>
+<div id="root"></div>
+</body>
+</html>
+```
+
+
+5. tsconfig.json 파일 수정
+- tsconfig.json 파일을 수정하여 jsx를 사용할 수 있도록 설정합니다.
+```json
+{
+  "compilerOptions": {
+    "jsx": "react",   // jsx를 사용할 수 있도록 설정, 17버전부터는 "react-jsx"로 변경됨
+    "esModuleInterop": true  // import React from 'react'; 를 사용할 수 있도록 설정
+  },
+  "include": [
+    "src/main/webapp/app"   // typescript 파일이 위치한 디렉토리를 지정
   ]
 }
 ```
