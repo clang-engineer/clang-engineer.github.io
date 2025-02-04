@@ -38,6 +38,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: path.resolve(__dirname, '../src/main/webapp/app/index.js'),  // webpack 빌드 시작점
+    output: {
+    path: path.resolve(__dirname, '../build/resources/main/static/'),  // webpack 빌드 결과물이 저장될 디렉토리를 지정
+  },
   mode: 'development',
   devServer: {
     port: 9000,
@@ -68,7 +71,8 @@ module.exports = {
     "webpack": "5.74.0",  // 실제 웹팩을 사용하기 위한 패키지
     "webpack-cli": "4.10.0",  // 웹팩을 커맨드라인에서 사용하기 위한 패키지
     "webpack-dev-server": "4.10.1",  // 웹팩 개발서버를 사용하기 위한 패키지 -> 웹팩의 빌드 결과물을 메모리에 올려서 사용할 수 있게 해줌
-    "html-webpack-plugin": "5.5.0"  // html파일을 빌드 결과물에 포함시켜주는 플러그인 (사용자가 직접 html파일을 만들어서 빌드 결과물에 포함시키지 않아도 됨)
+    "html-webpack-plugin": "5.5.0",  // html파일을 빌드 결과물에 포함시켜주는 플러그인 (사용자가 직접 html파일을 만들어서 빌드 결과물에 포함시키지 않아도 됨)
+    "webapp:build:dev": "webpack --config webpack/webpack.dev.js"  // webpack을 사용해서 빌드하는 명령어
   },
   "engines": {
     "node": ">=16.17.0"
