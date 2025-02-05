@@ -87,4 +87,4 @@ public  : true
 - [[etc/nginx-cheatsheet]]
 - [[etc/create-ubuntu-development-environment-on-windows]]
 - [[etc/leetcode-cli]]
-- [[etc/webpack-for-spa]]
+- [[etc/spa-webpack]]
