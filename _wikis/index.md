@@ -88,3 +88,4 @@ public  : true
 - [[etc/create-ubuntu-development-environment-on-windows]]
 - [[etc/leetcode-cli]]
 - [[etc/spa-webpack]]
+- [[etc/spa-gradle]]
