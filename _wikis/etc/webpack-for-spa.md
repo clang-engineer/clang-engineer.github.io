@@ -41,7 +41,7 @@ module.exports = {
     output: {
     path: path.resolve(__dirname, '../build/resources/main/static/'),  // webpack 빌드 결과물이 저장될 디렉토리를 지정
   },
-  mode: 'development',
+  mode: 'development',  // 개발모드로 설정 (production, development, none) 중 선택
   devServer: {
     port: 9000,
     open: true,
@@ -198,3 +198,140 @@ ReactDOM.render(<App />, document.getElementById('root'));
   ]
 }
 ```
+
+---
+
+# 최종 설정
+
+## package.json
+```json
+{
+  "name": "webpack-spa",
+  "version": "0.0.1-SNAPSHOT",
+  "private": true,
+  "description": "Description for webpack-spa",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "npm run webapp:dev --",
+    "webapp:dev": "npm run webpack-dev-server -- --config webpack/webpack.dev.js",
+    "webpack-dev-server": "webpack serve",
+    "webapp:build:dev": "webpack --config webpack/webpack.dev.js"
+  },
+  "config": {
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.3.0"
+  },
+  "devDependencies": {
+    "webpack": "5.74.0",
+    "webpack-cli": "4.10.0",
+    "webpack-dev-server": "4.10.1",
+    "html-webpack-plugin": "5.5.0",
+    "typescript": "4.8.2",
+    "ts-loader": "9.3.1",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "18.0.6",
+    "sass": "1.54.8",
+    "sass-loader": "13.0.2",
+    "style-loader": "3.3.1",
+    "css-loader": "6.7.1"
+  },
+  "engines": {
+    "node": ">=16.17.0"
+  },
+  "cacheDirectories": [
+    "node_modules"
+  ]
+}
+
+```
+
+## webpack/webpack.dev.js
+```javascript
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  entry: path.resolve(__dirname, '../src/main/webapp/app/index.tsx'),
+  output: {
+    path: path.resolve(__dirname, '../build/resources/main/static/'),
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
+  mode: 'development',
+  devServer: {
+    port: 9000,
+    open: true,
+    historyApiFallback: true,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, '../src/main/webapp/index.html'),
+      title: 'Webpack Dev Server Example',
+    }),
+  ],
+};
+
+```
+
+## tsconfig.json
+```json
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "esModuleInterop": true
+  },
+  "include": [
+    "src/main/webapp/app"
+  ]
+}
+```
+
+## src/main/webapp/app/index.tsx
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const App = () => <h1>Hello, React Without Babel!</h1>;
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+## src/main/webapp/index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webpack Dev Server Example</title>
+</head>
+<body>
+<div id="root"></div>
+</body>
+</html>
+```
+
+## src/main/webapp/app/index.scss
+```scss
+body {
+  background-color: #f0f0f0;
+}
+```
+---
