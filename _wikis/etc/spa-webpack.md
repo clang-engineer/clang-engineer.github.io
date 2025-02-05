@@ -201,6 +201,35 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ---
 
+# step4. scss 사용하기
+- scss를 사용하면 css를 더 쉽게 작성할 수 있습니다.
+- sass-loader, style-loader, css-loader를 사용하여 scss를 웹팩에서 사용할 수 있습니다.
+
+1. sass, sass-loader, style-loader, css-loader 의존성 추가
+```bash
+npm install --save-dev sass sass-loader
+npm install --save-dev style-loader css-loader
+```
+
+2. webpack 설정파일 수정
+```javascript
+// webpack/webpack.dev.js
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      // ...
+      {
+        test: /\.scss$/,  // scss 파일을 처리
+        use: ['style-loader', 'css-loader', 'sass-loader'],  // 순서대로 적용, 순서 중요 (sass-loader -> css-loader -> style-loader) : sass-loader -> scss를 css로 변환, css-loader -> css를 js로 변환, style-loader -> js로 변환된 css를 style태그로 삽입
+      },
+    ],
+  },
+  // ...
+};
+```
+---
+
 # 최종 설정
 
 ## package.json
