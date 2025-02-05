@@ -1,6 +1,6 @@
 ---
 layout  : wiki
-title   : Spring Boot 를 이용한 SPA 프로젝트에서 Webpack 설정하기
+title   : spring boot + webpack 방식의 프로젝트 구성에서 webpack 설정
 summary : 
 date    : 2025-02-04 20:18:27 +0900
 updated : 2025-02-04 20:18:34 +0900
@@ -127,13 +127,16 @@ module.exports = {
 # step3. react 사용하기
 - webpack + typescript 설정에 react관련 설정을 추가합니다.
 
-1. react, react-dom 의존성 추가
+## 1. react, react-dom 의존성 추가
+
 - react를 사용하기 위해서는 react, react-dom 패키지를 설치해야 합니다.
+
 ```bash
 npm install --save react react-dom @types/react @types/react-dom
 ```
 
-2. webpack 설정파일 수정
+## 2. webpack 설정파일 수정
+
 ```javascript
 // webpack/webpack.dev.js
 module.exports = {
@@ -156,8 +159,9 @@ module.exports = {
 };
 ```
 
-3. index.tsx 파일 생성
+## 3. index.tsx 파일 생성
 - src/main/webapp/app 디렉토리에 index.tsx 파일을 생성합니다.
+
 ```tsx
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -167,8 +171,9 @@ const App = () => <h1>Hello, React Without Babel!</h1>;
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-4. index.html 파일 수정
+## 4. index.html 파일 수정
 - src/main/webapp/index.html 파일을 수정합니다.
+
 ```html
 <!-- src/main/webapp/index.html -->
 <!DOCTYPE html>
@@ -185,8 +190,9 @@ ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 
-5. tsconfig.json 파일 수정
+## 5. tsconfig.json 파일 수정
 - tsconfig.json 파일을 수정하여 jsx를 사용할 수 있도록 설정합니다.
+
 ```json
 {
   "compilerOptions": {
@@ -205,13 +211,15 @@ ReactDOM.render(<App />, document.getElementById('root'));
 - scss를 사용하면 css를 더 쉽게 작성할 수 있습니다.
 - sass-loader, style-loader, css-loader를 사용하여 scss를 웹팩에서 사용할 수 있습니다.
 
-1. sass, sass-loader, style-loader, css-loader 의존성 추가
+## 1. sass, sass-loader, style-loader, css-loader 의존성 추가
+
 ```bash
 npm install --save-dev sass sass-loader
 npm install --save-dev style-loader css-loader
 ```
 
-2. webpack 설정파일 수정
+## 2. webpack 설정파일 수정
+
 ```javascript
 // webpack/webpack.dev.js
 module.exports = {
@@ -228,6 +236,7 @@ module.exports = {
   // ...
 };
 ```
+
 ---
 
 # 최종 설정
