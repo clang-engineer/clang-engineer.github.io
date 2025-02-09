@@ -79,6 +79,8 @@ public  : true
 - [[java/spring-property-setting]]
 - [[java/figure-out-compiled-java-version]]
 
+# [[peim/index]]
+
 
 # [[etc/index]]
 - [[etc/uri-url-urn]]
