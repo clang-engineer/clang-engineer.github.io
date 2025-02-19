@@ -30,6 +30,7 @@ public  : true
 * [[linux/service]]
 * [[linux/package-structure]]
 * [[linux/log]]
+* [[linux/log-clean-schedule-task]]
 
 # [[issue/index]]
 * [[issue/ssh-broken-pipe]]
