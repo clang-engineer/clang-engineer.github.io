@@ -170,6 +170,9 @@ collections:
   tabs:
     output: true
     sort_by: order
+  wikis:
+    output: true
+    permalink: /:collection/:path/
 
 defaults:
   - scope:
@@ -224,9 +227,3 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
-
-
-collections:
-  wikis:
-    output: true
-    permalink: /:collection/:path/
