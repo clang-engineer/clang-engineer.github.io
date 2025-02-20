@@ -172,6 +172,7 @@ collections:
     sort_by: order
   wikis:
     output: true
+    archive: true
 
 defaults:
   - scope:
