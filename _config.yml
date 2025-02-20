@@ -172,7 +172,6 @@ collections:
     sort_by: order
   wikis:
     output: true
-    permalink: /:collection/:path/
 
 defaults:
   - scope:
@@ -195,6 +194,12 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  - scope:
+      path: ""
+      type: wikis # see `site.collections`
+    values:
+      layout: post
+      permalink: /:collection/:path/
 
 sass:
   style: compressed
