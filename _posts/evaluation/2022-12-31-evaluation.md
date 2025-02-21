@@ -1,19 +1,13 @@
 ---
-layout  : wiki
-title   : 
-summary : 
-date    : 2023-01-03 08:40:59 +0900
-updated : 2023-01-06 08:32:52 +0900
-tags    : 
-toc     : true
-public  : false
-parent  : 
-latex   : false
+title       : 2022 평가
+description : 
+date        : 2025-02-21 22:50:30 +0900
+updated     : 2025-02-21 22:50:42 +0900
+categories  : []
+tags        : []
+pin         : false
+hidden      : true
 ---
-* TOC
-{:toc}
-
-# 
 
 I. 기여도 평가
 
