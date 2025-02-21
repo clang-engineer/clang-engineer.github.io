@@ -1,17 +1,17 @@
 {%- comment -%}
-  Get wiki description or generate it from the wiki content.
+  Get post description or generate it from the post content.
 {%- endcomment -%}
 
 {%- assign max_length = include.max_length | default: 200 -%}
 
 {%- capture description -%}
-{%- if wiki.description -%}
-  {{- wiki.description -}}
+{%- if post.description -%}
+  {{- post.description -}}
 {%- else -%}
   {% comment %}
     Remove the line number of the code snippet.
   {% endcomment %}
-  {% assign content = wiki.content %}
+  {% assign content = post.content %}
 
   {% if content contains '<td class="rouge-gutter gl"><pre class="lineno">' %}
     {% assign content = content | replace: '<td class="rouge-gutter gl"><pre class="lineno">', '<!-- <td class="rouge-gutter gl"><pre class="lineno">'%}
