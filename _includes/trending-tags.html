@@ -1,34 +1,36 @@
-<!-- The trending tags list for wikis -->
+<!-- The trending tags list -->
 
 {% assign MAX = 10 %}
 
-{% assign tag_counts = '' | split: '' %}
+{% assign size_list = '' | split: '' %}
+{% assign tag_list = '' | split: '' %}
 
-{% for wiki in site.wikis %}
-  {% for tag in wiki.tags %}
-    {% assign tag_entry = tag | append: '::0' %}
-    {% assign existing_tag = tag_counts | where_exp: "t", "t contains tag" | first %}
+{% for tag in site.tags %}
+  {% assign size = tag | last | size %}
+  {% assign size_list = size_list | push: size %}
 
-    {% if existing_tag %}
-      {% assign count = existing_tag | split: '::' | last | plus: 1 %}
-      {% assign updated_entry = tag | append: '::' | append: count %}
-      {% assign tag_counts = tag_counts | where_exp: "t", "t != existing_tag" %}
-      {% assign tag_counts = tag_counts | push: updated_entry %}
-    {% else %}
-      {% assign tag_counts = tag_counts | push: tag_entry %}
-    {% endif %}
-  {% endfor %}
+  {% assign tag_str = tag | first | append: '::' | append: size %}
+  {% assign tag_list = tag_list | push: tag_str %}
 {% endfor %}
 
-{% assign tag_counts = tag_counts | sort_natural %}
+{% assign size_list = size_list | sort | reverse %}
 
-{% assign sorted_tags = tag_counts | sort: '::' | reverse %}
+{% assign tag_list = tag_list | sort_natural %}
 
 {% assign trending_tags = '' | split: '' %}
 
-{% for tag_entry in sorted_tags limit: MAX %}
-  {% assign tag_name = tag_entry | split: '::' | first %}
-  {% assign trending_tags = trending_tags | push: tag_name %}
+{% for size in size_list limit: MAX %}
+  {% for tag_str in tag_list %}
+    {% assign tag = tag_str | split: '::' %}
+    {% assign tag_name = tag | first %}
+    {% assign tag_size = tag | last | plus: 0 %}
+    {% if tag_size == size %}
+      {% unless trending_tags contains tag_name %}
+        {% assign trending_tags = trending_tags | push: tag_name %}
+        {% break %}
+      {% endunless %}
+    {% endif %}
+  {% endfor %}
 {% endfor %}
 
 {% if trending_tags.size > 0 %}
