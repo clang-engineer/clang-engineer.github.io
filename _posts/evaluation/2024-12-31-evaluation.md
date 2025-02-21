@@ -1,17 +1,13 @@
 ---
-layout  : wiki
-title   : 2024 회고
-summary : 
-date    : 2025-01-08 08:29:07 +0900
-updated : 2025-01-12 11:40:17 +0900
-tags    : 
-toc     : true
-public  : false
-parent  : 
-latex   : false
+title       : 2024 평가
+description : 
+date        : 2025-02-21 22:50:30 +0900
+updated     : 2025-02-21 22:50:42 +0900
+categories  : []
+tags        : []
+pin         : false
+hidden      : true
 ---
-* TOC
-{:toc}
 
 #1. 업무 성과: 2024년에 본인이 수행한 업무 중 주요 성과와 해당 업무에서 본인이 기여한 내용을 적어 주세요. 또한, 그렇게 생각한 이유와 이를 통해 회사에 어떤 영향을 미쳤는지 상세히 적어 주세요.
 
