@@ -10,42 +10,27 @@ layout: page
 
 {% assign group_index = 0 %}
 
-{% assign wiki_categories = '' | split: '' %}
-
-{% for wiki in site.wikis %}
-{% for category in wiki.categories %}
-{% assign wiki_categories = wiki_categories | push: category %}
-{% endfor %}
-{% endfor %}
-
-{% assign sort_categories = wiki_categories | uniq | sort %}
+{% assign sort_categories = site.categories | sort %}
 
 {% for category in sort_categories %}
-{% assign category_name = category %}
-{% assign wikis_of_category = '' | split: '' %}
+  {% assign category_name = category | first %}
+  {% assign posts_of_category = category | last %}
+  {% assign first_post = posts_of_category | first %}
 
-{% for wiki in site.wikis %}
-{% if wiki.categories contains category_name %}
-{% assign wikis_of_category = wikis_of_category | push: wiki %}
-{% endif %}
-{% endfor %}
+  {% if category_name == first_post.categories[0] %}
+    {% assign sub_categories = '' | split: '' %}
 
-{% assign first_wiki = wikis_of_category | first %}
+    {% for post in posts_of_category %}
+      {% assign second_category = post.categories[1] %}
+      {% if second_category %}
+        {% unless sub_categories contains second_category %}
+          {% assign sub_categories = sub_categories | push: second_category %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
 
-{% if category_name == first_wiki.categories[0] %}
-{% assign sub_categories = '' | split: '' %}
-
-{% for wiki in wikis_of_category %}
-{% assign second_category = wiki.categories[1] %}
-{% if second_category %}
-{% unless sub_categories contains second_category %}
-{% assign sub_categories = sub_categories | push: second_category %}
-{% endunless %}
-{% endif %}
-{% endfor %}
-
-{% assign sub_categories = sub_categories | sort %}
-{% assign sub_categories_size = sub_categories | size %}
+    {% assign sub_categories = sub_categories | sort %}
+    {% assign sub_categories_size = sub_categories | size %}
 
     <div class="card categories">
       <!-- top-category -->
@@ -60,7 +45,7 @@ layout: page
           <a href="{{ _category_url | relative_url }}" class="mx-2">{{ category_name }}</a>
 
           <!-- content count -->
-          {% assign top_wikis_size = wikis_of_category | size %}
+          {% assign top_posts_size = site.categories[category_name] | size %}
           <span class="text-muted small font-weight-light">
             {% if sub_categories_size > 0 %}
               {{ sub_categories_size }}
@@ -78,9 +63,9 @@ layout: page
               ,
             {% endif %}
 
-            {{ top_wikis_size }}
+            {{ top_posts_size }}
 
-            {% if top_wikis_size > 1 %}
+            {% if top_posts_size > 1 %}
               {{
                 site.data.locales[lang].categories.post_measure.plural
                 | default: site.data.locales[lang].categories.post_measure
@@ -124,18 +109,11 @@ layout: page
                 {% capture _sub_ctg_url %}/categories/{{ sub_category | slugify | url_encode }}/{% endcapture %}
                 <a href="{{ _sub_ctg_url | relative_url }}" class="mx-2">{{ sub_category }}</a>
 
-                {% assign sub_wikis = '' | split: '' %}
-                {% for wiki in site.wikis %}
-                  {% if wiki.categories contains sub_category %}
-                    {% assign sub_wikis = sub_wikis | push: wiki %}
-                  {% endif %}
-                {% endfor %}
-
-                {% assign sub_wikis_size = sub_wikis | size %}
+                {% assign posts_size = site.categories[sub_category] | size %}
                 <span class="text-muted small font-weight-light">
-                  {{ sub_wikis_size }}
+                  {{ posts_size }}
 
-                  {% if sub_wikis_size > 1 %}
+                  {% if posts_size > 1 %}
                     {{
                       site.data.locales[lang].categories.post_measure.plural
                       | default: site.data.locales[lang].categories.post_measure
@@ -155,6 +133,6 @@ layout: page
     </div>
     <!-- .card -->
 
-{% assign group_index = group_index | plus: 1 %}
-{% endif %}
+    {% assign group_index = group_index | plus: 1 %}
+  {% endif %}
 {% endfor %}

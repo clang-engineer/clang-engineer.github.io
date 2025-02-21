@@ -1,6 +1,6 @@
 ---
 layout: page
-# The Archives of wikis.
+# The Archives of posts.
 ---
 
 {% include lang.html %}
@@ -9,8 +9,8 @@ layout: page
 {% assign df_dayjs_m = site.data.locales[lang].df.archives.dayjs | default: '/ MM' %}
 
 <div id="archives" class="pl-xl-3">
-  {% for wiki in site.wikis %}
-    {% assign cur_year = wiki.date | date: '%Y' %}
+  {% for post in site.posts %}
+    {% assign cur_year = post.date | date: '%Y' %}
 
     {% if cur_year != last_year %}
       {% unless forloop.first %}</ul>{% endunless %}
@@ -22,12 +22,12 @@ layout: page
     {% endif %}
 
     <li>
-      {% assign ts = wiki.date | date: '%s' %}
-      <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ wiki.date | date: '%d' }}</span>
+      {% assign ts = post.date | date: '%s' %}
+      <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
       <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
-        {{ wiki.date | date: df_strftime_m }}
+        {{ post.date | date: df_strftime_m }}
       </span>
-      <a href="{{ wiki.url | relative_url }}">{{ wiki.title }}</a>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
     </li>
 
     {% if forloop.last %}</ul>{% endif %}
