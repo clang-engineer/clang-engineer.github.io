@@ -1,17 +1,13 @@
 ---
-layout  : wiki
-title   : 문자열 구분자로 분리하기
-summary : 
-date    : 2024-10-07 15:36:25 +0900
-updated : 2024-10-18 09:23:21 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[cpp/index]]
-latex   : false
+title       : c++ 문자열을 구분자로 분리하기
+description :
+date        : 2024-10-07 15:36:25 +0900
+updated     : 2025-02-21 22:50:42 +0900
+categories  : [dev, c++]
+tags        : [c++, string]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
 # string class만 사용해서 구분자로 문자열 분리하기
 
