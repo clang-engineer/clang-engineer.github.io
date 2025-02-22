@@ -22,3 +22,5 @@ hidden      : false
 
 # 3. [Chirpy를 jekyll theme를 사용한 블로그](https://github.com/cotes2020/jekyll-theme-chirpy) (20250221~)
 - chirpy부터는 post를 사용해보기로 하였습니다. 별도 collection을 사용하도록 커스텀이 가능하지만 변경해야할 부분이 많아서 post를 사용하기로 결정했습니다.
+- [Chirpy Github](https://github.com/cotes2020/jekyll-theme-chirpy)
+- [Getting Started](https://chirpy.cotes.page/posts/getting-started/)
