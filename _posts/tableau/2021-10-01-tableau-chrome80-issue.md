@@ -1,17 +1,14 @@
 ---
-layout  : wiki
-title   : Tableau Chrome 80 issue
-summary : 
-date    : 2021-10-01 10:19:01 +0900
-updated : 2022-07-14 11:26:59 +0900
-tags    : tableau issue
-toc     : true
-public  : true
-parent  : [[tableau/index]]
-latex   : false
+title       : Tableau Chrome 80 issue
+description : Chrome 80 이상으로 업데이트한 후 내장된 뷰를 로드하지 못할 때
+date        : 2025-01-01 00:00:00 +0900
+updated     : 2025-02-22 18:09:37 +0900
+categories  : [dev, tableau]
+tags        : [tableau, samesite, cookie]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
+
 
 ## 문제? 
 
