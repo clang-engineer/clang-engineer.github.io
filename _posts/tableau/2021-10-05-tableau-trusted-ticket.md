@@ -1,32 +1,24 @@
 ---
-layout  : wiki
-title   : tableau trusted ticket
-summary : 
-date    : 2021-10-05 10:56:05 +0900
-updated : 2024-11-12 16:14:11 +0900
-tags    : tableau trusted ticket
-toc     : true
-public  : true
-parent  : [[tableau/index]]
-latex   : false
+title       : Tableau Trust Ticket 발급받기
+description : tableau 연동시 ticket 발급 관련 정보 정리
+date        : 2025-01-01 00:00:00 +0900
+updated     : 2025-02-22 18:09:37 +0900
+categories  : [dev, tableau]
+tags        : [tableau, trusted ticket]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
-# Tableau Trust Ticket 발급받기
+# 1. 신뢰할 수 있는 ip 추가
+- ticket 발급을 위해선 태블로 서버의 접근 허용 ip 목록에 태블로 서버를 내장할 서버 ip가 등록되어있어야 합니다.
+- 신뢰할 수 있는 ip 등록은 **tsm -> 구성 -> 사용자 ID 및 엑세스 -> 신뢰할 수 있는 인증** 에서 할 수 있습니다.
 
-## 신뢰할 수 있는 ip 추가
+# 2. 티켓 발급
 
-ticket 발급을 위해선 태블로 서버의 접근 허용 ip 목록에 태블로 서버를 내장할 서버 ip가 등록되어있어야 한다.
-우선적으로 ticket 발급 test를 위해 본인이 사용중인 pc의 ip를 신뢰할 수 있는 ip로 등록하도록 한다. 
+## 1. ticket test를 할 수 있는 api 요청 페이지 
+- 아래의 코드를 로컬 pc에 생성 후 username, client ip, server ip를 변경한 후에 정상적으로 티켓 발급이 이루어지는지 우선적으로 확인할 수 있습니다. 
 
-신뢰할 수 있는 ip 등록은 **tsm -> 구성 -> 사용자 ID 및 엑세스 -> 신뢰할 수 있는 인증** 에서 할 수 있다.
-
-## ticket test를 위한 html samle
-
-아래의 코드를 로컬 pc에 생성 후 username, client ip, server ip를 변경한 후에 정상적으로 티켓 발급이 이루어지는지 확인한다. 
-
-```
+```html
 <html>
 <head>
 <title>Trusted Ticket Requester</title>
@@ -73,25 +65,27 @@ ticket 발급을 위해선 태블로 서버의 접근 허용 ip 목록에 태블
 </html>
 ```
 
-## cmd에서 사용할 수 있는 요청 curl
+## 2. curl을 이용한 티켓 발급
+ 
 ```sh
 curl -k -d '{"username": "admin"}' \
 -H "Content-Type: application/json" \
 -x POST https://xx.xx.xx.xx/trusted
 ```
 
-## 로그 level 변경
+# 3. 티켓 발급 실패시 로그 확인
+## 1. 로그 level 변경
+- 정상적인 티켓 발급이 이루어지지 않을 경우 원인 파악을 위한 로그 확인이 필요합니다.
+- 이를 위해 기본 로그 level을 info(기본)에서 debug로 변경합니다.
 
-정상적인 티켓 발급이 이루어지지 않을 경우 원인 파악을 위한 로그 확인이 필요한다.
-기본 로그 level을 info(기본)에서 debug로 변경시킨다.
-```
+```sh
 tsm configuration set -k vizqlserver.trustedticket.log_level -v debug
 tsm pending-changes apply
 ```
 
-변경 후 정상적용을 위해 **서버 재부팅** 이 필요하다.
+* 변경 후 정상적용을 위해 **서버 재부팅** 이 반드시 필요합니다.
 
-### 로그 경로
+## 2. 로그 파일 위치
 
 ```txt
 //window
