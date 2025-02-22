@@ -1,7 +1,7 @@
 ---
 title       : 2022 평가
-description : 
-date        : 2025-02-21 22:50:30 +0900
+description :
+date        : 2022-12-31 00:00:00 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : []
 tags        : []
