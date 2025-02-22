@@ -21,6 +21,7 @@ hidden      : false
 - posts를 사용한 방식으로 짜여져 있지만, 1.의 영향으로 custom collection을 사용할 수 있도록 변경하여 사용했습니다.
 
 # 3. [Chirpy를 jekyll theme를 사용한 블로그](https://github.com/cotes2020/jekyll-theme-chirpy) (20250221~)
-- chirpy부터는 post를 사용해보기로 하였습니다. 별도 collection을 사용하도록 커스텀이 가능하지만 변경해야할 부분이 많아서 post를 사용하기로 결정했습니다.
+- chirpy부터는 post를 사용하기로 하였습니다. (별도 collection을 사용하도록 커스텀이 가능하지만, 큰 이점이 없다고 판단하여 기존 jekyll에서 권장하는 post를 사용하여 글을 정리하도록 하였습니다.)
+- 1. 2. 의 테마를 사용할때 markdown -> html 변환 시 css가 적용되지 않는 문제가 있었는데, chirpy는 테스트 결과 이런 문제가 적어서 사용하기로 결정했습니다.
 - [Chirpy Github](https://github.com/cotes2020/jekyll-theme-chirpy)
 - [Getting Started](https://chirpy.cotes.page/posts/getting-started/)
