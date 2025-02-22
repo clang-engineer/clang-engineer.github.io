@@ -11,7 +11,7 @@ hidden      : false
 
 # Jekyll의 Chirpy테마로 깃허브 블로그 만들기
 
-# 1. [기계인간님의 vimwiki를 이용한 블로그](https://johngrib.github.io/wiki/vimwiki/)
+# 1. [기계인간님의 vimwiki를 이용한 블로그](https://johngrib.github.io/wiki/vimwiki/) (20210929~)
 - 다소 투박한 레이아웃이지만 vim을 좋아했던 저에게는 vim으로 컨텐츠를 컨트롤 할 수 있다는 점이 큰 강점으로 느껴졌습니다. 
 - vim에 대한 학습욕구로 인해 첫 github 블로그 테마로 선택했었습니다. 
 - 기계인간님 블로그 글 중에는 vim에 대한 글이 많아 참고할 점이 많았습니다.
