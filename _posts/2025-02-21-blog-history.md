@@ -26,3 +26,7 @@ hidden      : false
 
 - [Chirpy Github](https://github.com/cotes2020/jekyll-theme-chirpy)
 - [Getting Started](https://chirpy.cotes.page/posts/getting-started/)
+
+## 배포
+- Chirpy가 제공하는 workflow(.github/workflows/pages-deploy.yml)에 따라 github action이 동작하도록 설정 변경이 필요합니다.
+- 해당 Repository의 Settings -> Pages -> Build and deployment 의 Source를 'Deploy from branch'가 아닌 'Github Actions'로 변경합니다.
