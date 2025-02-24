@@ -16,7 +16,7 @@
               <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
                         {{ event.date | date: df_strftime_m }}
               </span>
-              <a href="" target="_blank">{{ event.title }}</a>
+              <a href="#" onclick="event.preventDefault();" style="cursor: default; pointer-events: none;" >{{ event.title }}</a>
             </li>
           {% endfor %}
         </ul>
