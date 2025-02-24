@@ -1,0 +1,103 @@
+[
+  {
+    "year": "2025",
+    "events": [
+      {
+        "date": "Dec",
+        "title": "빅데이터분석기사"
+      },
+      {
+        "date": "May",
+        "title": "정보보안기사"
+      }
+    ]
+  },
+  {
+    "year": "2024",
+    "events": []
+  },
+  {
+    "year": "2022",
+    "events": []
+  },
+  {
+    "year": "2021",
+    "events": [
+      {
+        "date": "Mar",
+        "title": "웹디자인 기능사"
+      }
+    ]
+  },
+  {
+    "year": "2019",
+    "events": [
+      {
+        "date": "May",
+        "title": "정보처리기사"
+      }
+    ]
+  },
+  {
+    "year": "2015",
+    "events": [
+      {
+        "date": "Dec",
+        "title": "컴퓨터활용능력 1급"
+      },
+      {
+        "date": "May",
+        "title": "사회조사분석사 2급"
+      }
+    ]
+  },
+  {
+    "year": "2014",
+    "events": [
+      {
+        "date": "Feb~Dec",
+        "title": "R&D 연구소 - 데이터크롤러 개발 및 데이터분석"
+      }
+    ]
+  },
+  {
+    "year": "2013",
+    "events": [
+      {
+        "date": "Apr~Dec",
+        "title": "타악 연구소 공연 활동"
+      },
+      {
+        "date": "Mar",
+        "title": "인하대 통계학과 졸업"
+      }
+    ]
+  },
+  {
+    "year": "2011",
+    "events": [
+      {
+        "date": "Feb",
+        "title": "병장 만기 전역"
+      }
+    ]
+  },
+  {
+    "year": "2006",
+    "events": [
+      {
+        "date": "Mar",
+        "title": "울산제일고 졸업"
+      }
+    ]
+  },
+  {
+    "year": "2005",
+    "events": [
+      {
+        "date": "Mar",
+        "title": "울산제일고 입학"
+      }
+    ]
+  }
+]

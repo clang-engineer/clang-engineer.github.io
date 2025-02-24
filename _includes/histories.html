@@ -1,0 +1,26 @@
+<article class="px-1 mt-5">
+  <h2 class="dynamic-title">
+    이력
+  </h2>
+  <div class="content">
+    <div id="archives" class="pl-xl-3">
+      {% assign histories = site.data.histories | sort: 'year' | reverse %}
+      {% for history in histories %}
+        <time class="year lead d-block">{{ history.year }}</time>
+        <ul class="list-unstyled">
+          {% assign events = history.events | sort: 'date' | reverse %}
+          {% for event in events %}
+            <li>
+              {% assign ts = event.date | date: '%s' %}
+              <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ event.date | date: '%d' }}</span>
+              <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
+                        {{ event.date | date: df_strftime_m }}
+              </span>
+              <a href="" target="_blank">{{ event.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    </div>
+  </div>
+</article>
