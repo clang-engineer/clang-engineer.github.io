@@ -1,3 +1,8 @@
+{% include lang.html %}
+
+{% assign df_strftime_m = site.data.locales[lang].df.archives.strftime | default: '/ %m' %}
+{% assign df_dayjs_m = site.data.locales[lang].df.archives.dayjs | default: '/ MM' %}
+
 <article class="px-1 mt-5">
   <h2 class="dynamic-title">
     이력
