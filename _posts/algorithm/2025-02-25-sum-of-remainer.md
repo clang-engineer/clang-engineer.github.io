@@ -3,8 +3,8 @@ title       : 나머지 합
 description :
 date        : 2024-10-07 15:36:25 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [coding-test, baekjoon]
-tags        : [coding-test]
+categories  : [algorithm, baekjoon]
+tags        : [algorithm, remainder]
 pin         : false
 hidden      : false
 ---
