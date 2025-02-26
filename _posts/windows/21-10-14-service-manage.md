@@ -29,7 +29,7 @@ cmd에서 sc커맨드를 통한 서비스 관리가 가능하다
 
 
 ## nssm로 서비스 관리
-- 다운로드: <http://nssm.cc/download>
+- 다운로드: <https://nssm.cc/download>
 - java를 실행하는 batch 파일을 서비스로 등록할 때 nssm을 사용하면 손쉽게 등록 할 수 있다.
  
 ```batch
