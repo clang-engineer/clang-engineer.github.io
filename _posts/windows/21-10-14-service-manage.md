@@ -1,17 +1,13 @@
 ---
-layout  : wiki
-title   : 윈도우 서비스 등록 및 관리 방법
-summary : 
-date    : 2021-10-14 10:52:35 +0900
-updated : 2023-10-11 08:39:27 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[window/index]]
-latex   : false
+title       : Windows 서비스 등록 및 관리 방법
+description : >-
+date        : 2025-02-24 22:50:30 +0900
+updated     : 2025-02-21 22:50:42 +0900
+categories  : [dev, windows]
+tags        : [windows, service]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
 ## sc로 서비스 관리 
 cmd에서 sc커맨드를 통한 서비스 관리가 가능하다
