@@ -1,17 +1,14 @@
-
 ---
 title       : Window 운영체제에서 실시간 로깅 (ex. tail -f) 하는 법
 description : >-
-date        : 2025-02-26 22:50:30 +0900
+date        : 2025-02-24 22:50:30 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [dev, tip]
+categories  : [dev, windows]
 tags        : [windows, tail]
 pin         : false
 hidden      : false
 ---
 
-
-## Window 운영체제에서 실시간 로깅 (ex. tail -f) 하는 법
 - Window 운영체제에서는 Powershell을 이용하여 실시간 로깅을 할 수 있습니다.
 - `Get-Content` 명령어를 이용하여 파일의 내용을 읽어오고 `-Wait` 옵션을 이용하여 실시간으로 파일의 변화를 감지할 수 있습니다.
 ```powershell
