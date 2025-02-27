@@ -1,25 +1,21 @@
 ---
-layout  : wiki
-title   : Euclidean algorithm
-summary : 
-date    : 2024-08-22 09:31:50 +0900
-updated : 2024-08-22 09:46:25 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[mathematics/index]]
-latex   : false
+title       : 유클리드 호제법 (Euclidean algorithm)
+description : >-
+  두 정수의 최대공약수를 구하는 알고리즘이다.
+date        : 2024-08-22 09:31:50 +0900
+updated     : 2024-08-22 09:46:25 +0900
+categories  : [algorithm, mathematics]
+tags        : [algorithm, gcd]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
-# 유클리드 호제법 (Euclidean algorithm)
-- 두 정수의 최대공약수를 구하는 알고리즘이다.
+유클리드 호제법의 핵심은 다음과 같다.
 - 두 정수 a, b에 대해 a를 b로 나눈 나머지를 r이라고 하면, a와 b의 최대공약수는 b와 r의 최대공약수와 같다.
 - 이를 반복하여 나머지가 0이 될 때까지 반복하면, 나누는 수가 최대공약수가 된다.
 
-# 예시
-```txt
+## 예시
+```plaintext
 - MOD연산이란? 두 값을 나눈 나머지를 구하는 연산!
 
 1112와 695의 최대공약수를 구한다고 가정하자.
@@ -37,7 +33,7 @@ latex   : false
 나머지가 0이 됐을 때, 마지막 계산에서 나누는 수로 사용된 139가 1112와 695의 최대공약수가 된다.
 ```
 
-# 코드
+## 코드
 ```cpp
 // 제약 조건: a는 b보다 크거나 같다.
 int gcd(int a, int b) {
