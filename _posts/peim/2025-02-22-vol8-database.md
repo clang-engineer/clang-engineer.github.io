@@ -3,8 +3,8 @@ title       : PEIM Vol8. Database
 description :
 date        : 2022-01-01 00:00:00 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [license, PEIM]
-tags        : [peim, database]
+categories  : [license, peim]
+tags        : [정보관리기술사, 데이터베이스]
 pin         : false
 hidden      : false
 ---
