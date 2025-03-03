@@ -1,6 +1,6 @@
 ---
 title       : Software Engineering
-description :
+description : >-
 date        : 2025-02-22 00:00:00 +0900
 updated     : 2025-03-02 23:09:59 +0900
 categories  : [license, peim]
@@ -143,8 +143,57 @@ hidden      : true
 - 정의
 
 ## 4. UML(Unified Modeling Language)
+42. Modeling
+- 정의, 목적, 필요한 이유
+
+43. UML(Unified Modeling Language)
+- 정의, 특징, 개발 방법론과의 관계
+
+44. SW공학에서 모델링의 개념과 UML이 필요한 이필
+
+45. UML(Unified Modeling Language)의 구성요소
+
+46. UML의 각 구성요소의 세부 내용
+
+47. 모델링 vs 프로그래프
+
+48. UML의 4+1 모형
+
+49. 4+1 모형이 SDLC(Software Development Life Cycle)과 어떻게 연관되는지 설명
+
+50. UML 관계 종류
+- 종류, 특징
+
+51-55. UML 다이어그램
+
+56. UML2.0
+
+57-58. -
+
+59. UML 의 확장 메커니즘
+
+60-61. -
+
+62. UML 연관(Association) 관계, 방향성이 있는 연관(Directed Association) 관계
+
+63. UML 일반화 관계
+- 예시 및 설명, coding
+64. UML 실제화 관화
+- 예시 및 설명, coding
+65. UML 의존 관계
+- 예시 및 설명, coding
 
 ## 5. 디자인 패턴(Design Pattern)
+
+66. 디자인 패턴(Design Pattern)
+67. 디자인 패턴의 종류
+68. Prototype 패턴
+69. Singleton 패턴
+70. 추상화의 정의
+71. Abstract Factory 패턴
+72. Iterator 패턴
+73. Iterator 패턴을 사용해 Factory Method 패턴을 구현.
+74. Adapter 패턴
 
 ## 6. 객체 지향 언어
 
