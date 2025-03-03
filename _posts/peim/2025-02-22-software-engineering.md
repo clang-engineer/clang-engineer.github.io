@@ -141,6 +141,8 @@ hidden      : true
 41. 린(Lean) SW 개발 방법론
 - 정의
 
+---
+
 ## 4. UML(Unified Modeling Language)
 42. Modeling
 - 정의, 목적, 필요한 이유
@@ -202,8 +204,9 @@ hidden      : true
 65. UML 의존 관계
 - 예시 및 설명, coding
 
-## 5. 디자인 패턴(Design Pattern)
+---
 
+## 5. 디자인 패턴(Design Pattern)
 66. 디자인 패턴(Design Pattern)
 - 정의
 - 특징
@@ -295,6 +298,29 @@ hidden      : true
 ---
 
 ## 7. 아케텍처 스타일
+90. IEEE 1471
+- 개요
+91. MVC(Model-View-Controller) 아키텍처
+- 개요, 특징
+92. 저장소(Repository) 아키텍처
+- 개요, 특징
+93. 계층형 (Layered) 아키텍처
+- 개요, 특징
+94. 파이트 필터 (Pipe and Filter) 아키텍처
+- 개요, 특징
+
+95. PHP(Personal Home Page, Hypertext Preprocessor)
+- 개요
+- 동작원리
+- 특징
+- vs ASP, JSP
+96. P2P(Peer to Peer)
+- 개요
+
+97. -
+98. -
+
+---
 
 ## 8. OSS(Open Source Software)와 License의 종류
 
