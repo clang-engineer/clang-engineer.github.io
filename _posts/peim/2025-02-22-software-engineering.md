@@ -47,7 +47,9 @@ hidden      : true
 14. 역공학(Reverse Engineering)과 재공학(Reengineering)
 - 각각의 정의, 목적, 방법
 
-> [결합도와 응집도 단계](https://inpa.tistory.com/entry/OOP-%F0%9F%92%A0-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EA%B2%B0%ED%95%A9%EB%8F%84-%EC%9D%91%EC%A7%91%EB%8F%84-%EC%9D%98%EB%AF%B8%EC%99%80-%EB%8B%A8%EA%B3%84-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-%EC%89%BD%EA%B2%8C-%EC%A0%95%EB%A6%AC#%EC%9D%91%EC%A7%91%EB%8F%84_%EB%8B%A8%EA%B3%84_%EC%A2%85%EB%A5%98)
+> [결합도와 응집도의 각 단계와 특징](https://inpa.tistory.com/entry/OOP-%F0%9F%92%A0-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EA%B2%B0%ED%95%A9%EB%8F%84-%EC%9D%91%EC%A7%91%EB%8F%84-%EC%9D%98%EB%AF%B8%EC%99%80-%EB%8B%A8%EA%B3%84-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-%EC%89%BD%EA%B2%8C-%EC%A0%95%EB%A6%AC#%EC%9D%91%EC%A7%91%EB%8F%84_%EB%8B%A8%EA%B3%84_%EC%A2%85%EB%A5%98)
+
+---
 
 ## 2. Software 개발 모형
 15. SDLC(Software Development Life Cycle)
@@ -64,11 +66,23 @@ hidden      : true
 19. 증분형(Incremental)과 진화형(Evolutionary) 모델
 - 각각의 정의, 절차, 장점, 단점
 20. RAD(Rapid Application Development) 모델
-21. Clean Room 개발 모델에서 3가지 Box 구조
+- 정의, 절차, 장점, 단점
+21. Clean Room 모델
+- 정의, 절차, 장점, 단점
+- Clean Room Box 구조 분석 기법
+
 22. SDLC 모델 선정기준과 각 모델의 상관관계
+- SDLC 모델 선정기준
+- SDLC 모델간의 상관관계
 23. SDLC(Software Development Life Cycle)과정에서 구현 단계에서의 Action Item(Activity)과 일정 지연이 발생되었을 때 PM(Project Manager)입장에서의 대처방안
 24. SDLC 과정에서 필요한 Review, Inspection, Walkthrough
-25. 전통적인 SW 개발 Model과 OSS(Open Source Software) 개발 Model의 차이점
+- 각 정의와 관계
+- Inspection과 Walkthrough의 차이점
+
+25. 전통적인 SW 개발 Model vs OSS(Open Source Software) 개발 Model
+- 각각의 특징과 장단점
+
+---
 
 ## 3. Software 개발 방법방
 
