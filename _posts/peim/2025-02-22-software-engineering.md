@@ -9,7 +9,6 @@ pin         : false
 hidden      : true
 ---
 
-
 ## 1. Software 공학
 1. SW 정의, 분류, 특성
 2. SW 개념, SW 유형
@@ -239,30 +238,61 @@ hidden      : true
 ---
 
 ## 6. 객체 지향 언어
-75. 객체지향 개념과 구성요소, 객체(Object), 클래스(Class), 기능(Method, Message), 속성(Attribute)에 대한 설명 (+Java 예시)
-76. "객체지향 - 상속 (Inheritance)"에 대한 정의, 예시
-77. "객체지향 - 추상화 (Abstraction)"에 대한 정의, 예시
-78. JAVA
-79. JAVA의 주요 구현 분야와 개발 환경
+75. 객체지향 
+- 개념
+- 구성요소
+- 객체(Object), 클래스(Class), 기능(Method, Message), 속성(Attribute) 에 대해 각각 설명
+76. 상속 (Inheritance)에 대한 정의, 예시
+77. 추상화 (Abstraction)에 대한 정의, 예시
+78. JAVA 언어
+- 개요, 특징
+79. JAVA 주요 구현 분야와 개발 환경
+- 주요 구현 분야
+| 구분 | 분야 | 설명 |
+|---|---|---|
+| ? | ? | ? |
+
+- 개발 환경
+
 80. JAVA 특징, 실행순서
-81. JVM(Java Virtual Machine) 구조
+- java 언어의 특징
+- java 프로그램의 실행순서
+
+81. JVM(Java Virtual Machine)
+- 개요
+- Jvm의 내부 구조
+
 82. API(Application Programming Interface)와 JAPI(Java API)
+- API 정의, 특징
+- JAPI 정의, 특징
+- JAPI의 종류
+
 83. 객체지향 설계원칙
-84. 객체지향
+- 객체지향 특징
+- 객체지향 설계원칙 종류 및 실생활 예시
+
+84. 객체지향 언어
+- 특징
 - 설계원칙
 - vs 구조적 프로그래밍 
 - 접근제어자
 
 85. 객체지향언어의 특징
+
 86. 오버라이딩, 오버로딩
+- 각각의 정의, 예시
+
 87. -
 88. Static Linking vs Dynamic Linking
+| 구분 | Static Linking | Dynamic Linking |
+|---|---|---|
+| 특징 | ? | ? |
+| 장단점 | ? | ? |
+
 89. AOP(Aspect Oriented Programming)
+- 개요, 특징
 
-
-
-
-
+---
 
 ## 7. 아케텍처 스타일
 
