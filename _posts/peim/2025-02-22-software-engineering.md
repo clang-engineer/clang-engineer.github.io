@@ -206,16 +206,63 @@ hidden      : true
 ## 5. 디자인 패턴(Design Pattern)
 
 66. 디자인 패턴(Design Pattern)
-67. 디자인 패턴의 종류
+- 정의
+- 특징
+- 유형
+
+67. 디자인 패턴의 종류와 각 패턴 설명, 활용 예
+| 구분 | 종류 | 설명 | 예시 |
+|---|---|---|---|
+| ? | ? | ? | ? |
+
 68. Prototype 패턴
+- 개념, class diagram, 예시
+
 69. Singleton 패턴
-70. 추상화의 정의
+- 개념, class diagram, 예시
+
+70. 객체 지향 - 추상화
+- 추상화의 정의
+- 구체화의 정의
+- 추상 class 사용한 코드 작성
+
 71. Abstract Factory 패턴
+- 개념, class diagram, 예시
+
 72. Iterator 패턴
+- 개념, 예시
+
 73. Iterator 패턴을 사용해 Factory Method 패턴을 구현.
+
 74. Adapter 패턴
 
+---
+
 ## 6. 객체 지향 언어
+75. 객체지향 개념과 구성요소, 객체(Object), 클래스(Class), 기능(Method, Message), 속성(Attribute)에 대한 설명 (+Java 예시)
+76. "객체지향 - 상속 (Inheritance)"에 대한 정의, 예시
+77. "객체지향 - 추상화 (Abstraction)"에 대한 정의, 예시
+78. JAVA
+79. JAVA의 주요 구현 분야와 개발 환경
+80. JAVA 특징, 실행순서
+81. JVM(Java Virtual Machine) 구조
+82. API(Application Programming Interface)와 JAPI(Java API)
+83. 객체지향 설계원칙
+84. 객체지향
+- 설계원칙
+- vs 구조적 프로그래밍 
+- 접근제어자
+
+85. 객체지향언어의 특징
+86. 오버라이딩, 오버로딩
+87. -
+88. Static Linking vs Dynamic Linking
+89. AOP(Aspect Oriented Programming)
+
+
+
+
+
 
 ## 7. 아케텍처 스타일
 
