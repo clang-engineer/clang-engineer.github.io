@@ -11,41 +11,49 @@ hidden      : false
 
 
 ## 1. Software 공학
-### 소프트웨어의 정의
-- 프로그램 관련 기술의 총합 또는 프로그램 개발, 운영, 보수에 필요한 관련 정보
-- computer 사용자로 하여금 컴퓨터를 쉽고 효율적으로 사용하도록 도와주거나, 주어진 문제를 해결하기 위해 사용되는 컴퓨터 프로그램, 문서, 데이터 등의 집합
+1. s/w 정의, 분류, 특성
+2. s/w 개념, s/w 유형
+3. s/w 위기와 해결방안
+4. s/w 공학이란 무엇이며 s/w공학의 구성요소와 원리
+5. IEEE 산하 SW공학 표준 위원회에서 SW 공학의 근본 지식을 규정한 SWEBOK(Software Engineering Body of Knowledge)
+6. SW산업 육성 전략
+7. SW의 설계 원리 중 모듈화에 대한 설명
+8. SW의 설계 원리 중 분할과 정복에 대한 설명
+9. SW 난독화(Obfuscation)
+10. SW 재사용의 활용, 목적, 구현방법
+11. SW 관리를 위한 기준선(Baseline)
+12. 임베디드(Embedded) SW
+13. 역공학(Reverse Engineering)과 재공학(Reengineering)
 
-### 소프트웨어의 분류
+## 2. Software 개발 모형
+15. SDLC(Software Development Life Cycle)
+16. 폭포수(Waterfall) 모델
+17. 프로토타입(Prototype) 모델
+18. 나선형(Spiral) 모델
+19. 증분형(Incremental)과 진화형(Evolutionary) 모델
+20. RAID(Rapid Application Development) 모델
+21. Clean Room 개발 모델에서 3가지 Box 구조
+22. SDLC 모델 선정기준과 각 모델의 상관관계
+23. SDLC(Software Development Life Cycle)과정에서 구현 단계에서의 Action Item(Activity)과 일정 지연이 발생되었을 때 PM(Project Manager)입장에서의 대처방안
+24. SDLC 과정에서 필요한 Review, Inspection, Walkthrough
+25. 전통적인 SW 개발 Model과 OSS(Open Source Software) 개발 Model의 차이점
 
-| 구분     | 유형         | 내용                                      |
-| --       | --           | --                                        |
-| 기능     | 시스템 s/w   | OS, 장치 드라이버, 컴파일러, 디버거 등    |
-|          | 응용 s/w     | 비지니스 업무 (Excel, 한글, office 등)    |
-| 정보처리 | 일괄처리 s/w | 연말정산, 월급, 세금, 자료 백업 등        |
-|          | Onilne s/w   | 계좌이체, 전자상거래, 도서구매 등         |
-|          | 실시간 s/w   | 영상(화상) 회의, VOD, CCTV 등             |
-| 공급방법 | 패키지 s/w   | 상용 s/w (게임, 오피스, 보안프로그램 등)  |
-|          | 주문형 s/w   | 특정 기업, 기관, 개인의 요구에 따라 개발  |
-|          | 임베디드 s/w | 특정 장치에 내장된 s/w (차량, IT 기기 등) |
+## 3. Software 개발 방법방
 
-- 응용 s/w: 사용자의 요구에 따라 개발
-- 시스템 s/w: 운영체제, 컴파일러, 디버거 등
-- 주문형 s/w: 영상회의,
-- 패키지 s/w: 상업용 패키지 s/w(게임, 오피스 등)
-- 임베디드 s/w: 특정 장치에 내장된 s/w (차량, IT 기기 등)
+## 4. UML(Unified Modeling Language)
 
-### 소프트웨어의 특성
-- 비가시성: 사용자는 내부 구조를 알 수 없음
-- 복잡성: 다양한 요소들의 상호작용
-- 변경성: 필요에 따라 변경이 가능
-- 순응성: 사용자의 요구사항, 환경에 따라 적응
-- 무형성: 물리적 형태가 없음
-- 비마모성: 외부의 환경에 의해 마모되지 않음
-- 복제성: 복제가 가능
-- 개발성: 제조가 아닌 개발의 산출물
+## 5. 디자인 패턴(Design Pattern)
 
+## 6. 객체 지향 언어
 
-## s/w의 위기와 이를 해결하기 위한 방안
-### 소프트웨어 위기
-- 품질 저하, 생산성 약화, 일정 지연, 전문가 부족, 복잡화, 비용 증가 등
-- 전문가 부족, 대규모 프로젝트 개발 경험 
+## 7. 아케텍처 스타일
+
+## 8. OSS(Open Source Software)와 License의 종류
+
+## 9. Project Management
+
+## 10. Process와 Product 검증에 대한 국제 표제
+
+## 11. 품질관리
+
+## 12. 기성고 관리
