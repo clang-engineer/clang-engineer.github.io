@@ -6,24 +6,41 @@ updated     : 2025-03-02 23:09:59 +0900
 categories  : [license, peim]
 tags        : [정보관리기술사, 소프트웨어공학]
 pin         : false
-hidden      : false
+hidden      : true
 ---
 
 
 ## 1. Software 공학
-1. s/w 정의, 분류, 특성
-2. s/w 개념, s/w 유형
-3. s/w 위기와 해결방안
-4. s/w 공학이란 무엇이며 s/w공학의 구성요소와 원리
+1. SW 정의, 분류, 특성
+2. SW 개념, SW 유형
+3. SW 위기와 해결방안
+- 개요, 배경, 해결방안
+4. SW 공학 정의, 구성요소, 원리
 5. IEEE 산하 SW공학 표준 위원회에서 SW 공학의 근본 지식을 규정한 SWEBOK(Software Engineering Body of Knowledge)
+-  ?
 6. SW산업 육성 전략
-7. SW의 설계 원리 중 모듈화에 대한 설명
-8. SW의 설계 원리 중 분할과 정복에 대한 설명
+- 국내 SW 산업 육성 전략
+7. 모듈화
+- 개요
+- 결합도 정의 및 단계 종류
+- 응집도 정의 및 단계 종류
+
+8. 분할과 정복(Divide and Conquer) 방법
+- 개요
+
 9. SW 난독화(Obfuscation)
-10. SW 재사용의 활용, 목적, 구현방법
+- 정의
+- 역공학이란
+- 난독화 방안
+10. SW 재사용(Reuse)
+- 목적 
+- 구현방법
+- 활성화 방안
 11. SW 관리를 위한 기준선(Baseline)
 12. 임베디드(Embedded) SW
 13. 역공학(Reverse Engineering)과 재공학(Reengineering)
+
+> [결합도와 응집도 단계](https://inpa.tistory.com/entry/OOP-%F0%9F%92%A0-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EA%B2%B0%ED%95%A9%EB%8F%84-%EC%9D%91%EC%A7%91%EB%8F%84-%EC%9D%98%EB%AF%B8%EC%99%80-%EB%8B%A8%EA%B3%84-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-%EC%89%BD%EA%B2%8C-%EC%A0%95%EB%A6%AC#%EC%9D%91%EC%A7%91%EB%8F%84_%EB%8B%A8%EA%B3%84_%EC%A2%85%EB%A5%98)
 
 ## 2. Software 개발 모형
 15. SDLC(Software Development Life Cycle)
