@@ -1,24 +1,16 @@
 ---
-layout  : wiki
-title   : Offline Runtime Enviroment
-summary : 
-date    : 2025-01-14 13:38:35 +0900
-updated : 2025-01-14 13:38:54 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[etc/index]]
-latex   : false
+title       : 폐쇄망 환경에서 서비스 운영을 위한 환경 구축 방법
+description : >-
+    인터넷 연결이 되지 않는 폐쇄망 환경에서 서비스를 운영해야 하는 경우가 종종 발생해, 이를 위한 환경 구축 방법을 기록합니다.
+date        : 2025-01-14 13:38:35 +0900
+updated     : 2025-01-14 13:38:54 +0900
+categories  : [dev, tip]
+tags        : [offline, runtime, enviroment]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
-
-# Offline Runtime Enviroment 
-- 인터넷 연결이 되지 않는 폐쇄망 환경에서 서비스를 운영해야 하는 경우가 종종 발생해, 이를 위한 환경 구축 방법을 기록합니다.
-
-
-# 1. 동일 환경 컨테이너 생성
+## 1. 동일 환경 컨테이너 생성
 1. 시스템 아키텍처 확인
 ```sh
 uname -m
@@ -34,9 +26,9 @@ sudo docker run --platform linux/amd64 -it rockylinux:8 /bin/bash    // 아키�
 dnf install -y dnf-utils    // 패키지 설치가 아닌 다운로드를 위해 필요
 ```
 
-# 2. 패키지 다운로드 (ex> postgresql15, java11, nginx)
+## 2. 패키지 다운로드 (ex> postgresql15, java11, nginx)
 
-## 2-1. postgresql15
+### 2-1. postgresql15
 1. postgres 폐쇄망용 패키지 준비
 ```sh
 // 설치 가능한 postgresql 버전 확인
@@ -62,7 +54,7 @@ systemctl enable postgresql-15
 systemctl start postgresql-15
 ```
 
-## 2-2. java11
+### 2-2. java11
 
 1. java 폐쇄망용 패키지 준비
 ```sh
@@ -83,8 +75,7 @@ source /etc/profile
 echo $JAVA_HOME
 ```
 
-
-## 2-3. nginx
+### 2-3. nginx
 
 1. nginx 폐쇄망용 패키지 준비
 ```sh
