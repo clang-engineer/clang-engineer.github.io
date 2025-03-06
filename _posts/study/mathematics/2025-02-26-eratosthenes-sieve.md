@@ -4,8 +4,8 @@ description : >-
   소수를 구하는 알고리즘 중 하나인 에라토스테네스의 체 알고리즘에 대해 설명합니다.
 date        : 2024-10-07 15:36:25 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [algorithm, mathematics]
-tags        : [algorithm, prime number]
+categories  : [study, mathematics]
+tags        : [prime number]
 pin         : false
 hidden      : false
 ---

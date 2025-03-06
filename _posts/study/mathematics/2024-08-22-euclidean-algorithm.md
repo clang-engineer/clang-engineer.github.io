@@ -4,8 +4,8 @@ description : >-
   두 정수의 최대공약수를 구하는 알고리즘이다.
 date        : 2024-08-22 09:31:50 +0900
 updated     : 2024-08-22 09:46:25 +0900
-categories  : [algorithm, mathematics]
-tags        : [algorithm, gcd]
+categories  : [study, mathematics]
+tags        : [gcd]
 pin         : false
 hidden      : false
 ---
