@@ -4,8 +4,8 @@ description : >-
     2의 거듭제곱 수인지 쉽게 확인하는 방법을 소개합니다.
 date        : 2024-11-07 15:58:02 +0900
 updated     : 2024-11-07 15:58:23 +0900
-categories  : [algorithm, mathematics]
-tags        : [algorithm, power of two]
+categories  : [study, mathematics]
+tags        : [power of two]
 pin         : false
 hidden      : false
 ---

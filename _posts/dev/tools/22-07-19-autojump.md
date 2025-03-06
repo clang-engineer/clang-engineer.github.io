@@ -4,7 +4,7 @@ description : >-
     Autojump 사용법 및 설정 방법을 기록합니다.
 date        : 2022-07-19 09:10:09 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [tools, terminal]
+categories  : [dev, tools]
 tags        : [autojump, terminal]
 pin         : false
 hidden      : false
