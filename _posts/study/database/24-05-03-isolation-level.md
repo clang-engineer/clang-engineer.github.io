@@ -56,6 +56,8 @@ hidden      : false
 - Dirty Read, Non-Repeatable Read, Phantom Read가 발생하지 않는다.
 - 위 3가지 현상을 완벽하게 제어할 뿐만 아니라, 모든 이상 현상을 제어할 수 있다.
 
+> 구현: 2-Phase Locking (Strict 2PL, S2PL), SSN(Serializable Snapshot Isolation) 사용 <br>
+> 2-Phase Locking (Strict 2PL, S2PL) : 읽을 때 Shared Lock (S Lock), 수정할 때 Exclusive Lock (X Lock)을 설정하여 다른 트랜잭션이 접근할 수 없도록 차단. 모든 트랜잭션이 직렬적으로(순차적으로) 실행되는 것처럼 보이도록 보장.
 
 ## 추가적인 이상 현상
 - 위 3가지 이상 현상 외에도 다음과 같은 이상 현상이 발생할 수 있다.
@@ -71,6 +73,7 @@ hidden      : false
 
 4. Write Skew
 
+---
 
 ## Snapshot Isolation
 - MVCC(Multi-Version Concurrency Control)를 사용하여 Serializable level에서 발생하는 성능 저하를 줄이기 위해, Repeatable Read와 Serializable 사이에 위치한 level을 만들어 사용한다.
