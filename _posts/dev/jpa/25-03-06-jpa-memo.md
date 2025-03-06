@@ -4,8 +4,8 @@ description : >-
   JPA 사용 중 참고할 만한 내용을 기록하는 메모장
 date        : 2025-03-06 09:00:45 +0900
 updated     : 2025-03-06 09:01:11 +0900
-categories  : [java, jpa]
-tags        : [java, jpa]
+categories  : [dev, jpa]
+tags        : [dev, jpa]
 pin         : false
 hidden      : false
 ---
