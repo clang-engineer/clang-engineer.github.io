@@ -1,18 +1,18 @@
 ---
-title       : 전략 패턴 (Strategy Pattern)
+title       : Strategy Pattern
 description : >-
   전략 패턴에 대해 정리합니다.
 date        : 2025-03-07 22:50:42 +0900
 updated     : 2025-03-07 22:50:42 +0900
 categories  : [study, design pattern]
-tags        : [design pattern, strategy pattern]
+tags        : [design pattern, behavior pattern, strategy pattern]
 pin         : false
 hidden      : false
 ---
 
 ## 개요
 - 객체가 할 수 있는 행위를 캡슐화하여 교체 가능하게 만드는 패턴. 
-- DI(Dependency Injection, 의존성 주입)는 전략 패턴의 대표적인 예이다.
+- 전략을 사용하는 클라이언트와 전략을 구현하는 클래스를 분리한다.
 
 ## 사용하는 경우
 - 여러 알고리즘이 존재하고, 이 알고리즘을 동적으로 변경해야 하는 경우
@@ -77,3 +77,30 @@ int main() {
     return 0;
 }
 ```
+
+## Callback 함수를 이용한 전략 패턴
+- 전략 패턴을 콜백 함수를 전달하는 방식으로 구현할 수 있다.
+- C++에서는 `std::function`을 사용하여 콜백 함수를 전달할 수 있다.
+
+```cpp
+#include <iostream>
+#include <functional>
+
+void execute(std::function<void()> strategy) {
+    strategy();
+}
+
+int main() {
+    execute([]() {
+        std::cout << "Strategy A" << std::endl;
+    });
+
+    execute([]() {
+        std::cout << "Strategy B" << std::endl;
+    });
+
+    return 0;
+}
+```
+
+> DI(Dependency Injection, 의존성 주입)을 함께 사용하면, 전략 패턴을 더 유연하게 사용할 수 있다.
