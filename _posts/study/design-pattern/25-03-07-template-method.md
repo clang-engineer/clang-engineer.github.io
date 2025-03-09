@@ -16,6 +16,8 @@ hidden      : false
 - 하위 클래스에서 템플릿 메소드를 구현하는 메소드를 프리미티브 메소드라고 한다.
 - 상위 클래스에서 템플릿 메소드를 호출하면, 하위 클래스에서 구현한 프리미티브 메소드가 호출된다.
 
+> 상위 클래스가  흐름 제어를 담당하고, 하위 클래스가 구체적인 작업을 담당하는 디자인 패턴
+
 ## 사용하는 경우
 - 여러 클래스가 비슷한 알고리즘을 가지고 있고, 알고리즘의 구조를 변경하지 않고 알고리즘을 재정의하고 싶은 경우
 - 알고리즘의 구조를 변경하지 않고 알고리즘을 재정의하고 싶은 경우
@@ -69,5 +71,38 @@ int main() {
     abstractClass->templateMethod();
 
     return 0;
+}
+```
+
+## 템플릿 메서드와 전략 패턴의 조합
+- 템플릿 메서드 패턴과 전략 패턴을 조합하여 사용할 수 있다.
+- 대표적인 예로 스프링 프레임워크의 Template으로 끝나는 클래스들이 있다. (JdbcTemplate, RestTemplate, TransactionTemplate 등)
+
+- Java TransactionTemplate 예제
+```java
+public class TransactionTemplate {
+    public <T> T execute(TransactionCallback<T> action) throws TransactionException {
+        // 일부 코드 생략
+        TransactionStatus status = this.transactionManager.getTransaction(this);
+        T result;
+        try {
+            result = action.doInTransaction(status);
+        } catch (RuntimeException ex) {
+            rollbackOnException(status, ex);
+            throw ex;
+        }
+        // 기타 코드 생타
+        this.transactionManager.commit(status);
+        return result;
+    }
+}
+
+void example() {
+    TransactionTemplate transactionTemplate = new TransactionTemplate();
+    transactionTemplate.execute(new TransactionCallback<String>() {
+        public String doInTransactionWithoutResult(TransactionStatus status) {
+            // 트랜잭션 벙위 내에서 실행할 코드
+        }
+    });
 }
 ```
