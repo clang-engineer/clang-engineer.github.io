@@ -79,6 +79,7 @@ int main() {
 - 대표적인 예로 스프링 프레임워크의 Template으로 끝나는 클래스들이 있다. (JdbcTemplate, RestTemplate, TransactionTemplate 등)
 
 - Java TransactionTemplate 예제
+
 ```java
 public class TransactionTemplate {
     public <T> T execute(TransactionCallback<T> action) throws TransactionException {
@@ -91,7 +92,7 @@ public class TransactionTemplate {
             rollbackOnException(status, ex);
             throw ex;
         }
-        // 기타 코드 생타
+        // 기타 코드 생략
         this.transactionManager.commit(status);
         return result;
     }
