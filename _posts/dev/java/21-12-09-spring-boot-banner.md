@@ -1,19 +1,48 @@
 ---
-layout  : wiki
-title   : 귀여운 nyan-cat banner
-summary : 
-date    : 2022-10-25 16:48:58 +0900
-updated : 2022-10-25 16:49:40 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : 
-latex   : false
+title       : Spring Boot 배너 샘플
+description : >-
+    Spring Boot 배너 샘플을 정리한 문서입니다.
+date        : 2021-12-08 09:00:45 +0900
+updated     : 2021-12-09 09:01:11 +0900
+categories  : [dev, java]
+tags        : [spring boot, banner]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
-# banner 
+
+## Spring Boot 부처 배너
+
+${spring-root}/resource/banner.txt 폴더에 아래 텍스트를 저장하면 된다
+
+```txt
+${AnsiColor.BRIGHT_YELLOW}
+////////////////////////////////////////////////////////////////////
+//                          _ooOoo_                               //
+//                         o8888888o                              //
+//                         88" . "88                              //
+//                         (| ^_^ |)                              //
+//                         O\  =  /O                              //
+//                      ____/`---'\____                           //
+//                    .'  \\|     |//  `.                         //
+//                   /  \\|||  :  |||//  \                        //
+//                  /  _||||| -:- |||||-  \                       //
+//                  |   | \\\  -  /// |   |                       //
+//                  | \_|  ''\---/''  |   |                       //
+//                  \  .-\__  `-`  ___/-. /                       //
+//                ___`. .'  /--.--\  `. . ___                     //
+//              ."" '<  `.___\_<|>_/___.'  >'"".                  //
+//            | | :  `- \`.;`\ _ /`;.`/ - ` : | |                 //
+//            \  \ `-.   \_ __\ /__ _/   .-` /  /                 //
+//      ========`-.____`-.___\_____/___.-`____.-'========         //
+//                           `=---='                              //
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
+//Buddha's blessings will never be shut down and there will never be BUG//
+////////////////////////////////////////////////////////////////////
+${AnsiColor.BRIGHT_BLUE}:: Sample's Application 🤓  :: Running Spring Boot ${spring-boot.version} ::
+```
+
+## Spring Boot nyan-cat 배너
 ```txt
 ${AnsiColor.BRIGHT_BLUE}████████████████████████████████████████████████████████████████████████████████
 ${AnsiColor.BRIGHT_BLUE}████████████████████████████████████████████████████████████████████████████████
@@ -37,11 +66,6 @@ ${AnsiColor.BRIGHT_BLUE}██████████████████�
 ${AnsiColor.BRIGHT_BLUE}████████████████████████${AnsiColor.BLACK}██████${AnsiColor.BRIGHT_BLUE}████${AnsiColor.BLACK}██████${AnsiColor.BRIGHT_BLUE}████████████${AnsiColor.BLACK}██████${AnsiColor.BRIGHT_BLUE}████${AnsiColor.BLACK}██████${AnsiColor.BRIGHT_BLUE}████████████
 ████████████████████████████████████████████████████████████████████████████████
 ${AnsiColor.BRIGHT_BLUE}:: Meow :: Running Spring Boot ${spring-boot.version} :: \ö/${AnsiColor.BLACK}
-
-${AnsiColor.BRIGHT_BLUE}:: JHipster 🤓  :: Running Spring Boot ${spring-boot.version} ::
-:: https://www.jhipster.tech ::${AnsiColor.DEFAULT}
-
 ```
 
-
-> 출처 : https://github.com/azqazq195/nyan-cat-banner/blob/main/spring-boot-4tw-web/src/main/resources/banner.txt
+> nyan cat 출처 : [link](https://github.com/azqazq195/nyan-cat-banner/blob/main/spring-boot-4tw-web/src/main/resources/banner.txt)
