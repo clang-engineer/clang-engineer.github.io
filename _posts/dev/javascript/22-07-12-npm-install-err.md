@@ -1,17 +1,13 @@
 ---
-layout  : wiki
-title   : npm install err (ex> dependency tree)
-summary : 
-date    : 2022-07-12 10:52:15 +0900
-updated : 2022-07-14 09:41:13 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[javascript/index]]
-latex   : false
+title       : npm install 에러 발생시 해결 방법
+description : >-
+date        : 2022-07-12 09:00:45 +0900
+updated     : 2022-07-14 09:01:11 +0900
+categories  : [dev, javascript]
+tags        : [npm]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
 ## unable to resolve dependency tree
 - npm install 에러 발생시 --force 또는 --legacy 옵션을 사용
