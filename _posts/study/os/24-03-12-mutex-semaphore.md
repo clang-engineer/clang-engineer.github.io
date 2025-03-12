@@ -1,28 +1,24 @@
 ---
-layout  : wiki
-title   : Mutex vs Semaphore
-summary : 
-date    : 2024-03-12 13:15:17 +0900
-updated : 2024-05-06 19:24:55 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[os/index]]
-latex   : false
+title       : Mutex vs Semaphore
+description : >-
+    Mutex와 Semaphore의 차이점과 각각의 특징에 대해 기록한다.
+date        : 2024-03-12 09:32:27 +0900
+updated     : 2024-03-12 09:33:16 +0900
+categories  : [study, os]
+tags        : [mutex, semaphore]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
-# 관련 용어
+## 관련 용어
 - race condition: 여러 프로세스/스레드가 동시에 같은 데이터를 조작할 때 타이밍이나 접근 순서에 따라 결과가 달라질 수 있는 상황
 - synchronization(동기화): 여러 프로세스/스레드를 동시에 실행해도 공유 데이터의 일관성을 유지하는 것
 - critical section: 공유 데이터의 일관성을 보장하기 위해 하나의 프로세스/스레드만 진입해서 실행 가능한 영역
 
-# Mutex
+## Mutex
 - 락을 가진 프로세스만이 공유 자원에 접근할 수 있게 하는 방법
 - 락을 획득하지 못하면 대기 큐에 들어가고, 락을 획득하면 큐에서 나옴
 
-## 구현 예시
 ```cpp
 mutex->lock();
 ...critical section...
@@ -56,11 +52,10 @@ Mutex::unlock() {
 }
 ```
 
-## Spinlock
+### vs Spinlock
 - 락을 얻기 위해 프로세스가 반복문을 돌면서 기다리는 것
 - 기다리는 동안 CPU를 낭비하는 단점이 있음 
 
-### 구현 예시
 ```cpp
 volatile int lock = 0; // global variable for spinlock, volatile: 컴파일러가 최적화하지 않도록 함
 
@@ -86,18 +81,26 @@ int test_and_set(int *lock_ptr) {
 
 ---
 
-# Semaphore
+## Semaphore
 - 공유 자원에 접근할 수 있는 프로세스의 수를 정해 접근을 제어하는 방법
 - 세마포어는 작업 간의 순서를 제어하는 데 사용될 수 있음
 
-## Binary Semaphore (이진 세마포어)
+### Binary Semaphore (이진 세마포어)
 - 락의 값이 0 또는 1만을 가질 수 있는 세마포어
 
-## Mutex vs Binary Semaphore
-- 뮤텍스와 유사하게 동작함. 하지만 뮤텍스는 락을 획득한 스레드만이 락을 해제할 수 있지만, 이진 세마포어는 락을 획득한 스레드가 아니더라도 락을 해제할 수 있다는 차이가 있음
-- 뮤텍스는 priority inheritance를 지원하지만, 이진 세마포어는 지원하지 않음
+### Mutex vs Binary Semaphore
 
-## 구현 예시
+| - | Mutex | Binary Semaphore |
+|---|---|---|
+| 소유권 | 특정 스레드가 락을 소유 | 소유권이 없음 |
+| 우선순위 상속 | 지원 | 미지원 |
+| 락 해제 | 락을 획득한 스레드만 해제 가능 | 락을 획득한 스레드가 아니어도 해제 가능 |
+
+> Priority Inversion: 낮은 우선순위의 스레드가 높은 우선순위 스레드의 실행을 막는 현상 <br>
+> Priority Inheritance: 낮은 우선순위의 스레드가 높은 우선순위의 스레드가 기다리지 않도록 일시적으로 높은 우선순위를 상속받아 실행하는 기법 <br>
+> priority inheritance는 priority inversion을 방지하거나 완화하는 방법 중 하나
+
+
 ```cpp
 class Semaphore {
     int value = 1;  // 0, 1, 2, ...
@@ -126,5 +129,5 @@ Semaphore::signal() {
 }
 ```
 
-# 참고
+## 참고
 - 상호배제만 필요하다면 뮤텍스를 사용하고, 작업 간의 실행 순서 제어가 필요하다면 세마포어를 사용을 권장
