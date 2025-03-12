@@ -1,25 +1,22 @@
 ---
-layout  : wiki
-title   : Spring Batch
-summary : 
-date    : 2024-11-28 22:28:44 +0900
-updated : 2024-11-28 22:29:00 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : 
-latex   : false
+title       : Spring Batch
+description : >-
+    Spring Batch에 대해 기록한 문서입니다.
+date        : 2024-11-28 09:00:45 +0900
+updated     : 2024-11-28 09:01:11 +0900
+categories  : [dev, java]
+tags        : [spring, batch]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
-# Spring Batch가 필요한 경우
+## Spring Batch가 필요한 경우
 - 작업이 여러 단계로 구성된 복잡한 흐름을 가질 때 (예: 읽기 -> 처리 -> 쓰기).
 - 작업이 대량 데이터를 트랜잭션 관리와 함께 처리해야 할 때.
 - 실패 재시도(retry), 재시작(resume) 등의 기능이 필요한 경우.
 - 작업 실행 이력을 저장하고 이를 기반으로 분석이나 관리가 필요할 때.
 
-# Spring Batch의 구성요소
+## 구성요소
 - Job: 배치 작업의 실행 단위. 여러 Step으로 구성됨.
 - Step: 배치 작업의 단계. ItemReader, ItemProcessor, ItemWriter로 구성됨.
 - JobRepository: Job과 Step의 실행 상태를 관리하는 저장소.
@@ -35,55 +32,55 @@ latex   : false
 - ItemProcessor: Step에서 사용되는 Item을 가공하는 인터페이스.
 - ItemWriter: Step에서 사용되는 Item을 저장하는 인터페이스.
 
-## Job 관련 인터페이스
+### Job 관련 인터페이스
 - JobParameters: Job을 실행할 때 전달되는 파라미터를 저장하는 객체.
 - JobRegistry: Job을 등록하고 관리하는 인터페이스. (Job을 등록하고, Job을 실행할 때 사용)
 - JobExplorer: JobExecution과 JobInstance를 조회하는 인터페이스.
 
 
-# Spring Batch를 사용한 배치 작업의 흐름
+## 배치 생성 절차
 1. Job을 생성한다.
 2. Job에 Step을 추가한다.
 3. Step에 ItemReader, ItemProcessor, ItemWriter를 설정한다.
 4. Job을 실행한다.
 
 
-# Spring Batch 상태를 저장하는 테이블
+## Batch Meta Tables
 ![Spring Batch Meta Tables](https://docs.spring.io/spring-batch/reference/_images/meta-data-erd.png)
 
-##  BATCH_JOB_INSTANCE
+1.  BATCH_JOB_INSTANCE
 - JobInstance의 정보를 저장하는 테이블.
 - 배치가 수행되면 Job이 생성이 되고, 해당 잡 인스턴스에 대해서 관련된 모든 정보를 가진 최상위 테이블.
 - JobInstance는 JobParameters를 가지고 있으며, JobParameters가 동일하면 같은 JobInstance로 간주한다.
 - JobInstance가 한번 실행되고 완료되면, 기존의 JobInstance를 다시 실행할 수 없다. (중복 실행 방지)
 
-# BATCH_JOB_EXECUTION
+2. BATCH_JOB_EXECUTION
 - JobExecution의 정보를 저장하는 테이블.
 - Job이 매번 실행될때, JobExecution이라는 새로운 객체가 생성되고, 해당 객체에 대한 정보를 저장하는 테이블.
 
-# BATCH_JOB_EXECUTION_PARAMS
+3. BATCH_JOB_EXECUTION_PARAMS
 - JobParameters의 정보를 저장하는 테이블.
 - JobParameters는 Job을 실행할 때 전달되는 파라미터를 저장하는 객체.
 
-# BATCH_JOB_EXECUTION_CONTEXT
+4. BATCH_JOB_EXECUTION_CONTEXT
 - JobExecutionContext의 정보를 저장하는 테이블.
 - JobExecutionContext는 Job이 실행될 때, JobExecution과 함께 생성되는 객체로, 해당 객체에 대한 정보를 저장하는 테이블.
 - 실패 후 중단된 부분부터 시작될 수 있도록 실패후 검색해야하는 상태를 나타낸다.
 
-# BATCH_STEP_EXECUTION
+5. BATCH_STEP_EXECUTION
 - StepExecution의 정보를 저장하는 테이블.
 - Step이 실행될 때, StepExecution이라는 새로운 객체가 생성되고, 해당 객체에 대한 정보를 저장하는 테이블.
 
-# BATCH_STEP_EXECUTION_CONTEXT
+6. BATCH_STEP_EXECUTION_CONTEXT
 - StepExecutionContext의 정보를 저장하는 테이블.
 - StepExecutionContext는 Step이 실행될 때, StepExecution과 함께 생성되는 객체로, 해당 객체에 대한 정보를 저장하는 테이블.
 - 실패 후 중단된 부분부터 시작될 수 있도록 실패후 검색해야하는 상태를 나타낸다.
 
 
-# Spring Batch의 실행 흐름
+## Spring Batch의 실행 흐름
 ![Spring Batch Flow](https://terasoluna-batch.github.io/guideline/5.0.0.RELEASE/en/images/ch02/SpringBatchArchitecture/Ch02_SpringBatchArchitecture_Architecture_ProcessFlow.png)
 
-## 처리흐름 관점
+### 처리흐름 관점
 1. JobScheduler 가 배치를 트리거링 하면 JobLauncher 를 실행한다.
 2. JobLauncher 는 Job을 실행한다. 이때 JobExecution 을 수행하고, Execution Context 정보를 이용한다.
 3. Job은 자신에게 정으된 Step을 실행한다. 이때 StepExecution을 수행하고, Execution Context 정보가 전달되어 수행된다.
