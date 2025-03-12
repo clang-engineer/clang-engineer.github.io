@@ -59,3 +59,35 @@ hidden      : false
     </select>
 </mapper>
 ```
+
+## mybatis ${} 와 #{} 차이
+- ${} : 문자열 치환할 때 사용한다.
+- #{} : 매개변수로 전달된 값을 바인딩할 때 사용한다.
+
+| 구분 | ${} | #{} |
+|---|---|---|
+| 사용처 | 변수, 컬럼명 | 값 |
+| 사용예 | ${column} | #{value} |
+| 윈리 | Mybatis가 문자열로 치환 | Mybatis가 값에 대한 바인딩을 사용 |
+| 주의 | SQL Injection 공격에 취약 | SQL Injection 공격에 안전 |
+| 예시 | SELECT ${column} FROM tbl_test | SELECT * FROM tbl_test WHERE id = #{id} |
+
+## mybatis key-value map 동적으로 사용하기
+
+- **#{row.${column}}** 처럼 사용하면 row(map객체)의 column(key)에 해당하는 값(value)을 동적으로 읽어들일 수 있다.
+
+- header : List<String>, row : Map<String, Object> 이고 map 객체에 header와 row를 담아서 파라미터로 전달할때 아래와 같이 사용할 수 있다.
+```xml
+<mapper namespace="io.test.TableDao">
+    <insert id="save">
+        INSERT INTO ${tableName}
+        <foreach item="column" collection="header" open="(" separator="," close=")">
+            ${column}
+        </foreach>
+        VALUES
+        <foreach item="column" collection="header" open="(" separator="," close=")">
+            #{row.${column}}
+        </foreach>
+    </insert>
+</mapper>
+```
