@@ -22,7 +22,7 @@ hidden      : false
 - JobRepository: Job과 Step의 실행 상태를 관리하는 저장소.
 - JobLauncher: Job을 실행하는 인터페이스.
 - JobInstance: Job의 실행 단위. JobParameters로 구분됨. (JobParameter가 동일하면 같은 JobInstance로 간주)
-- JobExecution: Job의 실행 상태. JobInstance와 JobParameters를 가짐. 
+- JobExecution: Job의 실행 상태. JobInstance와 JobParameters를 가짐. (각 실행마다 새로운 JobExecution이 생성됨) 
 - Tasklet: Step의 실행 단위. Step의 실행을 담당하는 인터페이스. 
 > Tasklet vs Chunk
 > Tasklet은 데이터 처리 과정이 단일 작업으로 이루어질 때 사용하며, Chunk는 데이터 처리 과정이 여러 작업으로 이루어질 때 사용한다.
