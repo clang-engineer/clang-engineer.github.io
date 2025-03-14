@@ -10,116 +10,66 @@ pin         : false
 hidden      : false
 ---
 
-## Directory Structure
-- `/` : Root Directory
-- `/bin` : Essential User Binaries
-- `/boot` : Static Boot Files
-- `/dev` : Device Files
-- `/etc` : Configuration Files
-- `/home` : Home Directories
-- `/lib` : Essential Shared Libraries
-- `/media` : Removable Media
-- `/mnt` : Mount Directory
-- `/opt` : Optional Packages
-- `/proc` : Kernel & Process Files
-- `/root` : Root Home Directory
-- `/run` : Application State Files
-- `/sbin` : System Binaries
-- `/srv` : Service Data
-- `/sys` : Kernel & System Files
-- `/tmp` : Temporary Files
-- `/usr` : User Binaries & Read-Only Data
-- `/var` : Variable Data
+## 최상위 디렉터리
 
-## 각 Directory 용도 상세 설명
+| 디렉터리 | 설명 |
+|----------|------|
+| `/` | 파일 시스템 계층의 루트 디렉터리 |
+| `/bin` | 모든 사용자와 단일 사용자 모드에서 필수적인 명령어 실행 파일 (`cat`, `ls`, `cp` 등) |
+| `/boot` | 부트 로더 파일 (커널, `initrd` 등) |
+| `/dev` | 장치 파일 (`/dev/null`, `/dev/sda1`, `/dev/tty` 등) |
+| `/etc` | 시스템 전반의 설정 파일 |
+| `/home` | 사용자 홈 디렉터리 |
+| `/lib` | `/bin`, `/sbin` 실행 파일에 필요한 필수 라이브러리 |
+| `/media` | CD-ROM 같은 이동식 미디어의 마운트 지점 |
+| `/mnt` | 일시적으로 마운트된 파일 시스템 |
+| `/opt` | 추가적인 애플리케이션 소프트웨어 패키지 |
+| `/proc` | 실행 중인 프로세스 및 커널 정보를 제공하는 가상 파일 시스템 |
+| `/root` | 루트 사용자의 홈 디렉터리 |
+| `/run` | 부팅 이후 시스템의 런타임 정보를 저장하는 디렉터리 |
+| `/sbin` | 시스템 관리자가 사용하는 필수 시스템 실행 파일 (`fsck`, `init`, `route` 등) |
+| `/srv` | 웹 서버, FTP 서버 등의 서비스 데이터를 저장하는 공간 |
+| `/sys` | 장치, 드라이버, 커널 기능 정보를 제공하는 디렉터리 |
+| `/tmp` | 임시 파일 저장소 (재부팅 시 삭제될 수 있음) |
 
-1. /bin
-- 사용자 필수 실행 파일이 위치하는 디렉토리
-- `ls`, `cp`, `mv`, `rm` 등의 명령어가 위치
-- <-> `/sbin` : 시스템 관리 명령어가 위치
+## `/etc` 하위 디렉터리
 
-2. /boot
-- 부팅에 필요한 정적 파일이 위치하는 디렉토리
-- 커널 이미지, 부트로더, 커널 모듈 등이 위치
-- `/boot/grub`, `/boot/vmlinuz`, `/boot/initrd.img` 등
+| 디렉터리 | 설명 |
+|----------|------|
+| `/etc/opt` | `/opt`에 저장된 추가 패키지의 설정 파일 |
+| `/etc/sgml` | SGML 관련 설정 파일 |
+| `/etc/X11` | X 윈도우 시스템 (버전 11)의 설정 파일 |
+| `/etc/xml` | XML 관련 설정 파일 |
+| `/etc/systemd` | `systemd` 서비스 관리자의 설정 파일 |
 
-3. /dev
-- 장치 파일이 위치하는 디렉토리
-- 하드웨어 장치를 파일로 표현한 것
-- `/dev/sda`, `/dev/tty`, `/dev/null`, `/dev/zero` 등
+## `/usr` 하위 디렉터리
 
-4. /etc
-- 시스템 설정 파일이 위치하는 디렉토리
-- 네트워크 설정, 사용자 계정 설정, 서비스 설정 등이 위치
-- `/etc/passwd`, `/etc/group`, `/etc/hosts`, `/etc/resolv.conf` 등
+| 디렉터리 | 설명 |
+|----------|------|
+| `/usr/bin` | 비필수 실행 파일 (`/bin`과 달리 단일 사용자 모드에서 필수적이지 않음) |
+| `/usr/include` | 표준 C/C++ 헤더 파일 등 포함 파일 |
+| `/usr/lib` | `/usr/bin` 및 `/usr/sbin` 실행 파일을 위한 라이브러리 |
+| `/usr/libexec` | 다른 프로그램에 의해 실행되는 바이너리 파일 (직접 실행되지 않음) |
+| `/usr/local` | 호스트에 특화된 프로그램을 저장하는 공간 |
+| `/usr/sbin` | 네트워크 서비스용 데몬 등 비필수 시스템 바이너리 |
+| `/usr/share` | 아키텍처에 의존하지 않는 공유 데이터 |
+| `/usr/src` | 소스 코드 저장 디렉터리 (커널 소스 포함) |
+| `/usr/X11R6` | X 윈도우 시스템 버전 11, 릴리즈 6 관련 파일 (선택 사항) |
 
-5. /home
-- 사용자 홈 디렉토리가 위치하는 디렉토리
-- 사용자 계정별로 디렉토리가 생성되어 사용자 데이터가 위치
-- 사용자 계정 생성 시, `/home` 디렉토리에 사용자 계정 디렉토리 생성
+## `/var` 하위 디렉터리
 
-6. /lib
-- 필수 공유 라이브러리가 위치하는 디렉토리
-- 실행 파일이 실행될 때 필요한 라이브러리 파일이 위치
-- `/lib`, `/lib64` 디렉토리에 위치
+| 디렉터리 | 설명 |
+|----------|------|
+| `/var/cache` | 응용 프로그램 캐시 데이터 |
+| `/var/lib` | 응용 프로그램이 실행되면서 변경하는 영구적인 데이터 (예: 데이터베이스, 패키지 메타데이터) |
+| `/var/lock` | 현재 사용 중인 리소스를 추적하는 파일 |
+| `/var/log` | 로그 파일 (시스템 로그, 애플리케이션 로그 등) |
+| `/var/mail` | 사용자 메일박스 파일 (일부 배포판에서는 `/var/spool/mail` 대신 사용됨) |
+| `/var/opt` | `/opt`에 저장된 패키지의 가변 데이터 |
+| `/var/run` | 부팅 이후 시스템 정보 (FHS 3.0에서는 `/run`으로 대체) |
+| `/var/spool` | 인쇄 대기열, 메일 대기열 등 대기 작업 저장소 |
+| `/var/spool/mail` | 사용자 메일박스의 이전 위치 (더 이상 권장되지 않음) |
+| `/var/tmp` | 재부팅 후에도 유지되는 임시 파일 |
 
-7. /media
-- 장치를 마운트할 디렉토리
-- CD, USB 등의 장치를 마운트할 때 사용
-- <-> `/mnt` : 수동으로 마운트할 디렉토리
-
-8. /mnt
-- 수동으로 마운트할 디렉토리
-- `/media`와 비슷한 역할을 하지만, 수동으로 마운트할 때 사용
-
-9. /opt
-- 선택적 패키지가 위치하는 디렉토리
-- `/usr` 디렉토리와 비슷한 역할을 하지만, `/usr` 디렉토리에 포함되지 않는 패키지가 위치
-
-10. /proc
-- 커널과 프로세스 정보가 위치하는 디렉토리
-- 가상 파일 시스템으로, 커널과 프로세스 정보를 파일 형태로 제공
-- `/proc/cpuinfo`, `/proc/meminfo`, `/proc/uptime` 등
-
-11. /root
-- root 사용자의 홈 디렉토리
-- root 사용자의 홈 디렉토리로, root 사용자의 데이터가 위치
-
-12. /run
-- 애플리케이션 상태 파일이 위치하는 디렉토리
-- 시스템 부팅 시 생성되며, 애플리케이션 상태 파일이 위치
-- `/run/utmp`, `/run/wtmp`, `/run/systemd` 등
-
-13. /sbin
-- 시스템 실행 파일이 위치하는 디렉토리
-- 시스템 관리 명령어가 위치
-- `ifconfig`, `reboot`, `shutdown` 등
-- <-> `/bin` : 사용자 실행 파일이 위치
-
-14. /srv
-- 서비스 데이터가 위치하는 디렉토리
-- 서비스에 필요한 데이터가 위치
-- 웹 서버의 웹 페이지, FTP 서버의 파일 등
-- `/srv/www`, `/srv/ftp` 등
-
-15. /sys
-- 커널과 시스템 정보가 위치하는 디렉토리
-- `/proc` 디렉토리와 비슷한 역할을 하지만, `/proc` 디렉토리는 파일 형태로 제공되는 반면, `/sys` 디렉토리는 파일 시스템 형태로 제공
-
-16. /tmp
-- 임시 파일이 위치하는 디렉토리
-- 시스템 전체 사용자가 사용할 수 있는 임시 파일이 위치
-- 시스템 부팅 시 생성되며, 시스템 종료 시 삭제
-
-17. /usr
-- 사용자 실행 파일과 읽기 전용 데이터가 위치하는 디렉토리
-- `/bin`, `/lib`, `/sbin` 등과 비슷한 역할을 하지만, 사용자 실행 파일과 읽기 전용 데이터가 위치
-- `/usr/bin`, `/usr/lib`, `/usr/sbin` 등
-- /bin이 부팅 시 필요한 실행 파일을 제공하는 반면, /usr/bin은 사용자 실행 파일을 제공
-- /bin : ls, cp, mv, rm 등 <-> /usr/bin : git, python, vim, java, wget 등
-
-18. /var
-- 변수 데이터가 위치하는 디렉토리
-- 시스템 운영 중에 변경되는 데이터가 위치
-- 로그 파일, 캐시 파일, 임시 파일 등이 위치
-- `/var/log`, `/var/cache`, `/var/tmp` 등
+> 참고: `/var/run`은 FHS 3.0에서 `/run`으로 대체되었으며, `/var/run`은 `/run`으로의 심볼릭 링크로 제공될 수 있음.
+> [wiki pedia](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
