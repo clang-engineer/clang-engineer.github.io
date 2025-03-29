@@ -35,6 +35,8 @@ psql -h {host} -p {port} -U {user} -d {database} < {backup_file} # 표준 입력
 - -n : 스키마   # -n public, -n schema1, -n schema1,schema2    # vs 스키마 제외: -N schema
 - -t : 테이블   # -t table1, -t table1,table2
 - -j : 병렬 처리 수
+- --schema-only : 스키마만 백업
+- --data-only : 데이터만 백업
 
 ### 포맷
 - plain : SQL 스크립트 형태로 백업 (기본값)
