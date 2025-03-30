@@ -3,7 +3,7 @@ title       : 퇴직금 중간 정산
 description : >-
     교보생명 퇴직연금 중도인출 신청 기록
 date        : 2024-03-30 17:58:48 +0900
-updated     : 2024-06-06 12:08:47 +0900
+updated     : 2025-03-30 15:47:24 +0900
 categories  : []
 tags        : []
 pin         : false
@@ -27,7 +27,7 @@ hidden      : true
 5. 현 거주지 주민등록등본(1개월이내/ 주민번호 13자리 표기) 
 - [정부24](https://www.gov.kr/mw/AA020InfoCappView.do?CappBizCD=13100000015&HighCtgCD=A01010001&Mcode=10200)
 6. 현 거주지(등본상) 건물등기부등본(1개월이내/말소사항포함/제출용)
-- [인터넷등기소](http://www.iros.go.kr/pos1/jsp/help2/jsp/001001003001.jsp) 에서 발급 가능
+- [인터넷등기소](https://www.iros.go.kr/pos1/jsp/help2/jsp/001001003001.jsp) 에서 발급 가능
 - 반드시 제출용으로 발급해야함
 
 7. 지방세 세목별과세증명서(1개월이내)
