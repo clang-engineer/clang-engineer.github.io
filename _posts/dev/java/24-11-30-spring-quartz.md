@@ -59,8 +59,7 @@ scheduler.scheduleJob(jobDetail, trigger);
 
 
 ## Job과 Trigger 관계
-- Job과 Trigger는 1:1 또는 1:N 관계로 연결 가능
-- Job과 Trigger를 1:N 관계로 연결하여 개별 Trigger에 대해 Job을 여러 번 실행하는 방식을 사용할 수 있음
+- Job과 Trigger는 1:1 또는 1:N 관계로 연결 가능 (하나의 Job에 여러 Trigger를 연결할 수 있으나, 하나의 Trigger는 하나의 Job에만 연결 가능)
 - Job이 삭제 될 때 Trigger도 함께 삭제됨
  
 
@@ -80,3 +79,40 @@ scheduler.scheduleJob(jobDetail, trigger);
 - RAMJobStore: Job, Trigger, JobDataMap 등의 정보를 메모리에 저장
 - JDBCJobStore는 Quartz Scheduler가 종료되어도 정보가 유지되지만, RAMJobStore는 종료 시 정보가 사라짐
 - JDBCJobStore는 Quartz Scheduler를 여러 대의 서버에서 공유할 때 사용
+
+## Quartz Database Schema
+
+| Table Name | Description |
+|------------|-------------|
+| qrtz_calendars | 쿼츠에서 사용하는 비표준 캘린더 정보를 저장 |
+| qrtz_job_details | JobDetail 정보를 저장 |
+| qrtz_locks | 쿼츠에서 사용하는 Lock 정보를 저장 |
+| qrtz_scheduler_state | Scheduler 상태 정보를 저장 |
+| qrtz_triggers | Trigger 정보를 저장 |
+| qrtz_cron_triggers | Cron Trigger 정보를 저장 |
+| qrtz_fired_triggers | 현재 실행 중인 Trigger 정보를 저장 |
+| qrtz_blob_triggers | Blob Trigger 정보를 저장 |
+| qrtz_simple_triggers | Simple Trigger 정보를 저장 |
+| qrtz_simprop_triggers | 사용자 정의 Trigger 정보를 저장 |
+| qrtz_paused_trigger_grps | Trigger 그룹의 Pause 상태 정보를 저장 |
+| qrtz_job_listeners | Job Listener 정보를 저장 |
+| qrtz_trigger_listeners | Trigger Listener 정보를 저장 |
+| qrtz_scheduler_listeners | Scheduler Listener 정보를 저장 |
+| qrtz_job_trigger_rel | Job과 Trigger의 관계를 저장 |
+| qrtz_job_trigger_state | Job과 Trigger의 상태 정보를 저장 |
+
+
+## Quartz Trigger State
+
+| Trigger State | Description |
+|--------------|-------------|
+| Normal | Trigger가 실행될 준비가 되어 있으며, 스케줄에 따라 실행됨 |
+| Paused | Trigger가 일시 중지되어 있으며, 실행되지 않음 |
+| Complete | Trigger가 더 이상 실행되지 않으며, 실행할 "fire times"가 없음 |
+| Error | Trigger가 오류가 발생하여 더 이상 실행되지 않음 |
+| Blocked | Trigger가 DisallowConcurrentExecutionAttribute가 설정된 Job과 연결되어 있어 대기 중인 상태 |
+| None | Trigger가 존재하지 않음 |
+| Waiting | Trigger가 대기 중인 상태로, Job이 실행될 준비가 되어 있음 |
+| Error | Trigger가 오류가 발생하여 더 이상 실행되지 않음 |
+
+
