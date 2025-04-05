@@ -178,13 +178,40 @@ umask 077 # 파일권한: rw-------, 디렉토리 권한: rwxr-----
 
 ## PART2. 스케쥴링(Scheduling)
 
+### 24. CPU 스케줄링(CPU Scheduling)
+### 25. CPU 스케쥴링 종류
+### 26. 선점형 스케쥴링(Preemptive Scheduling)과 비선점형 스케쥴링(Non-Preemptive Scheduling)
+### 27. Round Robin Scheduling
+### 28. Fixed Time Slice Scheduling
+### 29. -
+### 30. FCFS, SJF 동작원리
+### 31. SRTF(SRT) Scheduling
+### 32. MLQ(Multi Level Queue)와 MLFQ(Multi Level Feedback Queue)
+### 33. SJF 기아현상, HRN
+### 34. Round Robin Scheduling
+### 35. 우선 순위 역전(Priority Inversion) 발생 원인
+### 36. 우선 순위 역전(Priority Inversion) 방지 방법
+### 37. RM, EDF 스케줄링
+### 38. HDD의 Disk Access Time
+### 39. NCQ
+
 ---
 
 ## PART3. 동기화, C-언어 기출 외
+### 40. 세마포어(Semaphore) 연산 
+### 41. 은행원 알고리즘(Banker's Algorithm)
+### 42. 교착상태(Deadlock) 발생 원인과 해결 방법
+### 43. C언어에서의 지역변수 
+### 44. C언어 Extern, Auto, Static, register 변수, Coding 각 변수 비교
+### 45. C언어 Macro, Function, Inline 각 개념, 공통점, 장단점, 차이점
+### 46. - 
+### 47. -
+
 
 ---
 
 ## PART4. 병렬 프로세서, Memory 제어 기술
+
 
 ---
 
