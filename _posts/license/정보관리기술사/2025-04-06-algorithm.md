@@ -554,13 +554,115 @@ void delete(node* target) {
 
 ## PART4. 스택(Stack)과 큐(Queue)
 ### 27. 스택(Stack)에서 사용되는 용어와 연산
-### 28. -
-### 29. -
+정의
+> 스택은 LIFO(Last In First Out) 구조로, 마지막에 들어온 데이터가 가장 먼저 나가는 구조이다.
+> 스택은 주로 함수 호출, 괄호 검사, 후위 표기법 변환 등에 사용된다.
+
+용어
+>
+| 용어 | 설명 |
+|-------|------------------|
+| Top | 스택의 가장 위에 있는 요소 |
+| Bottom | 스택의 가장 아래에 있는 요소 |
+| Push | 스택에 요소를 추가하는 연산 |
+| Pop | 스택에서 요소를 제거하는 연산 |
+| Overflow | 스택이 가득 차서 더 이상 요소를 추가할 수 없는 상태 |
+| Underflow | 스택이 비어 있어 요소를 제거할 수 없는 상태 |
+
+### 28. Stack 구조를 Linked List 형태로 표현
+- 
+
+### 29. Stack의 크기 n=5인 스택에서 노드 A,B,C,D를 push하고 D,C,B를 pop한 후 다시 노드 E,F를 push 하는 과정을 나타내시오.
+
 ### 30. Stack의 활용예 5가지 이상과 2개의 상세예제 그리고 stack overflow 발생방지방법 2가지
+활용예
+>
+
+상세예제
+>
+
+stack overflow 발생방지방법
+>
+
 ### 31. Queue에 대해 설명하고 Queue를 표현하기 위한 조건과 큐의 삽입과 삭제에 대해 Coding
+정의
+> 큐는 FIFO(First In First Out) 구조로, 먼저 들어온 데이터가 먼저 나가는 구조이다.
+> 큐는 주로 프로세스 스케줄링, 데이터 전송 등에 사용된다.
+
+조건
+>
+| 조건 | 설명 |
+|-------|------------------|
+| Front Pointer | 큐의 첫 번째 요소를 가리키는 포인터 |
+| Rear Pointer | 큐의 마지막 요소를 가리키는 포인터 |
+| Queue의 empty | Front와 Rear가 같을 때 |
+| overflow | Rear가 큐의 크기를 초과할 때 |
+| 초기조건 | front = rear = -1 |
+
+삽입
+> 
+```cpp
+void enqueue(int data) {
+    if (isFull()) {
+        printf("Queue is full\n");
+        return;
+    }
+    rear = (rear + 1) % MAX_SIZE;
+    queue[rear] = data;
+    if (front == -1) {
+        front = 0;
+    }
+}
+```
+
+삭제
+> 
+```cpp
+void dequeue() {
+    if (isEmpty()) {
+        printf("Queue is empty\n");
+        return;
+    }
+    int data = queue[front];
+    front = (front + 1) % MAX_SIZE;
+    if (front == rear) {
+        front = rear = -1;
+    }
+}
+```
+
 ### 32. 원형 큐(Circular Queue)에서 Enqueue와 Dequeue, Empty와 Full 상태
+정의
+> 원형 큐는 큐의 마지막 요소가 첫 번째 요소와 연결되어 있는 구조이다. <br>
+
+Enqueue
+> 원형 큐에 요소를 추가하는 연산으로, rear 포인터를 증가시키고 요소를 추가한다. <br>
+
+Dequeue
+> 원형 큐에서 요소를 제거하는 연산으로, front 포인터를 증가시키고 요소를 제거한다. <br>
+
+Empty
+> 큐가 비어 있는 상태로, front와 rear 포인터가 같을 때 발생한다. <br>
+
+Full
+> 큐가 가득 찬 상태로, (rear + 1) % MAX_SIZE == front일 때 발생한다. <br>
+
 ### 33. 우선순위 큐(Priority Queue)를 구현하는 방법으로 배열, 연결 리스트, 힙을 이용하는 방법에 대해 각각 설명
+
+배열
+> 우선순위 큐를 배열로 구현할 때는 각 요소에 우선순위를 부여하고, 삽입 시 우선순위에 따라 정렬하여 저장한다. <br>
+
+연결 리스트
+> 우선순위 큐를 연결 리스트로 구현할 때는 각 노드에 우선순위를 부여하고, 삽입 시 우선순위에 따라 노드를 삽입한다. <br>
+
+힙
+> 우선순위 큐를 힙으로 구현할 때는 이진 힙을 사용하여 부모 노드가 자식 노드보다 우선순위가 높도록 구성한다. 삽입과 삭제가 효율적이다. <br>
+
 ### 34. 데크(Deque)의 삽입과 삭제 과정
+
+정의
+> 데크는 양쪽 끝에서 삽입과 삭제가 가능한 큐이다. <br>
+
 --
 
 ## PART5. 정렬(Sorting)
