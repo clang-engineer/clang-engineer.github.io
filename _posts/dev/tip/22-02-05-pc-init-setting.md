@@ -147,3 +147,10 @@ sudo apt-get install zsh-syntax-highlighting # git clone https://github.com/zsh-
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ```
+
+--- 
+
+## terminal에서 vim 사용 시 스크롤이 안되는 경우
+termianl >> settings >> profiles 에서 아래의 scroll alternate screen 옵션을 비활성화 하면 된다
+![Screenshot 2022-12-15 at 9 25 44 AM](https://user-images.githubusercontent.com/39648594/207744062-ad50f078-7b15-44a6-98b4-ac12a7262f51.png)
+
