@@ -1,16 +1,4 @@
 ---
-layout  : wiki
-title   : 걱정하지마라 - 글배우
-summary : 
-date    : 2022-07-09 01:11:56 +0900
-updated : 2022-07-09 01:13:28 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[etc/index]]
-latex   : false
----
----
 title       : 걱정하지마라 - 글배우
 description : 
 date        : 2022-07-09 01:11:56 +0900
