@@ -144,30 +144,131 @@ hidden      : true
 ```
 
 ### 8. 2진수를 음수로 표현하는 방법 3가지 이상 나열
-### 9. 알고리즘 표현 방법과 반복문인 for, while, do-while문을 사용하여 1에서 100까지 덧셈하는 code 예제와 순서도
-### 10.아래 3개 A,B,C 알고리즘 사용시 n에 대한 전체 연산수를 구하시오.
+>
+1. 부호비트
+- 최상위 비트를 부호 비트로 사용하여 양수와 음수를 구분하는 방법
+- 구현이 간단하지만 연산이 복잡함. 0이 2개 존재
+- ex: +9 = 00001001, -9 = 10001001
+2. 1의 보수
+- 모든 비트를 반전시켜 음수를 표현하는 방법
+- 덧셈과 뺄셈이 복잡하지만 구현이 간단함. 0이 2개 존재
+- ex: +9 = 00001001, -9 = 11110110
+3. 2의 보수
+- 1의 보수에 1을 더하여 음수를 표현하는 방법
+- 덧셈과 뺄셈이 간단하고 0이 하나만 존재함
+- ex: +9 = 00001001, -9 = 11110111
 
-- A
-```sh
-Sum n *n;
+### 9. 알고리즘 표현 방법과 반복문인 for, while, do-while문을 사용하여 1에서 100까지 덧셈하는 code 예제와 순서도
+
+>
+for문
+```cpp
+int sum = 0;
+for (int i = 1; i <= 100; i++) {
+    sum += i;
+}
 ```
-- B
-```sh
-for i < -1 to n do
-    Sum Sum+n;
+while문
+```cpp
+int sum = 0;
+int i = 1;
+while (i <= 100) {
+    sum += i;
+    i++;
+}
 ```
-- C
-```sh
-for i < -1 to n do
-    for j = 1 to n do
-        Sum Sum+n;
+do-while문
+```cpp
+int sum = 0;
+int i = 1;
+do {
+    sum += i;
+    i++;
+} while (i <= 100);
 ```
+
+
+
+
+
+### 10. 아래 3개 A,B,C 알고리즘 사용시 n에 대한 전체 연산수를 구하시오.
 
 ### 11. 프로그램 언어에서 함수간 매개변수 전달기법인 Call-by-value, Call-by-reference, Call-by-name에 대해 실제 Code 예제를 보이시오.
 
-### 12. C언어를 사용하여 정수를 이진수로 변환하는 프로그램을 작성하시오.
+> 
+- Call by value: 실제 인자의 값을 복사하여 전달하는 방법
+```cpp
+#include <stdio.h>
+void add(int a, int b) {
+    a += 1;
+    b += 1;
+    printf("Inside function: a = %d, b = %d\n", a, b);
+}
+int main() {
+    int x = 5, y = 10;
+    add(x, y);
+    printf("Outside function: x = %d, y = %d\n", x, y);
+    return 0;
+}
+```
+- Call by reference: 실제 인자의 주소를 전달하는 방법
+```cpp
+#include <stdio.h>
+void add(int *a, int *b) {
+    *a += 1;
+    *b += 1;
+    printf("Inside function: a = %d, b = %d\n", *a, *b);
+}
+int main() {
+    int x = 5, y = 10;
+    add(&x, &y);
+    printf("Outside function: x = %d, y = %d\n", x, y);
+    return 0;
+}
+```
+- Call by name: 실제 인자를 전역변수(Extern)로 선언하여 전달하는 방법
+```cpp
+#include <stdio.h>
+int a, b;
+void add() {
+    a += 1;
+    b += 1;
+    printf("Inside function: a = %d, b = %d\n", a, b);
+}
+int main() {
+    a = 5;
+    b = 10;
+    add();
+    printf("Outside function: a = %d, b = %d\n", a, b);
+    return 0;
+}
+```
 
-### 13. 자료 구ㅈ조에서 아래 Pointer 자료의 Memory Allocation(할당)을 표현하고 설명하시오.
+### 12. C언어를 사용하여 정수를 이진수로 변환하는 프로그램을 작성하시오.
+(* 2진수를 문자열로 변환하여 출력, 2진수는 32bit를 초과하지 않음)
+>
+```cpp
+#include <stdio.h>
+int main() {
+    int i,j;
+    char A[32];
+//
+    scanf("%d", &i);
+//
+    for (j = 31; j >= 0; j--) {
+        A[j] = (i % 2) + '0';
+        i = i / 2;
+    }
+//
+    for (j = 0; j < 32; j++) {
+        printf("%c", A[j]);
+    }
+    printf("\n");
+}
+```
+
+### 13. 자료 구조에서 아래 Pointer 자료의 Memory Allocation(할당)을 표현하고 설명하시오.
+(a가 100번지에 저장되어 있을 때)
 ```cpp
 int a, b;
 int *ptr;
@@ -175,6 +276,17 @@ a = 15;
 ptr = &a;
 b = *ptr;
 ```
+
+>
+할당 과정
+|  단계 | 설명 |
+|-------|------------------|
+| 1 | Integer(정수형) 변수 a, b 선언 |
+| 2 | 포인터 변수 ptr 선언 |
+| 3 | 변수 a에 15 할당 |
+| 4 | ptr에 a의 주소값(100번지) 할당 |
+| 5 | ptr을 통해 a의 값을 읽어 b에 할당 |
+
 
 --
 
