@@ -396,15 +396,159 @@ void HanoiTowerMove(int n, char from, char by, char to) {
 크기가 고정되어 있어 동적 크기 조정이 불가능 <br>
 삽입과 삭제가 비효율적임
 
+### 20. 3차원 배열 값에 대한 배열의 각각의 요소 값과 Memory에 할당되는 방법에 대해 기술하시오. 
+>
+| 항목 | 2차원 배열 | 3차원 배열 |
+|-------|------------------|------------------|
+| 구조 | 행 × 열 | 층 × 행 × 열 |
+| 선언 | arr[2][3] | arr[2][3][4] |
+| 요소 수 | 6개 | 24개 |
+| 메모리 저장 순서 | Row-Major Order | Row-Major Order |
+| 주소 계산 | i * 열 + j | (i * 행 + j) * 열 + k |
 
-
-### 20. 다음 3차원 배열 값에 대한 배일의 각각의 요소 값과 Memory에 할당되는 방법에 대해 기술하시오. 
 ### 21. 배열(Array)과 연결 리스트(Linked List)의 차이점
+정의
+> 배열은 동일한 자료형의 데이터를 연속적으로 저장하는 자료구조이며, 연결 리스트는 노드들이 포인터로 연결된 비연속적인 메모리 구조이다.
+
+> 
+| 항목 | 배열(Array) | 연결 리스트(Linked List) |
+|-------|------------------|------------------|
+| 메모리 구조 | 연속적 | 비연속적 |
+| 크기 | 고정 | 동적 |
+| 접근 | 인덱스 사용 | 포인터 사용 |
+| 삽입/삭제 | 비효율적 | 효율적 |
+| 탐색 | O(1) | O(n) |
+| 메모리 사용 | 고정 | 동적 |
+| 장점 | 빠른 접근 | 동적 크기 조정 |
+| 단점 | 삽입/삭제 비효율적 | 탐색 비효율적 |
+
 ### 22. 선형 List(Linear List)에서 처리할 수 있는 연산에 대해 설명
+>
+길이(Length): 리스트의 길이를 반환하는 연산 <br>
+접근(Access): 리스트의 특정 위치에 있는 요소를 반환하는 연산 <br>
+검색(Search): 리스트에서 특정 값을 검색하는 연산 <br색
+삽입(Insert): 리스트의 특정 위치에 요소를 삽입하는 연산 <br>
+삭제(Delete): 리스트의 특정 위치에 있는 요소를 삭제하는 연산 <br>
+복사(Copy): 리스트의 모든 요소를 복사하는 연산 <br>
+정렬(Sort): 리스트의 요소를 정렬하는 연산 <br>
+병합(Merge): 두 개의 리스트를 하나로 병합하는 연산 <br>
+분리(Split): 리스트를 두 개로 분리하는 연산 <br>
+
 ### 23. Linked List의 구성과 비순차적인 메모리 구성에 따른 삽입과 삭제
-### 24. -
-### 25. 이중 연결 리스트(Doubly Linked List)에서 삽입과 삭제
-### 26. 인접 다중 리스트(Adjacency List)에 대해 설명
+구성
+> 노드(Node): 데이터와 포인터로 구성된 기본 단위 <br>
+```cpp
+struct Node {
+    int data; // 데이터
+    struct Node* next; // 다음 노드에 대한 포인터
+};
+```
+
+비순차적인 메모리 구성에 따른 삽입과 삭제 예제
+> 삽입: 새로운 노드를 생성하고, 이전 노드의 포인터를 새로운 노드로 변경 <br>
+삭제: 삭제할 노드를 찾고, 이전 노드의 포인터를 삭제할 노드의 다음 노드로 변경 <br>
+
+### 24. 연결 리스트 구현
+- 작은 수부터 순서가 정렬된 연결 리스트에 삽입하는 함수 구현
+- 모든 노드를 출력하는 함수 구현
+- 숫자를 입력 받아 삭제하는 함수 구현
+> 
+```cpp
+#include <stdio.h>
+#include <stdlib.h>
+// 구조체 정의
+struct Node {
+    int data;
+    struct Node* next;
+};
+// 전역 변수 
+node *head, *tail;
+// 초기화 함수
+void init(void) {
+    head = (node *)malloc(sizeof(node));
+    tail = (node *)malloc(sizeof(node));
+    head->next = tail;
+    tail->next = tail;
+}
+// 순서 유지 삽입 함수
+node* insert(int data) {
+    node *newNode = (node *)malloc(sizeof(node));
+    newNode->data = data;
+    // 
+    node *current = head->next;
+    node *previous = head;
+    // 
+    while (current != tail && current->data < data) {
+        previous = current;
+        current = current->next;
+    }
+    // 
+    previous->next = newNode;
+    newNode->next = current;
+    // 
+    return newNode;
+}
+// 모든 노드 출력 함수
+void printList() {
+    node *current = head->next;
+    while (current != tail) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+// 특정 숫자 삭제 함수
+node *delete(int data) {
+    node *current = head->next;
+    node *previous = head;
+    // 
+    while (current != tail && current->data != data) {
+        previous = current;
+        current = current->next;
+    }
+    // 
+    if (current == tail) {
+        printf("Data not found\n");
+        return NULL;
+    }
+    // 
+    previous->next = current->next;
+    free(current);
+    // 
+    return previous->next;
+}
+```
+
+### 25. 이중 연결 리스트(Doubly Linked List)에서 삽입, 삭제 과정
+삽입
+> 새로운 노드를 생성하고, 이전 노드와 다음 노드의 포인터를 새로운 노드로 변경 <br>
+```cpp
+void insert(node* newNode, node* previous) {
+    newNode->next = previous->next;
+    newNode->prev = previous;
+    if (previous->next != NULL) {
+        previous->next->prev = newNode;
+    }
+    previous->next = newNode;
+}
+```
+
+삭제
+> 삭제할 노드를 찾고, 이전 노드와 다음 노드의 포인터를 삭제할 노드의 포인터로 변경 <br>
+```cpp
+void delete(node* target) {
+    if (target->prev != NULL) {
+        target->prev->next = target->next;
+    }
+    if (target->next != NULL) {
+        target->next->prev = target->prev;
+    }
+    free(target);
+}
+```
+
+### 26. 인접 다중 리스트(Adjacency multi list)에 대해 설명
+정의
 
 --
 
