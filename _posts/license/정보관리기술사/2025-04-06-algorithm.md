@@ -276,9 +276,7 @@ a = 15;
 ptr = &a;
 b = *ptr;
 ```
-
 >
-할당 과정
 |  단계 | 설명 |
 |-------|------------------|
 | 1 | Integer(정수형) 변수 a, b 선언 |
@@ -287,39 +285,138 @@ b = *ptr;
 | 4 | ptr에 a의 주소값(100번지) 할당 |
 | 5 | ptr을 통해 a의 값을 읽어 b에 할당 |
 
-
 --
 
 ## PART2. 재귀함수(Recursive Function) 
-### 14.
-### 15.
-### 16.
-### 17.
-### 18.
+### 14. "Factorial n"을 구하는 재귀호출 알고리즘 작성
+>
+```cpp
+#include <stdio.h>
+int factorial(int n) {
+    if (n == 0 || n == 1) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+int main() {
+    int n;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    printf("Factorial of %d is %d\n", n, factorial(n));
+    return 0;
+}
+```
+
+### 15. 다음 재귀호출 Code에 수행 동작을 설명하시오.
+문제 14에서 Factorial(3)에 대한 실행 과정 설명
+>
+| 단계 | 설명 | return |
+|-------|------------------|--------|
+| 1 | factorial(3) 호출 | 3 * factorial(2) |
+| 2 | factorial(2) 호출 | 2 * factorial(1) |
+| 3 | factorial(1) 호출 | 1 |
+| 4 | factorial(1) 종료 | 1 |
+| 5 | factorial(2) 종료 | 2 * 1 = 2 |
+| 6 | factorial(3) 종료 | 3 * 2 = 6 |
+
+### 16. 피보나치 수열(Fibonacci Sequence)에 대해 설명
+> 
+- 수열의 n번째 값 = 수열 n-1번째 값 + 수열 n-2번째 값
+- 앞의 두개 더해서 현재의 수를 만들어가는 수열
+```txt
+fib(0) = 0
+fib(1) = 1
+fib(n) = fib(n-1) + fib(n-2)
+```
+
+### 17. 피보나치 실행순서 과정을 Tree로 표현하시오.
+Fibonacci(6) 호출
+> 
+```txt
+Fibonacci(6)
+├── Fibonacci(5)
+│   ├── Fibonacci(4)
+│   │   ├── Fibonacci(3)
+│   │   │   ├── Fibonacci(2)
+│   │   │   │   ├── Fibonacci(1)
+│   │   │   │   └── Fibonacci(0)
+│   │   │   └── Fibonacci(1)
+│   │   └── Fibonacci(2)
+│   │       ├── Fibonacci(1)
+│   │       └── Fibonacci(0)
+│   └── Fibonacci(3)
+│       ├── Fibonacci(2)
+│       │   ├── Fibonacci(1)
+│       │   └── Fibonacci(0)
+│       └── Fibonacci(1)
+└── Fibonacci(4)
+    ├── Fibonacci(3)
+    │   ├── Fibonacci(2)
+    │   │   ├── Fibonacci(1)
+    │   │   └── Fibonacci(0)
+    │   └── Fibonacci(1)
+    └── Fibonacci(2)
+        ├── Fibonacci(1)
+        └── Fibonacci(0)
+```
+
+### 18. 하노이 타워 문제
+>
+```cpp
+#include <stdio.h>
+//
+int main(void) {
+    HanoiTowerMove(3, 'A', 'B', 'C');
+    return 0;
+}
+//
+void HanoiTowerMove(int n, char from, char by, char to) {
+        HanoiTowerMove(n - 1, from, to, by);
+        HanoiTowerMove(n - 1, by, from, to);
+}
+```
 
 --
 
 ## PART3. 배열(Array)과 연결 리스트(Linked List)
-### 19.
-### 20.
-### 21.
-### 22.
-### 23.
-### 24.
-### 25.
-### 26.
+### 19. Array(배열)에 대해 설명하고 장단점을 기술하시오.
+
+정의
+>
+동일한 성질을 가진 자료형을 연속적으로 저장하는 자료구조 
+
+장점
+>
+인덱스를 사용하여 빠른 접근 가능 <br>
+메모리 할당이 연속적이므로 캐시 효율성이 높음
+
+단점
+>
+크기가 고정되어 있어 동적 크기 조정이 불가능 <br>
+삽입과 삭제가 비효율적임
+
+
+
+### 20. 다음 3차원 배열 값에 대한 배일의 각각의 요소 값과 Memory에 할당되는 방법에 대해 기술하시오. 
+### 21. 배열(Array)과 연결 리스트(Linked List)의 차이점
+### 22. 선형 List(Linear List)에서 처리할 수 있는 연산에 대해 설명
+### 23. Linked List의 구성과 비순차적인 메모리 구성에 따른 삽입과 삭제
+### 24. -
+### 25. 이중 연결 리스트(Doubly Linked List)에서 삽입과 삭제
+### 26. 인접 다중 리스트(Adjacency List)에 대해 설명
 
 --
 
 ## PART4. 스택(Stack)과 큐(Queue)
-### 27.
-### 28.
-### 29.
-### 30.
-### 31.
-### 32.
-### 33.
-### 34.
+### 27. 스택(Stack)에서 사용되는 용어와 연산
+### 28. -
+### 29. -
+### 30. Stack의 활용예 5가지 이상과 2개의 상세예제 그리고 stack overflow 발생방지방법 2가지
+### 31. Queue에 대해 설명하고 Queue를 표현하기 위한 조건과 큐의 삽입과 삭제에 대해 Coding
+### 32. 원형 큐(Circular Queue)에서 Enqueue와 Dequeue, Empty와 Full 상태
+### 33. 우선순위 큐(Priority Queue)를 구현하는 방법으로 배열, 연결 리스트, 힙을 이용하는 방법에 대해 각각 설명
+### 34. 데크(Deque)의 삽입과 삭제 과정
 --
 
 ## PART5. 정렬(Sorting)
