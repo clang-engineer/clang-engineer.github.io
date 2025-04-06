@@ -187,10 +187,6 @@ do {
 } while (i <= 100);
 ```
 
-
-
-
-
 ### 10. 아래 3개 A,B,C 알고리즘 사용시 n에 대한 전체 연산수를 구하시오.
 
 ### 11. 프로그램 언어에서 함수간 매개변수 전달기법인 Call-by-value, Call-by-reference, Call-by-name에 대해 실제 Code 예제를 보이시오.
