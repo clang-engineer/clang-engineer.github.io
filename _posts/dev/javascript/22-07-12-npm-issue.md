@@ -31,6 +31,15 @@ npm install --legacy-peer-deps
 
 ---
 
+## npm install 설치시 npm ERR! code ERESOLVE 에러가 발생한다면
+npm install 뒤에 '--save --legacy-peer-deps' 를 추가해주면 된다.
+```sh
+$ npm install --save --legacy-peer-deps
+```
+
+
+---
+
 ## Can not find module npm-cli
 
 ### 환경변수 추가
