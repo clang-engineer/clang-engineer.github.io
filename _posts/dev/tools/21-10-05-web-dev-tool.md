@@ -35,3 +35,7 @@ public/private 을 옵션을 선택할 수 있고, 이미지 추출등 다양한
 ## git 공부하기 매우 유용한 사이트
 [https://learngitbranching.js.org/](https://learngitbranching.js.org/) <br>
 git의 branch를 시각적으로 보여주고, git 명령어를 연습할 수 있는 사이트. <br> 
+
+
+## Chrome Plugin
+- Wappalyzer: 웹사이트가 어떤 언어로 개발되었는지 분석해주는 플러그인
