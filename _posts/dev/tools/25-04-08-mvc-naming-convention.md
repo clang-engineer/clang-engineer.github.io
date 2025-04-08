@@ -9,7 +9,6 @@ pin         : false
 hidden      : false
 ---
 
-
 ## 각 계층별 기본 규칙
 - 컨트롤러
 get/post/update/delete  >>  요청에 대한 의미를 강조
@@ -76,6 +75,16 @@ URI: DELETE /api/v1/users/{id}
 - select는 SQL 쿼리와 관련된 용어라 ORM의 추상화 레이어와 맞지 않음.
 - find는 객체를 찾는다는 의미로, ORM의 목적과 잘 맞음.
 
+> <-> insert, update, delete는 일반적인 CRUD 개념이자 비즈니스 용어와도 가깝다
+>
+| 용어 | 뉘앙스 |
+| --- | --- |
+| select | 데이터를 어떻게 가져오는가 (방법 중심) |
+| find | 어떤 데이터를 찾고 싶은가 (목적 중심) |
+| insert | 데이터를 추가하다 (동작 자체가 명확) |
+| update | 데이터를 수정하다 |
+| delete | 데이터를 제거하다 |
+→ select만 유독 SQL 냄새가 너무 강해서 Repository 레이어에서는 의미적인 find를 쓰고, 나머지는 자연스럽게 받아들여짐.
 
 ## 결론
 - Service 계층에서 find, create, modify, remove 같은 의미 중심 동사를 쓰면 가독성이 좋아짐.
