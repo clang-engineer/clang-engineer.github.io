@@ -3,7 +3,7 @@ title       : MVC 계층별 메소드 네이밍 컨벤션
 description : >-
 date        : 2025-01-14 09:10:09 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [dev, tools]
+categories  : [dev, tip]
 tags        : [mvc, convention]
 pin         : false
 hidden      : false
@@ -22,6 +22,7 @@ findById / insert / delete  >> db 작업에 초점
 ## 예시
 ### id로 하나의 개체를 가져올 때 
 URL: GET /api/v1/users/{id}
+
 | 계층 | 메소드명 | 설명 |
 | --- | --- | --- |
 | Controller | getUserById | HTTP 요청 처리, REST 컨벤션에 맞춤 |
@@ -30,6 +31,7 @@ URL: GET /api/v1/users/{id}
 
 #### 모든 개체 가져올 때
 URI: GET /users
+
 | 계층 | 메소드명 | 설명 |
 | --- | --- | --- |
 | Controller | getAllUsers | RESTful 응답 처리 |
@@ -38,6 +40,7 @@ URI: GET /users
 
 ###  개체를 생성할 때
 URI: POST /api/v1/users
+
 | 계층 | 메소드명 | 설명 |
 | --- | --- | --- |
 | Controller | createUser | HTTP 요청 처리, REST 컨벤션에 맞춤 |
@@ -46,6 +49,7 @@ URI: POST /api/v1/users
 
 ### 개체를 수정할 때
 URI: PUT /api/v1/users/{id} or PATCH /api/v1/users/{id}
+
 | 계층 | 메소드명 | 설명 |
 | --- | --- | --- |
 | Controller | updateUser | HTTP 요청 처리, REST 컨벤션에 맞춤 |
@@ -54,6 +58,7 @@ URI: PUT /api/v1/users/{id} or PATCH /api/v1/users/{id}
 
 ### 개체를 삭제할 때
 URI: DELETE /api/v1/users/{id}
+
 | 계층 | 메소드명 | 설명 |
 | --- | --- | --- |
 | Controller | deleteUser | HTTP 요청 처리, REST 컨벤션에 맞춤 |
@@ -76,7 +81,7 @@ URI: DELETE /api/v1/users/{id}
 - find는 객체를 찾는다는 의미로, ORM의 목적과 잘 맞음.
 
 > <-> insert, update, delete는 일반적인 CRUD 개념이자 비즈니스 용어와도 가깝다
->
+
 | 용어 | 뉘앙스 |
 | --- | --- |
 | select | 데이터를 어떻게 가져오는가 (방법 중심) |
@@ -84,6 +89,7 @@ URI: DELETE /api/v1/users/{id}
 | insert | 데이터를 추가하다 (동작 자체가 명확) |
 | update | 데이터를 수정하다 |
 | delete | 데이터를 제거하다 |
+
 → select만 유독 SQL 냄새가 너무 강해서 Repository 레이어에서는 의미적인 find를 쓰고, 나머지는 자연스럽게 받아들여짐.
 
 ## 결론
