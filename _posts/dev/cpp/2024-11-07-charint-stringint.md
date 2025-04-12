@@ -10,7 +10,7 @@ hidden      : false
 ---
 
 
-# char to int
+## char to int
 ```cpp
 // 방법1. 형 변환을 사용한다.
 char c = '1';
@@ -25,7 +25,7 @@ char c = '1';
 int i = c - 48;
 ```
 
-# string to int
+## string to int
 
 ```cpp
 // 방법1. stoi() 함수를 사용한다.
@@ -37,7 +37,7 @@ string s = "123";
 int i = atoi(s.c_str()); // c_str() 함수는 string을 char*로 변환한다.
 ```
 
-# int to char
+## int to char
 ```cpp
 // 방법1. 형 변환을 사용한다.
 int i = 1;
@@ -48,7 +48,7 @@ int i = 1;
 char c = i + '0';
 ```
 
-# int to string
+## int to string
 ```cpp
 // 방법1. to_string() 함수를 사용한다.
 int i = 123;
@@ -60,3 +60,11 @@ stringstream ss;
 ss << i;
 string s = ss.str();
 ```
+
+
+## 📌 자주 쓰는 예시
+| 숫자  | 문자 | 설명 |
+|-------|------|------|
+| 65    | 'A'  | 대문자 시작 |
+| 97    | 'a'  | 소문자 시작 |
+| 48    | '0'  | 숫자 문자 시작 |
