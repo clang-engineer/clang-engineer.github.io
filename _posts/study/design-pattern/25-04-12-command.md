@@ -112,9 +112,67 @@ int main() {
     unique_ptr<Command> commandB = make_unique<ConcreteCommandB>(receiverB);
     invoker.setCommand(move(commandB));
     invoker.executeCommand();
-
     return 0;
 }
 ```
 
+## 취소 기능
+- Invoker에서 Command를 실행할 때 마지막으로 실행한 Command를 저장하고, 취소할 때는 저장된 Command의 undo() 메서드를 호출하여 취소할 수 있다.
 
+```cpp
+class Command {
+public:
+    virtual void undo() = 0; // 취소 메서드 추가
+};
+
+class ConcreteCommandA : public Command {
+    void undo() override {
+        cout << "Undoing ConcreteCommandA" << endl;
+    }
+};
+
+class Invoker {
+private:
+    unique_ptr<Command[]> commands; // 명령어 배열
+    unique_ptr<Command> lastCommand; // 마지막 명령어 저장
+public:
+    void executeCommand(int index) {
+        if (commands[index]) {
+            commands[index]->execute();
+            lastCommand = move(commands[index]); // 마지막 명령어 저장
+        } else {
+            cout << "No command set" << endl;
+        }
+    }
+    void undoCommand() {
+        if (lastCommand) {
+            lastCommand->undo(); // 마지막 명령어 취소
+        } else {
+            cout << "No command to undo" << endl;
+        }
+    }
+};
+```
+
+## 매크로 커맨드
+- 커맨드 객체로 구성된 매크로를 만들어서 여러 Command 객체를 하나의 Command로 묶어 실행할 수 있다.
+```cpp
+class MacroCommand : public Command {
+private:
+    vector<unique_ptr<Command>> commands; // Command 객체 배열
+public:
+    void addCommand(unique_ptr<Command> command) {
+        commands.push_back(move(command));
+    }
+
+    void execute() override {
+        for (auto& command : commands) {
+            command->execute();
+        }
+    }
+};
+```
+
+## 커맨드 패턴 활용하기
+- 스케쥴러, 스레드풀, 작업큐 활용하기: 커맨드로 컴퓨테이션의 한 부분(리시버와 일련의 행동)을 패키지로 묶어서 일급 객체 형태로 전달하여 스레드풀이나 작업큐에 넣어줄 수 있다. 스레드는 큐에서 커맨드를 하나씩 꺼내서 실행한다.
+- 복구 기능: 디스크에 실행 내역을 저장하고, 어플리케이션이 다운되면 커맨드 객체를 다시 읽어와서 실행할 수 있다.
