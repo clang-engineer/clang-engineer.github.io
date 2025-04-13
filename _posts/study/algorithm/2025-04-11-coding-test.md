@@ -140,12 +140,35 @@ m[5] = "five"; // 5: "five"를 추가
 // map 원소 삭제
 m.erase(2); // 2를 삭제
 ```
-
 - unordered_map, unordered_set: 해시 테이블을 사용하여 원소를 저장하는 컨테이너, 정렬되지 않음 (탐색 속도가 빠름)
 
 ### 04-4 STL의 알고리즘
+```cpp
+// count
+int result = std::count(v.begin(), v.end(), 5); // v에서 5의 개수를 세기
+// count_if
+int result = std::count_if(v.begin(), v.end(), [](int x) { return x > 5; }); // v에서 5보다 큰 원소의 개수를 세기
+// find
+auto it = std::find(v.begin(), v.end(), 5); // v에서 5를 찾기, it가 v.end()가 아니면 5가 있음
+// sort
+std::sort(v.begin(), v.end()); // v를 오름차순으로 정렬
+std::sort(v.begin(), v.end(), std::greater<int>()); // v를 내림차순으로 정렬 
+// reverse
+std::reverse(v.begin(), v.end()); // v를 역순으로 정렬
+// unique
+std::vector<int>::iterator it = std::unique(v.begin(), v.end()); // v에서 중복된 원소를 제거, it는 중복 제거 후 마지막 원소를 가리킴
+v.erase(it, v.end()); // 중복 제거된 원소를 벡터에서 삭제
+// max_element
+auto it = std::max_element(v.begin(), v.end()); // v에서 최대 원소를 찾기, it이 v.end()가 아니면 최대 원소가 있음
+// min_element
+auto it = std::min_element(v.begin(), v.end()); // v에서 최소 원소를 찾기, it이 v.end()가 아니면 최소 원소가 있음
+```
+
 ### 04-5 함수
+
 ### 04-6 노하우
+- 조기반환: 코드 실행 과정이 함수 끝까지 도달하기 전에 반환하는 기법
+- 보호구문: 본격적인 코드 실행 전에 예외조건을 검사하여 실행을 중단하는 기법
 
 ## 05 배열
 ### 05-1 배열 개념
