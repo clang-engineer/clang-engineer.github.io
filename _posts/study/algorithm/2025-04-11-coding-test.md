@@ -158,6 +158,9 @@ std::reverse(v.begin(), v.end()); // v를 역순으로 정렬
 // unique
 std::vector<int>::iterator it = std::unique(v.begin(), v.end()); // v에서 중복된 원소를 제거, it는 중복 제거 후 마지막 원소를 가리킴
 v.erase(it, v.end()); // 중복 제거된 원소를 벡터에서 삭제
+// remove
+std::vector<int>::iterator it = std::remove(v.begin(), v.end(), 5); // v에서 5를 제거, it는 제거된 원소의 마지막 원소를 가리킴
+v.erase(it, v.end()); // 제거된 원소를 벡터에서 삭제
 // max_element
 auto it = std::max_element(v.begin(), v.end()); // v에서 최대 원소를 찾기, it이 v.end()가 아니면 최대 원소가 있음
 // min_element
