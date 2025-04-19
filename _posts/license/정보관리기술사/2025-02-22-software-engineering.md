@@ -264,7 +264,7 @@ SW개발 방법론의 구성요소 및 종류
 > 변화 적응, 사람 중심, 고객과의 협력, 지속적인 피드백, 짧은 개발 주기, 팀워크 강조
 
 장단점
-> 장점: ROI(투자대비효과) 극대화, 고객과의 협력으로 품질 향상, 팀워크와 의사소통 증진 <br>
+> 장점: ROI(Return On Investment, 투자대비효과) 극대화, 고객과의 협력으로 품질 향상, 팀워크와 의사소통 증진 <br>
 > 단점: 문서화 부족, 요구사항 변경에 따른 업무량 증가, 감리 대응 어려움, 개발자의 피로감
 
 ### 29. 모바일 앱 개발의 특성과 이슈에 대해 설명하고, 애자일 기반 모바일 앱 개발 프로세스에 대해 설명
@@ -287,35 +287,74 @@ SW개발 방법론의 구성요소 및 종류
 정의
 > SW 재사용을 극대화 방안, core asset을 미리 개발하여, 실제 개발 시점에 core asset을 조합하여 제품을 개발하는 방법론
 
-32. XP(eXtreme Programming)
-- 개념, 특징
-- XP의 4가지 핵심 가치
-- XP의 12가지 실천 방법
+### 32. XP(eXtreme Programming)에 대해 설명
+정의
+> 요구사항의 변화에 유연하게 대응하고, 고객과의 협력을 통해 품질 높은 소프트웨어를 개발하는 방법론
 
-33. RUP(Rational Unified Process)
-- 정의, 특징
+특징
+> 고객과의 협력, 짧은 개발 주기, 지속적인 피드백, 팀워크 강조
 
-34. XP(eXtreme Programming) vs RUP(Rational Unified Process) 비교
+4가지 핵심 가치
+> 용기, 단순성, 소통, 피드백
 
-35. Scrum
-- 정의, 특징
+12가지 실천 방법
+> Pair Programming, Test First Programming, Continuous Integration, Refactoring, Simple Design, Collective Code Ownership, Coding Standards, On-Site Customer, Sustainable Pace, 40-Hour Week, Metaphor, Planning Game
 
-36. MDD(Model Driven Development)
-- 정의, 특징
+### 33. RUP(Rational Unified Process) 에 대해 설명
+> 반복적이고 점진적인 개발 방법론
 
-37. MDA(Model Driven Architecture)
-- 정의, 특징
+### 34. XP(eXtreme Programming) vs RUP(Rational Unified Process) 비교
 
-38. DevOps (Development + Operations)
+| 구분 | RUP | XP |
+| --- | --- | --- |
+| 개발 접근법 | 반복적, 점진적 | 반복적, 점진적 |
+| 요구사항 | 명확히 정의 | 고객과의 피드백을 통해 유연하게 수정 |
+| 문서화 | 문서화 강조 | 문서화 최소화 |
+| 팀규모 | 대규모 팀에 적합 | 소규모 팀에 적합 |
+| 프로세스 | 엄격한 단계와 절차 | 유연하고 단순한 접근 |
 
-39. Kanban SW 개발 방법론
-- 정의, 특징
-- vs Scrum
+### 35. Scrum 개발 방법론에 대해 설명
+개요
+> Agile 방법론의 일종으로, 팀원 간의 협업과 의사소통을 통해 소프트웨어를 개발하는 방법론
 
-40. CASE(Computer Aided Software Engineering)
-- 정의 
-41. 린(Lean) SW 개발 방법론
-- 정의
+특징
+> 짧은 개발 주기(Sprint), 스크럼 미팅, 역할 분담(스크럼 마스터, 제품 책임자, 팀원), 백로그 관리, 지속적인 피드백
+> 스프린트 회고, 스프린트 리뷰
+> 스프린트 계획 회의, Daily Scrum
+
+### 36. MDD(Model Driven Development)
+> 시스템의 설계와 구현을 모델을 통해 추상화하고, 그 모델로부터 자동으로 코드를 생성하는 것을 목표으로 하는 개발 방법론
+
+### 37. MDA(Model Driven Architecture)
+> 모델 중심 아키텍처로, MDD의 발전된 형태. 소프트웨어 아키텍처와 모델링을 강조하는 방법론으로, 모델을 사용해 애플리케이션 아키텍처를 설계하고, 자동으로 다양한 플랫폼에 맞는 코드를 생성하는 것을 목표로 함. <br>
+> MDA는 모델을 플랫폼 독립적인 형식으로 정의하고, 이 모델에서 플랫폼 특화된 코드로 변환하는 방식.
+
+### 38. DevOps (Development + Operations) 개발 방법론에 대해 설명
+> 개발과 운영을 통합하여 소프트웨어 개발과 운영의 효율성을 높이는 방법론
+
+### 39. Kanban SW 개발 방법론에 대해 설명
+> 작업을 시각화하고, 진행 상태를 추적하며, 팀의 작업 흐름을 최적화하는 데 초점을 맞추는 프로세스 관리 기법
+
+vs Scrum
+> 작업 흐름: <br>
+칸반은 지속적인 작업 흐름에 초점을 맞추며, 각 작업 항목을 시각적으로 추적. 작업 항목이 끝날 때마다 새로운 작업을 시작함. <br>
+스크럼은 스프린트라는 고정된 주기 내에서 작업을 끝내는 것을 목표로 하고, 그 안에서 계획과 실행을 반복함.
+
+> 유연성: <br>
+칸반은 작업 항목을 계속 추가할 수 있어 변화에 빠르게 대응할 수 있다. <br>
+스크럼은 정해진 기간 동안 작업을 끝내는 고정된 스프린트가 있으므로, 변화에 대응하기 위한 재조정이 필요할 수 있다.
+
+> 팀 회의: <br>
+칸반은 정기적인 회의가 없고, 필요 시 회고와 개선이 이루어진다. <br>
+스크럼은 다양한 정기 회의(일일 스크럼, 스프린트 계획 회의 등)를 통해 팀의 진척 상황을 공유하고 피드백을 받는다.
+
+### 40. CASE(Computer Aided Software Engineering)에 대해 설명
+개요
+> 소프트웨어 개발을 지원하기 위한 도구와 기술을 통칭하는 용어
+
+### 41. 린(Lean) SW 개발 방법론에 대해 설명
+개요
+> Lean 제조 방식을 소프트웨어 개발에 적용한 방법론으로, 낭비를 최소화하고 가치를 극대화하는 것을 목표로 함
 
 ---
 
