@@ -1,3 +1,14 @@
+---
+title       : 은율탈춤 목중
+description : 
+date        : 2024-03-06 09:32:27 +0900
+updated     : 2024-03-06 09:33:16 +0900
+categories  : [personal, 은율탈춤]
+tags        : [은율탈춤]
+pin         : false
+hidden      : true
+---
+
 ## 1-1목 - 창송녹죽군자절
 옆뛰기 * 3 (앚았다, 차츰 일어서기)
 작은찍기 * 2
