@@ -548,7 +548,7 @@ void delete(node* target) {
 --
 
 ## PART4. 스택(Stack)과 큐(Queue)
-### 27. 스택(Stack)에서 사용되는 용어와 연산
+### 27. 스택(Stack)에서 사용되는 용어와 연산에 대해 설명하시오.
 정의
 > 스택은 LIFO(Last In First Out) 구조로, 마지막에 들어온 데이터가 가장 먼저 나가는 구조이다.
 > 스택은 주로 함수 호출, 괄호 검사, 후위 표기법 변환 등에 사용된다.
@@ -564,22 +564,22 @@ void delete(node* target) {
 | Overflow | 스택이 가득 차서 더 이상 요소를 추가할 수 없는 상태 |
 | Underflow | 스택이 비어 있어 요소를 제거할 수 없는 상태 |
 
-### 28. Stack 구조를 Linked List 형태로 표현
+### 28. Stack 구조를 Linked List 형태로 표현하기, 삽입 삭제 시 연산 도식화하기
 - 
 
 ### 29. Stack의 크기 n=5인 스택에서 노드 A,B,C,D를 push하고 D,C,B를 pop한 후 다시 노드 E,F를 push 하는 과정을 나타내시오.
 
-### 30. Stack의 활용예 5가지 이상과 2개의 상세예제 그리고 stack overflow 발생방지방법 2가지
+### 30. Stack의 활용예 5가지 이상과 2개의 상세예제 그리고 stack overflow 발생방지방법 2가지를 나열하시오.
 활용예
->
+> 함수 호출 관리, 괄호 검사, 후위 표기법 변환, 웹 브라우저의 뒤로 가기 기능, Undo 기능 구현
 
 상세예제
 >
 
-stack overflow 발생방지방법
->
-
-### 31. Queue에 대해 설명하고 Queue를 표현하기 위한 조건과 큐의 삽입과 삭제에 대해 Coding
+stack overflow 발생 방지 방법
+> 다중 스택 사용, 리패킹 기법 사용
+ 
+### 31. Queue에 대해 설명하고 Queue를 표현하기 위한 조건과 큐의 삽입과 삭제에 대해 Coding하여 설명하시오.
 정의
 > 큐는 FIFO(First In First Out) 구조로, 먼저 들어온 데이터가 먼저 나가는 구조이다.
 > 큐는 주로 프로세스 스케줄링, 데이터 전송 등에 사용된다.
