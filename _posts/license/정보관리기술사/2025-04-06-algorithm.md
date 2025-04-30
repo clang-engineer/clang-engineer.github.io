@@ -585,14 +585,7 @@ stack overflow 발생 방지 방법
 > 큐는 주로 프로세스 스케줄링, 데이터 전송 등에 사용된다.
 
 조건
->
-| 조건 | 설명 |
-|-------|------------------|
-| Front Pointer | 큐의 첫 번째 요소를 가리키는 포인터 |
-| Rear Pointer | 큐의 마지막 요소를 가리키는 포인터 |
-| Queue의 empty | Front와 Rear가 같을 때 |
-| overflow | Rear가 큐의 크기를 초과할 때 |
-| 초기조건 | front = rear = -1 |
+> 전위포인터(Front Pointer), 후위포인터(Rear Pointer), 큐의 empty 상태, overflow 상태, 초기조건을 정의.
 
 삽입
 > 
@@ -626,7 +619,7 @@ void dequeue() {
 }
 ```
 
-### 32. 원형 큐(Circular Queue)에서 Enqueue와 Dequeue, Empty와 Full 상태
+### 32. 원형 큐(Circular Queue)에서 Enqueue와 Dequeue, Empty와 Full 상태에 대해 설명하시오.
 정의
 > 원형 큐는 큐의 마지막 요소가 첫 번째 요소와 연결되어 있는 구조이다. <br>
 
@@ -640,10 +633,9 @@ Empty
 > 큐가 비어 있는 상태로, front와 rear 포인터가 같을 때 발생한다. <br>
 
 Full
-> 큐가 가득 찬 상태로, (rear + 1) % MAX_SIZE == front일 때 발생한다. <br>
+> 큐가 가득 찬 상태로, rear가 가리키는 위치의 앞을 front가 가리킬 때 발생한다. <br>
 
 ### 33. 우선순위 큐(Priority Queue)를 구현하는 방법으로 배열, 연결 리스트, 힙을 이용하는 방법에 대해 각각 설명
-
 배열
 > 우선순위 큐를 배열로 구현할 때는 각 요소에 우선순위를 부여하고, 삽입 시 우선순위에 따라 정렬하여 저장한다. <br>
 
