@@ -634,26 +634,34 @@ Deployment View (시스템 엔지니어 관점 - 시스템의 구성)
 > 클래스나 객체들이 서로 상호작용하는 방법이나 책임 분배 방법을 정의하는 패턴
 > 책임 연쇄, 커맨드, 인터프리터, 반복자, 중재자, 메멘토, 옵서버, 상태, 전략, 템플릿 메소드, 방문자
 
-### 68. Prototype 패턴
+### 68. Prototype 패턴에 대해 설명하시오
+> 원본 객체를 복제하는 방법으로 새로운 객체를 생성하는 패턴
+
 - 개념, class diagram, 예시
 
-69. Singleton 패턴
+### 69. Singleton 패턴에 대해 설명하시오
 - 개념, class diagram, 예시
 
-70. 객체 지향 - 추상화
+### 70. 객체 지향 개념에서 추상화(Abstract)에 대해 정의하고 추상 Class로 Code 구현한 후 설명하시오.
 - 추상화의 정의
 - 구체화의 정의
 - 추상 class 사용한 코드 작성
 
-71. Abstract Factory 패턴
+### 71. Abstract Factory 패턴에 대해 설명하고 아래 코드를 Class Diagram으로 표현한 후 Abstract Factory 패턴을 사용해 코딩하시오.
+개념
+> 구체적인 클래스에 의존하지 않고, 인터페이스를 통해 서로 연관-의존하는 객체들의 그룹으로 생성하여 추상적으로 표현하는 패턴
 - 개념, class diagram, 예시
 
-72. Iterator 패턴
+### 72. Iterator 패턴에 대해 설명하고 Java에 적용된 예제를 기술하시오.
+개념
+> 자료 구조와 같이 접근이 잦은 객체에 대해 동일한 인터페이스를 사용하도록 하는 패턴
 - 개념, 예시
 
-73. Iterator 패턴을 사용해 Factory Method 패턴을 구현.
+### 73. Iterator 패턴을 사용해 Factory Method 패턴을 구현하시오
+>-
 
-74. Adapter 패턴
+### 74. 아래 Class Diagram에서 Textview class를 Adapter 패턴을 사용해 구현하시오
+>-
 
 ---
 
