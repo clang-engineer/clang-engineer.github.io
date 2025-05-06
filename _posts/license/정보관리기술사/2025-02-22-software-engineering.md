@@ -401,13 +401,23 @@ Case의 유형
 ---
 
 ## PART 4. UML(Unified Modeling Language)
-### 42. Modeling을 정의하고 목적과 필요성에 대해 설명
-> 모델링은 시스템의 구조와 동작을 시각적으로 표현하는 과정으로, 복잡한 시스템을 이해하고 설계하는 데 도움을 줌
+### 42. Modeling을 정의하고 목적과 Software에서 Modeling이 필요한 이유에 대해 설명하시오
+Model의 정의
+> 현실의 단순화 및 가시화를 통해 개발 시스템의 계획/구상을 표현한 것
+
+Modeling의 정의
+> Model을 만드는 모든 과정으로, 시스템의 구조와 동작을 시각적으로 표현하는 것
+
+Modeling의 목적
+> 복잡한 시스템을 이해하고 설계하는 데 도움을 줌
 > 시스템의 구조와 동작을 명확히 이해하고, 의사소통을 원활하게 하며, 문서화하여 유지보수와 확장을 용이하게 함
 
-### 43. UML(Unified Modeling Language)에 대해 정의하고 특징과 개발방법론과의 관계를 설명
-정의 
-> UML은 소프트웨어 시스템을 시각적으로 모델링하기 위한 표준화된 언어로, 객체지향 소프트웨어 개발을 지원하는 데 사용됨
+### 43. UML(Unified Modeling Language)에 대해 정의하고 특징과 개발방법론과의 관계를 설명하시오.
+개요
+> 시스템 분석, 설계, 구현 등 시스템 개발 과정에서 시스템 개발자와 고객 또는 개발자 상호 간의 의사소통이 원활하게 이루어지도록 표준화한 대표적인 객체지향 모델링 언어
+
+구성요소
+> 사물(Things), 관계(Relationships), 다이어그램(Diagrams)
 
 특징
 > 플랫폼 독립적, 다양한 다이어그램 제공, 객체지향 개념을 기반으로 함
@@ -432,13 +442,13 @@ UML이 필요한 이유
 > 시스템 개발 과정에서 상호(고객과 개발자 또는 개발자 간)에 의사소통이 원할하게 이루어지도록 표준화된 대표적인 객체지향 모델링 언어
 > UML의 구성요소: 사물, 관계, 다이어그램
 
-사물의 종류
+사물의 종류 (사물: 다이어그램 안에서 관계가 형성될 수 있는 대상)
 > 다이어그램 안에서 관계가 형성될 수 있는 대상, 모델을 구성하는 기본 요소
 - 구조 사물(Structure Things), 행동 사물(Behavioral Things), 그룹 사물(Grouping Things), 주해 사물(Annotation Things)
 
-관계의 종류
+관계의 종류 (관계: 사물과 사물 사이의 연관성)
 > 사물과 사물 사이의 연관성을 표현하는 것
-- 연관(Association), 집합(Aggergation), 포함(Composition), 일반화(Generalization), 의존(Dependency), 실체화(Realization)
+- 연관(Association), 집합(Aggregation), 포함(Composition), 일반화(Generalization), 의존(Dependency), 실체화(Realization)
 
 다이어그램의 종류
 > UML에서 시스템을 표현하기 위해 사용하는 다양한 시각적 표현
