@@ -610,17 +610,28 @@ Deployment View (시스템 엔지니어 관점 - 시스템의 구성)
 ---
 
 ## PART 5. 디자인 패턴(Design Pattern)
-66. 디자인 패턴(Design Pattern)
-- 정의
-- 특징
-- 유형
+### 66. 디자인 패턴(Design Pattern)에 대해 설명하시오
+개요
+> 모듈 간의 관계 및 인터페이스를 설계할 때 참조할 수 있는 전형적인 해결 방식 또는 예제
 
-67. 디자인 패턴의 종류와 각 패턴 설명, 활용 예
-| 구분 | 종류 | 설명 | 예시 |
-|---|---|---|---|
-| ? | ? | ? | ? |
+유형
+> 생성패턴, 구조패턴, 행위패턴으로 나눌 수 있음
 
-68. Prototype 패턴
+적용지침
+> 객체지향 설계 5대 원칙(SOLID)을 준수: 개방폐쇄(OCP), 인터페이스 분리(ISP), 의존성 역전(DIP), 리스코프 치환(LSP), 단일 책임(SRP) - Open Closed Principle, Interface Segregation Principle, Dependency Inversion Principle, Liskov Substitution Principle, Single Responsibility Principle
+> 결합도 최소, 상속보다는 위임, 인터페이스를 기준으로 사용
+
+### 67. 디자인 패턴의 종류를 기술하고 각 패턴의 간단한 설명과 활용 예를 제시하시오
+생성패턴
+> 추상 팩토리, 빌더, 팩토리 메소드, 프로토타입, 싱글톤 
+
+구조패턴
+> 어댑터, 브리지, 컴포지트, 데코레이터, 파싸드, 플라이웨이트, 프록시
+
+행위패턴
+> 책임 연쇄, 커맨드, 인터프리터, 반복자, 중재자, 메멘토, 옵서버, 상태, 전략, 템플릿 메소드, 방문자
+
+### 68. Prototype 패턴
 - 개념, class diagram, 예시
 
 69. Singleton 패턴
