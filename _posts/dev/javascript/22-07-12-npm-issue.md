@@ -50,3 +50,47 @@ $ npm install --save --legacy-peer-deps
 SET PATH=C:\Program Files\Nodejs;%PATH%
 ```
 
+
+---
+
+## unable to get local issuer certificate
+인증서 문제로 발생하는 에러로, 아래와 같이 설정해주면 된다.
+→ Node.js (또는 Yarn) 이 HTTPS 요청을 보낼 때 신뢰할 수 있는 루트 인증서 체인을 찾지 못해서 TLS 연결을 실패하는 상태입니다.
+
+
+1. 환경변수 설정
+```sh
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+
+// .bash_profile
+echo 'export NODE_TLS_REJECT_UNAUTHORIZED=0' >> ~/.zshrc
+source ~/.zshrc
+```
+
+2. 인증서 추가
+```sh
+npm config set cafile /path/to/cacert.pem
+
+export NODE_EXTRA_CA_CERTS=/path/to/corp-cert.crt
+```
+
+3. npm config 설정
+```sh
+npm config set strict-ssl false
+# npm config set registry http://registry.npmjs.org/
+# npm config set proxy http://proxy.company.com:8080
+# npm config set https-proxy http://proxy.company.com:8080
+# npm config set ca ""
+```
+
+---
+
+## segmentation fault
+실행환경이 깨지거나, 메모리 부족으로 발생하는 에러로, 아래와 같이 해결할 수 있다.
+
+1. 캐시 삭제
+```sh
+npm cache clean --force
+```
+
+2. node_modules | package-lock.json | yarn.lock 삭제 후 재설치
