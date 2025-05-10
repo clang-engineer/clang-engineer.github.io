@@ -864,7 +864,39 @@ MVC vs MVVM vs MVP
 
 ## PART 8. OSS(Open Source Software)와 License의 종류
 
+### 99. OSS(Open Source Software)의 장/단점에 대해 설명하시오
+장점
+> 저비용, Agility 개발, 신뢰도 & 안정성, 네트워킹
+
+단점
+> 지적 재산권, UI/UX, Killer App 부족, 문서 부족, Issue 해결
+
+### 100. OSS(Open Source Software) 개발 process와 특징에 대해 설명하시오
+> 
+
+### 101. OSS(Open Source Software)에서 Hidden Patent에 대해 설명하시오
+
+### 102. IP(Intellectual Property) Rights에 대해 설명하시오
+
+### 103. Open API에 대해 설명하시오
+
+### 104. Apache License 2.0
+
+### 105. OSS License에서 LGPL 2.1
+
+### 106. BSD(Berkeley Software Distribution) License
+
+### 107. Free Software와 Open Software에 대해 설명하고 Open Source Software의 지적 재산권과 License에 대해 설명하시오
+
+### 108. 
+
+---
+
 ## PART 9. Project Management
+### 109. PMBOK의 5단계 Project 관리 프로세스
+### 110. PMBOK에서 제시하는 10개 관리 활동영역
+### 111. Project와 Program, Portfolio
+### 112. Project 생명주기에 따른 관리 업무의 제약사항
 
 ## PART 10. Process와 Product 검증에 대한 국제 표제
 
