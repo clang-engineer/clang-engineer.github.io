@@ -692,25 +692,63 @@ Deployment View (시스템 엔지니어 관점 - 시스템의 구성)
 
 ### 77. 추상화 (Abstraction)에 대해 정의하고 예를 들어 설명하시오.
 정의
-> 불필요한 부분을 생략하고 필요한 부분을 강조하여 모델화하는 것
+> 현실 세계의 복잡한 사물이나 개념에서 속성과 기능을 추출하여 코드로 표현하는 것
+> 방법론적 관점에서의 추상화: 포괄적인 개념을 설계한 후 차랴로 세분화하여 구체화시켜 나가는 것)
 
-78. JAVA 언어
-- 개요, 특징
-79. JAVA 주요 구현 분야와 개발 환경
-- 주요 구현 분야
-| 구분 | 분야 | 설명 |
-|---|---|---|
-| ? | ? | ? |
+### 78. JAVA 언어
+특징
+> 객체지향 언어, 플랫폼 독립적, 메모리 관리 자동화, 멀티스레드 지원, 강력한 보안 기능 제공
 
-- 개발 환경
+## 79. JAVA 주요 구현 분야와 개발 환경에 대해 설명하시오
+주요 구현 분야
+>
+- APP 개발: Swing, AWT
+- 웹 개발: Servlet, Applet, JSP
+- 컴보넌트 개발: EJB
+- 미들웨어: WSA, Tomcat
 
-80. JAVA 특징, 실행순서
-- java 언어의 특징
-- java 프로그램의 실행순서
+개발 환경
+> J2SE, J2EE, J2ME 등
 
-81. JVM(Java Virtual Machine)
-- 개요
-- Jvm의 내부 구조
+## 80. Java 언어의 특징과 Java 프로그램 실행 순서를 설명하시오
+Java 언어의 특징
+> 객체지향 언어, 플랫폼 독립적, 메모리 관리 자동화, 멀티스레드 지원, 강력한 보안 기능 제공
+
+Java 프로그램의 실행순서
+> Java 소스코드(.java) -> 컴파일러에 의해 바이트코드(.class)로 변환 -> JVM(Java Virtual Machine)에 의해 실행
+
+## 81. JVM(Java Virtual Machine) 구조에 대해 설명하시오
+정의
+> Java 프로그램을 실행하기 위한 가상 머신으로, Java 바이트코드를 실행하는 환경을 제공 (Java Runtime Environment, JRE)
+
+구성 요소
+> Class Loader(클래스로더), Runtime Data Areas(메모리 영역), Execution Engine(실행 엔진), Native Method Interface(JNI), Native Method Libraries
+
+클래서로더
+> Java 바이트코드를 메모리에 로드하고, 클래스의 링크(Linking) 작업을 수행하는 부분
+
+메모리 영역
+> 메소드 영역(Method Area), 힙(Heap), 스택(Stack), PC 레지스터(Program Counter Register), 네이티브 메소드 스택(Native Method Stack) 등으로 구성됨
+| 영역 | 설명 |
+|---|---|
+| Method Area | 클래스 정보, 메서드 코드 등이 저장됨. 모든 쓰레드 공유. |
+| Heap Area | 객체 인스턴스가 저장되는 공간. GC(가비지 컬렉션) 대상. 모든 쓰레드 공유. |
+| Stack | 매개변수, 지역 변수, 임시 데이터 저장. 각 쓰레드마다 존재. 메서드 호출 시마다 프레임 생성. |
+| PC Register | JVM이 현재 수행할 명령어의 주소를 저장. |
+| Native Method Stack | 자바가 아닌 네이티브(C/C++) 메서드 호출 시 사용되는 스택. |
+
+실행 엔진
+> Java 바이트코드를 실행하는 부분으로, 인터프리터(Interpreter)와 JIT(Just-In-Time) 컴파일러로 구성됨
+- 인터프리터: 바이트코드를 한 줄씩 읽어 실행하는 방식으로, 빠른 실행 속도를 제공
+- JIT 컴파일러: 자주 사용되는 바이트코드를 미리 컴파일하여 기계어로 변환 후 실행하는 방식으로, 성능을 향상시킴
+
+JNI
+> Java Native Interface로, Java와 네이티브 코드(C/C++) 간의 상호작용을 위한 인터페이스
+> Java에서 네이티브 메서드를 호출하거나, 네이티브 라이브러리를 사용할 수 있도록 지원
+
+Native Method Libraries
+> 네이티브 메서드가 사용하는 라이브러리로, C/C++로 작성된 코드와 Java 간의 상호작용을 지원
+> Java Native Interface(JNI)를 통해 Java와 네이티브 메서드 간의 상호작용을 지원
 
 82. API(Application Programming Interface)와 JAPI(Java API)
 - API 정의, 특징
