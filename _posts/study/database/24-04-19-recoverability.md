@@ -9,10 +9,17 @@ pin         : false
 hidden      : false
 ---
 
+## Schedule Recoverability
+- concurrency control을 위해서는 schedule이 serializable해야 하고, recoverable해야 한다.
+- schedule이 serializable하다는 것은 schedule 내의 트랜잭션들이 서로 독립적으로 실행되어 일관성 있는 상태로 실행된다는 것을 의미한다.
+- schedule이 recoverable하다는 것은 트랜잭션이 rollback되었을 때, 이전 상태로 회복할 수 있는 것을 의미한다.
+- schedule이 recoverable하지 않으면 트랜잭션이 rollback되었을 때, 이전 상태로 회복할 수 없기 때문에 데이터베이스의 일관성이 깨질 수 있다.
+
 ## Unrecoverable Schedule
 - rollback을 해도 이전 상태로 회복 불가능할 수 있는 schedule을 unrecoverable schedule이라고 한다.
 - rollback을 해도 이전 상태로 회복 불가능할 수 있기 때문에 이런 schedule은 dbms에서 허용하지 않는다.
-> schedule내에서 transaction T1이 write한 데이터를 transaction T2가 read하고, T1이 rollback되는 경우. T2는 rollback된 데이터를 읽게 되어 이전 상태로 회복 불가능하다.
+> schedule내에서 transaction T1이 write한 데이터를 transaction T2가 read하고 T2가 commit된 후 T1이 rollback되는 경우. T2은 rollback되어 유효하지 않은 데이터를 읽고 커밋했지만, 이미 commit되었기 때문에 rollback할 수 없다.
+(commit된 데이터는 durability 속성에 의해 영구적으로 저장되기 때문에 rollback할 수 없다.)
 
 ## Recoverable Schedule
 - unrecoverable schedule을 방지하기 위해 recoverable schedule을 사용한다.
