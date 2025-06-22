@@ -49,13 +49,6 @@ hidden      : false
 1. 두 Schedule이 같은 트랜잭션들을 포함하고 있다.
 2. 어떤 Conflict of Operations도 양쪽 Schedule에서 동일한 순서로 실행된다.
 
-- 예시로 아래 두 Schedule은 Conflict equivalent하다.
-  - Schedule1: R1(A), W1(A), R2(B), W2(B)
-  - Schedule2: R2(B), W2(B), R1(A), W1(A)
-- 아래 두 Schedule은 Conflict equivalent하지 않다.
-  - Schedule1: R1(A), W1(A), R2(B), W2(B)
-  - Schedule2: R2(B), W1(A), R1(A), W2(B)
-
 ### 3. Conflict Serializable
 - Schedule이 다른 임의의 Serial Schedule과 Conflict equivalent 할때 Conflict Serializable 하다고 한다. (또는 conflict serializablity 속성을 가진다고 한다.)
 
