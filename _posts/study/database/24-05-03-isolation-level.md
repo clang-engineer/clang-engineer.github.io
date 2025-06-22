@@ -19,7 +19,7 @@ hidden      : false
 
 2. Non-Repeatable Read
 - 문제: 한 트랜잭션이 같은 데이터를 두 번 조회했을 때, 그 사이에 다른 트랜잭션이 해당 데이터를 수정하고 커밋하면, 첫 번째 조회 결과와 두 번째 조회 결과가 달라짐.
-  > 한 transaction 안에서 같은 데이터를 두번 읽었을 때 값이 다른 현상.
+  > 한 transaction 안에서 같은 데이터를 두번 읽었을 때 값이 다른 현상. (다른 트랜잭션에 의해 값이 바뀌는 현상이므로 Isolation 관점에서 문제가 된다.)
 - 해결: Repeatable Read 이상의 격리 수준 사용
 
 3. Phantom Read
