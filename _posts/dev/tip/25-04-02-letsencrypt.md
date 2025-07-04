@@ -2,7 +2,7 @@
 title       : letsencrypt 를 이용한 SSL 인증서 발급 및 갱신
 description : >-
 date        : 2022-02-05 09:32:27 +0900
-updated     : 2025-03-06 09:33:16 +0900
+updated     : 2025-07-05 01:13:47 +0900
 categories  : [dev, tip]
 tags        : [letsencrypt, ssl, certbot]
 pin         : false
@@ -78,3 +78,108 @@ sudo certbot renew
 ```bash
 sudo certbot renew --post-hook "systemctl restart nginx"
 ```
+
+
+---
+
+
+
+
+
+✅ 1. Certbot 설치 (Rocky Linux / RHEL 계열)
+Rocky Linux는 RHEL 기반이라 EPEL 저장소를 활성화해야 합니다.
+
+bash
+Copy
+Edit
+sudo dnf install epel-release -y
+sudo dnf install certbot -y
+Nginx 또는 Apache 플러그인도 필요 시:
+Nginx:
+bash
+Copy
+Edit
+sudo dnf install python3-certbot-nginx -y
+Apache:
+bash
+Copy
+Edit
+sudo dnf install python3-certbot-apache -y
+✅ 2. 인증서 재발급 (서버에 따라)
+▶ Nginx 자동 구성:
+bash
+Copy
+Edit
+sudo certbot --nginx -d example.com -d www.example.com
+▶ Apache 자동 구성:
+bash
+Copy
+Edit
+sudo certbot --apache -d example.com
+▶ 웹서버 없이 standalone 모드:
+bash
+Copy
+Edit
+sudo systemctl stop nginx  # 또는 apache
+sudo certbot certonly --standalone -d example.com --force-renewal
+sudo systemctl start nginx
+🔒 --force-renewal을 쓰면 이전 인증서 무시하고 새로 발급됩니다.
+
+✅ 3. 인증서 파일 위치
+발급 후 인증서 경로는 다음과 같습니다:
+
+swift
+Copy
+Edit
+/etc/letsencrypt/live/example.com/
+  ├── fullchain.pem
+  └── privkey.pem
+✅ 4. Nginx 예시 설정
+nginx
+Copy
+Edit
+server {
+    listen 443 ssl;
+    server_name example.com;
+
+    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+
+    location / {
+        root /var/www/html;
+        index index.html;
+    }
+}
+✅ 5. 자동 갱신 설정 (Crontab 또는 Systemd Timer)
+갱신 테스트:
+
+bash
+Copy
+Edit
+sudo certbot renew --dry-run
+갱신을 자동으로 하려면:
+
+bash
+Copy
+Edit
+sudo systemctl enable certbot-renew.timer
+sudo systemctl start certbot-renew.timer
+🔍 DNS 확인 (필수)
+도메인이 새로운 서버 IP를 바라보고 있는지 확인하세요:
+
+bash
+Copy
+Edit
+dig +short example.com
+추가로 Nginx 설정, 방화벽, 포트 개방 등도 필요하면 말씀 주세요. Rocky 환경에 맞춰 안내해드릴게요.
+
+
+
+
+
+
+
+
+
+Ask ChatGPT
+
