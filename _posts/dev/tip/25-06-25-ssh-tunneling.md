@@ -17,7 +17,7 @@ SSH Tunneling은 SSH 프로토콜을 사용하여 네트워크 트래픽을 암�
 
 ```sh
 # ssh -L [로컬 포트]:[원격 호스트]:[원격 포트] [사용자]@[원격 서버]
-ssh -L 8080:localhost:80 user@remote-server 
+ssh -L 8080:10.10.10.10:80 user@remote-server 
 ```
 이 명령을 실행하면 로컬 머신의 8080 포트로 들어오는 트래픽이 원격 서버의 80 포트로 전달된다. 이제 로컬 브라우저에서 `http://localhost:8080`에 접속하면 원격 서버의 웹 페이지를 볼 수 있다.
 
