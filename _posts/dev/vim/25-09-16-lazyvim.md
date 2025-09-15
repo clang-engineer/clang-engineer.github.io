@@ -5,6 +5,12 @@
 
 ## shortcut
 
+### file & find
+- <space> + e : open exploer
+- <space> * 2 : find file
+- <space> +  
+- <space> + / : grep text
+
 
 ## noice
 - vim 명령어 모드를 ui 입력창으로 보여줌
