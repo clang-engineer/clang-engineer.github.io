@@ -1,17 +1,13 @@
 ---
-layout  : wiki
-title   : Learn Vimscript the Hard Way 주요 내용
-summary : 
-date    : 2024-11-01 14:20:44 +0900
-updated : 2024-11-01 14:21:05 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[vim/index]]
-latex   : false
+title       : Learn Vimscript the Hard Way 주요 내용
+description : 
+date        : 2024-11-01 14:20:44 +0900
+updated     : 2024-11-01 14:21:05 +0900
+categories  : true
+tags        : 
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
 # 1. Echoing Messages
 - :echo : 화면에 메시지 출력
