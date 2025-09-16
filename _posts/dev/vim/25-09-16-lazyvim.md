@@ -1,6 +1,38 @@
+insert, normal, command, visual
+
 ## general
 - s 대신 c를 사용한다.
 - 기본 s -> cl
+- gc: 주석 
+- space + u + conceal level 끄자
+
+```sh
+Ctrl+h        select file tree
+Ctrl+l        select file editor
+Shift+h       left editor tab
+Shift+l       right editor tab
+Alt+j         move current line up
+Alt+k         move current line down
+double space  filename search(telescope) - `Ctrl+d` and `Ctrl+u` to scroll preview
+gg=G          reindent - gg goes to the top of the file, = fixes the indentation and G to perform to the end
+gc            comment selected(`gcgc` no select to uncomment block)
+%             jump to other bracket of the current block
+_             jump to the first non blank char on the line
+$             jump to the last non blank char on the line
+0             jump to the start of the line
+\text         seach for text, `n` for next occurence, `N` for previous
+f"            find first `"`, jump to it with right arrow
+ci"           delete and start editing inside of the next string literal
+vi"           select inside of the next string literal
+viw           select current word
+di"           delete inside of the next string literal
+u             undo
+Ctrl+r        redo
+ma            set local mark `a`
+mA            set global mark `A`
+`             list marks
+`a            go to mark `a`
+```
 
 
 ## shortcut
@@ -8,17 +40,14 @@
 ### file & find
 - space + e : open exploer
 - space * 2 : find file
-- space +  
 - space + / : grep text
-
 
 ## noice
 - vim 명령어 모드를 ui 입력창으로 보여줌
-
 - Noice Diable로 끌 수 있다.
+
 ## snacks
 - vim 탐색기
-
 - hl : folder 여닫기
 - P : 미리보기
 - <C-j>, <C-k> : 
@@ -65,7 +94,7 @@
     ● trouble.nvim 1.08ms 󰢱 trouble  lualine.nvim
     ● ts-comments.nvim 1.45ms  VeryLazy
     ● which-key.nvim 0.6ms  VeryLazy
-k
+
 | 플러그인 | 기능 | 기본 단축키/키맵 |
 |----------|------|----------------|
 | blink-cmp-copilot | nvim-cmp + GitHub Copilot 자동완성 | Insert 모드: `<Tab>` / `<C-l>` 수락 |
