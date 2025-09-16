@@ -43,20 +43,22 @@ mA            set global mark `A`
 - space + / : grep text
 
 ## noice
-- vim 명령어 모드를 ui 입력창으로 보여줌
 - Noice Diable로 끌 수 있다.
+- vim 명령어 모드를 ui 입력창으로 보여줌
 
-## snacks
 - vim 탐색기
 - hl : folder 여닫기
 - P : 미리보기
+## snacks
 - <C-j>, <C-k> : 
 
-## mini.move
 - 줄이동 플러그인
 
+## mini.move
 ## gitsigns
 - editor에 git 변경된 줄 표시
+- :Gitsigns <옵션>
+- numhl, signs(형광표시), linehl, deleted, word_diff, current_line_blame 등
 
 ## LazyExtras
 - :LazyExtras 통해서 추가 플러그인 넣을수 있다. (*원하는 플러그인에서 <x> key)
@@ -125,8 +127,8 @@ mA            set global mark `A`
 | nvim-lspconfig | LSP 서버 설정 | `gd` 정의 이동, `gr` 참조 찾기, `K` hover |
 | nvim-treesitter / nvim-treesitter-textobjects | 문법 기반 하이라이트, 텍스트 객체 | `af`/`if` 등 |
 | nvim-ts-autotag | HTML/XML 자동 태그 닫기 | - |
-| persistence.nvim | 세션 저장/복원 | - |
 | snacks.nvim | LazyVim 유틸 모음 | Snacks Explorer: `h/l` 접기/열기, `j/k` 이동, `<CR>` 열기 |
+| persistence.nvim | 세션 저장/복원 | - |
 | todo-comments.nvim | TODO/FIXME 주석 하이라이트 | `<leader>st` TODO 목록 보기 |
 | tokyonight.nvim | 컬러 테마 | - |
 | trouble.nvim | LSP / Diagnostics 리스트 보기 | `<leader>xx` 열기, `<leader>xw` workspace diagnostics |
