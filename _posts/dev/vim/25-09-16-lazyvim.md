@@ -61,6 +61,12 @@ mA            set global mark `A`
 ## LazyExtras
 - :LazyExtras 통해서 추가 플러그인 넣을수 있다. (*원하는 플러그인에서 <x> key)
 
+
+## marks
+- m으로 마크하고, delm + key 로 마크 삭제
+- delm! 전부 삭제
+- ` 누르면 마크 목록
+
 ## lazy vim default
 
     ● blink-cmp-copilot 0.19ms  blink.cmp
