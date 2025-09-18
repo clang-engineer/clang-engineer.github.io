@@ -317,3 +317,19 @@ return {
   },
 }
 ```
+
+## mason tyscript-language-server 설치
+
+- :Mason Install typescript-language-server
+
+### shortcut
+
+| 단축키       | 명령                                 | 설명                                                      |
+| ------------ | ------------------------------------ | --------------------------------------------------------- |
+| `gD`         | `typescript.goToSourceDefinition`    | 커서 심볼의 **소스 정의**로 점프 (Declaration/Definition) |
+| `gR`         | `typescript.findAllFileReferences`   | 현재 파일 내에서 심볼 **모든 참조 검색**                  |
+| `<leader>co` | `source.organizeImports`             | 현재 파일 **import 정리**                                 |
+| `<leader>cM` | `source.addMissingImports.ts`        | 누락된 TypeScript import **자동 추가**                    |
+| `<leader>cu` | `source.removeUnused.ts`             | 사용하지 않는 import/변수 **제거**                        |
+| `<leader>cD` | `source.fixAll.ts`                   | TypeScript 관련 **모든 diagnostics 자동 수정**            |
+| `<leader>cV` | `typescript.selectTypeScriptVersion` | **TS workspace 버전 선택**                                |
