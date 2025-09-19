@@ -334,4 +334,6 @@ return {
 | `<leader>cD` | `source.fixAll.ts`                   | TypeScript 관련 **모든 diagnostics 자동 수정**            |
 | `<leader>cV` | `typescript.selectTypeScriptVersion` | **TS workspace 버전 선택**                                |
 
+## keywordprg
+
 shift + k 하면 함수정의 미리보기
