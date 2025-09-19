@@ -320,7 +320,8 @@ return {
 
 ## mason tyscript-language-server 설치
 
-- :Mason Install typescript-language-server
+- :MasonInstall typescript-language-server
+- :MasonInstall jdtls
 
 ### shortcut
 
