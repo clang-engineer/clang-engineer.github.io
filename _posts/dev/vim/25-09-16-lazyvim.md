@@ -132,6 +132,28 @@ mA            set global mark `A`
 ## LazyExtras
 
 - :LazyExtras 통해서 추가 플러그인 넣을수 있다. (\*원하는 플러그인에서 <x> key)
+- lang.java, lang.kotlin
+
+아래 플러그인을 별도 추가하였다.
+
+```
+    ● ai.copilot    blink-cmp-copilot  copilot-cmp  copilot.lua  blink.cmp  lualine.nvim  nvim-cmp
+    ● ai.copilot-chat  CopilotChat.nvim  edgy.nvim
+    ● coding.blink  blink.cmp  friendly-snippets  blink.compat  catppuccin
+    ● editor.snacks_explorer    snacks.nvim
+      Snacks File Explorer
+    ● editor.snacks_picker    nvim-lspconfig  snacks.nvim  alpha-nvim  dashboard-nvim  flash.nvim  mini.starter  todo-comments.nvim
+      Fast and modern file picker
+    ● formatting.prettier  mason.nvim  conform.nvim  none-ls.nvim
+    ● linting.eslint  nvim-lspconfig
+
+    ● lang.clangd    clangd_extensions.nvim  nvim-lspconfig  nvim-treesitter  mason.nvim  nvim-cmp  nvim-dap
+    ● lang.java  mason.nvim  nvim-jdtls  nvim-lspconfig  nvim-treesitter  which-key.nvim  nvim-dap
+    ● lang.json    SchemaStore.nvim  nvim-lspconfig  nvim-treesitter
+    ● lang.kotlin  mason.nvim  nvim-lspconfig  nvim-treesitter  conform.nvim  none-ls.nvim  nvim-dap  nvim-lint
+    ● lang.markdown    markdown-preview.nvim  mason.nvim  nvim-lspconfig  render-markdown.nvim  conform.nvim  none-ls.nvim  nvim-lint
+    ● lang.typescript    mason.nvim  mini.icons  nvim-lspconfig  nvim-dap
+```
 
 ## marks
 
