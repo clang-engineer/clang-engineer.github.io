@@ -333,3 +333,5 @@ return {
 | `<leader>cu` | `source.removeUnused.ts`             | 사용하지 않는 import/변수 **제거**                        |
 | `<leader>cD` | `source.fixAll.ts`                   | TypeScript 관련 **모든 diagnostics 자동 수정**            |
 | `<leader>cV` | `typescript.selectTypeScriptVersion` | **TS workspace 버전 선택**                                |
+
+shift + k 하면 함수정의 미리보기
