@@ -360,3 +360,11 @@ return {
 ## keywordprg
 
 shift + k 하면 함수정의 미리보기
+
+## ktlint
+
+= ~/.local/state/nvim/conform.log 에서 메시지 확인 복사 가능
+
+## coding.mini-comment
+
+- gc : 주석 toggle
