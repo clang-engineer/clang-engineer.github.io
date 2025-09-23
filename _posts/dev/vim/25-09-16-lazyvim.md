@@ -368,3 +368,20 @@ shift + k 하면 함수정의 미리보기
 ## coding.mini-comment
 
 - gc : 주석 toggle
+
+## snack - <leader> + e
+
+- P : toggle Preview
+- Z : close all folds
+- H : toggle hidden files
+- I : toggle .files(ignore)
+- l : confirm
+- . : focus current file on explorer
+- <C-v> : vertical split
+- <C-s> : horizontal split
+- <C-a> : select all
+- <C-F> : preview scroll down
+- <C-B> : preview scroll up
+- i : 검색창 focus
+- / : toggle focus
+- ? : toggle help
