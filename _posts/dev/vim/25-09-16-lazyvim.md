@@ -35,6 +35,15 @@ mA            set global mark `A`
 `a            go to mark `a`
 ```
 
+## mode
+- "n" → Normal 모드
+- "i" → Insert 모드
+- "v" → Visual (characterwise) 모드
+- "x" → Visual 모드 (character/line/block 모두)
+- "s" → Select 모드
+- "o" → Operator-pending 모드
+- "t" → Terminal 모드
+
 ## shortcut
 
 ### blink-cmp-copilot 0.19ms  blink.cmp
@@ -385,3 +394,6 @@ shift + k 하면 함수정의 미리보기
 - i : 검색창 focus
 - / : toggle focus
 - ? : toggle help
+
+
+
