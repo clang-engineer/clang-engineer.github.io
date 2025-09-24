@@ -3,7 +3,7 @@ title       : PC 초기 설정
 description : >-
     맥 초기 설정 및 기본 설정 파일 이관 방법에 대해 기록
 date        : 2022-02-05 09:32:27 +0900
-updated     : 2025-03-06 09:33:16 +0900
+updated     : 2025-09-25 08:38:28 +0900
 categories  : [dev, tip]
 tags        : [mac, setting]
 pin         : false
@@ -18,6 +18,7 @@ hidden      : false
 - 세 손가락 드래그 활성화
   + 시스템 환경설정 - 손쉬운 사용 - 포인트 제어기 - 트랙패드 옵션
   + 드래그 활성화에서 세 손가락으로 드래그하기
+- vim ctrl + up, down, left, right 사용하려면 (Misson Control >> 단축키 >> Mission Control >> '이동' 항목 체크 해제)
 
 ## 맥 Brew로 기존에 사용하던 맥 라이브러리들 옮기기 
 기존 사용하던 pc에서 Brew 를 통해 설치했다면 dump 명령어를 통해 Brewfile을 생성하여 새로운 pc에 라이브러리를 그대로 설치할 수 있다.
