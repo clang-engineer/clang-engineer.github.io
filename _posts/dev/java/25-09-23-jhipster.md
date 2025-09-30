@@ -52,3 +52,11 @@
 - 대시보드/경보: SLO/SLA, 장애 징후 조기 탐지, 추세 분석
 - 추적(선택): Zipkin으로 요청 단위 지연 구간 파악
 - 품질(선택): Sonar로 코드 품질/취약점 분석
+
+
+## sonarqube
+```sh
+./gradlew test jacocoTestReport
+./gradlew sonarqube -Dsonar.login=<token>
+
+```
