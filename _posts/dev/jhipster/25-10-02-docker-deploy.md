@@ -1,8 +1,8 @@
 ---
-title       : Jib Gradle 설정 문서
+title       : Jib 을 이용한 JHipster 도커 이미지 빌드 및 배포
 description : 
 date        : 2025-10-02 20:04:19 +0900
-updated     : 2025-10-02 20:13:19 +0900
+updated     : 2025-10-02 20:23:58 +0900
 categories  : [dev, jhipster]
 tags        : [jhipster, docker, jib, gradle]
 pin         : false
@@ -10,8 +10,7 @@ hidden      : false
 ---
 
 
-## 📌 설정 코드
-
+## 📌 Jib 설정 코드
 ```groovy
 jib {
     from {
@@ -103,7 +102,7 @@ jib {
 # 2. 앱 + 데이터베이스 실행
 docker-compose -f src/main/docker/app.yml up -d
 
-## 도커 레지트리 사용 시
+### 도커 레지트리 사용 시
 # 1. Docker Hub에 이미지 푸시
 ./gradlew jib --to=docker.io/your-username/demo:latest
 
@@ -169,3 +168,14 @@ networks:
   demo-network:
     driver: bridge
 ```
+
+
+### 로그 관리
+# 컨테이너 로그 확인
+docker-compose logs -f demo-app
+
+# 특정 시간대 로그
+docker-compose logs --since="2024-01-01T00:00:00" demo-app
+
+# 로그 파일로 저장
+docker-compose logs demo-app > app.log
