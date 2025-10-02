@@ -2,7 +2,7 @@
 title       : Jib 을 이용한 JHipster 도커 이미지 빌드 및 배포
 description : 
 date        : 2025-10-02 20:04:19 +0900
-updated     : 2025-10-02 20:27:08 +0900
+updated     : 2025-10-02 20:30:03 +0900
 categories  : [dev, jhipster]
 tags        : [jhipster, docker, jib, gradle]
 pin         : false
@@ -204,12 +204,12 @@ jobs:
           docker save demo:latest | gzip > demo.tar.gz
           
           # 서버로 전송
-          scp -P 33324 demo.tar.gz planithc@106.10.58.97:/home/planithc/
+          scp -P <port> demo.tar.gz <user>@<ip>:/home/<user>/
           
           # 서버에서 이미지 로드 및 실행
-          ssh -l planithc -p 33324 106.10.58.97 "
-            docker load < /home/planithc/demo.tar.gz
-            cd /home/planithc/demo
+          ssh -l <user> -p <port> <ip> "
+            docker load < /home/<user>/demo.tar.gz
+            cd /home/<user>/demo
             docker-compose -f docker-compose.prod.yml up -d
           "
 ```
