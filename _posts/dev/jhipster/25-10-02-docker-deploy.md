@@ -2,7 +2,7 @@
 title       : Jib 을 이용한 JHipster 도커 이미지 빌드 및 배포
 description : 
 date        : 2025-10-02 20:04:19 +0900
-updated     : 2025-10-02 20:23:58 +0900
+updated     : 2025-10-02 20:27:08 +0900
 categories  : [dev, jhipster]
 tags        : [jhipster, docker, jib, gradle]
 pin         : false
@@ -179,3 +179,37 @@ docker-compose logs --since="2024-01-01T00:00:00" demo-app
 
 # 로그 파일로 저장
 docker-compose logs demo-app > app.log
+
+
+```yaml
+## CI / CD 파이프라인 예시 (GitHub Actions)
+# .github/workflows/docker-deploy.yml
+name: Docker Deploy
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build Docker Image
+        run: ./gradlew jibDockerBuild
+      
+      - name: Deploy to Server
+        run: |
+          # 이미지를 tar 파일로 저장
+          docker save demo:latest | gzip > demo.tar.gz
+          
+          # 서버로 전송
+          scp -P 33324 demo.tar.gz planithc@106.10.58.97:/home/planithc/
+          
+          # 서버에서 이미지 로드 및 실행
+          ssh -l planithc -p 33324 106.10.58.97 "
+            docker load < /home/planithc/demo.tar.gz
+            cd /home/planithc/demo
+            docker-compose -f docker-compose.prod.yml up -d
+          "
+```
