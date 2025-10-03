@@ -2,7 +2,7 @@
 title       : Git Cheat Sheet
 description : 자주 쓰는 Git 명령어를 카테고리별로 정리
 date        : 2025-10-03 12:46:15 +0900
-updated     : 2025-10-03 13:19:43 +0900
+updated     : 2025-10-03 13:21:56 +0900
 categories  : []
 tags        : []
 pin         : false
@@ -138,6 +138,21 @@ git checkout HEAD -- <file> # 마지막 커밋 시점으로 되돌리기
 | `git remote set-url [주소]`   | 원격 저장소 주소 변경  |
 | `git fetch -p`                | fetch 후 없는 브랜치 삭제 |
 | `git push origin --delete <branch>` | 원격 브랜치 삭제      |
+
+
+---
+
+## Stash 관련 명령어
+| 명령어                           | 설명               |
+| ----------------------------- | ---------------- |
+| `git stash`                   | 작업 중인 내용 임시 저장    |
+| `git stash list`              | 저장한 stash 목록 확인   |
+| `git stash apply [stash 이름]` | 특정 stash 적용        |
+| `git stash apply --index`     | staged 상태까지 복원    |
+| `git stash drop [stash 이름]`  | 특정 stash 제거        |
+| `git stash pop`               | apply + drop        |
+| `git stash show -p \| git apply -R` | 잘못 적용한 stash 되돌리기 | 
+| `git stash push -m "message"` | stash에 메시지 남기기 |
 
 ---
 
