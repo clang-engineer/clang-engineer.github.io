@@ -1,8 +1,8 @@
 ---
-title       : 
-description : 
+title       : Git Cheat Sheet
+description : 자주 쓰는 Git 명령어를 카테고리별로 정리
 date        : 2025-10-03 12:46:15 +0900
-updated     : 2025-10-03 13:02:27 +0900
+updated     : 2025-10-03 13:19:43 +0900
 categories  : []
 tags        : []
 pin         : false
@@ -70,6 +70,7 @@ git fetch -p              # fetch 후 없는 브랜치 삭제
 ---
 
 ## 5️⃣ Reset
+- head^n or head~n: 마지막 n번째 커밋
 
 | 명령어                                    | 설명                            |
 | -------------------------------------- | ----------------------------- |
@@ -79,7 +80,8 @@ git fetch -p              # fetch 후 없는 브랜치 삭제
 
 ### 특정 파일만 되돌리기
 ```sh
-git checkout HEAD -- <file>
+git checkout -- <file> # 수정 내용 삭제
+git checkout HEAD -- <file> # 마지막 커밋 시점으로 되돌리기
 ```
 
 ---
@@ -115,7 +117,7 @@ git checkout HEAD -- <file>
 
 ---
 
-## Merge 관련 명령어
+##  Merge 관련 명령어
 - no-commit: 병합 후 커밋하지 않음
 - no-ff: fast-forward 병합 방지
 - squash: 현재 브랜치 위에 단일 커밋 생성
@@ -129,7 +131,7 @@ git checkout HEAD -- <file>
 
 ---
 
-## Remote 관련 명령어
+##  Remote 관련 명령어
 | 명령어                           | 설명          |
 | ----------------------------- | ----------- |
 | `git remote -v`               | 원격 저장소 주소 확인 |
@@ -143,4 +145,5 @@ git checkout HEAD -- <file>
 >
 > * 필요할 때마다 복사해서 터미널에 붙여 쓰기 좋게 구성
 > * 브랜치, 커밋, diff, log 등 카테고리별로 구분하면 실무에서 빠르게 검색 가능
+
 
