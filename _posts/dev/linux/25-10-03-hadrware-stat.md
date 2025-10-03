@@ -2,13 +2,13 @@
 title       : Linux 하드웨어 자원 모니터링 명령어 및 도구
 description : 
 date        : 2025-10-03 14:00:40 +0900
-updated     : 2025-10-03 14:02:50 +0900
+updated     : 2025-10-03 14:11:27 +0900
 categories  : [dev, linux]
 tags        : [linux, command, hardware, monitoring, cpu, memory, disk, network, nmon, atop, netdata]
 pin         : false
 hidden      : false
----
 
+---
 # 🖥️ Linux 하드웨어 자원 모니터링 명령어 및 도구
 
 Linux 시스템에서 CPU, 메모리, 디스크, 네트워크 등의 하드웨어 자원을 모니터링하기 위한 명령어와 도구들을 카테고리별로 정리하였습니다.
