@@ -1,36 +1,84 @@
 ---
-layout  : wiki
-title   : 삭제된 로그 찾기
-summary : 
-date    : 2023-01-09 10:16:01 +0900
-updated : 2023-01-09 10:23:17 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[git/index]]
-latex   : false
+title       : 삭제된 로그를 복구하고 싶을 때
+description : >-
+  작업 중 삭제된 커밋이나 브랜치를 복구하고 싶을 때, `git reflog` 명령어를 활용하면 된다.
+date        : 2025-10-03 12:46:15 +0900
+updated     : 2025-10-03 13:19:42 +0900
+categories  : [dev, git]
+tags        : [git, restore, reflog, commit, branch]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
-# git 삭제된 로그 찾기
+# 🛠️ Git 삭제된 로그 찾기
 
-기껏 작업해놓은 로그가 삭제되어버릴 때가 있다. 그럴 때는 `git reflog`명령어를 사용하면 된다.
+작업 중 삭제된 커밋이나 브랜치를 복구하고 싶을 때, `git reflog` 명령어를 활용할 수 있습니다.  
+아래 가이드를 참고하면 **커밋과 브랜치, 특정 파일의 삭제 이력**까지 손쉽게 복구할 수 있습니다.
 
-1. git reflog
-git rebase 또는 git reset 등으로 커밋이 삭제될 수 있다.
-하지만, git 이력은 보관되고 있는데 이러한 이력을 볼 수 있는 명령어가 git reflog
+---
 
-2. commit 복구하기
-git reflog 명령어로 삭제된 commit id 확인 후
-git reset --hard <커밋해시id>
+## 1️⃣ 삭제된 커밋 확인
 
-3. branch 복구하기
-git reflog 또는 git reflog |grep 브랜치명 으로 log확인
-git checkout -b <삭제한 브랜치명> <커밋해시id>
+```bash
+git reflog
+````
 
+💡 **포인트**
 
-## full log 확인
-```sh
+* `git rebase`, `git reset` 등으로 커밋이 삭제되더라도 Git은 이력을 보관합니다.
+* `git reflog`를 통해 삭제된 커밋의 **커밋 ID**를 확인할 수 있습니다.
+
+---
+
+## 2️⃣ 삭제된 커밋 복구하기
+
+```bash
+git reset --hard <커밋해시ID>
+```
+
+✅ **설명**
+
+* `git reflog`에서 확인한 커밋 ID를 사용하여 삭제된 커밋을 복구합니다.
+* 주의: `--hard` 옵션은 **작업 디렉토리의 변경 사항을 모두 덮어씀**.
+
+---
+
+## 3️⃣ 삭제된 브랜치 복구하기
+
+### 3-1. 브랜치 로그 확인
+
+```bash
+git reflog
+# 또는 특정 브랜치만 확인
+git reflog | grep <브랜치명>
+```
+
+### 3-2. 브랜치 재생성
+
+```bash
+git checkout -b <삭제한 브랜치명> <커밋해시ID>
+```
+
+💡 **Tip**
+
+* 브랜치를 삭제했더라도 커밋 ID만 알면 원래 상태로 브랜치를 다시 만들 수 있습니다.
+
+---
+
+## 4️⃣ 특정 파일 전체 로그 확인
+
+```bash
 git log --all --full-history -- <path-to-file>
 ```
+
+📌 **설명**
+
+* 특정 파일의 모든 변경 이력을 확인할 수 있습니다.
+* 삭제된 커밋이나 변경 사항 추적에 유용합니다.
+
+---
+
+> ⚠️ **주의**
+>
+> * `git reset --hard` 사용 시 작업 중인 변경 사항은 모두 사라집니다.
+> * 필요한 경우 **백업** 후 실행하는 것을 권장합니다.
