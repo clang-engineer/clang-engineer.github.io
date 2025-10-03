@@ -2,7 +2,7 @@
 title       : 쉘(Shell)에서 `&`, `&&`, `;` 의 차이
 description : 
 date        : 2025-09-25 13:32:34 +0900
-updated     : 2025-09-25 13:33:30 +0900
+updated     : 2025-10-03 14:15:48 +0900
 categories  : [dev, linux]
 tags        : [linux, shell, bash]
 pin         : false
@@ -96,6 +96,13 @@ $ true || echo "앞이 실패했으니 실행"
 # 출력 없음
 ```
 
+---
+
+### 명령의 그룹핑
+mkdir test 성공했을 경우 {}안의 명령어 그룹을 실행, 실패했을 경우 || 뒤의 명령어를 실행
+```sh
+mkdir test && { cd test; touch abc; echo 'success!!' } || echo 'fail to make dir';
+```
 ---
 
 ✅ 요약
