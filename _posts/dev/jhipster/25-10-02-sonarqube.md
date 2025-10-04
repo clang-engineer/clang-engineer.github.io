@@ -2,7 +2,7 @@
 title       : Jhipster SonarQube
 description : >-
 date        : 2025-10-02 19:49:32 +0900
-updated     : 2025-10-04 20:33:48 +0900
+updated     : 2025-10-04 20:45:35 +0900
 categories  : [dev, jhipster]
 tags        : [jhispter, sonar]
 pin         : false
@@ -163,10 +163,119 @@ docker-compose -f src/main/docker/sonar.yml restart
 # sonar-scanner 실행 (Java 지정)
 JAVA_HOME=$(/usr/libexec/java_home -v 17) sonar-scanner
 ```
+---
+
+## 9. Sonarqube 운영 환견 구축
+1. 별도 서버에 SonarQube 운영 (권장)
+
+1단계: SonarQube 전용 서버 구축
+```sh
+# SonarQube 서버 (예: 192.168.1.100)
+docker-compose -f sonar-production.yml up -d
+```
+
+2단계: 운영용 SonarQube 설정
+```sh
+# sonar-production.yml
+version: '3.8'
+services:
+  sonarqube:
+    image: sonarqube:9.9.1-community
+    environment:
+      - sonar.forceAuthentication=true
+      - sonar.security.realm=LDAP
+    ports:
+      - 9000:9000  # 외부 접근 허용
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+    restart: unless-stopped
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+```
+
+2. 클라우드 SonarQube 서비스 사용
+SonarCloud 사용 (무료 플랜)
+```sh
+# sonar-project.properties 수정
+sonar.projectKey=demo
+sonar.projectName=demo
+sonar.host.url=https://sonarcloud.io
+sonar.organization=your-org
+sonar.token=your-token
+```
 
 ---
 
-## 9. 결론
+## 10. 2. GitHub Actions 통합
+```sh
+# .github/workflows/ci-cd.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-test-sonar:
+    name: Build, Test & SonarQube Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Run Tests & Generate JaCoCo Coverage
+        run: ./gradlew test jacocoTestReport
+
+      - name: SonarQube Scan
+        run: ./gradlew sonarqube \
+             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+             -Dsonar.host.url=http://your-sonarqube-server:9001
+
+  docker-deploy:
+    name: Build Docker & Deploy
+    runs-on: ubuntu-latest
+    needs: build-test-sonar
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Build Docker Image with Jib
+        run: ./gradlew jibDockerBuild
+
+      - name: Save Docker Image as tar
+        run: docker save demo:latest | gzip > demo.tar.gz
+
+      - name: Copy Docker Image to Server
+        run: scp -P 22 demo.tar.gz <user>@<ip>:/home/<user>/
+
+      - name: Load Docker Image & Run on Server
+        run: |
+          ssh -l <user> -p 22 <ip> "
+            docker load < /home/<user>/demo.tar.gz
+            cd /home/<user>/demo
+            docker-compose -f docker-compose.prod.yml up -d
+          "
+```
+
+
+---
+
+## 10. 결론
 
 * SonarQube는 커버리지가 없어도 강력한 정적 분석 도구입니다.
 * 테스트 커버리지를 추가하면 품질 분석 정확도가 향상됩니다.
