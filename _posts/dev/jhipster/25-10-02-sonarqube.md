@@ -2,7 +2,7 @@
 title       : Jhipster SonarQube
 description : >-
 date        : 2025-10-02 19:49:32 +0900
-updated     : 2025-10-04 19:43:09 +0900
+updated     : 2025-10-04 20:04:58 +0900
 categories  : [dev, jhipster]
 tags        : [jhispter, sonar]
 pin         : false
@@ -103,3 +103,22 @@ docker-compose -f src/main/docker/sonar.yml logs
 
 # 컨테이너 재시작
 docker-compose -f src/main/docker/sonar.yml restart
+
+
+---
+
+
+🔧 프로젝트 코드 분석 실행 방법
+1. Gradle을 통한 분석 (권장)
+```sh
+./gradlew test jacocoTestReport # 1. 테스트 실행 및 커버리지 리포트 생성
+./gradlew sonarqube # 2. SonarQube 분석 실행
+```
+
+2. SonarQube Scanner 직접 사용
+
+```sh
+brew install sonar-scanner # SonarQube Scanner 설치 (macOS)
+sonar-scanner # 분석 실행
+```
+
