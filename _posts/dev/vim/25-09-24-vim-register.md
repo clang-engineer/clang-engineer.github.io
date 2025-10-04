@@ -2,13 +2,11 @@
 title       : Vim/Neovim 레지스터 정리
 description : 
 date        : 2025-09-24 09:42:44 +0900
-updated     : 2025-09-24 09:43:32 +0900
+updated     : 2025-10-04 17:36:49 +0900
 categories  : [dev, vim]
 tags        : [vim, neovim, register, 레지스터]
 pin         : false
 hidden      : false
----
-
 ---
 
 # Vim/Neovim 레지스터 정리
