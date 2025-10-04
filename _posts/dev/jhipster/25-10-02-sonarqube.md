@@ -2,7 +2,7 @@
 title       : Jhipster SonarQube
 description : >-
 date        : 2025-10-02 19:49:32 +0900
-updated     : 2025-10-04 20:04:58 +0900
+updated     : 2025-10-04 20:09:09 +0900
 categories  : [dev, jhipster]
 tags        : [jhispter, sonar]
 pin         : false
@@ -122,3 +122,59 @@ brew install sonar-scanner # SonarQube Scanner 설치 (macOS)
 sonar-scanner # 분석 실행
 ```
 
+
+---
+
+sonar-scanner는 코드 정적분석 도구로, 코드 품질 및 보안 취약점을 식별하는 데 사용됩니다. SonarQube 서버와 연동하여 분석 결과를 시각화하고 관리할 수 있습니다.ㅊ
+
+| 항목          | 설명                                                       |
+| ----------- | -------------------------------------------------------- |
+| **분석 대상**   | `sonar-project.properties` 에 지정된 소스 코드 (`sonar.sources`) |
+| **분석 종류**   | 정적 분석 (bugs, code smells, vulnerabilities 등)             |
+| **테스트 실행**  | ❌ 수행하지 않음                                                |
+| **커버리지 반영** | ❌ 자동 불가 (별도로 XML 리포트 제공 시 가능)                            |
+
+⚙️ 기본 동작 구조
+
+sonar-scanner 실행 시
+→ sonar-project.properties 파일을 읽음
+
+그 안의 설정에 따라
+
+소스 경로 (sonar.sources)
+
+언어 (예: Java, JavaScript, TypeScript 등)
+
+SonarQube 서버 (sonar.host.url)
+
+프로젝트 키 (sonar.projectKey)
+등을 기준으로 정적 분석만 수행합니다.
+
+분석 결과를 SonarQube 서버로 업로드
+→ SonarQube가 내부 규칙(예: PMD, Checkstyle, ESLint 등)로 품질 점수를 계산
+
+📊 테스트 커버리지(coverage) 포함하고 싶다면?
+
+sonar-scanner는 테스트를 직접 실행하지 않기 때문에
+JaCoCo나 Jest, pytest 등으로 사전에 리포트를 생성해두어야 합니다.
+
+예를 들어 Java 프로젝트의 경우 👇
+
+./gradlew test jacocoTestReport
+
+
+이 명령으로 생성된 XML 리포트를 SonarQube에 알려주면 됩니다.
+
+sonar-project.properties 예시:
+
+sonar.projectKey=my-project
+sonar.sources=src/main/java
+sonar.tests=src/test/java
+sonar.java.binaries=build/classes
+sonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
+sonar.host.url=http://localhost:9001
+sonar.login=my-sonar-token
+
+
+이렇게 하면 sonar-scanner 실행 시,
+정적 분석 + 커버리지 리포트 반영이 동시에 이루어집니다.
