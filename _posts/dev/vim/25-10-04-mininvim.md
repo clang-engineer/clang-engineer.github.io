@@ -1,8 +1,8 @@
 ---
-title       : mini.nvim 관련 메모
+title       : mini.nvim 관련 정리
 description : 
 date        : 2025-10-04 14:18:02 +0900
-updated     : 2025-10-04 14:20:34 +0900
+updated     : 2025-10-04 14:25:57 +0900
 categories  : [dev, vim]
 tags        : [vim, neovim, mini, memo]
 pin         : false
