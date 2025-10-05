@@ -2,7 +2,7 @@
 title       : mini.nvim 관련 정리
 description : 
 date        : 2025-10-04 14:18:02 +0900
-updated     : 2025-10-04 14:25:57 +0900
+updated     : 2025-10-05 13:42:08 +0900
 categories  : [dev, vim]
 tags        : [vim, neovim, mini, memo]
 pin         : false
@@ -66,6 +66,7 @@ hidden      : false
 |------|------|------|
 | `mini.sessions` | 세션 관리 | 작업 세션 저장/복원 |
 | `mini.splitjoin` | 코드 포맷팅 | 한 줄 ↔ 여러 줄 변환 (JS, Lua 등) |
+| `mini.ai` | 커스텀 객체 | 사용자 정의 텍스트 객체 생성 가능 |
 | `mini.ai` + `mini.surround` | 결합 사용 가능 | 텍스트 객체 선택 후 감싸기/변경 가능 |
 
 ---
