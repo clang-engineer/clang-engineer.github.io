@@ -2,18 +2,17 @@
 title       : Spring Boot Actuator 상세 설정 분석
 description : 
 date        : 2025-10-05 16:15:42 +0900
-updated     : 2025-10-05 16:17:41 +0900
+updated     : 2025-10-05 16:46:59 +0900
 categories  : ["dev", "jhipster"]
 tags        : ["jhipster", "spring boot", "actuator", "monitoring", "prometheus"]
 pin         : false
 hidden      : false
 ---
 
-## 🔧 Spring Boot Actuator 상세 설정 분석
+# Spring Boot Actuator + JHipster + Prometheus 설정 정리
 
-### 1. **의존성 설정 (build.gradle)**
+## 1. 의존성 설정 (build.gradle)
 
-#### 📦 **핵심 의존성**
 ```gradle
 // Spring Boot Actuator
 implementation "org.springframework.boot:spring-boot-starter-actuator"
@@ -25,14 +24,18 @@ implementation "io.micrometer:micrometer-registry-prometheus"
 implementation "io.dropwizard.metrics:metrics-core"
 ```
 
-**주요 라이브러리:**
-- `spring-boot-starter-actuator`: Actuator 핵심 기능
-- `micrometer-registry-prometheus`: Prometheus 형식 메트릭 출력
-- `metrics-core`: 추가 메트릭 수집 기능
+**설명:**
 
-### 2. **Actuator 엔드포인트 설정**
+* `spring-boot-starter-actuator`: Actuator 핵심 기능 제공
+* `micrometer-registry-prometheus`: Prometheus 형식 메트릭 출력
+* `metrics-core`: 추가 메트릭 수집 기능
 
-#### 🎯 **노출된 엔드포인트**
+---
+
+## 2. Actuator 엔드포인트 구조
+
+### 2.1 웹 엔드포인트 (`management.endpoints.web`)
+
 ```yaml
 management:
   endpoints:
@@ -40,66 +43,96 @@ management:
       base-path: /management
       exposure:
         include:
-          - 'configprops'      # 설정 속성 정보
-          - 'env'              # 환경 변수
-          - 'health'            # 헬스 체크
-          - 'info'              # 애플리케이션 정보
-          - 'jhimetrics'        # JHipster 메트릭
-          - 'jhiopenapigroups'  # API 그룹 정보
-          - 'logfile'           # 로그 파일
-          - 'loggers'           # 로거 설정
-          - 'prometheus'        # Prometheus 메트릭
-          - 'threaddump'        # 스레드 덤프
-          - 'caches'           # 캐시 정보
-          - 'liquibase'         # 데이터베이스 마이그레이션
+          - configprops
+          - env
+          - health
+          - info
+          - jhimetrics
+          - jhiopenapigroups
+          - logfile
+          - loggers
+          - prometheus
+          - threaddump
+          - caches
+          - liquibase
 ```
 
-### 3. **헬스 체크 설정**
+**핵심 포인트:**
 
-#### 🏥 **헬스 체크 구성**
+* `base-path`: 모든 Actuator 엔드포인트의 공통 URL 경로
+* `exposure.include`: 외부에 노출할 엔드포인트 선택
+* 운영 환경에서는 최소 엔드포인트만 노출 권장
+
+### 2.2 개별 엔드포인트 설정 (`management.endpoint.*`)
+
 ```yaml
 management:
   endpoint:
     health:
       show-details: when_authorized  # 인증된 사용자만 상세 정보
-      roles: 'ROLE_ADMIN'            # 관리자 역할 필요
+      roles: 'ROLE_ADMIN'            # 관리자 권한 필요
       probes:
-        enabled: true                # Kubernetes 프로브 활성화
+        enabled: true                # Kubernetes liveness/readiness 활성화
       group:
-        liveness:                   # 생존성 체크
+        liveness:
           include: livenessState
-        readiness:                   # 준비성 체크
-          include: readinessState,db
+        readiness:
+          include: readinessState, db
+    jhimetrics:
+      enabled: true                  # JHipster 메트릭 활성화
 ```
 
-**헬스 체크 그룹:**
-- **Liveness**: 애플리케이션이 살아있는지 확인
-- **Readiness**: 애플리케이션이 요청을 처리할 준비가 되었는지 확인
-- **Database**: 데이터베이스 연결 상태 확인
+**설명:**
 
-### 4. **메트릭 설정**
+* `endpoint.health`: Health 엔드포인트 접근 권한, 상세 정보 노출, Kubernetes 프로브, 그룹핑 설정
+* `endpoint.jhimetrics`: JHipster 메트릭 활성화 여부
 
-#### 📊 **Prometheus 메트릭 설정**
+---
+
+## 3. 엔드포인트 내부 옵션
+
+### 3.1 Health 엔드포인트
+
+```yaml
+management:
+  health:
+    mail:
+      enabled: false  # Mail 서비스 헬스 체크 비활성화
+```
+
+### 3.2 Info 엔드포인트
+
+```yaml
+management:
+  info:
+    git:
+      mode: full      # Git 상세 정보 제공
+    env:
+      enabled: true   # Spring 환경 변수 노출
+```
+
+### 3.3 Metrics 엔드포인트
+
 ```yaml
 management:
   metrics:
     export:
       prometheus:
-        enabled: true    # Prometheus 메트릭 활성화
-        step: 60         # 60초 간격으로 메트릭 수집
+        enabled: true
+        step: 60       # 60초마다 메트릭 갱신
     enable:
-      http: true         # HTTP 메트릭
-      jvm: true          # JVM 메트릭
-      logback: true      # 로그백 메트릭
-      process: true      # 프로세스 메트릭
-      system: true       # 시스템 메트릭
+      http: true
+      jvm: true
+      logback: true
+      process: true
+      system: true
     distribution:
       percentiles-histogram:
-        all: true        # 모든 메트릭에 히스토그램 적용
+        all: true
       percentiles:
-        all: 0, 0.5, 0.75, 0.95, 0.99, 1.0  # 백분위수 설정
+        all: 0,0.5,0.75,0.95,0.99,1.0
     tags:
-      application: ${spring.application.name}  # 애플리케이션 태그
+      application: ${spring.application.name}
     web:
       server:
         request:
@@ -107,123 +140,79 @@ management:
             enabled: true  # HTTP 요청 시간 자동 측정
 ```
 
-### 5. **정보 엔드포인트 설정**
+---
 
-#### ℹ️ **애플리케이션 정보**
-```yaml
-management:
-  info:
-    git:
-      mode: full         # Git 정보 전체 노출
-    env:
-      enabled: true      # 환경 변수 정보 활성화
-```
+## 4. 접근 가능한 주요 엔드포인트
 
-**노출되는 정보:**
-- Git 커밋 정보
-- 빌드 정보
-- 환경 변수
-- 설정 속성
+| 엔드포인트  | URL                      | 설명                |
+| ------ | ------------------------ | ----------------- |
+| 헬스 체크  | `/management/health`     | 애플리케이션 상태         |
+| 메트릭    | `/management/prometheus` | Prometheus 형식 메트릭 |
+| 정보     | `/management/info`       | 애플리케이션 정보         |
+| 환경     | `/management/env`        | 환경 변수             |
+| 스레드 덤프 | `/management/threaddump` | 스레드 상태            |
+| 캐시     | `/management/caches`     | 캐시 정보             |
+| 로그     | `/management/loggers`    | 로거 설정             |
 
-### 6. **JHipster 특화 설정**
+---
 
-#### 🎯 **JHipster 메트릭**
-```yaml
-management:
-  endpoint:
-    jhimetrics:
-      enabled: true      # JHipster 메트릭 활성화
-```
+## 5. 보안 설정
 
-**JHipster 메트릭 포함:**
-- HTTP 요청 메트릭
-- 데이터베이스 연결 풀 메트릭
-- 캐시 메트릭
-- 보안 메트릭
-
-### 7. **환경별 설정 차이**
-
-#### 🔧 **개발 환경 (application.yml)**
-```yaml
-management:
-  metrics:
-    export:
-      prometheus:
-        enabled: true    # Prometheus 메트릭 활성화
-```
-
-#### 🚀 **운영 환경 (application-prod.yml)**
-```yaml
-management:
-  metrics:
-    export:
-      prometheus:
-        enabled: false   # 보안상 비활성화
-```
-
-### 8. **접근 가능한 엔드포인트**
-
-#### 🌐 **주요 엔드포인트 URL**
-
-| 엔드포인트 | URL | 설명 |
-|-----------|-----|------|
-| **헬스 체크** | `/management/health` | 애플리케이션 상태 |
-| **메트릭** | `/management/prometheus` | Prometheus 형식 메트릭 |
-| **정보** | `/management/info` | 애플리케이션 정보 |
-| **환경** | `/management/env` | 환경 변수 |
-| **스레드 덤프** | `/management/threaddump` | 스레드 상태 |
-| **캐시** | `/management/caches` | 캐시 정보 |
-| **로그** | `/management/loggers` | 로거 설정 |
-
-### 9. **보안 설정**
-
-#### 🔒 **인증 및 권한**
 ```yaml
 management:
   endpoint:
     health:
-      show-details: when_authorized  # 인증된 사용자만 상세 정보
-      roles: 'ROLE_ADMIN'            # 관리자 역할 필요
+      show-details: when_authorized
+      roles: 'ROLE_ADMIN'
 ```
 
-**보안 고려사항:**
-- 민감한 정보는 인증된 사용자만 접근
-- 관리자 역할이 필요한 엔드포인트
-- 프로덕션에서는 Prometheus 메트릭 비활성화
+**보안 포인트:**
 
-### 10. **메트릭 수집 예시**
+* 민감 정보는 인증된 사용자만 접근 가능
+* 관리자 역할 필요
+* 운영 환경에서 Prometheus 메트릭은 접근 제어 권장
 
-#### 📈 **수집되는 메트릭 유형**
+---
 
-**JVM 메트릭:**
+## 6. 메트릭 수집 및 Prometheus 연동
+
+### 6.1 JVM 메트릭 예시
+
 ```
 jvm_memory_used_bytes{area="heap"}
 jvm_gc_pause_seconds{action="end of minor GC"}
 jvm_threads_live_threads
 ```
 
-**HTTP 메트릭:**
+### 6.2 HTTP 메트릭 예시
+
 ```
 http_server_requests_seconds_count{method="GET",status="200"}
 http_server_requests_seconds_sum{method="GET",status="200"}
 ```
 
-**시스템 메트릭:**
+### 6.3 시스템 메트릭 예시
+
 ```
 system_cpu_usage
 process_memory_rss_bytes
 process_open_fds
 ```
 
-### 11. **실행 및 테스트**
+**데이터 흐름:**
 
-#### 🚀 **애플리케이션 실행**
-```bash
-./gradlew bootRun
+```
+Spring Boot Actuator → Micrometer → Prometheus → Grafana
 ```
 
-#### 🧪 **엔드포인트 테스트**
+---
+
+## 7. 실행 및 테스트
+
 ```bash
+# 애플리케이션 실행
+./gradlew bootRun
+
 # 헬스 체크
 curl http://localhost:8080/management/health
 
@@ -233,3 +222,26 @@ curl http://localhost:8080/management/prometheus
 # 애플리케이션 정보
 curl http://localhost:8080/management/info
 ```
+
+---
+
+## 8. 전체 구조 요약
+
+```
+management
+├─ endpoints.*        # 엔드포인트 전역 설정 (웹 노출, 경로)
+├─ endpoint.*         # 개별 엔드포인트 세부 설정 (권한, 활성화, 그룹)
+├─ metrics.*          # 메트릭 수집/내보내기/분포/태그
+├─ info.*             # 애플리케이션 정보 노출
+├─ health.*           # 헬스 체크 내부 옵션
+├─ server.*           # 관리용 서버 포트/주소
+├─ logfile.*          # 로그파일 노출
+└─ 기타 custom 설정
+```
+
+**핵심 포인트:**
+
+* `endpoint.*` → 엔드포인트 접근/활성화/그룹 설정
+* `health/info/metrics` → 엔드포인트 내부 세부 기능 설정
+* 운영 환경에서는 **권한 제어 + 필요한 메트릭만 활성화**
+* Prometheus 연동 시 `micrometer-registry-prometheus` 필요
