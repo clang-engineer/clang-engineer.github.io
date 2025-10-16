@@ -2,7 +2,7 @@
 title       : Which-Key Keymaps 정리
 description : 
 date        : 2025-10-04 14:48:24 +0900
-updated     : 2025-10-04 14:50:43 +0900
+updated     : 2025-10-16 15:00:14 +0900
 categories  : ["dev", "lazyvim"]
 tags        : ["lazyvim", "which-key", "keymaps", "prefix"]
 pin         : false
@@ -33,7 +33,7 @@ hidden      : false
 | `z`            | Fold                                        | 코드 접기 / 펼치기 |
 | `<leader>b`    | Buffer                                      | 버퍼 관련 (동적 확장) |
 | `<leader>w`    | Windows                                     | 창 관리 (`<C-w>` 기반) |
-| `gx`           | Open with system app                         | 단일 명령어 |
+| `gx`           | Open with system app                         | 단일 명령어 (url 위에서 하면 브라우저로 열기) |
 | `<leader>?`    | Buffer Keymaps (which-key 메뉴 열기)         | 현재 버퍼에서 메뉴 표시 |
 | `<C-w><space>` | Window Hydra Mode                            | 창 관련 Hydra 모드 열기 |
 
