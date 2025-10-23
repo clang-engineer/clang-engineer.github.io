@@ -3,7 +3,7 @@ title       : logrotate 설정
 description : >-
     logrotate를 이용한 로그 파일 관리
 date        : 2021-01-25 22:50:30 +0900
-updated     : 2025-02-21 22:50:42 +0900
+updated     : 2025-10-23 09:01:04 +0900
 categories  : [dev, linux]
 tags        : [logrotate]
 pin         : false
@@ -56,6 +56,20 @@ sudo vi /etc/logrotate.d/nginx
     endscript
 }
 ```
+
+### 3. 설정 확인 및 직접 실행
+```bash
+sudo logrotate -d /etc/logrotate.conf  # 설정 파일을 테스트 모드로 실행하여 확인
+sudo logrotate -f /etc/logrotate.conf  # 강제로 로그 파일 회전 실행
+```
+
+### 4. logback vs logrotate
+- logback은 자바 기반의 애플리케이션에서 로그 관리를 위해 사용되는 라이브러리로, 애플리케이션 내부에서 로그 파일의 회전 및 관리를 처리한다.
+- 반면, logrotate는 시스템 수준에서 로그 파일을 관리하는 유틸리티로, 다양한 애플리케이션의 로그 파일을 중앙에서 관리할 수 있다.
+1. 단일 Spring 서비스(컨테이너/VM) + 간단한 요구 → logback (앱 내부 제어, 손쉬움)
+2. 여러 서비스/시스템 로그를 일괄 관리(보안/컴플라이언스 정책) → logrotate (중앙관리)
+3. 앱을 멈추지 않고 로그 급감 용량 확보 필요 → logrotate(copytruncate)
+4. 클라우드/컨테이너 환경, 수집기(Fluent Bit/Vector/Datadog 등) 사용 → 애플리케이션은 STDOUT 중심, 파일 회전은 최소화(플랫폼/수집기 정책 활용)
 
 --- 
 
