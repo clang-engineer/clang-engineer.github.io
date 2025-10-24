@@ -2,7 +2,7 @@
 title       : Lazygit: A Terminal UI for Git
 description : 
 date        : 2025-10-23 15:29:55 +0900
-updated     : 2025-10-24 09:09:43 +0900
+updated     : 2025-10-24 09:10:33 +0900
 categories  : [dev, tools]
 tags        : [git, lazygit, terminal, tui, guide]
 pin         : false
@@ -163,5 +163,5 @@ git:
 
 ---
 
-## 특정 파일 / 영역 히스토리 보기
-- Files 패널에서 파일을 선택 후 Enter 키를 눌러 상태를 확장합니다.
+### log filter 사용법
+- <ctrl/> + s 키를 눌러 로그 필터 모드를 활성화합니다.
