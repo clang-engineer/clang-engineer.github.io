@@ -2,7 +2,7 @@
 title       : Lazygit: A Terminal UI for Git
 description : 
 date        : 2025-10-23 15:29:55 +0900
-updated     : 2025-10-24 08:56:36 +0900
+updated     : 2025-10-24 09:09:43 +0900
 categories  : [dev, tools]
 tags        : [git, lazygit, terminal, tui, guide]
 pin         : false
@@ -159,3 +159,9 @@ git:
 1. Files 패널에서 특정 파일을 선택한 후 Enter 키를 눌러 파일 상태를 확장합니다.
 2. tab stage, unstage 섹션 간에 전환하고, jk 키로 항목 간 이동합니다.
 3. space 키로 개별 항목을 스테이징/언스테이지 하거나, d 키로 변경 사항을 버립니다.
+
+
+---
+
+## 특정 파일 / 영역 히스토리 보기
+- Files 패널에서 파일을 선택 후 Enter 키를 눌러 상태를 확장합니다.
