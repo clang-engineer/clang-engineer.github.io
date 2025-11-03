@@ -2,7 +2,7 @@
 title       : Vim Prefix Keys 정리
 description : >-
 date        : 2025-10-03 11:36:45 +0900
-updated     : 2025-10-03 11:43:06 +0900
+updated     : 2025-11-03 09:42:16 +0900
 categories  : [dev, vim]
 tags        : [vim, neovim, prefix, 접두사, mapping]
 pin         : false
@@ -16,6 +16,8 @@ Vim에서 자주 쓰이는 **prefix 키**들을 분류하고 예시를 정리한
 ---
 
 ## 1. Vim 예약 확장 Prefix
+
+- zm, zr: fold 관련 (m: more, r: reduce)
 
 | Prefix | 설명 | 주요 예시 |
 |--------|------|-----------|
