@@ -2,7 +2,7 @@
 title       : Claude Code 정리
 description : 
 date        : 2025-10-24 09:47:55 +0900
-updated     : 2025-10-30 13:43:56 +0900
+updated     : 2025-11-06 08:12:27 +0900
 categories  : [dev, ai]
 tags        : [ai, claude, anthrophic, claude-code]
 pin         : false
@@ -141,6 +141,9 @@ claude -p "버그를 찾아서 수정해줘"
 # 되돌리기 (v2.0.0+)
 /rewind      # 이전 상태로 롤백
 ESC ESC      # 더블 ESC로도 되돌리기 가능
+
+/clear       # 대화 기록 초기화 => 주기적으로 해주는 것이 좋음
+/usage       # token 사용량 확인
 ```
 
 ### 프로젝트 커맨드
