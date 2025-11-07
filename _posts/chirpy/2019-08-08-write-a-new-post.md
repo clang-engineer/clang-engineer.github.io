@@ -2,10 +2,9 @@
 title: Writing a New Post
 author: cotes
 date: 2019-08-08 14:10:00 +0800
-categories: [chirpy, tutorial]
+categories: [Blogging, Tutorial]
 tags: [writing]
 render_with_liquid: false
-hidden: true
 ---
 
 This tutorial will guide you how to write a post in the _Chirpy_ template, and it's worth reading even if you've used Jekyll before, as many features require specific variables to be set.
@@ -22,7 +21,7 @@ Basically, you need to fill the [Front Matter](https://jekyllrb.com/docs/front-m
 ---
 title: TITLE
 date: YYYY-MM-DD HH:MM:SS +/-TTTT
-categories: [TOP_CATEGORIE, SUB_CATEGORIE]
+categories: [TOP_CATEGORY, SUB_CATEGORY]
 tags: [TAG]     # TAG names should always be lowercase
 ---
 ```
@@ -248,7 +247,7 @@ image:
 ---
 ```
 
-> You can observe LQIP in the preview image of post \"[Text and Typography](../2019-08-08-text-and-typography/)\".
+> You can observe LQIP in the preview image of post \"[Text and Typography](../text-and-typography/)\".
 
 For normal images:
 
@@ -257,11 +256,9 @@ For normal images:
 ```
 {: .nolineno }
 
-### Video
+### Social Media Platforms
 
-#### Social Media Platform
-
-You can embed videos from social media platforms with the following syntax:
+You can embed video/audio from social media platforms with the following syntax:
 
 ```liquid
 {% include embed/{Platform}.html id='{ID}' %}
@@ -269,15 +266,21 @@ You can embed videos from social media platforms with the following syntax:
 
 Where `Platform` is the lowercase of the platform name, and `ID` is the video ID.
 
-The following table shows how to get the two parameters we need in a given video URL, and you can also know the currently supported video platforms.
+The following table shows how to get the two parameters we need in a given video/audio URL, and you can also know the currently supported video platforms.
 
-| Video URL                                                                                          | Platform   | ID             |
-| -------------------------------------------------------------------------------------------------- | ---------- | :------------- |
-| [https://www.**youtube**.com/watch?v=**H-B46URT4mg**](https://www.youtube.com/watch?v=H-B46URT4mg) | `youtube`  | `H-B46URT4mg`  |
-| [https://www.**twitch**.tv/videos/**1634779211**](https://www.twitch.tv/videos/1634779211)         | `twitch`   | `1634779211`   |
-| [https://www.**bilibili**.com/video/**BV1Q44y1B7Wf**](https://www.bilibili.com/video/BV1Q44y1B7Wf) | `bilibili` | `BV1Q44y1B7Wf` |
+| Video URL                                                                                                                  | Platform   | ID                       |
+| -------------------------------------------------------------------------------------------------------------------------- | ---------- | :----------------------- |
+| [https://www.**youtube**.com/watch?v=**H-B46URT4mg**](https://www.youtube.com/watch?v=H-B46URT4mg)                         | `youtube`  | `H-B46URT4mg`            |
+| [https://www.**twitch**.tv/videos/**1634779211**](https://www.twitch.tv/videos/1634779211)                                 | `twitch`   | `1634779211`             |
+| [https://www.**bilibili**.com/video/**BV1Q44y1B7Wf**](https://www.bilibili.com/video/BV1Q44y1B7Wf)                         | `bilibili` | `BV1Q44y1B7Wf`           |
+| [https://www.open.**spotify**.com/track/**3OuMIIFP5TxM8tLXMWYPGV**](https://open.spotify.com/track/3OuMIIFP5TxM8tLXMWYPGV) | `spotify`  | `3OuMIIFP5TxM8tLXMWYPGV` |
 
-#### Video Files
+Spotify supports some additional parameters:
+
+- `compact` - to display compact player instead (ex. `{% include embed/spotify.html id='3OuMIIFP5TxM8tLXMWYPGV' compact=1 %}`);
+- `dark` - to force dark theme (ex. `{% include embed/spotify.html id='3OuMIIFP5TxM8tLXMWYPGV' dark=1 %}`).
+
+### Video Files
 
 If you want to embed a video file directly, use the following syntax:
 
@@ -311,7 +314,7 @@ Consider an example using all of the above:
 %}
 ```
 
-### Audios
+### Audio Files
 
 If you want to embed an audio file directly, use the following syntax:
 
