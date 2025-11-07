@@ -2,7 +2,7 @@
 title       : Software Engineering
 description : >-
 date        : 2025-02-22 00:00:00 +0900
-updated     : 2025-03-02 23:09:59 +0900
+updated     : 2025-11-07 13:24:35 +0900
 categories  : [license, 정보관리기술사]
 tags        : [정보관리기술사, 소프트웨어공학]
 pin         : false
@@ -574,7 +574,7 @@ Deployment View (시스템 엔지니어 관점 - 시스템의 구성)
 - 하부구조: 메타모델을 정의하는데 활용될 수 있는 메타언어 규약
 - 상부구조: 메타모델을 정의하는데 활용될 수 있는 메타언어 규약
 
-> 참조: [http://jidum.com/jidums/view.do?jidumId=961]
+> 참조: [https://jidum.com/jidums/view.do?jidumId=961]
 
 
 ### 57. -
