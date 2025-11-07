@@ -3,8 +3,8 @@ title       : letsencrypt 를 이용한 SSL 인증서 발급 및 갱신
 description : >-
 date        : 2022-02-05 09:32:27 +0900
 updated     : 2025-07-05 01:13:47 +0900
-categories  : [dev, tip]
-tags        : [letsencrypt, ssl, certbot]
+categories  : [dev, security]
+tags        : [letsencrypt, ssl, certbot, certificate]
 pin         : false
 hidden      : false
 ---

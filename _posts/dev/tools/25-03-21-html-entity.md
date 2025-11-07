@@ -4,8 +4,8 @@ description : >-
     HTML에서 사용되는 특수 문자를 나타내는 문자열인 HTML 엔티티에 대해 기록.
 date        : 2025-03-21 22:50:30 +0900
 updated     : 2025-03-21 22:50:42 +0900
-categories  : [dev, tip]
-tags        : [html, entity]
+categories  : [dev, tools]
+tags        : [html, entity, special-characters, reference]
 pin         : false
 hidden      : false
 ---

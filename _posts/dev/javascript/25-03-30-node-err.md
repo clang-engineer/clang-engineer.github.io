@@ -4,8 +4,8 @@ description : >-
     node.js 사용 시 발생하는 에러에 대해 기록 합니다.
 date        : 2022-02-05 09:32:27 +0900
 updated     : 2025-03-06 09:33:16 +0900
-categories  : [dev, tip]
-tags        : [mac, setting]
+categories  : [dev, javascript]
+tags        : [nodejs, error, webpack, rosetta, apple-silicon]
 pin         : false
 hidden      : false
 ---

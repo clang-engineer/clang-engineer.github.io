@@ -3,8 +3,8 @@ title       : ASCII 코드 표
 description : >-
 date        : 2024-04-11 11:44:14 +0900
 updated     : 2024-04-11 11:44:14 +0900
-categories  : [dev, tip]
-tags        : [ascii, code, table]
+categories  : [dev, tools]
+tags        : [ascii, code, table, reference, character-encoding]
 pin         : false
 hidden      : false
 ---
