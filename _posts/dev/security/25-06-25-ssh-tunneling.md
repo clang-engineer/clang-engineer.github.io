@@ -3,8 +3,8 @@ title       : SSH Tunneling
 description : >-
 date        : 2025-06-25 11:44:14 +0900
 updated     : 2025-06-25 11:44:14 +0900
-categories  : [dev, tip]
-tags        : [ssh, tunneling]
+categories  : [dev, security]
+tags        : [ssh, tunneling, port-forwarding, network-security]
 pin         : false
 hidden      : false
 ---

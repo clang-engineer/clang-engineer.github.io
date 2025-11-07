@@ -4,7 +4,7 @@ description : >-
     Neovim으로 cpp 개발시 유용한 설정 방법을 정리하였습니다.
 date        : 2024-04-04 08:50:59 +0900
 updated     : 2025-09-25 08:48:41 +0900
-categories  : [dev, tip]
+categories  : [dev, vim]
 tags        : [neovim, cpp, coc.nvim, coc-clangd, clang-format]
 pin         : false
 hidden      : false

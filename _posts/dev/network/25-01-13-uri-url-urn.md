@@ -4,8 +4,8 @@ description : >-
     URI, URL, URN에 대해 정리합니다.
 date        : 2025-01-13 16:55:20 +0900
 updated     : 2025-01-25 16:58:25 +0900
-categories  : [dev, tip]
-tags        : [uri, url, urn]
+categories  : [dev, network]
+tags        : [uri, url, urn, web-standards]
 pin         : false
 hidden      : false
 ---
