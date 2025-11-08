@@ -114,6 +114,54 @@ claude --dangerously-skip-permissions
 
 ---
 
+## ⌨️ 키보드 단축키
+
+Claude Code는 효율적인 작업을 위한 다양한 키보드 단축키를 제공합니다.
+
+### 입력 모드 전환
+
+| 단축키 | 기능 |
+|--------|------|
+| `!` | Bash 모드 진입 (쉘 명령어 직접 실행) |
+| `/` | 슬래시 명령어 모드 |
+| `@` | 파일 경로 참조 모드 |
+| `#` | 메모리 저장 (중요한 정보 기억시키기) |
+
+### 편집 및 제어
+
+| 단축키 | 기능 |
+|--------|------|
+| `Shift + Tab` | 편집 제안 자동 수락 |
+| `Shift + Enter` | 새 줄 입력 (메시지 전송하지 않음) |
+| `Tab` | Thinking(사고 과정) 토글 |
+| `Ctrl + T` | Todo 목록 표시 |
+| `Ctrl + O` | Verbose output 모드 (상세 출력) |
+| `Ctrl + V` | 이미지 붙여넣기 |
+| `Ctrl + _` | 실행 취소 (Undo) |
+| `Ctrl + Z` | Claude Code 일시 정지 |
+| `ESC ESC` | 입력 내용 지우기 / 되돌리기 |
+
+### 사용 팁
+
+```bash
+# Bash 모드로 빠르게 명령 실행
+> !git status
+
+# 파일 참조하기
+> @src/components/Header.tsx 이 파일 리팩토링해줘
+
+# 중요한 컨텍스트 저장
+> #이 프로젝트는 Django 기반이고 PostgreSQL을 사용합니다
+
+# 편집 자동 수락
+# Claude가 편집을 제안하면 Shift+Tab으로 바로 수락
+
+# 긴 메시지 작성 시
+# Shift+Enter로 줄바꿈하고, Enter로 전송
+```
+
+---
+
 ## 🛠️ 주요 명령어
 
 ### 기본 명령어
@@ -125,26 +173,77 @@ claude
 # 특정 프롬프트와 함께 실행
 claude -p "버그를 찾아서 수정해줘"
 
-# 대화 기록 확인
-/history
-
-# 권한 설정
-/permissions
-
-# 버그 리포트
-/bug
-
-# 모드 전환
-/auto        # Auto 모드
-/normal      # Normal 모드로 복귀
-
-# 되돌리기 (v2.0.0+)
-/rewind      # 이전 상태로 롤백
-ESC ESC      # 더블 ESC로도 되돌리기 가능
-
-/clear       # 대화 기록 초기화 => 주기적으로 해주는 것이 좋음
-/usage       # token 사용량 확인
+# 이전 대화 이어가기
+claude --continue  # 또는 -c
 ```
+
+### 자주 사용하는 슬래시 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `/help` | 도움말 및 사용 가능한 명령어 표시 |
+| `/clear` | 대화 기록 초기화 (주기적으로 권장) |
+| `/compact [instructions]` | 대화 기록을 요약하여 컨텍스트 유지 |
+| `/usage` | 토큰 사용량 확인 |
+| `/cost` | 현재 세션의 총 비용 및 소요 시간 표시 |
+| `/context` | 현재 컨텍스트 사용량을 컬러 그리드로 시각화 |
+| `/rewind` | 코드 및/또는 대화를 이전 시점으로 복원 |
+| `/resume` | 이전 대화 재개 |
+| `/export` | 현재 대화를 파일 또는 클립보드로 내보내기 |
+
+### 설정 및 관리 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `/permissions` | 도구 권한 규칙 관리 (허용/거부) |
+| `/config` | 설정 패널 열기 |
+| `/model` | Claude Code의 AI 모델 설정 |
+| `/privacy-settings` | 개인정보 설정 보기 및 업데이트 |
+| `/output-style` | 출력 스타일 설정 |
+| `/statusline` | Claude Code의 상태 표시줄 UI 설정 |
+| `/vim` | Vim과 일반 편집 모드 간 전환 |
+
+### 프로젝트 및 개발 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `/init` | 새로운 CLAUDE.md 파일 초기화 (코드베이스 문서화) |
+| `/add-dir` | 새 작업 디렉토리 추가 |
+| `/memory` | Claude 메모리 파일 편집 |
+| `/todos` | 현재 todo 항목 목록 표시 |
+| `/bashes` | 백그라운드 작업 목록 및 관리 |
+| `/agents` | 에이전트 구성 관리 |
+| `/hooks` | 도구 이벤트에 대한 훅 구성 관리 |
+
+### Git 및 PR 관련 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `/review` | Pull Request 리뷰 |
+| `/pr-comments` | GitHub Pull Request의 댓글 가져오기 |
+| `/security-review` | 현재 브랜치의 보류 중인 변경사항 보안 리뷰 |
+| `/install-github-app` | 저장소에 Claude GitHub Actions 설정 |
+
+### 계정 및 시스템 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `/login` | Anthropic 계정으로 로그인 |
+| `/logout` | Anthropic 계정에서 로그아웃 |
+| `/status` | Claude Code 상태 표시 (버전, 모델, 계정, API 연결 등) |
+| `/doctor` | Claude Code 설치 및 설정 진단 및 확인 |
+| `/upgrade` | Max 플랜으로 업그레이드 (더 높은 속도 제한) |
+| `/release-notes` | 릴리스 노트 보기 |
+| `/feedback` | Claude Code에 대한 피드백 제출 |
+
+### 통합 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `/mcp` | MCP 서버 관리 |
+| `/plugin` | Claude Code 플러그인 관리 |
+| `/ide` | IDE 통합 관리 및 상태 표시 |
+| `/terminal-setup` | 새 줄을 위한 Shift+Enter 키 바인딩 설치 |
 
 ### 프로젝트 커맨드
 
