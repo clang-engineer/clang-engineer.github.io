@@ -1,12 +1,12 @@
 ---
-title: Serena 기본 가이드
-description:
-date: 2025-10-23 13:43:00 +0900
-updated: 2025-10-23 13:44:45 +0900
-categories: [dev, ai]
-tags: [ai, mcp, serena, claude, anthrophic, model-context-protocol]
-pin: false
-hidden: false
+title       : Serena 기본 가이드
+description : 
+date        : 2025-10-23 13:43:00 +0900
+updated     : 2025-11-07 23:41:28 +0900
+categories  : [dev, ai]
+tags        : [ai, mcp, serena, claude, anthrophic, model-context-protocol]
+pin         : false
+hidden      : false
 ---
 
 # Serena 기본 가이드
