@@ -2,240 +2,194 @@
 title       : Git Partial Merge 시 develop 변경이 삭제되는 문제 정리
 description : 
 date        : 2025-11-20 09:35:56 +0900
-updated     : 2025-11-20 09:46:37 +0900
+updated     : 2025-11-20 10:24:10 +0900
 categories  : [dev, git]
 tags        : [git, merge, partial-merge, 개발팁]
 pin         : false
 hidden      : false
 ---
 
-# # Git Partial Merge 시 develop 변경이 삭제되는 문제와 올바른 해결 방법
+# # Git Partial Merge 시 발생하는 develop 삭제 문제 — 전체 정리
 
-실제 프로젝트를 진행하다 보면,
-`main` 브랜치에서 `develop` 브랜치의 변경 중 **일부만** 가져오고 싶은 상황이 생긴다.
-예를 들어:
+## 1) 문제의 시작
 
-* develop 전체를 main에 반영하기엔 아직 불안정한데
-* 특정 기능/버그픽스만 main에 필요할 때
+너는 `main` 브랜치에서 `develop`의 **일부 변경만** 가져오고 싶어서 다음 명령을 사용했다:
 
-이때 다음과 같은 방식으로 흔히 partial merge(부분 병합)를 시도한다.
-
-```bash
-git checkout main
+```
 git merge develop --no-ff --no-commit
-# 필요 없는 변경 제거 → commit
+# 이후 원하지 않는 변경 제거
+git commit -m "partial merge" --no-verify
 ```
 
-하지만 이 방식은 **심각한 부작용**을 만든다.
+겉으로는 잘 된 것처럼 보였지만, 이후 문제 발생:
+
+* develop → main merge 시
+* develop 변경이 diff로 잡히지 않음
+* 일부 변경이 **삭제된 것처럼 취급됨**
+* 심하면 develop 코드가 사라져버림
 
 ---
 
-# ## 문제 상황
+## 2) 원인
 
-아래와 같이 partial merge commit이 main에 생성되었다고 하자.
+문제의 핵심은 다음 한 줄이다:
 
-```
-main
- └─ partial merge commit
-develop
- └─ 여러 변경들…
-```
-
-이제 나중에 다시 develop → main merge를 시도하면 다음 문제가 발생한다:
-
-* develop 변경 사항이 **삭제된 것처럼** 취급됨
-* diff가 거의 안 나타남
-* merge가 “비어 있는 병합”처럼 동작함
-* develop 코드를 덮어쓰지 못함
-* 변경이 사라져 버림
-
-즉, partial merge를 한 이후부터 **Git이 develop의 나머지 변경을 무시해버린다**.
-
----
-
-# ## 왜 이런 일이 발생하는가?
-
-`git merge --no-commit` 으로 develop의 변경을 가져온 뒤,
-원치 않는 코드를 삭제하고 commit을 만들어버리면
-이 commit은 Git에게 이렇게 보인다.
-
-> “develop의 나머지 변경은 main에서 **의도적으로 삭제한 코드**이다.”
-
-즉, partial merge commit은 **삭제 의도 기록**을 포함한 merge commit이 되어버린다.
-
-Git의 merge-base가 이렇게 업데이트되면:
-
-* develop에서 새로 merge해도
-* Git은 “이미 삭제한 변경”으로 간주하고 스킵한다
-* 그 결과 develop 쪽 코드가 삭제되거나 적용되지 않는다
-
-➡ 이것이 partial merge 후 develop 코드가 사라지는 이유다.
-
----
-
-# ## 잘못된 방식의 예
-
-아래는 partial merge에 절대 사용하면 안 되는 패턴이다.
-
-```bash
-git merge develop --no-ff --no-commit
-# 변경 일부 제거
-git commit   # ← merge commit 생성됨
-```
-
-이 commit 하나 때문에 develop과 main은 앞으로 영구적으로 엇갈린다.
-
----
-
-# ## 해결 방법
-
-정답은 단 하나다.
-
-# 👉 **merge commit을 만들지 않고 partial merge를 수행**해야 한다.
+> **merge commit(부모가 2개인 commit)이 생성되면 Git은
+> develop의 나머지 변경을 “삭제된 변경”으로 기록한다.**
 
 즉,
 
-* merge staging 상태는 이용하되
-* merge commit 대신 “일반 commit”을 만든다
-* 필요 시 hook 우회를 위해 `--no-verify`도 사용한다
-
-이렇게 하면 partial merge이면서도
-develop의 나머지 변경이 **삭제로 기록되지 않는다.**
-
----
-
-# ## 1) 잘못된 partial merge commit 되돌리기 (필수 단계)
-
-이미 merge commit을 만들었다면 먼저 제거해야 한다.
-
-### 히스토리를 보존하며 되돌리기 (안전)
-
-```bash
-git checkout main
-git revert <partial-merge-commit>
+```
+git merge develop --no-commit
+git commit
 ```
 
-### 아예 커밋 자체를 없애고 싶다면 (혼자 사용하는 브랜치에서만)
+이 조합은 반드시 **merge commit**을 만든다.
 
-```bash
-git reset --hard <partial-merge 이전>
+이 merge commit은:
+
+* main이 develop의 일부 변경을 **삭제했다(거부했다)**
+* 나머지 develop 변경은 main에서는 필요 없다고 판단했다
+
+라고 Git에게 기록된다.
+
+그 결과:
+
+* 이후 develop → main merge 시 Git은 나머지 변경을 스킵함
+* diff가 나오지 않거나
+* develop 코드가 삭제된 상태가 유지됨
+* Git이 “네가 예전에 그 코드 삭제했잖아?”라고 판단하는 것
+
+---
+
+## 3) 중요한 사실
+
+### ❗ merge commit을 만들면 —no-verify를 써도 의미가 없다
+
+`--no-verify`는 pre-commit hook 우회 옵션일 뿐,
+merge commit 구조 자체를 변경하지 않는다.
+
+삭제 기록이 남는 이유는:
+
+* hook 때문이 아니라
+* **merge commit 자체 때문**
+
+따라서:
+
+```
+git commit -m … --no-verify
 ```
 
-이제 main은 깨끗한 상태가 된다.
+은 삭제 문제의 원인과 무관하다.
 
 ---
 
-# ## 2) 올바른 partial merge 방식
+## 4) 부분 병합을 하면서 삭제 기록을 남기지 않는 단 한 가지 원칙
 
-partial merge를 하고 싶을 때는 다음 중 하나를 사용해야 한다.
+# 👉 **merge commit을 만들지 말아야 한다.**
+
+이 원칙만 지키면 partial merge는 100% 안전하게 된다.
 
 ---
 
-# ### 방법 A · merge staging + 일반 commit 방식 (가장 직관적)
+## 5) 삭제 기록 없이 Partial Merge를 수행하는 정석 절차
 
-1. merge staging만 가져온다
+### 🔥 정답 절차
 
-```bash
-git checkout main
+```
 git merge develop --no-commit --no-ff
-```
-
-2. 코드 수동 정리
-   (필요한 코드는 남기고, 필요 없는 코드는 직접 수정/삭제)
-
-3. **merge commit을 만들지 않고 일반 commit으로 만든다**
-
-```bash
+git reset HEAD          # ✨ merge-parent 정보 제거
+# 필요한 코드만 직접 수정/정리
 git add .
 git commit -m "partial merge (manual)" --no-verify
 ```
 
-### ✔ 왜 `--no-verify`가 필요한가?
+### 이 절차의 핵심:
 
-이 commit은 개발 완성 commit이 아니라
-“임시 수동 정리 commit”인 경우가 대부분이기 때문에:
+* `git merge`는 staging까지는 쓸 수 있다
+* 하지만 commit 단계에서 merge-parent를 반드시 제거해야 한다
+* 그래서 **git reset HEAD** 가 결정적으로 중요
 
-* lint-staged, eslint/prettier 검사
-* 테스트 실행
-* husky hook
-* commit-msg 규칙
+### 결과:
 
-등의 hook이 commit을 막아버릴 수 있다.
-
-하지만 partial merge의 초반 commit은 코드 품질이 불안정할 수 있으므로
-**hook 우회가 필요할 때가 많다.**
-
-그래서 실무에서는 아래처럼 commit하는 것이 일반적이다:
-
-```bash
-git commit -m "partial merge (manual)" --no-verify
-```
-
-### ✔ merge commit이 아니기 때문에:
-
-* develop의 나머지 code를 “삭제한 변경”으로 기록하지 않음
-* 이후 develop → main merge 시 conflict 없이 정상 작동함
+* 이 commit은 merge commit이 아닌 **일반 commit**
+* Git은 이것을 “코드 변경”으로만 인식
+* develop의 나머지 변경을 삭제했다는 기록이 없음
+* 향후 develop → main merge도 정상 diff가 뜬다
 
 ---
 
-# ### 방법 B · diff patch 기반 partial merge (정확도 최고)
+## 6) 이미 잘못된 partial merge commit이 있다면?
 
-1. diff 생성
+### 1) 되돌리기(안전)
 
-```bash
+```
+git revert <partial-merge-commit>
+```
+
+### 2) 히스토리 삭제(혼자 작업할 때)
+
+```
+git reset --hard <문제 커밋 이전 SHA>
+```
+
+이후 올바른 방식으로 partial merge를 다시 진행하면 됨.
+
+---
+
+## 7) 디렉터리/파일을 특정할 수 없을 때?
+
+코드 조각을 직접 보고 판단해야 하는 상황이라면:
+
+* merge staging 활용
+* merge-parent 제거
+* 일반 commit 생성
+
+이 방식이 가장 현실적이다.
+
+```
+git merge develop --no-commit
+git reset HEAD
+# 코드 보고 필요한 부분만 반영
+git add .
+git commit -m "partial merge" --no-verify
+```
+
+폴더를 지정할 필요 없음.
+
+---
+
+## 8) diff 기반 partial merge
+
+경로를 특정하기 어렵지만 전체 diff에서 특정 부분만 가져오고 싶다면:
+
+```
 git diff main..develop > partial.patch
-```
-
-2. 필요한 부분만 patch에서 삭제하거나 편집
-
-3. main에 patch 적용
-
-```bash
-git checkout main
 git apply partial.patch
-git commit -am "partial merge (patch-based)" --no-verify
+git commit -am "partial merge (patch)" --no-verify
 ```
 
-➡ 삭제 기록이 남지 않기 때문에 안전하다.
+이것도 안전하다.
 
 ---
 
-# ### 방법 C · 파일 단위 checkout (간단한 경우)
+# 최종 결론 (정리의 정리)
 
-```bash
-git checkout develop -- path/to/file.tsx
-git commit -am "partial merge (file-level)" --no-verify
-```
-
-➡ 특정 파일만 가져오고 싶을 때 유용하다.
-
----
-
-# ## 요약
-
-| 방식                                          | partial merge 용도로 적합? | develop → main merge 시 문제 발생 |
-| ------------------------------------------- | --------------------- | ---------------------------- |
-| merge --no-ff --no-commit 후 merge commit 생성 | ❌ 절대 금지               | develop 코드 삭제로 기록됨           |
-| merge → 일반 commit (`--no-verify` 포함 가능)     | ✔ 안전                  | 정상 병합됨                       |
-| diff/patch 기반 partial merge                 | ✔ 매우 안전               | 문제 없음                        |
-| cherry-pick                                 | ✔ 안전                  | 문제 없음                        |
-| 파일 단위 checkout                              | ✔ 안전                  | 문제 없음                        |
-
----
-
-# ## 결론
-
-> **partial merge에서 가장 중요한 원칙은
-> "merge commit을 절대 만들지 않는 것"이다.**
-
-merge commit을 만들면 Git이 나머지 변경을 *삭제 기록*으로 간주한다.
-반대로 일반 commit을 만들면 Git은 이것을 단순 코드 수정으로 취급한다.
-
-그리고 일반 commit을 만들 때
-lint/test hook 때문에 막힌다면:
+## ❌ 잘못된 partial merge
 
 ```
-git commit --no-verify
+git merge develop --no-commit
+git commit     # merge commit → 삭제 기록 생성
 ```
 
-로 안전하게 우회할 수 있다.
+## ✔ 올바른 partial merge
+
+```
+git merge develop --no-commit
+git reset HEAD
+(코드 정리)
+git add .
+git commit --no-verify   # 일반 commit
+```
+
+> **핵심은 merge commit을 만들지 않는 것이다.**
