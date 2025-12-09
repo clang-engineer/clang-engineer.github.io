@@ -2,7 +2,7 @@
 title       : Linux systemd
 description : >-
 date        : 2024-06-09 22:50:30 +0900
-updated     : 2025-11-06 16:47:48 +0900
+updated     : 2025-12-09 11:28:56 +0900
 categories  : [dev, linux]
 tags        : [linux, service]
 pin         : false
@@ -93,6 +93,7 @@ WantedBy=multi-user.target
 | `systemctl disable [servicename]` | 부팅 시 자동 시작 해제              |
 | `systemctl daemon-reload`         | 서비스 파일 변경 시 systemd 데몬 재로드 |
 | `systemctl reset-failed`          | 실패한 서비스 상태 초기화             |
+| `systemctl is-enabled [servicename]` | 서비스 자동 시작 설정 여부 확인        |
 
 > 💡 사용자 서비스의 경우 `--user` 옵션을 붙여야 합니다.
 > 예: `systemctl --user start myapp.service`
