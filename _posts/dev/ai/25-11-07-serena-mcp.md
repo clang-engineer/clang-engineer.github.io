@@ -76,7 +76,43 @@ uv run serena project index
 
 ---
 
-## 5. 주요 명령어 요약
+## 5. Claude Code와 통합
+
+Serena를 Claude Code의 MCP 서버로 추가하여 코드베이스에서 의미 기반 검색 및 편집 기능을 사용할 수 있습니다. ([GitHub][1])
+
+### 5.1. MCP 서버 시작
+
+Serena의 MCP 서버를 저장소에서 직접 실행합니다:
+
+```bash
+uv run serena start-mcp-server
+```
+
+이 명령은 로그 및 종료를 위한 웹 대시보드(`http://localhost:24282/dashboard/index.html`)와 함께 로컬 서버를 시작합니다. ([GitHub][1])
+
+### 5.2. Claude Code에 Serena 추가
+
+터미널에서 Serena를 MCP 서버로 Claude Code에 추가합니다:
+
+```bash
+claude mcp add-json "serena" '{"command":"uvx","args":["--from","git+https://github.com/oraios/serena","serena-mcp-server"]}'
+```
+
+이 명령은 Claude Code에 로컬 설치 없이 Serena의 MCP 서버를 사용하도록 지시합니다. ([GitHub][1])
+
+### 5.3. 테스트하기
+
+Claude Code를 열고 새 대화를 시작한 다음, 다음과 같은 명령을 시도해 볼 수 있습니다:
+
+- "이 프로젝트의 구조를 설명해줘"
+- "authentication 관련 코드를 찾아줘"
+- "error handling 패턴을 보여줘"
+
+Serena가 코드베이스를 의미적으로 분석하여 관련 코드를 찾아줍니다. ([GitHub][1])
+
+---
+
+## 6. 주요 명령어 요약
 
 - `serena config edit` : 설정 파일을 편집
 - `serena start-mcp-server` : MCP 서버 실행
@@ -86,7 +122,7 @@ uv run serena project index
 
 ---
 
-## 6. 간단 사용 예시
+## 7. 간단 사용 예시
 
 ```bash
 git clone https://github.com/oraios/serena
