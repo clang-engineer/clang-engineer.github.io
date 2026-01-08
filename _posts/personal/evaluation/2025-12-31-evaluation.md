@@ -2,7 +2,7 @@
 title       : 2025 평가 
 description : 
 date        : 2026-01-08 19:28:40 +0900
-updated     : 2026-01-09 08:21:47 +0900
+updated     : 2026-01-09 08:33:31 +0900
 categories  : []
 tags        : []
 pin         : false
