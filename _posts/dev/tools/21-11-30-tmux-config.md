@@ -3,7 +3,7 @@ title       : 🧷 tmux 정리본 (Cheat Sheet + 사용 가이드)
 description : >-
     터미널을 여러개의 세션으로 나누어서 사용할 수 있게 해주는 tmux 사용법에 대한 내용
 date        : 2021-11-30 22:50:30 +0900
-updated     : 2025-11-17 09:54:44 +0900
+updated     : 2026-01-28 08:33:28 +0900
 categories  : [dev, tools]
 tags        : [tmux, terminal]
 pin         : false
@@ -152,6 +152,8 @@ resize-pane -D 10  # 10칸 변경
 resize-pane -U 10
 resize-pane -L 10
 resize-pane -R 10
+
+ctrl + b 를 누르고 option + 방향키로 사이ㅈ 조절 (macOS)
 ```
 
 ---
