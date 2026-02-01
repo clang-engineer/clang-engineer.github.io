@@ -2,7 +2,7 @@
 title       : LazyVim Java LSP (jdtls) 작동 안함
 description : Java 21 + jenv export 플러그인 설정으로 해결
 date        : 2025-12-17 16:37:51 +0900
-updated     : 2025-12-17 16:52:03 +0900
+updated     : 2026-02-01 10:36:00 +0900
 categories  : [dev, lazyvim]
 tags        : [lazyvim, java, lsp, jdtls, jenv]
 pin         : false
@@ -155,6 +155,67 @@ Neovim:
 
   * `jenv enable-plugin export` 는 필수
   * Java LSP(jdtls)는 Java 21 이상 요구
+
+---
+
+## 추가 이슈: Gradle 7.5 + Java 21 충돌 (gd/gr 미동작)
+
+### 증상
+- `jdtls`는 붙었는데 `gd/gr` 결과가 없음
+- 로그에 아래 메시지 반복:
+  ```text
+  Can't use Java 21.x and Gradle 7.5 to import Gradle project
+  Unsupported class file major version 65
+  ```
+
+### 원인
+- **jdtls는 Java 21 필요**
+- **Gradle 7.5는 Java 21을 지원하지 않음**
+- Gradle 동기화가 실패하면 인덱싱이 안 되어 `gd/gr`가 비어짐
+
+### 해결 (핵심)
+- **jdtls는 Java 21**
+- **Gradle 동기화는 Java 17 강제**
+- 필요 시 java-test 번들 비활성화
+
+#### LazyVim 설정 예시
+```lua
+return {
+  {
+    "mfussenegger/nvim-jdtls",
+    opts = function(_, opts)
+      local java_home = vim.fn.trim(vim.fn.system("/usr/libexec/java_home -v 21"))
+      local gradle_java_home = vim.fn.trim(vim.fn.system("/usr/libexec/java_home -v 17"))
+
+      local cmd = { vim.fn.exepath("jdtls") }
+      local lombok_jar = vim.fn.expand("$MASON/share/jdtls/lombok.jar")
+      table.insert(cmd, string.format("--jvm-arg=-javaagent:%s", lombok_jar))
+      table.insert(cmd, "--java-executable")
+      table.insert(cmd, java_home .. "/bin/java")
+
+      opts.jdtls = vim.tbl_deep_extend("force", opts.jdtls or {}, {
+        cmd = cmd,
+        cmd_env = {
+          JAVA_HOME = gradle_java_home,
+          GRADLE_OPTS = "-Dorg.gradle.java.home=" .. gradle_java_home,
+        },
+      })
+
+      opts.test = false
+    end,
+  },
+}
+```
+
+#### 캐시 정리 (필요 시)
+```bash
+rm -rf ~/.cache/nvim/jdtls/ResearchEx
+rm -rf ~/.gradle/daemon ~/.gradle/caches/7.5
+```
+
+### 요약
+- **jdtls(Java 21) / Gradle(Java 17) 분리**가 핵심
+- Gradle sync가 성공해야 `gd/gr`가 정상 동작
 
 ---
 
