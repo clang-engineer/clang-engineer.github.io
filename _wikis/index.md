@@ -36,7 +36,7 @@ public  : true
 * [[issue/ssh-broken-pipe]]
 * [[issue/neovim-cpp-setting]]
 
-# [[chectsheet/index]]
+# [[cheatsheet/index]]
 * [[cheatsheet/tmux]]
 
 # [[memo/index]]
