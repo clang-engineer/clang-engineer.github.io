@@ -4,7 +4,7 @@ description :
 date        : 2026-01-04 19:42:22 +0900
 updated     : 2026-01-04 19:53:00 +0900
 categories  : [dev, db]
-tags        : [RDB, Join, 조인, Hash Join, Nested Loop Join, Sort-Merge Join, Broadcast Join, Semi-Join]
+tags        : [rdb, join, 조인, hash-join, nested-loop-join, sort-merge-join, broadcast-join, semi-join]
 pin         : false
 hidden      : false
 ---
@@ -266,5 +266,4 @@ RDBMS는 쿼리 실행 전에 **조인 전략을 자동으로 선택**합니다.
 * RDBMS는 **자동 최적화**를 통해 Nested Loop, Hash Join, Merge Join 중 선택
 * 선택 기준: **테이블 크기, 인덱스, 통계, 메모리, 정렬, 필터 조건, 분산 환경 고려**
 * 실무에서는 **EXPLAIN + 필터링 + 필요한 컬럼만 조회**가 성능 향상 핵심
-
 

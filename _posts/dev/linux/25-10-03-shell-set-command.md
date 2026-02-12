@@ -3,7 +3,7 @@ title       : shell 'set' 사용법
 description : 
 date        : 2025-10-03 13:42:17 +0900
 updated     : 2025-10-03 13:51:15 +0900
-categories  : []
+categories  : [dev, linux]
 tags        : []
 pin         : false
 hidden      : false
@@ -118,4 +118,3 @@ echo $-   # 현재 활성화된 옵션 문자 표시
 >
 > * 배치/자동화 스크립트 작성 시 항상 `set -euo pipefail` 추천
 > * 디버깅 시 `-x`를 추가하면 어떤 명령이 실행되는지 확인 가능
-
