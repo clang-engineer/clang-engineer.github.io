@@ -1,17 +1,11 @@
 ---
-layout  : wiki
-title   : 우선순위 큐(Priority Queue)와 힙(Heap)
-summary : 
-date    : 2022-02-20 14:10:10 +0900
-updated : 2022-02-20 15:02:22 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : 
-latex   : false
+layout: post
+title: "Priority Queue with Heap"
+date: 2025-02-12 13:00:38 +0900
+categories: [study, data-structure]
+tags: [data-structure, priority-queue, heap, min-heap, max-heap]
+summary: "Heap을 이용한 우선순위 큐 구현"
 ---
-* TOC
-{:toc}
 
 ## 소개
 - 우선순위 큐란? 들어간 순서에 상관없이 우선 순위가 높은 데이터가 먼저 나오는 자료구조
