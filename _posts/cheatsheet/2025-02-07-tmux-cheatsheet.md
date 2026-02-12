@@ -36,12 +36,16 @@ quick_commands:
 |--------|------|
 | `Prefix c` | 새 윈도우 생성 |
 | `Prefix ,` | 윈도우 이름 변경 |
+| `Prefix .` | 윈도우 순서 이동 |
 | `Prefix n` | 다음 윈도우 |
 | `Prefix p` | 이전 윈도우 |
 | `Prefix 0-9` | 번호로 윈도우 이동 |
+| `Prefix '` | 윈도우 인덱스 직접 입력 |
 | `Prefix w` | 윈도우 목록 (인터랙티브) |
+| `Prefix f` | 윈도우/패널 이름으로 검색 |
 | `Prefix &` | 윈도우 종료 (확인 필요) |
 | `Prefix l` | 마지막 윈도우로 이동 |
+| `Prefix i` | 윈도우 정보 표시 |
 
 ## 📐 패널 관리
 
@@ -60,16 +64,31 @@ quick_commands:
 | `Prefix {` | 패널 왼쪽으로 이동 |
 | `Prefix }` | 패널 오른쪽으로 이동 |
 | `Prefix Space` | 패널 레이아웃 순환 |
+| `Prefix m` | 현재 패널 마크 토글 |
+| `Prefix M` | 설정된 마크 전체 해제 |
+| `Prefix E` | 모든 패널을 균등하게 정렬 |
+| `Prefix Alt+1` | even-horizontal 레이아웃 |
+| `Prefix Alt+2` | even-vertical 레이아웃 |
+| `Prefix Alt+3` | main-horizontal 레이아웃 |
+| `Prefix Alt+4` | main-vertical 레이아웃 |
+| `Prefix Alt+5` | tiled 레이아웃 |
+| `Prefix Ctrl+o` | 패널을 순방향으로 회전 |
+| `Prefix Alt+o` | 패널을 역방향으로 회전 |
+| `Prefix Alt+←↑→↓` | 패널을 5칸씩 크기 조정 |
 
 ## 📜 복사 모드 & 스크롤
 
 | 명령어 | 설명 |
 |--------|------|
 | `Prefix [` | 복사 모드 진입 (스크롤 가능) |
+| `Prefix PgUp` | 복사 모드 진입 및 위로 스크롤 |
 | `q` | 복사 모드 종료 |
 | `Space` | 선택 시작 (Vi 모드) |
 | `Enter` | 선택 복사 (Vi 모드) |
-| `Prefix ]` | 붙여넣기 |
+| `Prefix ]` | 최근 버퍼 붙여넣기 |
+| `Prefix #` | 모든 붙여넣기 버퍼 나열 |
+| `Prefix =` | 버퍼 목록에서 선택하여 붙여넣기 |
+| `Prefix -` | 가장 최근 버퍼 삭제 |
 | `Ctrl+u` / `Ctrl+d` | 반 페이지 위/아래 스크롤 |
 | `g` / `G` | 맨 위/아래로 이동 (Vi 모드) |
 
@@ -78,10 +97,13 @@ quick_commands:
 | 명령어 | 설명 |
 |--------|------|
 | `Prefix ?` | 키 바인딩 목록 |
+| `Prefix /` | 특정 키 바인딩 설명 보기 |
 | `Prefix t` | 시계 표시 |
+| `Prefix ~` | 최근 메시지 확인 |
 | `Prefix :` | 명령어 프롬프트 |
+| `Prefix r` | 현재 클라이언트 리프레시 |
+| `Prefix Ctrl+z` | tmux 클라이언트 일시 중지 |
 | `tmux source-file ~/.tmux.conf` | 설정 파일 리로드 |
-| `Prefix r` | 설정 리로드 (커스텀 바인딩 필요) |
 
 ## 💡 자주 쓰는 패턴
 
