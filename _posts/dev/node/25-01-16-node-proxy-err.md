@@ -3,7 +3,7 @@ title       : nvm으로 Node 버전 변경 후 webpack-dev-server 프록시 ECON
 description : 
 date        : 2026-01-16 10:32:57 +0900
 updated     : 2026-01-16 10:33:15 +0900
-categories  : []
+categories  : [dev, node]
 tags        : []
 pin         : false
 hidden      : false
@@ -142,4 +142,3 @@ set NODE_OPTIONS=--dns-result-order=ipv4first
 
 * ❌ `http://localhost:8080`
 * ✅ `http://127.0.0.1:8080`
-

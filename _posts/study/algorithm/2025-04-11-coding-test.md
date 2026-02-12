@@ -4,7 +4,7 @@ description :
 date        : 2025-04-11 15:36:25 +0900
 updated     : 2025-04-11 15:36:25 +0900
 categories  : [study, algorithm]
-tags        : [aligorithm, coding test]
+tags        : [algorithm, coding-test]
 pin         : false
 hidden      : false
 ---
