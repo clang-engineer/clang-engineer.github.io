@@ -4,8 +4,8 @@ description : >-
     교보생명 퇴직연금 중도인출 신청 기록
 date        : 2024-03-30 17:58:48 +0900
 updated     : 2025-03-30 15:47:24 +0900
-categories  : []
-tags        : []
+categories  : [personal, memo]
+tags        : [finance, retirement, checklist]
 pin         : false
 hidden      : true
 ---

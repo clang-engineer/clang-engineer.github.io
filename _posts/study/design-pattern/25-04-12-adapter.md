@@ -3,8 +3,8 @@ title       : Adapter Pattern
 description : >-
 date        : 2025-04-12 22:50:42 +0900
 updated     : 2025-04-12 22:50:42 +0900
-categories  : [study, design pattern]
-tags        : [design pattern, adapter]
+categories  : [study, design-pattern]
+tags        : [design-pattern, adapter]
 pin         : false
 hidden      : false
 ---

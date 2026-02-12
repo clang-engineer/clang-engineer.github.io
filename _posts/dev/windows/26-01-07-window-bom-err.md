@@ -3,7 +3,7 @@ description : s
 title       : 
 date        : 2026-01-07 09:33:07 +0900
 updated     : 2026-01-07 09:35:11 +0900
-categories  : []
+categories  : [dev, windows]
 tags        : []
 pin         : false
 hidden      : false
@@ -132,5 +132,4 @@ Windows에서 GitHub 다중 계정을 쓰는 순간
 
 한 번 정리해두면
 앞으로는 10초 컷으로 해결 가능.
-
 

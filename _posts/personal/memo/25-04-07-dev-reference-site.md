@@ -4,7 +4,7 @@ description : >-
 date        : 2025-03-06 09:32:27 +0900
 updated     : 2025-03-06 09:33:16 +0900
 categories  : [personal, memo]
-tags        : [dev reference]
+tags        : [dev-reference]
 pin         : false
 hidden      : true
 ---

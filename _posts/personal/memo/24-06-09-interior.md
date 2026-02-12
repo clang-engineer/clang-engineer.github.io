@@ -4,8 +4,8 @@ description : >-
     인테리어 공사 시 필요한 정보 및 체크리스트
 date        : 2025-03-06 09:32:27 +0900
 updated     : 2025-03-06 09:33:16 +0900
-categories  : []
-tags        : []
+categories  : [personal, memo]
+tags        : [interior, home, checklist]
 pin         : false
 hidden      : true
 ---

@@ -5,7 +5,7 @@ description : >-
 date        : 2024-10-07 15:36:25 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [study, mathematics]
-tags        : [prime number]
+tags        : [prime-number]
 pin         : false
 hidden      : false
 ---
