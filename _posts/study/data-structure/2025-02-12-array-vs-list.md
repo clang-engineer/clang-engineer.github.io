@@ -1,17 +1,11 @@
 ---
-layout  : wiki
-title   : Array vs List
-summary : 
-date    : 2024-01-04 08:25:48 +0900
-updated : 2024-01-04 08:26:20 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[data-structure/index]] 
-latex   : false
+layout: post
+title: "Array vs List: ArrayList와 LinkedList"
+date: 2025-02-12 13:40:29 +0900
+categories: [study, data-structure]
+tags: [data-structure, array, list, arraylist, linkedlist]
+summary: "Array와 List의 차이점, ArrayList와 LinkedList 비교"
 ---
-* TOC
-{:toc}
 
 # Array
 - 연속된 메모리 공간에 같은 타입의 데이터를 순차적으로 저장하는 자료구조

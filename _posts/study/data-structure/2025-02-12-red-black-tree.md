@@ -1,17 +1,11 @@
 ---
-layout  : wiki
-title   : Red Black Tree
-summary : 
-date    : 2023-12-11 12:58:25 +0900
-updated : 2023-12-11 12:58:41 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[data-structure/index]]
-latex   : false
+layout: post
+title: "Red Black Tree"
+date: 2025-02-12 12:58:25 +0900
+categories: [study, data-structure]
+tags: [data-structure, tree, red-black-tree, balanced-tree]
+summary: "균형 이진 탐색 트리의 일종인 Red Black Tree"
 ---
-* TOC
-{:toc}
 
 # Red Black Tree란?
 - Red Black Tree는 균형 이진 탐색 트리의 일종이다.
