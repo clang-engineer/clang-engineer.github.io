@@ -1,16 +1,100 @@
 ---
-title       : Transaction Isolation Level
+title       : Transaction Concurrency Control
 description : >-
-  트랜잭션 격리 수준에 대해 알아보자.
+  직렬가능성, 회복가능성, 격리 수준, 2PL을 한 흐름으로 정리.
 date        : 2024-05-03 15:36:25 +0900
 updated     : 2025-05-21 22:50:42 +0900
 categories  : [study, database]
-tags        : [database, transaction, isolation-level]
+tags        : [database, transaction, concurrency-control, serializability, recoverability, isolation-level, lock, 2pl]
 pin         : false
 hidden      : false
 ---
 
-## transaction들이 동시에  실행될 때  발생할 수 있는 문제점
+## 동시성 제어 개요
+- 여러 트랜잭션이 동시에 실행될 때 성능을 확보하면서도 일관성을 유지하는 것이 목표
+- 핵심 키워드: Schedule, Serializability, Recoverability, Isolation Level, Lock/2PL
+
+## Schedule과 Serializability
+
+### Schedule
+- 여러 트랜잭션의 연산이 섞여 실행되는 순서
+- 단일 트랜잭션 내부의 연산 순서는 유지되지만, 트랜잭션 간 순서는 섞일 수 있다
+
+### Serial Schedule vs Non-serial Schedule
+- Serial: 트랜잭션이 겹치지 않고 순차 실행 (안전하지만 느림)
+- Non-serial: 연산이 섞여 실행 (빠르지만 제어 필요)
+
+### Conflict Serializability
+- 서로 다른 트랜잭션이 같은 데이터에 접근하고, 최소 한쪽이 쓰기일 때 conflict
+- 모든 conflict의 순서가 어떤 serial schedule과 동일하면 conflict-serializable
+
+## Recoverability
+
+### Unrecoverable Schedule
+- 다른 트랜잭션이 읽은 값을 쓴 트랜잭션이 rollback되면 복구 불가능
+- DBMS는 허용하지 않는다
+
+### Recoverable Schedule
+- 읽은 값을 쓴 트랜잭션이 commit/rollback되기 전까지 commit하지 않으면 recoverable
+
+### Cascadeless Schedule
+- 커밋 전 데이터 읽기를 금지해 cascade rollback 방지
+
+### Strict Schedule
+- 커밋 전 읽기/쓰기 모두 금지
+- 복구가 가장 단순하다
+
+## Lock과 2PL
+
+### Lock 종류
+- Read-Lock (Shared, S): 읽기 허용, 쓰기 차단
+- Write-Lock (Exclusive, X): 읽기/쓰기 모두 차단
+
+### Lock 호환성
+- S-S: 가능
+- S-X, X-S, X-X: 불가
+
+### 2PL (Two-Phase Locking)
+- Expansion Phase: Lock 획득만 수행
+- Contraction Phase: Lock 해제만 수행
+- Serializability 보장, Deadlock 가능
+
+#### Conservative 2PL
+- 모든 lock을 확보한 뒤 트랜잭션 시작
+- Deadlock 없음, 실무 사용은 드묾
+
+#### Strict 2PL (S2PL)
+- write-lock을 commit/rollback 전까지 유지
+- Recoverability 보장
+
+#### Strong Strict 2PL (SS2PL)
+- read/write-lock 모두 commit/rollback 전까지 유지
+- 구현이 단순
+
+## Isolation Level
+
+### 이상 현상
+1. Dirty Read: 커밋되지 않은 데이터 읽기
+2. Non-Repeatable Read: 같은 행을 두 번 읽었는데 값이 변함
+3. Phantom Read: 같은 조건으로 조회했는데 행 집합이 변함
+
+### 격리 수준 표
+
+| Isolation Level | Dirty Read | Non-Repeatable Read | Phantom Read |
+|---------------|-----------|---------------------|--------------|
+| Read Uncommitted | O | O | O |
+| Read Committed | X | O | O |
+| Repeatable Read | X | X | O |
+| Serializable | X | X | X |
+
+### 구현 메모
+- Serializable: Strict 2PL 또는 SS2PL, SSN 등으로 구현
+- MVCC 기반 DB는 Repeatable Read/Serializable의 정의가 DB마다 다를 수 있음
+
+## 추가 이상 현상 (요약)
+- Dirty Write: 커밋되지 않은 값을 다른 트랜잭션이 덮어씀
+- Lost Update: 두 트랜잭션의 업데이트 중 하나가 사라짐
+- Read/Write Skew: 서로 다른 데이터의 불일치가 발생
 
 1. Dirty Read
 - 문제: 트랜잭션 A가 아직 커밋되지 않은 데이터를 읽고, 그 후 트랜잭션 B가 롤백되면, 트랜잭션 A는 존재하지 않는 데이터를 읽은 것이 됨.

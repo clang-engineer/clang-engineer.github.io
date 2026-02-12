@@ -3,8 +3,8 @@ title       : Factory Pattern
 description : >-
 date        : 2025-04-11 22:50:42 +0900
 updated     : 2025-04-11 22:50:42 +0900
-categories  : [study, design pattern]
-tags        : [design pattern, behavior pattern, factory pattern]
+categories  : [study, design-pattern]
+tags        : [design-pattern, behavior-pattern, factory-pattern]
 pin         : false
 hidden      : false
 ---
