@@ -86,6 +86,22 @@ tmux new-window -t "$MAIN_SESSION" -n "api"
 tmux new-window -t "$MAIN_SESSION" -n "ops"
 ```
 
+## ● 패널 이름(타이틀) 지정
+
+pane 자체에 "이름"을 붙이는 개념은 없고, 대신 pane title을 설정해서 표시한다.
+표시 위치는 pane-border-format으로 제어한다.
+
+```bash
+# pane title 지정
+tmux select-pane -t "$MAIN_SESSION":0.0 -T "editor"
+tmux select-pane -t "$MAIN_SESSION":0.1 -T "logs"
+tmux select-pane -t "$MAIN_SESSION":0.2 -T "shell"
+
+# 타이틀 표시(하단). 필요하면 .tmux.conf에 넣어도 됨
+tmux set -g pane-border-status bottom
+tmux set -g pane-border-format " #P: #T "
+```
+
 ## ● 패널 레이아웃 변경 (좌우 2분할)
 
 ```bash
