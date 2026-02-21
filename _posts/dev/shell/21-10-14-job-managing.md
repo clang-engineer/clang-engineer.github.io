@@ -4,7 +4,7 @@ description : >-
     프로세스를 관리하는 job과 관련된 내용을 기록합니다.
 date        : 2024-06-09 22:50:30 +0900
 updated     : 2025-10-03 14:20:18 +0900
-categories  : [dev, linux]
+categories  : [dev, shell]
 tags        : [linux, job]
 pin         : false
 hidden      : false
@@ -78,6 +78,4 @@ $ jobs
 $ fg %1          # 1번 job을 foreground로 가져오기
 [1]- Running sleep 1000
 ```
-
-
 

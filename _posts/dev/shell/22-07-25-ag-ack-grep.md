@@ -3,7 +3,7 @@ title       : 파일 검색 도구 정리: Ag & Ack & Grep
 description : 
 date        : 2025-10-03 14:22:54 +0900
 updated     : 2025-10-03 14:33:08 +0900
-categories  : [dev, linux]
+categories  : [dev, shell]
 tags        : [ag, ack, grep, 검색, 파일검색]
 pin         : false
 hidden      : false

@@ -3,7 +3,7 @@ title       : 유용한 shell script
 description : >-
 date        : 2021-11-05 10:36:15 +0900
 updated     : 2025-10-03 14:18:54 +0900
-categories  : [dev, linux]
+categories  : [dev, shell]
 tags        : [shell, script]
 pin         : false
 hidden      : false
@@ -96,4 +96,3 @@ find path_A -name "*AAA*" -exec mv {} path_B \;
 * 설명: `path_A` 내 이름에 `AAA`가 포함된 파일을 모두 `path_B`로 이동
 
 ---
-
