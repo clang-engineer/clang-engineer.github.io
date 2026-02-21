@@ -108,6 +108,27 @@ npm install @your-scope/utils
 import { formatDate } from "@your-scope/utils";
 ```
 
+## 환경 확인 방법
+
+npm 환경이 제대로 설정되었는지 확인한다.
+
+```bash
+# npm 설치 및 버전 확인
+npm --version
+
+# GitHub Packages 인증 확인 (가장 확실한 방법)
+npm whoami --registry=https://npm.pkg.github.com
+
+# .npmrc 설정 확인
+cat .npmrc
+
+# 레지스트리 설정 확인
+npm config get registry
+npm config get @your-scope:registry
+```
+
+인증이 제대로 되었다면 `npm whoami`가 GitHub 사용자명을 반환한다.
+
 ## 운영 팁
 
 - 토큰은 저장소에 커밋하지 않고 환경 변수로만 관리

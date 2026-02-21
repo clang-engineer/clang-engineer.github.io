@@ -108,6 +108,30 @@ GITHUB_TOKEN=your-github-token
 - SNAPSHOT에서 릴리스로 전환할 때는 변경 요약을 남김
 - 배포 전 `./gradlew build`로 산출물 확인
 
+## 환경 확인 방법
+
+Gradle 환경이 제대로 설정되었는지 확인한다.
+
+```bash
+# Gradle Wrapper 버전 확인
+./gradlew --version
+
+# 프로젝트 설정 확인 (가장 확실한 방법)
+./gradlew properties
+
+# 환경 변수 설정 확인
+echo $GITHUB_ACTOR
+echo $GITHUB_TOKEN
+
+# Gradle 프로퍼티 파일 확인
+cat ~/.gradle/gradle.properties
+
+# 빌드 테스트
+./gradlew clean build
+```
+
+`./gradlew properties`는 group, version, repositories 등 모든 프로젝트 설정을 보여준다.
+
 ## 운영 팁
 
 - 토큰은 저장소에 커밋하지 않고 로컬/CI 환경 변수로만 관리
