@@ -239,3 +239,30 @@ source-file ~/.tmux.conf
 
 Ctrl+b + I   # Plugin Install
 ```
+
+---
+
+# 9. Resurrect/Continuum 팁
+
+세션을 `kill`했는데도 다시 살아나는 경우가 있다면 `tmux-resurrect` + `tmux-continuum`의
+자동 복원 기능 때문이다. `@continuum-restore 'on'` 상태에서는 tmux 시작 시점에
+마지막 저장 상태를 자동으로 복원한다.
+
+### ● 복원 데이터 저장 위치
+
+```bash
+~/.local/share/tmux/resurrect/
+```
+
+### ● 복원 데이터 삭제(초기화)
+
+```bash
+tmux kill-server
+rm -rf ~/.local/share/tmux/resurrect/*
+```
+
+### ● 자동 복원 끄기
+
+```bash
+set -g @continuum-restore 'off'
+```
