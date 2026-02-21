@@ -4,7 +4,7 @@ description : >-
     shell 설정 파일에 대해 기록
 date        : 2022-07-09 22:50:30 +0900
 updated     : 2022-07-09 22:50:30 +0900
-categories  : [dev, linux]
+categories  : [dev, shell]
 tags        : [linux, shell, bash]
 pin         : false
 hidden      : false
