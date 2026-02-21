@@ -4,7 +4,7 @@ description : >-
   SSH를 통한 작업 중 발생하는 Broken Pipe 에러 해결 방법을 정리해보았습니다.
 date        : 2024-03-21 16:55:20 +0900
 updated     : 2024-03-21 16:58:25 +0900
-categories  : [dev, linux]
+categories  : [dev, shell]
 tags        : [ssh, broken-pipe, error, network]
 pin         : false
 hidden      : false

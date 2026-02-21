@@ -3,7 +3,7 @@ title       : shell 'set' 사용법
 description : 
 date        : 2025-10-03 13:42:17 +0900
 updated     : 2025-10-03 13:51:15 +0900
-categories  : [dev, linux]
+categories  : [dev, shell]
 tags        : []
 pin         : false
 hidden      : false

@@ -3,7 +3,7 @@ title       : 쉘(Shell)에서 `&`, `&&`, `;` 의 차이
 description : 
 date        : 2025-09-25 13:32:34 +0900
 updated     : 2025-10-03 14:15:48 +0900
-categories  : [dev, linux]
+categories  : [dev, shell]
 tags        : [linux, shell, bash]
 pin         : false
 hidden      : false

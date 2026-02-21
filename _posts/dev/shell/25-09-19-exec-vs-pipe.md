@@ -3,7 +3,7 @@ title: exec vs pipe
 description: >-
 date: 2025-08-21 10:36:15 +0900
 updated: 2021-11-05 10:36:15 +0900
-categories: [dev, linux]
+categories: [dev, shell]
 tags: [exec, pipe]
 pin: false
 hidden: false
