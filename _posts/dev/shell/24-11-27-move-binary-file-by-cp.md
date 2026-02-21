@@ -5,7 +5,7 @@ description : >-
     (바이너리 파일을 텍스트로 변환하여 복사 붙여넣기)
 date        : 2025-02-21 22:50:30 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [dev, linux]
+categories  : [dev, shell]
 tags        : [binary, text, base64, xxd, file-transfer]
 pin         : false
 hidden      : false
