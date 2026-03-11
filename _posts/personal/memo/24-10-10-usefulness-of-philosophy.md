@@ -1,10 +1,11 @@
 ---
 title       : 철학의 쓸모
-description : 
+description : >-
+    대화와 태도에 대한 10가지 정리
 date        : 2024-10-10 09:32:27 +0900
 updated     : 2024-10-10 09:33:16 +0900
-categories  : []
-tags        : []
+categories  : [personal, memo]
+tags        : [philosophy, essay]
 pin         : false
 hidden      : false
 ---

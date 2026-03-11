@@ -2,7 +2,7 @@
 title       : Serena 기본 가이드
 description : 
 date        : 2025-10-23 13:43:00 +0900
-updated     : 2025-11-07 23:41:28 +0900
+updated     : 2026-02-24 10:55:31 +0900
 categories  : [dev, ai]
 tags        : [ai, mcp, serena, claude, anthrophic, model-context-protocol]
 pin         : false
@@ -96,6 +96,8 @@ uv run serena start-mcp-server
 
 ```bash
 claude mcp add-json "serena" '{"command":"uvx","args":["--from","git+https://github.com/oraios/serena","serena-mcp-server"]}'
+
+claude mcp add -s user --transport stdio serena -- cmd /c uvx --from "git+https://github.com/oraios/serena" serena-mcp-server
 ```
 
 이 명령은 Claude Code에 로컬 설치 없이 Serena의 MCP 서버를 사용하도록 지시합니다. ([GitHub][1])
