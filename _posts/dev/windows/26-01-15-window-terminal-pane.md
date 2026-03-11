@@ -3,7 +3,7 @@ title       : Windows Terminal 화면(Pane) 기능 정리
 description : 
 date        : 2026-01-15 09:13:52 +0900
 updated     : 2026-01-15 09:17:29 +0900
-categories  : []
+categories  : [dev, windows]
 tags        : []
 pin         : false
 hidden      : false
@@ -182,4 +182,3 @@ Ctrl + Shift + W
 ### 참고
 - Windows Terminal 1.17 이상 권장
 - 입력기 단축키 충돌 시 다른 키 조합 사용 권장
-

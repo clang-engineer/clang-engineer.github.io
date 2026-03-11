@@ -4,7 +4,7 @@ description :
 date        : 2024-10-07 15:36:25 +0900
 updated     : 2025-10-03 11:53:39 +0900
 tags        : [baekjoon, remainder sum]
-categories  : [study, algorithm]
+categories  : [study, cs]
 pin         : false
 hidden      : false
 ---
