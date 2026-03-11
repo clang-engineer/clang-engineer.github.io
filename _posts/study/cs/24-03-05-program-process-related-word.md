@@ -5,7 +5,7 @@ description : >-
 date        : 2024-03-05 09:32:27 +0900
 updated     : 2024-03-05 09:33:16 +0900
 categories  : [study, os]
-tags        : [program, process, cpu, main memory, io, thread, context switching]
+tags        : [program, process, cpu, main-memory, io, thread, context-switching]
 pin         : false
 hidden      : false
 ---
