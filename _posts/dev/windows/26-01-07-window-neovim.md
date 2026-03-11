@@ -3,7 +3,7 @@ title       : Windows에서 Dotfiles의 Neovim 설정 연결하기
 description : 
 date        : 2026-01-07 09:29:54 +0900
 updated     : 2026-01-07 09:30:51 +0900
-categories  : []
+categories  : [dev, windows]
 tags        : []
 pin         : false
 hidden      : false
@@ -207,4 +207,3 @@ Remove-Item $env:LOCALAPPDATA\nvim
 ## 결론
 
 Windows에서도 Unix 스타일의 dotfiles 관리가 가능하며, Junction을 활용하면 권한 문제 없이 설정을 깔끔하게 관리할 수 있습니다.
-

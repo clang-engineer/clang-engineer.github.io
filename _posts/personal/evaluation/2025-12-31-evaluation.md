@@ -1,10 +1,11 @@
 ---
 title       : 2025 평가 
-description : 
+description : >-
+    2025년 연말 평가
 date        : 2026-01-08 19:28:40 +0900
 updated     : 2026-01-09 08:33:31 +0900
-categories  : []
-tags        : []
+categories  : [personal, evaluation]
+tags        : [evaluation]
 pin         : false
 hidden      : true
 ---

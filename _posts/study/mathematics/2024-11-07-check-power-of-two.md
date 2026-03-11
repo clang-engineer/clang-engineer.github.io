@@ -5,7 +5,7 @@ description : >-
 date        : 2024-11-07 15:58:02 +0900
 updated     : 2024-11-07 15:58:23 +0900
 categories  : [study, mathematics]
-tags        : [power of two]
+tags        : [power-of-two]
 pin         : false
 hidden      : false
 ---

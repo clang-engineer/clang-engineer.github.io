@@ -1,10 +1,11 @@
 ---
 title       : 2022 평가
-description :
+description : >-
+    2022년 연말 평가
 date        : 2022-12-31 00:00:00 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : []
-tags        : []
+categories  : [personal, evaluation]
+tags        : [evaluation]
 pin         : false
 hidden      : true
 ---

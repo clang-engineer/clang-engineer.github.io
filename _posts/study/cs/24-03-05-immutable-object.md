@@ -4,8 +4,8 @@ description : >-
     Immutable Object에 대해 정리한 글입니다.
 date        : 2024-03-05 15:02:03 +0900
 updated     : 2024-03-05 15:02:43 +0900
-categories  : [study, programming]
-tags        : [immutable object]
+categories  : [study, cs]
+tags        : [immutable-object]
 pin         : false
 hidden      : false
 ---
