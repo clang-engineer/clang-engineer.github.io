@@ -1,0 +1,153 @@
+---
+title       : "nginx apex/www 도메인 분리로 인한 캐시 문제와 해결"
+description : "apex와 www를 동일 server 블록에서 서비스하면 origin 분리로 90일 주기 HTTP 500이 터지는 이유와 리다이렉트 해법"
+date        : 2026-04-24 10:00:00 +0900
+updated     : 2026-04-24 10:00:00 +0900
+categories  : [dev, nginx]
+tags        : [nginx, ssl, domain, cache, jhipster, lets-encrypt]
+pin         : false
+hidden      : false
+---
+
+`example.com`과 `www.example.com`을 동일하게 처리하면 90일 주기로 HTTP 500 에러가 발생할 수 있다.
+
+## 증상
+
+- `www.keras.kr` 정상 작동
+- `keras.kr` HTTP 500 에러
+- **90일 주기**로 반복 발생
+- 브라우저 데이터 삭제하면 해결
+
+## 근본 원인: 하나의 서비스, 두 개의 origin
+
+### 잘못된 nginx 설정
+```nginx
+server {
+    listen 443 ssl;
+    server_name keras.kr www.keras.kr;  # 둘 다 같이 처리
+    ...
+}
+```
+nginx 입장에선 같은 서비스지만, **브라우저 입장에선 완전히 다른 사이트**다.
+
+### 브라우저의 origin 정책
+```
+https://keras.kr      →  origin A
+https://www.keras.kr  →  origin B
+```
+
+| 리소스 | origin A (keras.kr) | origin B (www.keras.kr) |
+|--------|---------------------|-------------------------|
+| localStorage | 별도 | 별도 |
+| 캐시 | 별도 | 별도 |
+| 쿠키 | `.keras.kr` 설정 아니면 별도 | 별도 |
+| Service Worker | 별도 | 별도 |
+
+**사용자가 둘 다 접속한 적 있으면, 각각 다른 버전의 JS/CSS가 캐시됨.**
+
+### JHipster의 공격적인 캐시 설정
+```yaml
+# application-prod.yml
+jhipster:
+  http:
+    cache:
+      timeToLiveInDays: 1461  # 4년!
+```
+정적 파일에 4년짜리 `Cache-Control: max-age=126230400` 헤더가 붙음.
+
+## 90일 주기의 비밀: Let's Encrypt + 캐시 불일치
+
+```
+평소: www.keras.kr 사용 (origin B)
+    ↓
+Let's Encrypt 인증서 갱신 (90일 주기)
+    ↓
+certbot이 nginx reload → 서버 재시작
+    ↓
+새 프론트엔드 배포될 수 있음 (JS 해시 변경)
+    ↓
+www.keras.kr 접속: 새 index.html → 새 JS 번들 다운로드 → 정상
+    ↓
+keras.kr 접속 (오랜만에):
+  - 브라우저: "4년 캐시니까 서버에 안 물어봐도 되지"
+  - 캐시된 구버전 index.html 사용
+  - 구버전 HTML이 참조하는 JS 경로가 서버에 없음
+  - 또는 구버전 JS가 새 API 호출 → 스키마 불일치
+    ↓
+HTTP 500 또는 앱 크래시
+    ↓
+브라우저 데이터 삭제 → 새로 다운로드 → 해결
+```
+
+## 진단 과정
+
+### 1. SSL/DNS 문제 아님을 확인
+```bash
+# SSL 인증서: 둘 다 커버함
+openssl s_client -connect keras.kr:443 -servername keras.kr 2>/dev/null \
+  | openssl x509 -noout -text | grep -A1 "Subject Alternative Name"
+# → DNS:keras.kr, DNS:www.keras.kr
+
+# DNS: 같은 IP
+dig keras.kr +short      # 101.79.9.95
+dig www.keras.kr +short  # 101.79.9.95
+
+# HTTP 응답: 서버 측에선 둘 다 200 OK
+curl -sI https://keras.kr | head -1      # HTTP/1.1 200 OK
+curl -sI https://www.keras.kr | head -1  # HTTP/1.1 200 OK
+```
+
+### 2. 쿠키/세션 문제 아님을 확인
+- JWT 기반 인증 → 쿠키 없음
+- JSESSIONID도 없음
+
+### 3. 캐시 문제로 결론
+- 서버 측 테스트는 항상 성공 (캐시 없이 요청)
+- 브라우저에서만 실패 (캐시 사용)
+- 브라우저 데이터 삭제하면 해결
+
+## 해결: apex → www 리다이렉트
+
+```nginx
+# HTTP: 둘 다 www HTTPS로
+server {
+    listen 80;
+    server_name keras.kr www.keras.kr;
+    return 301 https://www.keras.kr$request_uri;
+}
+
+# HTTPS: apex → www 리다이렉트
+server {
+    listen 443 ssl;
+    server_name keras.kr;
+    ssl_certificate /etc/letsencrypt/live/keras.kr/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/keras.kr/privkey.pem;
+
+    return 301 https://www.keras.kr$request_uri;
+}
+
+# HTTPS: www 실제 서비스
+server {
+    listen 443 ssl;
+    server_name www.keras.kr;
+    ssl_certificate /etc/letsencrypt/live/keras.kr/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/keras.kr/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        # ...
+    }
+}
+```
+
+**각 server 블록에 SSL 설정 필요** — nginx는 블록 간 설정을 공유하지 않음.
+
+## 적용 후
+
+```bash
+nginx -t && systemctl reload nginx
+```
+
+- 캐시 TTL(4년)은 그대로 둬도 됨
+- 모든 사용자가 www로 통일 → origin 하나 → 캐시 불일치 원천 차단
+- JHipster는 파일명에 해시 포함 (`main.abc123.css`) → 배포 시 새 파일 다운로드
