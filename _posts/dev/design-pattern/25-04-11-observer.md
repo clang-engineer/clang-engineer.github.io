@@ -4,7 +4,7 @@ description : >-
     옵저버 패턴에 대해 정리합니다.
 date        : 2025-03-07 22:50:42 +0900
 updated     : 2025-03-07 22:50:42 +0900
-categories  : [study, design-pattern]
+categories  : [dev, design-pattern]
 tags        : [design-pattern, behavior-pattern, observer-pattern]
 pin         : false
 hidden      : false

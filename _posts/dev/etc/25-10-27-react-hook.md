@@ -3,7 +3,7 @@ title       : 🪝 React Hook 개념 정리
 description : 
 date        : 2025-10-27 09:57:38 +0900
 updated     : 2025-10-27 09:58:38 +0900
-categories  : [dev, react]
+categories  : [dev, etc]
 tags        : [react, hook, javascript]
 pin         : false
 hidden      : false

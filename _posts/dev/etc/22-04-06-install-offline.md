@@ -3,7 +3,7 @@ title       : 도커 폐쇄망 설치
 description : >-
 date        : 2021-12-08 09:00:45 +0900
 updated     : 2025-10-03 13:33:13 +0900
-categories  : [dev, docker]
+categories  : [dev, etc]
 tags        : [docker, offline, binary]
 pin         : false
 hidden      : false

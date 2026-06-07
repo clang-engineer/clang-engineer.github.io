@@ -3,7 +3,7 @@ title       : MVC 계층별 메소드 네이밍 컨벤션
 description : >-
 date        : 2025-01-14 09:10:09 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [dev, architecture]
+categories  : [dev, etc]
 tags        : [mvc, naming-convention, architecture, best-practices]
 pin         : false
 hidden      : false

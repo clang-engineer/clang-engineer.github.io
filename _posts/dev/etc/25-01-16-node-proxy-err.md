@@ -3,7 +3,7 @@ title       : nvm으로 Node 버전 변경 후 webpack-dev-server 프록시 ECON
 description : 
 date        : 2026-01-16 10:32:57 +0900
 updated     : 2026-01-16 10:33:15 +0900
-categories  : [dev, node]
+categories  : [dev, etc]
 tags        : []
 pin         : false
 hidden      : false

@@ -4,7 +4,7 @@ description : >-
     Redux Loading Bar 라이브러리를 사용하여 Redux 액션의 로딩 상태를 표시하는 방법에 대해 기록합니다.
 date        : 2025-03-04 00:00:00 +0900
 updated     : 2025-03-04 18:09:37 +0900
-categories  : [dev, react]
+categories  : [dev, etc]
 tags        : [redux, react, loading-bar]
 pin         : false
 hidden      : false
