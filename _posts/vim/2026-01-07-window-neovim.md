@@ -20,7 +20,7 @@ Windows 환경에서 Scoop을 이용해 Neovim을 설치했고, 기존 dotfiles 
 - Neovim 설치: Scoop으로 설치
 - Dotfiles 구조:
   ```
-  C:\Users\planit\dotfiles\
+  C:\Users\myuser\dotfiles\
   ├── configs\
   │   ├── nvim-lazy\      # LazyVim 기반 설정
   │   └── nvim-classic\   # 클래식 Vim 설정
@@ -70,7 +70,7 @@ if (Test-Path $NvimConfig) {
 
 ```powershell
 # Dotfiles 경로 설정
-$SourceConfig = "C:\Users\planit\dotfiles\configs\nvim-lazy"
+$SourceConfig = "C:\Users\myuser\dotfiles\configs\nvim-lazy"
 $NvimConfigPath = "$env:LOCALAPPDATA\nvim"
 
 # Junction 생성
@@ -91,7 +91,7 @@ Test-Path $env:LOCALAPPDATA\nvim\init.lua
 ```
 FullName                           LinkType Target
 --------                           -------- ------
-C:\Users\planit\AppData\Local\nvim Junction {C:\Users\planit\dotfiles\configs\nvim-lazy}
+C:\Users\myuser\AppData\Local\nvim Junction {C:\Users\myuser\dotfiles\configs\nvim-lazy}
 
 True
 ```

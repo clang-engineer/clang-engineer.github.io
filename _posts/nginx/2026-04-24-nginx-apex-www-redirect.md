@@ -13,8 +13,8 @@ hidden      : false
 
 ## 증상
 
-- `www.keras.kr` 정상 작동
-- `keras.kr` HTTP 500 에러
+- `www.example.com` 정상 작동
+- `example.com` HTTP 500 에러
 - **90일 주기**로 반복 발생
 - 브라우저 데이터 삭제하면 해결
 
@@ -24,7 +24,7 @@ hidden      : false
 ```nginx
 server {
     listen 443 ssl;
-    server_name keras.kr www.keras.kr;  # 둘 다 같이 처리
+    server_name example.com www.example.com;  # 둘 다 같이 처리
     ...
 }
 ```
@@ -32,15 +32,15 @@ nginx 입장에선 같은 서비스지만, **브라우저 입장에선 완전히
 
 ### 브라우저의 origin 정책
 ```
-https://keras.kr      →  origin A
-https://www.keras.kr  →  origin B
+https://example.com      →  origin A
+https://www.example.com  →  origin B
 ```
 
-| 리소스 | origin A (keras.kr) | origin B (www.keras.kr) |
+| 리소스 | origin A (example.com) | origin B (www.example.com) |
 |--------|---------------------|-------------------------|
 | localStorage | 별도 | 별도 |
 | 캐시 | 별도 | 별도 |
-| 쿠키 | `.keras.kr` 설정 아니면 별도 | 별도 |
+| 쿠키 | `.example.com` 설정 아니면 별도 | 별도 |
 | Service Worker | 별도 | 별도 |
 
 **사용자가 둘 다 접속한 적 있으면, 각각 다른 버전의 JS/CSS가 캐시됨.**
@@ -58,7 +58,7 @@ jhipster:
 ## 90일 주기의 비밀: Let's Encrypt + 캐시 불일치
 
 ```
-평소: www.keras.kr 사용 (origin B)
+평소: www.example.com 사용 (origin B)
     ↓
 Let's Encrypt 인증서 갱신 (90일 주기)
     ↓
@@ -66,9 +66,9 @@ certbot이 nginx reload → 서버 재시작
     ↓
 새 프론트엔드 배포될 수 있음 (JS 해시 변경)
     ↓
-www.keras.kr 접속: 새 index.html → 새 JS 번들 다운로드 → 정상
+www.example.com 접속: 새 index.html → 새 JS 번들 다운로드 → 정상
     ↓
-keras.kr 접속 (오랜만에):
+example.com 접속 (오랜만에):
   - 브라우저: "4년 캐시니까 서버에 안 물어봐도 되지"
   - 캐시된 구버전 index.html 사용
   - 구버전 HTML이 참조하는 JS 경로가 서버에 없음
@@ -84,17 +84,17 @@ HTTP 500 또는 앱 크래시
 ### 1. SSL/DNS 문제 아님을 확인
 ```bash
 # SSL 인증서: 둘 다 커버함
-openssl s_client -connect keras.kr:443 -servername keras.kr 2>/dev/null \
+openssl s_client -connect example.com:443 -servername example.com 2>/dev/null \
   | openssl x509 -noout -text | grep -A1 "Subject Alternative Name"
-# → DNS:keras.kr, DNS:www.keras.kr
+# → DNS:example.com, DNS:www.example.com
 
 # DNS: 같은 IP
-dig keras.kr +short      # 101.79.9.95
-dig www.keras.kr +short  # 101.79.9.95
+dig example.com +short      # 203.0.113.10
+dig www.example.com +short  # 203.0.113.10
 
 # HTTP 응답: 서버 측에선 둘 다 200 OK
-curl -sI https://keras.kr | head -1      # HTTP/1.1 200 OK
-curl -sI https://www.keras.kr | head -1  # HTTP/1.1 200 OK
+curl -sI https://example.com | head -1      # HTTP/1.1 200 OK
+curl -sI https://www.example.com | head -1  # HTTP/1.1 200 OK
 ```
 
 ### 2. 쿠키/세션 문제 아님을 확인
@@ -112,26 +112,26 @@ curl -sI https://www.keras.kr | head -1  # HTTP/1.1 200 OK
 # HTTP: 둘 다 www HTTPS로
 server {
     listen 80;
-    server_name keras.kr www.keras.kr;
-    return 301 https://www.keras.kr$request_uri;
+    server_name example.com www.example.com;
+    return 301 https://www.example.com$request_uri;
 }
 
 # HTTPS: apex → www 리다이렉트
 server {
     listen 443 ssl;
-    server_name keras.kr;
-    ssl_certificate /etc/letsencrypt/live/keras.kr/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/keras.kr/privkey.pem;
+    server_name example.com;
+    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 
-    return 301 https://www.keras.kr$request_uri;
+    return 301 https://www.example.com$request_uri;
 }
 
 # HTTPS: www 실제 서비스
 server {
     listen 443 ssl;
-    server_name www.keras.kr;
-    ssl_certificate /etc/letsencrypt/live/keras.kr/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/keras.kr/privkey.pem;
+    server_name www.example.com;
+    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 
     location / {
         proxy_pass http://localhost:8080;

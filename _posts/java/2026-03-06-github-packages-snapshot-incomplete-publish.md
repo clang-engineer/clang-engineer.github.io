@@ -2,6 +2,7 @@
 title       : GitHub Packages SNAPSHOT 배포 실패 트러블슈팅 (pom 누락)
 description : GitHub Packages에 SNAPSHOT이 불완전하게 배포되어 Gradle 빌드가 실패한 원인과 해결 방법
 date        : 2026-03-06 10:00:00 +0900
+updated     : 2026-03-06 10:00:00 +0900
 categories  : [java]
 tags        : [github-packages, snapshot, troubleshooting, gradle, maven-metadata]
 pin         : false
@@ -98,7 +99,7 @@ curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
 # 또는 직접 pom 파일 접근 확인
 curl -s -o /dev/null -w "%{http_code}" \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
-  "https://maven.pkg.github.com/{ORG}/{REPO}/com/planitsquare/commons/security/1.0.0-SNAPSHOT/security-1.0.0-{TIMESTAMP}-{BUILD}.pom"
+  "https://maven.pkg.github.com/{ORG}/{REPO}/com/example/commons/security/1.0.0-SNAPSHOT/security-1.0.0-{TIMESTAMP}-{BUILD}.pom"
 ```
 
 ## 정리

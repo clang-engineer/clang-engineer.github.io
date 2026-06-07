@@ -3,7 +3,7 @@ title       : "IntelliJ DB SSH 터널 — JDBC URL은 localhost가 아닌 원격
 description : "IntelliJ 내장 SSH 터널 사용 시 JDBC URL에 베스천에서 본 원격 주소를 넣어야 하는 이유"
 date        : 2026-04-29 10:00:00 +0900
 updated     : 2026-04-29 10:00:00 +0900
-categories  : [etc]
+categories  : [db]
 tags        : [intellij, datagrip, ssh-tunnel, postgresql, jdbc, tools]
 pin         : false
 hidden      : false
@@ -15,14 +15,14 @@ IntelliJ 내장 SSH 터널을 쓸 땐 JDBC URL에 **베스천에서 본 원격 �
 
 ```bash
 # 터미널 방식
-ssh -L 5432:10.1.2.6:15432 planitsquare@101.79.9.95
-# → 이 경우 JDBC URL: jdbc:postgresql://localhost:5432/eras
+ssh -L 5432:10.0.0.10:15432 myuser@203.0.113.10
+# → 이 경우 JDBC URL: jdbc:postgresql://localhost:5432/appdb
 ```
 
 | 방식 | General 탭 Host:Port | JDBC URL |
 |------|----------------------|----------|
 | **터미널 `ssh -L`** | `localhost:5432` | `localhost:5432` |
-| **IntelliJ 내장 터널** | `10.1.2.6:15432` | `10.1.2.6:15432` |
+| **IntelliJ 내장 터널** | `10.0.0.10:15432` | `10.0.0.10:15432` |
 
 두 방식이 섞이면 (IntelliJ 터널 ON + URL이 localhost) → `SSH tunnel creation failed: Connection refused`.
 
@@ -32,22 +32,22 @@ ssh -L 5432:10.1.2.6:15432 planitsquare@101.79.9.95
 
 | 필드 | 값 |
 |------|-----|
-| Host | `101.79.9.95` (베스천) |
+| Host | `203.0.113.10` (베스천) |
 | Port | `22` |
-| Username | `planitsquare` |
+| Username | `myuser` |
 | Local port | **비워두기** (자동 할당) |
 
 ### General 탭
 
 ```
-Host: 10.1.2.6
+Host: 10.0.0.10
 Port: 15432
-URL : jdbc:postgresql://10.1.2.6:15432/eras?currentSchema=meta
+URL : jdbc:postgresql://10.0.0.10:15432/appdb?currentSchema=meta
 ```
 
-`ssh -L 5432:10.1.2.6:15432 user@bastion` 명령에서:
+`ssh -L 5432:10.0.0.10:15432 user@bastion` 명령에서:
 - `user@bastion` → SSH/SSL 탭으로
-- `10.1.2.6:15432` → General 탭으로
+- `10.0.0.10:15432` → General 탭으로
 - 가운데 `5432` (로컬 포트) → IntelliJ는 신경 쓸 필요 없음
 
 ## 핵심 정리

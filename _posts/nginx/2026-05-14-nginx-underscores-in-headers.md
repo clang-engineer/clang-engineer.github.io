@@ -1,6 +1,6 @@
 ---
 title       : "nginx는 언더스코어가 들어간 요청 헤더를 기본적으로 버린다"
-description : "rex_db_key 같은 언더스코어 헤더가 nginx 기본 설정에서 업스트림에 전달되지 않는 원인과 해법"
+description : "app_db_key 같은 언더스코어 헤더가 nginx 기본 설정에서 업스트림에 전달되지 않는 원인과 해법"
 date        : 2026-05-14 10:00:00 +0900
 updated     : 2026-05-14 10:00:00 +0900
 categories  : [nginx]
@@ -9,16 +9,16 @@ pin         : false
 hidden      : false
 ---
 
-`rex_db_key` 같은 언더스코어 헤더는 nginx 기본 설정에서 업스트림에 전달되지 않는다. 헤더 값을 바꿔도 응답이 똑같이 와서 캐시 문제로 착각하기 쉽다.
+`app_db_key` 같은 언더스코어 헤더는 nginx 기본 설정에서 업스트림에 전달되지 않는다. 헤더 값을 바꿔도 응답이 똑같이 와서 캐시 문제로 착각하기 쉽다.
 
 ## 핵심
 
 nginx는 헤더명에 `_` 가 있으면 그 헤더를 통째로 무시한다. 클라이언트가 보내도 백엔드는 못 받는다.
 
 ```http
-GET /api/info/demography
-rex_db_key: SCHMC_PRD     ← nginx가 버림
-rex_hsp_key: 053          ← nginx가 버림
+GET /api/info
+app_db_key: PROD          ← nginx가 버림
+app_env_key: 053          ← nginx가 버림
 ```
 
 백엔드는 헤더 없는 요청만 받으니 기본값으로만 응답 → "값 바꿔도 같은 응답" → 캐시처럼 보임. **사실은 캐시가 아니라 헤더가 도달하지 못하는 것.**
@@ -39,13 +39,13 @@ CGI 시절 헤더 → 환경변수 변환 규칙 때문. 하이픈과 언더스�
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name rex;
+    server_name myapp;
     include /etc/nginx/conf.d/common-ssl.inc;
 
     underscores_in_headers on;   # ← 추가
 
     location / {
-        proxy_pass http://rex;
+        proxy_pass http://myapp;
         ...
     }
 }
@@ -62,8 +62,8 @@ nginx -s reload
 
 ```nginx
 # nginx 단에서 헤더 값 응답에 echo
-add_header X-Debug-DB-Key  "$http_rex_db_key"  always;
-add_header X-Debug-HSP-Key "$http_rex_hsp_key" always;
+add_header X-Debug-DB-Key  "$http_app_db_key"  always;
+add_header X-Debug-ENV-Key "$http_app_env_key" always;
 ```
 
 - 응답 헤더에 값이 비어 있으면 → nginx가 헤더를 버린 것
@@ -71,4 +71,4 @@ add_header X-Debug-HSP-Key "$http_rex_hsp_key" always;
 
 ## 권장
 
-가능하면 커스텀 헤더는 하이픈으로 (`X-Rex-Db-Key`). 표준이고 함정이 없다. 이미 언더스코어로 박힌 시스템이면 `underscores_in_headers on;` 가 현실적.
+가능하면 커스텀 헤더는 하이픈으로 (`X-App-Db-Key`). 표준이고 함정이 없다. 이미 언더스코어로 박힌 시스템이면 `underscores_in_headers on;` 가 현실적.

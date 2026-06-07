@@ -11,7 +11,7 @@ hidden      : false
 
 ## Docker 기본 구성 요소와 역할
 
-- app.yml: 애플리케이션 컨테이너(snuheras)와 DB(PostgreSQL)를 함께 띄우는 컴포즈 파일
+- app.yml: 애플리케이션 컨테이너(myapp)와 DB(PostgreSQL)를 함께 띄우는 컴포즈 파일
   - 앱이 :8080을 외부로 노출하고, DB는 :5432로 대기
   - 앱은 Spring Actuator를 통해 /management/prometheus 엔드포인트로 메트릭을 노출
 - monitoring.yml: 모니터링 스택(Prometheus + Grafana)을 띄우는 컴포즈 파일
@@ -75,7 +75,7 @@ docker-compose -f src/main/docker/jhipster-control-center.yml up  # JHipster Con
 - 포트 매핑: app.yml이 8080, postgres 5432; monitoring.yml이 9090(Prometheus), 3000(Grafana)를 호스트로 매핑
 - 타깃 주소 지정: Prometheus가 “컨테이너 네트워크 관점”에서 앱을 어떻게 볼지 설정 필요
   - 로컬 맥/윈도에서는 localhost 대신 host.docker.internal을 쓰는 경우가 많음
-  - 같은 Compose 네트워크에 둘 경우 서비스명(snuheras-app:8080)으로 접근하기도 함
+  - 같은 Compose 네트워크에 둘 경우 서비스명(myapp:8080)으로 접근하기도 함
 - 보안/격리: 개발 편의를 위해 열린 포트/host 네트워크를 쓰지만, 운영에선 네트워크/인증/SSL을 별도 강화
 
 ### 운영에서의 의미

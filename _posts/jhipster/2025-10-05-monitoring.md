@@ -140,7 +140,7 @@ docker-compose -f src/main/docker/monitoring.yml up -d
 
 #### 🔍 **Prometheus 서비스**
 ```yaml
-snuheras-prometheus:
+myapp-prometheus:
   image: prom/prometheus:v2.38.0
   volumes:
     - ./prometheus/:/etc/prometheus/
@@ -159,7 +159,7 @@ snuheras-prometheus:
 
 #### 📊 **Grafana 서비스**
 ```yaml
-snuheras-grafana:
+myapp-grafana:
   image: grafana/grafana:9.1.0
   volumes:
     - ./grafana/provisioning/:/etc/grafana/provisioning/

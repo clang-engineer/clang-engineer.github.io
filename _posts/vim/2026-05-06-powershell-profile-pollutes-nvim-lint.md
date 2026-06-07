@@ -17,7 +17,7 @@ Windows에서 LazyVim의 nvim-lint가 ktlint를 돌렸는데 `Parser failed. Exp
 Output from linter:
 Set-PSReadLineOption : The predictive suggestion feature cannot be enabled because
 the console output doesn't support virtual terminal processing or it's redirected.
-At C:\Users\planit\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1:6
+At C:\Users\myuser\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1:6
 + Set-PSReadLineOption -PredictionSource History
 ...
 [ ktlint JSON ]

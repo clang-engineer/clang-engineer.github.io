@@ -1,12 +1,12 @@
 ---
-title: exec vs pipe
-description: >-
-date: 2025-08-21 10:36:15 +0900
-updated: 2021-11-05 10:36:15 +0900
-categories: [dev, shell]
-tags: [exec, pipe]
-pin: false
-hidden: false
+title       : "find의 -exec와 파이프 비교"
+description : "리눅스 find의 -exec와 파이프(|)의 차이, 그리고 xargs와의 비교"
+date        : 2025-09-19 10:36:15 +0900
+updated     : 2025-09-19 10:36:15 +0900
+categories  : [shell]
+tags        : [find, exec, pipe, xargs, linux]
+pin         : false
+hidden      : false
 ---
 
 # 리눅스 `find`와 `-exec`, 파이프(`|`) 비교

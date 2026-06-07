@@ -1,6 +1,6 @@
 ---
-title       : 🔐 GitHub Actions Secrets & Variables 설정 가이드
-description : 
+title       : "GitHub Actions Secrets & Variables 설정 가이드"
+description : "GitHub Actions의 Secrets와 Variables 차이, 적용 범위(Repository/Environment/Organization), 그리고 환경별 분리 예시"
 date        : 2025-10-22 12:54:06 +0900
 updated     : 2025-10-22 12:57:47 +0900
 categories  : [git]
@@ -50,31 +50,31 @@ GitHub Actions에서 서버 배포나 CI/CD를 구성할 때는
 
 | Key                  | 설명                      | 예시               |
 | -------------------- | ----------------------- | ---------------- |
-| `DEV_SERVER_HOST`    | 개발 서버 IP                | `106.10.58.97`   |
-| `DEV_SERVER_USER`    | SSH 사용자명                | `planithc`       |
+| `DEV_SERVER_HOST`    | 개발 서버 IP                | `203.0.113.20`   |
+| `DEV_SERVER_USER`    | SSH 사용자명                | `deployer`       |
 | `DEV_SERVER_SSH_KEY` | SSH Private Key (개행 포함) | *(비공개 키 입력)*     |
-| `DEV_SERVER_PORT`    | SSH 포트                  | `33322`          |
-| `DEV_SERVER_PATH`    | 배포 경로                   | `/home/planithc` |
+| `DEV_SERVER_PORT`    | SSH 포트                  | `2222`           |
+| `DEV_SERVER_PATH`    | 배포 경로                   | `/home/deployer` |
 
 ### 🏭 운영 서버 (Production)
 
 | Key                   | 설명                      | 예시                 |
 | --------------------- | ----------------------- | ------------------ |
-| `PROD_SERVER_HOST`    | 운영 서버 IP                | `106.10.58.97`     |
-| `PROD_SERVER_USER`    | SSH 사용자명                | `planithc`         |
+| `PROD_SERVER_HOST`    | 운영 서버 IP                | `203.0.113.20`     |
+| `PROD_SERVER_USER`    | SSH 사용자명                | `deployer`         |
 | `PROD_SERVER_SSH_KEY` | SSH Private Key (개행 포함) | *(비공개 키 입력)*       |
-| `PROD_SERVER_PORT`    | SSH 포트                  | `33324`            |
-| `PROD_SERVER_PATH`    | 배포 경로                   | `/home/planithc`   |
-| `PROD_SERVER_URL`     | Health Check URL (선택)   | `https://keras.kr` |
+| `PROD_SERVER_PORT`    | SSH 포트                  | `2223`             |
+| `PROD_SERVER_PATH`    | 배포 경로                   | `/home/deployer`   |
+| `PROD_SERVER_URL`     | Health Check URL (선택)   | `https://example.com` |
 
 ---
 
 ## ⚠️ 3. 중요 사항
 
-* 배포 사용자(`planithc`)는 다음 명령을 비밀번호 없이 실행할 수 있어야 합니다:
+* 배포 사용자(`deployer`)는 다음 명령을 비밀번호 없이 실행할 수 있어야 합니다:
 
   ```bash
-  sudo systemctl restart eras-app
+  sudo systemctl restart myapp
   ```
 
 * SSH 접속 전, 서버 ACG(Security Group)에서

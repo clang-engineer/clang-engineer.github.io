@@ -39,8 +39,8 @@ hidden      : false
 JAR 내부 `.class` 매직바이트로 직접 확인:
 
 ```bash
-unzip -p build/libs/idp-1.0-SNAPSHOT.jar \
-  BOOT-INF/classes/ai/planit/idp/RexIdpApplication.class \
+unzip -p build/libs/myapp-1.0-SNAPSHOT.jar \
+  BOOT-INF/classes/com/example/app/MyApplication.class \
   | od -An -t x1 -N 8
 # ca fe ba be 00 00 00 37   ← Java 11
 # ca fe ba be 00 00 00 3d   ← Java 17

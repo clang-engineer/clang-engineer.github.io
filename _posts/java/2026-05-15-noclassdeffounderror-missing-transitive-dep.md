@@ -14,8 +14,8 @@ hidden      : false
 ## 증상
 
 ```
-NoClassDefFoundError: com/planitsquare/commons/core/crypto/AesCbcCryptoService
-    at com.planitsquare.commons.security.PatientAccessTokenService.<init>(...)
+NoClassDefFoundError: com/example/commons/core/crypto/AesCbcCryptoService
+    at com.example.commons.security.PatientAccessTokenService.<init>(...)
 ```
 
 내가 직접 의존한 건 `commons:security` 하나뿐인데, 그 안의 `PatientAccessTokenService`가 같은 그룹의 별도 모듈 `commons:core`에 있는 클래스를 필요로 했음. `security`의 published POM에 `core`가 dependency로 안 적혀있어서 Gradle이 끌어오지 못함.
@@ -24,8 +24,8 @@ NoClassDefFoundError: com/planitsquare/commons/core/crypto/AesCbcCryptoService
 
 ```groovy
 dependencies {
-    implementation "com.planitsquare.commons:core:1.0.0-SNAPSHOT"     // 추가
-    implementation "com.planitsquare.commons:security:1.0.0-SNAPSHOT"
+    implementation "com.example.commons:core:1.0.0-SNAPSHOT"     // 추가
+    implementation "com.example.commons:security:1.0.0-SNAPSHOT"
 }
 ```
 
@@ -35,7 +35,7 @@ dependencies {
 - Gradle로 실제 클래스패스에 뭐가 들어왔는지 확인:
 
 ```powershell
-.\gradlew dependencies --configuration runtimeClasspath | Select-String "planitsquare"
+.\gradlew dependencies --configuration runtimeClasspath | Select-String "example"
 ```
 
 - `ClassNotFoundException` (런타임 로드 실패) vs `NoSuchMethodError` (버전 불일치)는 다른 문제다 — 전자는 jar 자체가 없는 것.

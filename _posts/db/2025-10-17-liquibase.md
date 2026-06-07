@@ -1,9 +1,9 @@
 ---
-title       : Liquibase 설정과 사용 패턴 정리
-description : 
+title       : "Liquibase 설정과 사용 패턴 정리"
+description : "Liquibase의 master.xml 구성, changeset 작성 규칙, CSV/타임스탬프 처리 등 실무 사용 패턴 정리"
 date        : 2025-10-17 09:38:36 +0900
 updated     : 2025-10-17 09:39:45 +0900
-categories  : [etc]
+categories  : [db]
 tags        : [dev, tools, liquibase, database, migration, changelog, csv, timestamp, postgres, h2]
 pin         : false
 hidden      : false

@@ -28,13 +28,13 @@ LazyVim의 `lang.sql` extra(= `vim-dadbod` + `vim-dadbod-ui`)로 PostgreSQL을 �
 URL의 user → $PGUSER → OS 사용자명
 ```
 
-dbui에서 URL을 `postgresql://host/db`로 user 빼면 OS 사용자명(`planit` 등)으로 시도되고, 서버에 그 role이 없으면 `FATAL: role "planit" does not exist`로 실패한다. → **URL에 user는 항상 박는다.**
+dbui에서 URL을 `postgresql://host/db`로 user 빼면 OS 사용자명(`myuser` 등)으로 시도되고, 서버에 그 role이 없으면 `FATAL: role "myuser" does not exist`로 실패한다. → **URL에 user는 항상 박는다.**
 
 ```lua
 -- nvim/lua/config/options/dbui.lua
 vim.g.dbs = {
-  { name = "docker pg",  url = "postgres://snuheras@localhost:5432/eras" },
-  { name = "remote pg",  url = "postgresql://rex@10.0.0.1:5432/db?connect_timeout=5" },
+  { name = "docker pg",  url = "postgres://appuser@localhost:5432/appdb" },
+  { name = "remote pg",  url = "postgresql://dbuser@10.0.0.10:5432/db?connect_timeout=5" },
 }
 ```
 
@@ -44,8 +44,8 @@ URL의 user가 그대로 매칭 키로 들어간다. 비번만 채우고 user �
 
 ```ini
 # pgpass.conf — user 필드도 정확히 일치해야 함
-localhost:5432:eras:snuheras:realpassword
-10.0.0.1:5432:db:rex:realpassword
+localhost:5432:appdb:appuser:your_password
+10.0.0.10:5432:db:dbuser:your_password
 ```
 
 user 자리에 `*` 와일드카드도 가능하지만, 그러면 host:port:db에 비번이 하나로 통일된다.

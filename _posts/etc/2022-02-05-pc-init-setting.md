@@ -100,22 +100,22 @@ github settings - SSH and GPG keys - SSH keys에 등록
 3.&nbsp;여러 계정을 사용하고 싶은 경우 아래와 같이 github host명을 구분하여 사용할 인증서를 지정
 ~/.ssh/config 파일을 생성하고 다음과 값이 추가
 ```plaintext
-# personl account-clang-engineer 
+# personal account
 host github.com-clang-engineer
 hostname github.com
 user git
-    identityfile ~/.ssh/id_rsa_id_rsa_clang-engineer
-# business account-planit-zero
-host github.com-planit-zero
+    identityfile ~/.ssh/id_rsa_clang-engineer
+# work account
+host github.com-work
 hostname github.com
 user git
-    identityfile ~/.ssh/id_rsa_planit-zero
+    identityfile ~/.ssh/id_rsa_work
 ```
 
 4.&nbsp;통신 확인
 ```sh
-ssh -T github.com-yorez
-ssh -T github.com-planit-zero
+ssh -T github.com-clang-engineer
+ssh -T github.com-work
 ```
 
 ## Jebrains 환경 설정

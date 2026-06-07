@@ -1,10 +1,12 @@
 ---
-layout: post
-title: "Spring Boot + Webpack 프로젝트에서 Gradle 설정"
-date: 2025-02-12 11:00:12 +0900
-categories: [dev, java]
-tags: [spring-boot, gradle, webpack, spa, build]
-summary: "Spring Boot + Webpack 방식의 SPA 프로젝트에서 Gradle 빌드 설정하기"
+title       : "Spring Boot + Webpack 프로젝트에서 Gradle 설정"
+description : "Spring Boot + Webpack 방식의 SPA 프로젝트에서 Gradle 빌드 설정하기"
+date        : 2025-02-12 11:00:12 +0900
+updated     : 2025-02-12 11:00:12 +0900
+categories  : [java]
+tags        : [spring-boot, gradle, webpack, spa, build]
+pin         : false
+hidden      : false
 ---
 
 Spring Boot + Webpack 방식의 프로젝트 구성에서 Gradle 설정 내용을 정리합니다. Webpack을 통한 빌드 설정이 완료된 상태에서 Gradle을 통해 빌드하고자 하는 경우에 대한 내용입니다.

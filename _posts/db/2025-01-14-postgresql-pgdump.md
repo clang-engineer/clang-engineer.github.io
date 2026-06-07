@@ -48,7 +48,7 @@ psql -h {host} -p {port} -U {user} -d {database} < {backup_file} # 표준 입력
 
 ## pg_restore를 사용한 db 복원
 - pg_restore 를 이용하여 데이터베이스를 복원 할 수 있습니다.
-- planit sql파일만 복원가능한 psql과 달리 custom, directory 형태로 백업한 파일을 복원할 수 있습니다.
+- 평문 sql 파일만 복원가능한 psql과 달리 custom, directory 형태로 백업한 파일을 복원할 수 있습니다.
 - pg_restore는 병렬 처리를 지원하므로 백업 파일이 큰 경우 유용합니다.
 
 ```sh

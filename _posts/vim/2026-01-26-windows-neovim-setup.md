@@ -1,4 +1,13 @@
-# Windows에서 Dotfiles의 Neovim 설정 연결하기
+---
+title       : "Windows에서 Dotfiles의 Neovim 설정 연결하기"
+description : "Windows에서 Scoop으로 설치한 Neovim의 설정 경로(%LOCALAPPDATA%\\nvim)에 Dotfiles를 Junction으로 연결하는 방법"
+date        : 2026-01-26 10:00:00 +0900
+updated     : 2026-01-26 10:00:00 +0900
+categories  : [vim]
+tags        : [neovim, lazyvim, windows, dotfiles, junction, powershell]
+pin         : false
+hidden      : false
+---
 
 ## 문제 상황
 
@@ -10,7 +19,7 @@ Windows 환경에서 Scoop을 이용해 Neovim을 설치했고, 기존 dotfiles 
 - Neovim 설치: Scoop으로 설치
 - Dotfiles 구조:
   ```
-  C:\Users\planit\dotfiles\
+  C:\Users\myuser\dotfiles\
   ├── configs\
   │   ├── nvim-lazy\      # LazyVim 기반 설정
   │   └── nvim-classic\   # 클래식 Vim 설정
@@ -60,7 +69,7 @@ if (Test-Path $NvimConfig) {
 
 ```powershell
 # Dotfiles 경로 설정
-$SourceConfig = "C:\Users\planit\dotfiles\configs\nvim-lazy"
+$SourceConfig = "C:\Users\myuser\dotfiles\configs\nvim-lazy"
 $NvimConfigPath = "$env:LOCALAPPDATA\nvim"
 
 # Junction 생성
@@ -81,7 +90,7 @@ Test-Path $env:LOCALAPPDATA\nvim\init.lua
 ```
 FullName                           LinkType Target
 --------                           -------- ------
-C:\Users\planit\AppData\Local\nvim Junction {C:\Users\planit\dotfiles\configs\nvim-lazy}
+C:\Users\myuser\AppData\Local\nvim Junction {C:\Users\myuser\dotfiles\configs\nvim-lazy}
 
 True
 ```

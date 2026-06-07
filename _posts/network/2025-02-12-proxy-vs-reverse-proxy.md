@@ -1,19 +1,15 @@
 ---
-layout  : wiki
-title   : Proxy (Forward vs Reverse)
-summary : 
-date    : 2023-08-18 11:05:23 +0900
-updated : 2023-08-18 11:06:22 +0900
-tags    : 
-toc     : true
-public  : true
-parent  : [[etc/index]]
-latex   : false
+title       : "Proxy (Forward vs Reverse)"
+description : "프록시 서버의 두 가지 방식 — Forward Proxy와 Reverse Proxy의 동작 원리와 차이"
+date        : 2025-02-12 11:05:23 +0900
+updated     : 2025-02-12 11:05:23 +0900
+categories  : [network]
+tags        : [network, proxy, nginx]
+pin         : false
+hidden      : false
 ---
-* TOC
-{:toc}
 
-# Proxy
+## Proxy
 
 - 프록스 서버는 클라이언트와 서버 사이에서 중계기로서 대리로 통신을 수행하는 서버이다
 - 프록시 서버는 클라이언트의 요청을 받아서 서버에 전달하고, 서버의 응답을 받아서 클라이언트에게 전달한다

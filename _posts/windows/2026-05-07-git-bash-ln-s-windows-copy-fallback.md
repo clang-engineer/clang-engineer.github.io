@@ -25,7 +25,7 @@ $ readlink ~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1
 # (출력 없음 — symlink 아님)
 
 $ ls -la ...
--rw-r--r-- 1 planit ... 5602 5월  7 09:04   ← `l` 권한 비트 없음
+-rw-r--r-- 1 myuser ... 5602 5월  7 09:04   ← `l` 권한 비트 없음
 ```
 
 PowerShell 쪽:
