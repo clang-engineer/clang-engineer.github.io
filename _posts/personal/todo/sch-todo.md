@@ -6,7 +6,7 @@ updated     : 2026-04-14 08:24:45 +0900
 categories  : []
 tags        : []
 pin         : false
-hidden      : false
+hidden      : true
 ---
 
 ### 순천향

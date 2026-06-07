@@ -7,7 +7,7 @@ updated     : 2026-04-20 17:23:05 +0900
 categories  : [personal, todo]
 tags        : [todo]
 pin         : false
-hidden      : false
+hidden      : true
 ---
 
 ## ES 검색 고도화
