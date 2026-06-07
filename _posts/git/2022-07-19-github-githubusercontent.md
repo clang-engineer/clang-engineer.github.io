@@ -40,7 +40,7 @@ GitHub에서는 **GitHub REST API**를 제공하며, 이를 이용하면 GitHub�
     "html": "https://github.com/octokit/octokit.rb/blob/master/README.md"
   }
 }
-````
+```
 
 > ⚡ `"download_url"` 필드
 > `"https://raw.githubusercontent.com/octokit/octokit.rb/master/README.md"`
@@ -76,6 +76,3 @@ $ curl -O https://raw.githubusercontent.com/octokit/octokit.rb/master/README.md
 
 * GitHub REST API를 통해 파일 정보를 가져올 때 `download_url` 필드가 있으면, 별도의 인증 없이 바로 파일 다운로드 가능
 * API 호출을 통해 여러 파일을 자동으로 가져오는 스크립트 작성 가능
-
-```
-

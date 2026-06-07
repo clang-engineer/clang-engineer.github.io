@@ -170,8 +170,3 @@ git config --global commit.template .gitmessage  # 전역
 * [GitBook GitHub Push/PR/Issue](https://www.lesstif.com/gitbook/github-push-pr-pull-request-issue-129008869.html)
 * [Git Commit Gist](https://gist.github.com/lisawolderiksen/a7b99d94c92c6671181611be1641c733)
 * [Chris Beams Git Commit](https://cbea.ms/git-commit/)
-
-```
-
-
-

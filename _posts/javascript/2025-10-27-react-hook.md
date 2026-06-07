@@ -83,7 +83,7 @@ function Counter() {
 }
 
 export default Counter;
-````
+```
 
 ---
 
@@ -134,5 +134,3 @@ export default useWindowSize;
 * [React 공식 문서 - Hooks 소개](https://react.dev/reference/react)
 * [Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks)
 * [React Blog - Introducing Hooks](https://react.dev/blog/2018/10/23/react-hooks-intro)
-
-```

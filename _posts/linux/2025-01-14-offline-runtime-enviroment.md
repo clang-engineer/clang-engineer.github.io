@@ -19,7 +19,7 @@ uname -m
 2. 동일 환경 컨테이너 생성
 ```sh
 sudo docker run --platform linux/amd64 -it rockylinux:8 /bin/bash  # 아키텍처에 맞는 이미지 사용
- ```
+```
 
 3. dnf util 설치
 ```sh
