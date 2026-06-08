@@ -88,4 +88,4 @@ spring:
 
 ## 관련 문서
 
-이 설정과 함께 Webpack 설정도 필요합니다. 자세한 내용은 [Spring Boot + Webpack 설정 가이드](/posts/javascript/spa-webpack/)를 참고하세요.
+이 설정과 함께 Webpack 설정도 필요합니다. 자세한 내용은 [Spring Boot + Webpack 설정 가이드](/posts/javascript/2025-02-12-spa-webpack/)를 참고하세요.
