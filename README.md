@@ -2,7 +2,7 @@
 
 # clang.engineer
 
-보통 개발자의 기록을 담은 블로그입니다.
+컴파일되지 않는 생각들 — 개발하며 부딪힌 것들을 기록합니다.
 
 https://clang-engineer.github.io
 
