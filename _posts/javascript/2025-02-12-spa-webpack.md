@@ -336,4 +336,4 @@ npm run webapp:build:dev
 
 ## 관련 문서
 
-Gradle과 통합하는 방법은 [Spring Boot + Gradle 설정 가이드](/posts/spa-gradle/)를 참고하세요.
+Gradle과 통합하는 방법은 [Spring Boot + Gradle 설정 가이드](/posts/gradle/spa-gradle/)를 참고하세요.
