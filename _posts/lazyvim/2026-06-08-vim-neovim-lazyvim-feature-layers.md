@@ -1,0 +1,130 @@
+---
+title       : "Vim vs Neovim vs LazyVim — 각 계층이 제공하는 기능 정리"
+description : "Vim 내장, Neovim 추가, LazyVim 계층별로 어떤 기능을 제공하는지 구분 정리"
+date        : 2026-06-08 10:00:00 +0900
+categories  : [lazyvim]
+tags        : [vim, neovim, lazyvim, lsp, treesitter]
+pin         : false
+hidden      : false
+---
+
+Vim의 기본 기능, Neovim이 추가한 기능, LazyVim이 올린 계층을 구분해서 정리한다.
+"이 기능이 어디서 온 건지" 헷갈릴 때 참고용.
+
+## Vim — 기본 제공
+
+에디터의 근간. 모션, 오퍼레이터, 레지스터 등 시간이 지나도 변하지 않는 것들.
+
+| 기능 | 설명 | 명령/키 |
+|------|------|---------|
+| Quickfix | 에러/검색 결과 목록, 순차 이동 | `:copen`, `:cn`, `:cp`, `:cdo` |
+| Location list | 윈도우별 quickfix | `:lopen`, `:ln`, `:lp` |
+| Marks | 파일 내/전역 점프 포인트 | `ma` (설정), `` `a `` (이동), `:marks` |
+| Registers | 이름 붙은 클립보드, 매크로 저장소 | `"ay` (복사), `"ap` (붙여넣기), `:reg` |
+| Macros | 키 입력 녹화/재생 | `qa` (녹화), `q` (정지), `@a` (재생) |
+| Text objects | 의미 단위로 조작 | `ciw`, `ca{`, `dip`, `vat` |
+| Tags | LSP 없이 심볼 정의 이동 (ctags) | `Ctrl-]`, `:tag` |
+| `gf` / `gd` | 커서 아래 파일 열기 / 로컬 선언 이동 | `gf`, `gd` |
+| `:g` | 패턴 매치 라인에 Ex 명령 실행 | `:g/pattern/d`, `:g/TODO/t$` |
+| Folding | 코드 접기 | `za` (토글), `zR` (전체 열기), `zM` (전체 접기) |
+| Spell check | 내장 맞춤법 검사 | `:set spell`, `]s`, `z=` |
+| Sessions | 에디터 상태 저장/복원 | `:mksession`, `:source Session.vim` |
+| `=` | 자동 인덴트 | `==` (한 줄), `gg=G` (전체) |
+| `%` | 매칭 괄호/블록 이동 | `%` |
+
+## Neovim — Vim 위에 추가된 것
+
+내장 LSP 클라이언트, Treesitter, Lua API 등. 플러그인 없이도 IDE 기능의 기반이 된다.
+
+### 내장 LSP 클라이언트 (`vim.lsp`)
+
+플러그인이 아니라 **Neovim 코어**에 포함된 LSP 프로토콜 구현체.
+
+| 기능 | 설명 | API |
+|------|------|-----|
+| Diagnostics | 에러/경고 인라인 표시 | `vim.diagnostic.open_float()` |
+| Hover | 타입/문서 팝업 | `vim.lsp.buf.hover()` |
+| Definition / References | 정의 이동, 참조 목록 | `vim.lsp.buf.definition()`, `references()` |
+| Rename | 프로젝트 범위 심볼 리네임 | `vim.lsp.buf.rename()` |
+| Code actions | 수정 제안, import, 리팩토링 | `vim.lsp.buf.code_action()` |
+| Formatting | LSP 기반 포맷 | `vim.lsp.buf.format()` |
+| CodeLens | 함수 위 액션 힌트 (참조 수, 테스트 실행 등) | `vim.lsp.codelens.run()` |
+| Document highlight | 커서 위치 심볼과 같은 심볼 강조 | `vim.lsp.buf.document_highlight()` |
+| Inlay hints | 인라인 타입/파라미터 힌트 (0.10+) | `vim.lsp.inlay_hint.enable(true)` |
+| Semantic tokens | LSP 기반 의미론적 구문 강조 | 서버 지원 시 자동 활성화 |
+
+> CodeLens, inlay hints, document highlight 등은 모두 **Neovim 내장 기능**이다.
+> LazyVim은 키맵(`<leader>cc` 등)만 붙여준 것.
+
+### Treesitter (`vim.treesitter`)
+
+AST 기반 파서 프레임워크. 정규식이 아닌 구문 트리로 코드를 이해한다.
+
+| 기능 | 설명 | API |
+|------|------|-----|
+| Syntax highlighting | AST 기반 정확한 구문 강조 | `:TSInstall <lang>` |
+| Incremental selection | 구문 노드 단위로 선택 확장/축소 | `gnn`, `grn`, `grc` |
+| Folding | 구문 노드 기반 접기 (들여쓰기 아닌) | `foldmethod=expr` + `vim.treesitter.foldexpr()` |
+
+### 기타 Neovim 전용
+
+| 기능 | 설명 | API |
+|------|------|-----|
+| Lua API | Vimscript 대신 Lua로 에디터 스크립팅 | `vim.api`, `vim.fn`, `vim.keymap`, `vim.opt` |
+| Floating windows | 화면 어디든 팝업 윈도우 | `vim.api.nvim_open_win()` |
+| `vim.ui.select/input` | 오버라이드 가능한 UI 프리미티브 | `vim.ui.select(items, opts, cb)` |
+| `vim.notify` | 오버라이드 가능한 알림 시스템 | `vim.notify("msg", vim.log.levels.WARN)` |
+| Async I/O | libuv 기반 비동기 작업 | `vim.uv`, `vim.system()` |
+| Terminal | 버퍼 안에서 터미널 실행 | `:terminal`, `Ctrl-\ Ctrl-n` (나가기) |
+| checkhealth | 내장 상태 진단 | `:checkhealth` |
+
+## LazyVim — Neovim 위에 올린 것
+
+설정 프레임워크. 플러그인 조합 + 키맵 컨벤션 + extras 시스템을 제공한다.
+
+### 플러그인 큐레이션
+
+Neovim의 LSP/Treesitter 기반 위에 실용적인 플러그인을 미리 조합해 놓은 것.
+
+| 플러그인 | 역할 |
+|----------|------|
+| nvim-lspconfig + mason.nvim | LSP 서버 설치/연결 자동화 |
+| nvim-cmp / blink.cmp | 자동완성 엔진 |
+| conform.nvim | 포맷팅 |
+| nvim-lint | 린팅 |
+| telescope.nvim / fzf-lua | 퍼지 파인더 |
+| neo-tree.nvim | 파일 탐색기 |
+| which-key.nvim | 키맵 디스커버리 |
+| gitsigns.nvim + lazygit.nvim | Git 통합 |
+| mini.nvim | surround, pairs, bufremove 등 |
+
+### Extras 시스템
+
+`:LazyExtras`로 언어/도구 팩을 선택적으로 활성화. 각 extra가 LSP + 포맷터 + 린터 + DAP을 한 번에 설정한다.
+
+### 키맵 레이어
+
+Neovim API 위에 `<leader>` 기반 일관된 키맵을 제공.
+
+| 키 | 동작 | 실제 호출 |
+|----|------|-----------|
+| `<leader>cc` | CodeLens 실행 | `vim.lsp.codelens.run()` |
+| `<leader>ca` | Code action | `vim.lsp.buf.code_action()` |
+| `<leader>cr` | Rename | `vim.lsp.buf.rename()` |
+| `<leader>cf` | Format | conform.nvim |
+| `<leader>cd` | 라인 진단 float | `vim.diagnostic.open_float()` |
+| `<leader>ff` | 파일 찾기 | telescope/fzf-lua |
+| `<leader>/` | 전체 검색 | telescope live_grep |
+| `<leader>gg` | Lazygit | lazygit.nvim |
+| `<leader>e` | 파일 탐색기 | neo-tree.nvim |
+
+> `<leader>cc`로 CodeLens를 실행하지만, CodeLens 자체는 Neovim 내장이다.
+> LazyVim은 키맵을 붙여준 것일 뿐.
+
+## 요약
+
+| 계층 | 한 줄 요약 |
+|------|-----------|
+| **Vim** | 모션, 오퍼레이터, 레지스터, quickfix, ex 명령 — 에디팅의 근간 |
+| **Neovim** | 내장 LSP, Treesitter, Lua API, floating window — IDE 기반 |
+| **LazyVim** | 플러그인 큐레이션 + extras + `<leader>` 키맵 — 즉시 사용 가능한 IDE |
