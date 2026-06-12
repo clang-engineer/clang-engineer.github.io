@@ -3,7 +3,7 @@ title       : shell 'set' 사용법
 description : 
 date        : 2025-10-03 13:42:17 +0900
 updated     : 2025-10-03 13:51:15 +0900
-categories  : [shell]
+categories  : [shell, "셸·스크립팅"]
 tags        : []
 pin         : false
 hidden      : false

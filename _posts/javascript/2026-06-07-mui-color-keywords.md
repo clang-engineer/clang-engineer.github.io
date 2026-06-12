@@ -3,7 +3,7 @@ title       : "MUI 테마 색상 키워드 — primary/secondary/error/warning/i
 description : "Material-UI의 테마 색상 키워드는 단순 색깔이 아니라 UI 요소의 역할을 의미한다"
 date        : 2026-06-07 12:00:00 +0900
 updated     : 2026-06-07 12:00:00 +0900
-categories  : [javascript]
+categories  : [javascript, "React·UI"]
 tags        : [mui, material-ui, react, color, palette, frontend]
 pin         : false
 hidden      : false

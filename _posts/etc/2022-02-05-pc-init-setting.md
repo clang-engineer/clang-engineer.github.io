@@ -4,7 +4,7 @@ description : >-
     맥 초기 설정 및 기본 설정 파일 이관 방법에 대해 기록
 date        : 2022-02-05 09:32:27 +0900
 updated     : 2025-09-25 08:38:28 +0900
-categories  : [etc]
+categories  : [etc, macOS]
 tags        : [mac, setting, homebrew, dotfiles, setup]
 pin         : false
 hidden      : false

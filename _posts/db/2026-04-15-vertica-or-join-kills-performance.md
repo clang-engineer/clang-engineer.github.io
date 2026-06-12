@@ -3,7 +3,7 @@ title       : "Vertica에서 OR 조건 JOIN은 성능을 죽인다"
 description : "LEFT OUTER JOIN의 ON 절 OR 조건이 Join Filter로 빠지면서 풀스캔이 발생하는 문제와 UNION ALL 분리 해법"
 date        : 2026-04-15 10:00:00 +0900
 updated     : 2026-04-15 10:00:00 +0900
-categories  : [db]
+categories  : [db, "RDB·트랜잭션"]
 tags        : [vertica, query-optimization, join, execution-plan, db]
 pin         : false
 hidden      : false

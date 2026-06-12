@@ -4,7 +4,7 @@ description : >-
     postgresql 데이터베이스의 마운트 경로를 변경하는 방법을 기록.
 date        : 2024-10-16 14:12:42 +0900
 updated     : 2024-10-16 14:50:22 +0900
-categories  : [db]
+categories  : [db, "PostgreSQL·운영"]
 tags        : [postgresql, db]
 pin         : false
 hidden      : false

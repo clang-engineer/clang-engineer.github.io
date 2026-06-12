@@ -3,7 +3,7 @@ title       : "IntelliJ DB SSH 터널 — JDBC URL은 localhost가 아닌 원격
 description : "IntelliJ 내장 SSH 터널 사용 시 JDBC URL에 베스천에서 본 원격 주소를 넣어야 하는 이유"
 date        : 2026-04-29 10:00:00 +0900
 updated     : 2026-04-29 10:00:00 +0900
-categories  : [db]
+categories  : [db, "도구·연동"]
 tags        : [intellij, datagrip, ssh-tunnel, postgresql, jdbc, tools]
 pin         : false
 hidden      : false

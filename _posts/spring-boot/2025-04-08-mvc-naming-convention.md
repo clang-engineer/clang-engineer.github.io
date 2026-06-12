@@ -3,7 +3,7 @@ title       : "MVC 계층별 메소드 네이밍 컨벤션"
 description : "Controller/Service/Repository 등 MVC 각 계층의 메소드 네이밍 패턴과 실무 규칙 정리"
 date        : 2025-01-14 09:10:09 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [spring-boot]
+categories  : [spring-boot, "설정·아키텍처"]
 tags        : [mvc, naming-convention, architecture, best-practices]
 pin         : false
 hidden      : false

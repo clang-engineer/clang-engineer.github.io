@@ -3,7 +3,7 @@ title       : macOS 생산성 앱 정리 (Raycast · Rectangle · BetterTouchToo
 description : 맥을 쓰다 보면 기본 기능만으로는 아쉬운 순간이 많습니다. 그래서 많은 사용자들이 **생산성 유틸 앱**을 추가로 사용합니다. 이 글에서는 **현재 가장 유명하고 많이 쓰이는 macOS 생산성 앱**들을 중심으로 정리합니다.
 date        : 2025-12-29 14:24:11 +0900
 updated     : 2025-12-29 14:25:30 +0900
-categories  : [etc]
+categories  : [etc, macOS]
 tags        : [macos, productivity, apps, raycast, rectangle, bettertouchtool]
 pin         : false
 hidden      : false

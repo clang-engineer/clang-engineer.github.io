@@ -3,7 +3,7 @@ title       : "Chrome 새 탭에서 자동으로 개발자도구 열기 + form P
 description : "target=_blank 새 탭의 네트워크 요청을 디버깅하기 위해 --auto-open-devtools-for-tabs로 Chrome을 띄우는 방법"
 date        : 2026-03-31 10:00:00 +0900
 updated     : 2026-03-31 10:00:00 +0900
-categories  : [etc]
+categories  : [etc, "개발 도구"]
 tags        : [chrome, devtools, form-post, target-blank]
 pin         : false
 hidden      : false

@@ -3,7 +3,7 @@ title       : "brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때"
 description : "Homebrew가 옛 JDK를 삭제하면 /Library/Java/JavaVirtualMachines 심볼릭 링크가 깨진다"
 date        : 2026-06-07 12:00:00 +0900
 updated     : 2026-06-07 12:00:00 +0900
-categories  : [etc]
+categories  : [etc, macOS]
 tags        : [macos, java, homebrew, jenv, openjdk, troubleshoot]
 pin         : false
 hidden      : false

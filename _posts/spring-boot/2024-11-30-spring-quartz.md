@@ -4,7 +4,7 @@ description : >-
   Spring Quartz 에 관한 내용을 정리한 문서입니다.
 date        : 2025-03-06 09:00:45 +0900
 updated     : 2025-03-06 09:01:11 +0900
-categories  : [spring-boot]
+categories  : [spring-boot, "배치·스케줄링"]
 tags        : [spring, quartz]
 pin         : false
 hidden      : false

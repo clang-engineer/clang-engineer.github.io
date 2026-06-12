@@ -4,7 +4,7 @@ description : >-
     Spring boot에서 property를 설정하는 여러 방법을 정리해보았습니다.
 date        : 2025-01-14 14:32:50 +0900
 updated     : 2025-01-14 14:33:52 +0900
-categories  : [spring-boot]
+categories  : [spring-boot, "설정·아키텍처"]
 tags        : [spring, property]
 pin         : false
 hidden      : false

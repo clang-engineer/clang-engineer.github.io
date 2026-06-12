@@ -3,7 +3,7 @@ title       : "webpack-dev-server의 정체불명 AggregateError는 localhost du
 description : "Node 17+의 localhost dual-stack 해석으로 webpack-dev-server가 포트 바인딩 실패를 AggregateError로 뭉뚱그리는 문제"
 date        : 2026-05-15 12:00:00 +0900
 updated     : 2026-05-15 12:00:00 +0900
-categories  : [javascript]
+categories  : [javascript, "Node·번들러"]
 tags        : [node, webpack-dev-server, browser-sync, windows, port]
 pin         : false
 hidden      : false

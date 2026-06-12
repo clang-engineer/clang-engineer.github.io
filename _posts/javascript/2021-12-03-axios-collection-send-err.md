@@ -3,7 +3,7 @@ title       : ajax Map타입 데이터 전송 안될 때
 description : >-
 date        : 2021-12-02 09:00:45 +0900
 updated     : 2021-12-10 09:01:11 +0900
-categories  : [javascript]
+categories  : [javascript, "언어·패키지"]
 tags        : [axios]
 pin         : false
 hidden      : false

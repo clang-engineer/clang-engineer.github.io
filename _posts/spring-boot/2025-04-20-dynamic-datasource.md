@@ -4,7 +4,7 @@ description : >-
     Spring Boot에서 AbstractRoutingDataSource 를 사용하여 동적 데이터 소스를 설정하는 방법을 기록
 date        : 2025-04-20 09:01:11 +0900
 updated     : 2025-04-20 09:01:11 +0900
-categories  : [spring-boot]
+categories  : [spring-boot, "설정·아키텍처"]
 tags        : [spring, datasource]
 pin         : false
 hidden      : false

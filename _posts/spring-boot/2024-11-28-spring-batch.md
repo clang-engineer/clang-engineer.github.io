@@ -4,7 +4,7 @@ description : >-
     Spring Batch에 대해 기록한 문서입니다.
 date        : 2024-11-28 09:00:45 +0900
 updated     : 2024-11-28 09:01:11 +0900
-categories  : [spring-boot]
+categories  : [spring-boot, "배치·스케줄링"]
 tags        : [spring, batch]
 pin         : false
 hidden      : false

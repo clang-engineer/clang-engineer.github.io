@@ -3,7 +3,7 @@ title       : JS 공용 패키지 관리 (npm workspaces + GitHub Packages)
 description : 모노레포로 JS/TS 패키지를 관리하고 GitHub Packages에 수동 배포하는 방법
 date        : 2026-02-21 10:00:00 +0900
 updated     : 2026-02-21 10:00:00 +0900
-categories  : [javascript]
+categories  : [javascript, "언어·패키지"]
 tags        : [shared-package, npm, github-packages, workspaces, publishing]
 pin         : false
 hidden      : false

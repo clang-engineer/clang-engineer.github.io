@@ -4,7 +4,7 @@ description : >-
     프로세스를 관리하는 job과 관련된 내용을 기록합니다.
 date        : 2024-06-09 22:50:30 +0900
 updated     : 2025-10-03 14:20:18 +0900
-categories  : [shell]
+categories  : [shell, "셸·스크립팅"]
 tags        : [linux, job]
 pin         : false
 hidden      : false

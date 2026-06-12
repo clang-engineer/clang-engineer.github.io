@@ -3,7 +3,7 @@ title       : "Spring Boot + Webpack SPA 프로젝트 설정"
 description : "Spring Boot에서 Webpack을 사용한 SPA 프로젝트 구성 가이드"
 date        : 2025-02-12 11:00:00 +0900
 updated     : 2025-02-12 11:00:00 +0900
-categories  : [javascript]
+categories  : [javascript, "Node·번들러"]
 tags        : [spring-boot, webpack, react, typescript, spa]
 pin         : false
 hidden      : false

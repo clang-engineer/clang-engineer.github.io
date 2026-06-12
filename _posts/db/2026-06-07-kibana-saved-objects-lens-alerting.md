@@ -2,7 +2,7 @@
 title       : Kibana 개념 정리 — Saved Objects, Lens, Alerting, 7.x vs 8.x
 description :
 date        : 2026-06-07 12:00:00 +0900
-categories  : [db]
+categories  : [db, "도구·연동"]
 tags        : [kibana, elasticsearch, observability]
 pin         : false
 hidden      : false

@@ -3,7 +3,7 @@ title       : 소프트웨어 3대 원칙(DRY · KISS · YAGNI)
 description : 중복 제거(DRY), 단순성(KISS), 필요하지 않으면 만들지 말라(YAGNI). 실무 예시와 안티패턴, 체크리스트까지.
 date        : 2025-12-08 09:31:18 +0900
 updated     : 2025-12-08 09:35:03 +0900
-categories  : [etc]
+categories  : [etc, "지식·원칙"]
 tags        : [software, principles, dry, kiss, yagni, coding-best-practices]
 pin         : false
 hidden      : false

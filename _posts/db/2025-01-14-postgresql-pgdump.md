@@ -3,7 +3,7 @@ title       : PostgreSQL pg_dump, pg_restore 사용법
 description : 
 date        : 2025-01-14 13:45:54 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [db]
+categories  : [db, "PostgreSQL·운영"]
 tags        : [database, postgresql, backup]
 pin         : false
 hidden      : false
