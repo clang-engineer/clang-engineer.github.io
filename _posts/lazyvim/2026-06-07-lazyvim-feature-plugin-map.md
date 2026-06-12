@@ -3,7 +3,7 @@ title       : "LazyVim 기능 지도 — Git·검색·LSP·완성을 만드는 �
 description : "LazyVim에서 각 기능 영역(Git, 검색, LSP, 자동완성, DAP 등)이 어떤 플러그인들이 협력해 만들어지는지, 그리고 snacks.nvim이 어떻게 새로운 hub가 되었는지"
 date        : 2026-06-07 13:00:00 +0900
 updated     : 2026-06-07 13:00:00 +0900
-categories  : [lazyvim]
+categories  : [lazyvim, 플러그인]
 tags        : [lazyvim, neovim, snacks, gitsigns, lazygit, blink, mason, lspconfig, picker]
 pin         : false
 hidden      : false

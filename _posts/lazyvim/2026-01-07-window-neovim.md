@@ -3,7 +3,7 @@ title       : Windows에서 Dotfiles의 Neovim 설정 연결하기
 description : 
 date        : 2026-01-07 09:29:54 +0900
 updated     : 2026-01-07 09:30:51 +0900
-categories  : [lazyvim]
+categories  : [lazyvim, "구조·설정"]
 tags        : []
 pin         : false
 hidden      : false

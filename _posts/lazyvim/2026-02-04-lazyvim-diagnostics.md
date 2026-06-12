@@ -3,7 +3,7 @@ title       : LazyVim Diagnostics 로그/메시지 확인법
 description : Diagnostics 팝업, Trouble 리스트, LSP 로그, :messages 사용법 정리
 date        : 2026-02-04 10:00:00 +0900
 updated     : 2026-02-04 10:00:00 +0900
-categories  : [lazyvim]
+categories  : [lazyvim, 기타]
 tags        : [lazyvim, neovim, diagnostics, lsp, trouble, messages]
 pin         : false
 hidden      : false

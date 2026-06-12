@@ -3,7 +3,7 @@ title       : "LazyVim 의존성 계층 — lazy.nvim → core → extras → �
 description : "lazy.nvim의 spec/import 모델, LazyVim이 어떻게 자체 spec을 모아 lazyvim.json의 extras를 활성화하는지, 그리고 사용자 plugin이 그 위에 override되는 순서"
 date        : 2026-06-07 12:00:00 +0900
 updated     : 2026-06-07 12:00:00 +0900
-categories  : [lazyvim]
+categories  : [lazyvim, "구조·설정"]
 tags        : [lazyvim, neovim, lazy-nvim, spec, extras, plugin-management]
 pin         : false
 hidden      : false

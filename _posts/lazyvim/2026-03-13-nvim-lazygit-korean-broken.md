@@ -3,7 +3,7 @@ title       : Windows Neovim에서 Lazygit 한글 깨짐 해결
 description :
 date        : 2026-03-13 09:00:00 +0900
 updated     : 2026-03-13 09:00:00 +0900
-categories  : [lazyvim]
+categories  : [lazyvim, Lazygit]
 tags        : [neovim, lazygit, utf-8, encoding]
 pin         : false
 hidden      : false

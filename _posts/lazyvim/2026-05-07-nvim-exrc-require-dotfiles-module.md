@@ -2,7 +2,7 @@
 title       : "프로젝트 .nvim.lua(exrc)에서 dotfiles의 lua 모듈 재사용하기"
 description : 글로벌 nvim config(dotfiles)의 lua 모듈을 프로젝트별 .nvim.lua에서 require하는 메커니즘과 활용 패턴
 date        : 2026-05-07 10:00:00 +0900
-categories  : [lazyvim]
+categories  : [lazyvim, "구조·설정"]
 tags        : [neovim, exrc, lua, dotfiles, jdtls]
 pin         : false
 hidden      : false

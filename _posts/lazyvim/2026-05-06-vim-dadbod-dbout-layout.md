@@ -3,7 +3,7 @@ title       : "vim-dadbod-ui dbout 결과창 레이아웃 커스터마이징"
 description : "dbout 결과창의 크기/방향을 바꾸는 공식 방법은 FileType autocmd뿐 — wincmd L 트릭과 fold 비활성화"
 date        : 2026-05-06 11:00:00 +0900
 updated     : 2026-05-06 11:00:00 +0900
-categories  : [lazyvim]
+categories  : [lazyvim, Dadbod]
 tags        : [vim-dadbod-ui, dbout, autocmd, wincmd, lazyvim, neovim]
 pin         : false
 hidden      : false

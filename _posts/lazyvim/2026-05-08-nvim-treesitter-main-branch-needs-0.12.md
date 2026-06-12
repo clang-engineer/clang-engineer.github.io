@@ -3,7 +3,7 @@ title       : "nvim-treesitter main 브랜치는 nvim 0.12+ 전용 — lockfile�
 description : "nvim 0.11에서 nvim-treesitter main 브랜치가 lockfile 갱신으로 박제되는 함정 — 진단/복구 절차"
 date        : 2026-05-08 11:00:00 +0900
 updated     : 2026-05-08 11:00:00 +0900
-categories  : [lazyvim]
+categories  : [lazyvim, "LSP·Treesitter"]
 tags        : [neovim, treesitter, lazy-nvim, lazyvim, lockfile]
 pin         : false
 hidden      : false

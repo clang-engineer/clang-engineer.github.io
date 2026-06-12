@@ -3,7 +3,7 @@ title       : 'nvim-treesitter kotlin 쿼리의 "..<" 노드 에러는 파서 �
 description : "Kotlin 1.7.20 rangeUntil 연산자(..<)를 모르는 옛 파서가 새 highlights 쿼리와 충돌할 때의 진단/복구"
 date        : 2026-05-08 10:00:00 +0900
 updated     : 2026-05-08 10:00:00 +0900
-categories  : [lazyvim]
+categories  : [lazyvim, "LSP·Treesitter"]
 tags        : [neovim, treesitter, kotlin, snacks-nvim, lazyvim]
 pin         : false
 hidden      : false

@@ -2,7 +2,7 @@
 title       : "LazyVim <leader>x — Trouble 기반 코드 문제 탐색"
 description : Diagnostics / Quickfix / Location List / Todo Comments를 Trouble UI 하나로 통합 탐색하는 키맵 그룹 정리
 date        : 2026-05-04 10:00:00 +0900
-categories  : [lazyvim]
+categories  : [lazyvim, 기타]
 tags        : [trouble, diagnostics, quickfix, location-list, todo-comments]
 pin         : false
 hidden      : false
