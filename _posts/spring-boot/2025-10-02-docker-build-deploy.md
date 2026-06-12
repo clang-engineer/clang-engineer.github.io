@@ -3,7 +3,7 @@ title       : Jib 을 이용한 JHipster 도커 이미지 빌드 및 배포
 description : 
 date        : 2025-10-02 20:04:19 +0900
 updated     : 2025-10-02 20:30:03 +0900
-categories  : [spring-boot, JHipster]
+categories  : [spring-boot, "JHipster"]
 tags        : [jhipster, docker, jib, gradle]
 pin         : false
 hidden      : false

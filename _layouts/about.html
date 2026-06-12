@@ -14,7 +14,36 @@ layout: default
     <div class="content">
       {{ content }}
     </div>
-  {% include histories.html %}
+
+    {% assign df_strftime_m = site.data.locales[lang].df.archives.strftime | default: '/ %m' %}
+    {% assign df_dayjs_m = site.data.locales[lang].df.archives.dayjs | default: '/ MM' %}
+
+    <section class="mt-5">
+      <h2 class="dynamic-title">
+        {{ site.data.locales[lang].about.histories | default: '이력' }}
+      </h2>
+      <div class="content">
+        <div id="archives" class="pl-xl-3">
+          {% assign histories = site.data.histories | sort: 'year' | reverse %}
+          {% for history in histories %}
+            <time class="year lead d-block">{{ history.year }}</time>
+            <ul class="list-unstyled">
+              {% assign events = history.events | sort: 'date' | reverse %}
+              {% for event in events %}
+                <li>
+                  {% assign ts = event.date | date: '%s' %}
+                  <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ event.date | date: '%d' }}</span>
+                  <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
+                    {{ event.date | date: df_strftime_m }}
+                  </span>
+                  <span class="event-title">{{ event.title }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
   {% else %}
     {{ content }}
   {% endif %}

@@ -3,7 +3,7 @@ title       : macOS 생산성 런처(Spotlight vs Alfred vs Raycast)
 description : 
 date        : 2025-10-31 09:20:19 +0900
 updated     : 2025-10-31 09:28:20 +0900
-categories  : [etc, macOS]
+categories  : [etc, "macOS"]
 tags        : [macOS, productivity, launcher, alfred, raycast, spotlight]
 pin         : false
 hidden      : false

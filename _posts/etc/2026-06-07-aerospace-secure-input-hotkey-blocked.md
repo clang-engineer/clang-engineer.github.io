@@ -3,7 +3,7 @@ title       : "AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Inp
 description : "Secure Input 활성 상태에서는 시스템 핫키를 잡지 못한다. 진단부터 해결까지."
 date        : 2026-06-07 12:00:00 +0900
 updated     : 2026-06-07 12:00:00 +0900
-categories  : [etc, macOS]
+categories  : [etc, "macOS"]
 tags        : [macos, aerospace, hotkey, secure-input, troubleshoot]
 pin         : false
 hidden      : false
