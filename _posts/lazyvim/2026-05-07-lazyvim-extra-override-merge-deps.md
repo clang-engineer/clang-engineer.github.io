@@ -2,7 +2,7 @@
 title       : LazyVim extra의 플러그인 spec에 의존성만 보강하기
 description : "LazyVim extra의 spec을 같은 이름으로 다시 작성해 dependencies 배열만 머지 추가하는 방법"
 date        : 2026-05-07 11:00:00 +0900
-updated     : 2026-05-07 11:00:00 +0900
+updated     : 2026-06-12 21:00:00 +0900
 categories  : [lazyvim, "구조·설정"]
 tags        : [neovim, lazyvim, lazy.nvim, refactoring.nvim]
 pin         : false
@@ -20,6 +20,8 @@ refactoring.nvim/lua/refactoring.lua:45: module 'async' not found
 ```
 
 `refactoring.nvim` 최근 master가 `lewis6991/async.nvim`을 의존성으로 추가했지만 LazyVim extra spec이 아직 반영하지 못한 상태 ([LazyVim#7130](https://github.com/LazyVim/LazyVim/issues/7130)).
+
+> **업데이트 (2026-06-12)**: LazyVim [#7124](https://github.com/LazyVim/LazyVim/pull/7124) (2026-04-22 머지)에서 `lewis6991/async.nvim`이 extra spec에 추가되며 본체 픽스가 들어갔다. 최신 LazyVim에서는 아래 override가 더 이상 필요 없다. 다만 **같은 이름 spec으로 `dependencies`만 머지 보강하는 패턴 자체는 여전히 일반적으로 쓸 만하니** 이 글은 그 기법 설명으로 남긴다.
 
 ## 해결 — override 파일 한 개
 
