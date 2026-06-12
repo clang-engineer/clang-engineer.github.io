@@ -4,7 +4,7 @@ description : >-
   SSH 에이전트와 ssh-add를 통한 SSH 키 관리 방법
 date        : 2025-12-15 15:30:00 +0900
 updated     : 2025-12-15 15:30:00 +0900
-categories  : [security]
+categories  : [security, "SSH·인증"]
 tags        : [ssh, ssh-agent, ssh-add, github, authentication, key-management]
 pin         : false
 hidden      : false

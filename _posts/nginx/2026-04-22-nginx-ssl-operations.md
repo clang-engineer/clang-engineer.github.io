@@ -3,7 +3,7 @@ title       : "nginx SSL 인증서 운영 가이드"
 description : "와일드카드 인증서 상속, 패스프레이즈, reload, 프로세스 복구 — 4가지 의사결정"
 date        : 2026-04-22 10:00:00 +0900
 updated     : 2026-04-22 10:00:00 +0900
-categories  : [nginx]
+categories  : [nginx, "HTTPS·SSL"]
 tags        : [nginx, ssl, tls, openssl, operations]
 pin         : false
 hidden      : false

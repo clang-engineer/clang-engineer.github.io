@@ -3,7 +3,7 @@ title       : Cpplint와 ClangFormat을 사용한 Google 스타일 코드 작성
 description :
 date        : 2023-04-20 16:38:01 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [c++]
+categories  : [cpp]
 tags        : [c++, cpplint, clang-format]
 pin         : false
 hidden      : false

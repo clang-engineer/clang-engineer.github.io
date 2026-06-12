@@ -3,7 +3,7 @@ title       : SSH Tunneling
 description : >-
 date        : 2025-06-25 11:44:14 +0900
 updated     : 2025-06-25 11:44:14 +0900
-categories  : [security]
+categories  : [security, "SSH·인증"]
 tags        : [ssh, tunneling, port-forwarding, network-security]
 pin         : false
 hidden      : false

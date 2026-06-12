@@ -3,7 +3,7 @@ title       : Serena 기본 가이드
 description : 
 date        : 2025-10-23 13:43:00 +0900
 updated     : 2026-02-24 10:55:31 +0900
-categories  : [ai]
+categories  : [ai, "MCP"]
 tags        : [ai, mcp, serena, claude, anthrophic, model-context-protocol]
 pin         : false
 hidden      : false

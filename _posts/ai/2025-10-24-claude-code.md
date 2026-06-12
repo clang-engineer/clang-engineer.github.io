@@ -3,7 +3,7 @@ title       : Claude Code 정리
 description : 
 date        : 2025-10-24 09:47:55 +0900
 updated     : 2025-11-06 08:12:27 +0900
-categories  : [ai]
+categories  : [ai, "Claude Code"]
 tags        : [ai, claude, anthrophic, claude-code]
 pin         : false
 hidden      : false

@@ -3,7 +3,7 @@ title       : c++ 컴파일시 extension 에러나는 경우
 description :
 date        : 2022-07-17 23:01:53 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [c++]
+categories  : [cpp]
 tags        : [c++, compile, extension error]
 pin         : false
 hidden      : false

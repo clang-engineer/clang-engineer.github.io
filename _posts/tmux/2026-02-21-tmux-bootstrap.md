@@ -3,7 +3,7 @@ title       : 🧷 tmux 초기 셋업용 세션/윈도우/패널 스크립트
 description : main/sub 세션을 만들고 main에서 좌/우 + 오른쪽 상/하 분할을 구성하는 초기 셋업 스크립트 기록.
 date        : 2026-02-21 10:05:00 +0900
 updated     : 2026-02-21 10:05:00 +0900
-categories  : [tmux]
+categories  : [tmux, "스크립트·플러그인"]
 tags        : [tmux, terminal, script]
 pin         : false
 hidden      : false

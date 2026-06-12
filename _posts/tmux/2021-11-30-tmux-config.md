@@ -4,7 +4,7 @@ description : >-
     터미널을 여러개의 세션으로 나누어서 사용할 수 있게 해주는 tmux 사용법에 대한 내용
 date        : 2021-11-30 22:50:30 +0900
 updated     : 2026-01-28 08:33:28 +0900
-categories  : [tmux]
+categories  : [tmux, "설정·옵션"]
 tags        : [tmux, terminal]
 pin         : false
 hidden      : false

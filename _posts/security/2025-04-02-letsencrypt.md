@@ -3,7 +3,7 @@ title       : "Let's Encrypt + Nginx 운영 가이드: 발급, 갱신, 그리고
 description : "Let's Encrypt SSL 인증서를 nginx와 함께 운영하면서 마주친 server_name 매칭, fullchain, webroot 전환, HSTS 캐시 문제 정리"
 date        : 2022-02-05 09:32:27 +0900
 updated     : 2026-06-07 12:00:00 +0900
-categories  : [security]
+categories  : [security, "TLS·HTTP"]
 tags        : [letsencrypt, ssl, certbot, nginx, certificate, rocky-linux]
 pin         : false
 hidden      : false

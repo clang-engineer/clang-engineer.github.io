@@ -3,7 +3,7 @@ title       : Claude Code 메모리 시스템 정리
 description : CLAUDE.md와 Auto Memory를 활용한 프로젝트 컨텍스트 관리
 date        : 2026-03-12 23:30:00 +0900
 updated     : 2026-03-12 23:30:00 +0900
-categories  : [ai]
+categories  : [ai, "Claude Code"]
 tags        : [claude-code, memory, claude-md]
 pin         : false
 hidden      : false

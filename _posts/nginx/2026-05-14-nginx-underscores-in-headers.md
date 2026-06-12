@@ -3,7 +3,7 @@ title       : "nginx는 언더스코어가 들어간 요청 헤더를 기본적�
 description : "app_db_key 같은 언더스코어 헤더가 nginx 기본 설정에서 업스트림에 전달되지 않는 원인과 해법"
 date        : 2026-05-14 10:00:00 +0900
 updated     : 2026-05-14 10:00:00 +0900
-categories  : [nginx]
+categories  : [nginx, "요청·라우팅"]
 tags        : [nginx, http, headers]
 pin         : false
 hidden      : false

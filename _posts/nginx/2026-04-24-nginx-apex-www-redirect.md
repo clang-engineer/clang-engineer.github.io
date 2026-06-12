@@ -3,7 +3,7 @@ title       : "nginx apex/www 도메인 분리로 인한 캐시 문제와 해결
 description : "apex와 www를 동일 server 블록에서 서비스하면 origin 분리로 90일 주기 HTTP 500이 터지는 이유와 리다이렉트 해법"
 date        : 2026-04-24 10:00:00 +0900
 updated     : 2026-04-24 10:00:00 +0900
-categories  : [nginx]
+categories  : [nginx, "HTTPS·SSL"]
 tags        : [nginx, ssl, domain, cache, jhipster, lets-encrypt]
 pin         : false
 hidden      : false
