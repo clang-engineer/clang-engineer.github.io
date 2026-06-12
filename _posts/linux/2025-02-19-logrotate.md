@@ -4,7 +4,7 @@ description : >-
     logrotate를 이용한 로그 파일 관리
 date        : 2021-01-25 22:50:30 +0900
 updated     : 2025-10-23 09:01:04 +0900
-categories  : [linux]
+categories  : [linux, "시스템 관리"]
 tags        : [logrotate]
 pin         : false
 hidden      : false

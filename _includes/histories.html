@@ -5,7 +5,7 @@
 
 <article class="px-1 mt-5">
   <h2 class="dynamic-title">
-    이력
+    {{ site.data.locales[lang].about.histories | default: '이력' }}
   </h2>
   <div class="content">
     <div id="archives" class="pl-xl-3">
@@ -21,7 +21,7 @@
               <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
                         {{ event.date | date: df_strftime_m }}
               </span>
-              <a href="#" onclick="event.preventDefault();" style="cursor: default; pointer-events: none;" >{{ event.title }}</a>
+              <span class="event-title">{{ event.title }}</span>
             </li>
           {% endfor %}
         </ul>

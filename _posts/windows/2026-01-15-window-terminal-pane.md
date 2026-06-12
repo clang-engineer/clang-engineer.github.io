@@ -3,7 +3,7 @@ title       : Windows Terminal 화면(Pane) 기능 정리
 description : 
 date        : 2026-01-15 09:13:52 +0900
 updated     : 2026-01-15 09:17:29 +0900
-categories  : [windows]
+categories  : [windows, "셸·시스템"]
 tags        : []
 pin         : false
 hidden      : false

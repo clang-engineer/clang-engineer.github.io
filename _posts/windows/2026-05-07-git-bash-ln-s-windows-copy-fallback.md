@@ -3,7 +3,7 @@ title       : "Windows Git Bash의 ln -s는 native symlink가 아니라 복사�
 description : "Git Bash가 권한 없을 때 ln -s를 조용히 파일 복사로 fallback하는 함정과 mklink /H 하드링크 대안"
 date        : 2026-05-07 10:00:00 +0900
 updated     : 2026-05-07 10:00:00 +0900
-categories  : [windows]
+categories  : [windows, "셸·시스템"]
 tags        : [git-bash, msys, symlink, mklink, dotfiles, powershell, windows]
 pin         : false
 hidden      : false

@@ -3,7 +3,7 @@ title       : "jenv local 11 해도 Java 17 바이트코드가 나오는 이유"
 description : "build.gradle에 자바 버전이 없으면 빌드 JVM이 바이트코드 버전이 된다 — jenv shim과 toolchain의 차이"
 date        : 2026-05-20 11:00:00 +0900
 updated     : 2026-05-20 11:00:00 +0900
-categories  : [gradle]
+categories  : [gradle, "빌드·의존성"]
 tags        : [gradle, jenv, java-version, bytecode, unsupportedclassversionerror, java]
 pin         : false
 hidden      : false

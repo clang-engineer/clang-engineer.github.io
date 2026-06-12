@@ -83,3 +83,7 @@ df:
 categories:
   category_measure: 카테고리
   post_measure: 포스트
+
+# about page
+about:
+  histories: 이력

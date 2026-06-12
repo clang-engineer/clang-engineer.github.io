@@ -3,7 +3,7 @@ title       : GitHub Packages SNAPSHOT 배포 실패 트러블슈팅 (pom 누락
 description : GitHub Packages에 SNAPSHOT이 불완전하게 배포되어 Gradle 빌드가 실패한 원인과 해결 방법
 date        : 2026-03-06 10:00:00 +0900
 updated     : 2026-03-06 10:00:00 +0900
-categories  : [gradle]
+categories  : [gradle, "GitHub Packages"]
 tags        : [github-packages, snapshot, troubleshooting, gradle, maven-metadata]
 pin         : false
 hidden      : false

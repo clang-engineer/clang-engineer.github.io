@@ -3,7 +3,7 @@ title       : 🧹 Windows 로그 파일 자동 삭제 스케줄 설정 가이�
 description : 
 date        : 2025-10-23 15:22:17 +0900
 updated     : 2025-10-23 15:23:06 +0900
-categories  : [windows]
+categories  : [windows, "셸·시스템"]
 tags        : [powershell]
 pin         : false
 hidden      : false

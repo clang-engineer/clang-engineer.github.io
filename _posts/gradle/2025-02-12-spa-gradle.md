@@ -3,7 +3,7 @@ title       : "Spring Boot + Webpack 프로젝트에서 Gradle 설정"
 description : "Spring Boot + Webpack 방식의 SPA 프로젝트에서 Gradle 빌드 설정하기"
 date        : 2025-02-12 11:00:12 +0900
 updated     : 2025-02-12 11:00:12 +0900
-categories  : [gradle]
+categories  : [gradle, "빌드·의존성"]
 tags        : [spring-boot, gradle, webpack, spa, build]
 pin         : false
 hidden      : false

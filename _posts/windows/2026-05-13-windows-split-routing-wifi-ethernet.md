@@ -3,7 +3,7 @@ title       : Windows에서 WiFi(인터넷) + Ethernet(사내망) split routing
 description : "Ethernet 게이트웨이를 비우고 route -p add로 특정 대역만 라우팅해 WiFi 인터넷과 사내망 동시 사용"
 date        : 2026-05-13 10:00:00 +0900
 updated     : 2026-05-13 10:00:00 +0900
-categories  : [windows]
+categories  : [windows, "네트워크·트러블"]
 tags        : [powershell, routing, split-tunnel, sudo, netsh, windows]
 pin         : false
 hidden      : false

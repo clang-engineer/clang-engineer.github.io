@@ -3,7 +3,7 @@ title       : 'HTTPS 페이지에 "주의 요함"이 뜨는 진짜 원인은 대
 description : "인증서가 멀쩡한데도 크롬이 주의 요함을 띄울 때, 가장 흔한 원인은 Mixed Content와 X-Forwarded-Proto 미처리"
 date        : 2026-04-22 10:00:00 +0900
 updated     : 2026-04-22 10:00:00 +0900
-categories  : [network]
+categories  : [network, "웹·HTTP"]
 tags        : [https, tls, mixed-content, reverse-proxy, network]
 pin         : false
 hidden      : false

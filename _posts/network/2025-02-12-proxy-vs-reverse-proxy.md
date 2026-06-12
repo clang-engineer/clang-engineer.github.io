@@ -3,7 +3,7 @@ title       : "Proxy (Forward vs Reverse)"
 description : "프록시 서버의 두 가지 방식 — Forward Proxy와 Reverse Proxy의 동작 원리와 차이"
 date        : 2025-02-12 11:05:23 +0900
 updated     : 2025-02-12 11:05:23 +0900
-categories  : [network]
+categories  : [network, "웹·HTTP"]
 tags        : [network, proxy, nginx]
 pin         : false
 hidden      : false

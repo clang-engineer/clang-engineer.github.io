@@ -3,7 +3,7 @@ title       : Windows 서비스 등록 및 관리 방법
 description : >-
 date        : 2025-02-24 22:50:30 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [windows]
+categories  : [windows, "셸·시스템"]
 tags        : [windows, service]
 pin         : false
 hidden      : false

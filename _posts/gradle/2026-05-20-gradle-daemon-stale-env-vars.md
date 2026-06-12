@@ -3,7 +3,7 @@ title       : "Gradle 데몬이 옛 환경변수를 들고 있을 때"
 description : "환경변수 설정 전에 떠 있던 Gradle 데몬이 빈 토큰으로 의존성 해석을 실패시키는 진단/해결"
 date        : 2026-05-20 10:00:00 +0900
 updated     : 2026-05-20 10:00:00 +0900
-categories  : [gradle]
+categories  : [gradle, "빌드·의존성"]
 tags        : [gradle, daemon, environment-variables, github-packages, intellij, java]
 pin         : false
 hidden      : false

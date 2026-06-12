@@ -4,7 +4,7 @@ description : >-
     데코레이터 패턴에 대해 정리합니다.
 date        : 2025-03-07 22:50:42 +0900
 updated     : 2025-03-07 22:50:42 +0900
-categories  : [design-pattern, 구조]
+categories  : [design-pattern, "구조"]
 tags        : [design-pattern, behavior-pattern, decorator-pattern]
 pin         : false
 hidden      : false

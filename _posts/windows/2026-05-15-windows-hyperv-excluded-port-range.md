@@ -3,7 +3,7 @@ title       : "Windows에서 포트가 '갑자기' 안 잡히면 Hyper-V 동적 
 description : "Hyper-V/WSL/Docker가 부팅 시 동적으로 예약하는 TCP 포트 범위를 확인하는 진단 절차"
 date        : 2026-05-15 13:00:00 +0900
 updated     : 2026-05-15 13:00:00 +0900
-categories  : [windows]
+categories  : [windows, "네트워크·트러블"]
 tags        : [windows, hyper-v, port, netsh, dev-server]
 pin         : false
 hidden      : false

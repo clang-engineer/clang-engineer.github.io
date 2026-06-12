@@ -3,7 +3,7 @@ title       : "passwd로 비밀번호 바꾼 직후 su가 실패할 때 — chag
 description : "/etc/shadow의 최소 변경 주기 때문에 막 만든 비밀번호로도 인증이 거부되는 경우"
 date        : 2026-06-07 12:00:00 +0900
 updated     : 2026-06-07 12:00:00 +0900
-categories  : [linux]
+categories  : [linux, "시스템 관리"]
 tags        : [linux, rocky-linux, passwd, chage, shadow, troubleshoot]
 pin         : false
 hidden      : false

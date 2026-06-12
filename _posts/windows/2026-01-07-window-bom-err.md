@@ -3,7 +3,7 @@ title       : "Windows에서 ssh는 되는데 git clone은 실패할 때 — .ss
 description : "ssh -T는 성공하지만 git clone은 Bad configuration option 으로 실패하는 경우, .ssh/config의 UTF-8 BOM이 원인"
 date        : 2026-01-07 09:33:07 +0900
 updated     : 2026-01-07 09:33:07 +0900
-categories  : [windows]
+categories  : [windows, "네트워크·트러블"]
 tags        : [windows, ssh, git, github, bom, utf-8, msys2]
 pin         : false
 hidden      : false

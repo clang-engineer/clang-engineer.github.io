@@ -90,3 +90,7 @@ categories:
   post_measure:
     singular: post
     plural: posts
+
+# about page
+about:
+  histories: History

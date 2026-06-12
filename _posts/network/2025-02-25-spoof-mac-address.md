@@ -4,7 +4,7 @@ description : >-
   맥 운영체제에서 NIC(Network Interface Card) 고유 주소(mac address)를 변조하는 방법을 알아봅니다.
 date        : 2024-05-23 08:41:19 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [network]
+categories  : [network, "네트워크 기초"]
 tags        : [network, mac address, mac os]
 pin         : false
 hidden      : false

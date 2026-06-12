@@ -4,7 +4,7 @@ description : >-
     debian과 redhat의 차이점을 기록.
 date        : 2024-06-09 22:50:30 +0900
 updated     : 2025-02-21 22:50:42 +0900
-categories  : [linux]
+categories  : [linux, "배포판·환경"]
 tags        : [linux, debian, redhat, unix]
 pin         : false
 hidden      : false
