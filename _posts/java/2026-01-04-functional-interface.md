@@ -3,7 +3,7 @@ title       : Java `java.util.function` 핵심 정리
 description : 
 date        : 2026-01-04 12:20:48 +0900
 updated     : 2026-01-04 12:28:39 +0900
-categories  : [java]
+categories  : [java, "언어·런타임"]
 tags        : [java, functional-programming, lambda, functional-interface]
 pin         : false
 hidden      : false

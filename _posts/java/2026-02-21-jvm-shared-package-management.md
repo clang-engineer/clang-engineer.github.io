@@ -3,7 +3,7 @@ title       : JVM 공용 패키지 관리 (Gradle 멀티모듈 + GitHub Packages
 description : 멀티모듈 공용 라이브러리를 Gradle로 관리하고 GitHub Packages에 수동 배포하는 방법
 date        : 2026-02-21 10:10:00 +0900
 updated     : 2026-02-21 10:10:00 +0900
-categories  : [java]
+categories  : [java, "프레임워크·실무"]
 tags        : [shared-package, gradle, github-packages, publishing, multi-module]
 pin         : false
 hidden      : false

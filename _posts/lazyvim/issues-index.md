@@ -3,7 +3,7 @@ title       : LazyVim 이슈 인덱스
 description : LazyVim 사용 중 발생한 이슈 및 해결방법 모음
 date        : 2025-12-17 16:37:51 +0900
 updated     : 2026-05-08 12:00:00 +0900
-categories  : [lazyvim, 기타]
+categories  : [lazyvim, "개요·인덱스"]
 tags        : [lazyvim, neovim, troubleshooting]
 pin         : false
 hidden      : false

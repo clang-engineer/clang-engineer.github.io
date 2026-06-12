@@ -3,7 +3,7 @@ title       : "awesome-neovim에 내 플러그인 PR 보내기 — gh CLI로 한
 description : "fork → clone → 한 줄 추가 → PR 까지. CONTRIBUTING.md 규칙(백틱 PR 제목, 금지어, 알파벳순 아닌 등록순)을 한 번에 통과시키는 절차"
 date        : 2026-06-12 16:00:00 +0900
 updated     : 2026-06-12 16:00:00 +0900
-categories  : [vim, plugin]
+categories  : [vim, "플러그인·생태계"]
 tags        : [neovim, awesome-neovim, github, gh-cli, pull-request]
 pin         : false
 hidden      : false

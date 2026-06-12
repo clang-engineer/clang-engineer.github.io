@@ -3,7 +3,7 @@ title       : "Java에서 RSA + AES-GCM 하이브리드 암호화 구현"
 description : "RSA 공개키로 AES 세션키를 암호화하고 AES-GCM으로 payload를 암호화하는 하이브리드 패턴 정리"
 date        : 2026-03-31 11:00:00 +0900
 updated     : 2026-03-31 11:00:00 +0900
-categories  : [java]
+categories  : [java, "프레임워크·실무"]
 tags        : [rsa, aes-gcm, encryption, spring-boot, bouncycastle, java]
 pin         : false
 hidden      : false

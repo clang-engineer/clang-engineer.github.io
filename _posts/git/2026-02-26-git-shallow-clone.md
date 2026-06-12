@@ -3,7 +3,7 @@ title       : Git Shallow Clone으로 비대해진 저장소 가볍게 사용하
 description :
 date        : 2026-02-26 17:00:00 +0900
 updated     : 2026-02-26 17:00:00 +0900
-categories  : [git]
+categories  : [git, "저장소·운영"]
 tags        : [git, shallow clone, git history, performance]
 pin         : false
 hidden      : false

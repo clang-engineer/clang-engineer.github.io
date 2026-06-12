@@ -3,7 +3,7 @@ title       : Git Partial Merge 시 develop 변경이 삭제되는 문제 정리
 description : 
 date        : 2025-11-20 09:35:56 +0900
 updated     : 2025-11-20 10:24:10 +0900
-categories  : [git]
+categories  : [git, "저장소·운영"]
 tags        : [git, merge, partial-merge, 개발팁]
 pin         : false
 hidden      : false

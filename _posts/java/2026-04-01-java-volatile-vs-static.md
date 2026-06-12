@@ -3,7 +3,7 @@ title       : "Java volatile vs static 차이 - 멀티스레드 환경에서의 
 description : "static은 변수가 어디에 속하냐, volatile은 어디서 읽냐의 문제 — 멀티스레드 환경에서 둘의 역할 차이"
 date        : 2026-04-01 10:00:00 +0900
 updated     : 2026-04-01 10:00:00 +0900
-categories  : [java]
+categories  : [java, 동시성]
 tags        : [volatile, static, multithreading, singleton, spring, java]
 pin         : false
 hidden      : false

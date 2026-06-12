@@ -5,7 +5,7 @@ description : >-
     이 기능은 외부 라이브러리나 다른 프로젝트를 의존성으로 추가할 때 유용합니다.
 date        : 2025-06-24 10:00:00 +0900
 updated     : 2025-06-24 10:00:00 +0900
-categories  : [git]
+categories  : [git, "저장소·운영"]
 tags        : [git, submodule, version control]
 pin         : false
 hidden      : false

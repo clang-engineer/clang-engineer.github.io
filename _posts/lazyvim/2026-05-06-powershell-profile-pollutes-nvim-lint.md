@@ -3,7 +3,7 @@ title       : "PowerShell 프로필이 nvim-lint(ktlint) JSON 출력을 깨뜨�
 description : "비대화형 PowerShell 세션이 PSReadLine 에러와 chcp 텍스트를 출력해 ktlint JSON 파싱을 깨뜨리는 문제와 가드 해법"
 date        : 2026-05-06 10:00:00 +0900
 updated     : 2026-05-06 10:00:00 +0900
-categories  : [lazyvim, 기타]
+categories  : [lazyvim, "플러그인"]
 tags        : [lazyvim, nvim-lint, ktlint, powershell, psreadline, windows]
 pin         : false
 hidden      : false

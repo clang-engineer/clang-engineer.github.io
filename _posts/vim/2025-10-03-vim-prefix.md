@@ -3,7 +3,7 @@ title       : Vim Prefix Keys 정리
 description : >-
 date        : 2025-10-03 11:36:45 +0900
 updated     : 2025-11-03 09:42:16 +0900
-categories  : [vim]
+categories  : [vim, "사용·키맵"]
 tags        : [vim, neovim, prefix, 접두사, mapping]
 pin         : false
 hidden      : false

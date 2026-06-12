@@ -3,7 +3,7 @@ title       : "vim-dadbod + PostgreSQL .pgpass 인증 (Windows)"
 description : "Windows의 pgpass.conf 경로, user 자동 fallback, JDBC URL 미지원 등 vim-dadbod로 PostgreSQL 붙일 때의 함정 다섯 가지"
 date        : 2026-05-06 12:00:00 +0900
 updated     : 2026-05-06 12:00:00 +0900
-categories  : [lazyvim, Dadbod]
+categories  : [lazyvim, "Dadbod"]
 tags        : [vim-dadbod, postgresql, pgpass, libpq, windows, lazyvim]
 pin         : false
 hidden      : false

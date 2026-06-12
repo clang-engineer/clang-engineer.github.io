@@ -3,7 +3,7 @@ title       : "Windows에서 Neovim 내 Lazygit 'e' 키 에러 해결"
 description : "nvim → lazygit에서 파일 편집 시 '[ is not recognized' 에러 해결 방법"
 date        : 2026-03-13 10:30:00 +0900
 updated     : 2026-03-13 10:30:00 +0900
-categories  : [lazyvim, Lazygit]
+categories  : [lazyvim, "Lazygit"]
 tags        : [neovim, lazygit, windows, snacks.nvim, troubleshooting]
 pin         : false
 hidden      : false

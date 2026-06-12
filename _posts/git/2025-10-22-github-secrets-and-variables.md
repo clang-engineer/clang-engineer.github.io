@@ -3,7 +3,7 @@ title       : "GitHub Actions Secrets & Variables 설정 가이드"
 description : "GitHub Actions의 Secrets와 Variables 차이, 적용 범위(Repository/Environment/Organization), 그리고 환경별 분리 예시"
 date        : 2025-10-22 12:54:06 +0900
 updated     : 2025-10-22 12:57:47 +0900
-categories  : [git]
+categories  : [git, "GitHub·플랫폼"]
 tags        : [GitHub, Actions, CI/CD, Secrets, Variables, DevOps]
 pin         : false
 hidden      : false

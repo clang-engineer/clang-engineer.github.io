@@ -3,7 +3,7 @@ title       : Neovim 배포판/프레임워크 비교 소개
 description : 
 date        : 2025-10-04 12:41:16 +0900
 updated     : 2025-10-04 12:41:33 +0900
-categories  : [lazyvim, 기타]
+categories  : [lazyvim, "개요·인덱스"]
 tags        : [dev, vim, neovim, lazyvim, astronvim, nvchad, lunarvim]
 pin         : false
 hidden      : false

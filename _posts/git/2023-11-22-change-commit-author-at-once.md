@@ -3,7 +3,7 @@ title       : Git - 잘못 입력된 커밋의 author 정보 수정하기
 description : >-
 date        : 2021-12-08 09:00:45 +0900
 updated     : 2025-10-03 12:15:14 +0900
-categories  : [git]
+categories  : [git, "커밋·히스토리"]
 tags        : [git, commit, author, change]
 pin         : false
 hidden      : false

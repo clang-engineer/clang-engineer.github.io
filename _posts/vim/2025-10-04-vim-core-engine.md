@@ -3,7 +3,7 @@ title       : Vim & Neovim 작동 원리 정리
 description : 
 date        : 2025-10-04 12:16:25 +0900
 updated     : 2025-10-04 12:30:13 +0900
-categories  : ["vim"]
+categories  : [vim, "원리·언어"]
 tags        : ["vim","init.vim","neovim"]
 pin         : false
 hidden      : false

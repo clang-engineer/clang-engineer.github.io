@@ -3,7 +3,7 @@ title       : "Learn Vimscript the Hard Way 주요 내용"
 description : "Vimscript 학습서 'Learn Vimscript the Hard Way'에서 정리한 주요 명령어와 개념"
 date        : 2024-11-01 14:20:44 +0900
 updated     : 2024-11-01 14:21:05 +0900
-categories  : [vim]
+categories  : [vim, "원리·언어"]
 tags        : [vim, vimscript, learning]
 pin         : false
 hidden      : false

@@ -3,7 +3,7 @@ title       : Github 파일 다운로드 가이드
 description : >-
 date        : 2021-12-08 09:00:45 +0900
 updated     : 2025-10-03 12:25:09 +0900
-categories  : [git]
+categories  : [git, "GitHub·플랫폼"]
 tags        : [git, github, api, download]
 pin         : false
 hidden      : false
