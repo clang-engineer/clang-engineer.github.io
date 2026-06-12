@@ -1,0 +1,35 @@
+# Top-category display order for /categories page.
+# Layout: _layouts/categories.html reads `site.data.categories.order`.
+# Grouped by theme: editor → language → framework → DB → infra → network → collab.
+# Categories not listed here will be hidden from the categories page.
+
+order:
+  # 개발 환경·에디터
+  - lazyvim
+  - vim
+  - tmux
+  # 언어
+  - javascript
+  - java
+  - cpp
+  - css
+  # 프레임워크·패턴
+  - spring-boot
+  - design-pattern
+  - gradle
+  # DB·데이터
+  - db
+  - tableau
+  # 인프라·OS
+  - shell
+  - linux
+  - windows
+  - nginx
+  - docker
+  # 네트워크·보안
+  - network
+  - security
+  # 협업·도구
+  - git
+  - etc
+  - ai

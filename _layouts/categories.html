@@ -10,11 +10,8 @@ layout: page
 
 {% assign group_index = 0 %}
 
-{% assign sort_categories = site.categories | sort %}
-
-{% for category in sort_categories %}
-  {% assign category_name = category | first %}
-  {% assign posts_of_category = category | last %}
+{% for category_name in site.data.categories.order %}
+  {% assign posts_of_category = site.categories[category_name] %}
   {% assign first_post = posts_of_category | first %}
 
   {% if category_name == first_post.categories[0] %}
