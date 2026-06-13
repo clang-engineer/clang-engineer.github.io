@@ -1,44 +1,86 @@
 ---
 title       : 바이너리 파일을 텍스트로 변환하여 복사 붙여넣기
 description : >-
-    작업 환경에서 컴파일된 파일을 직접 옮기는 것이 어려울 경우 텍스트로 변환하여 복사하는 방법에 대해 알아봅니다.
-    (바이너리 파일을 텍스트로 변환하여 복사 붙여넣기)
+    클립보드만 허용된 환경에서 컴파일된 파일을 hex/base64로 변환해 복사 후 복원
 date        : 2025-02-21 22:50:30 +0900
-updated     : 2025-02-21 22:50:42 +0900
+updated     : 2026-06-13 10:00:00 +0900
 categories  : [shell, "검색·파일 처리"]
 tags        : [binary, text, base64, xxd, file-transfer]
 pin         : false
 hidden      : false
 ---
 
-
-- 작업 환경에서 파일을 직접 적으로 옮기는 것이 불가능하고, 클립보드를 통해 텍스트로만 복사 붙여넣기가 가능한 경우가 있었고,
- 이때 컴파일된 파일을 텍스트로 복사 붙여넣기하니 파일이 깨지는 문제가 발생했습니다.
-- 이때, 파일을 특정 방식(16진수, Base64)으로 변환하여 텍스트로 복사 붙여넣기하고, 목적지 시스템에서 다시 바이너리로 변환하여 사용할 수 있습니다.
+망 분리 환경처럼 파일 전송은 막혀 있고 클립보드를 통한 텍스트 복사만 허용되는 경우가 있다. 바이너리를 그대로 복사 붙여넣기 하면 인코딩에서 깨지니, hex 또는 base64로 텍스트화한 뒤 목적지에서 다시 복원한다.
 
 ## 16진수(hex) 사용
-1. 파일을 16진수로 변환
+
+### 인코딩
+
 ```sh
-xxd -p MyClass.class > MyClass.class.hex # Linux/Mac
-certutil -encodehex MyClass.class MyClass.class.hex 0 # Windows
-```
-2. hex 내용 복사 & 붙여넣기
-3. 목적지 시스템에서 바이너리로 복원
-```sh
-xxd -r -p MyClass.class.hex > MyClass.class # Linux/Mac
-certutil -decodehex MyClass.class.hex MyClass.class 0 # Windows
+# Linux/Mac
+xxd -p MyClass.class > MyClass.class.hex
+
+# Windows (PowerShell/cmd)
+certutil -encodehex MyClass.class MyClass.class.hex 0
 ```
 
-## Base64 인코딩 사용
-1. 파일을 Base64로 인코딩
+### 디코딩
+
 ```sh
-base64 -w 0 MyClass.class > MyClass.class.base64 # Linux/Mac
-certutil -encodebase64 MyClass.class MyClass.class.base64 # Windows
+# Linux/Mac
+xxd -r -p MyClass.class.hex > MyClass.class
+
+# Windows
+certutil -decodehex MyClass.class.hex MyClass.class 0
 ```
 
-2. base64 내용 복사 & 붙여넣기
-3. 목적지 시스템에서 디코딩
+## Base64 사용
+
+base64는 hex보다 약 30% 더 작아 큰 파일에 유리하다.
+
+### 인코딩
+
 ```sh
-base64 -d MyClass.class.base64 > MyClass.class # Linux/Mac
-certutil -decodebase64 MyClass.class.base64 MyClass.class # Windows
+# Linux: -w 0으로 줄바꿈 제거 (한 줄 출력)
+base64 -w 0 MyClass.class > MyClass.class.b64
+
+# macOS: -w 옵션 없음. 기본이 줄바꿈 있음, 디코드는 그대로 됨
+base64 -i MyClass.class -o MyClass.class.b64
+
+# Windows
+certutil -encodebase64 MyClass.class MyClass.class.b64
+```
+
+### 디코딩
+
+```sh
+# Linux/Mac
+base64 -d MyClass.class.b64 > MyClass.class
+
+# Windows
+certutil -decodebase64 MyClass.class.b64 MyClass.class
+```
+
+## 큰 파일은 쪼개서
+
+클립보드 길이 제한에 걸리면 분할 전송 후 목적지에서 합친다.
+
+```sh
+# 1MB 단위로 분할
+split -b 1M MyClass.class.b64 part_
+
+# 목적지에서 합치기
+cat part_* > MyClass.class.b64
+```
+
+## 무결성 검증
+
+복원이 잘 됐는지는 해시로 확인. 한 글자만 잘려도 바이너리가 망가진다.
+
+```sh
+# 원본에서
+sha256sum MyClass.class
+
+# 목적지에서 같은 값이 나오는지
+sha256sum MyClass.class
 ```

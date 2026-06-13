@@ -1,29 +1,50 @@
 ---
 title       : 유용한 웹 개발 도구
 description : >-
+    ERD·다이어그램·git 학습·브라우저 분석 — 자주 손이 가는 무료 도구 정리
 date        : 2021-10-05 11:35:56 +0900
-updated     : 2021-10-05 15:40:50 +0900
+updated     : 2026-06-13 10:00:00 +0900
 categories  : [etc, "개발 도구"]
-tags        : [erdcloud]
+tags        : [tools, erd, diagram, git, chrome-extension]
 pin         : false
 hidden      : false
 ---
 
+## ERD 작성
 
-## ERD Cloud 
-[https://www.erdcloud.com/](https://www.erdcloud.com/) <br>
-개발과정에서 erd를 작성+공유+확인해야 할 일이 상시로 있을 때가 있다. <br>
-이 3가지 고민을 한번에 해결해주는 도구. <br>
-public/private 을 옵션을 선택할 수 있고, 이미지 추출등 다양한 기능이 있다. <br>
+### [ERD Cloud](https://www.erdcloud.com/)
 
-## Excalidraw
-[https://excalidraw.com/](https://excalidraw.com/) <br>
-간단한 다이어그램을 그릴 수 있는 도구. <br>
+브라우저 기반 ERD 도구. 회원가입 없이 시작할 수 있고 public/private 모드 선택, PNG/SQL 추출이 된다. 협업 공유에 가장 무난한 옵션.
 
-## git 공부하기 매우 유용한 사이트
-[https://learngitbranching.js.org/](https://learngitbranching.js.org/) <br>
-git의 branch를 시각적으로 보여주고, git 명령어를 연습할 수 있는 사이트. <br> 
+**대안**
 
+- [dbdiagram.io](https://dbdiagram.io/) — DBML 코드로 ERD를 정의. 텍스트 기반이라 git에 두기 좋음
+- [draw.io](https://app.diagrams.net/) — 자유도가 높지만 ERD 전용은 아님
+- [DBeaver](https://dbeaver.io/) — 실제 DB 연결 후 자동 ERD 생성
 
-## Chrome Plugin
-- Wappalyzer: 웹사이트가 어떤 언어로 개발되었는지 분석해주는 플러그인
+## 다이어그램
+
+### [Excalidraw](https://excalidraw.com/)
+
+손그림 느낌의 다이어그램 도구. 시스템 구조·플로우·간단한 와이어프레임에 좋고, 협업 모드도 가벼움. `.excalidraw` 파일을 git에 두면 변경 이력 관리도 됨.
+
+**대안**
+
+- [draw.io](https://app.diagrams.net/) — 격식 있는 다이어그램·플로우차트
+- [Mermaid](https://mermaid.js.org/) — 텍스트로 정의, GitHub 마크다운에 인라인 렌더링됨
+
+## Git 학습
+
+### [Learn Git Branching](https://learngitbranching.js.org/)
+
+브랜치/머지/rebase/cherry-pick을 시각적으로 보여주는 인터랙티브 튜토리얼. `git rebase`나 `git cherry-pick`을 처음 익힐 때 글로 읽는 것보다 훨씬 빠르다.
+
+## 브라우저 확장
+
+### Wappalyzer
+
+방문 중인 사이트가 어떤 프레임워크·CDN·CMS·언어로 만들어졌는지 표시해주는 확장. 경쟁사 스택 파악, 영감 얻기, 기술 트렌드 관찰에 유용.
+
+- [Chrome Web Store](https://chromewebstore.google.com/detail/wappalyzer-technology-pro/gppongmhjkpfnbhagpmjfkannfbllamg)
+
+**대안**: [BuiltWith](https://builtwith.com/) — 웹 기반 분석 도구
