@@ -6,6 +6,7 @@
 order:
   # 개발 환경·에디터
   - lazyvim
+  - neovim
   - vim
   - tmux
   # 언어
