@@ -3,7 +3,7 @@ title       : "한 Neovim 플러그인에 Lua와 Vimscript 섞기 — 분담 기
 description : "Neovim은 두 인터프리터를 다 내장해서 한 플러그인 안에 두 언어를 섞을 수 있다. 호출 경계를 최소화하는 분담 원칙, 흔한 안티패턴, dadbod-vertica식 모범 패턴."
 date        : 2026-06-12 19:30:00 +0900
 updated     : 2026-06-12 19:30:00 +0900
-categories  : [vim, "플러그인·생태계"]
+categories  : [neovim, "플러그인·생태계"]
 tags        : [neovim, lua, vimscript, plugin, interop, dadbod]
 pin         : false
 hidden      : false

@@ -3,7 +3,7 @@ title       : "Lua vs Vimscript 성능 — 정량 차이와 체감되는 영역"
 description : "LuaJIT은 JIT 컴파일러, Vimscript는 트리 워킹 인터프리터. 산술·문자열은 10~100배 차이지만 대부분의 플러그인 작업에선 체감 안 됨. 진짜 차이 나는 영역과 측정 방법."
 date        : 2026-06-12 20:00:00 +0900
 updated     : 2026-06-12 20:00:00 +0900
-categories  : [vim, "원리·언어"]
+categories  : [neovim, "원리·언어"]
 tags        : [neovim, lua, luajit, vimscript, performance, benchmark]
 pin         : false
 hidden      : false

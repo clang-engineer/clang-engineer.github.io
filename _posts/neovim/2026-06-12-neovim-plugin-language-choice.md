@@ -3,7 +3,7 @@ title       : "Neovim 플러그인을 Lua로 짤까 Vimscript로 짤까 — 언�
 description : "신규 플러그인은 Lua가 표준이지만, 부모 생태계가 Vimscript인 경우엔 Vimscript가 더 자연스럽다. dadbod 어댑터 사례로 본 선택 기준."
 date        : 2026-06-12 19:00:00 +0900
 updated     : 2026-06-12 19:00:00 +0900
-categories  : [vim, "원리·언어"]
+categories  : [neovim, "원리·언어"]
 tags        : [neovim, lua, vimscript, plugin, language-choice]
 pin         : false
 hidden      : false

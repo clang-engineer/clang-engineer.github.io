@@ -3,7 +3,7 @@ title       : "vim-dadbod 어댑터 플러그인 만들기 — 디렉토리 골�
 description : "임의 DBMS CLI를 vim-dadbod / vim-dadbod-ui에 연결하는 절차. 어댑터 함수 5종, table helpers, schema-tree monkey-patch, LazyVim 지연 주입."
 date        : 2026-06-12 16:00:00 +0900
 updated     : 2026-06-12 16:00:00 +0900
-categories  : [vim, "플러그인·생태계"]
+categories  : [neovim, "플러그인·생태계"]
 tags        : [vim-dadbod, vim-dadbod-ui, neovim, plugin, adapter, vimscript, lua, lazyvim]
 pin         : false
 hidden      : false
@@ -358,7 +358,7 @@ return M
 " → 액션 키: List/Columns/PK/FK/Indexes/References 모두 작동
 ```
 
-여기까지 통과하면 출시 준비 완료. 다음 단계는 [Neovim 플러그인 노출 채널 4곳]({% post_url /vim/2026-06-12-neovim-plugin-distribution %}) — awesome-neovim·GitHub Topics·Dotfyle 등 등록.
+여기까지 통과하면 출시 준비 완료. 다음 단계는 [Neovim 플러그인 노출 채널 4곳]({% post_url 2026-06-12-neovim-plugin-distribution %}) — awesome-neovim·GitHub Topics·Dotfyle 등 등록.
 
 ## 체크리스트
 

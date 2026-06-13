@@ -3,7 +3,7 @@ title       : "Neovim 플러그인 작성 규칙 — runtimepath 디렉토리 �
 description : "Vim 시절부터 이어진 runtimepath 자동 로드 규칙, Lua 추가분, plugin/ vs lua/ 역할 분리, 헬프·헬스체크·after/ 관례까지."
 date        : 2026-06-12 18:00:00 +0900
 updated     : 2026-06-12 18:00:00 +0900
-categories  : [vim, "플러그인·생태계"]
+categories  : [neovim, "플러그인·생태계"]
 tags        : [neovim, plugin, lua, runtimepath, lazy-nvim, lazyvim]
 pin         : false
 hidden      : false

@@ -3,7 +3,7 @@ title       : "직접 만든 Neovim 플러그인 노출시키기 — 4가지 채
 description : "GitHub에 푸시했지만 검색에 안 잡히는 플러그인을, awesome-neovim·Dotfyle·VimAwesome·GitHub Topics에 어떻게 등록할지 정리"
 date        : 2026-06-12 14:00:00 +0900
 updated     : 2026-06-12 14:00:00 +0900
-categories  : [vim, "플러그인·생태계"]
+categories  : [neovim, "플러그인·생태계"]
 tags        : [neovim, plugin, awesome-neovim, vimawesome, dotfyle, github]
 pin         : false
 hidden      : false

@@ -4,7 +4,7 @@ description : >-
     coc-clangd로 LSP를 붙이고 .clang-format/compile_commands.json으로 인덱싱·포매팅까지 잡기
 date        : 2024-04-04 08:50:59 +0900
 updated     : 2026-06-13 10:00:00 +0900
-categories  : [vim, "플러그인·생태계"]
+categories  : [neovim, "플러그인·생태계"]
 tags        : [neovim, cpp, coc.nvim, clangd, clang-format]
 pin         : false
 hidden      : false
