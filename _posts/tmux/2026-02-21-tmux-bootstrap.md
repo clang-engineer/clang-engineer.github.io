@@ -4,7 +4,7 @@ description : main/sub 세션을 만들고 main에서 좌/우 + 오른쪽 상/�
 date        : 2026-02-21 10:05:00 +0900
 updated     : 2026-02-21 10:05:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
-tags        : [tmux, terminal, script]
+tags        : [terminal, script]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description :
 date        : 2026-06-09 12:00:00 +0900
 updated     : 2026-06-09 12:00:00 +0900
 categories  : [lazyvim, "플러그인"]
-tags        : ["lazyvim", "neovim", "gitsigns", "lazygit", "snacks", "git"]
+tags        : [neovim, gitsigns, lazygit, snacks, git]
 pin         : false
 hidden      : false
 ---

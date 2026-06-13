@@ -4,7 +4,7 @@ description : "Windows의 pgpass.conf 경로, user 자동 fallback, JDBC URL 미
 date        : 2026-05-06 12:00:00 +0900
 updated     : 2026-05-06 12:00:00 +0900
 categories  : [lazyvim, "Dadbod"]
-tags        : [vim-dadbod, postgresql, pgpass, libpq, windows, lazyvim]
+tags        : [vim-dadbod, postgresql, windows]
 pin         : false
 hidden      : false
 ---

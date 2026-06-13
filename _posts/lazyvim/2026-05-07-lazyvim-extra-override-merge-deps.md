@@ -4,7 +4,7 @@ description : "LazyVim extra의 spec을 같은 이름으로 다시 작성해 dep
 date        : 2026-05-07 11:00:00 +0900
 updated     : 2026-06-12 21:00:00 +0900
 categories  : [lazyvim, "구조·설정"]
-tags        : [neovim, lazyvim, lazy.nvim, refactoring.nvim]
+tags        : [neovim, lazy-nvim]
 pin         : false
 hidden      : false
 ---

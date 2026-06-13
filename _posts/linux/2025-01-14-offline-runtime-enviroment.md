@@ -5,7 +5,7 @@ description : >-
 date        : 2025-01-14 13:38:35 +0900
 updated     : 2025-01-14 13:38:54 +0900
 categories  : [linux, "배포판·환경"]
-tags        : [offline, runtime, environment, dnf, rpm]
+tags        : [environment]
 pin         : false
 hidden      : false
 ---

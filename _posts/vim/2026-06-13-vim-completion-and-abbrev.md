@@ -4,7 +4,7 @@ description : "플러그인 없이 쓰는 Ctrl-X 자동완성과 iabbr 동적 �
 date        : 2026-06-13 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [vim, "사용·키맵"]
-tags        : [vim, completion, abbreviate]
+tags        : []
 pin         : false
 hidden      : false
 ---

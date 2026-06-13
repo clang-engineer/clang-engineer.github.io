@@ -4,7 +4,7 @@ description : "여러 repo를 subtree로 흡수해 한 archive repo로 정리. �
 date        : 2026-06-08 12:00:00 +0900
 updated     : 2026-06-08 12:00:00 +0900
 categories  : [git, "GitHub·잔디"]
-tags        : [github, contribution-graph, git-subtree, cleanup]
+tags        : [github, contribution-graph]
 pin         : false
 hidden      : false
 ---

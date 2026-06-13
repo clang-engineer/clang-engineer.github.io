@@ -4,7 +4,7 @@ description : "LFS smudge 실패와 GitHub pre-receive 거부의 우회 — GIT_
 date        : 2026-06-08 10:00:00 +0900
 updated     : 2026-06-08 10:00:00 +0900
 categories  : [git, "히스토리 재작성"]
-tags        : [git-lfs, subtree, git-filter-repo, github]
+tags        : [github]
 pin         : false
 hidden      : false
 ---

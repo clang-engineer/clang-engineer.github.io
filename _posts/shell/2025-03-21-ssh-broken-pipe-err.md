@@ -5,7 +5,7 @@ description : >-
 date        : 2024-03-21 16:55:20 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [shell, "SSH·원격"]
-tags        : [ssh, broken-pipe, keepalive, network]
+tags        : [ssh]
 pin         : false
 hidden      : false
 ---

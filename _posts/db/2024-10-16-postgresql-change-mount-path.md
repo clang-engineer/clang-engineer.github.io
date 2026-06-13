@@ -5,7 +5,7 @@ description : >-
 date        : 2024-10-16 14:12:42 +0900
 updated     : 2024-10-16 14:50:22 +0900
 categories  : [db, "PostgreSQL·운영"]
-tags        : [postgresql, db]
+tags        : [postgresql]
 pin         : false
 hidden      : false
 ---

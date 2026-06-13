@@ -3,7 +3,7 @@ title       : "Vim vs Neovim vs LazyVim — 각 계층이 제공하는 기능 �
 description : "Vim 내장, Neovim 추가, LazyVim 계층별로 어떤 기능을 제공하는지 구분 정리"
 date        : 2026-06-08 10:00:00 +0900
 categories  : [lazyvim, "개요·인덱스"]
-tags        : [vim, neovim, lazyvim, lsp, treesitter]
+tags        : [vim, neovim, lsp, treesitter]
 pin         : false
 hidden      : false
 ---

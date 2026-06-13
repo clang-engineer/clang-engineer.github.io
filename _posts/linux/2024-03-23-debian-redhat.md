@@ -5,7 +5,7 @@ description : >-
 date        : 2024-06-09 22:50:30 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [linux, "배포판·환경"]
-tags        : [linux, debian, redhat, ubuntu, rocky]
+tags        : [ubuntu]
 pin         : false
 hidden      : false
 ---

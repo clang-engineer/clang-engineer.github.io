@@ -5,7 +5,7 @@ description : >-
 date        : 2025-01-14 14:32:50 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [spring-boot, "설정·아키텍처"]
-tags        : [spring, property, configuration, profile]
+tags        : [spring, configuration]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : Java 21 + jenv export 플러그인 설정으로 해결
 date        : 2025-12-17 16:37:51 +0900
 updated     : 2026-02-01 10:36:00 +0900
 categories  : [lazyvim, "LSP·Treesitter"]
-tags        : [lazyvim, java, lsp, jdtls, jenv]
+tags        : [java, lsp, jdtls, jenv]
 pin         : false
 hidden      : false
 ---

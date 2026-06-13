@@ -4,7 +4,7 @@ description : "Secure Input 활성 상태에서는 시스템 핫키를 잡지 �
 date        : 2026-06-07 12:00:00 +0900
 updated     : 2026-06-07 12:00:00 +0900
 categories  : [etc, "macOS"]
-tags        : [macos, aerospace, hotkey, secure-input, troubleshoot]
+tags        : [macos, troubleshooting]
 pin         : false
 hidden      : false
 ---

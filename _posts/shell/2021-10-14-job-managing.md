@@ -5,7 +5,7 @@ description : >-
 date        : 2024-06-09 22:50:30 +0900
 updated     : 2025-10-03 14:20:18 +0900
 categories  : [shell, "셸·스크립팅"]
-tags        : [linux, job]
+tags        : [linux]
 pin         : false
 hidden      : false
 ---

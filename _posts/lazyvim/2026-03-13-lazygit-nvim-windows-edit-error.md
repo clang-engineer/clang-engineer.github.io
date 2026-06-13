@@ -4,7 +4,7 @@ description : "nvim → lazygit에서 파일 편집 시 '[ is not recognized' �
 date        : 2026-03-13 10:30:00 +0900
 updated     : 2026-06-12 19:30:00 +0900
 categories  : [lazyvim, "Lazygit"]
-tags        : [neovim, lazygit, windows, snacks.nvim, troubleshooting, oss-contrib]
+tags        : [neovim, lazygit, windows, snacks, troubleshooting, oss-contrib]
 pin         : false
 hidden      : false
 ---

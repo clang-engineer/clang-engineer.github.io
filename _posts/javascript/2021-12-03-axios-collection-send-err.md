@@ -4,7 +4,7 @@ description : >-
 date        : 2021-12-02 09:00:45 +0900
 updated     : 2021-12-10 09:01:11 +0900
 categories  : [javascript, "언어·패키지"]
-tags        : [axios]
+tags        : []
 pin         : false
 hidden      : false
 ---

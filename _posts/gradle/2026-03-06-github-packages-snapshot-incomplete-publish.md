@@ -4,7 +4,7 @@ description : GitHub Packages에 SNAPSHOT이 불완전하게 배포되어 Gradle
 date        : 2026-03-06 10:00:00 +0900
 updated     : 2026-03-06 10:00:00 +0900
 categories  : [gradle, "GitHub Packages"]
-tags        : [github-packages, snapshot, troubleshooting, gradle, maven-metadata]
+tags        : [github-packages, troubleshooting]
 pin         : false
 hidden      : false
 ---

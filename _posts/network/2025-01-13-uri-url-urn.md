@@ -5,7 +5,7 @@ description : >-
 date        : 2025-01-13 16:55:20 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [network, "웹·HTTP"]
-tags        : [uri, url, urn, web-standards]
+tags        : []
 pin         : false
 hidden      : false
 ---

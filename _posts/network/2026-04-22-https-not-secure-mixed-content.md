@@ -4,7 +4,7 @@ description : "인증서가 멀쩡한데도 크롬이 주의 요함을 띄울 �
 date        : 2026-04-22 10:00:00 +0900
 updated     : 2026-04-22 10:00:00 +0900
 categories  : [network, "웹·HTTP"]
-tags        : [https, tls, mixed-content, reverse-proxy, network]
+tags        : [https, tls]
 pin         : false
 hidden      : false
 ---

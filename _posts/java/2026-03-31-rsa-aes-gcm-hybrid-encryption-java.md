@@ -4,7 +4,7 @@ description : "RSA 공개키로 AES 세션키를 암호화하고 AES-GCM으로 p
 date        : 2026-03-31 11:00:00 +0900
 updated     : 2026-03-31 11:00:00 +0900
 categories  : [java, "프레임워크·실무"]
-tags        : [rsa, aes-gcm, encryption, spring-boot, bouncycastle, java]
+tags        : [spring-boot]
 pin         : false
 hidden      : false
 ---

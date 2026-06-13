@@ -4,7 +4,7 @@ description : "lazy.nvim의 spec/import 모델, LazyVim이 어떻게 자체 spec
 date        : 2026-06-07 12:00:00 +0900
 updated     : 2026-06-07 12:00:00 +0900
 categories  : [lazyvim, "구조·설정"]
-tags        : [lazyvim, neovim, lazy-nvim, spec, extras, plugin-management]
+tags        : [neovim, lazy-nvim]
 pin         : false
 hidden      : false
 ---

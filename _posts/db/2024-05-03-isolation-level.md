@@ -5,7 +5,7 @@ description : >-
 date        : 2024-05-03 15:36:25 +0900
 updated     : 2025-05-21 22:50:42 +0900
 categories  : [db, "RDB·트랜잭션"]
-tags        : [database, transaction, concurrency-control, serializability, recoverability, isolation-level, lock, 2pl]
+tags        : [database, lock]
 pin         : false
 hidden      : false
 ---

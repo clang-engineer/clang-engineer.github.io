@@ -4,7 +4,7 @@ description : "Vimscript 학습서 'Learn Vimscript the Hard Way'에서 정리�
 date        : 2024-11-01 14:20:44 +0900
 updated     : 2024-11-01 14:21:05 +0900
 categories  : [vim, "원리·언어"]
-tags        : [vim, vimscript, learning]
+tags        : [vimscript]
 pin         : false
 hidden      : false
 ---

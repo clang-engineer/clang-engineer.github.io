@@ -4,7 +4,7 @@ description :
 date        : 2025-09-24 09:42:44 +0900
 updated     : 2025-10-04 17:36:49 +0900
 categories  : [vim, "사용·키맵"]
-tags        : [vim, neovim, register, 레지스터]
+tags        : [neovim]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "GitHub에 푸시했지만 검색에 안 잡히는 플러그인을
 date        : 2026-06-12 14:00:00 +0900
 updated     : 2026-06-12 14:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
-tags        : [neovim, plugin, awesome-neovim, vimawesome, dotfyle, github]
+tags        : [plugin, awesome-neovim, github]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : 'auto, ranged-for 등 표준 기능이 "extension"으로 경고/�
 date        : 2022-07-17 23:01:53 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [cpp]
-tags        : [c++, compile, gcc, clang, cmake]
+tags        : [compile]
 pin         : false
 hidden      : false
 ---

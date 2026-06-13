@@ -4,7 +4,7 @@ description : >-
 date        : 2025-03-06 09:00:45 +0900
 updated     : 2025-10-02 20:32:25 +0900
 categories  : [spring-boot, "JHipster"]
-tags        : [jhispter]
+tags        : [jhipster]
 pin         : false
 hidden      : false
 ---

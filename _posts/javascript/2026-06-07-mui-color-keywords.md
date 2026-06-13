@@ -4,7 +4,7 @@ description : "Material-UI의 테마 색상 키워드는 단순 색깔이 아니
 date        : 2026-06-07 12:00:00 +0900
 updated     : 2026-06-07 12:00:00 +0900
 categories  : [javascript, "React·UI"]
-tags        : [mui, material-ui, react, color, palette, frontend]
+tags        : [react]
 pin         : false
 hidden      : false
 ---

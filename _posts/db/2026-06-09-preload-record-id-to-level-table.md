@@ -4,7 +4,7 @@ description : "수천만 건 팩트 테이블 JOIN을 INSERT 시점에 미리 �
 date        : 2026-06-09 11:00:00 +0900
 updated     : 2026-06-09 11:00:00 +0900
 categories  : [db, "최적화·설계"]
-tags        : [sql, performance, join, unstructured-data, cdw]
+tags        : [performance, join]
 pin         : false
 hidden      : false
 ---

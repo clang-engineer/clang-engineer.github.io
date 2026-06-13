@@ -4,7 +4,7 @@ description : >-
 date        : 2021-11-05 10:36:15 +0900
 updated     : 2025-10-03 14:18:54 +0900
 categories  : [shell, "셸·스크립팅"]
-tags        : [shell, script]
+tags        : [script]
 pin         : false
 hidden      : false
 ---

@@ -5,7 +5,7 @@ description : >-
 date        : 2025-02-21 22:50:30 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [shell, "검색·파일 처리"]
-tags        : [binary, text, base64, xxd, file-transfer]
+tags        : []
 pin         : false
 hidden      : false
 ---

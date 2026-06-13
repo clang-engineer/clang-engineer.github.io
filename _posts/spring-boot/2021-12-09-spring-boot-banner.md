@@ -5,7 +5,7 @@ description : >-
 date        : 2021-12-08 09:00:45 +0900
 updated     : 2021-12-09 09:01:11 +0900
 categories  : [spring-boot, "설정·아키텍처"]
-tags        : [spring boot, banner]
+tags        : []
 pin         : false
 hidden      : false
 ---

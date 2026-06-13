@@ -4,7 +4,7 @@ description : "Mason fwcd 빌드의 NoTopLevelDescriptorProvider 크래시 — c
 date        : 2026-06-08 13:00:00 +0900
 updated     : 2026-06-08 13:00:00 +0900
 categories  : [lazyvim, "트러블슈팅"]
-tags        : [neovim, lsp, kotlin, kotlin-language-server, mason]
+tags        : [neovim, lsp, kotlin, mason]
 pin         : false
 hidden      : false
 ---

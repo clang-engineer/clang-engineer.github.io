@@ -4,7 +4,7 @@ description : "셸에선 OK인데 tmux에서만 깨지는 비대칭의 원인. u
 date        : 2026-06-10 11:00:00 +0900
 updated     : 2026-06-10 11:00:00 +0900
 categories  : [tmux, "동작 원리"]
-tags        : [tmux, daemon, environment, lang, update-environment, global-environment]
+tags        : [daemon, environment]
 pin         : false
 hidden      : false
 ---

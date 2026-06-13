@@ -4,7 +4,7 @@ description : "백엔드 WebClient로는 302 리다이렉트 화면을 사용자
 date        : 2026-06-13 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [javascript, "언어·패키지"]
-tags        : [javascript, form, post, target-blank, sso]
+tags        : []
 pin         : false
 hidden      : false
 ---

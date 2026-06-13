@@ -4,7 +4,7 @@ description : "Spring Boot에서 Webpack을 사용한 SPA 프로젝트 구성 �
 date        : 2025-02-12 11:00:00 +0900
 updated     : 2025-02-12 11:00:00 +0900
 categories  : [javascript, "Node·번들러"]
-tags        : [spring-boot, webpack, react, typescript, spa]
+tags        : [spring-boot, webpack, react, spa]
 pin         : false
 hidden      : false
 ---

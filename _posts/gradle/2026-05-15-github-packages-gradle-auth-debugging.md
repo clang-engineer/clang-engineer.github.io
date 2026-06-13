@@ -4,7 +4,7 @@ description : "Gradle/GitHub Packages 인증 실패를 토큰/스코프/패키�
 date        : 2026-05-15 10:00:00 +0900
 updated     : 2026-05-15 10:00:00 +0900
 categories  : [gradle, "GitHub Packages"]
-tags        : [gradle, github-packages, maven, powershell, authentication, java]
+tags        : [github-packages, powershell, authentication, java]
 pin         : false
 hidden      : false
 ---

@@ -3,7 +3,7 @@ title       : LazyVim 주요 플러그인 정리 — UI / 편집 / Git / 진단 
 description :
 date        : 2026-06-07 12:00:00 +0900
 categories  : [lazyvim, "플러그인"]
-tags        : [neovim, lazyvim, plugin]
+tags        : [neovim, plugin]
 pin         : false
 hidden      : false
 ---

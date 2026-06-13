@@ -4,7 +4,7 @@ description :
 date        : 2025-10-03 14:22:54 +0900
 updated     : 2025-10-03 14:33:08 +0900
 categories  : [shell, "검색·파일 처리"]
-tags        : [ag, ack, grep, 검색, 파일검색]
+tags        : []
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description :
 date        : 2025-10-27 09:57:38 +0900
 updated     : 2025-10-27 09:58:38 +0900
 categories  : [javascript, "React·UI"]
-tags        : [react, hook, javascript]
+tags        : [react]
 pin         : false
 hidden      : false
 ---

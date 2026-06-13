@@ -4,7 +4,7 @@ description : "Neovim은 두 인터프리터를 다 내장해서 한 플러그�
 date        : 2026-06-12 19:30:00 +0900
 updated     : 2026-06-12 19:30:00 +0900
 categories  : [neovim, "플러그인·생태계"]
-tags        : [neovim, lua, vimscript, plugin, interop, dadbod]
+tags        : [lua, vimscript, plugin]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "ｅｘｉｔ가 not recognized로 안 먹히면 폰트가 아니�
 date        : 2026-05-27 10:00:00 +0900
 updated     : 2026-05-27 10:00:00 +0900
 categories  : [windows, "터미널·입력"]
-tags        : [windows-terminal, ime, hangul, fullwidth, encoding]
+tags        : [hangul, encoding]
 pin         : false
 hidden      : false
 ---

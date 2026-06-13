@@ -5,7 +5,7 @@ description : >-
 date        : 2025-01-25 16:55:20 +0900
 updated     : 2025-01-25 16:58:25 +0900
 categories  : [linux, "배포판·환경"]
-tags        : [ubuntu, wsl, windows, linux-on-windows]
+tags        : [ubuntu, windows]
 pin         : false
 hidden      : false
 ---

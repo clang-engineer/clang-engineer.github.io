@@ -4,7 +4,7 @@ description : "nvim 0.11에서 nvim-treesitter main 브랜치가 lockfile 갱신
 date        : 2026-05-08 11:00:00 +0900
 updated     : 2026-05-08 11:00:00 +0900
 categories  : [lazyvim, "LSP·Treesitter"]
-tags        : [neovim, treesitter, lazy-nvim, lazyvim, lockfile]
+tags        : [neovim, treesitter, lazy-nvim]
 pin         : false
 hidden      : false
 ---

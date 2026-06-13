@@ -4,7 +4,7 @@ description : "Primary/Secondary 두 DataSource를 분리하고 MapperScan으로
 date        : 2026-06-13 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [spring-boot, "설정·아키텍처"]
-tags        : [spring-boot, mybatis, datasource, hikari]
+tags        : [mybatis, datasource]
 pin         : false
 hidden      : false
 ---

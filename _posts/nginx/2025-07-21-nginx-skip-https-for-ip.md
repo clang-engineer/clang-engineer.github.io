@@ -4,7 +4,7 @@ description : "특정 클라이언트 IP에서 오는 요청은 HTTP 그대로 �
 date        : 2025-07-21 22:50:42 +0900
 updated     : 2025-07-21 22:50:42 +0900
 categories  : [nginx, "요청·라우팅"]
-tags        : [nginx, http, https, ip]
+tags        : [http, https]
 pin         : false
 hidden      : false
 ---

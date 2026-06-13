@@ -4,7 +4,7 @@ description : Chrome 80 이상으로 업데이트한 후 내장된 뷰를 로드
 date        : 2025-01-01 00:00:00 +0900
 updated     : 2025-02-22 18:09:37 +0900
 categories  : [tableau]
-tags        : [tableau, samesite, cookie]
+tags        : []
 pin         : false
 hidden      : false
 ---

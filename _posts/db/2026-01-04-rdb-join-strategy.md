@@ -4,7 +4,7 @@ description :
 date        : 2026-01-04 19:42:22 +0900
 updated     : 2026-01-04 19:53:00 +0900
 categories  : [db, "RDB·트랜잭션"]
-tags        : [rdb, join, 조인, hash-join, nested-loop-join, sort-merge-join, broadcast-join, semi-join]
+tags        : [join]
 pin         : false
 hidden      : false
 ---

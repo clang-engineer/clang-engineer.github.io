@@ -5,7 +5,7 @@ description : >-
 date        : 2022-07-09 22:50:30 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
-tags        : [linux, shell, bash, zsh]
+tags        : [linux, bash]
 pin         : false
 hidden      : false
 ---

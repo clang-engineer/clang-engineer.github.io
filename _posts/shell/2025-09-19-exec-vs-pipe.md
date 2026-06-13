@@ -4,7 +4,7 @@ description : "리눅스 find의 -exec와 파이프(|)의 차이, 그리고 xarg
 date        : 2025-09-19 10:36:15 +0900
 updated     : 2025-09-19 10:36:15 +0900
 categories  : [shell, "검색·파일 처리"]
-tags        : [find, exec, pipe, xargs, linux]
+tags        : [linux]
 pin         : false
 hidden      : false
 ---

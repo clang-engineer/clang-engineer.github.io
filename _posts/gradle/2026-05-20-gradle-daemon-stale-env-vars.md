@@ -4,7 +4,7 @@ description : "환경변수 설정 전에 떠 있던 Gradle 데몬이 빈 토큰
 date        : 2026-05-20 10:00:00 +0900
 updated     : 2026-05-20 10:00:00 +0900
 categories  : [gradle, "빌드·의존성"]
-tags        : [gradle, daemon, environment-variables, github-packages, intellij, java]
+tags        : [daemon, github-packages, intellij, java]
 pin         : false
 hidden      : false
 ---

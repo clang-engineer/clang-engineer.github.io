@@ -4,7 +4,7 @@ description : "GitHub Actions의 Secrets와 Variables 차이, 적용 범위(Repo
 date        : 2025-10-22 12:54:06 +0900
 updated     : 2025-10-22 12:57:47 +0900
 categories  : [git, "GitHub·플랫폼"]
-tags        : [GitHub, Actions, CI/CD, Secrets, Variables, DevOps]
+tags        : [github]
 pin         : false
 hidden      : false
 ---

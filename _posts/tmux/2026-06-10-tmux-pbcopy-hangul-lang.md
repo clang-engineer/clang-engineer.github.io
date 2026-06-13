@@ -4,7 +4,7 @@ description : "MacRoman fallback이 원인. tmux server 환경에 LANG이 없어
 date        : 2026-06-10 10:00:00 +0900
 updated     : 2026-06-10 10:00:00 +0900
 categories  : [tmux, "트러블슈팅"]
-tags        : [tmux, pbcopy, hangul, encoding, utf-8, macroman, ghostty, osc52]
+tags        : [hangul, encoding, utf-8, ghostty, osc52]
 pin         : false
 hidden      : false
 ---

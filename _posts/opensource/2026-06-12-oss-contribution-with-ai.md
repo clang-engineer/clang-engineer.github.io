@@ -4,7 +4,7 @@ description : "AI에게 패치를 짜달라고 하면 컨트리뷰터가 아니�
 date        : 2026-06-12 12:00:00 +0900
 updated     : 2026-06-12 12:00:00 +0900
 categories  : [opensource, "기여 방법"]
-tags        : [ai, oss, contribution, mindset, claude-code]
+tags        : [oss, claude-code]
 pin         : false
 hidden      : false
 ---

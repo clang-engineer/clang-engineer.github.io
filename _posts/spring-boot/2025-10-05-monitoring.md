@@ -4,7 +4,7 @@ description :
 date        : 2025-10-05 15:16:51 +0900
 updated     : 2025-10-05 16:12:22 +0900
 categories  : [spring-boot, "모니터링·로깅"]
-tags        : ["jhipster", "monitoring", "prometheus", "grafana"]
+tags        : [jhipster, monitoring, prometheus]
 pin         : false
 hidden      : false
 ---

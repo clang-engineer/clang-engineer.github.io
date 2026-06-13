@@ -4,7 +4,7 @@ description : "UndertowServletWebServerFactory에 HTTP 리스너를 추가하고
 date        : 2026-06-13 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [spring-boot, "설정·아키텍처"]
-tags        : [spring-boot, undertow, https, redirect]
+tags        : [https]
 pin         : false
 hidden      : false
 ---

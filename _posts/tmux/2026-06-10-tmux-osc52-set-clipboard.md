@@ -4,7 +4,7 @@ description : "OSC52 발사 3대 조건과 한 함정(detached 윈도우). pbcop
 date        : 2026-06-10 12:00:00 +0900
 updated     : 2026-06-10 12:00:00 +0900
 categories  : [tmux, "클립보드"]
-tags        : [tmux, osc52, clipboard, ghostty, terminal-features]
+tags        : [osc52, ghostty]
 pin         : false
 hidden      : false
 ---

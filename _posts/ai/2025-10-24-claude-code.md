@@ -4,7 +4,7 @@ description :
 date        : 2025-10-24 09:47:55 +0900
 updated     : 2025-11-06 08:12:27 +0900
 categories  : [ai, "Claude Code"]
-tags        : [ai, claude, anthrophic, claude-code]
+tags        : [claude, anthropic, claude-code]
 pin         : false
 hidden      : false
 ---

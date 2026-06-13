@@ -4,7 +4,7 @@ description : "Kotlin 1.7.20 rangeUntil 연산자(..<)를 모르는 옛 파서�
 date        : 2026-05-08 10:00:00 +0900
 updated     : 2026-05-08 10:00:00 +0900
 categories  : [lazyvim, "LSP·Treesitter"]
-tags        : [neovim, treesitter, kotlin, snacks-nvim, lazyvim]
+tags        : [neovim, treesitter, kotlin, snacks]
 pin         : false
 hidden      : false
 ---

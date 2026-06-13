@@ -4,7 +4,7 @@ description : "Spring Boot + Webpack 방식의 SPA 프로젝트에서 Gradle 빌
 date        : 2025-02-12 11:00:12 +0900
 updated     : 2025-02-12 11:00:12 +0900
 categories  : [gradle, "빌드·의존성"]
-tags        : [spring-boot, gradle, webpack, spa, build]
+tags        : [spring-boot, webpack, spa]
 pin         : false
 hidden      : false
 ---

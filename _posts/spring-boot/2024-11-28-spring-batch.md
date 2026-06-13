@@ -5,7 +5,7 @@ description : >-
 date        : 2024-11-28 09:00:45 +0900
 updated     : 2024-11-28 09:01:11 +0900
 categories  : [spring-boot, "배치·스케줄링"]
-tags        : [spring, batch]
+tags        : [spring]
 pin         : false
 hidden      : false
 ---

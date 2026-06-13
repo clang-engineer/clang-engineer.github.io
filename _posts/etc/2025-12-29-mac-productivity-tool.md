@@ -4,7 +4,7 @@ description : 맥을 쓰다 보면 기본 기능만으로는 아쉬운 순간이
 date        : 2025-12-29 14:24:11 +0900
 updated     : 2025-12-29 14:25:30 +0900
 categories  : [etc, "macOS"]
-tags        : [macos, productivity, apps, raycast, rectangle, bettertouchtool]
+tags        : [macos, productivity, raycast]
 pin         : false
 hidden      : false
 ---

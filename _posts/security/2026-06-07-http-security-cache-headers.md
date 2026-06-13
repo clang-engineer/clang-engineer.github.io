@@ -3,7 +3,7 @@ title       : HTTP 보안·캐시 헤더 — Cache-Control, CSP, Permissions-Pol
 description :
 date        : 2026-06-07 12:00:00 +0900
 categories  : [security, "TLS·HTTP"]
-tags        : [http, security, cache, csp]
+tags        : [http, cache]
 pin         : false
 hidden      : false
 ---

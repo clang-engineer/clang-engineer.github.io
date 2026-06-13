@@ -4,7 +4,7 @@ description : "LazyVim에서 각 기능 영역(Git, 검색, LSP, 자동완성, D
 date        : 2026-06-07 13:00:00 +0900
 updated     : 2026-06-07 13:00:00 +0900
 categories  : [lazyvim, "플러그인"]
-tags        : [lazyvim, neovim, snacks, gitsigns, lazygit, blink, mason, lspconfig, picker]
+tags        : [neovim, snacks, gitsigns, lazygit, mason]
 pin         : false
 hidden      : false
 ---

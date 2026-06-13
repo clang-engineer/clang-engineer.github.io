@@ -4,7 +4,7 @@ description : >-
 date        : 2021-12-08 09:00:45 +0900
 updated     : 2025-10-03 12:25:09 +0900
 categories  : [git, "GitHub·플랫폼"]
-tags        : [git, github, api, download]
+tags        : [github]
 pin         : false
 hidden      : false
 ---

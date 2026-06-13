@@ -5,7 +5,7 @@ description : >-
 date        : 2025-12-15 15:30:00 +0900
 updated     : 2025-12-15 15:30:00 +0900
 categories  : [security, "SSH·인증"]
-tags        : [ssh, ssh-agent, ssh-add, github, authentication, key-management]
+tags        : [ssh, github, authentication]
 pin         : false
 hidden      : false
 ---

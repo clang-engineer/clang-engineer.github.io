@@ -4,7 +4,7 @@ description : "Homebrew가 옛 JDK를 삭제하면 /Library/Java/JavaVirtualMach
 date        : 2026-06-07 12:00:00 +0900
 updated     : 2026-06-07 12:00:00 +0900
 categories  : [etc, "macOS"]
-tags        : [macos, java, homebrew, jenv, openjdk, troubleshoot]
+tags        : [macos, java, homebrew, jenv, troubleshooting]
 pin         : false
 hidden      : false
 ---

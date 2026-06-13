@@ -4,7 +4,7 @@ description :
 date        : 2025-10-04 12:16:25 +0900
 updated     : 2025-10-04 12:30:13 +0900
 categories  : [vim, "원리·언어"]
-tags        : ["vim","init.vim","neovim"]
+tags        : [neovim]
 pin         : false
 hidden      : false
 ---

@@ -5,7 +5,7 @@ description : >-
 date        : 2024-05-23 08:41:19 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [network, "네트워크 기초"]
-tags        : [network, mac address, mac os]
+tags        : [macos]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "_posts/ 하위 폴더는 카테고리와 무관. categories: [상
 date        : 2026-06-12 11:00:00 +0900
 updated     : 2026-06-12 11:00:00 +0900
 categories  : [opensource, jekyll]
-tags        : [jekyll, chirpy, categories, front-matter]
+tags        : [jekyll, chirpy]
 pin         : false
 hidden      : false
 ---

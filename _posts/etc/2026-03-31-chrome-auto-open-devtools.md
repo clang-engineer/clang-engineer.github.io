@@ -4,7 +4,7 @@ description : "target=_blank로 열린 새 탭의 네트워크 요청을 디버�
 date        : 2026-03-31 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [etc, "개발 도구"]
-tags        : [chrome, devtools, debugging]
+tags        : [debugging]
 pin         : false
 hidden      : false
 ---

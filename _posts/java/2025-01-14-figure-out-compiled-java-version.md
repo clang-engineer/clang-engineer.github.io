@@ -4,7 +4,7 @@ description :
 date        : 2025-01-14 09:00:45 +0900
 updated     : 2025-01-14 09:01:11 +0900
 categories  : [java, "언어·런타임"]
-tags        : [java, compile]
+tags        : [compile]
 pin         : false
 hidden      : false
 ---

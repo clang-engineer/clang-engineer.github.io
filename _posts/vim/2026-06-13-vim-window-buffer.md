@@ -4,7 +4,7 @@ description : "윈도우 분할·이동·크기 조정과 외부에서 변경된
 date        : 2026-06-13 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [vim, "사용·키맵"]
-tags        : [vim, window, buffer]
+tags        : []
 pin         : false
 hidden      : false
 ---

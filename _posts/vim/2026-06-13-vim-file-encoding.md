@@ -4,7 +4,7 @@ description : "euc-kr·utf-8 등 다른 인코딩 파일을 vim에서 정확히 
 date        : 2026-06-13 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [vim, "사용·키맵"]
-tags        : [vim, encoding, utf-8, euc-kr]
+tags        : [encoding, utf-8]
 pin         : false
 hidden      : false
 ---

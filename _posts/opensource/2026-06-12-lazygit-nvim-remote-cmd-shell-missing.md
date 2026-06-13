@@ -4,7 +4,7 @@ description : "snacks.nvim 워크어라운드에서 시작해 lazygit 본체 edi
 date        : 2026-06-12 19:45:00 +0900
 updated     : 2026-06-12 19:45:00 +0900
 categories  : [opensource, lazygit]
-tags        : [lazygit, snacks.nvim, neovim, windows, oss-contrib]
+tags        : [lazygit, snacks, neovim, windows, oss-contrib]
 pin         : false
 hidden      : false
 ---

@@ -5,7 +5,7 @@ description : >-
 date        : 2025-03-04 00:00:00 +0900
 updated     : 2025-03-04 18:09:37 +0900
 categories  : [javascript, "React·UI"]
-tags        : [redux, react, loading-bar]
+tags        : [react]
 pin         : false
 hidden      : false
 ---

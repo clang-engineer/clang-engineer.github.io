@@ -4,7 +4,7 @@ description : "임의 DBMS CLI를 vim-dadbod / vim-dadbod-ui에 연결하는 절
 date        : 2026-06-12 16:00:00 +0900
 updated     : 2026-06-12 16:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
-tags        : [vim-dadbod, vim-dadbod-ui, neovim, plugin, adapter, vimscript, lua, lazyvim]
+tags        : [vim-dadbod, vim-dadbod-ui, plugin, adapter, vimscript, lua, lazyvim]
 pin         : false
 hidden      : false
 ---

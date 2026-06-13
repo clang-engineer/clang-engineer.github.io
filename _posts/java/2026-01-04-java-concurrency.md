@@ -4,7 +4,7 @@ description :
 date        : 2026-01-04 12:54:36 +0900
 updated     : 2026-01-04 12:55:51 +0900
 categories  : [java, "동시성"]
-tags        : [java, concurrency, multithreading, jmm, completablefuture]
+tags        : [concurrency, multithreading]
 pin         : false
 hidden      : false
 ---

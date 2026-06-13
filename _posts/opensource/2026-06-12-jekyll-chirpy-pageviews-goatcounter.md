@@ -4,7 +4,7 @@ description : "Google Analytics를 깔아도 포스트 사이드바에 조회수
 date        : 2026-06-12 22:30:00 +0900
 updated     : 2026-06-12 22:30:00 +0900
 categories  : [opensource, jekyll]
-tags        : [jekyll, chirpy, analytics, goatcounter, google-analytics, pageviews]
+tags        : [jekyll, chirpy, analytics, goatcounter]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "LuaJIT은 JIT 컴파일러, Vimscript는 트리 워킹 인터프�
 date        : 2026-06-12 20:00:00 +0900
 updated     : 2026-06-12 20:00:00 +0900
 categories  : [neovim, "원리·언어"]
-tags        : [neovim, lua, luajit, vimscript, performance, benchmark]
+tags        : [lua, vimscript, performance]
 pin         : false
 hidden      : false
 ---

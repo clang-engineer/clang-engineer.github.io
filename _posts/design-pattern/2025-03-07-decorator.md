@@ -5,7 +5,7 @@ description : >-
 date        : 2025-03-07 22:50:42 +0900
 updated     : 2025-03-07 22:50:42 +0900
 categories  : [design-pattern, "구조"]
-tags        : [design-pattern, behavior-pattern, decorator-pattern]
+tags        : [behavior-pattern]
 pin         : false
 hidden      : false
 ---

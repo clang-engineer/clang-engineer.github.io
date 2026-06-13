@@ -4,7 +4,7 @@ description :
 date        : 2025-10-03 12:37:44 +0900
 updated     : 2025-10-03 12:43:03 +0900
 categories  : [git, "GitHub·플랫폼"]
-tags        : [git, github, ssh, cheat sheet]
+tags        : [github, ssh]
 pin         : false
 hidden      : false
 ---

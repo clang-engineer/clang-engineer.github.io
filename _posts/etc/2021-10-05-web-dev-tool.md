@@ -5,7 +5,7 @@ description : >-
 date        : 2021-10-05 11:35:56 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [etc, "개발 도구"]
-tags        : [tools, erd, diagram, git, chrome-extension]
+tags        : [tools, git]
 pin         : false
 hidden      : false
 ---

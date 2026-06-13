@@ -4,7 +4,7 @@ description : "IntelliJ 내장 SSH 터널 사용 시 JDBC URL에 베스천에서
 date        : 2026-04-29 10:00:00 +0900
 updated     : 2026-04-29 10:00:00 +0900
 categories  : [db, "도구·연동"]
-tags        : [intellij, datagrip, ssh-tunnel, postgresql, jdbc, tools]
+tags        : [intellij, postgresql, tools]
 pin         : false
 hidden      : false
 ---

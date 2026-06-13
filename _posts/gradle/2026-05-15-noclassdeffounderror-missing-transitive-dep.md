@@ -4,7 +4,7 @@ description : "외부 라이브러리 클래스의 <init>에서 NoClassDefFoundE
 date        : 2026-05-15 11:00:00 +0900
 updated     : 2026-05-15 11:00:00 +0900
 categories  : [gradle, "빌드·의존성"]
-tags        : [spring-boot, gradle, dependency, classpath, troubleshooting, java]
+tags        : [spring-boot, troubleshooting, java]
 pin         : false
 hidden      : false
 ---

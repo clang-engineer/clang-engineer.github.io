@@ -4,7 +4,7 @@ description : >-
 date        : 2021-12-08 09:00:45 +0900
 updated     : 2025-10-03 12:28:22 +0900
 categories  : [git, "커밋·히스토리"]
-tags        : [git, commit, convention, message]
+tags        : [commit, convention]
 pin         : false
 hidden      : false
 ---

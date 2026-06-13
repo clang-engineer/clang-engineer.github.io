@@ -4,7 +4,7 @@ description : "프록시 서버의 두 가지 방식 — Forward Proxy와 Revers
 date        : 2025-02-12 11:05:23 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [network, "웹·HTTP"]
-tags        : [network, proxy, nginx, load-balancer]
+tags        : [nginx]
 pin         : false
 hidden      : false
 ---

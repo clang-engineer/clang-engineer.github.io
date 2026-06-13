@@ -5,7 +5,7 @@ description : >-
 date        : 2021-11-30 22:50:30 +0900
 updated     : 2026-01-28 08:33:28 +0900
 categories  : [tmux, "설정·옵션"]
-tags        : [tmux, terminal]
+tags        : [terminal]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "ssh -T는 성공하지만 git clone은 Bad configuration option �
 date        : 2026-01-07 09:33:07 +0900
 updated     : 2026-01-07 09:33:07 +0900
 categories  : [windows, "네트워크·트러블"]
-tags        : [windows, ssh, git, github, bom, utf-8, msys2]
+tags        : [ssh, git, github, utf-8]
 pin         : false
 hidden      : false
 ---

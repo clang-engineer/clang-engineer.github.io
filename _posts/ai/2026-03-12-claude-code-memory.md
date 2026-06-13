@@ -4,7 +4,7 @@ description : CLAUDE.md와 Auto Memory를 활용한 프로젝트 컨텍스트 �
 date        : 2026-03-12 23:30:00 +0900
 updated     : 2026-03-12 23:30:00 +0900
 categories  : [ai, "Claude Code"]
-tags        : [claude-code, memory, claude-md]
+tags        : [claude-code]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "fork → clone → 한 줄 추가 → PR 까지. CONTRIBUTING.md 
 date        : 2026-06-12 16:00:00 +0900
 updated     : 2026-06-12 16:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
-tags        : [neovim, awesome-neovim, github, gh-cli, pull-request]
+tags        : [awesome-neovim, github, gh-cli]
 pin         : false
 hidden      : false
 ---

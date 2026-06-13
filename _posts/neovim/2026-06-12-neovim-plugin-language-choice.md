@@ -4,7 +4,7 @@ description : "신규 플러그인은 Lua가 표준이지만, 부모 생태계�
 date        : 2026-06-12 19:00:00 +0900
 updated     : 2026-06-12 19:00:00 +0900
 categories  : [neovim, "원리·언어"]
-tags        : [neovim, lua, vimscript, plugin, language-choice]
+tags        : [lua, vimscript, plugin]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "build.gradle에 자바 버전이 없으면 빌드 JVM이 바이�
 date        : 2026-05-20 11:00:00 +0900
 updated     : 2026-05-20 11:00:00 +0900
 categories  : [gradle, "빌드·의존성"]
-tags        : [gradle, jenv, java-version, bytecode, unsupportedclassversionerror, java]
+tags        : [jenv, java]
 pin         : false
 hidden      : false
 ---

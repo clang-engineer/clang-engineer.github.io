@@ -4,7 +4,7 @@ description : 멀티모듈 공용 라이브러리를 Gradle로 관리하고 GitH
 date        : 2026-02-21 10:10:00 +0900
 updated     : 2026-02-21 10:10:00 +0900
 categories  : [java, "프레임워크·실무"]
-tags        : [shared-package, gradle, github-packages, publishing, multi-module]
+tags        : [shared-package, gradle, github-packages, publishing]
 pin         : false
 hidden      : false
 ---

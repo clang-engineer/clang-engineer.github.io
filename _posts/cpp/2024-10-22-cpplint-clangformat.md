@@ -4,7 +4,7 @@ description :
 date        : 2023-04-20 16:38:01 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [cpp]
-tags        : [c++, cpplint, clang-format]
+tags        : [clang-format]
 pin         : false
 hidden      : false
 ---

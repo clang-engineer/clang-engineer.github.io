@@ -4,7 +4,7 @@ description : "들여쓰기·검색·표시·동작 옵션 한눈 정리와 자�
 date        : 2026-06-13 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [vim, "사용·키맵"]
-tags        : [vim, options, configuration]
+tags        : [configuration]
 pin         : false
 hidden      : false
 ---

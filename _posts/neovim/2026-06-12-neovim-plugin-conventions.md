@@ -4,7 +4,7 @@ description : "Vim 시절부터 이어진 runtimepath 자동 로드 규칙, Lua 
 date        : 2026-06-12 18:00:00 +0900
 updated     : 2026-06-12 18:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
-tags        : [neovim, plugin, lua, runtimepath, lazy-nvim, lazyvim]
+tags        : [plugin, lua, lazy-nvim, lazyvim]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "플러그인 업데이트 후 기본 모델이 Copilot 플랜에�
 date        : 2026-06-05 10:00:00 +0900
 updated     : 2026-06-05 10:00:00 +0900
 categories  : [lazyvim, "트러블슈팅"]
-tags        : [copilot, copilotchat, lazyvim, neovim, model]
+tags        : [neovim]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "gh auth login에서 SSH protocol을 골랐는데 SSH key가 없�
 date        : 2026-06-08 15:00:00 +0900
 updated     : 2026-06-08 15:00:00 +0900
 categories  : [git, "GitHub·잔디"]
-tags        : [gh-cli, github, auth, ssh, https]
+tags        : [gh-cli, github, ssh, https]
 pin         : false
 hidden      : false
 ---

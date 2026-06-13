@@ -5,7 +5,7 @@ description : >-
 date        : 2021-01-25 22:50:30 +0900
 updated     : 2025-10-23 09:01:04 +0900
 categories  : [linux, "시스템 관리"]
-tags        : [logrotate]
+tags        : []
 pin         : false
 hidden      : false
 ---

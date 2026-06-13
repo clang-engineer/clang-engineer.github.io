@@ -4,7 +4,7 @@ description :
 date        : 2025-11-20 09:35:56 +0900
 updated     : 2025-11-20 10:24:10 +0900
 categories  : [git, "저장소·운영"]
-tags        : [git, merge, partial-merge, 개발팁]
+tags        : [merge, tips]
 pin         : false
 hidden      : false
 ---

@@ -3,7 +3,7 @@ title       : CSS Variables (Custom Properties) 사용법
 description :
 date        : 2026-06-07 12:00:00 +0900
 categories  : [css]
-tags        : [css, custom-properties]
+tags        : []
 pin         : false
 hidden      : false
 ---

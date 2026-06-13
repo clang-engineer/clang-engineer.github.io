@@ -4,7 +4,7 @@ description : "잔디 빈칸의 원인은 보통 author email이 GitHub 계정�
 date        : 2026-06-01 10:00:00 +0900
 updated     : 2026-06-01 10:00:00 +0900
 categories  : [git, "GitHub·잔디"]
-tags        : [git, github, contribution-graph, filter-repo, author-email]
+tags        : [github, contribution-graph]
 pin         : false
 hidden      : false
 ---

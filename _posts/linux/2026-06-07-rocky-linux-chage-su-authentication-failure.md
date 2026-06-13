@@ -4,7 +4,7 @@ description : "/etc/shadow의 최소 변경 주기 때문에 막 만든 비밀�
 date        : 2026-06-07 12:00:00 +0900
 updated     : 2026-06-07 12:00:00 +0900
 categories  : [linux, "시스템 관리"]
-tags        : [linux, rocky-linux, passwd, chage, shadow, troubleshoot]
+tags        : [rocky-linux, troubleshooting]
 pin         : false
 hidden      : false
 ---

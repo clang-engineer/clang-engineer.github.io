@@ -4,7 +4,7 @@ description : >-
 date        : 2022-11-20 09:00:45 +0900
 updated     : 2022-11-20  09:01:11 +0900
 categories  : [javascript, "언어·패키지"]
-tags        : [require, import]
+tags        : []
 pin         : false
 hidden      : false
 ---

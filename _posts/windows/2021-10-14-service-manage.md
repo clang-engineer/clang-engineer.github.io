@@ -4,7 +4,7 @@ description : >-
 date        : 2025-02-24 22:50:30 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [windows, "셸·시스템"]
-tags        : [windows, service]
+tags        : []
 pin         : false
 hidden      : false
 ---

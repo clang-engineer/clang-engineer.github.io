@@ -4,7 +4,7 @@ description : Java에서 제공하는 Lock 메커니즘의 종류와 특징, 선
 date        : 2026-05-11 15:00:00 +0900
 updated     : 2026-05-11 15:00:00 +0900
 categories  : [java, "동시성"]
-tags        : [java, lock, concurrency, reentrant-lock, synchronized]
+tags        : [lock, concurrency]
 pin         : false
 hidden      : false
 ---

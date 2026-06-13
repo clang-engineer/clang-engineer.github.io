@@ -4,7 +4,7 @@ description : "비슷해 보이지만 fork network·이력 복사·upstream PR �
 date        : 2026-06-08 11:00:00 +0900
 updated     : 2026-06-08 11:00:00 +0900
 categories  : [git, "GitHub·잔디"]
-tags        : [github, fork, template, git]
+tags        : [github]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "apex와 www를 동일 server 블록에서 서비스하면 origin 
 date        : 2026-04-24 10:00:00 +0900
 updated     : 2026-04-24 10:00:00 +0900
 categories  : [nginx, "HTTPS·SSL"]
-tags        : [nginx, ssl, domain, cache, jhipster, lets-encrypt]
+tags        : [ssl, cache, jhipster, letsencrypt]
 pin         : false
 hidden      : false
 ---

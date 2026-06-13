@@ -5,7 +5,7 @@ description : >-
 date        : 2022-02-05 09:32:27 +0900
 updated     : 2025-09-25 08:38:28 +0900
 categories  : [etc, "macOS"]
-tags        : [mac, setting, homebrew, dotfiles, setup]
+tags        : [homebrew, dotfiles]
 pin         : false
 hidden      : false
 ---
