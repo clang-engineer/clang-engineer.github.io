@@ -3,7 +3,7 @@ title       : "Neovim floating window + tmux 이동/복귀 포커스 문제 해�
 description : "vim-tmux-navigator가 float에서 한 번에 안 넘어가는 문제와 복귀 시 포커스 빠지는 문제를 tmux 직접 호출 + FocusGained로."
 date        : 2026-06-08 14:00:00 +0900
 updated     : 2026-06-08 14:00:00 +0900
-categories  : [lazyvim, "트러블슈팅"]
+categories  : [lazyvim, "플러그인"]
 tags        : [neovim, snacks]
 pin         : false
 hidden      : false

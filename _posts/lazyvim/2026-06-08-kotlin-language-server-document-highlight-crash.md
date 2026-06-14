@@ -3,7 +3,7 @@ title       : "kotlin-language-server v1.3.13 documentHighlight 크래시 해결
 description : "Mason fwcd 빌드의 NoTopLevelDescriptorProvider 크래시 — community fork 빌드 또는 documentHighlight 끄기."
 date        : 2026-06-08 13:00:00 +0900
 updated     : 2026-06-08 13:00:00 +0900
-categories  : [lazyvim, "트러블슈팅"]
+categories  : [lazyvim, "LSP·Treesitter"]
 tags        : [neovim, lsp, kotlin, mason]
 pin         : false
 hidden      : false

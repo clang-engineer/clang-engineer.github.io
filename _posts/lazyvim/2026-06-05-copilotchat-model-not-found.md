@@ -3,7 +3,7 @@ title       : "CopilotChat.nvim Model not found 에러 — :CopilotChatModels로
 description : "플러그인 업데이트 후 기본 모델이 Copilot 플랜에서 미지원이 되면 :CopilotChatModels에서 Auto 선택."
 date        : 2026-06-05 10:00:00 +0900
 updated     : 2026-06-05 10:00:00 +0900
-categories  : [lazyvim, "트러블슈팅"]
+categories  : [lazyvim, "플러그인"]
 tags        : [neovim]
 pin         : false
 hidden      : false

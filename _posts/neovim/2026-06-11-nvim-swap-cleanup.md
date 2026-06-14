@@ -3,7 +3,7 @@ title       : "Neovim swap 파일 안전하게 정리하기"
 description : "복구 후 swap이 자동 삭제되지 않아 경고가 반복되는 문제. 파일명 규칙과 자동 판정 휴리스틱."
 date        : 2026-06-11 10:00:00 +0900
 updated     : 2026-06-11 10:00:00 +0900
-categories  : [neovim, "swap·복구"]
+categories  : [neovim, "원리·언어"]
 tags        : [bash]
 pin         : false
 hidden      : false
