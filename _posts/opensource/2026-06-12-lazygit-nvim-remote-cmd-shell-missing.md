@@ -3,7 +3,7 @@ title       : "lazygit nvim-remote preset의 cmd 분기 부재 — 본체로 거
 description : "snacks.nvim 워크어라운드에서 시작해 lazygit 본체 editor_presets.go까지 추적, OSS 이슈로 정리한 기록"
 date        : 2026-06-12 19:45:00 +0900
 updated     : 2026-06-12 19:45:00 +0900
-categories  : [opensource, lazygit]
+categories  : [opensource, "Lazygit"]
 tags        : [lazygit, snacks, neovim, windows, oss-contrib]
 pin         : false
 hidden      : false
