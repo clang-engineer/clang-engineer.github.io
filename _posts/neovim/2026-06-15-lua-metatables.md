@@ -1,10 +1,10 @@
 ---
-title       : "Lua 문법 5 — 메타테이블"
+title       : "Lua 메타테이블"
 description : "__index/__newindex/__call 같은 메타메서드, OOP 클래스 패턴, 문자열 메서드 호출의 비밀, Neovim vim.opt가 일반 테이블처럼 보이는 이유."
 date        : 2026-06-15 14:00:00 +0900
 updated     : 2026-06-15 14:00:00 +0900
 categories  : [neovim, "원리·언어"]
-tags        : [lua, neovim]
+tags        : [lua, neovim, guide]
 pin         : false
 hidden      : false
 ---
@@ -257,7 +257,3 @@ return M
 4. **`__index`가 테이블이면 그 테이블의 메타테이블은 따라가지 않는다**. 다단 상속하려면 그 테이블에 또 메타테이블을 붙여야 함.
 5. **클래스 패턴에서 `Class.__index = Class` 빠뜨리면** 인스턴스에 메서드 안 보임.
 6. **`==`은 같은 메타테이블일 때만 `__eq` 호출** (Lua 5.1). 다른 메타테이블이면 그냥 false.
-
-## 다음 편
-
-6편은 **모듈** — `require`, `package.path`, `local M = {}; return M` 패턴, require 캐시. Neovim의 `lua/` 디렉토리 자동 등록 규칙과 어떻게 맞물리는지.

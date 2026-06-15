@@ -4,7 +4,7 @@ description : "Neovim 설정·플러그인을 읽고 고치는 수준까지 Lua 
 date        : 2026-06-15 16:00:00 +0900
 updated     : 2026-06-15 16:00:00 +0900
 categories  : [neovim, "원리·언어"]
-tags        : [lua, neovim]
+tags        : [lua, neovim, guide]
 pin         : false
 hidden      : false
 ---
@@ -356,6 +356,6 @@ local file, line, col, text = msg:match("([^:]+):(%d+):(%d+):%s*(.+)")
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [Lua 문법 5 — 메타테이블](/posts/lua-metatables/) | `__index`/`__newindex`/`__call` 같은 메타메서드, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
-| [Lua 문법 6 — 모듈](/posts/lua-modules/) | `require`/`package.path`, `local M = {} return M` 패턴, require 캐시, Neovim `lua/` 디렉토리 자동 등록 |
-| [Lua 문법 8 — 에러 처리](/posts/lua-error-handling/) | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. 에러 객체 패턴, Neovim 플러그인의 에러 관행 |
+| [Lua 메타테이블](/posts/lua-metatables/) | `__index`/`__newindex`/`__call` 같은 메타메서드, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
+| [Lua 모듈](/posts/lua-modules/) | `require`/`package.path`, `local M = {} return M` 패턴, require 캐시, Neovim `lua/` 디렉토리 자동 등록 |
+| [Lua 에러 처리](/posts/lua-error-handling/) | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. 에러 객체 패턴, Neovim 플러그인의 에러 관행 |

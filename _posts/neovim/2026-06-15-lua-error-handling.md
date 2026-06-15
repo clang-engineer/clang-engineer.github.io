@@ -1,15 +1,15 @@
 ---
-title       : "Lua 문법 8 — 에러 처리"
+title       : "Lua 에러 처리"
 description : "error/assert로 던지고, pcall/xpcall로 잡기. error 객체 패턴, Neovim 플러그인의 에러 관행과 vim.notify 표시까지."
 date        : 2026-06-15 17:00:00 +0900
 updated     : 2026-06-15 17:00:00 +0900
 categories  : [neovim, "원리·언어"]
-tags        : [lua, neovim]
+tags        : [lua, neovim, guide]
 pin         : false
 hidden      : false
 ---
 
-Lua의 에러 처리는 단순하다. **`error`로 던지고, `pcall`로 잡는다**. 예외 클래스 위계나 try/catch 같은 무거운 구조는 없다. 대신 메시지(문자열) 또는 객체(테이블)를 던지고, 호출 쪽이 `pcall`로 감싸 받는다. 이번 편은 모든 사용 패턴과 Neovim 플러그인의 관행을 정리한다.
+Lua의 에러 처리는 단순하다. **`error`로 던지고, `pcall`로 잡는다**. 예외 클래스 위계나 try/catch 같은 무거운 구조는 없다. 대신 메시지(문자열) 또는 객체(테이블)를 던지고, 호출 쪽이 `pcall`로 감싸 받는다. 이 글은 모든 사용 패턴과 Neovim 플러그인의 관행을 정리한다.
 
 ## 결론 먼저
 
@@ -230,22 +230,3 @@ end
 4. **`pcall`은 traceback 없음**. 필요하면 `xpcall(fn, debug.traceback)`.
 5. **`assert(v, msg)`의 msg는 `v`가 falsy일 때만 평가하면 좋지만, Lua는 즉시 평가**. 비싼 메시지면 직접 `if not v then error(...)`.
 6. **에러를 위로 던지는 게 기본**. 무지성 `pcall`로 다 감싸면 디버깅 못 함.
-
-## 시리즈 마무리
-
-이 시리즈로 Lua 8개 주제를 다 돌았다.
-
-| 편 | 주제 |
-| --- | --- |
-| [1편](/posts/lua-types-and-variables/) | 타입과 변수 |
-| [2편](/posts/lua-control-flow/) | 제어 흐름 |
-| [3편](/posts/lua-functions/) | 함수 |
-| [4편](/posts/lua-tables/) | 테이블 |
-| [5편](/posts/lua-metatables/) | 메타테이블 |
-| [6편](/posts/lua-modules/) | 모듈 |
-| [7편](/posts/lua-strings/) | 문자열과 패턴 매칭 |
-| 8편 | 에러 처리 (이 글) |
-
-다음 단계 추천:
-- **Neovim Lua API 시리즈** — `vim.api.*`, `vim.opt`, `vim.keymap`, autocmd, LSP 핸들러 등을 따로 정리.
-- **본인 LazyVim 설정 정리** — 각 파일이 위 8개 주제 중 무엇을 쓰는지 표시해보면 이해도 측정에 좋다.

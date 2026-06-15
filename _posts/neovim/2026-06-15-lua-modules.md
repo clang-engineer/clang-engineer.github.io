@@ -1,10 +1,10 @@
 ---
-title       : "Lua 문법 6 — 모듈"
+title       : "Lua 모듈"
 description : "require/package.path, local M = {} return M 패턴, require 캐시, Neovim lua/ 디렉토리 자동 등록과의 연결."
 date        : 2026-06-15 15:00:00 +0900
 updated     : 2026-06-15 15:00:00 +0900
 categories  : [neovim, "원리·언어"]
-tags        : [lua, neovim]
+tags        : [lua, neovim, guide]
 pin         : false
 hidden      : false
 ---
@@ -261,7 +261,3 @@ local m = require("my.module")
 4. **`require("foo.bar")`의 `.`은 디렉토리 구분자**. `foo_bar.lua` 아니라 `foo/bar.lua`.
 5. **모듈 안에서 같은 패키지 모듈 참조도 절대 경로**. 상대 경로 없음.
 6. **lua/foo.lua와 lua/foo/init.lua가 동시에 있으면** 어느 게 먼저인지 `package.path` 순서에 의존. 헷갈리지 않게 하나만 두기.
-
-## 다음 편
-
-7편은 **문자열과 패턴 매칭**: `string.format`, `string.sub`, 그리고 Lua **패턴**(정규식 아님). `%w`, `%s`, `gmatch`, `gsub` 사용법과 정규식과의 차이를 정리한다.
