@@ -3,7 +3,7 @@ title       : "GitHub Fork와 Use this template의 차이"
 description : "비슷해 보이지만 fork network·이력 복사·upstream PR 가능 여부가 다르다. 선택 기준 정리."
 date        : 2026-06-08 11:00:00 +0900
 updated     : 2026-06-08 11:00:00 +0900
-categories  : [git, "GitHub·잔디"]
+categories  : [git, "GitHub·플랫폼"]
 tags        : [github]
 pin         : false
 hidden      : false

@@ -32,5 +32,6 @@ order:
   - security
   # 협업·도구
   - git
+  - opensource
   - etc
   - ai

@@ -3,7 +3,7 @@ title       : "Windows Terminal에서 영문이 넓게 나오고 명령어가 �
 description : "ｅｘｉｔ가 not recognized로 안 먹히면 폰트가 아니라 한글 IME 전각 모드가 켜진 것. Shift+Space로 해제."
 date        : 2026-05-27 10:00:00 +0900
 updated     : 2026-05-27 10:00:00 +0900
-categories  : [windows, "터미널·입력"]
+categories  : [windows, "셸·시스템"]
 tags        : [hangul, encoding]
 pin         : false
 hidden      : false

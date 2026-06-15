@@ -3,7 +3,7 @@ title       : "Chirpy 테마의 포스트 조회수 위젯은 GoatCounter만 공
 description : "analytics와 pageviews는 다른 설정. 사이드바 숫자 위젯은 GoatCounter만 가능."
 date        : 2026-06-12 10:00:00 +0900
 updated     : 2026-06-12 10:00:00 +0900
-categories  : [opensource, jekyll]
+categories  : [opensource, "Jekyll"]
 tags        : [chirpy, jekyll, analytics, goatcounter]
 pin         : false
 hidden      : false

@@ -3,7 +3,7 @@ title       : "GitHub repo 정리하면서 잔디 보존하기"
 description : "여러 repo를 subtree로 흡수해 한 archive repo로 정리. 원본을 지워도 잔디는 그대로."
 date        : 2026-06-08 12:00:00 +0900
 updated     : 2026-06-08 12:00:00 +0900
-categories  : [git, "GitHub·잔디"]
+categories  : [git, "GitHub·플랫폼"]
 tags        : [github, contribution-graph]
 pin         : false
 hidden      : false

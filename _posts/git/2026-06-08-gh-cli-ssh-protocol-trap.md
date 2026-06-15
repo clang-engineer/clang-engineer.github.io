@@ -3,7 +3,7 @@ title       : "gh repo create --push가 조용히 실패할 때 — SSH protocol
 description : "gh auth login에서 SSH protocol을 골랐는데 SSH key가 없으면 repo는 생성되지만 push가 거부된다."
 date        : 2026-06-08 15:00:00 +0900
 updated     : 2026-06-08 15:00:00 +0900
-categories  : [git, "GitHub·잔디"]
+categories  : [git, "GitHub·플랫폼"]
 tags        : [gh-cli, github, ssh, https]
 pin         : false
 hidden      : false

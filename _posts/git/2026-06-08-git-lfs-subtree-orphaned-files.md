@@ -3,7 +3,7 @@ title       : "LFS 데이터가 사라진 repo를 subtree로 흡수하기"
 description : "LFS smudge 실패와 GitHub pre-receive 거부의 우회 — GIT_LFS_SKIP_SMUDGE + filter-repo --invert-paths."
 date        : 2026-06-08 10:00:00 +0900
 updated     : 2026-06-08 10:00:00 +0900
-categories  : [git, "히스토리 재작성"]
+categories  : [git, "저장소·운영"]
 tags        : [github]
 pin         : false
 hidden      : false

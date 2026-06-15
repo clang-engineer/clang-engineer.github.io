@@ -3,7 +3,7 @@ title       : "tmux 시스템 클립보드 — set-clipboard on 한 줄, pbcopy 
 description : "OSC52 한 줄이 정답. pbcopy를 굳이 쓴다면 LANG 인라인이 필수. tmux server 환경 캡처 메커니즘까지."
 date        : 2026-06-10 12:00:00 +0900
 updated     : 2026-06-10 12:00:00 +0900
-categories  : [tmux, "클립보드"]
+categories  : [tmux, "설정·옵션"]
 tags        : [osc52, ghostty, hangul, encoding, utf-8, daemon, environment]
 pin         : false
 hidden      : false

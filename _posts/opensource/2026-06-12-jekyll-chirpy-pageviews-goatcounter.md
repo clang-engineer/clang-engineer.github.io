@@ -3,7 +3,7 @@ title       : "Jekyll Chirpy 테마에 포스트 조회수 위젯 붙이기 — 
 description : "Google Analytics를 깔아도 포스트 사이드바에 조회수가 안 뜨는 이유, 그리고 Chirpy가 pageviews 위젯을 GoatCounter만 공식 지원하는 구조적 배경"
 date        : 2026-06-12 22:30:00 +0900
 updated     : 2026-06-12 22:30:00 +0900
-categories  : [opensource, jekyll]
+categories  : [opensource, "Jekyll"]
 tags        : [jekyll, chirpy, analytics, goatcounter]
 pin         : false
 hidden      : false
