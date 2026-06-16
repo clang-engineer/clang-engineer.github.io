@@ -1,6 +1,6 @@
 ---
 title       : ajax Map타입 데이터 전송 안될 때
-description : >-
+description : "axios로 Set, Map 데이터를 보내면 JSON 직렬화가 안 돼 null로 전송되는 문제. Object.fromEntries나 Array.from으로 일반 객체·배열로 변환해 해결."
 date        : 2021-12-02 09:00:45 +0900
 updated     : 2021-12-10 09:01:11 +0900
 categories  : [javascript, "언어·패키지"]

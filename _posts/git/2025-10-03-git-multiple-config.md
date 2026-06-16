@@ -1,6 +1,6 @@
 ---
 title       : GitHub 다중 계정 관리 Cheat Sheet
-description : 
+description : "SSH 키를 계정별로 분리하고 ~/.ssh/config의 Host 별칭과 .gitconfig의 includeIf로 디렉토리마다 user.email까지 자동 전환하는 방법."
 date        : 2025-10-03 12:37:44 +0900
 updated     : 2025-10-03 12:43:03 +0900
 categories  : [git, "GitHub·플랫폼"]

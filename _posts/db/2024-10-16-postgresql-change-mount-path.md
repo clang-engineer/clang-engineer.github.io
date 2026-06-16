@@ -1,7 +1,6 @@
 ---
 title       : Postgresql 마운트 경로 변경
-description : >-
-    postgresql 데이터베이스의 마운트 경로를 변경하는 방법을 기록.
+description : "데이터 디스크 분리·이전을 위해 PGDATA를 옮기는 절차. 서비스 중지 → 디렉토리 이동 → systemd 유닛의 Environment=PGDATA 수정 → 재시작 → SHOW data_directory로 확인."
 date        : 2024-10-16 14:12:42 +0900
 updated     : 2024-10-16 14:50:22 +0900
 categories  : [db, "PostgreSQL·운영"]

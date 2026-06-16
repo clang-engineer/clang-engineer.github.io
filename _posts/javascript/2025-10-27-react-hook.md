@@ -1,6 +1,6 @@
 ---
 title       : 🪝 React Hook 개념 정리
-description : 
+description : "React 16.8에서 도입된 Hook은 함수형 컴포넌트에서 상태와 생명주기를 다루게 해준다. 등장 배경, 호출 규칙, useState·useEffect 등 주요 내장 훅 정리."
 date        : 2025-10-27 09:57:38 +0900
 updated     : 2025-10-27 09:58:38 +0900
 categories  : [javascript, "React·UI"]

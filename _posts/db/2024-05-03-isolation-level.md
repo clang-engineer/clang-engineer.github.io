@@ -1,7 +1,6 @@
 ---
 title       : Transaction Concurrency Control
-description : >-
-  직렬가능성, 회복가능성, 격리 수준, 2PL을 한 흐름으로 정리.
+description : "Schedule과 Serializability, Recoverability 단계, S/X Lock과 2PL 변형들, READ COMMITTED·REPEATABLE READ·SERIALIZABLE이 막아주는 이상 현상까지 한 흐름으로 연결."
 date        : 2024-05-03 15:36:25 +0900
 updated     : 2025-05-21 22:50:42 +0900
 categories  : [db, "RDB·트랜잭션"]

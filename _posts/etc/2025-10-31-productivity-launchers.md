@@ -1,6 +1,6 @@
 ---
 title       : macOS 생산성 런처(Spotlight vs Alfred vs Raycast)
-description : 
+description : "macOS 런처 Spotlight·Alfred·Raycast를 가격·확장성·클립보드·동기화·개발자 친화성 기준으로 비교하고 사용자 유형별로 추천한다."
 date        : 2025-10-31 09:20:19 +0900
 updated     : 2025-10-31 09:28:20 +0900
 categories  : [etc, "macOS"]

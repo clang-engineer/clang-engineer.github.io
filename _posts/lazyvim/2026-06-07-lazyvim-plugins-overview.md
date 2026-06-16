@@ -1,6 +1,6 @@
 ---
 title       : LazyVim 주요 플러그인 정리 — UI / 편집 / Git / 진단 / LSP
-description :
+description : "LazyVim이 기본으로 켜두는 noice·snacks·bufferline·mini 계열·flash·gitsigns·lazygit 등 주요 플러그인을 UI·편집·Git·진단·LSP 묶음으로 분류한 단축키 모음."
 date        : 2026-06-07 12:00:00 +0900
 categories  : [lazyvim, "플러그인"]
 tags        : [neovim, plugin]

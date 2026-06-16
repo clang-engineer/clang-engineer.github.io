@@ -1,7 +1,6 @@
 ---
 title       : SSH Broken Pipe Error 해결 방법
-description : >-
-  SSH 세션이 idle 시간 후 끊겨 Broken Pipe가 나는 원인과 클라이언트·서버 양쪽 keepalive 설정
+description : "NAT·방화벽 idle timeout으로 SSH가 끊기는 원인, ServerAliveInterval/ClientAliveInterval 설정과 TCPKeepAlive·tmux·mosh 비교."
 date        : 2024-03-21 16:55:20 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [shell, "SSH·원격"]

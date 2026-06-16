@@ -1,7 +1,6 @@
 ---
 title       : Decorator Pattern
-description : >-
-    데코레이터 패턴에 대해 정리합니다.
+description : "상속으로 기능을 조합하면 클래스 수가 폭발한다. Component를 감싸는 Decorator를 위임으로 쌓아 동적으로 기능을 추가하는 구조."
 date        : 2025-03-07 22:50:42 +0900
 updated     : 2025-03-07 22:50:42 +0900
 categories  : [design-pattern, "구조"]

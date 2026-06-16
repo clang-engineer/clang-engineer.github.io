@@ -1,6 +1,6 @@
 ---
 title       : Jib 을 이용한 JHipster 도커 이미지 빌드 및 배포
-description : 
+description : "Dockerfile 없이 Gradle Jib 블록만으로 JHipster 이미지를 빌드한다. 멀티 아키텍처·비 root 사용자·entrypoint.sh 권한까지 한 곳에서 선언하는 설정 예시."
 date        : 2025-10-02 20:04:19 +0900
 updated     : 2025-10-02 20:30:03 +0900
 categories  : [spring-boot, "JHipster"]

@@ -1,6 +1,6 @@
 ---
 title       : Java 동시성 모델 정리
-description : 
+description : "Thread 직접 사용부터 Runnable·Callable·Future·ExecutorService·CompletableFuture까지 자바 동시성 모델의 진화 과정을 단계별로 정리한다."
 date        : 2026-01-04 12:54:36 +0900
 updated     : 2026-01-04 12:55:51 +0900
 categories  : [java, "동시성"]

@@ -1,6 +1,6 @@
 ---
 title       : 컴파일된 코드로부터 java 버전 확인하기
-description : 
+description : "javap -verbose로 클래스 파일의 major version을 확인하고, Java 1.1부터 17까지 major 번호와 Java 버전 대응표를 정리한다."
 date        : 2025-01-14 09:00:45 +0900
 updated     : 2025-01-14 09:01:11 +0900
 categories  : [java, "언어·런타임"]

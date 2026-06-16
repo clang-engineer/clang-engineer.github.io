@@ -4,7 +4,7 @@ description : "LFS smudge 실패와 GitHub pre-receive 거부의 우회 — GIT_
 date        : 2026-06-08 10:00:00 +0900
 updated     : 2026-06-08 10:00:00 +0900
 categories  : [git, "저장소·운영"]
-tags        : [github]
+tags        : [github, troubleshooting]
 pin         : false
 hidden      : false
 ---

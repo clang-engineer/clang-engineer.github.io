@@ -4,7 +4,7 @@ description : Diagnostics 팝업, Trouble 리스트, LSP 로그, :messages 사�
 date        : 2026-02-04 10:00:00 +0900
 updated     : 2026-02-04 10:00:00 +0900
 categories  : [lazyvim, "LSP·Treesitter"]
-tags        : [neovim, diagnostics, lsp, trouble]
+tags        : [neovim, diagnostics, lsp, trouble, troubleshooting]
 pin         : false
 hidden      : false
 ---

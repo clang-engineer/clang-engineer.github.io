@@ -4,7 +4,7 @@ description : "플러그인 업데이트 후 기본 모델이 Copilot 플랜에�
 date        : 2026-06-05 10:00:00 +0900
 updated     : 2026-06-05 10:00:00 +0900
 categories  : [lazyvim, "플러그인"]
-tags        : [neovim]
+tags        : [neovim, troubleshooting]
 pin         : false
 hidden      : false
 ---

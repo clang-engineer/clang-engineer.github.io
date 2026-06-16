@@ -1,10 +1,10 @@
 ---
 title       : Windows Neovim에서 Lazygit 한글 깨짐 해결
-description :
+description : "Neovim 안에서 Lazygit을 띄울 때 한글이 깨지는 원인은 Windows 기본 코드페이지 CP949. intl.cpl의 UTF-8 베타 옵션으로 시스템 로캘을 65001로 바꿔 해결."
 date        : 2026-03-13 09:00:00 +0900
 updated     : 2026-03-13 09:00:00 +0900
 categories  : [lazyvim, "Lazygit"]
-tags        : [neovim, lazygit, utf-8, encoding]
+tags        : [neovim, lazygit, utf-8, encoding, troubleshooting]
 pin         : false
 hidden      : false
 ---

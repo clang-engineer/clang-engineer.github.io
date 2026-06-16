@@ -1,6 +1,6 @@
 ---
 title       : PostgreSQL pg_dump, pg_restore 사용법
-description : 
+description : "pg_dump의 plain/custom/directory/tar 포맷 선택 기준, psql로는 plain만 복원되는 이유, pg_restore의 병렬 처리(-j)와 선택적 복원(-n/-t)이 빛나는 지점."
 date        : 2025-01-14 13:45:54 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [db, "PostgreSQL·운영"]

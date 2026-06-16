@@ -1,6 +1,6 @@
 ---
 title       : LazyVim의 Git 플러그인 구성 — gitsigns · lazygit · snacks
-description : 
+description : "LazyVim의 Git 환경은 gitsigns(보기·hunk)·lazygit(작업)·snacks(blame·history 조회) 셋으로 역할이 갈린다. 동선과 leader 키맵을 정리."
 date        : 2026-06-09 12:00:00 +0900
 updated     : 2026-06-09 12:00:00 +0900
 categories  : [lazyvim, "플러그인"]

@@ -2,7 +2,7 @@
 title       : "직접 만든 Neovim 플러그인 노출시키기 — 4가지 채널 비교"
 description : "GitHub에 푸시했지만 검색에 안 잡히는 플러그인을, awesome-neovim·Dotfyle·VimAwesome·GitHub Topics에 어떻게 등록할지 정리"
 date        : 2026-06-12 14:00:00 +0900
-updated     : 2026-06-12 14:00:00 +0900
+updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [plugin, awesome-neovim, github]
 pin         : false
@@ -129,3 +129,14 @@ awesome-neovim·VimAwesome 모두 카테고리 선택이 있다. 헷갈리면 �
 - **하지 말 것**: 메인테이너 README에 끼워달라는 PR, 도메인 좁은데 거대 채널 광고
 
 플러그인을 푸시했다면 위 두 가지(Topics + awesome-neovim PR)부터 처리하자. 합쳐서 15분이면 끝나고, 이후 검색 노출이 완전히 달라진다.
+
+## 플러그인 작성 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [언어 선택](/posts/neovim/2026-06-12-neovim-plugin-language-choice/) | Lua가 표준이지만 부모 생태계가 Vimscript면 Vimscript가 자연스럽다 |
+| [Lua와 Vimscript 섞기](/posts/neovim/2026-06-12-neovim-plugin-mixing-lua-vimscript/) | 호출 경계 최소화, 흔한 안티패턴, 모범 분담 |
+| [runtimepath 디렉토리 관례](/posts/neovim/2026-06-12-neovim-plugin-conventions/) | `plugin/` vs `lua/`, 헬프·헬스체크·after/ 자동 로드 규칙 |
+| **4가지 채널로 노출시키기 (현재 글)** | awesome-neovim · Dotfyle · VimAwesome · GitHub Topics |
+
+실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)에서 위 4가지 원칙을 한 번에 적용해본다.

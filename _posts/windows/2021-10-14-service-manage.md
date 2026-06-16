@@ -1,6 +1,6 @@
 ---
 title       : Windows 서비스 등록 및 관리 방법
-description : >-
+description : "Windows에서 sc 커맨드로 서비스를 등록·삭제·시작·정지·조회하는 방법과, nssm으로 batch 파일을 서비스로 손쉽게 등록하는 방법을 정리한다."
 date        : 2025-02-24 22:50:30 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [windows, "셸·시스템"]

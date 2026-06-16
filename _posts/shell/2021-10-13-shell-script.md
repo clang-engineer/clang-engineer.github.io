@@ -1,6 +1,6 @@
 ---
 title       : 유용한 shell script
-description : >-
+description : "nohup으로 jar 백그라운드 실행, lsof로 포트 점유 프로세스 종료, for/sed로 파일명 일괄 변경하는 자주 쓰는 shell 스니펫 모음."
 date        : 2021-11-05 10:36:15 +0900
 updated     : 2025-10-03 14:18:54 +0900
 categories  : [shell, "셸·스크립팅"]

@@ -1,7 +1,6 @@
 ---
 title       : 맥 운영체제에서 NIC(Network Interface Card) 고유 주소(mac address) 변조
-description : >-
-  맥 운영체제에서 NIC(Network Interface Card) 고유 주소(mac address)를 변조하는 방법을 알아봅니다.
+description : "macOS에서 SIP를 비활성화한 뒤 ifconfig 또는 spoof-mac으로 NIC의 MAC 주소를 임시 변조하고 원복하는 절차를 정리한다."
 date        : 2024-05-23 08:41:19 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [network, "네트워크 기초"]

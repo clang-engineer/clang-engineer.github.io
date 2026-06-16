@@ -1,6 +1,6 @@
 ---
 title       : Mac에서 Docker 실행시 Operation not permitted 에러 해결법
-description : >-
+description : "macOS에서 Docker 실행 시 발생하는 Operation not permitted 에러의 원인이 파일·폴더 접근 권한 누락임을 짚고, 시스템 환경설정에서 Docker 권한을 부여해 해결하는 방법을 정리한다."
 date        : 2021-12-08 09:00:45 +0900
 updated     : 2025-10-03 13:28:38 +0900
 categories  : [docker]

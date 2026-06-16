@@ -1,7 +1,6 @@
 ---
 title       : 🧷 tmux 정리본 (Cheat Sheet + 사용 가이드)
-description : >-
-    터미널을 여러개의 세션으로 나누어서 사용할 수 있게 해주는 tmux 사용법에 대한 내용
+description : "터미널 멀티플렉서 tmux의 세션·윈도우·패널 구조와 설치, ~/.tmux.conf 설정, 자주 쓰는 단축키를 한 번에 찾아볼 수 있는 Cheat Sheet 형식으로 정리한다."
 date        : 2021-11-30 22:50:30 +0900
 updated     : 2026-01-28 08:33:28 +0900
 categories  : [tmux, "설정·옵션"]

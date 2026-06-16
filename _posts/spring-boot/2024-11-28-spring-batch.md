@@ -1,7 +1,6 @@
 ---
 title       : Spring Batch
-description : >-
-    Spring Batch에 대해 기록한 문서입니다.
+description : "Job·Step·Tasklet·Chunk 같은 구성요소가 실제로 어떻게 맞물려 도는지, 그리고 BATCH_JOB_INSTANCE 등 메타 테이블이 재시작·중복 실행 방지를 어떻게 보장하는지."
 date        : 2024-11-28 09:00:45 +0900
 updated     : 2024-11-28 09:01:11 +0900
 categories  : [spring-boot, "배치·스케줄링"]

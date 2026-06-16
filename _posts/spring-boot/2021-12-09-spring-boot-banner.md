@@ -1,7 +1,6 @@
 ---
 title       : Spring Boot 배너 샘플
-description : >-
-    Spring Boot 배너 샘플을 정리한 문서입니다.
+description : "resources/banner.txt 한 장으로 시작 화면을 바꾼다. AnsiColor 변수를 활용한 부처 ASCII 아트와 nyan-cat 컬러 배너 두 가지 샘플."
 date        : 2021-12-08 09:00:45 +0900
 updated     : 2021-12-09 09:01:11 +0900
 categories  : [spring-boot, "설정·아키텍처"]

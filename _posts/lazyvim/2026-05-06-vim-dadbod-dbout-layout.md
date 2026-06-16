@@ -4,7 +4,7 @@ description : "dbout 결과창의 크기/방향을 바꾸는 공식 방법은 Fi
 date        : 2026-05-06 11:00:00 +0900
 updated     : 2026-05-06 11:00:00 +0900
 categories  : [lazyvim, "Dadbod"]
-tags        : [vim-dadbod-ui, neovim]
+tags        : [vim-dadbod-ui, neovim, troubleshooting]
 pin         : false
 hidden      : false
 ---

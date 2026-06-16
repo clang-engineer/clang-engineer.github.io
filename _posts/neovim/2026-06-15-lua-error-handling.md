@@ -2,7 +2,7 @@
 title       : "Lua 에러 처리"
 description : "error/assert로 던지고, pcall/xpcall로 잡기. error 객체 패턴, Neovim 플러그인의 에러 관행과 vim.notify 표시까지."
 date        : 2026-06-15 17:00:00 +0900
-updated     : 2026-06-15 17:00:00 +0900
+updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "원리·언어"]
 tags        : [lua, neovim, guide]
 pin         : false
@@ -230,3 +230,12 @@ end
 4. **`pcall`은 traceback 없음**. 필요하면 `xpcall(fn, debug.traceback)`.
 5. **`assert(v, msg)`의 msg는 `v`가 falsy일 때만 평가하면 좋지만, Lua는 즉시 평가**. 비싼 메시지면 직접 `if not v then error(...)`.
 6. **에러를 위로 던지는 게 기본**. 무지성 `pcall`로 다 감싸면 디버깅 못 함.
+
+## Lua 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [Lua 종합 가이드 (Neovim 컨텍스트)](/posts/neovim/2026-06-15-lua-syntax-guide/) | LuaJIT(5.1) 문법 한 번에 정리 — 타입·스코프·테이블·문자열 패턴·`vim.*` 헬퍼 |
+| [Lua 모듈](/posts/neovim/2026-06-15-lua-modules/) | `require`/`package.path`, `local M = {} return M` 패턴, Neovim `lua/` 자동 등록 |
+| [Lua 메타테이블](/posts/neovim/2026-06-15-lua-metatables/) | `__index`/`__newindex`/`__call`, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
+| **Lua 에러 처리 (현재 글)** | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. Neovim 플러그인의 에러 관행 |

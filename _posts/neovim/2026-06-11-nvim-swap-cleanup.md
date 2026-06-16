@@ -4,7 +4,7 @@ description : "복구 후 swap이 자동 삭제되지 않아 경고가 반복되
 date        : 2026-06-11 10:00:00 +0900
 updated     : 2026-06-11 10:00:00 +0900
 categories  : [neovim, "원리·언어"]
-tags        : [bash]
+tags        : [bash, troubleshooting]
 pin         : false
 hidden      : false
 ---

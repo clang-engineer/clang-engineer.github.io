@@ -2,7 +2,7 @@
 title       : "Neovim 플러그인을 Lua로 짤까 Vimscript로 짤까 — 언어 선택 기준"
 description : "신규 플러그인은 Lua가 표준이지만, 부모 생태계가 Vimscript인 경우엔 Vimscript가 더 자연스럽다. dadbod 어댑터 사례로 본 선택 기준."
 date        : 2026-06-12 19:00:00 +0900
-updated     : 2026-06-12 19:00:00 +0900
+updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "원리·언어"]
 tags        : [lua, vimscript, plugin]
 pin         : false
@@ -172,3 +172,14 @@ GitHub 레포명 컨벤션이지 언어 표시가 아니다.
 ## 정리
 
 "Neovim 플러그인은 Lua로"가 일반 규칙이고, **"기존 Vimscript 생태계 확장은 Vimscript 유지"**가 정당한 예외다. 진입점만 Lua 얇은 래퍼로 두면 lazy.nvim 사용자 편의는 그대로 챙길 수 있다. 언어 선택은 이념 문제가 아니라 **부모 생태계와의 통합 비용 문제**다.
+
+## 플러그인 작성 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| **언어 선택 (현재 글)** | Lua가 표준이지만 부모 생태계가 Vimscript면 Vimscript가 자연스럽다 |
+| [Lua와 Vimscript 섞기](/posts/neovim/2026-06-12-neovim-plugin-mixing-lua-vimscript/) | 호출 경계 최소화, 흔한 안티패턴, 모범 분담 |
+| [runtimepath 디렉토리 관례](/posts/neovim/2026-06-12-neovim-plugin-conventions/) | `plugin/` vs `lua/`, 헬프·헬스체크·after/ 자동 로드 규칙 |
+| [4가지 채널로 노출시키기](/posts/neovim/2026-06-12-neovim-plugin-distribution/) | awesome-neovim · Dotfyle · VimAwesome · GitHub Topics |
+
+실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)에서 위 4가지 원칙을 한 번에 적용해본다.

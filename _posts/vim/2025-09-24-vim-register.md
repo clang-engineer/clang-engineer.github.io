@@ -1,6 +1,6 @@
 ---
 title       : Vim/Neovim 레지스터 정리
-description : 
+description : "unnamed부터 numbered, named, read-only, expression, 클립보드(*, +)까지 Vim/Neovim의 레지스터 종류와 yank·delete가 어디로 들어가는지 정리."
 date        : 2025-09-24 09:42:44 +0900
 updated     : 2025-10-04 17:36:49 +0900
 categories  : [vim, "사용·키맵"]

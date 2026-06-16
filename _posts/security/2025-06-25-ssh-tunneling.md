@@ -1,6 +1,6 @@
 ---
 title       : SSH Tunneling
-description : >-
+description : "ssh -L/-R/-D를 이용한 로컬·원격·동적 포트 포워딩 사용법과 bastion 경유 폐쇄망 접근, GatewayPorts 설정, 자주 쓰는 옵션과 보안 고려사항을 정리한다."
 date        : 2025-06-25 11:44:14 +0900
 updated     : 2025-06-25 11:44:14 +0900
 categories  : [security, "SSH·인증"]

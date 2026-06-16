@@ -1,7 +1,6 @@
 ---
 title       : 유용한 웹 개발 도구
-description : >-
-    ERD·다이어그램·git 학습·브라우저 분석 — 자주 손이 가는 무료 도구 정리
+description : "ERD Cloud·Excalidraw·Learn Git Branching·Wappalyzer 등 ERD·다이어그램·git 학습·브라우저 분석에 자주 쓰는 무료 도구와 대안을 정리한다."
 date        : 2021-10-05 11:35:56 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [etc, "개발 도구"]

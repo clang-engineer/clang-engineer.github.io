@@ -2,7 +2,7 @@
 title       : "Neovim 플러그인 작성 규칙 — runtimepath 디렉토리 관례 정리"
 description : "Vim 시절부터 이어진 runtimepath 자동 로드 규칙, Lua 추가분, plugin/ vs lua/ 역할 분리, 헬프·헬스체크·after/ 관례까지."
 date        : 2026-06-12 18:00:00 +0900
-updated     : 2026-06-12 18:00:00 +0900
+updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [plugin, lua, lazy-nvim, lazyvim]
 pin         : false
@@ -225,3 +225,14 @@ Neovim 안에서 바로 확인:
 2. **`require("name").setup(opts)` 관례**: 사용자 진입점은 거의 항상 이 형태.
 
 가드 패턴·네임스페이스·헬스체크·헬프 문서는 있으면 좋은 관례이고, `after/`는 오버라이드 전용이다. LazyVim에서 쓴다고 특별한 게 없고, 그냥 lazy.nvim spec으로 일반 플러그인을 등록하는 것뿐이다.
+
+## 플러그인 작성 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [언어 선택](/posts/neovim/2026-06-12-neovim-plugin-language-choice/) | Lua가 표준이지만 부모 생태계가 Vimscript면 Vimscript가 자연스럽다 |
+| [Lua와 Vimscript 섞기](/posts/neovim/2026-06-12-neovim-plugin-mixing-lua-vimscript/) | 호출 경계 최소화, 흔한 안티패턴, 모범 분담 |
+| **runtimepath 디렉토리 관례 (현재 글)** | `plugin/` vs `lua/`, 헬프·헬스체크·after/ 자동 로드 규칙 |
+| [4가지 채널로 노출시키기](/posts/neovim/2026-06-12-neovim-plugin-distribution/) | awesome-neovim · Dotfyle · VimAwesome · GitHub Topics |
+
+실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)에서 위 4가지 원칙을 한 번에 적용해본다.

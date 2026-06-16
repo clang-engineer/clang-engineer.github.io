@@ -1,7 +1,6 @@
 ---
 title       : Windows에서 Ubuntu 개발 환경 구축하기
-description : >-
-    Windows에서 Ubuntu 개발 환경을 구축하는 방법을 정리합니다.
+description : "wsl --install로 WSL과 Ubuntu를 한 번에 올리고, Python·Node.js·Docker까지 apt로 세팅하는 절차."
 date        : 2025-01-25 16:55:20 +0900
 updated     : 2025-01-25 16:58:25 +0900
 categories  : [linux, "배포판·환경"]

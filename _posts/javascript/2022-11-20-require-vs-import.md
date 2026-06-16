@@ -1,6 +1,6 @@
 ---
 title       : Require vs Import
-description : >-
+description : "CommonJS의 require와 ES6의 import는 동기·비동기 로딩, 호이스팅, 트리 쉐이킹 가능 여부에서 갈린다. 두 모듈 시스템의 차이와 선택 기준."
 date        : 2022-11-20 09:00:45 +0900
 updated     : 2022-11-20  09:01:11 +0900
 categories  : [javascript, "언어·패키지"]

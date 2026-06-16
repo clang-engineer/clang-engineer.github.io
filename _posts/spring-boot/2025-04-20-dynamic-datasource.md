@@ -1,7 +1,6 @@
 ---
 title       : 동적 데이터 소스 설정
-description : >-
-    Spring Boot에서 AbstractRoutingDataSource 를 사용하여 동적 데이터 소스를 설정하는 방법을 기록
+description : "AbstractRoutingDataSource와 ThreadLocal 기반 ContextHolder로 요청마다 DB를 갈아끼우는 패턴. @UseDataSource 어노테이션과 AOP로 호출 지점에서 전환하기."
 date        : 2025-04-20 09:01:11 +0900
 updated     : 2025-04-20 09:01:11 +0900
 categories  : [spring-boot, "설정·아키텍처"]

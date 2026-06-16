@@ -1,6 +1,6 @@
 ---
 title       : RDB에서 조인(Join) 방식 총정리
-description : 
+description : "Nested Loop·Hash·Sort-Merge JOIN의 원리와 시간 복잡도, 메모리 사용 패턴, 옵티마이저가 테이블 크기·인덱스·정렬 상태를 보고 어떤 전략을 고르는지."
 date        : 2026-01-04 19:42:22 +0900
 updated     : 2026-01-04 19:53:00 +0900
 categories  : [db, "RDB·트랜잭션"]

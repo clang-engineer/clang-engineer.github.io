@@ -1,7 +1,6 @@
 ---
 title       : 폐쇄망 환경에서 서비스 운영을 위한 환경 구축 방법
-description : >-
-    인터넷 연결이 되지 않는 폐쇄망 환경에서 서비스를 운영해야 하는 경우가 종종 발생해, 이를 위한 환경 구축 방법을 기록합니다.
+description : "외부 환경에서 dnf download --resolve로 의존성까지 받아 내부망에서 rpm으로 설치하는 흐름. postgresql15, java11, nginx 사례."
 date        : 2025-01-14 13:38:35 +0900
 updated     : 2025-01-14 13:38:54 +0900
 categories  : [linux, "배포판·환경"]

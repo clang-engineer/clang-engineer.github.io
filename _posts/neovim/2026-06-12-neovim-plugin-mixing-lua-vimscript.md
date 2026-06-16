@@ -2,7 +2,7 @@
 title       : "한 Neovim 플러그인에 Lua와 Vimscript 섞기 — 분담 기준과 안티패턴"
 description : "Neovim은 두 인터프리터를 다 내장해서 한 플러그인 안에 두 언어를 섞을 수 있다. 호출 경계를 최소화하는 분담 원칙, 흔한 안티패턴, dadbod-vertica식 모범 패턴."
 date        : 2026-06-12 19:30:00 +0900
-updated     : 2026-06-12 19:30:00 +0900
+updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [lua, vimscript, plugin]
 pin         : false
@@ -228,3 +228,14 @@ Neovim 코어가 두 인터프리터를 내장하기 때문에 한 플러그인 
 - **함수 호출 핑퐁 금지** — 디버깅·성능 모두 나빠진다
 
 신규 플러그인이고 부모 의존이 없다면 **그냥 전부 Lua**로 가는 게 가장 단순하다. 섞는 건 부모 생태계가 Vimscript여서 어쩔 수 없을 때의 해법이다.
+
+## 플러그인 작성 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [언어 선택](/posts/neovim/2026-06-12-neovim-plugin-language-choice/) | Lua가 표준이지만 부모 생태계가 Vimscript면 Vimscript가 자연스럽다 |
+| **Lua와 Vimscript 섞기 (현재 글)** | 호출 경계 최소화, 흔한 안티패턴, 모범 분담 |
+| [runtimepath 디렉토리 관례](/posts/neovim/2026-06-12-neovim-plugin-conventions/) | `plugin/` vs `lua/`, 헬프·헬스체크·after/ 자동 로드 규칙 |
+| [4가지 채널로 노출시키기](/posts/neovim/2026-06-12-neovim-plugin-distribution/) | awesome-neovim · Dotfyle · VimAwesome · GitHub Topics |
+
+실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)에서 위 4가지 원칙을 한 번에 적용해본다.

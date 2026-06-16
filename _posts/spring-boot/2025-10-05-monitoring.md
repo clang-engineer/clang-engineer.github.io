@@ -1,6 +1,6 @@
 ---
 title       : JHipster 모니터링
-description : 
+description : "Actuator가 /management/prometheus로 메트릭을 노출하고, Prometheus가 스크래핑해 시계열로 저장하고, Grafana가 시각화하는 3요소 연동 구조를 실제 설정 파일로."
 date        : 2025-10-05 15:16:51 +0900
 updated     : 2025-10-05 16:12:22 +0900
 categories  : [spring-boot, "모니터링·로깅"]

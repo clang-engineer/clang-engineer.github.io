@@ -1,6 +1,6 @@
 ---
 title       : HTTP 보안·캐시 헤더 — Cache-Control, CSP, Permissions-Policy, Referrer-Policy
-description :
+description : "응답 캐싱을 제어하는 Cache-Control, XSS를 막는 CSP, 브라우저 기능 권한을 통제하는 Permissions-Policy, Referer 노출을 조절하는 Referrer-Policy의 주요 디렉티브와 값을 정리한다."
 date        : 2026-06-07 12:00:00 +0900
 categories  : [security, "TLS·HTTP"]
 tags        : [http, cache]

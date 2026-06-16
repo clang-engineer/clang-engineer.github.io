@@ -1,6 +1,6 @@
 ---
 title       : Java `java.util.function` 핵심 정리
-description : 
+description : "람다의 타겟 타입인 java.util.function 패키지를 Runnable·Comparator 배경부터 Function·Predicate·Consumer·Supplier 4대장까지 정리한다."
 date        : 2026-01-04 12:20:48 +0900
 updated     : 2026-01-04 12:28:39 +0900
 categories  : [java, "언어·런타임"]

@@ -1,7 +1,6 @@
 ---
 title       : Debian vs Red Hat 계열
-description : >-
-    패키지 매니저·일상 명령·릴리스 사이클 측면에서 두 계열의 실질적 차이
+description : "apt/dnf, .deb/.rpm, 릴리스 모델과 SELinux·방화벽 기본값까지 — Debian과 Red Hat 계열의 실질적 차이와 상황별 선택 기준."
 date        : 2024-06-09 22:50:30 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [linux, "배포판·환경"]

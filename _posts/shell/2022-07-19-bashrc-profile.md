@@ -1,7 +1,6 @@
 ---
 title       : /etc/profile, /etc/bashrc, ~/.bash_profile, ~/.bashrc
-description : >-
-    Login/Non-login·Interactive/Non-interactive 셸과 각 설정 파일이 언제 읽히는지
+description : "login/non-login과 interactive/non-interactive 축으로 본 .bash_profile·.bashrc·/etc/profile 로딩 순서, zsh 매핑까지."
 date        : 2022-07-09 22:50:30 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [shell, "셸·스크립팅"]

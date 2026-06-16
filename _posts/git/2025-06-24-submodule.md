@@ -1,7 +1,6 @@
 ---
 title       : Git Submodule 을 사용하여 다른 Git 저장소를 포함하기
-description : >-
-    .gitmodules·특정 커밋 핀·detached HEAD 등 서브모듈의 동작 원리와 흔한 함정
+description : "서브모듈은 다른 저장소를 포함하는 게 아니라 특정 커밋 SHA를 가리키는 포인터다. .gitmodules 구조, detached HEAD 함정, 원격 추적 옵션까지."
 date        : 2025-06-24 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [git, "저장소·운영"]

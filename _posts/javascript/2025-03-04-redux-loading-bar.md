@@ -1,7 +1,6 @@
 ---
 title       : Redux Loading Bar 사용법
-description : >-
-    Redux Loading Bar 라이브러리를 사용하여 Redux 액션의 로딩 상태를 표시하는 방법에 대해 기록합니다.
+description : "react-redux-loading-bar는 액션 타입 시작·종료를 미들웨어가 감지해 자동으로 로딩 바를 표시한다. Provider 하위 컴포넌트, 리듀서, 미들웨어 연결 예시."
 date        : 2025-03-04 00:00:00 +0900
 updated     : 2025-03-04 18:09:37 +0900
 categories  : [javascript, "React·UI"]

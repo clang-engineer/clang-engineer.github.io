@@ -1,6 +1,6 @@
 ---
 title       : Serena 기본 가이드
-description : 
+description : "코드베이스의 의미 기반 검색·편집을 지원하는 MCP 서버 Serena의 설치, 서버 실행, 설정 파일 구조, 프로젝트 활성화와 인덱싱, Claude Code 연동 흐름을 정리한다."
 date        : 2025-10-23 13:43:00 +0900
 updated     : 2026-02-24 10:55:31 +0900
 categories  : [ai, "MCP"]

@@ -1,6 +1,6 @@
 ---
 title       : nvm으로 Node 버전 변경 후 webpack-dev-server 프록시 ECONNREFUSED 해결기
-description : 
+description : "nvm으로 Node 17+ 올린 뒤 webpack-dev-server 프록시만 ECONNREFUSED. Node가 localhost를 IPv6(::1)로 먼저 풀어 IPv4만 바인딩한 백엔드에 닿지 못한 문제 → target을 127.0.0.1로 고정."
 date        : 2026-01-16 10:32:57 +0900
 updated     : 2026-01-16 10:33:15 +0900
 categories  : [javascript, "Node·번들러"]

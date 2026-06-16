@@ -1,6 +1,6 @@
 ---
 title       : Claude Code 정리
-description : 
+description : "터미널에서 동작하는 Anthropic의 AI 코딩 도구 Claude Code의 특징과 설치 방법, 기능 구축·디버깅·코드베이스 탐색·작업 자동화 등 실사용 시나리오를 정리한다."
 date        : 2025-10-24 09:47:55 +0900
 updated     : 2025-11-06 08:12:27 +0900
 categories  : [ai, "Claude Code"]

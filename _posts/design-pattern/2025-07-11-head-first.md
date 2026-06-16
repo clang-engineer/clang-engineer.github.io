@@ -1,7 +1,6 @@
 ---
 title       : Head First Design Pattern Index
-description : >
-
+description : "Head First Design Patterns 책 0~14장 전체 목차 인덱스. 전략·옵저버·데코레이터·팩토리·싱글턴·커맨드·어댑터·템플릿메소드·반복자·상태·프록시·복합 패턴까지."
 date        : 2025-03-07 22:50:42 +0900
 updated     : 2025-03-07 22:50:42 +0900
 categories  : [design-pattern, "개요"]

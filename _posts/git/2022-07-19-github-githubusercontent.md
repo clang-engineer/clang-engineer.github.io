@@ -1,6 +1,6 @@
 ---
 title       : Github 파일 다운로드 가이드
-description : >-
+description : "REST API 응답의 download_url 필드와 raw.githubusercontent.com URL 구조를 이용해 인증 없이 curl로 GitHub 파일을 받는 방법."
 date        : 2021-12-08 09:00:45 +0900
 updated     : 2025-10-03 12:25:09 +0900
 categories  : [git, "GitHub·플랫폼"]

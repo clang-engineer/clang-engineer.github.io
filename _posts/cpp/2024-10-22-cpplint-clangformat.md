@@ -1,6 +1,6 @@
 ---
 title       : Cpplint와 ClangFormat을 사용한 Google 스타일 코드 작성
-description :
+description : "cpplint로 C++ 소스가 Google 스타일을 따르는지 검사하고, clang-format과 .clang-format 파일로 일괄 포맷팅하며 vim-clang-format으로 저장 시 자동 정리까지 적용하는 방법을 정리한다."
 date        : 2023-04-20 16:38:01 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [cpp]

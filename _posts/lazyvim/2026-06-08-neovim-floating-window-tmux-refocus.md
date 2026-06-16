@@ -4,7 +4,7 @@ description : "vim-tmux-navigator가 float에서 한 번에 안 넘어가는 문
 date        : 2026-06-08 14:00:00 +0900
 updated     : 2026-06-08 14:00:00 +0900
 categories  : [lazyvim, "플러그인"]
-tags        : [neovim, snacks]
+tags        : [neovim, snacks, troubleshooting]
 pin         : false
 hidden      : false
 ---

@@ -1,6 +1,6 @@
 ---
 title       : Windows Terminal 화면(Pane) 기능 정리
-description : 
+description : "Windows Terminal에서 하나의 Tab을 여러 Pane으로 분할·이동·확대하는 단축키와 마우스 조작 방법을 구조 개념과 함께 정리한다."
 date        : 2026-01-15 09:13:52 +0900
 updated     : 2026-01-15 09:17:29 +0900
 categories  : [windows, "셸·시스템"]

@@ -1,6 +1,6 @@
 ---
 title       : Spring Boot에서 로그 레벨 
-description : 
+description : "TRACE·DEBUG·INFO·WARN·ERROR·FATAL의 의미와 임계값 동작 방식, log4j.xml로 레벨을 설정했을 때 어떤 메시지가 걸러지고 통과하는지."
 date        : 2025-10-22 10:58:33 +0900
 updated     : 2025-10-22 11:14:15 +0900
 categories  : [spring-boot, "모니터링·로깅"]

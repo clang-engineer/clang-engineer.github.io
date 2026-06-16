@@ -2,7 +2,7 @@
 title       : "Lua 종합 가이드 (Neovim 컨텍스트)"
 description : "Neovim 설정·플러그인을 읽고 고치는 수준까지 Lua 문법을 한 번에 정리. 타입·스코프·테이블·문자열 패턴, 자주 쓰는 vim.* 헬퍼와 함정까지."
 date        : 2026-06-15 16:00:00 +0900
-updated     : 2026-06-15 16:00:00 +0900
+updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "원리·언어"]
 tags        : [lua, neovim, guide]
 pin         : false
@@ -11,7 +11,7 @@ hidden      : false
 
 Neovim 설정·플러그인을 읽고 고치는 데 필요한 Lua 문법을 한 번에 정리한 글이다. **LuaJIT(Lua 5.1 호환)** 기준 — 5.3에서 추가된 `//`, `<const>`, bitwise `~`/`&`/`|`는 쓸 수 없다. 비트 연산은 LuaJIT 내장 `bit` 모듈(`bit.band`, `bit.bor`)을 쓴다.
 
-심화 주제(메타테이블·모듈·에러 처리)는 별도 글에서 따로 다룬다 — 본문 끝의 [더 깊이 보기](#더-깊이-보기) 섹션 참고.
+심화 주제(메타테이블·모듈·에러 처리)는 별도 글에서 따로 다룬다 — 본문 끝의 [Lua 시리즈](#lua-시리즈) 섹션 참고.
 
 ## 8개 기본 타입
 
@@ -281,7 +281,7 @@ local ok, result = pcall(function()
 end)
 ```
 
-`pcall`/`xpcall`로 잡고, `error`/`assert`로 던지는 게 기본. 에러 객체 패턴, traceback 핸들러, Neovim 플러그인의 에러 관행은 별도 글에서 자세히 다룬다 → [Lua 문법 8 — 에러 처리](/posts/lua-error-handling/).
+`pcall`/`xpcall`로 잡고, `error`/`assert`로 던지는 게 기본. 에러 객체 패턴, traceback 핸들러, Neovim 플러그인의 에러 관행은 별도 글에서 자세히 다룬다 → [Lua 문법 8 — 에러 처리](/posts/neovim/2026-06-15-lua-error-handling/).
 
 ## Neovim 자주 쓰는 헬퍼
 
@@ -350,12 +350,11 @@ local file, line, col, text = msg:match("([^:]+):(%d+):(%d+):%s*(.+)")
 9. `#s`는 **바이트 길이**, UTF-8 코드포인트 수가 아니다.
 10. `gsub`은 다중 반환(`new, count`) → `print((s:gsub(...)))`로 두 번째 값을 잘라낸다.
 
-## 더 깊이 보기
-
-심화 주제는 별도 글로 분리해 두었다:
+## Lua 시리즈
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [Lua 메타테이블](/posts/lua-metatables/) | `__index`/`__newindex`/`__call` 같은 메타메서드, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
-| [Lua 모듈](/posts/lua-modules/) | `require`/`package.path`, `local M = {} return M` 패턴, require 캐시, Neovim `lua/` 디렉토리 자동 등록 |
-| [Lua 에러 처리](/posts/lua-error-handling/) | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. 에러 객체 패턴, Neovim 플러그인의 에러 관행 |
+| **Lua 종합 가이드 (Neovim 컨텍스트) (현재 글)** | LuaJIT(5.1) 문법 한 번에 정리 — 타입·스코프·테이블·문자열 패턴·`vim.*` 헬퍼 |
+| [Lua 모듈](/posts/neovim/2026-06-15-lua-modules/) | `require`/`package.path`, `local M = {} return M` 패턴, Neovim `lua/` 자동 등록 |
+| [Lua 메타테이블](/posts/neovim/2026-06-15-lua-metatables/) | `__index`/`__newindex`/`__call`, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
+| [Lua 에러 처리](/posts/neovim/2026-06-15-lua-error-handling/) | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. Neovim 플러그인의 에러 관행 |

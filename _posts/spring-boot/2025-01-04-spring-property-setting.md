@@ -1,7 +1,6 @@
 ---
 title       : Spring Boot 프로퍼티 설정 방법과 우선순위
-description : >-
-    application.yml·-D·spring.config.location·환경변수·@PropertySource를 어디서 어떻게 쓰고 우선순위는 어떻게 잡히나
+description : "application.yml·-D·--·환경변수·@PropertySource가 충돌할 때 누가 이기나. 운영에서 덮어쓰기는 환경변수와 --인자, 개발 기본값은 yaml이라는 실전 가이드."
 date        : 2025-01-14 14:32:50 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [spring-boot, "설정·아키텍처"]

@@ -2,7 +2,7 @@
 title       : "Lua 모듈"
 description : "require/package.path, local M = {} return M 패턴, require 캐시, Neovim lua/ 디렉토리 자동 등록과의 연결."
 date        : 2026-06-15 15:00:00 +0900
-updated     : 2026-06-15 15:00:00 +0900
+updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "원리·언어"]
 tags        : [lua, neovim, guide]
 pin         : false
@@ -261,3 +261,12 @@ local m = require("my.module")
 4. **`require("foo.bar")`의 `.`은 디렉토리 구분자**. `foo_bar.lua` 아니라 `foo/bar.lua`.
 5. **모듈 안에서 같은 패키지 모듈 참조도 절대 경로**. 상대 경로 없음.
 6. **lua/foo.lua와 lua/foo/init.lua가 동시에 있으면** 어느 게 먼저인지 `package.path` 순서에 의존. 헷갈리지 않게 하나만 두기.
+
+## Lua 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [Lua 종합 가이드 (Neovim 컨텍스트)](/posts/neovim/2026-06-15-lua-syntax-guide/) | LuaJIT(5.1) 문법 한 번에 정리 — 타입·스코프·테이블·문자열 패턴·`vim.*` 헬퍼 |
+| **Lua 모듈 (현재 글)** | `require`/`package.path`, `local M = {} return M` 패턴, Neovim `lua/` 자동 등록 |
+| [Lua 메타테이블](/posts/neovim/2026-06-15-lua-metatables/) | `__index`/`__newindex`/`__call`, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
+| [Lua 에러 처리](/posts/neovim/2026-06-15-lua-error-handling/) | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. Neovim 플러그인의 에러 관행 |

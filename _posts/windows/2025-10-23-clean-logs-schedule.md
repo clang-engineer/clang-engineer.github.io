@@ -1,6 +1,6 @@
 ---
 title       : 🧹 Windows 로그 파일 자동 삭제 스케줄 설정 가이드
-description : 
+description : "PowerShell 스크립트와 Windows 작업 스케줄러(Task Scheduler)를 활용해 지정 기간이 지난 로그 파일을 주기적으로 자동 삭제하는 방법을 단계별로 정리한다."
 date        : 2025-10-23 15:22:17 +0900
 updated     : 2025-10-23 15:23:06 +0900
 categories  : [windows, "셸·시스템"]

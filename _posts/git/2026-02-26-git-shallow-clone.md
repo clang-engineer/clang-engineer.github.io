@@ -1,6 +1,6 @@
 ---
 title       : Git Shallow Clone으로 비대해진 저장소 가볍게 사용하기
-description :
+description : "소스는 몇 MB인데 .git이 수백 MB인 저장소를 git clone --depth 1로 가볍게 받고, 필요해지면 --unshallow로 전체 히스토리 복구."
 date        : 2026-02-26 17:00:00 +0900
 updated     : 2026-02-26 17:00:00 +0900
 categories  : [git, "저장소·운영"]

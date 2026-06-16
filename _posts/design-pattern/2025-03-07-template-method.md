@@ -1,7 +1,6 @@
 ---
 title       : Template Method Pattern
-description : >-
-  템플릿 메소드 패턴에 대해 정리합니다.
+description : "상위 abstract class가 알고리즘 골격을, 하위 클래스가 프리미티브 메서드를 채우는 패턴. JdbcTemplate처럼 Strategy와 조합되기도 한다."
 date        : 2025-03-07 22:50:42 +0900
 updated     : 2025-03-07 22:50:42 +0900
 categories  : [design-pattern, "행동"]

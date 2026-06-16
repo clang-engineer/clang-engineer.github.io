@@ -1,6 +1,6 @@
 ---
 title       : Neovim 배포판/프레임워크 비교 소개
-description : 
+description : "LazyVim, AstroNvim, NvChad, LunarVim 네 배포판이 Neovim Core 위에 Lua 설정 레이어를 어떻게 다르게 얹는지 초점·성능·자유도 기준으로 비교."
 date        : 2025-10-04 12:41:16 +0900
 updated     : 2025-10-04 12:41:33 +0900
 categories  : [lazyvim, "개요·인덱스"]

@@ -1,7 +1,6 @@
 ---
 title       : logrotate 설정
-description : >-
-    logrotate를 이용한 로그 파일 관리
+description : "logrotate.conf와 /etc/logrotate.d/ 개별 설정, nginx postrotate 예시, logback과의 분담 기준까지."
 date        : 2021-01-25 22:50:30 +0900
 updated     : 2025-10-23 09:01:04 +0900
 categories  : [linux, "시스템 관리"]

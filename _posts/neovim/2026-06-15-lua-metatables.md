@@ -2,7 +2,7 @@
 title       : "Lua 메타테이블"
 description : "__index/__newindex/__call 같은 메타메서드, OOP 클래스 패턴, 문자열 메서드 호출의 비밀, Neovim vim.opt가 일반 테이블처럼 보이는 이유."
 date        : 2026-06-15 14:00:00 +0900
-updated     : 2026-06-15 14:00:00 +0900
+updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "원리·언어"]
 tags        : [lua, neovim, guide]
 pin         : false
@@ -257,3 +257,12 @@ return M
 4. **`__index`가 테이블이면 그 테이블의 메타테이블은 따라가지 않는다**. 다단 상속하려면 그 테이블에 또 메타테이블을 붙여야 함.
 5. **클래스 패턴에서 `Class.__index = Class` 빠뜨리면** 인스턴스에 메서드 안 보임.
 6. **`==`은 같은 메타테이블일 때만 `__eq` 호출** (Lua 5.1). 다른 메타테이블이면 그냥 false.
+
+## Lua 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [Lua 종합 가이드 (Neovim 컨텍스트)](/posts/neovim/2026-06-15-lua-syntax-guide/) | LuaJIT(5.1) 문법 한 번에 정리 — 타입·스코프·테이블·문자열 패턴·`vim.*` 헬퍼 |
+| [Lua 모듈](/posts/neovim/2026-06-15-lua-modules/) | `require`/`package.path`, `local M = {} return M` 패턴, Neovim `lua/` 자동 등록 |
+| **Lua 메타테이블 (현재 글)** | `__index`/`__newindex`/`__call`, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
+| [Lua 에러 처리](/posts/neovim/2026-06-15-lua-error-handling/) | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. Neovim 플러그인의 에러 관행 |

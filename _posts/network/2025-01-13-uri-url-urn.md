@@ -1,7 +1,6 @@
 ---
 title       : URI, URL, URN
-description : >-
-    Identifier·Locator·Name이라는 세 가지 개념과 URI의 구성 요소
+description : "URI가 상위 개념이고 URL(위치)과 URN(이름)이 그 하위 분류라는 관계, 그리고 scheme·authority·path·query·fragment로 이루어진 URI 구성과 URN이 의미 있는 경우를 정리한다."
 date        : 2025-01-13 16:55:20 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [network, "웹·HTTP"]

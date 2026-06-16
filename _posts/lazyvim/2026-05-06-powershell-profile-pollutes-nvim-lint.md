@@ -4,7 +4,7 @@ description : "비대화형 PowerShell 세션이 PSReadLine 에러와 chcp 텍�
 date        : 2026-05-06 10:00:00 +0900
 updated     : 2026-05-06 10:00:00 +0900
 categories  : [lazyvim, "플러그인"]
-tags        : [powershell, windows]
+tags        : [powershell, windows, troubleshooting]
 pin         : false
 hidden      : false
 ---

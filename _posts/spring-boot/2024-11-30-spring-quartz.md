@@ -1,7 +1,6 @@
 ---
 title       : Spring Quartz
-description : >-
-  Spring Quartz 에 관한 내용을 정리한 문서입니다.
+description : "JobDetail·Trigger·Scheduler를 Cron으로 묶는 기본 사용법과, Job 정지 vs Trigger 정지의 차이, JDBCJobStore와 RAMJobStore 선택 기준."
 date        : 2025-03-06 09:00:45 +0900
 updated     : 2025-03-06 09:01:11 +0900
 categories  : [spring-boot, "배치·스케줄링"]

@@ -1,6 +1,6 @@
 ---
 title       : Jhipster SonarQube
-description : >-
+description : "SonarQube를 도커로 띄우고 토큰을 발급해 Gradle·sonar-scanner로 분석을 돌리는 흐름. JaCoCo·Jest 커버리지 연동과 Kotlin JDK 이슈, CI 통합까지."
 date        : 2025-10-02 19:49:32 +0900
 updated     : 2025-10-04 20:45:35 +0900
 categories  : [spring-boot, "JHipster"]

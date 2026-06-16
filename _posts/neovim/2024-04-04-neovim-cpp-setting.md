@@ -1,7 +1,6 @@
 ---
 title       : Neovim으로 C++ 개발 환경 세팅 (coc.nvim + clangd)
-description : >-
-    coc-clangd로 LSP를 붙이고 .clang-format/compile_commands.json으로 인덱싱·포매팅까지 잡기
+description : "vim-plug 기반 Neovim에 coc.nvim + coc-clangd로 C++ LSP를 붙이고, compile_commands.json과 .clang-format으로 인덱싱·포매팅까지 잡는 셋업."
 date        : 2024-04-04 08:50:59 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]

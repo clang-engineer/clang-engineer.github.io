@@ -1,10 +1,10 @@
 ---
 title       : Git Partial Merge 시 develop 변경이 삭제되는 문제 정리
-description : 
+description : "git merge --no-commit으로 일부만 가져오면 merge commit에 나머지 변경이 거부됨으로 기록돼, 이후 develop 머지에서 그 변경이 사라진다."
 date        : 2025-11-20 09:35:56 +0900
 updated     : 2025-11-20 10:24:10 +0900
 categories  : [git, "저장소·운영"]
-tags        : [merge, tips]
+tags        : [merge, tips, troubleshooting]
 pin         : false
 hidden      : false
 ---

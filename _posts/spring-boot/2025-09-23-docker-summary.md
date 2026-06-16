@@ -1,6 +1,6 @@
 ---
 title       : Jhipster Docker 개요
-description : >- 
+description : "JHipster의 docker compose 묶음(app·monitoring·sonar·zipkin·control-center) 구성과 포트 매핑, Prometheus Pull 모델과 Grafana 시각화의 통신 흐름."
 date        : 2025-03-06 09:00:45 +0900
 updated     : 2025-10-02 20:32:25 +0900
 categories  : [spring-boot, "JHipster"]
