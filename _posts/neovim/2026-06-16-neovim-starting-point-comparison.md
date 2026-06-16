@@ -44,7 +44,7 @@ Neovim을 새로 시작하거나, 이미 배포판에 익숙하지만 "내부가
 - **nvim-cmp** (자동완성)
 - **gitsigns**, **which-key**, **mini.nvim** 일부
 
-핵심은 "**최소 동작 묶음 + 빽빽한 주석**"이다. LazyVim처럼 extras·distro 추상화 없이 한 파일에 평평하게 다 있어서, 읽으면서 그대로 본인 것으로 만들 수 있는 구조다.
+핵심은 "**최소 동작 묶음 + 빽빽한 주석**"이다. LazyVim처럼 extras·distro[^distro] 추상화 없이 한 파일에 평평하게 다 있어서, 읽으면서 그대로 본인 것으로 만들 수 있는 구조다.
 
 의도된 흐름은 "fork → `init.lua`를 본인 config로 복사 → 직접 수정하며 학습". 즉 kickstart 자체를 그대로 데일리 드라이버로 쓰기보다, **본인 dotfiles로 진화시키는 출발점**으로 쓰는 게 본래 목적이다.
 
@@ -61,7 +61,7 @@ folke가 만든 배포판. **lazy.nvim**(플러그인 매니저) 위에 plugin s
 
 가장 빠르게 IDE 수준 환경을 손에 넣을 수 있지만, "내가 뭘 켜고 있는지" 감각은 가장 약하다. 익숙해질수록 `:Lazy` profile이나 `~/.local/share/nvim/lazy/LazyVim/lua/lazyvim/plugins/`를 들춰봐야 "이게 어디서 들어온 거지?"가 풀린다.
 
-LazyVim 외에도 동일 슬롯에 **NvChad**(경량·성능 중심, 28.3k stars), **AstroNvim**(기능 풍부, 14.3k stars)이 있다. 자세한 distro 간 비교는 [Neovim 배포판/프레임워크 비교](/posts/lazyvim/2025-10-04-neovim-distribution/) 글 참고.
+LazyVim 외에도 동일 슬롯에 **NvChad**(경량·성능 중심), **AstroNvim**(기능 풍부)이 있다. 자세한 distro 간 비교는 [Neovim 배포판/프레임워크 비교](/posts/lazyvim/2025-10-04-neovim-distribution/) 글 참고.
 
 ## 비교 표
 
@@ -100,3 +100,5 @@ LazyVim 외에도 동일 슬롯에 **NvChad**(경량·성능 중심, 28.3k stars
 - 2026년 기준 `lazy.nvim`은 사실상 표준 플러그인 매니저다. 신규 distro·튜토리얼·가이드는 거의 다 이걸 권장한다. 한때 표준이던 **packer.nvim**은 2023년경 unmaintained 선언으로 흐름이 끊겼고, **vim-plug**는 Vim·Neovim 둘 다 지원해야 할 때만 살아남는다.
 
 즉 어느 시작점을 골라도 플러그인 매니저 자리에는 거의 항상 `lazy.nvim`이 들어간다는 점을 알아두면, "왜 distro마다 같은 매니저를 쓰지?"라는 의문이 풀린다.
+
+[^distro]: **distribution**의 줄임말. 리눅스 배포판(Ubuntu·Fedora 등)에서 온 용어로, 코어(여기서는 Neovim) 위에 설정·플러그인·키맵을 미리 조립해 배포한 묶음을 가리킨다. LazyVim·NvChad·AstroNvim이 대표적인 Neovim distro다.
