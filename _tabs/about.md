@@ -2,7 +2,7 @@
 # the default layout is 'page'
 layout: about 
 icon: fas fa-info-circle
-order: 4
+order: 5
 ---
 
 - 백엔드 중심의 소프트웨어 개발자입니다. 통계학을 전공했고, C 언어로 프로그래밍을 시작했습니다.
