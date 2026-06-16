@@ -4,7 +4,7 @@ description : "서브모듈은 다른 저장소를 포함하는 게 아니라 �
 date        : 2025-06-24 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [git, "저장소·운영"]
-tags        : []
+tags        : [submodule, gitmodules]
 pin         : false
 hidden      : false
 ---

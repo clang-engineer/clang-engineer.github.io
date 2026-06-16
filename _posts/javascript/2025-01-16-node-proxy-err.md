@@ -4,7 +4,7 @@ description : "nvm으로 Node 17+ 올린 뒤 webpack-dev-server 프록시만 ECO
 date        : 2026-01-16 10:32:57 +0900
 updated     : 2026-01-16 10:33:15 +0900
 categories  : [javascript, "Node·번들러"]
-tags        : []
+tags        : [nodejs, webpack-dev-server, ipv6, nvm]
 pin         : false
 hidden      : false
 ---

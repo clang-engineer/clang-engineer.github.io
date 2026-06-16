@@ -61,6 +61,8 @@ Neovim 환경을 현대적 IDE처럼 구성하기 위해, Lua 기반 설정과 �
   - AstroNvim: 많은 기능 기본 제공 IDE 환경
   - kickstart.nvim: 처음부터 직접 조립하고 싶을 때의 출발점
 
+> Vanilla(빈 `init.lua`)·kickstart·LazyVim 세 시작점 자체의 학습 곡선·추천 맥락 비교는 [Neovim을 어디서 시작할까](/posts/neovim/2026-06-16-neovim-starting-point-comparison/) 글 참고.
+
 ---
 
 

@@ -4,7 +4,7 @@ description : "망 분리 환경에서 xxd·base64·certutil로 바이너리를 
 date        : 2025-02-21 22:50:30 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [shell, "검색·파일 처리"]
-tags        : []
+tags        : [xxd, base64, certutil, clipboard]
 pin         : false
 hidden      : false
 ---

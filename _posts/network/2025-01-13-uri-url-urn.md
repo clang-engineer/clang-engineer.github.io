@@ -4,7 +4,7 @@ description : "URI가 상위 개념이고 URL(위치)과 URN(이름)이 그 하�
 date        : 2025-01-13 16:55:20 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [network, "웹·HTTP"]
-tags        : []
+tags        : [uri, url, urn]
 pin         : false
 hidden      : false
 ---

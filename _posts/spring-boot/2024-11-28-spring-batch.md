@@ -4,7 +4,7 @@ description : "Job·Step·Tasklet·Chunk 같은 구성요소가 실제로 어떻
 date        : 2024-11-28 09:00:45 +0900
 updated     : 2024-11-28 09:01:11 +0900
 categories  : [spring-boot, "배치·스케줄링"]
-tags        : []
+tags        : [batch, job, tasklet, chunk]
 pin         : false
 hidden      : false
 ---

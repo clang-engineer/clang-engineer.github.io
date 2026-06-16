@@ -11,6 +11,8 @@ hidden      : false
 Vim의 기본 기능, Neovim이 추가한 기능, 배포판(LazyVim·NvChad·AstroNvim 등)이 올린 계층을 구분해서 정리한다.
 "이 기능이 어디서 온 건지" 헷갈릴 때 참고용. 3계층은 배포판 중 LazyVim을 예시로 든다.
 
+> 어디서 출발할지 고민이라면 [Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교](/posts/neovim/2026-06-16-neovim-starting-point-comparison/) 글 참고.
+
 ## Vim — 기본 제공
 
 1991년 Bram Moolenaar가 vi의 개선판("Vi IMproved")으로 발표.

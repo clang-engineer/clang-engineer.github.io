@@ -4,7 +4,7 @@ description : "Controller/Service/Repository 등 MVC 각 계층의 메소드 네
 date        : 2025-01-14 09:10:09 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [spring-boot, "설정·아키텍처"]
-tags        : []
+tags        : [mvc, rest, jpa]
 pin         : false
 hidden      : false
 ---

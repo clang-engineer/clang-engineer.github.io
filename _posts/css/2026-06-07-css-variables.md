@@ -3,7 +3,7 @@ title       : CSS Variables (Custom Properties) 사용법
 description : "CSS Variables(Custom Properties)의 선언과 var() 사용법, 전역과 지역 스코프, 폴백 패턴, 구버전 브라우저 방어 코드, :root와 html 선택자의 우선순위 차이를 정리한다."
 date        : 2026-06-07 12:00:00 +0900
 categories  : [css]
-tags        : []
+tags        : [custom-properties, variables, selector, specificity]
 pin         : false
 hidden      : false
 ---

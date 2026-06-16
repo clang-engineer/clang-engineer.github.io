@@ -4,7 +4,7 @@ description : "Head First Design Patterns 책 0~14장 전체 목차 인덱스. �
 date        : 2025-03-07 22:50:42 +0900
 updated     : 2025-03-07 22:50:42 +0900
 categories  : [design-pattern, "개요"]
-tags        : []
+tags        : [gof, head-first-design-patterns]
 pin         : false
 hidden      : false
 ---

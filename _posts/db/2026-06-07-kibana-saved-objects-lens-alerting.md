@@ -3,7 +3,7 @@ title       : Kibana 개념 정리 — Saved Objects, Lens, Alerting, 7.x vs 8.x
 description : "환경 간 대시보드 이전(Saved Objects), 차트 종류별 적합한 데이터, Index threshold·ES query 룰, 그리고 8.x 보안 기본 활성과 Index Pattern → Data View 변경."
 date        : 2026-06-07 12:00:00 +0900
 categories  : [db, "도구·연동"]
-tags        : []
+tags        : [kibana, elasticsearch, lens, alerting]
 pin         : false
 hidden      : false
 ---

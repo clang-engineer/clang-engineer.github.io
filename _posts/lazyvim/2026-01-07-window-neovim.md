@@ -4,7 +4,7 @@ description : "Windows의 %LOCALAPPDATA%\\nvim 경로에 dotfiles의 nvim-lazy �
 date        : 2026-01-07 09:29:54 +0900
 updated     : 2026-01-07 09:30:51 +0900
 categories  : [lazyvim, "구조·설정"]
-tags        : []
+tags        : [windows, dotfiles, neovim, mklink]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "객체 리스트를 키-값 Map으로 변환하는 toMap 패턴�
 date        : 2026-06-13 10:00:00 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [java, "언어·런타임"]
-tags        : []
+tags        : [stream, collectors, hashmap]
 pin         : false
 hidden      : false
 ---

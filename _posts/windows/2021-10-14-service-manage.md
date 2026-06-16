@@ -4,7 +4,7 @@ description : "Windows에서 sc 커맨드로 서비스를 등록·삭제·시작
 date        : 2025-02-24 22:50:30 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [windows, "셸·시스템"]
-tags        : []
+tags        : [nssm, sc]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : tableau 연동시 ticket 발급 관련 정보 정리
 date        : 2025-01-01 00:00:00 +0900
 updated     : 2025-02-22 18:09:37 +0900
 categories  : [tableau]
-tags        : []
+tags        : [sso, iframe, embed]
 pin         : false
 hidden      : false
 ---

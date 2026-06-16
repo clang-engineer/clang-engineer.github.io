@@ -2,7 +2,7 @@
 title       : "Neovim 실력 향상 로드맵 — vim·neovim·lazyvim 글을 어떻게 읽을까"
 description : "Vim 기본기 → Lua → Neovim 내부 → LazyVim 구조 → 플러그인 작성까지, 이 블로그의 vim/neovim/lazyvim 글을 단계별로 큐레이션."
 date        : 2026-06-16 00:00:00 +0900
-updated     : 2026-06-16 00:00:00 +0900
+updated     : 2026-06-16 11:30:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : true
@@ -13,12 +13,13 @@ hidden      : false
 
 ## 어디서 시작할까
 
-Vim/Neovim/LazyVim이 헷갈린다면 먼저 셋의 관계부터 잡자.
+Vim/Neovim/배포판이 헷갈린다면 먼저 셋의 관계부터 잡자.
 
 | 글 | 핵심 |
 |---|---|
-| [Vim vs Neovim vs LazyVim — 각 계층이 제공하는 기능](/posts/lazyvim/2026-06-08-vim-neovim-lazyvim-feature-layers/) | "이 기능이 어디서 온 건지" 정리. 가장 먼저 읽기 좋은 한 장 |
-| [Neovim 배포판/프레임워크 비교 소개](/posts/lazyvim/2025-10-04-neovim-distribution/) | LazyVim·NvChad·LunarVim·AstroNvim 비교 — 본인에게 맞는 출발점 선택 |
+| [Vim vs Neovim vs 배포판 — 각 계층이 제공하는 기능](/posts/lazyvim/2026-06-08-vim-neovim-lazyvim-feature-layers/) | "이 기능이 어디서 온 건지" 정리. 가장 먼저 읽기 좋은 한 장 |
+| [Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교](/posts/neovim/2026-06-16-neovim-starting-point-comparison/) | 세 시작점의 학습 곡선·추천 맥락 비교. "어디서 출발할지" 결정용 |
+| [Neovim 배포판/프레임워크 비교 소개](/posts/lazyvim/2025-10-04-neovim-distribution/) | LazyVim·NvChad·AstroNvim + kickstart.nvim 비교 — distro 간 차이 |
 | [Vim & Neovim 작동 원리 정리](/posts/vim/2025-10-04-vim-core-engine/) | 모드·버퍼·윈도우·탭, 명령 파이프라인 — 모든 글의 전제 |
 
 ## 1단계 — Vim 기본기

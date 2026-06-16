@@ -4,7 +4,7 @@ description : "람다의 타겟 타입인 java.util.function 패키지를 Runnab
 date        : 2026-01-04 12:20:48 +0900
 updated     : 2026-01-04 12:28:39 +0900
 categories  : [java, "언어·런타임"]
-tags        : []
+tags        : [lambda, functional-interface, stream]
 pin         : false
 hidden      : false
 ---
