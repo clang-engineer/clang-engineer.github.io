@@ -4,7 +4,7 @@ description : "JobDetail·Trigger·Scheduler를 Cron으로 묶는 기본 사용�
 date        : 2025-03-06 09:00:45 +0900
 updated     : 2025-03-06 09:01:11 +0900
 categories  : [spring-boot, "배치·스케줄링"]
-tags        : [spring]
+tags        : []
 pin         : false
 hidden      : false
 ---

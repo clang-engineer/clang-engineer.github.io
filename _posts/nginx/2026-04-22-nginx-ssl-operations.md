@@ -4,7 +4,7 @@ description : "와일드카드 인증서 상속, 패스프레이즈, reload, 프
 date        : 2026-04-22 10:00:00 +0900
 updated     : 2026-04-22 10:00:00 +0900
 categories  : [nginx, "HTTPS·SSL"]
-tags        : [ssl, tls]
+tags        : [tls]
 pin         : false
 hidden      : false
 ---

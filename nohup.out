@@ -1,0 +1,90 @@
+
+> bundle exec jekyll s -l -H 127.0.0.1
+
+Configuration file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
+ Theme Config file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
+[31m                    ------------------------------------------------[0m
+[31m      Jekyll 4.4.1   Please append `--trace` to the `serve` command [0m
+[31m                     for any additional information or backtrace. [0m
+[31m                    ------------------------------------------------[0m
+/Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `initialize': Permission denied @ rb_sysopen - /Users/zero/Desktop/_zero/clang-engineer.github.io/.jekyll-cache/Jekyll/Cache/Jekyll--Cache/b7/9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910 (Errno::EACCES)
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `open'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `dump'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:97:in `[]='
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:41:in `clear_if_config_changed'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:118:in `reset'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:35:in `initialize'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `new'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `process'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `block in process_with_graceful_fail'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `each'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `process_with_graceful_fail'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:85:in `block (2 levels) in init_with_program'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `block in execute'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `each'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `execute'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/program.rb:44:in `go'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary.rb:21:in `program'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/exe/jekyll:15:in `<top (required)>'
+	from /Users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `load'
+	from /Users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `<top (required)>'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `load'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `kernel_load'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:23:in `run'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:452:in `exec'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/command.rb:28:in `run'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in `invoke_command'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor.rb:538:in `dispatch'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:35:in `dispatch'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/base.rb:584:in `start'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:29:in `start'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:28:in `block in <top (required)>'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/friendly_errors.rb:117:in `with_friendly_errors'
+	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:20:in `<top (required)>'
+	from /Users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `load'
+	from /Users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `<main>'
+
+> bundle exec jekyll s -l -h 127.0.0.1
+
+configuration file: /users/zero/desktop/_zero/clang-engineer.github.io/_config.yml
+ theme config file: /users/zero/desktop/_zero/clang-engineer.github.io/_config.yml
+[31m                    ------------------------------------------------[0m
+[31m      jekyll 4.4.1   please append `--trace` to the `serve` command [0m
+[31m                     for any additional information or backtrace. [0m
+[31m                    ------------------------------------------------[0m
+/users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `initialize': permission denied @ rb_sysopen - /users/zero/desktop/_zero/clang-engineer.github.io/.jekyll-cache/jekyll/cache/jekyll--cache/b7/9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910 (errno::eacces)
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `open'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `dump'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:97:in `[]='
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:41:in `clear_if_config_changed'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:118:in `reset'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:35:in `initialize'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `new'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `process'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `block in process_with_graceful_fail'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `each'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `process_with_graceful_fail'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:85:in `block (2 levels) in init_with_program'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `block in execute'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `each'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `execute'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/program.rb:44:in `go'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary.rb:21:in `program'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/exe/jekyll:15:in `<top (required)>'
+	from /users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `load'
+	from /users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `<top (required)>'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `load'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `kernel_load'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:23:in `run'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:452:in `exec'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/command.rb:28:in `run'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in `invoke_command'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor.rb:538:in `dispatch'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:35:in `dispatch'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/base.rb:584:in `start'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:29:in `start'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:28:in `block in <top (required)>'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/friendly_errors.rb:117:in `with_friendly_errors'
+	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:20:in `<top (required)>'
+	from /users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `load'
+	from /users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `<main>'

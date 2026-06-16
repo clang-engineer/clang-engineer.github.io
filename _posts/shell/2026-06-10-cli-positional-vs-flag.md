@@ -4,7 +4,7 @@ description : "위치 인자와 옵션 플래그의 역할 분담, bash 파싱 �
 date        : 2026-06-10 12:00:00 +0900
 updated     : 2026-06-10 12:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
-tags        : [bash, convention]
+tags        : [bash]
 pin         : false
 hidden      : false
 ---

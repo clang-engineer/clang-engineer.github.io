@@ -4,7 +4,7 @@ description : "error/assert로 던지고, pcall/xpcall로 잡기. error 객체 �
 date        : 2026-06-15 17:00:00 +0900
 updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "원리·언어"]
-tags        : [lua, neovim, guide]
+tags        : [lua]
 pin         : false
 hidden      : false
 ---

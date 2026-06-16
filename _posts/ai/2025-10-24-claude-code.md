@@ -4,7 +4,7 @@ description : "터미널에서 동작하는 Anthropic의 AI 코딩 도구 Claude
 date        : 2025-10-24 09:47:55 +0900
 updated     : 2025-11-06 08:12:27 +0900
 categories  : [ai, "Claude Code"]
-tags        : [claude, anthropic, claude-code]
+tags        : [claude, claude-code]
 pin         : false
 hidden      : false
 ---

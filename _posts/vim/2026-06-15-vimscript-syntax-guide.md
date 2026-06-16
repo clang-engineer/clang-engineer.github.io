@@ -4,7 +4,7 @@ description : "Vim 8의 legacy Vimscript 기준 문법을 한 번에 정리. 8�
 date        : 2026-06-15 16:30:00 +0900
 updated     : 2026-06-15 16:30:00 +0900
 categories  : [vim, "원리·언어"]
-tags        : [vimscript, vim, guide]
+tags        : [vimscript]
 pin         : false
 hidden      : false
 ---

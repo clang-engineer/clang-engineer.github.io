@@ -4,7 +4,7 @@ description : "Vim 기본기 → Lua → Neovim 내부 → LazyVim 구조 → �
 date        : 2026-06-16 00:00:00 +0900
 updated     : 2026-06-16 00:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
-tags        : [roadmap, neovim, vim, lua, lazyvim, guide]
+tags        : [roadmap, vim, lua, lazyvim]
 pin         : true
 hidden      : false
 ---

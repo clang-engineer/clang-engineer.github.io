@@ -4,7 +4,7 @@ description : "git merge --no-commit으로 일부만 가져오면 merge commit�
 date        : 2025-11-20 09:35:56 +0900
 updated     : 2025-11-20 10:24:10 +0900
 categories  : [git, "저장소·운영"]
-tags        : [merge, tips, troubleshooting]
+tags        : [merge, troubleshooting]
 pin         : false
 hidden      : false
 ---

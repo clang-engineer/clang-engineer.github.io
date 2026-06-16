@@ -4,7 +4,7 @@ description : "Let's Encrypt SSL 인증서를 nginx와 함께 운영하면서 �
 date        : 2022-02-05 09:32:27 +0900
 updated     : 2026-06-07 12:00:00 +0900
 categories  : [security, "TLS·HTTP"]
-tags        : [letsencrypt, ssl, nginx, rocky-linux]
+tags        : [letsencrypt, tls, nginx, rocky-linux]
 pin         : false
 hidden      : false
 ---

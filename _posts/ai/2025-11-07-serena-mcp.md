@@ -4,7 +4,7 @@ description : "코드베이스의 의미 기반 검색·편집을 지원하는 M
 date        : 2025-10-23 13:43:00 +0900
 updated     : 2026-02-24 10:55:31 +0900
 categories  : [ai, "MCP"]
-tags        : [mcp, serena, claude, anthropic, model-context-protocol]
+tags        : [mcp, serena, claude, model-context-protocol]
 pin         : false
 hidden      : false
 ---

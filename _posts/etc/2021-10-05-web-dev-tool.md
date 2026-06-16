@@ -4,7 +4,7 @@ description : "ERD Cloud·Excalidraw·Learn Git Branching·Wappalyzer 등 ERD·�
 date        : 2021-10-05 11:35:56 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [etc, "개발 도구"]
-tags        : [tools, git]
+tags        : [git]
 pin         : false
 hidden      : false
 ---

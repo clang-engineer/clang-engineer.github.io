@@ -4,7 +4,7 @@ description : "Neovim 설정·플러그인을 읽고 고치는 수준까지 Lua 
 date        : 2026-06-15 16:00:00 +0900
 updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "원리·언어"]
-tags        : [lua, neovim, guide]
+tags        : [lua]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "require/package.path, local M = {} return M 패턴, require 캐�
 date        : 2026-06-15 15:00:00 +0900
 updated     : 2026-06-16 10:00:00 +0900
 categories  : [neovim, "원리·언어"]
-tags        : [lua, neovim, guide]
+tags        : [lua]
 pin         : false
 hidden      : false
 ---

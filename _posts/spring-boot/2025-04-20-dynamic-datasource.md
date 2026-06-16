@@ -4,7 +4,7 @@ description : "AbstractRoutingDataSource와 ThreadLocal 기반 ContextHolder로 
 date        : 2025-04-20 09:01:11 +0900
 updated     : 2025-04-20 09:01:11 +0900
 categories  : [spring-boot, "설정·아키텍처"]
-tags        : [spring, datasource]
+tags        : [datasource]
 pin         : false
 hidden      : false
 ---

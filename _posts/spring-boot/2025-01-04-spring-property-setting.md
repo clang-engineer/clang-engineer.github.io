@@ -4,7 +4,7 @@ description : "application.yml·-D·--·환경변수·@PropertySource가 충돌�
 date        : 2025-01-14 14:32:50 +0900
 updated     : 2026-06-13 10:00:00 +0900
 categories  : [spring-boot, "설정·아키텍처"]
-tags        : [spring, configuration]
+tags        : []
 pin         : false
 hidden      : false
 ---

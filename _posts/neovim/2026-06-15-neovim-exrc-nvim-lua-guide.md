@@ -4,7 +4,7 @@ description : "Neovim 0.9+ 기준 exrc 옵션 동작, 공식 검색 파일명(.n
 date        : 2026-06-15 18:00:00 +0900
 updated     : 2026-06-15 18:00:00 +0900
 categories  : [neovim, "구조·설정"]
-tags        : [neovim, exrc, dotfiles, guide]
+tags        : [exrc, dotfiles]
 pin         : false
 hidden      : false
 ---
