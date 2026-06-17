@@ -2,7 +2,7 @@
 title       : "awesome-neovim에 내 플러그인 PR 보내기 — gh CLI로 한 번에"
 description : "fork → clone → 한 줄 추가 → PR 까지. CONTRIBUTING.md 규칙(백틱 PR 제목, 금지어, 알파벳순 아닌 등록순)을 한 번에 통과시키는 절차"
 date        : 2026-06-12 16:00:00 +0900
-updated     : 2026-06-12 16:00:00 +0900
+updated     : 2026-06-17 09:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [awesome-neovim, github, gh-cli]
 pin         : false
@@ -10,6 +10,8 @@ hidden      : false
 ---
 
 [rockerBOO/awesome-neovim](https://github.com/rockerBOO/awesome-neovim)에 본인 플러그인을 등록하는 PR은 한 줄만 추가하면 되지만, CONTRIBUTING.md에 숨어있는 규칙을 놓치면 거절당한다. 직접 끝까지 해본 절차와 함정을 정리한다.
+
+> 실제 머지된 예시: [PR #2355 — `clang-engineer/dadbod-vertica.nvim`](https://github.com/rockerBOO/awesome-neovim/pull/2355) (2026-06-16 머지). 본문 절차대로 진행했고, 리뷰 중 typos CI 함정 하나를 추가로 마주쳤다(아래 "함정 모음 4" 참고).
 
 전체를 `gh` CLI로 처리한다. 브라우저로 fork 누르거나 PR 폼 채울 필요 없음.
 
@@ -143,7 +145,23 @@ PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH" ./scripts/readme-check.sh
 
 awesome 리스트는 보통 알파벳순이라 그렇게 짐작하기 쉽지만, **awesome-neovim Database 섹션은 등록순**이다. 다른 섹션도 가서 확인하지 말고 본인이 추가하려는 섹션의 실제 순서를 보고 마지막에 붙이자.
 
-### 4. fork 정리
+### 4. `typos` CI가 고유명사를 오타로 잡는다
+
+awesome-neovim은 PR에 [typos](https://github.com/crate-ci/typos) 액션을 돌린다. 본인 플러그인 설명에 나오는 회사·제품명이 영어 단어와 한 글자 차이면 오타로 플래그된다. 예: `Vertica` → `Vertical` 의심.
+
+리뷰어가 직접 고치라고 요청하진 않지만, 체크가 빨갛게 떠 있으면 머지 보류된다. 해결은 같은 PR 안에서 `.github/typos.toml`에 화이트리스트 한 줄 추가:
+
+```toml
+[default.extend-words]
+Strat = "Strat"
+Vertica = "Vertica"   # ← 본인 단어 추가
+```
+
+키·값에 같은 단어를 적으면 "이 단어는 오타가 아니라 그대로다"라는 선언이다. 기존 `Strat` 엔트리가 그 선례.
+
+이걸 추가한 커밋을 push하면 CI가 다시 돌고 통과한다. 리뷰어가 매번 알려주는 게 아니므로, **PR 올린 직후 Actions 탭에서 `typos` job이 빨간지 먼저 확인**하면 한 라운드를 아낀다.
+
+### 5. fork 정리
 
 PR 머지 후 fork는 더 이상 필요 없다. 본인 GitHub fork와 로컬 clone 둘 다 정리:
 
