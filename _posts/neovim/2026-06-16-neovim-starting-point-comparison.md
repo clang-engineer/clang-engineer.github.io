@@ -2,6 +2,7 @@
 title       : "Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교"
 description : "Neovim 환경을 새로 만들거나 다시 익히려 할 때 선택지인 세 가지 시작점의 정체·학습 곡선·추천 맥락 비교 (2026-06 기준)"
 date        : 2026-06-16 11:00:00 +0900
+updated     : 2026-06-17 12:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [vim, neovim, lazyvim, kickstart, guide]
 pin         : false
@@ -102,3 +103,44 @@ LazyVim 외에도 동일 슬롯에 **NvChad**(경량·성능 중심), **AstroNvi
 즉 어느 시작점을 골라도 플러그인 매니저 자리에는 거의 항상 `lazy.nvim`이 들어간다는 점을 알아두면, "왜 distro마다 같은 매니저를 쓰지?"라는 의문이 풀린다.
 
 [^distro]: **distribution**의 줄임말. 리눅스 배포판(Ubuntu·Fedora 등)에서 온 용어로, 코어(여기서는 Neovim) 위에 설정·플러그인·키맵을 미리 조립해 배포한 묶음을 가리킨다. LazyVim·NvChad·AstroNvim이 대표적인 Neovim distro다.
+
+## 2026-06-17 추가 — kickstart.nvim이 `vim.pack`으로 갈아탔다
+
+위 본문에서는 kickstart.nvim이 `lazy.nvim`을 플러그인 매니저로 쓴다고 적었지만, 최근 kickstart.nvim은 **Neovim 0.12에 새로 들어온 빌트인 매니저 `vim.pack`** 으로 이전했다. 2026년 6월 기준 master의 `init.lua` SECTION 3 주석이 이를 명시한다.
+
+> `vim.pack` is a new plugin manager built into Neovim, which provides a Lua interface for installing and managing plugins.
+
+사용 패턴은 단순하다.
+
+```lua
+-- 단일 플러그인
+vim.pack.add('https://github.com/folke/which-key.nvim')
+
+-- 여러 개 한 번에
+vim.pack.add(telescope_plugins)
+```
+
+업데이트는 `:checkhealth vim.pack`으로 상태를 확인하고 `:Pack update`로 실행한다. `lazy.nvim`이 제공하는 lazy-load 트리거(`event`/`keys`/`cmd`/`ft`), lockfile, UI 같은 기능은 아직 없다. **"git clone + runtimepath에 추가"** 만 해주는 미니멀한 매니저다.
+
+### 왜 갈아탔나
+
+kickstart의 철학은 "**배포판이 아니라, 한 줄씩 읽고 직접 짜는 출발점**". `init.lua` 첫 줄에 "Kickstart.nvim is *not* a distribution"이라고 박혀 있다. 이 철학상 **외부 의존성을 최소화**하는 게 자연스러운 선택이고, Neovim이 빌트인 매니저를 제공하기 시작했으니 그쪽으로 이동한 셈이다.
+
+> "교육용 = 외부 의존성 0"이라는 방향성. 학습자가 `lazy.nvim`이라는 또 하나의 라이브러리를 먼저 배우지 않아도 되도록 한 결정.
+
+### 실사용 구성에 미치는 함의
+
+- **새로 시작하는 사람**: kickstart로 입문해도 좋다. `vim.pack` API는 작아서 배울 게 적고, 본인의 dotfiles로 진화시킬 때 `lazy.nvim`으로 갈아타는 것도 쉽다.
+- **이미 LazyVim을 쓰는 사람**: 굳이 따라갈 이유 없다. lazy-load·lockfile·UI 같은 실사용 기능은 여전히 `lazy.nvim`이 압도적이다.
+- **`lazy.nvim`이 표준 자리를 잃는가**: 단기간은 아니다. distro 생태계(LazyVim·NvChad·AstroNvim)가 전부 `lazy.nvim`에 의존하고 있고, `vim.pack`은 아직 lazy-load 같은 핵심 기능이 빠져 있다. **kickstart의 "미니멀 교육용" 슬롯에만 적합한 단계**.
+
+### 2026년 기준 매니저 지형
+
+| 매니저 | 위치 | 비고 |
+|---|---|---|
+| **lazy.nvim** | 사실상 표준. distro 전부가 이걸 씀 | lazy-load, lockfile, UI 풀세트 |
+| **vim.pack** | Neovim 0.12+ 빌트인 | 외부 의존성 0. 교육용·미니멀 구성용. lazy-load 없음 |
+| **packer.nvim** | 2023년경 unmaintained | 신규엔 비추천 |
+| **paq-nvim** | 미니멀리스트의 대표 | `vim.pack` 등장 전 이 자리. 여전히 활발 |
+
+`lazy.nvim`이 표준이라는 본문의 결론은 유효하지만, kickstart에 한해 **"빌트인으로 갈 수 있는 곳은 빌트인으로"** 라는 흐름이 시작됐다는 점은 짚어둘 만하다.

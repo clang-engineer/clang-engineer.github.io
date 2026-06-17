@@ -86,7 +86,7 @@ DB 연결 목록도 마찬가지로 좁힐 수 있다:
 vim.g.dbs = require("config.options.dbs").pick("snuh", "shine")
 ```
 
-> 글로벌 lua 모듈을 `.nvim.lua`에서 `require`할 수 있는 이유와 더 깊은 활용은 [프로젝트 .nvim.lua(exrc)에서 dotfiles의 lua 모듈 재사용하기]({{ site.url }}/posts/nvim-exrc-require-dotfiles-module/) 참고.
+> 글로벌 lua 모듈을 `.nvim.lua`에서 `require`할 수 있는 이유와 더 깊은 활용은 [프로젝트 .nvim.lua(exrc)에서 dotfiles의 lua 모듈 재사용하기](/posts/lazyvim/2026-05-07-nvim-exrc-require-dotfiles-module/) 참고.
 
 ## 빠지기 쉬운 함정 4가지
 

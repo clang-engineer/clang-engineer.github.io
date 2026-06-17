@@ -4,7 +4,7 @@ description : "상위 abstract class가 알고리즘 골격을, 하위 클래스
 date        : 2025-03-07 22:50:42 +0900
 updated     : 2025-03-07 22:50:42 +0900
 categories  : [design-pattern, "행동"]
-tags        : [behavior-pattern]
+tags        : [behavioral-pattern]
 pin         : false
 hidden      : false
 ---

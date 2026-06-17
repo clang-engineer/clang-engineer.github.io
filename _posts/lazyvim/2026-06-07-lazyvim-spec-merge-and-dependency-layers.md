@@ -2,7 +2,7 @@
 title       : "LazyVim 의존성 계층 — lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 방식"
 description : "lazy.nvim의 spec/import 모델, LazyVim이 어떻게 자체 spec을 모아 lazyvim.json의 extras를 활성화하는지, 그리고 사용자 plugin이 그 위에 override되는 순서"
 date        : 2026-06-07 12:00:00 +0900
-updated     : 2026-06-07 12:00:00 +0900
+updated     : 2026-06-17 12:00:00 +0900
 categories  : [lazyvim, "구조·설정"]
 tags        : [neovim, lazy-nvim]
 pin         : false
@@ -250,3 +250,81 @@ init.lua
 - **사용자 plugin** 은 LazyVim/extras spec 위에 deep merge 되는 마지막 층이다. 같은 이름이면 override, 다른 이름이면 신규.
 
 LazyVim 은 "특별한 매니저" 가 아니라 "잘 정리된 lazy.nvim spec 묶음" 이다. 이 구조만 잡히면 override 가 안 먹는 이유, extra 끼리 충돌하는 이유, dependencies 보강 같은 패턴이 다 lazy.nvim 의 같은 머지 규칙 하나로 설명된다.
+
+## 2026-06-17 추가 — 추상화를 해부하는 실전 도구 · 학습 로드맵
+
+LazyVim을 계속 쓰면서도 "이게 어디서 왔지?"를 즉시 확인할 수 있는 실전 도구와, lazy.nvim/LazyVim 소스를 직접 읽어 내부를 이해하는 학습 순서를 정리한다.
+
+### 추적 명령 4가지
+
+| 명령 | 보여주는 것 |
+|---|---|
+| `:verbose nmap <leader>ff` | 키맵을 마지막으로 설정한 **파일과 줄 번호**. "어? 이거 내가 안 짰는데?" 싶은 키 정체를 즉시 추적 |
+| `:Lazy` → 플러그인 선택 → `i` (inspect) | 머지된 **최종 spec** 보기. 어떤 spec 파일들이 머지에 참여했는지도 확인 가능 |
+| `:LazyExtras` | 켜진 extras 목록. 사실상 `~/.config/nvim/lazyvim.json`의 `extras` 배열을 편집하는 UI |
+| `:checkhealth lazy` | spec 충돌·중복·의존성 누락 진단 |
+
+`:verbose nmap`이 특히 강력하다. 키 하나 입력해서 "Last set from ~/.local/share/nvim/lazy/LazyVim/lua/lazyvim/plugins/editor.lua line 42" 같은 출처가 바로 떠서, 키맵이 LazyVim core·extras·사용자 중 어디서 왔는지 한 줄로 판별된다.
+
+### 머지 결과를 코드로 확인하는 헬퍼
+
+`:Lazy` UI 외에 Lua 함수로 머지된 spec을 들여다보는 게 가능하다. `init.lua`나 디버깅 스니펫에 다음을 두자.
+
+```lua
+function _G.dump_spec(name)
+  local Config = require("lazy.core.config")
+  for _, plugin in pairs(Config.plugins) do
+    if plugin.name == name then
+      print(vim.inspect(plugin))
+      return
+    end
+  end
+  print("not found: " .. name)
+end
+```
+
+이후 `:lua dump_spec("nvim-lspconfig")`를 호출하면 **LazyVim core + extras + 사용자 plugin이 머지된 최종 spec**이 그대로 출력된다. 추상화가 깨지는 순간이다.
+
+### 오버라이드를 명시화하는 주석 컨벤션
+
+사용자 `lua/plugins/*.lua`에 spec을 추가할 때, "내가 왜 이 spec을 다시 썼는지" 의도를 한 줄로 남기면 6개월 뒤에도 머지 의도가 보인다. 세 가지 태그만 일관되게 쓰면 충분하다.
+
+```lua
+-- plugins/lsp.lua
+return {
+  -- [OVERRIDE] LazyVim 기본 lspconfig에 kotlin_language_server 추가
+  --   (참고: lazy/LazyVim/lua/lazyvim/plugins/lsp/init.lua)
+  {
+    "neovim/nvim-lspconfig",
+    opts = { servers = { kotlin_language_server = { ... } } },
+  },
+
+  -- [NEW] LazyVim에 없는 플러그인, 신규 추가
+  { "someone/new-plugin.nvim", ... },
+
+  -- [DISABLE] LazyVim 기본에서 비활성화
+  { "folke/noice.nvim", enabled = false },
+}
+```
+
+- `[OVERRIDE]` — LazyVim/extras가 이미 정의한 spec을 부분 수정 (deep merge)
+- `[NEW]` — 신규 플러그인 추가
+- `[DISABLE]` — `enabled = false`로 끄기
+
+코드만 보고 머지 결과를 머릿속에 그릴 수 있게 된다.
+
+### 원리부터 이해하는 7일 소스 읽기 로드맵
+
+lazy.nvim·LazyVim은 둘 다 Lua 소스가 짧고 깔끔하다. 하루 한 파일씩 읽으면 일주일이면 구조가 다 풀린다.
+
+| Day | 읽을 파일 | 얻을 것 |
+|---|---|---|
+| 1 | `~/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/plugin.lua`의 `Plugin.merge` | spec 머지 알고리즘 본체. 약 200줄 |
+| 2 | `lazy/core/loader.lua`의 `Loader.load` | 실제로 플러그인이 어떻게 require·setup되는지 |
+| 3 | `lazy/core/handler/event.lua`, `keys.lua`, `cmd.lua` | lazy-load 트리거 메커니즘 |
+| 4 | `~/.local/share/nvim/lazy/LazyVim/lua/lazyvim/config/init.lua` | LazyVim 부트스트랩이 `lazy.setup`에 무엇을 넘기는지 |
+| 5 | `LazyVim/lua/lazyvim/plugins/lsp/init.lua` | 잘 짜인 spec의 실제 형태 (본인 `plugins/lsp.lua`의 머지 대상) |
+| 6 | 본인 `lua/plugins/lsp.lua`를 LazyVim의 같은 파일과 옆에 띄워놓고 머지 결과 머릿속으로 그려보기 | 머지 규칙의 체화 |
+| 7 | `:Lazy` UI의 inspect로 6에서 그린 것과 실제 머지 결과 비교 | 머릿속 모델과 실제의 일치 확인 |
+
+이 순서를 마치면 LazyVim은 더 이상 블랙박스가 아니라 **"잘 큐레이션된 spec 컬렉션 + 헬퍼 함수"** 로 보인다. 마법은 lazy.nvim의 deep merge 하나로 귀결되고, 그 외에는 모두 평범한 Lua 코드다.

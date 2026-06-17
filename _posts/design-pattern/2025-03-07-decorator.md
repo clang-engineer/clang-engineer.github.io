@@ -4,7 +4,7 @@ description : "상속으로 기능을 조합하면 클래스 수가 폭발한다
 date        : 2025-03-07 22:50:42 +0900
 updated     : 2025-03-07 22:50:42 +0900
 categories  : [design-pattern, "구조"]
-tags        : [behavior-pattern]
+tags        : [structural-pattern]
 pin         : false
 hidden      : false
 ---
