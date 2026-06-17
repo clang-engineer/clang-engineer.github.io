@@ -2,7 +2,7 @@
 title       : "Neovim 플러그인 작성 규칙 — runtimepath 디렉토리 관례 정리"
 description : "Vim 시절부터 이어진 runtimepath 자동 로드 규칙, Lua 추가분, plugin/ vs lua/ 역할 분리, 헬프·헬스체크·after/ 관례까지."
 date        : 2026-06-12 18:00:00 +0900
-updated     : 2026-06-16 10:00:00 +0900
+updated     : 2026-06-17 22:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [plugin, lua, lazy-nvim, lazyvim]
 pin         : false
@@ -66,6 +66,75 @@ my-plugin/
 └── README.md
 ```
 
+`lua/`, `plugin/`, `doc/`, `ftplugin/` 등은 모두 **repo root의 형제(sibling) 위치**다. `lua/<name>/` 안에 `doc/`나 `plugin/`을 중첩시키면 runtimepath가 인식하지 못한다 — 흔한 함정 (자세한 건 다음 절 "흔한 함정" 참고).
+
+## 여러 플러그인은 어떻게 합쳐지나 — runtimepath 머지 모델
+
+위 골격은 **한 플러그인의 모습**이고, 실제 환경에는 그런 골격을 가진 repo가 수십 개 동시에 올라가 있다. Neovim은 어떻게 그걸 합쳐서 하나의 환경으로 만드는가.
+
+### rtp는 디렉토리 리스트, 각 항목이 독립적으로 같은 구조를 가짐
+
+`:set runtimepath?`를 찍으면 대략 이런 구조가 보인다.
+
+```
+~/.config/nvim/                              -- 개인 config
+~/.local/share/nvim/lazy/lazy.nvim/          -- 플러그인 매니저
+~/.local/share/nvim/lazy/LazyVim/            -- LazyVim 본체
+~/.local/share/nvim/lazy/snacks.nvim/        -- 설치된 플러그인 1
+~/.local/share/nvim/lazy/telescope.nvim/     -- 설치된 플러그인 2
+~/.local/share/nvim/lazy/<수십개>/           -- ...
+/opt/homebrew/share/nvim/runtime/            -- Neovim 내장 ($VIMRUNTIME)
+~/.config/nvim/after/                        -- 덮어쓰기용 (역순 마지막)
+```
+
+**각 항목이 독립적으로 자기만의 `plugin/`, `doc/`, `ftplugin/`, `lua/`, `colors/`, `autoload/`를 가질 수 있다.** Neovim은 모두 순회하며 카테고리별로 합쳐서 처리한다.
+
+### 같은 카테고리는 모두 실행 — guard가 필요한 진짜 이유
+
+| 카테고리 | 다중 존재 시 동작 |
+| --- | --- |
+| `plugin/*.lua` | 모든 rtp의 `plugin/`을 합쳐서 **전부 source** |
+| `ftplugin/<ft>.lua` | filetype 진입 시 **모든 rtp의 `ftplugin/<ft>.lua` 전부 실행** |
+| `doc/*.txt` | **모두 인덱싱**. `:help`가 전체에서 검색 |
+| `colors/<name>.lua` | 파일명 기준으로 선택. `:colorscheme tokyonight`이면 `*/colors/tokyonight.lua` 중 첫 매칭 |
+| `lua/foo.lua` | **하나의 namespace로 머지.** 같은 이름 모듈이 여러 plugin에 있으면 rtp 순서상 앞쪽이 이김 |
+| `autoload/foo.vim` | 동일 (rtp 순서 우선) |
+| `after/...` | **rtp 역순으로 마지막에 추가 source**. user override용 |
+
+이게 `b:did_ftplugin`·`vim.g.loaded_foo` 같은 가드 패턴이 필요한 이유다. ftplugin은 LazyVim·다른 플러그인·user config가 각각 `python.lua`를 두면 **세 번 다 실행**된다. 가드 없으면 옵션이 덮어써지거나 매핑이 중복 등록된다.
+
+### `lua/` 네임스페이스 충돌
+
+`lua/foo.lua`가 두 플러그인에 동시에 있으면 `require("foo")`는 **rtp 순서상 앞쪽 하나만** 로드한다. 다른 쪽은 영원히 안 불린다.
+
+→ 그래서 플러그인 이름과 `lua/<name>/`의 `<name>`을 **unique하게** 잡는 게 관례다 (보통 repo 이름과 일치시킴). `lua/utils.lua`, `lua/config.lua`처럼 일반적인 이름을 노출시키면 다른 플러그인의 같은 이름과 충돌한다.
+
+### 흔한 함정 — `doc/`·`plugin/` 위치
+
+`doc/`나 `plugin/`을 `lua/<name>/` **안에** 두면 Neovim은 못 본다. rtp가 인식하는 건 **rtp에 등록된 디렉토리의 직접 자식**뿐이다.
+
+```
+my-plugin/                  -- 이게 rtp에 등록됨
+├── lua/my-plugin/
+│   ├── init.lua            -- OK: require("my-plugin")
+│   └── doc/foo.txt         -- 무시됨 (lua/ 안)
+└── doc/my-plugin.txt       -- OK: :help my-plugin
+```
+
+dotfiles에 임베드된 모듈을 나중에 떼낼 때 자주 실수한다. `lua/my-plugin/` 옆에 `doc/`·`README.md`·`LICENSE`를 같이 두면, 떼낼 때 `lua/my-plugin/`은 그대로 두고 **나머지를 한 단계 위로 올려야** 진짜 플러그인이 된다.
+
+### 실제로 머지 결과 보는 법
+
+| 명령 | 용도 |
+| --- | --- |
+| `:set runtimepath?` | rtp 전체 출력. 어떤 디렉토리들이 머지 대상인지 확인 |
+| `:scriptnames` | 지금까지 source된 `.vim`·`.lua` 파일 전부 (실행 순서대로) |
+| `:checkhealth` | ftplugin·plugin·lua 로딩 상태 진단 |
+| `:verbose set <option>?` | 옵션이 **어느 파일에서** 마지막으로 설정됐는지 추적 (ftplugin 충돌 디버깅에 유용) |
+| `:Lazy` (lazy.nvim) | 플러그인별 로드 상태·시간·rtp 등록 여부 |
+
+`:verbose set tabstop?` 같이 쓰면 "왜 내 설정이 안 먹지?" 류의 문제를 거의 다 잡을 수 있다.
+
 ## `plugin/` vs `lua/` 역할 분리
 
 가장 흔히 혼동하는 부분이다.
@@ -98,6 +167,37 @@ end
 
 return M
 ```
+
+### "도서관"과 "자동 부트" — 멘탈 모델
+
+| 관점 | `lua/` | `plugin/` |
+| --- | --- | --- |
+| 디렉토리 중첩 인식 | O (dotted require path) | O (재귀 source) |
+| 자동 실행 | **X** (require 명시 필요) | **O** (startup 시) |
+| 트리거 | `require("...")` 호출 | Neovim 시작 |
+| 비유 | 부르면 깨어나는 도서관 | 일제 기상 자동 부트 폴더 |
+
+`lua/` 는 Neovim 입장에서 **자동 로드 규약이 0개**다. rtp 등록 시 `package.path` 에 추가되어 `require` 가 찾을 수 있게 만들어주는 게 전부. `lua/foo.lua` 를 둬도 누가 `require("foo")` 하지 않으면 영원히 안 실행된다.
+
+반면 `plugin/` 은 startup 일제 실행이라, 진입 코드(커맨드·키맵·오토커맨드 등록)만 둔다. 무거운 로직은 `lua/` 에 두고 `require` 호출로 깨우는 게 lazy 효과를 살리는 방법.
+
+### `plugin/` (단수) vs `lua/plugins/` (복수) — 흔한 함정
+
+이름이 거의 같지만 완전히 다른 메커니즘이다.
+
+| 디렉토리 | 자동 로드? | 누가 처리하나 |
+| --- | --- | --- |
+| **`plugin/`** (rtp 루트의 형제, 단수) | **O** | Neovim runtimepath 규약 — startup 자동 source |
+| **`lua/plugins/`** (lua 아래, 복수) | **X** | lazy.nvim 의 `{ import = "plugins" }` 가 명시적으로 스캔할 때만 의미 가짐 |
+
+```
+my-config/
+├── plugin/foo.lua          -- 만들면 startup 자동 실행 (Neovim 규약)
+└── lua/
+    └── plugins/foo.lua     -- lazy.nvim 의 import = "plugins" 가 깨워야 동작
+```
+
+`lua/plugins/` 의 `plugins` 라는 이름은 Neovim 차원에서 의미 없다 — lazy.nvim 이 약속한 컨벤션 이름일 뿐. `lua/myspecs/` 로 만들고 `{ import = "myspecs" }` 라고 써도 동일하게 작동한다.
 
 ## 관례 6가지
 
@@ -201,6 +301,30 @@ return {
 ```
 
 lazy.nvim의 `event`/`cmd`/`ft`/`keys` 키가 lazy-loading을 담당한다. 플러그인 자체는 그냥 표준 Neovim 플러그인 구조면 된다.
+
+### `lua/config/` vs `lua/plugins/` — LazyVim 개인 config 의 두 디렉토리
+
+LazyVim 환경의 개인 config 는 보통 두 디렉토리로 나뉜다. 이름 자체는 Neovim 차원에서 의미 없고, **전부 LazyVim·lazy.nvim 의 상위 약속**이다.
+
+| 디렉토리 | 무엇을 담나 | 누가 어떻게 부르나 |
+| --- | --- | --- |
+| `lua/config/` | Neovim 자체 설정 (옵션·키맵·autocmd) + lazy.nvim 부트스트랩 | LazyVim 의 라이프사이클 규약으로 정해진 시점에 자동 require |
+| `lua/plugins/` | lazy.nvim plugin spec (외부 플러그인 선언) | `lazy.lua` 의 `{ import = "plugins" }` 가 디렉토리 전체를 자동 스캔 |
+
+`config/` 안의 파일은 LazyVim 이 정한 시점에 자동 require 된다.
+
+| 파일 | 호출 시점 |
+| --- | --- |
+| `config/options.lua` | **즉시** (UI 띄우기 전 — colorscheme·옵션 깜빡임 방지) |
+| `config/keymaps.lua` | `VeryLazy` 이벤트 (UI 직후) |
+| `config/autocmds.lua` | `VeryLazy` 이벤트 |
+| `plugins/*.lua` | 각 spec 의 `event`·`cmd`·`ft`·`keys` 트리거 따라 lazy load |
+
+분리 이유는 세 가지가 겹쳐 있다.
+
+1. **자동 스캔 vs 명시 require** — `plugins/` 는 lazy.nvim 의 `import` 가 자동 스캔, `config/` 는 LazyVim 의 자동 호출 규약.
+2. **로드 시점이 다름** — options 만 즉시, 나머지는 `VeryLazy` 또는 plugin spec 트리거 시점.
+3. **관심사 분리** — `config/` 변경은 본인 Neovim 환경, `plugins/` 변경은 외부 의존성 관리.
 
 ## 대중성·대안
 
