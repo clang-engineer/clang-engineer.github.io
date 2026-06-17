@@ -358,7 +358,7 @@ return M
 " → 액션 키: List/Columns/PK/FK/Indexes/References 모두 작동
 ```
 
-여기까지 통과하면 출시 준비 완료. 다음 단계는 [Neovim 플러그인 노출 채널 4곳]({% post_url 2026-06-12-neovim-plugin-distribution %}) — awesome-neovim·GitHub Topics·Dotfyle 등 등록.
+여기까지 통과하면 출시 준비 완료. 다음 단계는 [Neovim 플러그인 노출 채널 4곳](/posts/neovim/2026-06-12-neovim-plugin-distribution/) — awesome-neovim·GitHub Topics·Dotfyle 등 등록.
 
 ## 체크리스트
 

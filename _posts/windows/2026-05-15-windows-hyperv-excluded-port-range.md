@@ -4,7 +4,7 @@ description : "Hyper-V/WSL/Docker가 부팅 시 동적으로 예약하는 TCP �
 date        : 2026-05-15 13:00:00 +0900
 updated     : 2026-05-15 13:00:00 +0900
 categories  : [windows, "네트워크·트러블"]
-tags        : [port, netsh]
+tags        : [port, netsh, troubleshooting]
 pin         : false
 hidden      : false
 ---

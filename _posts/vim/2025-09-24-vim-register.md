@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# Vim/Neovim 레지스터 정리
+## Vim/Neovim 레지스터 정리
 
 Vim/Neovim에서 **레지스터(register)** 는 텍스트를 저장하는 작은 저장소입니다.
 `y`(yank), `d`(delete), `c`(change), `p`(put) 같은 동작들이 모두 레지스터를 거칩니다.

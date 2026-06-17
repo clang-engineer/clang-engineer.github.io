@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# 🧷 tmux 정리본 (Cheat Sheet + 사용 가이드)
+## 🧷 tmux 정리본 (Cheat Sheet + 사용 가이드)
 
 tmux는 여러 개의 터미널 세션을 생성하고 관리할 수 있게 해주는 **터미널 멀티플렉서**이다.
 한 세션 안에 여러 개의 **윈도우(window) → 패널(pane)** 을 둘 수 있다.
@@ -19,7 +19,7 @@ tmux는 여러 개의 터미널 세션을 생성하고 관리할 수 있게 해�
 
 ---
 
-# 1. 설치
+## 1. 설치
 
 ```bash
 brew install tmux         # macOS
@@ -29,7 +29,7 @@ sudo yum install tmux     # CentOS
 
 ---
 
-# 2. 설정 파일
+## 2. 설정 파일
 
 tmux 설정은 `~/.tmux.conf` 에 작성한다.
 tmux 실행 시 자동 로드되며, 재로드는 아래 명령어로 가능:
@@ -40,7 +40,7 @@ tmux source-file ~/.tmux.conf
 
 ---
 
-# 3. 기본 사용법
+## 3. 기본 사용법
 
 ## 📌 세션(Session)
 
@@ -81,7 +81,7 @@ tmux kill-session -t sessionname
 
 ---
 
-# 4. 윈도우(Window)
+## 4. 윈도우(Window)
 
 브라우저 탭처럼 하나의 세션 안에서 여러 창을 사용할 수 있다.
 
@@ -114,7 +114,7 @@ swap-window -s 1 -t 2 # 두 윈도우 교환
 
 ---
 
-# 5. 패널(Pane)
+## 5. 패널(Pane)
 
 윈도우 내부를 여러 영역으로 나누어 사용할 수 있다.
 
@@ -157,7 +157,7 @@ ctrl + b 를 누르고 option + 방향키로 사이ㅈ 조절 (macOS)
 
 ---
 
-# 6. 복사/붙여넣기(Copy Mode)
+## 6. 복사/붙여넣기(Copy Mode)
 
 ### ● 진입/종료
 
@@ -179,7 +179,7 @@ ctrl + b 를 누르고 option + 방향키로 사이ㅈ 조절 (macOS)
 
 ---
 
-# 7. 스크롤
+## 7. 스크롤
 
 * 키보드로: `Ctrl+b` + `[` → ↑/↓
 * 마우스로 스크롤하려면 `.tmux.conf`에 추가:
@@ -190,7 +190,7 @@ set -g mouse on
 
 ---
 
-# 8. Tmux Plugin Manager (TPM)
+## 8. Tmux Plugin Manager (TPM)
 
 tmux 플러그인을 관리해주는 툴.
 
@@ -241,7 +241,7 @@ Ctrl+b + I   # Plugin Install
 
 ---
 
-# 9. Resurrect/Continuum 팁
+## 9. Resurrect/Continuum 팁
 
 세션을 `kill`했는데도 다시 살아나는 경우가 있다면 `tmux-resurrect` + `tmux-continuum`의
 자동 복원 기능 때문이다. `@continuum-restore 'on'` 상태에서는 tmux 시작 시점에

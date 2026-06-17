@@ -4,7 +4,7 @@ description : "OSC52 한 줄이 정답. pbcopy를 굳이 쓴다면 LANG 인라�
 date        : 2026-06-10 12:00:00 +0900
 updated     : 2026-06-10 12:00:00 +0900
 categories  : [tmux, "설정·옵션"]
-tags        : [osc52, ghostty, hangul, encoding, utf-8, daemon, environment]
+tags        : [osc52, ghostty, hangul, encoding, utf-8, daemon]
 pin         : false
 hidden      : false
 ---

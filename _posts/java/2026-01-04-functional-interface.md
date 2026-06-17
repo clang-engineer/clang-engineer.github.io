@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# Java `java.util.function` 핵심 정리
+## Java `java.util.function` 핵심 정리
 
 > **람다를 다형성 있게 쓰기 위한 표준 함수형 인터페이스 모음집**
 > Java 8부터 도입되어 Stream, Optional, Map 등 현대적인 Java API의 기반이 된다.

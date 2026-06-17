@@ -4,7 +4,7 @@ description : "ps aux | grep 대신 쓰는 표준 도구들 — 이름·포트·
 date        : 2026-06-16 14:00:00 +0900
 updated     : 2026-06-16 14:00:00 +0900
 categories  : [linux, "시스템 관리"]
-tags        : [linux, process, pgrep, pkill, lsof]
+tags        : [process, pgrep, pkill, lsof]
 pin         : false
 hidden      : false
 ---

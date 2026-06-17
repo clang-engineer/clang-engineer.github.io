@@ -4,7 +4,7 @@ description : "&로 띄운 프로세스가 셸 종료 시 같이 죽는지 — z
 date        : 2026-06-16 14:30:00 +0900
 updated     : 2026-06-16 14:30:00 +0900
 categories  : [shell, "셸·스크립팅"]
-tags        : [shell, zsh, bash, nohup, tmux]
+tags        : [zsh, bash, nohup, tmux]
 pin         : false
 hidden      : false
 ---

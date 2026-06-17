@@ -4,7 +4,7 @@ description : "static은 변수가 어디에 속하냐, volatile은 어디서 �
 date        : 2026-04-01 10:00:00 +0900
 updated     : 2026-04-01 10:00:00 +0900
 categories  : [java, "동시성"]
-tags        : [multithreading, spring]
+tags        : [multithreading, volatile, jmm]
 pin         : false
 hidden      : false
 ---

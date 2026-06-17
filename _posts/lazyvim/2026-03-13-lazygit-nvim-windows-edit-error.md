@@ -103,4 +103,4 @@ rm ~/AppData/Local/nvim-data/lazygit-theme.yml
 
 ## 2026-06-12 추가
 
-이 버그를 lazygit 본체까지 거슬러 올라가 OSS 이슈로 정리한 기록은 별도 글로 분리했다 → [lazygit nvim-remote preset의 cmd 분기 부재 — 본체로 거슬러 올라가 이슈 제기]({% post_url /opensource/2026-06-12-lazygit-nvim-remote-cmd-shell-missing %}).
+이 버그를 lazygit 본체까지 거슬러 올라가 OSS 이슈로 정리한 기록은 별도 글로 분리했다 → [lazygit nvim-remote preset의 cmd 분기 부재 — 본체로 거슬러 올라가 이슈 제기](/posts/opensource/2026-06-12-lazygit-nvim-remote-cmd-shell-missing/).

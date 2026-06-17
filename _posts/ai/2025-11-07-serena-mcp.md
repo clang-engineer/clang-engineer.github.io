@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# Serena 기본 가이드
+## Serena 기본 가이드
 
 > Serena는 코드베이스 내에서 의미 기반(semantic) 검색·편집을 가능하게 하는 도구로, 특히 Claude Code 등 LLM(대형 언어모델)과 함께 이용될 때 효과가 큽니다. ([GitHub][1])
 

@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# SonarQube 실행 및 분석 가이드
+## SonarQube 실행 및 분석 가이드
 
 본 문서는 SonarQube 도커 실행, 토큰 생성, Gradle/sonar-scanner 분석, JaCoCo/Jest 연동, Kotlin 관련 JDK 이슈 및 CI/CD 통합까지 한눈에 정리한 가이드입니다.
 

@@ -4,7 +4,7 @@ description : "Neovim 환경을 새로 만들거나 다시 익히려 할 때 선
 date        : 2026-06-16 11:00:00 +0900
 updated     : 2026-06-17 12:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
-tags        : [vim, neovim, lazyvim, kickstart, guide]
+tags        : [vim, lazyvim, kickstart, distro]
 pin         : false
 hidden      : false
 ---

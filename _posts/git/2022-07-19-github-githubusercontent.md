@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# GitHub 파일 다운로드 가이드
+## GitHub 파일 다운로드 가이드
 
 GitHub에서는 **GitHub REST API**를 제공하며, 이를 이용하면 GitHub에 올라와 있는 파일들을 원격 저장소처럼 접근할 수 있습니다.  
 

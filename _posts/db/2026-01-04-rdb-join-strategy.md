@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# **대규모 데이터 조인 방식 정리**
+## **대규모 데이터 조인 방식 정리**
 
 ## **1. Nested Loop Join (중첩 반복 조인)**
 

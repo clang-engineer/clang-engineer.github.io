@@ -4,7 +4,7 @@ description : "Liquibase의 master.xml 구성, changeset 작성 규칙, CSV/타�
 date        : 2025-10-17 09:38:36 +0900
 updated     : 2025-10-17 09:39:45 +0900
 categories  : [db, "도구·연동"]
-tags        : [dev, database]
+tags        : [liquibase, changeset, migration]
 pin         : false
 hidden      : false
 ---

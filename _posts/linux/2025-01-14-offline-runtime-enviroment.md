@@ -4,7 +4,7 @@ description : "외부 환경에서 dnf download --resolve로 의존성까지 받
 date        : 2025-01-14 13:38:35 +0900
 updated     : 2025-01-14 13:38:54 +0900
 categories  : [linux, "배포판·환경"]
-tags        : [environment]
+tags        : [dnf, rpm, air-gapped]
 pin         : false
 hidden      : false
 ---

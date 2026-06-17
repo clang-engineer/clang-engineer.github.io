@@ -11,7 +11,7 @@ hidden      : false
 
 "Git 띄울 때 lazygit가 뜨는 거야 그렇다 치고, gitsigns 는 또 뭐가 하지?", "Telescope 끄면 검색이 안 될 텐데 왜 안 끊기지?" — LazyVim 을 좀 쓰다 보면 **하나의 기능을 여러 플러그인이 분담**한다는 게 보이기 시작한다. 이 글은 그 분담 관계를 기능 영역별로 정리한다.
 
-[지난 글]({% post_url 2026-06-07-lazyvim-spec-merge-and-dependency-layers %}) 이 "LazyVim이 어떻게 조립되는가(구조)"였다면, 이번 글은 "그 안에 뭐가 들어 있는가(내용)" 다.
+[지난 글](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/) 이 "LazyVim이 어떻게 조립되는가(구조)"였다면, 이번 글은 "그 안에 뭐가 들어 있는가(내용)" 다.
 
 > 본인 환경 기준 (LazyVim 11.x, snacks.nvim 시대). 10.x 이하라면 Telescope/alpha 가 살아있어서 다르다.
 
@@ -215,7 +215,7 @@ vim-dadbod-ui           ← 사이드바 UI (DBUI)
 vim-dadbod-completion   ← SQL 자동완성 (blink.cmp source)
 ```
 
-`extras lang.sql` 을 켜면 셋 다 들어온다. 더 깊은 이야기는 [vim-dadbod 인증 함정]({% post_url 2026-05-06-vim-dadbod-pgpass-windows %}), [dbout 레이아웃 커스터마이징]({% post_url 2026-05-06-vim-dadbod-dbout-layout %}) 글 참고.
+`extras lang.sql` 을 켜면 셋 다 들어온다. 더 깊은 이야기는 [vim-dadbod 인증 함정](/posts/lazyvim/2026-05-06-vim-dadbod-pgpass-windows/), [dbout 레이아웃 커스터마이징](/posts/lazyvim/2026-05-06-vim-dadbod-dbout-layout/) 글 참고.
 
 ## 정리 — "이 기능이 안 먹어" 일 때 어디부터 보는가
 

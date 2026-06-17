@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# # Git Partial Merge 시 발생하는 develop 삭제 문제 — 전체 정리
+## Git Partial Merge 시 발생하는 develop 삭제 문제 — 전체 정리
 
 ## 1) 문제의 시작
 
@@ -86,7 +86,7 @@ git commit -m … --no-verify
 
 ## 4) 부분 병합을 하면서 삭제 기록을 남기지 않는 단 한 가지 원칙
 
-# 👉 **merge commit을 만들지 말아야 한다.**
+## 👉 **merge commit을 만들지 말아야 한다.**
 
 이 원칙만 지키면 partial merge는 100% 안전하게 된다.
 
@@ -173,7 +173,7 @@ git commit -am "partial merge (patch)" --no-verify
 
 ---
 
-# 최종 결론 (정리의 정리)
+## 최종 결론 (정리의 정리)
 
 ## ❌ 잘못된 partial merge
 

@@ -4,7 +4,7 @@ description : "tmux 구조·설치 → 체감 옵션 → 플러그인 → 세션
 date        : 2026-06-16 15:00:00 +0900
 updated     : 2026-06-16 15:00:00 +0900
 categories  : [tmux, "개요·인덱스"]
-tags        : [roadmap, tmux, plugin, script]
+tags        : [roadmap, plugin]
 pin         : false
 hidden      : false
 ---

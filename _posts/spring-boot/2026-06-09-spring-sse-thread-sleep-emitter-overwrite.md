@@ -4,7 +4,7 @@ description : "실시간 진행률 SSE에서 이벤트 누락/지연을 일으�
 date        : 2026-06-09 10:00:00 +0900
 updated     : 2026-06-09 10:00:00 +0900
 categories  : [spring-boot, "SSE·비동기"]
-tags        : [concurrency, debugging]
+tags        : [concurrency, sse, troubleshooting]
 pin         : false
 hidden      : false
 ---

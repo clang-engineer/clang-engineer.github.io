@@ -96,20 +96,20 @@ jib {
 
 ## 로컬 환경 구성 및 실행
 
-# 1. 도커 이미지 빌드
+## 1. 도커 이미지 빌드
 ./gradlew jibDockerBuild
 
-# 2. 앱 + 데이터베이스 실행
+## 2. 앱 + 데이터베이스 실행
 docker-compose -f src/main/docker/app.yml up -d
 
 ### 도커 레지트리 사용 시
-# 1. Docker Hub에 이미지 푸시
+## 1. Docker Hub에 이미지 푸시
 ./gradlew jib --to=docker.io/your-username/demo:latest
 
-# 2. 운영 서버에서 이미지 풀
+## 2. 운영 서버에서 이미지 풀
 docker pull your-username/demo:latest
 
-# 3. 컨테이너 실행
+## 3. 컨테이너 실행
 docker-compose -f docker-compose.prod.yml up -d
 
 ### docker-compose.prod.yml 예시
@@ -171,13 +171,13 @@ networks:
 
 
 ### 로그 관리
-# 컨테이너 로그 확인
+## 컨테이너 로그 확인
 docker-compose logs -f demo-app
 
-# 특정 시간대 로그
+## 특정 시간대 로그
 docker-compose logs --since="2024-01-01T00:00:00" demo-app
 
-# 로그 파일로 저장
+## 로그 파일로 저장
 docker-compose logs demo-app > app.log
 
 

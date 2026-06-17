@@ -4,7 +4,7 @@ description : "CPU·메모리·프로세스를 실시간으로 보는 TUI 도구
 date        : 2026-06-16 15:00:00 +0900
 updated     : 2026-06-16 15:00:00 +0900
 categories  : [linux, "시스템 관리"]
-tags        : [linux, monitoring, top, htop]
+tags        : [monitoring, top, htop, btop]
 pin         : false
 hidden      : false
 ---

@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# LazyVim(Neovim)에서 Diagnostics 로그/메시지 확인 방법
+## LazyVim(Neovim)에서 Diagnostics 로그/메시지 확인 방법
 
 목적별로 3가지를 구분하면 편합니다: (1) 진단 메시지, (2) LSP 통신 로그, (3) Neovim 메시지 히스토리.
 

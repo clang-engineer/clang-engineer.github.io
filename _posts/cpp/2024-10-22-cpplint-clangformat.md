@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# Cpplint
+## Cpplint
 - [cpplint](https://github.com/cpplint/cpplint)을 사용하여 전체 소스 코드를 Google 스타일로 작성했는지 검사할 수 있습니다.
 
 1. Cpplint 설치
@@ -27,7 +27,7 @@ find . -name '*.hpp' -o -name '*.cpp' -exec cpplint --linelength=120 --extension
 - `--extensions=h,hpp,cpp`: h, hpp, cpp 확장자 파일만 검사
 - `src/*`: src 디렉토리의 모든 파일을 검사
 
-# clang-format 설치
+## clang-format 설치
 - [clang-format](https://clang.llvm.org/docs/ClangFormat.html) 을 사용하면 Google 스타일로 소스 코드를 일괄 정리할 수 있습니다.
 
 1. clang-format 설치
@@ -54,7 +54,7 @@ find . -name '*.hpp' -o -name '*.cpp' -exec clang-format -style=file -i {} \; # 
 - `clang-format`을 실행할 때 `-style=file` 옵션을 사용하면 `.clang-format` 파일을 참조해서 소스 코드를 정리함
 
 
-# vim에서 clang-format 사용하기
+## vim에서 clang-format 사용하기
 - [vim-clang-format](https://github.com/rhysd/vim-clang-format)
 
 1. vim-clang-format 설치

@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 워크어라운드만 다룬 글은 [Windows에서 Neovim 내 Lazygit 'e' 키 에러 해결]({% post_url /lazyvim/2026-03-13-lazygit-nvim-windows-edit-error %})에 따로 있다. 이 글은 같은 버그의 **원인을 본체까지 거슬러 올라가 OSS 이슈로 정리한 기록**이다.
+> 워크어라운드만 다룬 글은 [Windows에서 Neovim 내 Lazygit 'e' 키 에러 해결](/posts/lazyvim/2026-03-13-lazygit-nvim-windows-edit-error/)에 따로 있다. 이 글은 같은 버그의 **원인을 본체까지 거슬러 올라가 OSS 이슈로 정리한 기록**이다.
 
 ## 출발점
 

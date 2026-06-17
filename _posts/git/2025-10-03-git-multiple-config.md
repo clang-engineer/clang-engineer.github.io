@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# GitHub 다중 계정 관리 Cheat Sheet
+## GitHub 다중 계정 관리 Cheat Sheet
 
 회사 계정과 개인 계정을 한 PC에서 안전하게 관리하기 위한 통합 가이드입니다.
 

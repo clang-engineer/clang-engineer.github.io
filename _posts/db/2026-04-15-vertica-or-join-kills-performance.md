@@ -4,7 +4,7 @@ description : "LEFT OUTER JOIN의 ON 절 OR 조건이 Join Filter로 빠지면�
 date        : 2026-04-15 10:00:00 +0900
 updated     : 2026-04-15 10:00:00 +0900
 categories  : [db, "RDB·트랜잭션"]
-tags        : [join]
+tags        : [vertica, join, performance, troubleshooting]
 pin         : false
 hidden      : false
 ---

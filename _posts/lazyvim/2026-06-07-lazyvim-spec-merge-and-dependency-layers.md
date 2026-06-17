@@ -67,7 +67,7 @@ require("lazy").setup({
 -- → 최종: event 유지 + opts 는 deep merge
 ```
 
-> **이게 [이전 글에서 다룬]({% post_url 2026-05-07-lazyvim-extra-override-merge-deps %}) "extra spec 에 dependencies 만 보강하기" 가 가능한 이유.** 같은 이름으로 빈껍데기처럼 다시 작성해도 dependencies 만 더해진다.
+> **이게 [이전 글에서 다룬](/posts/lazyvim/2026-05-07-lazyvim-extra-override-merge-deps/) "extra spec 에 dependencies 만 보강하기" 가 가능한 이유.** 같은 이름으로 빈껍데기처럼 다시 작성해도 dependencies 만 더해진다.
 
 ## 3. LazyVim 의 진입점 — `init.lua → config.lazy`
 

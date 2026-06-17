@@ -4,7 +4,7 @@ description : "Git Bash가 권한 없을 때 ln -s를 조용히 파일 복사로
 date        : 2026-05-07 10:00:00 +0900
 updated     : 2026-05-07 10:00:00 +0900
 categories  : [windows, "셸·시스템"]
-tags        : [dotfiles, powershell]
+tags        : [dotfiles, powershell, troubleshooting]
 pin         : false
 hidden      : false
 ---

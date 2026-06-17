@@ -4,7 +4,7 @@ description : "ｅｘｉｔ가 not recognized로 안 먹히면 폰트가 아니�
 date        : 2026-05-27 10:00:00 +0900
 updated     : 2026-05-27 10:00:00 +0900
 categories  : [windows, "셸·시스템"]
-tags        : [hangul, encoding]
+tags        : [hangul, encoding, troubleshooting]
 pin         : false
 hidden      : false
 ---

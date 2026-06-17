@@ -4,7 +4,7 @@ description : "pg_dump의 plain/custom/directory/tar 포맷 선택 기준, psql�
 date        : 2025-01-14 13:45:54 +0900
 updated     : 2025-02-21 22:50:42 +0900
 categories  : [db, "PostgreSQL·운영"]
-tags        : [database, postgresql]
+tags        : [postgresql, pgdump, backup]
 pin         : false
 hidden      : false
 ---

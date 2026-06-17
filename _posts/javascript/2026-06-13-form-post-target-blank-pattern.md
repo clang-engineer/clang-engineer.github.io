@@ -42,4 +42,4 @@ const openPostWindow = (url, data) => {
 
 ## 디버깅 팁
 
-새 탭의 첫 POST 요청을 보고 싶다면 Chrome을 `--auto-open-devtools-for-tabs`로 실행. 자세한 건 [Chrome 새 탭에서 자동으로 개발자도구 열기]({% post_url 2026-03-31-chrome-auto-open-devtools %}) 참고.
+새 탭의 첫 POST 요청을 보고 싶다면 Chrome을 `--auto-open-devtools-for-tabs`로 실행. 자세한 건 [Chrome 새 탭에서 자동으로 개발자도구 열기](/posts/etc/2026-03-31-chrome-auto-open-devtools/) 참고.

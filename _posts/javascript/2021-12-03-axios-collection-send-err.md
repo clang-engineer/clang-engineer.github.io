@@ -4,7 +4,7 @@ description : "axios로 Set, Map 데이터를 보내면 JSON 직렬화가 안 �
 date        : 2021-12-02 09:00:45 +0900
 updated     : 2021-12-10 09:01:11 +0900
 categories  : [javascript, "언어·패키지"]
-tags        : [axios, serialization, set, map]
+tags        : [axios, serialization, set, map, troubleshooting]
 pin         : false
 hidden      : false
 ---

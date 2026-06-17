@@ -4,12 +4,12 @@ description : "macOS에서 Docker 실행 시 발생하는 Operation not permitte
 date        : 2021-12-08 09:00:45 +0900
 updated     : 2025-10-03 13:28:38 +0900
 categories  : [docker]
-tags        : [macos, error]
+tags        : [macos, troubleshooting]
 pin         : false
 hidden      : false
 ---
 
-# 🐳 Docker "Operation not permitted" 에러 해결
+## 🐳 Docker "Operation not permitted" 에러 해결
 
 ## 문제
 Docker 실행 중 아래와 같은 에러가 간헐적으로 발생했습니다.

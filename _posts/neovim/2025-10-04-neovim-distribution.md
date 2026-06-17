@@ -11,7 +11,7 @@ pin         : false
 hidden      : false
 ---
 
-# Neovim 배포판/프레임워크 비교 소개
+## Neovim 배포판/프레임워크 비교 소개
 
 ## 1. 개요
 

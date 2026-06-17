@@ -9,14 +9,14 @@ pin         : false
 hidden      : false
 ---
 
-# mac address 변조
+## mac address 변조
 - 보안 망에서 mac address로 사용자를 식별하여 네트워크 접근을 제어하는 경우가 있습니다. 이때 mac address를 변조하여 사용자를 식별하는 것을 회피할 수 있습니다.
 - 변경한 mac address는 재부팅하면 원래의 mac address로 복구됩니다.
 - 보안상의 이유로 특정 버전이상의 맥 운영체제에서는 en0, en1 등의 네트워크 인터페이스를 변경할 수 없습니다.
 > NIC (Network Interface Card): 네트워크 인터페이스 카드, 네트워크 장치와 컴퓨터를 연결할 수 있게 해주는 하드웨어 장치  <br>
 mac address: 네트워크 카드의 물리적 주소로, 고유한 값으로 제조사에 의해 할당됨.
 
-# terminal 을 이용한 mac 주소 변조
+## terminal 을 이용한 mac 주소 변조
 1. SIP(Security Integrity Protection) 비활성화를 위해 리커버리 모드로 진입합니다.
 - sip를 비활성화 하지 않으면 mac 주소를 변조할 수 없습니다.
 - 보안을 위해 SIP를 비활성화하는 것은 권장하지 않습니다. 때문에, SIP를 비활성화한 후에는 다시 활성화해야 합니다.
@@ -49,7 +49,7 @@ sudo ifconfig en1 down
 sudo ifconfig en1 up
 ```
 
-# spoof mac을 이용한 mac 주소 변조
+## spoof mac을 이용한 mac 주소 변조
 
 1. spoof mac을 설치합니다.
 ```bash

@@ -4,7 +4,7 @@ description : "Schedule과 Serializability, Recoverability 단계, S/X Lock과 2
 date        : 2024-05-03 15:36:25 +0900
 updated     : 2025-05-21 22:50:42 +0900
 categories  : [db, "RDB·트랜잭션"]
-tags        : [database, lock]
+tags        : [transaction, isolation, lock]
 pin         : false
 hidden      : false
 ---

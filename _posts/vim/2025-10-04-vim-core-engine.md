@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-# ⚙️ Vim & Neovim 작동 원리 정리
+## ⚙️ Vim & Neovim 작동 원리 정리
 
 ## 1. 전체 구조 개요
 - Vim과 Neovim 모두 “C로 짜인 편집기 엔진”을 중심으로, 그 위에 “스크립트 인터프리터(Vimscript, Lua 등)”가 올라가서 명령을 해석하고 최종적으로 C 엔진을 호출하는 구조

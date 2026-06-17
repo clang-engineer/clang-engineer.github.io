@@ -4,12 +4,12 @@ description : main/sub 세션을 만들고 main에서 좌/우 + 오른쪽 상/�
 date        : 2026-02-21 10:05:00 +0900
 updated     : 2026-02-21 10:05:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
-tags        : [terminal, script]
+tags        : [terminal, tpm, plugin]
 pin         : false
 hidden      : false
 ---
 
-# 🧷 tmux 초기 셋업용 세션/윈도우/패널 스크립트
+## 🧷 tmux 초기 셋업용 세션/윈도우/패널 스크립트
 
 main/sub 세션을 나누고, main은 2개 window로 분리한 뒤
 첫 window에서 좌/우 + 오른쪽 상/하 분할을 만드는 초기 셋업 기록.
@@ -17,7 +17,7 @@ main/sub 세션을 나누고, main은 2개 window로 분리한 뒤
 
 ---
 
-# 1. 스크립트
+## 1. 스크립트
 
 ```bash
 #!/usr/bin/env bash
@@ -60,7 +60,7 @@ tmux attach -t "$MAIN_SESSION"
 
 ---
 
-# 2. 실행 방법
+## 2. 실행 방법
 
 ```bash
 # 파일 저장
@@ -76,7 +76,7 @@ chmod +x ~/bin/tmux-work.sh
 
 ---
 
-# 3. 구조 변경 예시
+## 3. 구조 변경 예시
 
 ## ● 윈도우 이름 변경
 
@@ -117,7 +117,7 @@ tmux send-keys -t "$MAIN_SESSION":1 "cd ~/project" C-m
 
 ---
 
-# 4. 참고
+## 4. 참고
 
 * `tmux has-session`은 세션 존재 여부만 확인한다.
 * 기존 main 세션이 있으면 구조를 다시 만들지 않고 attach만 수행한다.

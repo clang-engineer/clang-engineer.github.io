@@ -41,7 +41,7 @@ sudo systemctl start postgresql
 sudo systemctl status postgresql
 ```
 
-# 6. 데이터 디렉토리 경로 확인
+## 6. 데이터 디렉토리 경로 확인
 ```bash
 // su - postgres
 psql -U postgres -c "SHOW data_directory;"

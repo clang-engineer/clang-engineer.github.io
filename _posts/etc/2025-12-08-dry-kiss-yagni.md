@@ -16,7 +16,7 @@ hidden      : false
 
 ---
 
-# 1) DRY — Don’t Repeat Yourself (중복 금지)
+## 1) DRY — Don’t Repeat Yourself (중복 금지)
 
 ### 핵심
 같은 정보를 여러 곳에 두지 말자. 변경 지점이 하나여야 유지보수가 쉽다.
@@ -48,7 +48,7 @@ function priceWithTax(price) {
 
 ---
 
-# 2) KISS — Keep It Simple, Stupid (단순하게)
+## 2) KISS — Keep It Simple, Stupid (단순하게)
 
 ### 핵심
 
@@ -72,7 +72,7 @@ function priceWithTax(price) {
 
 ---
 
-# 3) YAGNI — You Aren't Gonna Need It (미래는 미리 만들지 마라)
+## 3) YAGNI — You Aren't Gonna Need It (미래는 미리 만들지 마라)
 
 ### 핵심
 
@@ -95,7 +95,7 @@ function priceWithTax(price) {
 
 ---
 
-# 실무에서 세 원칙의 균형 잡기
+## 실무에서 세 원칙의 균형 잡기
 
 이 세 원칙은 서로 보완적이지만 때론 충돌하기도 합니다.
 
@@ -107,7 +107,7 @@ function priceWithTax(price) {
 
 ---
 
-# 체크리스트 (코드 리뷰용)
+## 체크리스트 (코드 리뷰용)
 
 * 이 변경이 중복을 야기하나? → DRY 적용 고려
 * 더 단순하게 만들 수 없나? → KISS 우선
@@ -116,7 +116,7 @@ function priceWithTax(price) {
 
 ---
 
-# 짧은 예시 플로우 (의사결정)
+## 짧은 예시 플로우 (의사결정)
 
 1. 새로운 요구가 왔다.
 2. 기존 코드와 겹치는가? → 겹치면 재사용/공통 함수로 모아라(DRY).
@@ -125,7 +125,7 @@ function priceWithTax(price) {
 
 ---
 
-# 마무리
+## 마무리
 
 * DRY, KISS, YAGNI는 서로 보완하면서도 상황에 따라 트레이드오프가 필요합니다.
 * 규칙을 경전처럼 맹목적으로 따르기보단 **“왜”**라는 질문을 던지면서 균형 있게 적용하는 것이 핵심입니다.
