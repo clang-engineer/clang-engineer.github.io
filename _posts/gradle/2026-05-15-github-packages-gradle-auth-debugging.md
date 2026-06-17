@@ -66,3 +66,11 @@ IDE를 트레이까지 완전 종료 후 재시작해야 반영된다.
 ## 가장 흔히 빠뜨리는 함정
 
 SAML SSO를 쓰는 조직에선 PAT 만들고 토큰 옆 "Configure SSO → Authorize"를 **명시적으로 클릭**해야 한다. 안 하면 토큰은 유효하고 스코프도 맞는데 403이 뜬다. 1·2단계는 통과하고 3단계만 막히는 게 특징.
+
+## GitHub Packages 트러블슈팅 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [SNAPSHOT 의존성 해석 실패 — 불완전 배포](/posts/gradle/2026-03-06-github-packages-snapshot-incomplete-publish/) | pom 누락으로 404, 재배포로 해결 |
+| **GitHub Packages 인증 실패 — 401/403 디버깅 (현재 글)** | PAT 스코프·SSO authorize·환경변수 전달까지 |
+| [Gradle 데몬 환경변수 stale 문제](/posts/gradle/2026-05-20-gradle-daemon-stale-env-vars/) | 데몬이 옛 환경변수를 잡고 있어 PAT 갱신이 반영되지 않는 함정 |

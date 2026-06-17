@@ -235,3 +235,11 @@ LazyVim UI 계층
  ├─ Lualine.nvim      → 상태줄의 에러/경고 카운트
  └─ Virtual Text / Signs → 코드 옆의 빨간줄, 아이콘
 ```
+
+## LazyVim 구조 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| **LazyVim 주요 플러그인 정리 (현재 글)** | LazyVim에 어떤 플러그인들이 어떤 키맵으로 들어있는지 — 글로벌 명함 |
+| [LazyVim 기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/) | 기능 영역(Git·검색·LSP·완성·DAP)별로 어떤 플러그인이 협력하는지, snacks.nvim의 hub 역할 |
+| [LazyVim 의존성 계층 — spec merge](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/) | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 머지 알고리즘 |

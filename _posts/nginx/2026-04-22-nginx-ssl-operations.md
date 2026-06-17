@@ -85,3 +85,12 @@ pkill -9 nginx
 ss -tlnp | grep -E '443|20000'   # 포트 실제로 풀렸는지 확인
 nginx -t && nginx                # 다시 띄우기
 ```
+
+## nginx HTTPS 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [Let's Encrypt + Nginx 운영 가이드](/posts/nginx/2025-04-02-letsencrypt/) | 발급 방식 비교, fullchain, webroot 전환, HSTS 캐시 함정 |
+| **nginx HTTPS 운영 — 재시작·포트·인증서 검증 (현재 글)** | reload vs restart, 포트 점유 해결, 인증서 체인 확인 |
+| [특정 IP에서 HTTPS 강제 우회하기](/posts/nginx/2025-07-21-nginx-skip-https-for-ip/) | 사내 모니터링 IP 같은 예외 라우팅 패턴 |
+| [Apex ↔ www 도메인 통일과 캐시 문제](/posts/nginx/2026-04-24-nginx-apex-www-redirect/) | 한쪽으로 통합해 origin 분리·캐시 불일치 차단 |

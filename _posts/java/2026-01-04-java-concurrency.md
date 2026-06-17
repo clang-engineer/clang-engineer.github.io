@@ -207,7 +207,15 @@ CompletableFuture
 
 1. Thread는 직접 관리하지 않는다
 2. Task와 실행은 분리된다
-3. Executor가 스레드를 관리한다
+3. Executor는 스레드를 관리한다
 4. Future는 결과 핸들이다
 5. CompletableFuture는 비동기 흐름이다
+
+## Java 동시성 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| **Java 동시성 모델 (현재 글)** | Thread→Executor→Future→CompletableFuture 흐름과 책임 분리 |
+| [volatile vs static](/posts/java/2026-04-01-java-volatile-vs-static/) | 메모리 가시성 키워드의 의미와 조합 선택 기준 |
+| [Java Lock 비교 — synchronized · ReentrantLock · ReadWriteLock · StampedLock](/posts/java/2026-05-11-java-lock-comparison/) | 락 4종의 보장·재진입성·tryLock·낙관적 읽기 |
 

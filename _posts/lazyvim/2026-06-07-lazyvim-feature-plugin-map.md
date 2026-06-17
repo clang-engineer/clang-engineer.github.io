@@ -232,3 +232,11 @@ vim-dadbod-completion   ← SQL 자동완성 (blink.cmp source)
 | 한쪽 lint 만 안 됨 | `nvim-lint` source 설정 |
 
 LazyVim 은 **"풍부한 기본값을 가진 spec 묶음"** 이고, 그 spec 들이 위와 같이 기능 영역으로 나뉘어 협력한다. 각 영역의 주연·조연만 외워두면 어디를 만져야 할지가 보인다.
+
+## LazyVim 구조 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [LazyVim 주요 플러그인 정리](/posts/lazyvim/2026-06-07-lazyvim-plugins-overview/) | LazyVim에 어떤 플러그인들이 어떤 키맵으로 들어있는지 — 글로벌 명함 |
+| **LazyVim 기능 지도 (현재 글)** | 기능 영역(Git·검색·LSP·완성·DAP)별로 어떤 플러그인이 협력하는지, snacks.nvim의 hub 역할 |
+| [LazyVim 의존성 계층 — spec merge](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/) | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 머지 알고리즘 |

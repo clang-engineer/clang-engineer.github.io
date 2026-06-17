@@ -328,3 +328,11 @@ lazy.nvim·LazyVim은 둘 다 Lua 소스가 짧고 깔끔하다. 하루 한 파�
 | 7 | `:Lazy` UI의 inspect로 6에서 그린 것과 실제 머지 결과 비교 | 머릿속 모델과 실제의 일치 확인 |
 
 이 순서를 마치면 LazyVim은 더 이상 블랙박스가 아니라 **"잘 큐레이션된 spec 컬렉션 + 헬퍼 함수"** 로 보인다. 마법은 lazy.nvim의 deep merge 하나로 귀결되고, 그 외에는 모두 평범한 Lua 코드다.
+
+## LazyVim 구조 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [LazyVim 주요 플러그인 정리](/posts/lazyvim/2026-06-07-lazyvim-plugins-overview/) | LazyVim에 어떤 플러그인들이 어떤 키맵으로 들어있는지 — 글로벌 명함 |
+| [LazyVim 기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/) | 기능 영역(Git·검색·LSP·완성·DAP)별로 어떤 플러그인이 협력하는지, snacks.nvim의 hub 역할 |
+| **LazyVim 의존성 계층 — spec merge (현재 글)** | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 머지 알고리즘 |

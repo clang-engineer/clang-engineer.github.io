@@ -151,3 +151,12 @@ nginx -t && systemctl reload nginx
 - 캐시 TTL(4년)은 그대로 둬도 됨
 - 모든 사용자가 www로 통일 → origin 하나 → 캐시 불일치 원천 차단
 - JHipster는 파일명에 해시 포함 (`main.abc123.css`) → 배포 시 새 파일 다운로드
+
+## nginx HTTPS 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [Let's Encrypt + Nginx 운영 가이드](/posts/nginx/2025-04-02-letsencrypt/) | 발급 방식 비교, fullchain, webroot 전환, HSTS 캐시 함정 |
+| [nginx HTTPS 운영 — 재시작·포트·인증서 검증](/posts/nginx/2026-04-22-nginx-ssl-operations/) | reload vs restart, 포트 점유 해결, 인증서 체인 확인 |
+| [특정 IP에서 HTTPS 강제 우회하기](/posts/nginx/2025-07-21-nginx-skip-https-for-ip/) | 사내 모니터링 IP 같은 예외 라우팅 패턴 |
+| **Apex ↔ www 도메인 통일과 캐시 문제 (현재 글)** | 한쪽으로 통합해 origin 분리·캐시 불일치 차단 |

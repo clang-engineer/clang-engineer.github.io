@@ -111,3 +111,11 @@ curl -s -o /dev/null -w "%{http_code}" \
 | 원인 | 불완전 배포로 pom 파일 누락 |
 | 해결 | 라이브러리 저장소에서 `./gradlew publish` 재실행 |
 | 예방 | 배포 후 아티팩트 존재 여부 확인 |
+
+## GitHub Packages 트러블슈팅 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| **SNAPSHOT 의존성 해석 실패 — 불완전 배포 (현재 글)** | pom 누락으로 404, 재배포로 해결 |
+| [GitHub Packages 인증 실패 — 401/403 디버깅](/posts/gradle/2026-05-15-github-packages-gradle-auth-debugging/) | PAT 스코프·SSO authorize·환경변수 전달까지 |
+| [Gradle 데몬 환경변수 stale 문제](/posts/gradle/2026-05-20-gradle-daemon-stale-env-vars/) | 데몬이 옛 환경변수를 잡고 있어 PAT 갱신이 반영되지 않는 함정 |

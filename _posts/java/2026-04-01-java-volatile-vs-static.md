@@ -95,3 +95,11 @@ public class AppStatus {
 | 값이 안 바뀜 | `static final` |
 | 값이 바뀜 + 멀티스레드에서 공유 | `volatile` |
 | 값이 바뀜 + 클래스 레벨 접근 + 멀티스레드 | `static volatile` |
+
+## Java 동시성 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [Java 동시성 모델](/posts/java/2026-01-04-java-concurrency/) | Thread→Executor→Future→CompletableFuture 흐름과 책임 분리 |
+| **volatile vs static (현재 글)** | 메모리 가시성 키워드의 의미와 조합 선택 기준 |
+| [Java Lock 비교 — synchronized · ReentrantLock · ReadWriteLock · StampedLock](/posts/java/2026-05-11-java-lock-comparison/) | 락 4종의 보장·재진입성·tryLock·낙관적 읽기 |
