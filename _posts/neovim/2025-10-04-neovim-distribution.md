@@ -3,8 +3,10 @@ title       : Neovim 배포판/프레임워크 비교 소개
 description : "LazyVim·NvChad·AstroNvim 현역 배포판과 공식 starter kickstart.nvim을 Neovim Core 위에 Lua 설정 레이어를 어떻게 다르게 얹는지 초점·성능·자유도 기준으로 비교 (2026-06 기준)."
 date        : 2025-10-04 12:41:16 +0900
 updated     : 2025-10-04 12:41:33 +0900
-categories  : [lazyvim, "개요·인덱스"]
-tags        : [dev, vim, neovim]
+categories  : [neovim, "개요·인덱스"]
+tags        : [vim, distro, lazyvim, nvchad, astronvim]
+redirect_from:
+  - /posts/lazyvim/2025-10-04-neovim-distribution/
 pin         : false
 hidden      : false
 ---

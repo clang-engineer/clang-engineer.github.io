@@ -3,8 +3,10 @@ title       : Windows에서 Dotfiles의 Neovim 설정 연결하기
 description : "Windows의 %LOCALAPPDATA%\\nvim 경로에 dotfiles의 nvim-lazy 설정을 Junction(mklink /J)으로 연결해 관리자 권한 없이 공유하는 방법."
 date        : 2026-01-07 09:29:54 +0900
 updated     : 2026-01-07 09:30:51 +0900
-categories  : [lazyvim, "구조·설정"]
-tags        : [windows, dotfiles, neovim, mklink]
+categories  : [neovim, "구조·설정"]
+tags        : [windows, dotfiles, mklink]
+redirect_from:
+  - /posts/lazyvim/2026-01-07-window-neovim/
 pin         : false
 hidden      : false
 ---

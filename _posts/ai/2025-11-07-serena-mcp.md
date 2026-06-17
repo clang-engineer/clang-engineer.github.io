@@ -124,7 +124,65 @@ Serena가 코드베이스를 의미적으로 분석하여 관련 코드를 찾�
 
 ---
 
-## 7. 간단 사용 예시
+## 7. Codex CLI에서 사용하기
+
+Serena는 Claude뿐 아니라 **Codex CLI**(MCP 클라이언트)에서도 그대로 쓸 수 있다.
+`~/.codex/config.toml`에 서버 실행 커맨드를 등록하면 된다.
+
+### 7.1 사전 준비
+
+```bash
+# Codex CLI 설치
+npm install -g @openai/codex@latest
+codex login
+
+# uv 설치 (Serena 실행용)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"   # 셸 프로파일에도 추가
+```
+
+### 7.2 config.toml에 Serena 등록
+
+`~/.codex/config.toml`(없으면 생성)에 다음을 추가한다.
+
+```toml
+[mcp_servers.serena]
+command = "uvx"
+args = [
+  "--from", "git+https://github.com/oraios/serena",
+  "serena", "start-mcp-server",
+  "--context", "codex"
+]
+
+# (옵션) 기동·툴 실행 타임아웃
+startup_timeout_sec = 120
+tool_timeout_sec    = 600
+```
+
+`--context codex`는 Codex 전용 툴 구성을 잡아주므로 꼭 붙인다.
+
+### 7.3 연결 확인 및 프로젝트 활성화
+
+```bash
+codex          # TUI 실행
+```
+
+TUI 안에서 `/mcp` 입력 → 목록에 `serena`가 보이면 연결 성공.
+그 다음 대화 안에서 다음처럼 말해 현재 디렉토리를 프로젝트로 활성화한다.
+
+> "Activate the current dir as project using serena"
+
+활성화 후엔 `~/.serena/serena_config.yml`과 `<프로젝트>/.serena/project.yml`이 생성되어 다음부턴 자동 인식된다.
+
+### 7.4 Codex + Serena 팁
+
+- **대시보드**: `http://localhost:24282/dashboard/index.html`에 세션 로그가 뜬다. Codex가 브라우저를 못 띄우면 직접 열면 된다.
+- **`failed` 표시 무시**: Codex UI에서 Serena 툴 실행이 `failed`로 보여도 실제로는 잘 동작하는 알려진 버그가 있다. Serena 공식 문서에도 명시되어 있다.
+- **사전 인덱싱**: 큰 레포라면 첫 호출 속도를 위해 `uvx --from git+https://github.com/oraios/serena serena project index`를 한 번 돌려두면 검색이 훨씬 빨라진다.
+
+---
+
+## 8. 간단 사용 예시
 
 ```bash
 git clone https://github.com/oraios/serena
@@ -135,7 +193,9 @@ uv run serena config edit
 uv run serena start-mcp-server
 ```
 
-이제 지원하는 MCP 클라이언트(Claude Code 등)에서 Serena 서버를 연결하면 코드 검색·편집 기능을 활용할 수 있습니다.
+이제 지원하는 MCP 클라이언트(Claude Code, Codex CLI 등)에서 Serena 서버를 연결하면 코드 검색·편집 기능을 활용할 수 있다.
+
+MCP 프로토콜 자체에 대한 개념은 [Model Context Protocol(MCP) 개념 정리](/posts/ai/2025-10-23-mcp/) 참고.
 
 ---
 

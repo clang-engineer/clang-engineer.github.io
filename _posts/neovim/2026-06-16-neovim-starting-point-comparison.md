@@ -62,7 +62,7 @@ folke가 만든 배포판. **lazy.nvim**(플러그인 매니저) 위에 plugin s
 
 가장 빠르게 IDE 수준 환경을 손에 넣을 수 있지만, "내가 뭘 켜고 있는지" 감각은 가장 약하다. 익숙해질수록 `:Lazy` profile이나 `~/.local/share/nvim/lazy/LazyVim/lua/lazyvim/plugins/`를 들춰봐야 "이게 어디서 들어온 거지?"가 풀린다.
 
-LazyVim 외에도 동일 슬롯에 **NvChad**(경량·성능 중심), **AstroNvim**(기능 풍부)이 있다. 자세한 distro 간 비교는 [Neovim 배포판/프레임워크 비교](/posts/lazyvim/2025-10-04-neovim-distribution/) 글 참고.
+LazyVim 외에도 동일 슬롯에 **NvChad**(경량·성능 중심), **AstroNvim**(기능 풍부)이 있다. 자세한 distro 간 비교는 [Neovim 배포판/프레임워크 비교](/posts/neovim/2025-10-04-neovim-distribution/) 글 참고.
 
 ## 비교 표
 
