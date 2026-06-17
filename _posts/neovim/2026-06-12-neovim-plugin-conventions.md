@@ -237,6 +237,52 @@ return {
 }
 ```
 
+#### 모듈명은 어떻게 자동 추론되나
+
+lazy.nvim 은 다음 순서로 require 할 모듈명을 결정한다.
+
+| 우선순위 | 출처 | 예시 |
+| --- | --- | --- |
+| 1 | spec 의 `main = "..."` 명시 | `main = "my-module"` |
+| 2 | repo 이름에서 `.nvim` 접미 제거 | `"folke/which-key.nvim"` → `"which-key"` |
+| 3 | repo 이름 그대로 | `"author/foo"` → `"foo"` |
+
+→ 이게 **플러그인이 자기 repo 이름과 동일한 lua 모듈명 (`lua/<repo>/init.lua`)을 쓰는 컨벤션** (위 관례 3 의 네임스페이스 프리픽스) 이 자동 매핑의 결과다. 안 그러면 사용자가 매번 `main = "..."` 를 직접 써야 한다.
+
+```lua
+-- lua/<name>/init.lua 가 repo 이름과 다를 때
+{ "myuser/oddly-named", main = "actual_module_name", opts = {} }
+```
+
+#### `opts` · `config` · `init` 중 무엇을 쓸까
+
+세 키가 호출 시점·역할이 다르다. 헷갈리는 핵심 트리오.
+
+| 키 | 호출 시점 | 자동 setup 호출? | 언제 쓰나 |
+| --- | --- | --- | --- |
+| `init` | **load 이전** (spec 등록 직후) | X | `vim.g.foo_x = 1` 같이 플러그인이 load 되기 전에 읽어야 하는 전역 변수 세팅 |
+| `opts` | load 시점 | **O** (`setup(opts)` 자동) | 가장 일반적. 그냥 옵션 테이블만 넘기면 끝 |
+| `config` | load 시점 | X (본인이 직접 호출) | setup 외에 추가 호출 필요, 조건부 setup, setup 이 없는 플러그인 |
+
+```lua
+-- 95% 케이스: opts
+{ "myuser/foo", opts = { x = 1 } }
+
+-- 추가 호출 필요할 때: config 함수로 직접
+{
+  "myuser/foo",
+  config = function(_, opts)
+    require("foo").setup(opts)
+    require("foo.subsystem").wire_up()
+  end,
+}
+
+-- load 전에 필요할 때: init
+{ "myuser/foo", init = function() vim.g.foo_legacy_mode = true end }
+```
+
+`opts` 자체도 4가지 형태로 쓸 수 있다 — 테이블 (`opts = {...}`), 함수 (`opts = function(_, opts) ... return opts end` — 동적 생성), 빈 테이블 (`opts = {}` — setup 호출만 트리거), `config = true` (= `opts = {}` 와 동일).
+
 ### 5. 헬스체크
 
 `:checkhealth foo`로 호출되는 진단 모듈.
