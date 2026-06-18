@@ -39,7 +39,7 @@ title: 치트시트
 |------|------|
 | [shell.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/shell.md) | Bash `set` 옵션, `&`/`&&`/`;`/`\|\|`, job 관리 |
 | [zsh.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/zsh.md) | Zsh 단축키, glob, alias |
-| [powershell.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/powershell.md) | PowerShell — Bash와 다른 점 위주 (PS 5.1 vs 7 포함) |
+| [powershell.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/powershell.md) | PowerShell — Bash와 다른 점 위주 (PS 5.1 vs 7, 서비스 관리 sc/nssm 포함) |
 
 ## 시스템 & 서버
 
