@@ -4,12 +4,12 @@ description : "왜 만들었는지, v0.1.0 → v0.1.1 보강에서 잡은 정확
 date        : 2026-06-17 23:30:00 +0900
 updated     : 2026-06-17 23:30:00 +0900
 categories  : [neovim, "플러그인·생태계"]
-tags        : [jvm-env, jdtls, gradle, awesome-neovim, plugin-publication, retrospective]
+tags        : [jvm-env, jdtls, gradle, awesome-neovim, plugin-publication, retrospective, troubleshooting]
 pin         : false
 hidden      : false
 ---
 
-직접 만든 첫 OSS Neovim 플러그인 [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim)을 발행하고 보강 릴리즈(v0.1.1)까지 돌린 사이클을 정리한다. 절차 가이드는 [awesome-neovim에 내 플러그인 PR 보내기](/posts/awesome-neovim-pr-walkthrough/), [노출 채널 비교](/posts/neovim-plugin-distribution/)에 이미 있으니, 여기는 "보강 사이클에서 무엇을 배웠는가"가 중심이다.
+직접 만든 첫 OSS Neovim 플러그인 [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim)을 발행하고 보강 릴리즈(v0.1.1)까지 돌린 사이클을 정리한다. 절차 가이드는 [awesome-neovim에 내 플러그인 PR 보내기](/posts/neovim/2026-06-12-awesome-neovim-pr-walkthrough/), [노출 채널 비교](/posts/neovim/2026-06-12-neovim-plugin-distribution/)에 이미 있으니, 여기는 "보강 사이클에서 무엇을 배웠는가"가 중심이다.
 
 ## 왜 만들었나 — niche한 갭
 

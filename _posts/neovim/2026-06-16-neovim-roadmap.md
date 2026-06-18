@@ -2,7 +2,7 @@
 title       : "Neovim 실력 향상 로드맵 — vim·neovim·lazyvim 글을 어떻게 읽을까"
 description : "Vim 기본기 → Lua → Neovim 내부 → LazyVim 구조 → 플러그인 작성까지, 이 블로그의 vim/neovim/lazyvim 글을 단계별로 큐레이션."
 date        : 2026-06-16 00:00:00 +0900
-updated     : 2026-06-16 11:30:00 +0900
+updated     : 2026-06-19 00:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : true
@@ -72,6 +72,18 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 
 이 단계까지 오면 "Neovim 사용자"에서 "Neovim 생태계 기여자"로 넘어간다. 4부작 + 실전 케이스 + 등록까지.
 
+### 발행 순서 (0 → 등록)
+
+플러그인 하나를 빈 디렉토리에서 awesome-neovim 등록까지 올리는 실제 순서. 각 단계의 상세는 아래 표의 글로 연결된다.
+
+1. **언어 결정** — Lua/Vimscript 택 → [언어 선택](/posts/neovim/2026-06-12-neovim-plugin-language-choice/)
+2. **골격 잡기** — runtimepath 관례대로 `plugin/` vs `lua/` 배치 → [작성 규칙](/posts/neovim/2026-06-12-neovim-plugin-conventions/)
+3. **구현** — 필요하면 Lua·Vimscript 혼용 경계 최소화 → [혼용 패턴](/posts/neovim/2026-06-12-neovim-plugin-mixing-lua-vimscript/) · 실전 예 [vim-dadbod 어댑터](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)
+4. **테스트** — plenary / mini.test / busted 중 택1 → [테스트 방법](/posts/neovim/2026-06-18-neovim-plugin-testing-plenary-minitest-busted/)
+5. **문서화** — `panvimdoc`로 README를 `:help`로 변환 (별도 글 없음, awesome-neovim 등록 요건)
+6. **노출 채널 결정** — awesome-neovim · Dotfyle · VimAwesome · GitHub Topics → [4가지 채널](/posts/neovim/2026-06-12-neovim-plugin-distribution/)
+7. **awesome-neovim 등록** — gh CLI로 PR → [PR 보내기](/posts/neovim/2026-06-12-awesome-neovim-pr-walkthrough/)
+
 ### 4부작 (이론)
 
 | 글 | 핵심 |
@@ -89,6 +101,21 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 | [awesome-neovim에 PR 보내기 — gh CLI로 한 번에](/posts/neovim/2026-06-12-awesome-neovim-pr-walkthrough/) | CONTRIBUTING.md 규칙을 한 번에 통과시키는 절차 |
 | [mini.nvim 관련 정리](/posts/neovim/2025-10-04-mininvim/) | 한 저장소에 잘 묶인 mini 시리즈를 읽으며 패턴 학습 |
 
+### 테스트
+
+| 글 | 핵심 |
+|---|---|
+| [Neovim 플러그인 테스트 방법 — plenary / mini.test / busted+nlua](/posts/neovim/2026-06-18-neovim-plugin-testing-plenary-minitest-busted/) | 헤드리스 nvim 안에서 도는 세 방식의 대중성·선택 기준 비교 |
+
+### 직접 발행한 결과물
+
+위 순서를 실제로 통과시켜 awesome-neovim에 올린 플러그인들. 글과 코드를 같이 보면 "이론 → 실물" 간극이 메워진다.
+
+| 플러그인 | 무엇 | 관련 글 |
+|---|---|---|
+| [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) | vim-dadbod에 Vertica 어댑터 + dadbod-ui schema-tree 통합 | [어댑터 만들기 (제작 가이드)](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/) |
+| [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) | jdtls용 JVM(JAVA_HOME) 환경 선택. 첫 OSS 플러그인 | [발행 회고 (보강 사이클)](/posts/neovim/2026-06-17-jvm-env-nvim-publication-retrospective/) |
+
 ## 환경 세팅·운영
 
 | 글 | 핵심 |
@@ -102,12 +129,12 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 | 영역 | 글 |
 |---|---|
 | 진단 도구 | [LazyVim Diagnostics 로그/메시지 확인법](/posts/lazyvim/2026-02-04-lazyvim-diagnostics/) |
-| LSP | [Java LSP (jdtls) 작동 안함](/posts/lazyvim/2025-12-17-java-lsp-jdtls/) · [kotlin-language-server documentHighlight 크래시](/posts/lazyvim/2026-06-08-kotlin-language-server-document-highlight-crash/) |
+| LSP | [Java LSP (jdtls) 작동 안함](/posts/lazyvim/2025-12-17-java-lsp-jdtls/) · [kotlin-language-server documentHighlight 크래시](/posts/lazyvim/2026-06-08-kotlin-language-server-document-highlight-crash/) · [kotlin-language-server가 import를 못 잡을 때 (kls_database.db 캐시)](/posts/neovim/2026-06-16-kotlin-language-server-stale-kls-database/) · [LSP가 안 붙을 때 — 헤드리스 모드로 attach 검증](/posts/neovim/2026-06-15-neovim-lsp-headless-attach-debug/) · [특정 LSP의 server_capability 한 줄로 끄기](/posts/lazyvim/2026-06-16-lazyvim-disable-lsp-server-capability/) |
 | Treesitter | [kotlin 쿼리 "..<" 노드 에러 (파서 버전)](/posts/lazyvim/2026-05-08-nvim-treesitter-kotlin-rangeuntil-query-error/) · [main 브랜치는 nvim 0.12+ 전용](/posts/lazyvim/2026-05-08-nvim-treesitter-main-branch-needs-0.12/) |
 | Lint | [PowerShell 프로필이 nvim-lint ktlint JSON을 깨뜨릴 때](/posts/lazyvim/2026-05-06-powershell-profile-pollutes-nvim-lint/) |
 | Lazygit | [Windows에서 'e' 키 에러](/posts/lazyvim/2026-03-13-lazygit-nvim-windows-edit-error/) · [Windows에서 한글 깨짐](/posts/lazyvim/2026-03-13-nvim-lazygit-korean-broken/) |
 | Dadbod | [dbout 결과창 레이아웃 커스터마이징](/posts/lazyvim/2026-05-06-vim-dadbod-dbout-layout/) · [PostgreSQL .pgpass 인증 (Windows)](/posts/lazyvim/2026-05-06-vim-dadbod-pgpass-windows/) |
-| AI | [CopilotChat Model not found 에러](/posts/lazyvim/2026-06-05-copilotchat-model-not-found/) |
+| AI | [CopilotChat Model not found 에러](/posts/lazyvim/2026-06-05-copilotchat-model-not-found/) · [Copilot Business + CopilotChat "Model not found" 우회](/posts/neovim/2026-06-17-copilotchat-copilot-business-model-not-found/) |
 | 윈도우·tmux | [floating window + tmux 이동/복귀 포커스](/posts/lazyvim/2026-06-08-neovim-floating-window-tmux-refocus/) |
 | Swap·복구 | [Neovim swap 파일 안전하게 정리하기](/posts/neovim/2026-06-11-nvim-swap-cleanup/) |
 
