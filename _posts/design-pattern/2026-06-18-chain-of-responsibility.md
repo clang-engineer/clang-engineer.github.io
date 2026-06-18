@@ -188,4 +188,34 @@ Client ──▶ Handler1 ──next──▶ Handler2 ──next──▶ Handl
 - **null 종착이 실수**: 마지막 핸들러가 처리 안 하고 끝나는 케이스가 의도된 건지 버그인지 명확히. 종착 핸들러를 항상 둬서 명시.
 - **다음 핸들러를 까먹고 안 호출**: 통과형 핸들러에서 `next.handle()`을 빠뜨리면 뒤가 죽는다. 베이스 클래스에 default forwarding을 두는 게 안전.
 
+
+## 스스로 점검
+
+**1. 체인이 `Log → Cache → Auth → Biz` 순서다. 보안적으로 어떤 문제가 있나?**
+
+<details markdown="1">
+<summary>답</summary>
+
+캐시가 Auth 앞이라 **인증 안 한 응답이 캐싱**된다 → 다음 요청은 인증 없이 캐시 HIT. 심각한 보안 사고. 순서는 `Log → Auth → Cache → Biz`가 맞다.
+
+</details>
+
+**2. 통과형 체인(HTTP 미들웨어)과 가로채기형 체인(예외 핸들러)의 차이는?**
+
+<details markdown="1">
+<summary>답</summary>
+
+통과형은 모든 핸들러가 차례로 거친다 (다음 호출 필수). 가로채기형은 처리 가능한 첫 핸들러에서 종료. 실무 체인은 보통 둘이 섞인 혼합형 (Auth는 가로채기, Log는 통과).
+
+</details>
+
+**3. 통과형 핸들러에서 `next.handle()` 호출을 빠뜨리면?**
+
+<details markdown="1">
+<summary>답</summary>
+
+체인 뒷부분이 죽는다. 정적 분석으로 잡기 어려우므로 베이스 클래스에 default forwarding을 두는 게 안전. 또는 framework가 강제 (Express의 `next` 호출 규약).
+
+</details>
+
 {% include design-pattern-series.html current="chain-of-responsibility" %}

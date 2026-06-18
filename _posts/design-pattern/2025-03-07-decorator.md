@@ -154,4 +154,34 @@ Beverage (interface)
 - **타입이 같아 보이지만 동작이 다름**. `Beverage*`를 받는 함수는 그게 단순 에스프레소인지 휘핑 두 번 얹은 에스프레소인지 구분 못 한다. 의도된 추상화지만 디버깅 때 헷갈린다.
 - **데코레이터가 한 종류뿐이면 굳이 도입하지 마라**. 그냥 멤버 변수가 낫다.
 
+
+## 스스로 점검
+
+**1. 손님이 "에스프레소에 휘핑을 두 번 + 모카 한 번" 주문했다. 위 코드로 어떻게 표현?**
+
+<details markdown="1">
+<summary>답</summary>
+
+`Whip(Whip(Mocha(Espresso())))` — 같은 데코레이터를 중첩해서 쌓을 수 있다. 상속이라면 이런 조합용 클래스를 또 만들어야 하지만, 데코레이터는 런타임 조합이 자유롭다.
+
+</details>
+
+**2. 구조는 똑같은데 Decorator인지 Proxy인지 구분하는 기준은?**
+
+<details markdown="1">
+<summary>답</summary>
+
+**의도**. 기능을 추가하면 Decorator(`LoggingBeverage`), 접근을 제어하면 Proxy(`AuthorizedFileAccess`). 같은 코드 구조라도 클래스 이름이 의도를 드러내야 한다.
+
+</details>
+
+**3. `Encrypt(Compress(data))`와 `Compress(Encrypt(data))`가 결과가 다른 이유는?**
+
+<details markdown="1">
+<summary>답</summary>
+
+데코레이터는 **순서 의존적**. 압축은 패턴 있는 데이터에서 효율적인데, 암호화된 데이터는 패턴이 없어서 압축이 안 된다. 데코레이터 순서가 의미를 갖는 경우 사용자 실수 위험이 크다.
+
+</details>
+
 {% include design-pattern-series.html current="decorator" %}

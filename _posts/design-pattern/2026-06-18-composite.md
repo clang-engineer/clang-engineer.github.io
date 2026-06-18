@@ -167,4 +167,34 @@ GoF의 오래된 논쟁:
 - **공통 인터페이스가 너무 추상적이면 다 못 담는다**: 모든 노드가 의미 있게 구현할 수 있는 메서드만 인터페이스에 둘 것. 의미 없는 메서드를 우격다짐 넣으면 LSP 위반.
 - **깊이 큰 트리에서 재귀 스택**: 수만 노드 깊이의 트리는 재귀 호출로 풀면 스택 오버플로. 반복형(스택 활용) 순회로 전환.
 
+
+## 스스로 점검
+
+**1. `Directory::size()`가 안에 또 다른 `Directory`가 있어도 자동으로 처리되는 메커니즘은?**
+
+<details markdown="1">
+<summary>답</summary>
+
+Composite도 `Node`를 구현한다. children은 `unique_ptr<Node>` 타입이므로 자식이 또 Directory여도 같은 `size()` 호출 → **재귀**. "Composite 안에 Composite"가 핵심.
+
+</details>
+
+**2. 자식 관리(`add`/`remove`)를 Component 인터페이스에 두는 것 vs Composite에만 두는 것의 트레이드오프는?**
+
+<details markdown="1">
+<summary>답</summary>
+
+Component에 두면 클라이언트가 분기 없이 add 시도 가능(**투명성** ↑). 단 Leaf에는 의미 없는 메서드라 호출 시 예외 발생(**안전성** ↓). Composite에만 두면 안전하지만 다운캐스트 필요.
+
+</details>
+
+**3. 깊이 수만 개에 달하는 트리를 재귀로 처리하면?**
+
+<details markdown="1">
+<summary>답</summary>
+
+**스택 오버플로** 위험. 반복형(명시적 스택을 손으로 관리하는) 순회로 전환. 또는 꼬리 재귀 최적화가 되는 언어/플래그 사용.
+
+</details>
+
 {% include design-pattern-series.html current="composite" %}

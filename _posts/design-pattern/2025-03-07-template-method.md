@@ -178,4 +178,34 @@ new TransactionTemplate().execute(status -> {
 - **상속 계층이 깊어지면 흐름 파악이 어려워진다**. Template Method는 2계층(추상 → 구체) 정도가 건강하다. 손자 클래스까지 가면 위임(Strategy) 쪽이 낫다.
 - **Hollywood Principle**: "우리가 부를 테니 호출하지 마세요". 상위가 하위를 호출하지, 하위가 상위 흐름을 끌고 가면 안 된다.
 
+
+## 스스로 점검
+
+**1. 음료 만들 때 "우유 추가"를 선택적으로 건너뛰려면 어떤 메서드를 오버라이드해야 하나?**
+
+<details markdown="1">
+<summary>답</summary>
+
+`wantsCondiments()` 훅 메서드. 기본은 true를 반환하지만 하위 클래스에서 false를 반환하면 `make()`의 첨가 단계가 스킵된다. 흐름의 가지를 조절하는 방식.
+
+</details>
+
+**2. `make()` 템플릿 메서드를 virtual로 만들면 안 되는 이유는?**
+
+<details markdown="1">
+<summary>답</summary>
+
+흐름 자체를 하위가 갈아엎으면 패턴의 의미가 사라진다. "우리가 부를 테니 호출하지 마세요"(Hollywood Principle) — 골격은 잠그고 단계만 열어둔다.
+
+</details>
+
+**3. Spring의 `TransactionTemplate`은 정통 Template Method와 어떻게 다른가?**
+
+<details markdown="1">
+<summary>답</summary>
+
+정통은 가변 부분을 **하위 클래스 상속**으로 채운다. Spring Template은 **콜백(=Strategy)**으로 주입한다. 흐름을 가두고 일부만 외부에 맡긴다는 발상은 동일.
+
+</details>
+
 {% include design-pattern-series.html current="template-method" %}

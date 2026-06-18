@@ -160,4 +160,34 @@ Singleton은 "써도 되나"를 가장 많이 묻는 패턴이다. 주요 비판
 - 그 외에는 → **DI로 단일 인스턴스 관리**가 더 안전. 생성·수명을 외부가 책임진다.
 - "편의를 위한 전역 접근"이 진짜 동기라면 → 안티패턴. 의존성을 명시적으로 넘겨라.
 
+
+## 스스로 점검
+
+**1. Singleton을 직접 코딩한 클래스를 테스트할 때 mock을 끼우기 어려운 이유는?**
+
+<details markdown="1">
+<summary>답</summary>
+
+`Logger::instance()`가 늘 같은 객체를 반환하므로 테스트 격리가 깨진다. 한 테스트의 상태가 다음 테스트에 새어 들어간다. DI라면 매번 다른 mock을 주입할 수 있다.
+
+</details>
+
+**2. C++11 이후 double-checked locking이 불필요해진 이유는?**
+
+<details markdown="1">
+<summary>답</summary>
+
+`static` 지역 변수의 초기화가 thread-safe로 보장된다 (magic statics). 별도 mutex/락 없이 lazy 초기화가 안전. `static Logger inst;` 한 줄이면 끝.
+
+</details>
+
+**3. Spring의 `@Component`(기본 스코프 싱글톤)이 GoF Singleton과 다른 점은?**
+
+<details markdown="1">
+<summary>답</summary>
+
+컨테이너가 단일 인스턴스를 관리·**주입**한다. 코드가 직접 `instance()`를 부르지 않는다. 결과적으로 의존성이 생성자에 명시되어 보이고, 테스트 시 mock 주입이 자유롭다.
+
+</details>
+
 {% include design-pattern-series.html current="singleton" %}
