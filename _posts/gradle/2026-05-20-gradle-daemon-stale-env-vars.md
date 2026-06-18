@@ -38,6 +38,26 @@ IntelliJ가 환경변수 설정 *이전*에 떠 있으면, 그 IDE 프로세스�
 2. 시작 메뉴/작업표시줄로 재실행 (User-scope 환경변수 자동 상속)
 3. Gradle tool window → Reload All Gradle Projects
 
+## Claude Code 같은 AI 에이전트 셸도 같은 패턴
+
+Claude Code 세션은 **시작 시점의 환경변수를 캡처**한다. 세션을 띄운 뒤 토큰을 갱신해도 세션 안에선 옛값이라, 같은 검증 명령이 셸에 따라 갈린다.
+
+```bash
+# 사용자 셸 (갱신된 토큰)
+curl -i -u "$GITHUB_ACTOR:$GITHUB_TOKEN" https://api.github.com/user | head -1
+# HTTP/2 200 ✓
+
+# Claude 세션 안 (캡처된 옛 토큰)
+curl -i -u "$GITHUB_ACTOR:$GITHUB_TOKEN" https://api.github.com/user | head -1
+# HTTP/2 401 ✗
+```
+
+- 새 터미널에서 에이전트를 재실행해 새 env를 캡처
+- 또는 `!` prefix로 사용자 셸 권한으로 명령 실행
+- 또는 사용자가 직접 실행한 결과만 전달
+
+데몬·IDE·에이전트 모두 "환경변수 설정 이전에 뜬 프로세스가 옛 env를 들고 있다"는 동일 함정이다.
+
 ## 빠른 자가진단 흐름
 
 원격 저장소 → 로컬 셸 → 데몬 → IDE 순으로 분리해서 본다.

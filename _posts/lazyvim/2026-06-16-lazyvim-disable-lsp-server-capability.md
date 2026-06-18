@@ -46,7 +46,7 @@ return {
 
 ## 언제 쓰는가
 
-- 업스트림 버그로 특정 요청만 깨질 때 (예: fwcd/kotlin-language-server v1.3.13 #600의 `documentHighlight` 크래시)
+- 업스트림 버그로 특정 요청만 깨질 때 (예: fwcd/kotlin-language-server v1.3.13 #600의 `documentHighlight` 크래시 — [import 안 잡히는 캐시 문제](/posts/neovim/2026-06-16-kotlin-language-server-stale-kls-database/)와 혼동 주의)
 - 한 capability가 다른 플러그인(formatter, illuminate 등)과 충돌할 때
 - 서버 끄긴 아깝고 한 기능만 막고 싶을 때
 

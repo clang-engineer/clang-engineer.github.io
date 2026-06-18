@@ -35,7 +35,7 @@ rm kls_database.db kls_database.db.lock 2>/dev/null
 
 1. `~/.local/state/nvim/lsp.log` 우선 — `cmd not executable` 류 1차 에러는 캐시 문제 아님
 2. `kotlinLSPProjectDeps` Gradle task가 던지는 401 / `Could not find` 메시지 확인
-3. 사내 패키지면 인증 환경변수 (`GITHUB_ACTOR`/`GITHUB_TOKEN` 등) 점검
+3. 사내 패키지면 인증 환경변수 (`GITHUB_ACTOR`/`GITHUB_TOKEN` 등) 점검 — [GitHub Packages 401/403 인증 디버깅](/posts/gradle/2026-05-15-github-packages-gradle-auth-debugging/) 참고
 4. **이 모든 게 OK인데도 import 못 잡으면** `kls_database.db` stale 의심
 
 ## 왜 헷갈리는가
@@ -44,4 +44,4 @@ rm kls_database.db kls_database.db.lock 2>/dev/null
 
 ## 참고
 
-- 트래킹 메모: 같은 함정으로 #600 documentHighlight 크래시(`textDocument/documentHighlight: -32603 Internal error`)와 헷갈리기 쉬움 — 크래시 알림은 자주 안 뜨지만, "인식 안 됨" 증상은 거의 항상 classpath/캐시 문제
+- 트래킹 메모: 같은 함정으로 #600 documentHighlight 크래시(`textDocument/documentHighlight: -32603 Internal error`)와 헷갈리기 쉬움 — 크래시 알림은 자주 안 뜨지만, "인식 안 됨" 증상은 거의 항상 classpath/캐시 문제. 그 크래시 자체를 막으려면 [특정 LSP capability 한 줄로 끄기](/posts/lazyvim/2026-06-16-lazyvim-disable-lsp-server-capability/) 참고.
