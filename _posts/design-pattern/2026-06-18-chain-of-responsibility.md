@@ -188,23 +188,4 @@ Client ──▶ Handler1 ──next──▶ Handler2 ──next──▶ Handl
 - **null 종착이 실수**: 마지막 핸들러가 처리 안 하고 끝나는 케이스가 의도된 건지 버그인지 명확히. 종착 핸들러를 항상 둬서 명시.
 - **다음 핸들러를 까먹고 안 호출**: 통과형 핸들러에서 `next.handle()`을 빠뜨리면 뒤가 죽는다. 베이스 클래스에 default forwarding을 두는 게 안전.
 
-## GoF 디자인 패턴 시리즈
-
-| 패턴 | 분류 | 핵심 |
-| --- | --- | --- |
-| [Factory](/posts/design-pattern/2025-04-11-factory/) | 생성 | 생성 책임을 팩토리로 위임해 결합도를 낮춤 |
-| [Singleton](/posts/design-pattern/2026-06-18-singleton/) | 생성 | 단일 인스턴스 보장 + 전역 접근점 |
-| [Builder](/posts/design-pattern/2026-06-18-builder/) | 생성 | 복잡한 객체를 단계별로 조립 |
-| [Adapter](/posts/design-pattern/2025-04-12-adapter/) | 구조 | Adaptee를 Target 인터페이스로 변환 |
-| [Composite](/posts/design-pattern/2026-06-18-composite/) | 구조 | Leaf와 Composite를 같은 인터페이스로 트리 처리 |
-| [Decorator](/posts/design-pattern/2025-03-07-decorator/) | 구조 | Component를 감싸 동적으로 기능 추가 |
-| [Facade](/posts/design-pattern/2026-06-18-facade/) | 구조 | 복잡한 서브시스템을 단순한 진입점으로 |
-| [Proxy](/posts/design-pattern/2025-03-07-proxy/) | 구조 | 실제 객체 접근을 대리자가 제어 |
-| **Chain of Responsibility (현재 글)** | 행위 | 핸들러 사슬로 요청을 차례로 시도 |
-| [Command](/posts/design-pattern/2025-04-12-command/) | 행위 | 요청을 객체로 캡슐화, Invoker↔Receiver 분리 |
-| [Iterator](/posts/design-pattern/2026-06-18-iterator/) | 행위 | 컬렉션 내부 구조 노출 없이 순회 |
-| [Observer](/posts/design-pattern/2025-04-11-observer/) | 행위 | Subject→Observer 일대다 통지 |
-| [State](/posts/design-pattern/2025-03-07-state/) | 행위 | 상태별 분기를 ConcreteState 객체로 캡슐화 |
-| [Strategy](/posts/design-pattern/2025-03-07-strategy/) | 행위 | 알고리즘을 Strategy 인터페이스 뒤로 캡슐화 |
-| [Template Method](/posts/design-pattern/2025-03-07-template-method/) | 행위 | 골격은 상위, 프리미티브는 하위 클래스 |
-| [Head First DP 책 노트](/posts/design-pattern/2025-07-11-head-first/) | 인덱스 | 책 목차 + 챕터별 핵심 |
+{% include design-pattern-series.html current="chain-of-responsibility" %}
