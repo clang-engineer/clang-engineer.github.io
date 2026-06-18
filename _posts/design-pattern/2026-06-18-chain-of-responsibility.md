@@ -9,6 +9,8 @@ pin         : false
 hidden      : false
 ---
 
+> **난이도** 중급 · **선행** [Decorator](/posts/design-pattern/2025-03-07-decorator/)
+
 ## 한 줄 요약
 요청 하나에 대해 여러 핸들러가 차례로 "내가 처리할까? 아니면 다음에게 넘길까?"를 결정하는 사슬을 만든다. HTTP 미들웨어가 가장 친숙한 예.
 

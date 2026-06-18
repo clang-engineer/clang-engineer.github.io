@@ -9,6 +9,8 @@ pin         : false
 hidden      : false
 ---
 
+> **난이도** 중급 · **선행** [Strategy](/posts/design-pattern/2025-03-07-strategy/)
+
 ## 한 줄 요약
 알고리즘의 큰 흐름은 상위 클래스에서 고정해두고, 단계별 세부 구현만 하위 클래스가 채우게 한다. "전체 절차는 같은데 한두 단계만 달라요"가 보이면 Template Method.
 
