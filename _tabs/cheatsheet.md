@@ -30,7 +30,7 @@ title: 치트시트
 | 파일 | 설명 |
 |------|------|
 | [sed-awk.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/sed-awk.md) | sed (치환·삽입·삭제) + awk (필드·집계·보고서) |
-| [regex.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/regex.md) | 정규표현식 문법 |
+| [regex.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/regex.md) | 정규표현식 문법 + 도구별 플레이버(BRE/ERE/PCRE) 차이 |
 | [compression.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/compression.md) | tar / gzip / zip / xz / bzip2 / 7z |
 
 ## 셸
