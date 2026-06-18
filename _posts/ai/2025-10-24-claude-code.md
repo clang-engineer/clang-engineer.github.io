@@ -1,8 +1,8 @@
 ---
 title       : Claude Code 정리
-description : "터미널에서 동작하는 Anthropic의 AI 코딩 도구 Claude Code의 특징과 설치 방법, 기능 구축·디버깅·코드베이스 탐색·작업 자동화 등 실사용 시나리오를 정리한다."
+description : "터미널에서 동작하는 Anthropic의 AI 코딩 도구 Claude Code의 특징과 설치, 핵심 기능·권한 모드·키보드 단축키·MCP 연동·CLAUDE.md 활용을 정리한다."
 date        : 2025-10-24 09:47:55 +0900
-updated     : 2025-11-06 08:12:27 +0900
+updated     : 2026-06-19 00:00:00 +0900
 categories  : [ai, "Claude Code"]
 tags        : [claude, claude-code]
 pin         : false
@@ -11,39 +11,25 @@ hidden      : false
 
 ## 📌 Claude Code란?
 
-Claude Code는 터미널에서 직접 실행되는 AI 코딩 도구로, 자연어 명령을 통해 코드 작성, 디버깅, Git 워크플로우 관리 등을 수행할 수 있습니다. 별도의 IDE나 채팅 창 없이 현재 작업 환경에서 바로 사용할 수 있습니다.
+Claude Code는 터미널에서 직접 실행되는 AI 코딩 도구로, 자연어 명령으로 코드 작성·디버깅·Git 워크플로우를 수행한다. 별도 IDE나 채팅 창 없이 현재 작업 디렉토리에서 바로 동작한다.
 
-### 주요 특징
-
-- **터미널 통합**: 익숙한 개발 환경에서 바로 작업
-- **실행 가능**: 파일 편집, 명령 실행, 커밋 생성 등 직접 액션 수행
-- **프로젝트 인식**: 전체 코드베이스 구조 파악
-- **웹 검색 지원**: 최신 정보 검색 가능
-- **MCP 통합**: Google Drive, Slack, Figma 등 외부 데이터소스 연동
-- **Unix 철학**: 조합 가능하고 스크립트화 가능
+- **터미널 통합** — 익숙한 개발 환경에서 바로 작업
+- **실행 가능** — 파일 편집, 명령 실행, 커밋 생성 등 직접 액션 수행
+- **프로젝트 인식** — 전체 코드베이스 구조 파악
+- **MCP 통합** — Google Drive, Slack 등 외부 데이터소스 연동
+- **Unix 철학** — 파이프로 조합·스크립트화 가능 (`claude -p`)
 
 ---
 
-## 🚀 설치 방법
+## 🚀 설치
 
-### 필수 요구사항
-
-- Node.js 18 이상
-- Claude.ai 계정 또는 Claude Console 계정
-
-### 설치 단계
+npm으로 설치하려면 Node.js 18 이상이 필요하다 (네이티브 설치 프로그램을 쓰면 Node.js 불필요).
 
 ```bash
-# 1. Claude Code 글로벌 설치
 npm install -g @anthropic-ai/claude-code
 
-# 2. 프로젝트 디렉토리로 이동
-cd your-project-directory
-
-# 3. Claude Code 실행
-claude
-
-# 처음 실행 시 로그인 프롬프트가 표시됩니다
+cd your-project       # 프로젝트로 이동
+claude                # 실행 — 처음이면 로그인 프롬프트
 ```
 
 ---
@@ -51,164 +37,100 @@ claude
 ## 💡 주요 기능
 
 ### 1. 기능 구축
-평범한 한국어/영어로 원하는 기능을 설명하면 Claude가 계획을 세우고 코드를 작성합니다.
+원하는 기능을 자연어로 설명하면 계획을 세우고 코드를 작성한다.
 
-```bash
-claude
-> "사용자 로그인 기능을 추가해줘. JWT 토큰 방식으로 구현하고 싶어"
+```text
+> 사용자 로그인 기능을 JWT 토큰 방식으로 추가해줘
 ```
 
-### 2. 디버깅 및 버그 수정
-버그를 설명하거나 에러 메시지를 붙여넣으면 코드베이스를 분석하고 수정합니다.
+### 2. 디버깅
+버그 증상이나 에러 로그를 붙여넣으면 코드베이스를 분석해 수정한다.
 
-```bash
-> "로그인할 때 500 에러가 발생해. 에러 로그: [에러 내용]"
+```text
+> 로그인할 때 500 에러가 나. 에러 로그: [에러 내용]
 ```
 
 ### 3. 코드베이스 탐색
-프로젝트 구조나 특정 코드에 대한 질문에 답변합니다.
 
-```bash
-> "인증 로직이 어디에 구현되어 있어?"
-> "이 함수가 어떻게 동작하는지 설명해줘"
+```text
+> 인증 로직이 어디에 구현돼 있어?
+> 이 함수가 어떻게 동작하는지 설명해줘
 ```
 
 ### 4. 지루한 작업 자동화
-- Lint 문제 수정
-- Merge conflict 해결
-- Release notes 작성
-- 문서화 업데이트
+Lint 수정, merge conflict 해결, release notes 작성, 문서 업데이트 등.
 
 ---
 
-## 🎮 작동 모드
+## ⌨️ 입력 모드와 단축키
 
-Claude Code는 3가지 모드로 작동합니다:
+### 입력 첫 글자로 모드 전환
 
-### 1. Normal 모드 (기본)
-- 각 작업마다 승인 요청
-- 파일 변경, 명령 실행 전 확인
-- 안전하고 제어된 작업 진행
+| 입력 | 기능 |
+|------|------|
+| `!` | Bash 모드 — 쉘 명령 직접 실행 |
+| `/` | 슬래시 명령 모드 |
+| `@` | 파일 경로 참조 (자동완성) |
 
-### 2. Auto 모드
-- 자동으로 작업 수행
-- 승인 없이 파일 편집
-- 특정 bash 명령(패키지 설치 등)은 여전히 승인 필요
-- 커피 한 잔 하러 가는 동안 작업 완료 가능
+> 메모리에 기록은 `/memory` 명령으로 한다.
 
-```bash
-# Auto 모드 활성화
-> /auto
-
-# 특정 명령 권한 추가
-> /permissions
-
-# 모든 권한 승인 (주의!)
-claude --dangerously-skip-permissions
-```
-
-### 3. Plan 모드
-- 코드 작성 전 확장된 사고 능력 활용
-- 포괄적인 전략 수립
-- 복잡한 아키텍처 결정에 유용
-
----
-
-## ⌨️ 키보드 단축키
-
-Claude Code는 효율적인 작업을 위한 다양한 키보드 단축키를 제공합니다.
-
-### 입력 모드 전환
+### 편집·제어 단축키
 
 | 단축키 | 기능 |
 |--------|------|
-| `!` | Bash 모드 진입 (쉘 명령어 직접 실행) |
-| `/` | 슬래시 명령어 모드 |
-| `@` | 파일 경로 참조 모드 |
-| `#` | 메모리 저장 (중요한 정보 기억시키기) |
-
-### 편집 및 제어
-
-| 단축키 | 기능 |
-|--------|------|
-| `Shift + Tab` | 편집 제안 자동 수락 |
-| `Shift + Enter` | 새 줄 입력 (메시지 전송하지 않음) |
-| `Tab` | Thinking(사고 과정) 토글 |
+| `Shift + Tab` | 권한 모드 순환 (아래 *권한 모드* 참고) |
+| `Shift + Enter` | 줄바꿈 (전송 안 함) |
+| `Tab` | 프롬프트 자동완성 |
+| `Option/Alt + T` | 확장 사고(extended thinking) 토글 |
 | `Ctrl + T` | Todo 목록 표시 |
-| `Ctrl + O` | Verbose output 모드 (상세 출력) |
+| `Ctrl + O` | 트랜스크립트(상세 출력) 토글 |
 | `Ctrl + V` | 이미지 붙여넣기 |
-| `Ctrl + _` | 실행 취소 (Undo) |
-| `Ctrl + Z` | Claude Code 일시 정지 |
-| `ESC ESC` | 입력 내용 지우기 / 되돌리기 |
+| `ESC ESC` | 입력 지우기 / 되감기(rewind) |
 
-### 사용 팁
+---
+
+## 🎮 권한 모드
+
+작업 승인 정책은 하나의 "모드"로 묶여 있고, `Shift + Tab` 으로 순환한다.
+
+- **default** — 파일 변경·명령 실행 전마다 승인 요청 (가장 안전)
+- **acceptEdits** — 파일 편집은 자동 수락, 위험한 bash 명령은 여전히 승인
+- **plan** — 코드를 건드리지 않고 계획만 수립 (복잡한 변경 전 전략 짜기)
+
+이 밖에 `auto` / `bypassPermissions` 모드가 있다. 시작 시 직접 지정하거나, 권한 규칙을 관리할 수도 있다.
 
 ```bash
-# Bash 모드로 빠르게 명령 실행
-> !git status
-
-# 파일 참조하기
-> @src/components/Header.tsx 이 파일 리팩토링해줘
-
-# 중요한 컨텍스트 저장
-> #이 프로젝트는 Django 기반이고 PostgreSQL을 사용합니다
-
-# 편집 자동 수락
-# Claude가 편집을 제안하면 Shift+Tab으로 바로 수락
-
-# 긴 메시지 작성 시
-# Shift+Enter로 줄바꿈하고, Enter로 전송
+claude --permission-mode plan          # 특정 모드로 시작
+claude --dangerously-skip-permissions  # 모든 권한 우회 (주의!)
+> /permissions                         # 허용/거부 규칙 관리
 ```
 
 ---
 
 ## 🛠️ 주요 명령어
 
-### 기본 명령어
-
 ```bash
-# Claude Code 실행
-claude
-
-# 특정 프롬프트와 함께 실행
-claude -p "버그를 찾아서 수정해줘"
-
-# 이전 대화 이어가기
-claude --continue  # 또는 -c
+claude                       # 대화형 실행
+claude -p "버그를 찾아 수정해줘"  # 헤드리스(print) 모드 — 실행 후 종료
+claude --continue            # 또는 -c. 최근 대화 이어가기
 ```
 
-### 슬래시 명령어 사전
-
-슬래시 명령어 전체 목록(기본/설정/프로젝트/Git/계정/통합 + 커스텀 커맨드)은 별도 글로 정리했다. [Claude Code 슬래시 명령어 사전](/posts/ai/2025-10-24-claude-code-slash-commands/) 참고.
+슬래시 명령 전체 목록(기본/설정/Git/계정/통합 + 커스텀 커맨드)은 [Claude Code 슬래시 명령어 사전](/posts/ai/2025-10-24-claude-code-slash-commands/)에 따로 정리했다.
 
 ---
 
-## 🔌 MCP (Model Context Protocol) 통합
+## 🔌 MCP (Model Context Protocol)
 
-MCP를 통해 Claude Code를 외부 데이터소스와 연결할 수 있습니다.
-
-### MCP 서버 추가
+MCP로 Claude Code를 외부 데이터소스·도구와 연결한다.
 
 ```bash
-# MCP 서버 추가
-claude mcp add server-name --scope local -- [command]
-
-# 예시: Google Drive 연동
-claude mcp add google-drive --scope local
-
-# MCP 서버 목록 확인
-claude mcp list
-
-# MCP 서버 설정 확인
-claude mcp get server-name
-
-# MCP 디버그 모드로 실행
-claude --mcp-debug
+claude mcp add <name> -- <command...>   # 서버 추가 (stdio)
+claude mcp list                         # 등록된 서버 목록
+claude mcp get <name>                   # 서버 설정 확인
+claude --debug                          # MCP 포함 디버그 로그
 ```
 
-### 설정 파일
-
-프로젝트에 `.mcp.json` 파일을 만들어 팀 전체가 사용할 수 있도록 공유:
+프로젝트 루트에 `.mcp.json` 을 두면 팀 전체가 공유한다.
 
 ```json
 {
@@ -216,10 +138,6 @@ claude --mcp-debug
     "puppeteer": {
       "command": "npx",
       "args": ["@modelcontextprotocol/server-puppeteer"]
-    },
-    "sentry": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sentry"]
     }
   }
 }
@@ -229,255 +147,60 @@ claude --mcp-debug
 
 ## 📋 베스트 프랙티스
 
-### 1. 단계별 접근법 (복잡한 작업)
-
-복잡한 문제는 4단계로 나누어 진행:
-
-```
-1단계: 문제 연구
-> "이 버그의 원인을 찾아줘. 코드베이스를 분석하고 가능한 원인들을 나열해줘"
-
-2단계: 해결책 계획
-> "각 원인에 대한 해결책을 제안하고 장단점을 비교해줘"
-
-3단계: 구현
-> "가장 좋은 방법으로 구현해줘"
-
-4단계: 문서화
-> "이 변경사항을 README에 추가하고 커밋 후 PR을 생성해줘"
-```
-
-### 2. CLAUDE.md 파일 활용
-
-프로젝트 루트에 `CLAUDE.md` 파일을 만들어 프로젝트 컨텍스트 제공:
+### CLAUDE.md 로 프로젝트 컨텍스트 제공
+프로젝트 루트의 `CLAUDE.md` 는 매 세션 자동으로 읽힌다. 기술 스택·코딩 규칙·디렉토리 구조를 적어 두면 매번 설명할 필요가 없다.
 
 ```markdown
 # 프로젝트 개요
-이 프로젝트는 Next.js 기반의 전자상거래 플랫폼입니다.
-
-## 기술 스택
-- Next.js 14
-- TypeScript
-- Tailwind CSS
-- PostgreSQL
+Next.js 기반 전자상거래 플랫폼.
 
 ## 코딩 규칙
-- 함수형 컴포넌트 사용
-- TypeScript strict 모드
-- 테스트 커버리지 80% 이상 유지
+- 함수형 컴포넌트, TypeScript strict
+- 테스트 커버리지 80% 이상
 
-## 프로젝트 구조
-- `/app` - Next.js 앱 라우터
-- `/components` - 재사용 가능한 컴포넌트
-- `/lib` - 유틸리티 함수
+## 구조
+- `/app` 앱 라우터 · `/components` 컴포넌트 · `/lib` 유틸
 ```
 
-### 3. Sub-Agents 활용
+### 복잡한 작업은 단계로 나눠 진행
+연구 → 계획 → 구현 → 문서화. plan 모드로 계획을 먼저 받고 검토한 뒤 구현시키면 큰 변경의 사고를 줄인다.
 
-전문화된 서브 에이전트를 만들어 작업 분담:
+### Sub-Agents 로 작업 분담
+`/agents` 로 코드 리뷰어·테스터 등 전문화된 서브 에이전트를 만든다. 각자 자체 지침과 권한을 가진다.
 
+### 파이프라인으로 조합
 ```bash
-# 서브 에이전트 생성
-> /agents
-
-# 예시: 코드 리뷰어, 테스터, 문서 작성자 등
-```
-
-각 서브 에이전트는 자체 지침과 권한을 가집니다.
-
-### 4. Git 워크플로우 자동화
-
-```bash
-> "새로운 기능을 feature 브랜치에 구현하고, 테스트 작성, 커밋, PR 생성까지 해줘"
+tail -f app.log | claude -p "에러나 이상 징후가 보이면 요약해줘"
 ```
 
 ---
 
-## 🎯 실전 예제
-
-### 예제 1: 버그 수정
-
-```bash
-claude
-> "로그인 버튼을 클릭하면 콘솔에 'undefined is not a function' 에러가 발생해. 
-   수정해줘"
-
-# Claude가 자동으로:
-# 1. 에러 원인 분석
-# 2. 관련 파일 찾기
-# 3. 코드 수정
-# 4. 변경사항 커밋
-```
-
-### 예제 2: 새 기능 추가
-
-```bash
-> "상품 필터링 기능을 추가하고 싶어. 
-   가격 범위와 카테고리로 필터링할 수 있어야 해"
-
-# Claude가 자동으로:
-# 1. 계획 수립
-# 2. 필요한 컴포넌트 생성
-# 3. API 연동
-# 4. 테스트 작성
-# 5. 문서화
-```
-
-### 예제 3: 코드 리팩토링
-
-```bash
-> "UserProfile 컴포넌트가 너무 복잡해. 
-   더 작은 컴포넌트들로 나누고 타입 안정성을 개선해줘"
-```
-
-### 예제 4: 파이프라인 활용
-
-```bash
-# 로그 모니터링
-tail -f app.log | claude -p "에러나 이상 징후가 보이면 Slack에 알려줘"
-
-# CI/CD 자동화
-claude -p "새로운 텍스트 문자열이 있으면 프랑스어로 번역하고 PR을 생성해줘"
-```
-
----
-
-## 🔧 고급 설정
-
-### 환경 변수 설정
-
-```bash
-# API 키 설정 (Claude Console 사용 시)
-export ANTHROPIC_API_KEY="your-api-key"
-
-# AWS Bedrock 사용
-export AWS_REGION="us-east-1"
-
-# Google Vertex AI 사용
-export GOOGLE_CLOUD_PROJECT="your-project-id"
-```
+## 🔧 설정과 통합
 
 ### 설정 파일 위치
+- 전역: `~/.claude/settings.json`
+- 프로젝트: `.claude/settings.json` (공유) · `.claude/settings.local.json` (개인 override)
 
-- 전역 설정: `~/.claude/settings.json`
-- 프로젝트 설정: `.claude/settings.local.json`
+### 컨텍스트 윈도우
+Claude Code는 최신 Claude 모델(Opus·Sonnet 계열)을 사용한다. `[1m]` 컨텍스트를 지원하는 모델·플랜에서는 최대 1M 토큰까지 쓸 수 있다. 다만 효율을 위해 필요한 파일만 포함하고, 큰 `CLAUDE.md` 는 작은 문서로 쪼개는 게 좋다.
 
----
+### IDE 통합
+VS Code·JetBrains(IntelliJ, PyCharm 등) 확장이 있어 터미널 없이도 사용할 수 있다.
 
-## 🎨 IDE 통합
-
-### VS Code Extension
-
-1. VS Code 마켓플레이스에서 "Claude Code" 검색
-2. 설치 후 사이드바에서 바로 사용
-3. 터미널 없이 그래픽 인터페이스로 작업
-
-### JetBrains IDEs
-
-IntelliJ, PyCharm 등에서도 Claude Code 플러그인 지원
+### 비용
+Claude API 토큰을 표준 API 가격으로 사용한다 (Claude 구독 또는 API 키 기반 과금).
 
 ---
 
-## 📊 컨텍스트 윈도우 관리
+## 🆘 트러블슈팅
 
-Claude Sonnet 4.5는 1백만 토큰 컨텍스트 윈도우를 지원합니다. 하지만 효율적인 작업을 위해:
-
-### 팁:
-1. **필요한 파일만 포함**: 불필요한 파일은 `.claudeignore`에 추가
-2. **모듈화된 문서**: 큰 `CLAUDE.md` 대신 여러 개의 작은 문서로 분리
-3. **서브 에이전트 활용**: 특정 작업에 특화된 에이전트 사용
-
----
-
-## 🔒 보안 및 프라이버시
-
-### 데이터 처리
-- 코드는 암호화되어 전송
-- Claude API 또는 AWS Bedrock/GCP Vertex AI 호스팅 가능
-- 엔터프라이즈급 보안 및 컴플라이언스 내장
-
-### 권한 관리
-- 민감한 명령은 항상 승인 요청
-- `.claudeignore`로 특정 파일/폴더 제외
-- 프로젝트별 권한 설정 가능
-
----
-
-## 🆘 문제 해결
-
-### 일반적인 문제
-
-**Claude가 응답하지 않을 때:**
-```bash
-# 네트워크 연결 확인
-curl https://api.anthropic.com
-
-# Claude 재시작
-# Ctrl+C로 종료 후 재실행
-```
-
-**파일이 무시될 때:**
-```bash
-# .claudeignore 파일 확인
-cat .claudeignore
-
-# 특정 파일 명시적으로 포함
-> "src/components/Header.tsx 파일을 확인해줘"
-```
-
-**MCP 서버가 작동하지 않을 때:**
-```bash
-# MCP 서버 목록 확인
-claude mcp list
-
-# MCP 설정 확인
-claude mcp get server-name
-
-# 디버그 모드로 실행
-claude --mcp-debug
-```
+- **응답 없음** — `curl https://api.anthropic.com` 로 연결 확인 후 재시작
+- **MCP 서버 문제** — `claude mcp list` / `claude mcp get <name>` 로 설정 확인, `claude --debug` 로 로그 확인
 
 ---
 
 ## 📚 추가 리소스
 
-### 공식 문서
 - [Claude Code 공식 문서](https://docs.claude.com/en/docs/claude-code)
 - [Claude Code GitHub](https://github.com/anthropics/claude-code)
-- [MCP 문서](https://docs.claude.com/en/docs/claude-code/mcp)
-
-### 커뮤니티
-- [Claude Developers Discord](https://discord.gg/claude-developers)
-- [Reddit r/ClaudeAI](https://reddit.com/r/ClaudeAI)
-
-### 학습 자료
-- [Anthropic Academy](https://www.anthropic.com/academy)
 - [Claude Code 베스트 프랙티스](https://www.anthropic.com/engineering/claude-code-best-practices)
-
----
-
-## 💰 비용
-
-Claude Code는 Claude API 토큰을 표준 API 가격으로 사용합니다.
-
-- Claude.ai 계정으로 사용 가능
-- API 토큰 기반 과금
-- 프로젝트별 사용량 추적 가능
-
----
-
-## 🚀 시작하기
-
-```bash
-# 1. 설치
-npm install -g @anthropic-ai/claude-code
-
-# 2. 프로젝트로 이동
-cd your-project
-
-# 3. Claude 시작!
-claude
-
-# 4. 첫 명령어 입력
-> "안녕! 이 프로젝트의 구조를 설명해줘"
-```

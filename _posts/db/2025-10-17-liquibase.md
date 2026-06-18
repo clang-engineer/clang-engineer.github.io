@@ -365,7 +365,7 @@ ph_formula_attribute
 - [ ] 감사 컬럼 포함 (`created_by`, `created_date`, 등)
 - [ ] CSV 파일 준비 (세미콜론 구분자)
 - [ ] loadData에서 **timestamp → date** 타입 사용
-- [ ] CSV의 **모든 컬럼** loadData에 정의
+- [ ] CSV 헤더와 **같은 순서**로 모든 컬럼을 loadData에 정의
 - [ ] **dropDefaultValue** 추가 (timestamp 컬럼마다)
 - [ ] master.xml에 include 추가
 
@@ -428,32 +428,6 @@ ph_formula_attribute
                       columnDataType="${datetimeType}"/>
   </changeSet>
 </databaseChangeLog>
-```
-
----
-
-## 11. 주요 주의사항 ⚠️
-
-### 1. loadData에서 timestamp 절대 금지
-```xml
-<!-- ❌ 절대 이렇게 하지 마세요 -->
-<column name="created_date" type="timestamp" />
-
-<!-- ✅ 항상 date를 사용하세요 -->
-<column name="created_date" type="date" />
-```
-
-### 2. CSV 컬럼 순서 정확히 일치
-CSV 헤더 순서와 loadData의 column 순서가 **정확히 일치**해야 함
-
-### 3. dropDefaultValue 필수
-timestamp 컬럼마다 반드시 dropDefaultValue 추가
-
-### 4. 프로퍼티 변수 사용
-타입 정의 시 변수 사용으로 DB 독립성 확보
-```xml
-columnDataType="${datetimeType}"  <!-- 권장 -->
-columnDataType="timestamp"         <!-- 비권장 -->
 ```
 
 ---
