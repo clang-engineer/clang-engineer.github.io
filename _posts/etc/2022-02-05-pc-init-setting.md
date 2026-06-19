@@ -66,11 +66,7 @@ ln -s $PWD/bash_profile ~/.bash_profile
 mkdir -p ~/.config
 ln -s $PWD/nvim ~/.config/nvim
 
-# neovim plugin manager 설치
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
-:PlugInstall
+# neovim 플러그인은 lazy.nvim이 첫 실행 시 자동 설치 (별도 부트스트랩 불필요)
 
 # zsh 설정
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" # oh-my-zsh 다운로드

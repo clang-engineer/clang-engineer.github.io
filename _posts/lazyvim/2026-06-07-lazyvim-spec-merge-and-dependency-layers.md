@@ -2,7 +2,7 @@
 title       : "LazyVim 의존성 계층 — lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 방식"
 description : "lazy.nvim의 spec/import 모델, LazyVim이 어떻게 자체 spec을 모아 lazyvim.json의 extras를 활성화하는지, 그리고 사용자 plugin이 그 위에 override되는 순서"
 date        : 2026-06-07 12:00:00 +0900
-updated     : 2026-06-17 12:00:00 +0900
+updated     : 2026-06-19 12:00:00 +0900
 categories  : [lazyvim, "구조·설정"]
 tags        : [neovim, lazy-nvim]
 pin         : false
@@ -47,6 +47,19 @@ require("lazy").setup({
 ```
 
 여기서 핵심은 **`import` 가 spec 의 또 다른 형태**라는 점이다. lazy.nvim 은 `import = "module"` 을 만나면 그 모듈을 require 해서 반환되는 spec 들을 트리에 흡수한다. **재귀적**으로 처리되니, import 가 또 다른 import 를 부르는 식으로 깊어질 수 있다.
+
+### `opts` 가 조용히 안 먹는 함정 — `main` 모듈명 추론
+
+`opts = { ... }` 는 lazy 가 대신 `require(main).setup(opts)` 를 호출해주는 설탕이다. 이때 `main` (호출할 모듈명)은 **repo 이름에서 자동 추론**된다. 문제는 repo 이름과 실제 `require` 모듈명이 다를 때 — 추론이 어긋나 setup 이 **에러 없이 조용히 안 불린다**.
+
+```lua
+-- repo 는 nvim-nocut 인데 실제 모듈은 no-cut (하이픈 위치가 다름)
+{ "maarutan/nvim-nocut", opts = {} }          -- main 추론 실패 가능 → setup 안 됨
+
+{ "maarutan/nvim-nocut", main = "no-cut", opts = {} }  -- main 명시로 안전
+```
+
+추론이 미덥지 않으면 `main` 을 박거나, 아예 `config = function() require("no-cut").setup() end` 로 모듈명을 직접 적는다. 특히 `plugin/` 자동 로드 디렉토리 없이 **모든 동작이 `setup()` 안에서만** 일어나는 플러그인은, setup 이 안 불리면 설치만 하고 효과가 0 이라 이 함정이 치명적이다.
 
 ## 2. 같은 spec 이 여러 번 등장하면? — Deep Merge
 

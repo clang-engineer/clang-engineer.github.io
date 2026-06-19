@@ -33,4 +33,3 @@ order: 5
 ---
 ## 주요 글
 - [Neovim 실력 향상 로드맵](/posts/neovim/2026-06-16-neovim-roadmap/) — vim·neovim·lazyvim 글 단계별 큐레이션
-- [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/) — 입문·설정·플러그인·자동화·트러블슈팅 글 단계별 큐레이션
