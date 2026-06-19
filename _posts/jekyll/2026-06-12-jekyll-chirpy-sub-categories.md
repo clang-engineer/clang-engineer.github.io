@@ -3,7 +3,7 @@ title       : "Jekyll Chirpy 하위 카테고리는 폴더가 아니라 front ma
 description : "_posts/ 하위 폴더는 카테고리와 무관. categories: [상위, 하위] 배열로만 다단계 카테고리가 생긴다."
 date        : 2026-06-12 11:00:00 +0900
 updated     : 2026-06-12 11:00:00 +0900
-categories  : [opensource, "Jekyll"]
+categories  : [jekyll, "Chirpy"]
 tags        : [jekyll, chirpy]
 pin         : false
 hidden      : false
@@ -22,7 +22,7 @@ Jekyll은 `_posts/` 하위 폴더를 카테고리로 인식하지 않는다. URL
 ```yaml
 ---
 title: Lazyvim Plugin 정리
-categories: [lazyvim, 플러그인]   # [상위, 하위]
+categories  : [jekyll, "Chirpy"]
 ---
 ```
 

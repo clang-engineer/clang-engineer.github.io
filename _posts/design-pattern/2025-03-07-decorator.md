@@ -185,5 +185,3 @@ Beverage (interface)
 데코레이터는 **순서 의존적**. 압축은 패턴 있는 데이터에서 효율적인데, 암호화된 데이터는 패턴이 없어서 압축이 안 된다. 데코레이터 순서가 의미를 갖는 경우 사용자 실수 위험이 크다.
 
 </details>
-
-{% include design-pattern-series.html current="decorator" %}

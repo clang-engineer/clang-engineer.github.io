@@ -209,5 +209,3 @@ new TransactionTemplate().execute(status -> {
 정통은 가변 부분을 **하위 클래스 상속**으로 채운다. Spring Template은 **콜백(=Strategy)**으로 주입한다. 흐름을 가두고 일부만 외부에 맡긴다는 발상은 동일.
 
 </details>
-
-{% include design-pattern-series.html current="template-method" %}

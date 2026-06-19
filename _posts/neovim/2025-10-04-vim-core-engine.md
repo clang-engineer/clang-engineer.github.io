@@ -3,7 +3,7 @@ title       : Vim & Neovim 작동 원리 정리
 description : "Vim과 Neovim 모두 C 엔진 위에 스크립트 인터프리터(Vimscript·Lua)가 얹힌 구조. :set number 한 줄이 ex_set() C 함수까지 어떻게 흐르는지 풀어 설명."
 date        : 2025-10-04 12:16:25 +0900
 updated     : 2025-10-04 12:30:13 +0900
-categories  : [vim, "원리·언어"]
+categories  : [neovim, "Vim·Vimscript"]
 tags        : [neovim]
 pin         : false
 hidden      : false

@@ -191,5 +191,3 @@ Singleton은 "써도 되나"를 가장 많이 묻는 패턴이다. 주요 비판
 컨테이너가 단일 인스턴스를 관리·**주입**한다. 코드가 직접 `instance()`를 부르지 않는다. 결과적으로 의존성이 생성자에 명시되어 보이고, 테스트 시 mock 주입이 자유롭다.
 
 </details>
-
-{% include design-pattern-series.html current="singleton" %}

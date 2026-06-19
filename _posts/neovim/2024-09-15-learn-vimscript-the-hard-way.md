@@ -3,7 +3,7 @@ title       : "Learn Vimscript the Hard Way 핵심 정리"
 description : "Steve Losh의 vimscript 책 55챕터에서 실전에 남는 핵심만 추려 한 글에 정리. 매핑·autocmd·operator-pending·스코프 prefix·execute/normal·플러그인 구조·autoload."
 date        : 2024-11-01 14:20:44 +0900
 updated     : 2026-06-15 22:00:00 +0900
-categories  : [vim, "원리·언어"]
+categories  : [neovim, "Vim·Vimscript"]
 tags        : [vimscript]
 pin         : false
 hidden      : false

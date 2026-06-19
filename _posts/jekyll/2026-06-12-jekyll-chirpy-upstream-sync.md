@@ -3,7 +3,7 @@ title       : "fork 없이 복사로 시작한 Jekyll Chirpy 블로그 upstream 
 description : "테마를 fork하지 않고 starter 복사 방식으로 운영해온 블로그에 upstream theme의 누적 패치를 안전하게 머지하는 절차"
 date        : 2026-06-12 20:30:00 +0900
 updated     : 2026-06-12 20:30:00 +0900
-categories  : [opensource, "Jekyll"]
+categories  : [jekyll, "Chirpy"]
 tags        : [jekyll, chirpy, git, merge, oss]
 pin         : false
 hidden      : false
