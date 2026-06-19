@@ -92,3 +92,5 @@ docker-compose -f src/main/docker/jhipster-control-center.yml up  # JHipster Con
 ./gradlew sonarqube -Dsonar.login=<token>
 
 ```
+
+> 관련: [Jib 을 이용한 JHipster 도커 이미지 빌드 및 배포](/posts/docker-build-deploy/)

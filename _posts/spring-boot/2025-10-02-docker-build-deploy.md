@@ -213,3 +213,5 @@ jobs:
             docker-compose -f docker-compose.prod.yml up -d
           "
 ```
+
+> 관련: [Jhipster Docker 개요](/posts/docker-summary/)

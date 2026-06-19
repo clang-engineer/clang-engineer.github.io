@@ -43,3 +43,12 @@ dependencies {
 ## 근본 해결
 
 명시적 추가는 임시방편. 라이브러리 publish 측에서 `pom.xml` / `build.gradle`의 `dependencies`에 `core`를 `api` 또는 `implementation`(consumer 입장에서 쓰면 implementation도 노출됨, java-library 플러그인의 경우 `api`)로 선언해야 함.
+
+## GitHub Packages 트러블슈팅 시리즈
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [SNAPSHOT 의존성 해석 실패 — 불완전 배포](/posts/gradle/2026-03-06-github-packages-snapshot-incomplete-publish/) | pom 누락으로 404, 재배포로 해결 |
+| [GitHub Packages 인증 실패 — 401/403 디버깅](/posts/gradle/2026-05-15-github-packages-gradle-auth-debugging/) | PAT 스코프·SSO authorize·환경변수 전달까지 |
+| **NoClassDefFoundError — POM transitive 의존성 누락 (현재 글)** | published POM에 빠진 모듈이 런타임 클래스패스에서 누락 |
+| [Gradle 데몬 환경변수 stale 문제](/posts/gradle/2026-05-20-gradle-daemon-stale-env-vars/) | 데몬이 옛 환경변수를 잡고 있어 PAT 갱신이 반영되지 않는 함정 |

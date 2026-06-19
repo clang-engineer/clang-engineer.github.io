@@ -1,10 +1,13 @@
 ---
-title       : "Neovim 프로젝트별 로컬 설정 가이드 — exrc · .nvim.lua · trust"
-description : "Neovim 0.9+ 기준 exrc 옵션 동작, 공식 검색 파일명(.nvim.lua/.nvimrc/.exrc), secure·trust 시스템, 흔히 빠지는 함정까지 한 번에 정리."
+title       : "Neovim 프로젝트별 로컬 설정 가이드 — exrc · .nvim.lua · trust · dotfiles 모듈 재사용"
+description : "Neovim 0.9+ 기준 exrc 옵션 동작, 공식 검색 파일명(.nvim.lua/.nvimrc/.exrc), secure·trust 시스템, 글로벌 dotfiles의 lua 모듈을 .nvim.lua에서 require하는 메커니즘, jdtls 크로스플랫폼 처리, 흔히 빠지는 함정까지 한 번에 정리."
 date        : 2026-06-15 18:00:00 +0900
-updated     : 2026-06-15 18:00:00 +0900
+updated     : 2026-06-19 09:00:00 +0900
 categories  : [neovim, "구조·설정"]
-tags        : [exrc, dotfiles]
+tags        : [exrc, dotfiles, lua, jdtls]
+redirect_from:
+  - /posts/neovim/2026-05-07-nvim-exrc-require-dotfiles-module/
+  - /posts/lazyvim/2026-05-07-nvim-exrc-require-dotfiles-module/
 pin         : false
 hidden      : false
 ---
@@ -86,7 +89,48 @@ DB 연결 목록도 마찬가지로 좁힐 수 있다:
 vim.g.dbs = require("config.options.dbs").pick("snuh", "shine")
 ```
 
-> 글로벌 lua 모듈을 `.nvim.lua`에서 `require`할 수 있는 이유와 더 깊은 활용은 [프로젝트 .nvim.lua(exrc)에서 dotfiles의 lua 모듈 재사용하기](/posts/neovim/2026-05-07-nvim-exrc-require-dotfiles-module/) 참고.
+## dotfiles의 lua 모듈을 `.nvim.lua`에서 재사용하는 메커니즘
+
+위 오버라이드 패턴이 동작하는 핵심은 `.nvim.lua`가 글로벌 nvim config(dotfiles)의 lua 모듈을 그대로 `require`할 수 있다는 점이다. 같은 `package.path`를 공유하기 때문이다.
+
+1. nvim 시작 시 config root(`~/AppData/Local/nvim`, 또는 XDG_CONFIG_HOME)의 `lua/` 폴더가 자동으로 lua의 `package.path`에 등록됨
+2. config root가 dotfiles로 심볼릭 링크돼 있으면 dotfiles의 `lua/` 안 모든 모듈을 어디서든 require 가능
+3. `.nvim.lua`는 nvim 부팅 후(=runtimepath 설정 완료 후) 로드되므로 같은 경로를 공유
+
+```text
+~/AppData/Local/nvim → ~/dotfiles/nvim/lazy/   (symlink)
+                       └─ lua/config/java-env.lua
+
+require("config.java-env")  -- ✅ init.lua, .nvim.lua 어디서든 동작
+```
+
+그래서 dotfiles의 `init.lua`에서 기본값으로 한 번 호출하고, 프로젝트 `.nvim.lua`에서 같은 모듈을 다시 require해서 인자만 다르게 호출하면 환경변수가 덮어써진다. 모듈은 `package.loaded`에 캐시되므로 파일은 한 번만 읽힌다.
+
+```lua
+-- ~/dotfiles/nvim/lazy/init.lua
+require("config.java-env").setup()  -- 기본: jdtls=21, gradle=11
+
+-- <project>/.nvim.lua
+require("config.java-env").setup({ jdtls = "21", gradle = "17" })  -- gradle만 덮어씀
+```
+
+### 응용: jdtls Java 경로 cross-platform 처리
+
+jdtls는 `JDTLS_JAVA_HOME` 환경변수로 자기를 실행할 Java를 찾는다 (`mason/packages/jdtls/bin/jdtls.py`의 `get_java_executable`). 이 변수가 비어 있으면 `FileNotFoundError [WinError 2]`로 즉시 죽는다.
+
+`.nvim.lua`에 macOS 전용 `/usr/libexec/java_home` 같은 명령을 직접 박지 말고, dotfiles의 OS-aware 헬퍼를 호출하는 게 정답이다.
+
+```lua
+-- ❌ macOS에서만 동작
+vim.env.JDTLS_JAVA_HOME = vim.fn.trim(vim.fn.system("/usr/libexec/java_home -v 21"))
+
+-- ✅ Windows/macOS/Linux 모두 동작 (dotfiles에 OS 분기 로직)
+require("config.java-env").setup({ jdtls = "21", gradle = "17" })
+```
+
+### 주의
+
+- 이 방식은 dotfiles 의존이므로 다른 nvim 환경 쓰는 동료에겐 `module not found`가 난다 — 그 사람들은 그냥 trust 안 하면 된다 (exrc는 opt-in).
 
 ## 빠지기 쉬운 함정 4가지
 

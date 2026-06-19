@@ -73,4 +73,5 @@ SAML SSO를 쓰는 조직에선 PAT 만들고 토큰 옆 "Configure SSO → Auth
 | --- | --- |
 | [SNAPSHOT 의존성 해석 실패 — 불완전 배포](/posts/gradle/2026-03-06-github-packages-snapshot-incomplete-publish/) | pom 누락으로 404, 재배포로 해결 |
 | **GitHub Packages 인증 실패 — 401/403 디버깅 (현재 글)** | PAT 스코프·SSO authorize·환경변수 전달까지 |
+| [NoClassDefFoundError — POM transitive 의존성 누락](/posts/gradle/2026-05-15-noclassdeffounderror-missing-transitive-dep/) | published POM에 빠진 모듈이 런타임 클래스패스에서 누락 |
 | [Gradle 데몬 환경변수 stale 문제](/posts/gradle/2026-05-20-gradle-daemon-stale-env-vars/) | 데몬이 옛 환경변수를 잡고 있어 PAT 갱신이 반영되지 않는 함정 |
