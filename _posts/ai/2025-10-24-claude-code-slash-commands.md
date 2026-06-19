@@ -111,4 +111,4 @@ GitHub 이슈를 분석하고 수정해주세요: $ARGUMENTS
 
 - 전체 개요·설치·작동 모드: [Claude Code 개요](/posts/ai/2025-10-24-claude-code/)
 - 메모리 시스템: [Claude Code 메모리 시스템](/posts/ai/2026-03-12-claude-code-memory/)
-- MCP 프로토콜: [Model Context Protocol(MCP) 개념 정리](/posts/ai/2025-10-23-mcp/)
+- MCP 프로토콜: [Model Context Protocol(MCP) 개념 정리](/posts/ai/2025-10-23-model-context-protocol/)

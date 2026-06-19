@@ -2,7 +2,7 @@
 title       : Transaction Concurrency Control
 description : "Schedule과 Serializability, Recoverability 단계, S/X Lock과 2PL 변형들, READ COMMITTED·REPEATABLE READ·SERIALIZABLE이 막아주는 이상 현상까지 한 흐름으로 연결."
 date        : 2024-05-03 15:36:25 +0900
-updated     : 2025-05-21 22:50:42 +0900
+updated     : 2026-06-19 09:00:00 +0900
 categories  : [db, "RDB·트랜잭션"]
 tags        : [transaction, isolation, lock]
 pin         : false
@@ -72,12 +72,15 @@ hidden      : false
 
 ## Isolation Level
 
-### 이상 현상
-1. Dirty Read: 커밋되지 않은 데이터 읽기
-2. Non-Repeatable Read: 같은 행을 두 번 읽었는데 값이 변함
-3. Phantom Read: 같은 조건으로 조회했는데 행 집합이 변함
+격리 수준은 제약이 강할수록 이상 현상은 줄지만 동시성이 낮아져 성능이 떨어진다. 그래서 일부 이상 현상을 허용하는 몇 가지 level을 두고, 요구사항에 따라 선택하게 한다.
 
-### 격리 수준 표
+### 이상 현상
+
+1. **Dirty Read**: 커밋되지 않은 데이터를 읽음. 그 값을 쓴 트랜잭션이 rollback되면 존재하지 않는 데이터를 읽은 셈이 된다.
+2. **Non-Repeatable Read**: 한 트랜잭션 안에서 같은 행을 두 번 읽었는데, 그 사이 다른 트랜잭션이 수정·커밋해 값이 달라진다.
+3. **Phantom Read**: 같은 조건으로 두 번 조회했는데, 그 사이 다른 트랜잭션이 행을 추가·삭제해 결과 집합이 달라진다.
+
+### 격리 수준별 허용 이상 현상
 
 | Isolation Level | Dirty Read | Non-Repeatable Read | Phantom Read |
 |---------------|-----------|---------------------|--------------|
@@ -86,78 +89,22 @@ hidden      : false
 | Repeatable Read | X | X | O |
 | Serializable | X | X | X |
 
-### 구현 메모
-- Serializable: Strict 2PL 또는 SS2PL, SSN 등으로 구현
-- MVCC 기반 DB는 Repeatable Read/Serializable의 정의가 DB마다 다를 수 있음
+- **Read Uncommitted**: 다른 트랜잭션이 커밋하지 않은 데이터까지 읽는다.
+- **Read Committed**: 커밋된 데이터만 읽어 Dirty Read를 막는다.
+- **Repeatable Read**: 한 트랜잭션 안에서 같은 행을 다시 읽어도 값이 변하지 않는다.
+- **Serializable**: 세 이상 현상을 모두 막는다. 트랜잭션들이 직렬로 실행된 것과 동일한 결과를 보장한다.
 
-## 추가 이상 현상 (요약)
-- Dirty Write: 커밋되지 않은 값을 다른 트랜잭션이 덮어씀
-- Lost Update: 두 트랜잭션의 업데이트 중 하나가 사라짐
-- Read/Write Skew: 서로 다른 데이터의 불일치가 발생
+> **구현**: Serializable은 Strict 2PL / SS2PL 또는 SSN(Serializable Snapshot Isolation)으로 구현한다. 2PL은 읽을 때 S Lock, 수정할 때 X Lock을 걸어 다른 트랜잭션의 접근을 차단함으로써 직렬 실행처럼 보이게 한다.
+> MVCC 기반 DB는 Repeatable Read/Serializable의 정의가 DB마다 다를 수 있다.
 
-1. Dirty Read
-- 문제: 트랜잭션 A가 아직 커밋되지 않은 데이터를 읽고, 그 후 트랜잭션 B가 롤백되면, 트랜잭션 A는 존재하지 않는 데이터를 읽은 것이 됨.
-  > 한 transaction이 다른 transaction이 commit하지 않은 데이터를 읽는 현상.
-- 해결: Read Committed 이상의 격리 수준 사용
+## 추가 이상 현상
 
-2. Non-Repeatable Read
-- 문제: 한 트랜잭션이 같은 데이터를 두 번 조회했을 때, 그 사이에 다른 트랜잭션이 해당 데이터를 수정하고 커밋하면, 첫 번째 조회 결과와 두 번째 조회 결과가 달라짐.
-  > 한 transaction 안에서 같은 데이터를 두번 읽었을 때 값이 다른 현상. (다른 트랜잭션에 의해 값이 바뀌는 현상이므로 Isolation 관점에서 문제가 된다.)
-- 해결: Repeatable Read 이상의 격리 수준 사용
+기본 3가지 외에도 다음이 있다.
 
-3. Phantom Read
-- 문제: 한 트랜잭션이 같은 쿼리를 두 번 실행했을 때, 그 사이에 다른 트랜잭션이 데이터를 추가하거나 삭제하면, 첫 번째 쿼리 결과와 두 번째 쿼리 결과가 달라짐.
-  > 한 transaction 안에서 같은 쿼리를 두번 실행했을 때 어떤 row가 추가되거나 삭제되는 현상.)
-- 다른 transaction이 데이터를 추가하거나 삭제하면, 쿼리 결과가 달라질 수 있다.
-
-
-## 격리 수준 (Isolation Level)
-- 제약사항이 강할수록 문제점은 적지만, 동시성이 낮아짐으로 성능이 저하될 수 있다.
-- 시스템의 요구사항에 따라 일부 이상 현상을 허용하는 및가지 level 을 만들어서 사용자가 필요에 따라 선택할 수 있도록 한다.
-
-| Isolation Level | Dirty Read | Non-Repeatable Read | Phantom Read |
-| --------------- | ---------- | -------------------- | ------------ |
-| Read Uncommitted | O          | O                    | O            |
-| Read Committed   | X          | O                    | O            |
-| Repeatable Read  | X          | X                    | O            |
-| Serializable     | X          | X                    | X            |
-
-1. Read Uncommitted
-- 다른 transaction이 commit하지 않은 데이터를 읽을 수 있다.
-- Dirty Read, Non-Repeatable Read, Phantom Read가 발생할 수 있다.
-
-2. Read Committed
-- 다른 transaction이 commit한 데이터만 읽을 수 있다.
-- Dirty Read는 발생하지 않지만, Non-Repeatable Read, Phantom Read가 발생할 수 있다.
-
-3. Repeatable Read
-- 한 transaction 안에서 같은 데이터를 두번 읽었을 때 값이 다르지 않다.
-- Dirty Read, Non-Repeatable Read는 발생하지 않지만, Phantom Read가 발생할 수 있다.
-
-4. Serializable
-- 한 transaction 안에서 같은 쿼리를 두번 실행했을 때 결과가 같다.
-- Dirty Read, Non-Repeatable Read, Phantom Read가 발생하지 않는다.
-- 위 3가지 현상을 완벽하게 제어할 뿐만 아니라, 모든 이상 현상을 제어할 수 있다.
-
-> 구현: 2-Phase Locking (Strict 2PL, S2PL), SSN(Serializable Snapshot Isolation) 사용 <br>
-> 2-Phase Locking (Strict 2PL, S2PL) : 읽을 때 Shared Lock (S Lock), 수정할 때 Exclusive Lock (X Lock)을 설정하여 다른 트랜잭션이 접근할 수 없도록 차단. 모든 트랜잭션이 직렬적으로(순차적으로) 실행되는 것처럼 보이도록 보장.
-
-## 추가적인 이상 현상
-- 위 3가지 이상 현상 외에도 다음과 같은 이상 현상이 발생할 수 있다.
-
-1. Dirty Write
-- commit하지 않은 데이터를 다른 transaction이 덮어쓰는 현상.
-- rollback시 정상적인 recovery는 매우 중요하기 때문에 모든 isolation level에서 발생하지 않도록 해야 한다.
-
-2. Lost Update
-- 두 transaction이 같은 데이터를 동시에 수정할 때, 한 transaction의 변경사항이 무시되는 현상.
-
-3. Read Skew
-
-4. Write Skew
-
----
+- **Dirty Write**: 커밋되지 않은 값을 다른 트랜잭션이 덮어쓴다. rollback 시 정상 복구를 위해 모든 격리 수준에서 금지된다.
+- **Lost Update**: 두 트랜잭션이 같은 데이터를 동시에 수정해 한쪽의 변경이 사라진다.
+- **Read Skew / Write Skew**: 서로 다른 데이터 사이의 제약이 깨져 일관성이 무너진다.
 
 ## Snapshot Isolation
-- MVCC(Multi-Version Concurrency Control)를 사용하여 Serializable level에서 발생하는 성능 저하를 줄이기 위해, Repeatable Read와 Serializable 사이에 위치한 level을 만들어 사용한다.
-- Serializable level에서 발생하는 성능 저하를 줄이기 위해, Read Committed와 Repeatable Read 사이에 위치한 level을 만들어 사용한다.
+
+MVCC(Multi-Version Concurrency Control)를 이용해, Read Committed와 Serializable 사이에서 Serializable의 성능 저하를 줄이는 격리 수준이다. 각 트랜잭션이 시작 시점의 스냅샷을 읽으므로 읽기와 쓰기가 서로를 막지 않는다. 다만 Write Skew 같은 일부 이상 현상은 막지 못하며, 이를 보완한 것이 SSN(Serializable Snapshot Isolation)이다.

@@ -2,7 +2,7 @@
 title       : PostgreSQL pg_dump, pg_restore 사용법
 description : "pg_dump의 plain/custom/directory/tar 포맷 선택 기준, psql로는 plain만 복원되는 이유, pg_restore의 병렬 처리(-j)와 선택적 복원(-n/-t)이 빛나는 지점."
 date        : 2025-01-14 13:45:54 +0900
-updated     : 2025-02-21 22:50:42 +0900
+updated     : 2026-06-19 09:00:00 +0900
 categories  : [db, "PostgreSQL·운영"]
 tags        : [postgresql, pgdump, backup]
 pin         : false
@@ -30,7 +30,7 @@ psql -h {host} -p {port} -U {user} -d {database} < {backup_file} # 표준 입력
 - -U : 사용자
 - -d : 데이터베이스
 - -f : 백업 파일명
-- -F : 백업 파일 포맷 (p, c, d, t, p, s)   # p: plain(-Fp, 기본값), c: custom(-Fc), d: directory(-Fd), t: tar(-Ft), s: sql(-Fs)
+- -F : 백업 파일 포맷 (p, c, d, t)   # p: plain(-Fp, 기본값), c: custom(-Fc), d: directory(-Fd), t: tar(-Ft)
 - -v : 상세 로그 출력
 - -n : 스키마   # -n public, -n schema1, -n schema1,schema2    # vs 스키마 제외: -N schema
 - -t : 테이블   # -t table1, -t table1,table2
@@ -43,7 +43,6 @@ psql -h {host} -p {port} -U {user} -d {database} < {backup_file} # 표준 입력
 - custom : 바이너리 형태로 백업  // 압축률이 높음
 - directory : 디렉토리 형태로 백업  // 여러 파일로 나눠서 백업함으로써 병렬 처리가 가능하게 합니다.
 - tar : tar 형태로 백업
-- sql : SQL 스크립트 형태로 백업
 > custom, directory, tar 형태는 pg_restore 로 복원 가능합니다.
 
 ## pg_restore를 사용한 db 복원

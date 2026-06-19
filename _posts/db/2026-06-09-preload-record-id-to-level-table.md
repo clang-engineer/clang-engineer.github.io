@@ -2,7 +2,7 @@
 title       : "비정형 도메인 RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선"
 description : "수천만 건 팩트 테이블 JOIN을 INSERT 시점에 미리 옮겨두면 조회 시 JOIN 자체가 사라진다."
 date        : 2026-06-09 11:00:00 +0900
-updated     : 2026-06-09 11:00:00 +0900
+updated     : 2026-06-19 09:00:00 +0900
 categories  : [db, "최적화·설계"]
 tags        : [performance, join]
 pin         : false
@@ -67,3 +67,11 @@ SELECT LVL.ECG_RECORD_ID, LVL.DICOM_RECORD_ID FROM ...
 | INSERT SELECT | 팩트 테이블에서 RECORD_ID, FILE_PATH 가져오도록 추가 |
 | 데이터 조회 SELECT | 팩트 테이블 alias → 레벨 테이블 alias로 변경 |
 | 데이터 조회 FROM | 팩트 테이블 JOIN 제거 |
+
+## 관련 글
+
+| 글 | 다루는 것 |
+| --- | --- |
+| [RDB에서 조인(Join) 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/) | 조인 알고리즘과 옵티마이저의 전략 선택 |
+| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](/posts/db/2026-04-15-vertica-or-join-kills-performance/) | OR 조건이 Join Filter로 빠지는 문제와 UNION ALL 해법 |
+| **RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선 (현재 글)** | INSERT 시점에 컬럼을 옮겨 조회 JOIN 자체를 제거 |
