@@ -1,7 +1,7 @@
 ---
 title       : "Neovim 실력 향상 로드맵 — vim·neovim·lazyvim 글을 어떻게 읽을까"
 description : "Vim 기본기 → Lua → Neovim 내부 → LazyVim 구조 → 플러그인 작성까지, 이 블로그의 vim/neovim/lazyvim 글을 단계별로 큐레이션."
-date        : 2026-06-16 00:00:00 +0900
+date        : 2026-06-16 23:00:00 +0900
 updated     : 2026-06-19 22:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
@@ -149,3 +149,5 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 ---
 
 본인의 현재 위치에서 가까운 단계부터 진입하면 된다. 입문자는 "어디서 시작할까"부터, LazyVim 사용자는 3단계, 플러그인 만들고 싶은 사람은 2단계 → 5단계가 자연스러운 경로다.
+
+터미널 멀티플렉서를 함께 쓴다면 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)도 곁에 두면 좋다. `vim-tmux-navigator`로 Neovim 창과 tmux 패널을 한 키맵으로 오가는 구성이 자연스럽다.

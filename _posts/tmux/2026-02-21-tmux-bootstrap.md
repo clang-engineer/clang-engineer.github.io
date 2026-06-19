@@ -2,23 +2,21 @@
 title       : 🧷 tmux 초기 셋업용 세션/윈도우/패널 스크립트
 description : main/sub 세션을 만들고 main에서 좌/우 + 오른쪽 상/하 분할을 구성하는 초기 셋업 스크립트 기록.
 date        : 2026-02-21 10:05:00 +0900
-updated     : 2026-02-21 10:05:00 +0900
+updated     : 2026-06-19 00:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [terminal, tpm, plugin]
 pin         : false
 hidden      : false
 ---
 
-## 🧷 tmux 초기 셋업용 세션/윈도우/패널 스크립트
-
 main/sub 세션을 나누고, main은 2개 window로 분리한 뒤
 첫 window에서 좌/우 + 오른쪽 상/하 분할을 만드는 초기 셋업 기록.
 필요할 때 파일 하나로 바로 띄우는 목적.
 
-> 관련 (tmux 셋업 시리즈):
-> - [tmux 정리본 (Cheat Sheet + 사용 가이드)](/posts/tmux/2021-11-30-tmux-config/) — 세션/윈도우/패널 기본 단축키 치트시트
-> - [tmux 유용한 설정 정리 (.tmux.conf 기준)](/posts/tmux/2026-02-21-tmux-tips/) — 체감 큰 `.tmux.conf` 옵션만 추린 튜닝
-> - [Tmux 설정 & 플러그인 설명](/posts/tmux/2025-11-17-tmux-tpm/) — TPM 대표 플러그인별 역할·기능 상세
+같은 일을 하는 전용 도구로 [tmuxinator](https://github.com/tmuxinator/tmuxinator)(YAML로 레이아웃 선언)나 [tmuxp](https://github.com/tmux-python/tmuxp)가 있다. 다만 여기선 Ruby/Python 의존성 없이 셸 한 장으로 어디서든 재현하려는 게 목적이라, `tmux` 명령만으로 직접 짠다.
+
+> 이 글은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 **3단계(세션 부트스트랩 자동화)** 다. 입문·설정·플러그인 단계는 로드맵에서.
+{: .prompt-tip }
 
 ---
 
@@ -83,7 +81,7 @@ chmod +x ~/bin/tmux-work.sh
 
 ## 3. 구조 변경 예시
 
-## ● 윈도우 이름 변경
+### ● 윈도우 이름 변경
 
 ```bash
 tmux new-session -d -s "$MAIN_SESSION" -n "editor"
@@ -91,7 +89,7 @@ tmux new-window -t "$MAIN_SESSION" -n "api"
 tmux new-window -t "$MAIN_SESSION" -n "ops"
 ```
 
-## ● 패널 이름(타이틀) 지정
+### ● 패널 이름(타이틀) 지정
 
 pane 자체에 "이름"을 붙이는 개념은 없고, 대신 pane title을 설정해서 표시한다.
 표시 위치는 pane-border-format으로 제어한다.
@@ -107,13 +105,13 @@ tmux set -g pane-border-status bottom
 tmux set -g pane-border-format " #P: #T "
 ```
 
-## ● 패널 레이아웃 변경 (좌우 2분할)
+### ● 패널 레이아웃 변경 (좌우 2분할)
 
 ```bash
 tmux split-window -h -t "$MAIN_SESSION":0
 ```
 
-## ● 특정 프로젝트 폴더로 이동
+### ● 특정 프로젝트 폴더로 이동
 
 ```bash
 tmux send-keys -t "$MAIN_SESSION":0.0 "cd ~/project" C-m
