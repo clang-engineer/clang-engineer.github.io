@@ -211,7 +211,7 @@ CI scaffolding을 처음 추가하는 사이클은 거의 100% 첫 push에서 �
 
 ## awesome-neovim PR
 
-절차·함정(BSD sed, PR 제목 백틱, 금지어, typos CI 등)은 [awesome-neovim PR 보내기](/posts/awesome-neovim-pr-walkthrough/)에 정리해둔 게 있어 그대로 따라갔다. Programming Languages Support 섹션의 `nvim-java/nvim-java` 바로 아래에 한 줄 추가, [PR #2365](https://github.com/rockerBOO/awesome-neovim/pull/2365)로 제출.
+절차·함정(BSD sed, PR 제목 백틱, 금지어, typos CI 등)은 [awesome-neovim PR 보내기](/posts/neovim/2026-06-12-awesome-neovim-pr-walkthrough/)에 정리해둔 게 있어 그대로 따라갔다. Programming Languages Support 섹션의 `nvim-java/nvim-java` 바로 아래에 한 줄 추가, [PR #2365](https://github.com/rockerBOO/awesome-neovim/pull/2365)로 제출.
 
 이번에 한 가지 게으른 단축을 시도했다가 함정에 빠졌다. walkthrough가 권하는 `gh repo fork --clone=false` + 별도 `git clone` 분리 대신 `gh repo fork --clone --remote`로 한 줄에 묶으려 했는데, gh가 `git_protocol=ssh` 설정에 따라 `git@github.com:...`로 clone을 시도하면서 ssh config의 host alias(`github.com-<account>`)가 무시되어 인증 실패했다. walkthrough 절차대로 분리해서 직접 clone하면 만나지 않는다. 다음번엔 단축 시도 말고 그대로.
 

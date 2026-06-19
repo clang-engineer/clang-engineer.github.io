@@ -11,6 +11,8 @@ hidden      : false
 
 vim-dadbod-ui의 결과창(`dbout`) 크기/방향을 바꾸는 **공식적인 방법은 FileType autocmd 뿐이다.** 내장 옵션은 없다.
 
+> 관련: [vim-dadbod + PostgreSQL .pgpass 인증 (Windows)](/posts/lazyvim/2026-05-06-vim-dadbod-pgpass-windows/)
+
 ## 핵심 사실
 
 - **`g:db_ui_winwidth`는 좌측 drawer 폭이지 결과창과 무관하다.** (default 40)

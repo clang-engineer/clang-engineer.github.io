@@ -13,6 +13,8 @@ hidden      : false
 
 본 문서는 SonarQube 도커 실행, 토큰 생성, Gradle/sonar-scanner 분석, JaCoCo/Jest 연동, Kotlin 관련 JDK 이슈 및 CI/CD 통합까지 한눈에 정리한 가이드입니다.
 
+> 관련: SonarQube가 정적 분석(코드 품질)을 담당한다면, 런타임 관측은 [JHipster 모니터링 — Actuator·Prometheus·Grafana 스택](/posts/spring-boot/2025-10-05-monitoring/)과 [Spring Boot Actuator 상세 설정](/posts/spring-boot/2025-10-05-actuator/)에서 다룹니다.
+
 ---
 
 ## 1. SonarQube 도커 컨테이너 실행

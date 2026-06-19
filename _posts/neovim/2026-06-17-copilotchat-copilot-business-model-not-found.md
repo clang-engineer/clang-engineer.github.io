@@ -70,7 +70,7 @@ opts.model = "gpt-4.1-2025-04-14"  -- name 중복 dedup 후 살아남는 ID
 
 ### 관련
 
-> 관련: 개인 플랜에서 단순히 기본 모델이 미지원으로 바뀐 경우라면 `:CopilotChatModels` → Auto 로 끝난다 → [CopilotChat.nvim Model not found 에러 — :CopilotChatModels로 Auto 선택](/posts/copilotchat-model-not-found/)
+> 관련: 개인 플랜에서 단순히 기본 모델이 미지원으로 바뀐 경우라면 `:CopilotChatModels` → Auto 로 끝난다 → [CopilotChat.nvim Model not found 에러 — :CopilotChatModels로 Auto 선택](/posts/lazyvim/2026-06-05-copilotchat-model-not-found/)
 
 - CopilotChat.nvim `lua/CopilotChat/config/providers.lua` `M.copilot.get_models`
 - `client.lua:308-328` 모델 lookup + resolve_model 로직

@@ -15,6 +15,11 @@ main/sub 세션을 나누고, main은 2개 window로 분리한 뒤
 첫 window에서 좌/우 + 오른쪽 상/하 분할을 만드는 초기 셋업 기록.
 필요할 때 파일 하나로 바로 띄우는 목적.
 
+> 관련 (tmux 셋업 시리즈):
+> - [tmux 정리본 (Cheat Sheet + 사용 가이드)](/posts/tmux/2021-11-30-tmux-config/) — 세션/윈도우/패널 기본 단축키 치트시트
+> - [tmux 유용한 설정 정리 (.tmux.conf 기준)](/posts/tmux/2026-02-21-tmux-tips/) — 체감 큰 `.tmux.conf` 옵션만 추린 튜닝
+> - [Tmux 설정 & 플러그인 설명](/posts/tmux/2025-11-17-tmux-tpm/) — TPM 대표 플러그인별 역할·기능 상세
+
 ---
 
 ## 1. 스크립트

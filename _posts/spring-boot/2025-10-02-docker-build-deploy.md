@@ -214,4 +214,4 @@ jobs:
           "
 ```
 
-> 관련: [Jhipster Docker 개요](/posts/docker-summary/)
+> 관련: [Jhipster Docker 개요](/posts/spring-boot/2025-09-23-docker-summary/)

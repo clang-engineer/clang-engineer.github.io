@@ -18,8 +18,7 @@ Vim/Neovim/배포판이 헷갈린다면 먼저 셋의 관계부터 잡자.
 | 글 | 핵심 |
 |---|---|
 | [Vim vs Neovim vs 배포판 — 각 계층이 제공하는 기능](/posts/neovim/2026-06-08-vim-neovim-lazyvim-feature-layers/) | "이 기능이 어디서 온 건지" 정리. 가장 먼저 읽기 좋은 한 장 |
-| [Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교](/posts/neovim/2026-06-16-neovim-starting-point-comparison/) | 세 시작점의 학습 곡선·추천 맥락 비교. "어디서 출발할지" 결정용 |
-| [Neovim 배포판/프레임워크 비교 소개](/posts/neovim/2025-10-04-neovim-distribution/) | LazyVim·NvChad·AstroNvim + kickstart.nvim 비교 — distro 간 차이 |
+| [Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교](/posts/neovim/2026-06-16-neovim-starting-point-comparison/) | 세 시작점의 학습 곡선·추천 맥락 + LazyVim·NvChad·AstroNvim distro 카탈로그. "어디서 출발할지" 결정용 |
 | [Vim & Neovim 작동 원리 정리](/posts/vim/2025-10-04-vim-core-engine/) | 모드·버퍼·윈도우·탭, 명령 파이프라인 — 모든 글의 전제 |
 
 ## 1단계 — Vim 기본기
@@ -64,9 +63,7 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 
 | 글 | 핵심 |
 |---|---|
-| [Neovim 프로젝트별 로컬 설정 가이드 — exrc · .nvim.lua · trust](/posts/neovim/2026-06-15-neovim-exrc-nvim-lua-guide/) | Neovim 0.9+ exrc 동작·검색 파일명·trust 시스템·함정 한 번에 |
-| [프로젝트 `.nvim.lua`에서 dotfiles의 lua 모듈 재사용하기](/posts/neovim/2026-05-07-nvim-exrc-require-dotfiles-module/) | 글로벌 dotfiles의 모듈을 프로젝트별 exrc에서 require하는 패턴 |
-| [Windows에서 Dotfiles의 Neovim 설정 연결하기](/posts/neovim/2026-01-07-window-neovim/) | Windows에서 dotfiles 연결 시 경로 함정 |
+| [Neovim 프로젝트별 로컬 설정 가이드 — exrc · .nvim.lua · trust](/posts/neovim/2026-06-15-neovim-exrc-nvim-lua-guide/) | Neovim 0.9+ exrc 동작·검색 파일명·trust 시스템·함정 한 번에 || [Windows에서 Dotfiles의 Neovim 설정 연결하기](/posts/neovim/2026-01-07-window-neovim/) | Windows에서 dotfiles 연결 시 경로 함정 |
 
 ## 5단계 — 플러그인 작성
 
@@ -130,7 +127,7 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 |---|---|
 | 진단 도구 | [LazyVim Diagnostics 로그/메시지 확인법](/posts/lazyvim/2026-02-04-lazyvim-diagnostics/) |
 | LSP | [Java LSP (jdtls) 작동 안함](/posts/lazyvim/2025-12-17-java-lsp-jdtls/) · [kotlin-language-server documentHighlight 크래시](/posts/lazyvim/2026-06-08-kotlin-language-server-document-highlight-crash/) · [kotlin-language-server가 import를 못 잡을 때 (kls_database.db 캐시)](/posts/neovim/2026-06-16-kotlin-language-server-stale-kls-database/) · [LSP가 안 붙을 때 — 헤드리스 모드로 attach 검증](/posts/neovim/2026-06-15-neovim-lsp-headless-attach-debug/) · [특정 LSP의 server_capability 한 줄로 끄기](/posts/lazyvim/2026-06-16-lazyvim-disable-lsp-server-capability/) |
-| Treesitter | [kotlin 쿼리 "..<" 노드 에러 (파서 버전)](/posts/lazyvim/2026-05-08-nvim-treesitter-kotlin-rangeuntil-query-error/) · [main 브랜치는 nvim 0.12+ 전용](/posts/lazyvim/2026-05-08-nvim-treesitter-main-branch-needs-0.12/) |
+| Treesitter | [kotlin 쿼리 "..<" 노드 에러 + main 브랜치 0.12 전용 함정](/posts/lazyvim/2026-05-08-nvim-treesitter-kotlin-rangeuntil-query-error/) |
 | Lint | [PowerShell 프로필이 nvim-lint ktlint JSON을 깨뜨릴 때](/posts/lazyvim/2026-05-06-powershell-profile-pollutes-nvim-lint/) |
 | Lazygit | [Windows에서 'e' 키 에러](/posts/lazyvim/2026-03-13-lazygit-nvim-windows-edit-error/) · [Windows에서 한글 깨짐](/posts/lazyvim/2026-03-13-nvim-lazygit-korean-broken/) |
 | Dadbod | [dbout 결과창 레이아웃 커스터마이징](/posts/lazyvim/2026-05-06-vim-dadbod-dbout-layout/) · [PostgreSQL .pgpass 인증 (Windows)](/posts/lazyvim/2026-05-06-vim-dadbod-pgpass-windows/) |

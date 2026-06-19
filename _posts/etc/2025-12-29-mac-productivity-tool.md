@@ -9,6 +9,8 @@ pin         : false
 hidden      : false
 ---
 
+> 관련: 런처(Spotlight·Alfred·Raycast)만 깊게 비교한 글은 [macOS 생산성 런처 비교](/posts/etc/2025-10-31-productivity-launchers/)를 참고하세요.
+
 ## ✅ 왜 생산성 앱을 쓰는가?
 
 * 반복 작업 최소화

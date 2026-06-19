@@ -2,9 +2,12 @@
 title       : "Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교"
 description : "Neovim 환경을 새로 만들거나 다시 익히려 할 때 선택지인 세 가지 시작점의 정체·학습 곡선·추천 맥락 비교 (2026-06 기준)"
 date        : 2026-06-16 11:00:00 +0900
-updated     : 2026-06-17 12:00:00 +0900
+updated     : 2026-06-19 09:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
-tags        : [vim, lazyvim, kickstart, distro]
+tags        : [vim, lazyvim, kickstart, distro, nvchad, astronvim]
+redirect_from:
+  - /posts/neovim/2025-10-04-neovim-distribution/
+  - /posts/lazyvim/2025-10-04-neovim-distribution/
 pin         : false
 hidden      : false
 ---
@@ -62,7 +65,7 @@ folke가 만든 배포판. **lazy.nvim**(플러그인 매니저) 위에 plugin s
 
 가장 빠르게 IDE 수준 환경을 손에 넣을 수 있지만, "내가 뭘 켜고 있는지" 감각은 가장 약하다. 익숙해질수록 `:Lazy` profile이나 `~/.local/share/nvim/lazy/LazyVim/lua/lazyvim/plugins/`를 들춰봐야 "이게 어디서 들어온 거지?"가 풀린다.
 
-LazyVim 외에도 동일 슬롯에 **NvChad**(경량·성능 중심), **AstroNvim**(기능 풍부)이 있다. 자세한 distro 간 비교는 [Neovim 배포판/프레임워크 비교](/posts/neovim/2025-10-04-neovim-distribution/) 글 참고.
+LazyVim 외에도 동일 슬롯에 **NvChad**(경량·성능 중심), **AstroNvim**(기능 풍부)이 있다. 이 distro들 간의 차이는 아래 [배포판/프레임워크 카탈로그](#배포판프레임워크-카탈로그) 절에서 정리한다.
 
 ## 비교 표
 
@@ -84,6 +87,43 @@ LazyVim 외에도 동일 슬롯에 **NvChad**(경량·성능 중심), **AstroNvi
 - **"진짜 처음부터 모든 줄을 내가 짜고 싶다"** → Vanilla. 단, "표준 베스트 프랙티스가 뭔지 모르고 출발"하는 비용을 감수해야 한다. 자주 권장되지 않는다.
 
 요약하면 **학습 목적이면 kickstart, 편의 목적이면 LazyVim**이 합리적 디폴트다. Vanilla는 특수 상황 외엔 굳이 권하지 않는 선택이다.
+
+## 배포판/프레임워크 카탈로그
+
+위에서는 LazyVim 하나를 풀 배포판 예시로 봤지만, 같은 "배포판 슬롯"에는 현역 인기 배포판이 여럿 있다. 모두 **Neovim Core(C)는 그대로 두고, 그 위에 Lua 설정·플러그인 레이어를 다르게 얹는** 구조라는 점은 같고, 초점·성능·자유도에서 갈린다 (2026-06 기준).
+
+| 이름 | GitHub Stars | 초점 | 특징 |
+|------|------|------|------|
+| **LazyVim** | 26.6k | 현대적 Lua 환경 | 모듈형, lazy.nvim 기반, IDE 요소 선택적. 사용자 dotfiles처럼 override·확장 가능한 "framework" 컨셉 |
+| **NvChad** | 28.3k | 성능 최적화 | 경량화, 빠른 startup, Lua 모듈화. IDE 기능 최소화 중점 |
+| **AstroNvim** | 14.3k | IDE 수준 환경 | LSP/Treesitter/CMP/Telescope 등 대부분 기본 활성화, 모듈형 |
+| **kickstart.nvim** | 30.8k | 출발점 템플릿 | 단일 파일(`init.lua`)을 복사해서 직접 수정. Neovim 공식 진영(`nvim-lua` org) 제공, 사실상 표준 starter |
+
+> **LunarVim**은 한때 인기 배포판이었으나 2025-06 이후 업데이트가 멈춰 현역 추천 목록에서 제외했습니다.
+> **kickstart.nvim**은 엄밀히는 배포판이 아니라 "직접 수정하는 출발점"이지만, 같은 슬롯에서 자주 비교되어 포함했습니다.
+
+### 공통점
+
+- **Neovim Core Engine(C)은 그대로 사용**
+- **Lua 기반 설정**을 사용하여 성능 최적화
+- **Lazy-loading** 지원으로 필요할 때만 플러그인 로드
+- **플러그인 관리 자동화** 가능 (Telescope, Treesitter, LSP, CMP 등)
+
+### 차이점 요약
+
+| 기준 | LazyVim | NvChad | AstroNvim | kickstart.nvim |
+|------|----------|--------|-----------|----------------|
+| 기본 기능 범위 | 선택적 | 최소화 | IDE 수준 대부분 활성 | 최소 (직접 추가) |
+| 사용자 설정 난이도 | 쉬움 | 쉬움~중간 | 쉬움~중간 | 중간 (Lua 직접 편집) |
+| 성능 최적화 | 높음 | 매우 높음 | 중간 | 사용자 책임 |
+| 커뮤니티 지원 | 활발 | 활발 | 활발 | 매우 활발 |
+
+선택은 **목적과 사용 스타일**에 따른다:
+
+- **LazyVim**: 모듈형 + 선택적 IDE 환경, override·확장이 쉬움
+- **NvChad**: 경량화 + 성능 최적화
+- **AstroNvim**: 많은 기능 기본 제공 IDE 환경
+- **kickstart.nvim**: 처음부터 직접 조립하고 싶을 때의 출발점
 
 ## 부록: `lazy.nvim` vs `LazyVim` — 이름 혼동 정리
 

@@ -9,6 +9,8 @@ pin         : false
 hidden      : false
 ---
 
+> 관련: 런처를 포함한 macOS 생산성 앱 전반(창 관리·자동화 등)은 [macOS 생산성 앱 정리](/posts/etc/2025-12-29-mac-productivity-tool/)를 참고하세요.
+
 ## 🌟 Spotlight (기본 내장)
 
 **설명:**  

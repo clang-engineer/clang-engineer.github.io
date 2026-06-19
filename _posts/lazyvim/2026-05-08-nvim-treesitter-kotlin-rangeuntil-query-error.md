@@ -7,6 +7,8 @@ categories  : [lazyvim, "LSP·Treesitter"]
 tags        : [neovim, treesitter, kotlin, snacks, lazy-nvim, troubleshooting]
 pin         : false
 hidden      : false
+redirect_from:
+  - /posts/lazyvim/2026-05-08-nvim-treesitter-main-branch-needs-0.12/
 ---
 
 snacks picker에서 `Query error at 350:4. Invalid node type "..<"` 가 터지면, 보통 `nvim-treesitter`의 `kotlin/highlights.scm`은 최신인데 설치된 tree-sitter-kotlin 파서 `.so`가 옛날 버전이라 둘이 안 맞는 상황이다.

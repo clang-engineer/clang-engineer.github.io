@@ -11,6 +11,8 @@ hidden      : false
 
 LazyVim의 `lang.sql` extra(= `vim-dadbod` + `vim-dadbod-ui`)로 PostgreSQL을 붙일 때 일반 가이드에 잘 안 나오는 함정 다섯 개.
 
+> 관련: [vim-dadbod-ui dbout 결과창 레이아웃 커스터마이징](/posts/lazyvim/2026-05-06-vim-dadbod-dbout-layout/)
+
 ## 1. Windows에서 `.pgpass`는 `~/.pgpass`가 아니다
 
 | OS | psql이 읽는 파일 |

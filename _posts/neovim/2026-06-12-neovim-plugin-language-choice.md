@@ -179,7 +179,9 @@ GitHub 레포명 컨벤션이지 언어 표시가 아니다.
 | --- | --- |
 | **언어 선택 (현재 글)** | Lua가 표준이지만 부모 생태계가 Vimscript면 Vimscript가 자연스럽다 |
 | [Lua와 Vimscript 섞기](/posts/neovim/2026-06-12-neovim-plugin-mixing-lua-vimscript/) | 호출 경계 최소화, 흔한 안티패턴, 모범 분담 |
+| [Lua vs Vimscript 성능](/posts/neovim/2026-06-12-neovim-lua-vs-vimscript-performance/) | LuaJIT vs 트리 워킹 인터프리터, 진짜 차이 나는 영역과 측정법 |
 | [runtimepath 디렉토리 관례](/posts/neovim/2026-06-12-neovim-plugin-conventions/) | `plugin/` vs `lua/`, 헬프·헬스체크·after/ 자동 로드 규칙 |
+| [플러그인 테스트 방법](/posts/neovim/2026-06-18-neovim-plugin-testing-plenary-minitest-busted/) | plenary · mini.test · busted+nlua 비교와 선택 기준 |
 | [4가지 채널로 노출시키기](/posts/neovim/2026-06-12-neovim-plugin-distribution/) | awesome-neovim · Dotfyle · VimAwesome · GitHub Topics |
 
-실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)에서 위 4가지 원칙을 한 번에 적용해본다.
+실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)에서 위 원칙을 한 번에 적용해본다.

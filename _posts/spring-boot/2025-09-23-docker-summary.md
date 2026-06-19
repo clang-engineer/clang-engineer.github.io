@@ -93,4 +93,4 @@ docker-compose -f src/main/docker/jhipster-control-center.yml up  # JHipster Con
 
 ```
 
-> 관련: [Jib 을 이용한 JHipster 도커 이미지 빌드 및 배포](/posts/docker-build-deploy/)
+> 관련: [Jib 을 이용한 JHipster 도커 이미지 빌드 및 배포](/posts/spring-boot/2025-10-02-docker-build-deploy/)

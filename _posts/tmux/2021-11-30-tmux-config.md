@@ -17,6 +17,11 @@ tmux는 여러 개의 터미널 세션을 생성하고 관리할 수 있게 해�
 구조:
 **세션(Session) > 윈도우(Window) > 패널(Pane)**
 
+> 관련 (tmux 셋업 시리즈):
+> - [tmux 유용한 설정 정리 (.tmux.conf 기준)](/posts/tmux/2026-02-21-tmux-tips/) — 체감 큰 `.tmux.conf` 옵션만 추린 튜닝
+> - [Tmux 설정 & 플러그인 설명](/posts/tmux/2025-11-17-tmux-tpm/) — TPM 대표 플러그인별 역할·기능 상세
+> - [tmux 초기 셋업용 세션/윈도우/패널 스크립트](/posts/tmux/2026-02-21-tmux-bootstrap/) — 세션 구조를 파일 하나로 바로 띄우기
+
 ---
 
 ## 1. 설치
@@ -192,52 +197,8 @@ set -g mouse on
 
 ## 8. Tmux Plugin Manager (TPM)
 
-tmux 플러그인을 관리해주는 툴.
-
-### ● 설치
-
-```bash
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-```
-
-### ● `.tmux.conf` 설정 예시
-
-```sh
-# --- TPM ---
-set -g @plugin 'tmux-plugins/tpm'
-
-# plugin list
-set -g @plugin 'tmux-plugins/tmux-sensible'
-set -g @plugin 'christoomey/vim-tmux-navigator'
-set -g @plugin 'jimeh/tmux-themepack'
-set -g @plugin 'tmux-plugins/tmux-resurrect'
-set -g @plugin 'tmux-plugins/tmux-continuum'
-
-# themepack config
-set -g @themepack 'powerline/default/cyan'
-
-# resurrect
-set -g @resurrect-capture-pane-contents 'on'
-set -g @continuum-restore 'on'
-
-# tmux settings
-set -g default-terminal "screen-256color"
-set -g mouse on
-
-# initialize TPM
-run '~/.tmux/plugins/tpm/tpm'
-```
-
-### ● 플러그인 설치
-
-tmux 내에서:
-
-```
-Ctrl+b + :
-source-file ~/.tmux.conf
-
-Ctrl+b + I   # Plugin Install
-```
+플러그인 설치·구성과 대표 플러그인별 설명, 복붙용 `.tmux.conf` 블록은 별도 글에 정리해두었다:
+[Tmux 설정 & 플러그인 설명](/posts/tmux/2025-11-17-tmux-tpm/)
 
 ---
 
