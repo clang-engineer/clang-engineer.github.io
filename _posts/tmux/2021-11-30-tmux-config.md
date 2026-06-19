@@ -2,14 +2,12 @@
 title       : 🧷 tmux 정리본 (Cheat Sheet + 사용 가이드)
 description : "터미널 멀티플렉서 tmux의 세션·윈도우·패널 구조와 설치, ~/.tmux.conf 설정, 자주 쓰는 단축키를 한 번에 찾아볼 수 있는 Cheat Sheet 형식으로 정리한다."
 date        : 2021-11-30 22:50:30 +0900
-updated     : 2026-01-28 08:33:28 +0900
+updated     : 2026-06-19 00:00:00 +0900
 categories  : [tmux, "설정·옵션"]
 tags        : [terminal]
 pin         : false
 hidden      : false
 ---
-
-## 🧷 tmux 정리본 (Cheat Sheet + 사용 가이드)
 
 tmux는 여러 개의 터미널 세션을 생성하고 관리할 수 있게 해주는 **터미널 멀티플렉서**이다.
 한 세션 안에 여러 개의 **윈도우(window) → 패널(pane)** 을 둘 수 있다.
@@ -17,10 +15,8 @@ tmux는 여러 개의 터미널 세션을 생성하고 관리할 수 있게 해�
 구조:
 **세션(Session) > 윈도우(Window) > 패널(Pane)**
 
-> 관련 (tmux 셋업 시리즈):
-> - [tmux 유용한 설정 정리 (.tmux.conf 기준)](/posts/tmux/2026-02-21-tmux-tips/) — 체감 큰 `.tmux.conf` 옵션만 추린 튜닝
-> - [Tmux 설정 & 플러그인 설명](/posts/tmux/2025-11-17-tmux-tpm/) — TPM 대표 플러그인별 역할·기능 상세
-> - [tmux 초기 셋업용 세션/윈도우/패널 스크립트](/posts/tmux/2026-02-21-tmux-bootstrap/) — 세션 구조를 파일 하나로 바로 띄우기
+> 이 글은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 **입문** 단계다. 설정·플러그인·자동화로 이어지는 전체 학습 경로는 로드맵에서.
+{: .prompt-tip }
 
 ---
 
@@ -45,9 +41,7 @@ tmux source-file ~/.tmux.conf
 
 ---
 
-## 3. 기본 사용법
-
-## 📌 세션(Session)
+## 3. 세션(Session)
 
 ### ● 세션 생성
 
@@ -157,7 +151,7 @@ resize-pane -U 10
 resize-pane -L 10
 resize-pane -R 10
 
-ctrl + b 를 누르고 option + 방향키로 사이ㅈ 조절 (macOS)
+ctrl + b 를 누르고 option + 방향키로 사이즈 조절 (macOS)
 ```
 
 ---
@@ -170,6 +164,12 @@ ctrl + b 를 누르고 option + 방향키로 사이ㅈ 조절 (macOS)
 * `Ctrl+b` + `]` : 붙여넣기
 
 ### ● 복사모드 단축키
+
+아래 표는 vi 키 기준이다. tmux 기본은 emacs 키맵이므로, `h/j/k/l`·`g/G` 같은 vi 이동을 쓰려면 `~/.tmux.conf`에 한 줄이 필요하다.
+
+```tmux
+setw -g mode-keys vi
+```
 
 | 키       | 설명              |
 | ------- | --------------- |
