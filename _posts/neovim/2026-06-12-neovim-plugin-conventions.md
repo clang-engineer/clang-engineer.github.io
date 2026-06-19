@@ -2,7 +2,7 @@
 title       : "Neovim 플러그인 작성 규칙 — runtimepath 디렉토리 관례 정리"
 description : "Vim 시절부터 이어진 runtimepath 자동 로드 규칙, Lua 추가분, plugin/ vs lua/ 역할 분리, 헬프·헬스체크·after/ 관례까지."
 date        : 2026-06-12 18:00:00 +0900
-updated     : 2026-06-17 22:00:00 +0900
+updated     : 2026-06-19 12:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [plugin, lua, lazy-nvim, lazyvim]
 pin         : false
@@ -40,6 +40,18 @@ Neovim 플러그인을 만들려고 보면 "어디에 어떤 파일을 두면 �
 위 표의 디렉토리 규칙은 **Neovim이 강제하는 진짜 룰**이다 (`autoload/`는 Vimscript `foo#bar()` 호출 메커니즘이 그 위치에서만 동작하고, `lua/`는 `require()`가 그 경로만 인식한다).
 
 반면 아래 다룰 "plugin/ vs lua/ 분리", "`setup(opts)` 패턴", "가드·헬스체크·헬프" 등은 **커뮤니티 관례**다. 안 지켜도 플러그인은 동작한다. 다만 다른 사람이 읽기 어려워지고 lazy.nvim 같은 매니저의 편의가 깨질 뿐이다.
+
+### 자동 로드를 "누가" 트리거하나 — 주체로 끊어 보기
+
+LazyVim 설정에서 "이 파일이 왜 자동으로 불리지?"가 헷갈리는 건, **자동 로드의 주체가 세 군데로 나뉘는데 다 비슷하게 "자동"처럼 보이기 때문**이다. 강제냐 관례냐(위)와는 다른 축 — 누가 require를 거는지로 끊으면 명확해진다.
+
+| 무엇이 자동 로드되나 | 주체 | 메커니즘 |
+| --- | --- | --- |
+| rtp의 `plugin/`·`ftplugin/` 등 + `lua/`는 `require` 시 | **Neovim/Lua** | rtp 디렉토리 규약 (강제) |
+| `lua/plugins/` 폴더 **전체** | **lazy.nvim** | spec의 `{ import = "plugins" }` 가 폴더 스캔 |
+| `config/options.lua`·`autocmds.lua`·`keymaps.lua` **세 파일명** | **LazyVim** | 라이프사이클이 이 이름들을 콕 집어 require |
+
+핵심은 **폴더 통째로 스캔되는 건 `lua/plugins/` 하나뿐**이라는 것. `config/` 는 폴더 스캔이 아니라 정해진 세 파일명만 약속돼 있고(그래서 `config/foo.lua` 를 넣어도 자동으로 안 불린다), `lua/` 아래 나머지는 전부 누군가 `require` 해야 산다. "config 도 폴더니까 plugins 처럼 다 자동이겠지"가 가장 흔한 오해다.
 
 ### 파일 확장자 — `.vim` 또는 `.lua` 만
 
@@ -372,6 +384,32 @@ LazyVim 환경의 개인 config 는 보통 두 디렉토리로 나뉜다. 이름
 2. **로드 시점이 다름** — options 만 즉시, 나머지는 `VeryLazy` 또는 plugin spec 트리거 시점.
 3. **관심사 분리** — `config/` 변경은 본인 Neovim 환경, `plugins/` 변경은 외부 의존성 관리.
 
+### `config/options.lua` 를 서브폴더로 쪼개기 — 자동 아님, 직접 require
+
+여기서 흔히 헷갈리는 게 하나 더 있다. options 가 길어지면 `config/options/` 서브폴더로 쪼개고 싶어지는데, **LazyVim 이 자동 require 하는 건 `config.options` 단 하나뿐이다.** `config/options/` 아래 파일은 `plugins/` 처럼 자동 스캔되지 않는다.
+
+```lua
+-- lua/config/options.lua  ← LazyVim 이 자동 require 하는 유일한 진입점
+require("config.options.default")
+require("config.options.dbui")
+require("config.options.backup-undo")
+```
+
+```
+lua/config/
+├── options.lua          ← 진입점. LazyVim 이 자동 require
+└── options/             ← LazyVim 은 이 폴더를 모른다
+    ├── default.lua      ← options.lua 가 직접 require 해야 로드
+    ├── dbui.lua
+    └── backup-undo.lua
+```
+
+이유는 글 앞부분의 원칙 그대로다 — **`lua/` 아래는 자동 소싱되지 않는 라이브러리 경로**라서, 누군가 `require` 해야만 실행된다. `plugins/` 가 자동으로 잡히는 건 lazy.nvim 의 `{ import = "plugins" }` 가 그 폴더만 명시적으로 스캔하기 때문이고, `config/options/` 에는 그런 스캐너가 없다.
+
+그래서 서브파일을 새로 추가하면 `options.lua` 에 `require` 한 줄을 직접 넣어줘야 한다. 깜빡하면 "파일은 만들었는데 옵션이 안 먹는다" 함정에 빠진다. (LazyVim 의 내부 로더는 파일이 존재할 때만 require 하므로, 진입점에서 안 부른 서브파일은 에러도 없이 조용히 무시된다.)
+
+> 같은 메커니즘을 프로젝트별 로컬 설정에 응용하는 법은 [exrc · .nvim.lua 가이드](/posts/neovim/2026-06-15-neovim-exrc-nvim-lua-guide/)에서 — 거기서도 글로벌 dotfiles 의 lua 모듈을 `.nvim.lua` 가 `require` 로 끌어온다.
+
 ## 대중성·대안
 
 - **언어**: Lua가 표준. Vimscript는 레거시(여전히 동작하지만 신규 작성은 안 함). Fennel·Teal은 마이너.
@@ -402,7 +440,9 @@ Neovim 안에서 바로 확인:
 | --- | --- |
 | [언어 선택](/posts/neovim/2026-06-12-neovim-plugin-language-choice/) | Lua가 표준이지만 부모 생태계가 Vimscript면 Vimscript가 자연스럽다 |
 | [Lua와 Vimscript 섞기](/posts/neovim/2026-06-12-neovim-plugin-mixing-lua-vimscript/) | 호출 경계 최소화, 흔한 안티패턴, 모범 분담 |
+| [Lua vs Vimscript 성능](/posts/neovim/2026-06-12-neovim-lua-vs-vimscript-performance/) | LuaJIT vs 트리 워킹 인터프리터, 진짜 차이 나는 영역과 측정법 |
 | **runtimepath 디렉토리 관례 (현재 글)** | `plugin/` vs `lua/`, 헬프·헬스체크·after/ 자동 로드 규칙 |
+| [플러그인 테스트 방법](/posts/neovim/2026-06-18-neovim-plugin-testing-plenary-minitest-busted/) | plenary · mini.test · busted+nlua 비교와 선택 기준 |
 | [4가지 채널로 노출시키기](/posts/neovim/2026-06-12-neovim-plugin-distribution/) | awesome-neovim · Dotfyle · VimAwesome · GitHub Topics |
 
-실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)에서 위 4가지 원칙을 한 번에 적용해본다.
+실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)에서 위 원칙을 한 번에 적용해본다.
