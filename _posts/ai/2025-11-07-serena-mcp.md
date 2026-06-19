@@ -201,7 +201,7 @@ claude mcp add serena -- uvx --from git+https://github.com/oraios/serena \
 
 지원하는 MCP 클라이언트(Claude Code, Codex CLI 등)에서 Serena 서버를 연결하면 의미 기반 코드 검색·편집을 쓸 수 있다.
 
-MCP 프로토콜 자체의 개념은 [Model Context Protocol(MCP) 개념 정리](/posts/ai/2025-10-23-model-context-protocol/) 참고.
+MCP 프로토콜 자체의 개념은 [Model Context Protocol(MCP) 개념 정리](/posts/ai/2025-10-23-mcp/) 참고.
 
 ---
 

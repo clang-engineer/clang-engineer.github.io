@@ -1,7 +1,7 @@
 ---
 title       : "Neovim 플러그인 비동기 — vim.system · jobstart · vim.uv"
 description : "외부 프로세스를 UI 멈춤 없이 돌리는 법. 0.10+ vim.system, 레거시 jobstart, 저수준 vim.uv(libuv), 그리고 콜백을 vim.schedule로 메인 루프에 되돌리는 이유."
-date        : 2026-06-19 21:00:00 +0900
+date        : 2026-06-19 20:20:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [lua, api, plugin]
 pin         : false
