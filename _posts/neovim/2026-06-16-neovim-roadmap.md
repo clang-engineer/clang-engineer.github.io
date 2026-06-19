@@ -71,15 +71,15 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 
 ### 발행 순서 (0 → 등록)
 
-플러그인 하나를 빈 디렉토리에서 awesome-neovim 등록까지 올리는 실제 순서. 각 단계의 상세는 아래 표의 글로 연결된다.
+플러그인 하나를 빈 디렉토리에서 awesome-neovim 등록까지 올리는 실제 순서. 각 단계의 상세 글은 아래 표(4부작·런타임 API·실전 케이스·테스트)에 모았다.
 
-1. **언어 결정** — Lua/Vimscript 택 → [언어 선택](/posts/neovim/2026-06-12-neovim-plugin-language-choice/)
-2. **골격 잡기** — runtimepath 관례대로 `plugin/` vs `lua/` 배치 → [작성 규칙](/posts/neovim/2026-06-12-neovim-plugin-conventions/)
-3. **구현** — 필요하면 Lua·Vimscript 혼용 경계 최소화 → [혼용 패턴](/posts/neovim/2026-06-12-neovim-plugin-mixing-lua-vimscript/) · 실전 예 [vim-dadbod 어댑터](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)
-4. **테스트** — plenary / mini.test / busted 중 택1 → [테스트 방법](/posts/neovim/2026-06-18-neovim-plugin-testing-plenary-minitest-busted/)
+1. **언어 결정** — Lua/Vimscript 택
+2. **골격 잡기** — runtimepath 관례대로 `plugin/` vs `lua/` 배치
+3. **구현** — 필요하면 Lua·Vimscript 혼용 경계 최소화
+4. **테스트** — plenary / mini.test / busted 중 택1
 5. **문서화** — `panvimdoc`로 README를 `:help`로 변환 → [vimdoc 작성](/posts/neovim/2026-06-19-neovim-plugin-vimdoc-panvimdoc/) (awesome-neovim 등록 요건)
-6. **노출 채널 결정** — awesome-neovim · Dotfyle · VimAwesome · GitHub Topics → [4가지 채널](/posts/neovim/2026-06-12-neovim-plugin-distribution/)
-7. **awesome-neovim 등록** — gh CLI로 PR → [PR 보내기](/posts/neovim/2026-06-12-awesome-neovim-pr-walkthrough/)
+6. **노출 채널 결정** — awesome-neovim · Dotfyle · VimAwesome · GitHub Topics
+7. **awesome-neovim 등록** — gh CLI로 PR
 
 ### 4부작 (이론)
 
