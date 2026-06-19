@@ -2,7 +2,7 @@
 title       : Spring Boot 프로퍼티 설정 방법과 우선순위
 description : "application.yml·-D·--·환경변수·@PropertySource가 충돌할 때 누가 이기나. 운영에서 덮어쓰기는 환경변수와 --인자, 개발 기본값은 yaml이라는 실전 가이드."
 date        : 2025-01-14 14:32:50 +0900
-updated     : 2026-06-13 10:00:00 +0900
+updated     : 2026-06-19 10:00:00 +0900
 categories  : [spring-boot, "설정·아키텍처"]
 tags        : [yaml, profile, environment-variables]
 pin         : false
@@ -28,7 +28,9 @@ Spring Boot는 여러 출처에서 프로퍼티를 읽어 합친다. 여러 곳�
 
 핵심: **운영에서 덮어쓰기는 보통 환경변수 또는 `--`인자로**, **개발 기본값은 yaml에**.
 
-## application-{profile}.yml
+## 값을 외부에서 주입하는 방법
+
+### application-{profile}.yml
 
 기본 설정은 `application.yml`에 두고, 환경별 차이는 `application-{profile}.yml`로 분리.
 
@@ -48,7 +50,7 @@ spring:
     url: jdbc:postgresql://prod-db/app
 ```
 
-## `-D` JVM 시스템 프로퍼티
+### `-D` JVM 시스템 프로퍼티
 
 ```sh
 java -Dserver.port=9090 -jar app.jar
@@ -56,7 +58,7 @@ java -Dserver.port=9090 -jar app.jar
 
 `-D`는 *Spring 인자 앞*에 와야 한다. 위치 헷갈리면 안 먹는다.
 
-## `--` Spring 명령줄 인자
+### `--` Spring 명령줄 인자
 
 ```sh
 java -jar app.jar --server.port=9090
@@ -64,7 +66,7 @@ java -jar app.jar --server.port=9090
 
 `-D`보다 우선순위가 높음. 운영 스크립트에서 가장 흔한 오버라이드 방식.
 
-## 환경변수
+### 환경변수
 
 `SERVER_PORT=9090`처럼 점·대시는 언더스코어로, 키는 대문자.
 
@@ -74,7 +76,9 @@ SPRING_DATASOURCE_URL=jdbc:postgresql://db/app java -jar app.jar
 
 Kubernetes·Docker·CI에서 비밀값을 흘려넣을 때 가장 자연스럽다.
 
-## spring.config.location vs additional-location
+## 설정 파일 위치 바꾸기
+
+### spring.config.location vs additional-location
 
 기본 설정 파일 경로를 외부에서 바꿔 끼울 수 있다.
 
@@ -88,7 +92,7 @@ java -jar app.jar --spring.config.additional-location=file:/etc/myapp/overrides.
 
 `location`은 *대체*, `additional-location`은 *추가*. 보통은 후자가 안전하다 — 기본값을 잃지 않는다.
 
-## spring.config.import (Spring Boot 2.4+)
+### spring.config.import (Spring Boot 2.4+)
 
 외부 파일·Vault·ConfigMap 등을 import 가능. 다중 파일 적용에 권장되는 새 방식.
 
@@ -100,7 +104,9 @@ spring:
       - configtree:/etc/secrets/
 ```
 
-## @PropertySource
+## 코드에서 프로퍼티 읽기
+
+### @PropertySource
 
 레거시 또는 특별한 파일에 한해 쓴다. yaml은 지원 안 됨(properties만).
 
@@ -110,7 +116,7 @@ spring:
 public class AppConfig { }
 ```
 
-## @Value vs @ConfigurationProperties
+### @Value vs @ConfigurationProperties
 
 | 비교 | `@Value` | `@ConfigurationProperties` |
 |---|---|---|

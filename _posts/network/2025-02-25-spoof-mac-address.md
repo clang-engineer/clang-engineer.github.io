@@ -2,12 +2,14 @@
 title       : 맥 운영체제에서 NIC(Network Interface Card) 고유 주소(mac address) 변조
 description : "macOS에서 SIP를 비활성화한 뒤 ifconfig 또는 spoof-mac으로 NIC의 MAC 주소를 임시 변조하고 원복하는 절차를 정리한다."
 date        : 2024-05-23 08:41:19 +0900
-updated     : 2025-02-21 22:50:42 +0900
+updated     : 2026-06-19 22:50:42 +0900
 categories  : [network, "네트워크 기초"]
 tags        : [macos]
 pin         : false
 hidden      : false
 ---
+
+MAC 주소로 단말을 식별해 접근을 통제하는 망에서, 기기 고유 주소를 임시로 바꿔 동작을 테스트해야 할 때가 있다. macOS는 보안(SIP) 때문에 기본 상태에서는 NIC의 MAC 주소를 바꿀 수 없어, SIP를 잠시 비활성화한 뒤 `ifconfig`나 `spoof-mac`으로 변조하고 다시 원복하는 절차를 거친다. 아래는 그 전 과정을 정리한 것이다.
 
 ## mac address 변조
 - 보안 망에서 mac address로 사용자를 식별하여 네트워크 접근을 제어하는 경우가 있습니다. 이때 mac address를 변조하여 사용자를 식별하는 것을 회피할 수 있습니다.

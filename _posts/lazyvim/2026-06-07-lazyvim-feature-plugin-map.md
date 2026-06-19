@@ -56,6 +56,8 @@ nvim 에서 lazygit 띄우기                →  snacks.lazygit (또는 lazygit
 
 즉 **gitsigns 는 inline, lazygit 은 fullscreen** 으로 역할이 명확히 갈린다.
 
+> Git 영역의 전체 키맵과 작업 동선은 [LazyVim의 Git 플러그인 구성 — gitsigns·lazygit·snacks](/posts/lazyvim/2026-06-09-lazyvim-git-plugins/) 에서 따로 깊게 다룬다.
+
 ## 2. 검색 / Picker — snacks.picker + grug-far + flash
 
 세 종류의 "검색" 이 따로 있다.

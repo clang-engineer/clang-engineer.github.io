@@ -2,7 +2,7 @@
 title       : npm 관련 에러
 description : "npm install에서 자주 만나는 ERESOLVE, peer 의존성 충돌, npm-cli 경로 문제, 사내망 인증서(local issuer) 에러를 옵션과 환경변수로 푸는 방법."
 date        : 2022-07-12 09:00:45 +0900
-updated     : 2022-07-14 09:01:11 +0900
+updated     : 2026-06-19 09:01:11 +0900
 categories  : [javascript, "언어·패키지"]
 tags        : [npm]
 pin         : false
@@ -10,7 +10,9 @@ hidden      : false
 ---
 
 ## unable to resolve dependency tree
-- npm install 에러 발생시 --force 또는 --legacy 옵션을 사용
+- npm install 에러 발생시 --force 또는 --legacy-peer-deps 옵션을 사용
+
+> npm 7부터 peer 의존성을 엄격하게 검사하면서 이 `ERESOLVE` 에러가 흔해졌다. 두 옵션은 npm 10·11에서도 그대로 유효하지만 **충돌을 덮는 임시방편**이다. 가능하면 충돌하는 패키지 버전을 실제로 맞추는 게 우선이고, 그게 어려울 때 아래 옵션으로 넘어간다.
 
 ```
 npm install --force

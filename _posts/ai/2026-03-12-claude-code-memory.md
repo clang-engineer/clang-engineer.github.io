@@ -2,7 +2,7 @@
 title       : Claude Code 메모리 시스템 정리
 description : CLAUDE.md와 Auto Memory를 활용한 프로젝트 컨텍스트 관리
 date        : 2026-03-12 23:30:00 +0900
-updated     : 2026-03-12 23:30:00 +0900
+updated     : 2026-06-19 23:30:00 +0900
 categories  : [ai, "Claude Code"]
 tags        : [claude-code]
 pin         : false
@@ -22,14 +22,19 @@ Claude Code는 세션 간 컨텍스트를 유지하기 위해 두 가지 축의 
 
 | 유형 | 위치 | 범위 | 용도 |
 |------|------|------|------|
-| **Managed Policy** | `/etc/claude-code/CLAUDE.md` | 조직 전체 | 보안·컴플라이언스 정책 |
-| **Project Memory** | `./CLAUDE.md` | 팀 공유 | 프로젝트 규칙·컨벤션 |
+| **Managed Policy** | OS별 시스템 경로 (아래 참고) | 조직 전체 | 보안·컴플라이언스 정책 |
+| **Project Memory** | `./CLAUDE.md` 또는 `./.claude/CLAUDE.md` | 팀 공유 | 프로젝트 규칙·컨벤션 |
 | **Project Rules** | `./.claude/rules/*.md` | 팀 공유 | 언어/주제별 모듈화된 규칙 |
 | **User Memory** | `~/.claude/CLAUDE.md` | 개인 전역 | 모든 프로젝트에 적용되는 개인 설정 |
 | **Local Memory** | `./CLAUDE.local.md` | 개인 프로젝트 | 로컬 환경 설정 (자동 `.gitignore`) |
 | **Auto Memory** | `~/.claude/projects/<project>/memory/` | 개인 프로젝트 | 자동 학습된 패턴·인사이트 |
 
 로딩 순서 : System → User → Project → Directory-specific 순으로 계층적으로 로드된다.
+
+> **Managed Policy 경로는 OS마다 다르다.**
+> - macOS: `/Library/Application Support/ClaudeCode/CLAUDE.md`
+> - Linux · WSL: `/etc/claude-code/CLAUDE.md`
+> - Windows: `C:\Program Files\ClaudeCode\CLAUDE.md`
 
 ---
 
@@ -58,7 +63,7 @@ src/components/CLAUDE.md             # 디렉토리별 컨텍스트
 ```
 
 - 상대 경로, 절대 경로, 홈 디렉토리 경로(`~`) 모두 지원
-- 최대 5단계 재귀 참조 가능
+- import한 파일이 다시 import하는 재귀 참조는 **최대 4단계(4 hops)** 까지 가능
 
 ### Path-specific Rules (`.claude/rules/`)
 
@@ -111,7 +116,7 @@ paths:
 
 ### 200줄 제한
 
-`MEMORY.md`는 **처음 200줄만** 시스템 프롬프트에 로드된다. 초과분은 다음 세션에서 자동 로드되지 않으므로 인덱스는 간결하게 유지하고 상세 내용은 주제 파일로 분리해야 한다.
+`MEMORY.md`는 **처음 200줄 또는 25KB 중 먼저 도달하는 지점까지만** 모든 대화 시작 시 로드된다. 초과분은 자동 로드되지 않으므로 인덱스는 간결하게 유지하고 상세 내용은 주제 파일로 분리해야 한다 (주제 파일은 필요할 때 on-demand로 읽힌다).
 
 ### 비활성화
 
