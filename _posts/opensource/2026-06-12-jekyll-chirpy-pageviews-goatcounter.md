@@ -2,9 +2,9 @@
 title       : "Jekyll Chirpy 테마에 포스트 조회수 위젯 붙이기 — 왜 GoatCounter 외엔 선택지가 없나"
 description : "Google Analytics를 깔아도 포스트 사이드바에 조회수가 안 뜨는 이유, 그리고 Chirpy가 pageviews 위젯을 GoatCounter만 공식 지원하는 구조적 배경"
 date        : 2026-06-12 22:30:00 +0900
-updated     : 2026-06-12 22:30:00 +0900
+updated     : 2026-06-19 00:00:00 +0900
 categories  : [opensource, "Jekyll"]
-tags        : [jekyll, chirpy, analytics, goatcounter]
+tags        : [jekyll, chirpy, analytics, goatcounter, troubleshooting]
 pin         : false
 hidden      : false
 ---
@@ -119,7 +119,40 @@ pageviews:
 
 커밋·푸시 후 GitHub Pages가 재배포되면(보통 1-2분) 본인이 사이트를 한 번 열어보는 순간부터 카운트가 시작된다. 단, GoatCounter는 같은 방문자 24시간 내 중복은 기본적으로 제외하므로 새로고침 반복으로 숫자가 안 늘어난다고 당황할 필요 없다.
 
-## 5. GA를 빼야 할까?
+## 5. 트러블슈팅 — 조회수가 항상 `1`로 뜰 때
+
+위젯을 붙였는데 모든 글이 `1`로만 보이고, 정작 GoatCounter 대시보드엔 방문 기록이 멀쩡히 쌓여 있다면 — **기록은 되는데 표시만 막힌** 상태다.
+
+원인은 §2 위젯 코드의 마지막 줄에 있다.
+
+```js
+.catch(() => { pv.innerText = '1'; });
+```
+
+위젯은 `/counter/{path}.json`을 브라우저에서 직접 부르는데, 이 공개 엔드포인트가 막혀 있으면 fetch가 실패하고 `.catch`가 `1`을 박는다. 즉 **여기서 `1`은 "조회수 1"이 아니라 "못 불러왔다"는 fallback 값**이다.
+
+GoatCounter는 이 공개 카운터를 **기본적으로 꺼둔다**(공개 노출은 소유자가 명시적으로 켜야 하는 보안 기본값). 꺼져 있으면 엔드포인트가 403을 돌려준다.
+
+```
+$ curl -s "https://<id>.goatcounter.com/counter//.json"
+error 403: Need to enable the 'allow using the visitor counter' setting
+```
+
+**해결:**
+
+1. GoatCounter 로그인 → **Settings → Site settings**
+2. **"Allow using the visitor counter"** 체크 → Save
+3. 확인:
+   ```
+   $ curl -s "https://<id>.goatcounter.com/counter//.json"
+   {"count_unique":"17", "count":"17"}
+   ```
+
+JSON으로 숫자가 나오면 끝 — 사이트 글을 강력 새로고침하면 실제 조회수가 뜬다.
+
+> **함정**: 가입 직후 **이메일이 미인증 상태면** 이 설정이 비활성이거나 켜도 안 먹을 수 있다. 인증 메일 링크부터 처리할 것. 그리고 이건 repo·배포와 무관한 GoatCounter 계정 설정이라 **재배포로는 절대 안 고쳐진다.**
+
+## 6. GA를 빼야 할까?
 
 뺄 필요 없다. **GoatCounter와 GA는 공존 가능**하고 역할이 다르다.
 
@@ -128,7 +161,7 @@ pageviews:
 
 대신 GA가 마음에 안 들거나 EU 규제 등 이유로 빼고 싶으면 GoatCounter 하나로도 기본 분석은 충분하다 — 페이지뷰·리퍼러·국가별 통계까지 자체 대시보드에서 제공한다.
 
-## 6. 곁다리 — Search Console은 별도 인증
+## 7. 곁다리 — Search Console은 별도 인증
 
 조회수에 관심이 있으면 보통 "검색에서 어떻게 보이는지"도 궁금해진다. 이건 Google Search Console(GSC) 영역인데 GA와 **별개 인증**이 필요하다.
 
