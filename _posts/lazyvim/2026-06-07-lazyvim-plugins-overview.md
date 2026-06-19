@@ -243,3 +243,4 @@ LazyVim UI 계층
 | **LazyVim 주요 플러그인 정리 (현재 글)** | LazyVim에 어떤 플러그인들이 어떤 키맵으로 들어있는지 — 글로벌 명함 |
 | [LazyVim 기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/) | 기능 영역(Git·검색·LSP·완성·DAP)별로 어떤 플러그인이 협력하는지, snacks.nvim의 hub 역할 |
 | [LazyVim 의존성 계층 — spec merge](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/) | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 머지 알고리즘 |
+| [lazy.nvim plugin spec 필드 완전 정리](/posts/lazyvim/2026-06-19-lazy-nvim-plugin-spec-fields/) | 하나의 spec을 읽고 쓰는 법 — 로드 트리거 / init·opts·config / 의존성 |
