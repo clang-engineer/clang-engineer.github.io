@@ -3,7 +3,7 @@ title       : "Jekyll은 글 작성 시각이 현재보다 미래면 빌드에�
 description : "front matter date가 현재 시각보다 미래면 Jekyll이 빌드에서 글을 제외한다 — 시각까지 비교"
 date        : 2026-06-15 12:00:00 +0900
 updated     : 2026-06-15 12:00:00 +0900
-categories  : [jekyll]
+categories  : [jekyll, "빌드·운영"]
 tags        : [jekyll, blog, troubleshooting]
 pin         : false
 hidden      : false

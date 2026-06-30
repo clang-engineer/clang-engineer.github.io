@@ -2,12 +2,22 @@
 title       : 폐쇄망 환경에서 서비스 운영을 위한 환경 구축 방법
 description : "외부 환경에서 dnf download --resolve로 의존성까지 받아 내부망에서 rpm으로 설치하는 흐름. postgresql15, java11, nginx 사례."
 date        : 2025-01-14 13:38:35 +0900
-updated     : 2025-01-14 13:38:54 +0900
+updated     : 2026-06-19 13:38:54 +0900
 categories  : [linux, "배포판·환경"]
 tags        : [dnf, rpm, air-gapped]
 pin         : false
 hidden      : false
 ---
+
+인터넷이 끊긴 폐쇄망(air-gapped) 서버에는 `dnf install`이 원격 저장소를 못 받아 그대로 실패한다. 해결의 핵심은 **인터넷이 되는 동일 환경에서 의존성까지 통째로 내려받아, 그 rpm 묶음을 내부망으로 옮겨 설치**하는 것이다.
+
+흐름은 세 단계로 같다.
+
+1. 대상과 같은 OS·아키텍처 컨테이너를 띄운다 (재현 가능한 다운로드 환경).
+2. `dnf download --resolve`로 패키지 + 의존성 rpm을 한 폴더에 모은다.
+3. rpm 묶음을 폐쇄망으로 옮겨 `rpm -ivh *.rpm`으로 설치한다.
+
+아래는 postgresql15·java11·nginx 세 가지 사례다.
 
 ## 1. 동일 환경 컨테이너 생성
 1. 시스템 아키텍처 확인
@@ -47,7 +57,7 @@ systemctl start postgresql-15    # 서비스 시작
 1. java 폐쇄망용 패키지 준비
 ```sh
 dnf list java*jdk-devel   # 설치 가능한 java 버전 확인
-dnf download —resolve java-11-openjdk-devel.x86_64 -y    # --resolve를 통해서 의존성 패키지 모두 설치
+dnf download --resolve java-11-openjdk-devel.x86_64 -y    # --resolve를 통해서 의존성 패키지 모두 설치
 ```
 
 2. 폐쇄망 설치 (1.의 파일을 내부망 환경에 이동 후)
@@ -62,7 +72,7 @@ echo $JAVA_HOME
 ### nginx
 1. nginx 폐쇄망용 패키지 준비
 ```sh
-dnf list install nginx    # 설치 가능한 nginx 버전 확인
+dnf list nginx    # 설치 가능한 nginx 버전 확인
 dnf download --resolve nginx    # --resolve를 통해서 의존성 패키지 모두 설치
 ```
 

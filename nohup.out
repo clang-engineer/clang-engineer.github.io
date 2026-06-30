@@ -1,249 +1,127 @@
 
 > bundle exec jekyll s -l -H 127.0.0.1
 
-Configuration file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
- Theme Config file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
-[31m                    ------------------------------------------------[0m
-[31m      Jekyll 4.4.1   Please append `--trace` to the `serve` command [0m
-[31m                     for any additional information or backtrace. [0m
-[31m                    ------------------------------------------------[0m
-/Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `initialize': Permission denied @ rb_sysopen - /Users/zero/Desktop/_zero/clang-engineer.github.io/.jekyll-cache/Jekyll/Cache/Jekyll--Cache/b7/9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910 (Errno::EACCES)
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `open'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `dump'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:97:in `[]='
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:41:in `clear_if_config_changed'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:118:in `reset'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:35:in `initialize'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `new'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `process'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `block in process_with_graceful_fail'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `each'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `process_with_graceful_fail'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:85:in `block (2 levels) in init_with_program'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `block in execute'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `each'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `execute'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/program.rb:44:in `go'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary.rb:21:in `program'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/exe/jekyll:15:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `kernel_load'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:23:in `run'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:452:in `exec'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/command.rb:28:in `run'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in `invoke_command'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor.rb:538:in `dispatch'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:35:in `dispatch'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/base.rb:584:in `start'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:29:in `start'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:28:in `block in <top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/friendly_errors.rb:117:in `with_friendly_errors'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:20:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `<main>'
-
-> bundle exec jekyll s -l -h 127.0.0.1
-
-configuration file: /users/zero/desktop/_zero/clang-engineer.github.io/_config.yml
- theme config file: /users/zero/desktop/_zero/clang-engineer.github.io/_config.yml
-[31m                    ------------------------------------------------[0m
-[31m      jekyll 4.4.1   please append `--trace` to the `serve` command [0m
-[31m                     for any additional information or backtrace. [0m
-[31m                    ------------------------------------------------[0m
-/users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `initialize': permission denied @ rb_sysopen - /users/zero/desktop/_zero/clang-engineer.github.io/.jekyll-cache/jekyll/cache/jekyll--cache/b7/9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910 (errno::eacces)
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `open'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `dump'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:97:in `[]='
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:41:in `clear_if_config_changed'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:118:in `reset'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:35:in `initialize'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `new'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `process'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `block in process_with_graceful_fail'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `each'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `process_with_graceful_fail'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:85:in `block (2 levels) in init_with_program'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `block in execute'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `each'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `execute'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/program.rb:44:in `go'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary.rb:21:in `program'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/exe/jekyll:15:in `<top (required)>'
-	from /users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `load'
-	from /users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `<top (required)>'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `load'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `kernel_load'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:23:in `run'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:452:in `exec'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/command.rb:28:in `run'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in `invoke_command'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor.rb:538:in `dispatch'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:35:in `dispatch'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/base.rb:584:in `start'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:29:in `start'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:28:in `block in <top (required)>'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/friendly_errors.rb:117:in `with_friendly_errors'
-	from /users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:20:in `<top (required)>'
-	from /users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `load'
-	from /users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `<main>'
-
-> bundle exec jekyll s -l -H 127.0.0.1
-
-Configuration file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
- Theme Config file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
-[31m                    ------------------------------------------------[0m
-[31m      Jekyll 4.4.1   Please append `--trace` to the `serve` command [0m
-[31m                     for any additional information or backtrace. [0m
-[31m                    ------------------------------------------------[0m
-/Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `initialize': Permission denied @ rb_sysopen - /Users/zero/Desktop/_zero/clang-engineer.github.io/.jekyll-cache/Jekyll/Cache/Jekyll--Cache/b7/9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910 (Errno::EACCES)
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `open'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `dump'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:97:in `[]='
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:41:in `clear_if_config_changed'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:118:in `reset'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:35:in `initialize'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `new'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `process'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `block in process_with_graceful_fail'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `each'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `process_with_graceful_fail'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:85:in `block (2 levels) in init_with_program'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `block in execute'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `each'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `execute'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/program.rb:44:in `go'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary.rb:21:in `program'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/exe/jekyll:15:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `kernel_load'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:23:in `run'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:452:in `exec'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/command.rb:28:in `run'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in `invoke_command'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor.rb:538:in `dispatch'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:35:in `dispatch'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/base.rb:584:in `start'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:29:in `start'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:28:in `block in <top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/friendly_errors.rb:117:in `with_friendly_errors'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:20:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `<main>'
-
-> bundle exec jekyll s -l -H 127.0.0.1
-
-Configuration file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
- Theme Config file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
-[31m                    ------------------------------------------------[0m
-[31m      Jekyll 4.4.1   Please append `--trace` to the `serve` command [0m
-[31m                     for any additional information or backtrace. [0m
-[31m                    ------------------------------------------------[0m
-/Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `initialize': Permission denied @ rb_sysopen - /Users/zero/Desktop/_zero/clang-engineer.github.io/.jekyll-cache/Jekyll/Cache/Jekyll--Cache/b7/9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910 (Errno::EACCES)
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `open'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `dump'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:97:in `[]='
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:41:in `clear_if_config_changed'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:118:in `reset'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:35:in `initialize'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `new'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `process'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `block in process_with_graceful_fail'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `each'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `process_with_graceful_fail'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:85:in `block (2 levels) in init_with_program'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `block in execute'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `each'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `execute'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/program.rb:44:in `go'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary.rb:21:in `program'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/exe/jekyll:15:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `kernel_load'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:23:in `run'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:452:in `exec'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/command.rb:28:in `run'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in `invoke_command'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor.rb:538:in `dispatch'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:35:in `dispatch'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/base.rb:584:in `start'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:29:in `start'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:28:in `block in <top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/friendly_errors.rb:117:in `with_friendly_errors'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:20:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `<main>'
-
-> bundle exec jekyll s -l -H 127.0.0.1
-
-Configuration file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
- Theme Config file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
-[31m                    ------------------------------------------------[0m
-[31m      Jekyll 4.4.1   Please append `--trace` to the `serve` command [0m
-[31m                     for any additional information or backtrace. [0m
-[31m                    ------------------------------------------------[0m
-/Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `initialize': Permission denied @ rb_sysopen - /Users/zero/Desktop/_zero/clang-engineer.github.io/.jekyll-cache/Jekyll/Cache/Jekyll--Cache/b7/9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910 (Errno::EACCES)
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `open'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:181:in `dump'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:97:in `[]='
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/cache.rb:41:in `clear_if_config_changed'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:118:in `reset'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/site.rb:35:in `initialize'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `new'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/build.rb:30:in `process'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `block in process_with_graceful_fail'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `each'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `process_with_graceful_fail'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:85:in `block (2 levels) in init_with_program'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `block in execute'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `each'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `execute'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary/program.rb:44:in `go'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/mercenary-0.4.0/lib/mercenary.rb:21:in `program'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/exe/jekyll:15:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/jekyll:25:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:59:in `kernel_load'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli/exec.rb:23:in `run'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:452:in `exec'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/command.rb:28:in `run'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in `invoke_command'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor.rb:538:in `dispatch'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:35:in `dispatch'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/vendor/thor/lib/thor/base.rb:584:in `start'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/cli.rb:29:in `start'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:28:in `block in <top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/lib/bundler/friendly_errors.rb:117:in `with_friendly_errors'
-	from /Users/zero/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/bundler-2.6.2/exe/bundle:20:in `<top (required)>'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `load'
-	from /Users/zero/.rbenv/versions/3.1.7/bin/bundle:25:in `<main>'
-
-> bundle exec jekyll s -l -H 127.0.0.1
-
-Configuration file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
- Theme Config file: /Users/zero/Desktop/_zero/clang-engineer.github.io/_config.yml
-            Source: /Users/zero/Desktop/_zero/clang-engineer.github.io
-       Destination: /Users/zero/Desktop/_zero/clang-engineer.github.io/_site
+Configuration file: /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_config.yml
+ Theme Config file: /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_config.yml
+            Source: /Users/clang/Desktop/_zero/private/clang-engineer.github.io
+       Destination: /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_site
  Incremental build: disabled. Enable with --incremental
       Generating... 
-[33m          Skipping: _posts/linux/2026-06-16-process-find-and-kill.md has a future date[0m
-[33m          Skipping: _posts/linux/2026-06-16-system-monitoring-top-htop-btop.md has a future date[0m
-[33m          Skipping: _posts/shell/2026-06-16-background-jobs-and-session.md has a future date[0m
-[33m       Deprecation: A call to '{% post_url 2026-05-07-lazyvim-extra-override-merge-deps %}' did not match a post using the new matching method of checking name (path-date-slug) equality. Please make sure that you change this tag to match the post's name exactly.[0m
-[33m       Deprecation: A call to '{% post_url 2026-06-07-lazyvim-spec-merge-and-dependency-layers %}' did not match a post using the new matching method of checking name (path-date-slug) equality. Please make sure that you change this tag to match the post's name exactly.[0m
-[33m       Deprecation: A call to '{% post_url 2026-05-06-vim-dadbod-pgpass-windows %}' did not match a post using the new matching method of checking name (path-date-slug) equality. Please make sure that you change this tag to match the post's name exactly.[0m
-[33m       Deprecation: A call to '{% post_url 2026-05-06-vim-dadbod-dbout-layout %}' did not match a post using the new matching method of checking name (path-date-slug) equality. Please make sure that you change this tag to match the post's name exactly.[0m
-[33m       Deprecation: A call to '{% post_url 2026-06-12-neovim-plugin-distribution %}' did not match a post using the new matching method of checking name (path-date-slug) equality. Please make sure that you change this tag to match the post's name exactly.[0m
-[33m       Deprecation: A call to '{% post_url 2026-03-31-chrome-auto-open-devtools %}' did not match a post using the new matching method of checking name (path-date-slug) equality. Please make sure that you change this tag to match the post's name exactly.[0m
-                    done in 18.926 seconds.
- Auto-regeneration: enabled for '/Users/zero/Desktop/_zero/clang-engineer.github.io'
+fatal: ambiguous argument '/Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/spring-boot/2025-09-23-docker-summary.md': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+fatal: ambiguous argument '/Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2024-09-15-learn-vimscript-the-hard-way.md': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+fatal: ambiguous argument '/Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2025-09-24-vim-register.md': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+fatal: ambiguous argument '/Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2025-10-04-vim-core-engine.md': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+fatal: ambiguous argument '/Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2026-06-15-vimscript-syntax-guide.md': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/cpp/2022-07-17-c-compile-extension-err.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/cpp/2022-07-17-c-compile-extension-err.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/docker/2023-12-16-operation-not-permitted.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/docker/2023-12-16-operation-not-permitted.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/etc/2022-02-05-pc-init-setting.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/etc/2022-02-05-pc-init-setting.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/java/2026-06-07-jpa-memo.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/java/2026-06-07-jpa-memo.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/javascript/2021-12-03-axios-collection-send-err.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/javascript/2021-12-03-axios-collection-send-err.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/javascript/2022-07-12-npm-issue.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/javascript/2022-07-12-npm-issue.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/javascript/2025-03-30-node-err.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/javascript/2025-03-30-node-err.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/opensource/2026-06-12-jekyll-chirpy-pageviews-goatcounter.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/opensource/2026-06-12-jekyll-chirpy-pageviews-goatcounter.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/opensource/2026-06-12-jekyll-chirpy-sub-categories.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/opensource/2026-06-12-jekyll-chirpy-sub-categories.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/opensource/2026-06-12-jekyll-chirpy-upstream-sync.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/opensource/2026-06-12-jekyll-chirpy-upstream-sync.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/spring-boot/2025-09-23-docker-summary.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/spring-boot/2025-09-23-docker-summary.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2024-09-15-learn-vimscript-the-hard-way.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2024-09-15-learn-vimscript-the-hard-way.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2025-09-24-vim-register.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2025-09-24-vim-register.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2025-10-04-vim-core-engine.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2025-10-04-vim-core-engine.md[0m
+[31m             Error: could not read file /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2026-06-15-vimscript-syntax-guide.md: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_posts/vim/2026-06-15-vimscript-syntax-guide.md[0m
+                    done in 26.065 seconds.
+ Auto-regeneration: enabled for '/Users/clang/Desktop/_zero/private/clang-engineer.github.io'
 LiveReload address: http://127.0.0.1:35729
     Server address: http://127.0.0.1:4000/
   Server running... press ctrl-c to stop.
+      Regenerating: 1 file(s) changed at 2026-06-19 20:29:29
+                    nohup.out
+[2026-06-19 20:29:31] ERROR '/' not found.
+[2026-06-19 20:29:31] ERROR Errno::ENOENT: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_site/404.html
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:185:in `read'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:185:in `create_error_page'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpresponse.rb:417:in `set_error'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:101:in `rescue in run'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:97:in `run'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/server.rb:309:in `block in start_thread'
+[2026-06-19 20:29:37] ERROR '/' not found.
+[2026-06-19 20:29:37] ERROR Errno::ENOENT: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_site/404.html
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:185:in `read'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:185:in `create_error_page'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpresponse.rb:417:in `set_error'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:101:in `rescue in run'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:97:in `run'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/server.rb:309:in `block in start_thread'
+[2026-06-19 20:29:38] ERROR '/' not found.
+[2026-06-19 20:29:38] ERROR Errno::ENOENT: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_site/404.html
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:185:in `read'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:185:in `create_error_page'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpresponse.rb:417:in `set_error'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:101:in `rescue in run'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:97:in `run'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/server.rb:309:in `block in start_thread'
+[2026-06-19 20:29:42] ERROR '/' not found.
+[2026-06-19 20:29:42] ERROR Errno::ENOENT: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_site/404.html
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:185:in `read'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:185:in `create_error_page'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpresponse.rb:417:in `set_error'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:101:in `rescue in run'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:97:in `run'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/server.rb:309:in `block in start_thread'
+[2026-06-19 20:29:42] ERROR '/' not found.
+[2026-06-19 20:29:42] ERROR Errno::ENOENT: No such file or directory @ rb_sysopen - /Users/clang/Desktop/_zero/private/clang-engineer.github.io/_site/404.html
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:185:in `read'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:185:in `create_error_page'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpresponse.rb:417:in `set_error'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:101:in `rescue in run'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:97:in `run'
+	/Users/clang/.rbenv/versions/3.1.7/lib/ruby/gems/3.1.0/gems/webrick-1.9.2/lib/webrick/server.rb:309:in `block in start_thread'
+[33m          Skipping: _posts/neovim/2026-06-19-neovim-async-vim-uv-system.md has a future date[0m
+                    ...done in 23.325528 seconds.
+                    
+      Regenerating: 13 file(s) changed at 2026-06-19 20:29:53
+                    _posts/jekyll/2026-06-12-jekyll-chirpy-upstream-sync.md
+                    _posts/jekyll/2026-06-12-jekyll-chirpy-sub-categories.md
+                    _posts/jekyll/2026-06-15-jekyll-future-date-skip.md
+                    _posts/jekyll/2026-06-16-jekyll-sudo-root-owned-cache-eacces.md
+                    _posts/jekyll/2026-06-12-jekyll-chirpy-pageviews-goatcounter.md
+                    _posts/neovim/2025-10-04-vim-core-engine.md
+                    _posts/neovim/2025-09-24-vim-register.md
+                    _posts/neovim/2024-09-15-learn-vimscript-the-hard-way.md
+                    _posts/neovim/2026-06-15-vimscript-syntax-guide.md
+                    _posts/neovim/2026-06-16-neovim-roadmap.md
+                    _posts/spring-boot/2025-10-02-docker-build-deploy.md
+                    nohup.out
+                    _posts/neovim/2026-06-19-neovim-plugin-vimdoc-panvimdoc.md
+[33m          Skipping: _posts/neovim/2026-06-19-neovim-async-vim-uv-system.md has a future date[0m
+[33m          Skipping: _posts/neovim/2026-06-19-neovim-plugin-vimdoc-panvimdoc.md has a future date[0m
+                    ...done in 26.835868 seconds.
+                    
+      Regenerating: 2 file(s) changed at 2026-06-19 20:30:20
+                    nohup.out
+                    _posts/neovim/2026-06-16-neovim-roadmap.md
         LiveReload: Browser connected
+[33m          Skipping: _posts/neovim/2026-06-19-neovim-async-vim-uv-system.md has a future date[0m
+[33m          Skipping: _posts/neovim/2026-06-19-neovim-plugin-vimdoc-panvimdoc.md has a future date[0m
+                    ...done in 25.026169 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-06-19 20:30:45
+                    _posts/neovim/2026-06-16-neovim-roadmap.md
+[33m          Skipping: _posts/neovim/2026-06-19-neovim-async-vim-uv-system.md has a future date[0m
+[33m          Skipping: _posts/neovim/2026-06-19-neovim-plugin-vimdoc-panvimdoc.md has a future date[0m
+                    ...done in 26.739637 seconds.
+                    
+      Regenerating: 1 file(s) changed at 2026-06-19 20:32:04
+                    _includes/design-pattern-series.html
+[33m          Skipping: _posts/neovim/2026-06-19-neovim-async-vim-uv-system.md has a future date[0m
+[33m          Skipping: _posts/neovim/2026-06-19-neovim-plugin-vimdoc-panvimdoc.md has a future date[0m
+                    ...done in 26.80305 seconds.
+                    

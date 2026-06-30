@@ -2,7 +2,7 @@
 title       : "tmux 시스템 클립보드 — set-clipboard on 한 줄, pbcopy 경로의 함정(한글 깨짐·server 환경)"
 description : "OSC52 한 줄이 정답. pbcopy를 굳이 쓴다면 LANG 인라인이 필수. tmux server 환경 캡처 메커니즘까지."
 date        : 2026-06-10 12:00:00 +0900
-updated     : 2026-06-10 12:00:00 +0900
+updated     : 2026-06-19 00:00:00 +0900
 categories  : [tmux, "설정·옵션"]
 tags        : [osc52, ghostty, hangul, encoding, utf-8, daemon]
 pin         : false
@@ -10,6 +10,9 @@ hidden      : false
 ---
 
 tmux에서 copy(Enter/마우스 드래그)하면 시스템 클립보드까지 자동으로 들어가게 하고 싶다면, `pbcopy` 바인딩 같은 우회 없이 `set -g set-clipboard on` 한 줄만 추가하면 된다. **단, 기본값이 `external`(자체 발사 X, passthrough만)이라 명시가 필요**하다.
+
+> 이 글은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 **트러블슈팅(시스템 클립보드)** 편이다. 입문·설정·플러그인·자동화 흐름은 로드맵에서.
+{: .prompt-tip }
 
 이 글은 세 단계로 정리한다.
 

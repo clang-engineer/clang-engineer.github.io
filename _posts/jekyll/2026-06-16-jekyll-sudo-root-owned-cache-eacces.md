@@ -3,7 +3,7 @@ title       : "sudo로 jekyll 한 번 빌드하면 root 소유 잔여물 때문�
 description : "sudo jekyll 빌드가 남긴 root 소유 캐시 파일이 다음 빌드를 EACCES로 죽인다 — find로 잡아 삭제"
 date        : 2026-06-16 10:00:00 +0900
 updated     : 2026-06-16 10:00:00 +0900
-categories  : [jekyll]
+categories  : [jekyll, "빌드·운영"]
 tags        : [jekyll, sudo, permission, troubleshooting]
 pin         : false
 hidden      : false

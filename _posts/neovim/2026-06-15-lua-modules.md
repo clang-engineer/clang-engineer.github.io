@@ -2,7 +2,7 @@
 title       : "Lua 모듈"
 description : "require/package.path, local M = {} return M 패턴, require 캐시, Neovim lua/ 디렉토리 자동 등록과의 연결."
 date        : 2026-06-15 15:00:00 +0900
-updated     : 2026-06-16 10:00:00 +0900
+updated     : 2026-06-19 10:00:00 +0900
 categories  : [neovim, "원리·언어"]
 tags        : [lua]
 pin         : false
@@ -136,6 +136,38 @@ nvim/lazy/telescope.nvim/lua/telescope/builtin.lua
 ```
 
 LazyVim 기본 구조의 정체.
+
+### `require` vs `nvim_get_runtime_file` — `lua/` 가 붙고 안 붙고
+
+같은 `runtimepath` 를 보지만 경로 표기가 다르다. `require` 는 `package.path` 기반 **모듈명**, `nvim_get_runtime_file` 은 파일을 직접 글로빙하는 **파일 경로**다.
+
+```lua
+-- require: package.path 기준 모듈명. lua/ 와 .lua 는 암묵, 구분자는 .
+require("config.options.default")
+
+-- nvim_get_runtime_file: rtp 루트 기준 파일 경로. lua/ 명시, 구분자는 /
+vim.api.nvim_get_runtime_file("lua/config/options/*.lua", true)
+```
+
+| | 경로 형태 | `lua/` | 확장자 | 구분자 |
+| --- | --- | --- | --- | --- |
+| `require` | package.path 모듈명 | 암묵 | 암묵 | `.` |
+| `nvim_get_runtime_file` | rtp 루트 기준 파일경로 | **명시** | **명시(글롭)** | `/` |
+
+이유: `require` 는 Neovim 이 `package.path` 에 미리 박아둔 `<rtp>/lua/?.lua` · `<rtp>/lua/?/init.lua` 패턴을 쓰므로 `lua/` 가 이미 들어 있다. 반면 `nvim_get_runtime_file(pat, all)` 은 rtp 의 각 디렉토리 밑에서 `pat` 를 그대로 글로빙하는 **범용 파일 검색**이라, 파일이 `lua/` 서브디렉토리에 있으면 그 `lua/` 까지 직접 써야 한다 (그래서 `doc/`·`plugin/` 같은 비-lua 파일도 같은 함수로 찾는다).
+
+흔한 활용은 "디렉토리에 파일을 떨구면 자동 포함" 패턴 — 폴더를 글로빙해 모은 뒤 각각을 `require` 로 로드한다.
+
+```lua
+local files = vim.api.nvim_get_runtime_file("lua/myconf/parts/*.lua", true)
+for _, path in ipairs(files) do
+  -- 파일경로 → 모듈명: lua/ 뒤만 남기고 / 를 . 로, .lua 떼기
+  local mod = path:gsub("\\", "/"):match("lua/(.+)%.lua$"):gsub("/", ".")
+  require(mod)
+end
+```
+
+글로빙할 땐 `lua/` 명시, 다시 `require` 로 넘길 땐 `lua/`·`.lua` 떼고 `.` 로 — 한 함수 안에서 두 표기를 변환하는 게 포인트다. (`plugins/` 처럼 자동 스캔이 없는 내 디렉토리를 "폴더에 넣기만 하면 자동 로드"로 만들 때 이 패턴을 쓴다.)
 
 ## init.lua의 두 가지 의미
 

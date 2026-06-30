@@ -219,5 +219,3 @@ Client ──▶ Handler1 ──next──▶ Handler2 ──next──▶ Handl
 체인 뒷부분이 죽는다. 정적 분석으로 잡기 어려우므로 베이스 클래스에 default forwarding을 두는 게 안전. 또는 framework가 강제 (Express의 `next` 호출 규약).
 
 </details>
-
-{% include design-pattern-series.html current="chain-of-responsibility" %}

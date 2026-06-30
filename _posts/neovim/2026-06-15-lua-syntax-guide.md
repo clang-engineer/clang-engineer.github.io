@@ -324,6 +324,8 @@ vim.notify("msg", vim.log.levels.INFO)
 vim.fn.matchstr("abc123", "\\d\\+")     -- Vim regex (Lua 패턴 아님)
 ```
 
+`vim.*` 네임스페이스 전체 지도(`vim.api` vs `vim.fn`, 옵션 범위, 매핑·커맨드)는 [Neovim의 vim 전역 API 지도](/posts/neovim/2026-06-19-neovim-vim-global-api-map/)에서 따로 다룬다.
+
 ### Lua 패턴 활용
 
 ```lua

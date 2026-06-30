@@ -2,11 +2,14 @@
 title       : CSS Variables (Custom Properties) 사용법
 description : "CSS Variables(Custom Properties)의 선언과 var() 사용법, 전역과 지역 스코프, 폴백 패턴, 구버전 브라우저 방어 코드, :root와 html 선택자의 우선순위 차이를 정리한다."
 date        : 2026-06-07 12:00:00 +0900
+updated     : 2026-06-19 12:00:00 +0900
 categories  : [css]
 tags        : [custom-properties, variables, selector, specificity]
 pin         : false
 hidden      : false
 ---
+
+CSS Variables(공식 명칭 Custom Properties)는 `--이름` 형태로 값을 한 번 선언해두고 `var(--이름)`으로 재사용하는 기능이다. Sass 변수와 달리 빌드 타임이 아니라 **런타임에 살아 있어서**, 미디어 쿼리나 JavaScript로 값을 바꾸면 그 자리에서 다시 계산된다. 선언 위치에 따라 스코프가 갈리고 `:root`/`html` 선택자의 우선순위 차이가 있어, 이 글에서 그 규칙들을 정리한다.
 
 ## 선언 / 사용
 
@@ -36,9 +39,9 @@ div {
 | `var(--name, #f00)` | 변수 없으면 `#f00` |
 | `var(--name, var(--other, #f00))` | 변수 → 다른 변수 → 기본값 |
 
-## CSS 변수 지원 안 되는 브라우저 방어 (IE 등)
+## CSS 변수 지원 안 되는 브라우저 방어 (레거시)
 
-같은 속성 두 번 — 구버전은 첫 줄, 신버전은 둘째 줄 적용:
+IE는 2022년 6월 지원 종료됐고 현행 브라우저는 모두 Custom Properties를 지원하므로, 이 폴백이 필요한 경우는 거의 없다. 다만 같은 속성을 두 번 선언하는 패턴은 알아둘 만하다 — 변수를 못 읽는 브라우저는 첫 줄을, 읽는 브라우저는 둘째 줄을 적용한다.
 
 ```css
 div {

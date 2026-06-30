@@ -210,5 +210,3 @@ Component에 두면 클라이언트가 분기 없이 add 시도 가능(**투명�
 **스택 오버플로** 위험. 반복형(명시적 스택을 손으로 관리하는) 순회로 전환. 또는 꼬리 재귀 최적화가 되는 언어/플래그 사용.
 
 </details>
-
-{% include design-pattern-series.html current="composite" %}

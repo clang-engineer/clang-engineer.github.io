@@ -23,6 +23,8 @@ LazyVim은 git 작업을 위해 별도의 무거운 플러그인을 잔뜩 깔�
 
 > 참고: `vim-fugitive`, `diffview.nvim` 같은 플러그인은 LazyVim 기본에 **포함되지 않는다.** 필요하면 직접 추가해야 한다.
 
+> 이 글은 Git 영역만 깊게 파고든다. LazyVim 전체 기능 영역(검색·LSP·완성·DAP 등)이 어떤 플러그인으로 짜이는지는 [LazyVim 기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/) 를 참고하라.
+
 ## 핵심 구조 / 흐름
 
 ```

@@ -3,7 +3,7 @@ title       : "Vimscript 종합 가이드 (legacy)"
 description : "Vim 8의 legacy Vimscript 기준 문법을 한 번에 정리. 8개 타입과 스코프 prefix, 비교 연산자의 함정, 함수/람다/Funcref, List·Dict, 자주 쓰는 관용구까지."
 date        : 2026-06-15 16:30:00 +0900
 updated     : 2026-06-15 16:30:00 +0900
-categories  : [vim, "원리·언어"]
+categories  : [neovim, "Vim·Vimscript"]
 tags        : [vimscript]
 pin         : false
 hidden      : false
