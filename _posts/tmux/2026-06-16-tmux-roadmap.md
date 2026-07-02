@@ -5,7 +5,7 @@ date        : 2026-06-16 15:00:00 +0900
 updated     : 2026-06-19 00:00:00 +0900
 categories  : [tmux, "개요·인덱스"]
 tags        : [roadmap, terminal]
-pin         : true
+pin         : false
 hidden      : false
 ---
 

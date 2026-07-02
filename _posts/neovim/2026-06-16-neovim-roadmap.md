@@ -5,7 +5,7 @@ date        : 2026-06-16 23:00:00 +0900
 updated     : 2026-06-19 22:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
-pin         : true
+pin         : false
 hidden      : false
 ---
 
