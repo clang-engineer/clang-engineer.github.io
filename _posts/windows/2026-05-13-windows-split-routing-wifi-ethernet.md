@@ -22,11 +22,11 @@ WiFi로 인터넷, 랜선으로 사내망을 동시에 쓰려면 **Ethernet에�
 
 ```powershell
 # 1. Ethernet에 고정 IP만 (gateway 인자 생략!)
-netsh interface ipv4 set address name="이더넷" static 10.130.248.217 255.255.255.0
+netsh interface ipv4 set address name="이더넷" static 10.20.30.40 255.255.255.0
 
 # 2. 사내망 대역 영구 라우팅 (-p = persistent, 재부팅해도 유지)
-route -p add 10.130.0.0 mask 255.255.0.0   10.130.248.1
-route -p add 172.16.0.0 mask 255.240.0.0   10.130.248.1   # 172.16~31 통째
+route -p add 10.20.0.0 mask 255.255.0.0   10.20.30.1
+route -p add 172.16.0.0 mask 255.240.0.0   10.20.30.1   # 172.16~31 통째
 ```
 
 `netsh ... static IP MASK`까지만 — `gateway` 인자를 안 주는 게 포인트. 주는 순간 Ethernet이 기본 라우트 후보로 등록돼서 WiFi 인터넷이 끊기거나 느려질 수 있다.
@@ -35,8 +35,8 @@ route -p add 172.16.0.0 mask 255.240.0.0   10.130.248.1   # 172.16~31 통째
 
 ```powershell
 # 사내 IP가 Ethernet으로 나가는지
-Find-NetRoute -RemoteIPAddress 172.22.101.131
-# → InterfaceAlias: 이더넷, NextHop: 10.130.248.1   ✅
+Find-NetRoute -RemoteIPAddress 172.22.10.20
+# → InterfaceAlias: 이더넷, NextHop: 10.20.30.1   ✅
 
 # 외부는 WiFi로 나가는지
 Find-NetRoute -RemoteIPAddress 8.8.8.8
@@ -44,7 +44,7 @@ Find-NetRoute -RemoteIPAddress 8.8.8.8
 
 # 라우팅 테이블 전체 확인
 Get-NetRoute -AddressFamily IPv4 |
-  Where-Object { $_.DestinationPrefix -match '^(10\.130|172\.1[6-9]|172\.2[0-9]|172\.3[01])\.' } |
+  Where-Object { $_.DestinationPrefix -match '^(10\.20|172\.1[6-9]|172\.2[0-9]|172\.3[01])\.' } |
   Format-Table DestinationPrefix, NextHop, InterfaceAlias, RouteMetric
 ```
 

@@ -14,15 +14,15 @@ Vertica에서 LEFT OUTER JOIN의 ON 절에 OR 조건을 쓰면, 옵티마이저�
 ## 느린 쿼리 (OR 조건)
 
 ```sql
-LEFT OUTER JOIN CDW.FT_DICOM_RECORDS dicom
-  ON dicom.PT_NO = TGT.PT_NO AND dicom.HSP_TP_CD = TGT.HSP_TP_CD
-  AND (dicom.BODY_PART = LVL.col1 OR dicom.MODALITY = LVL.col2)
+LEFT OUTER JOIN DW.FT_VIDEO_FILES vid
+  ON vid.ENTITY_ID = TGT.ENTITY_ID AND vid.TENANT_CD = TGT.TENANT_CD
+  AND (vid.CATEGORY = LVL.col1 OR vid.FORMAT = LVL.col2)
 ```
 
 실행 계획:
 ```
-Join Cond: (PT_NO) AND (HSP_TP_CD)        ← 여기만 Join 조건
-Join Filter: (BODY_PART = ... OR MODALITY = ...)  ← 후처리 필터!
+Join Cond: (ENTITY_ID) AND (TENANT_CD)        ← 여기만 Join 조건
+Join Filter: (CATEGORY = ... OR FORMAT = ...)  ← 후처리 필터!
 STORAGE ACCESS: Rows 9M (풀스캔)
 Cost: 150M → 1시간+ 소요
 ```
@@ -30,23 +30,23 @@ Cost: 150M → 1시간+ 소요
 ## 빠른 쿼리 (AND 단일 조건)
 
 ```sql
-LEFT OUTER JOIN CDW.FT_DICOM_RECORDS dicom
-  ON dicom.PT_NO = TGT.PT_NO AND dicom.HSP_TP_CD = TGT.HSP_TP_CD
-  AND dicom.MODALITY = LVL.col2
+LEFT OUTER JOIN DW.FT_VIDEO_FILES vid
+  ON vid.ENTITY_ID = TGT.ENTITY_ID AND vid.TENANT_CD = TGT.TENANT_CD
+  AND vid.FORMAT = LVL.col2
 ```
 
 실행 계획:
 ```
-Join Cond: (PT_NO) AND (HSP_TP_CD) AND (MODALITY = ...)  ← 전부 Join 조건
+Join Cond: (ENTITY_ID) AND (TENANT_CD) AND (FORMAT = ...)  ← 전부 Join 조건
 → 즉시 완료
 ```
 
 ## 해결: UNION ALL로 분리
 
 ```sql
-SELECT ... JOIN dicom ON ... AND dicom.BODY_PART = LVL.col1
+SELECT ... JOIN vid ON ... AND vid.CATEGORY = LVL.col1
 UNION ALL
-SELECT ... JOIN dicom ON ... AND dicom.MODALITY = LVL.col2
+SELECT ... JOIN vid ON ... AND vid.FORMAT = LVL.col2
 ```
 
 각 서브쿼리가 단일 AND 조건이라 Join Cond에 포함됨. 9M 풀스캔 → 조건별 필터 스캔으로 개선.

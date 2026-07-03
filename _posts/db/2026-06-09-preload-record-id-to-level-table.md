@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-대형 팩트 테이블(ECG/DICOM/VITAL)을 매번 JOIN하는 대신, 중간 테이블 INSERT 시점에 필요한 컬럼을 미리 넣어두면 조회 시 JOIN을 제거할 수 있다.
+대형 팩트 테이블(이미지·영상 등 비정형 파일)을 매번 JOIN하는 대신, 중간 테이블 INSERT 시점에 필요한 컬럼을 미리 넣어두면 조회 시 JOIN을 제거할 수 있다.
 
 ## 문제
 
@@ -20,7 +20,7 @@ hidden      : false
 SELECT COUNT(*) FROM (
   SELECT ... FROM target_tbl TGT
   INNER JOIN level_tbl LVL ON ...
-  LEFT OUTER JOIN CDW.FT_ECG_RECORDS ECG ON ...  -- 여기가 병목
+  LEFT OUTER JOIN DW.FT_IMAGE_FILES IMG ON ...  -- 여기가 병목
 ) T
 ```
 
@@ -30,15 +30,15 @@ SELECT COUNT(*) FROM (
 
 ```sql
 -- INSERT 시 RECORD_ID 포함 (기존 JOIN에 컬럼만 추가)
-CREATE TABLE level_tbl (PT_NO, HSP_TP_CD, GENDER, ECG_RECORD_ID, FILE_PATH)
+CREATE TABLE level_tbl (ENTITY_ID, TENANT_CD, GRP_CD, IMAGE_RECORD_ID, FILE_PATH)
 INSERT INTO level_tbl
-  SELECT DISTINCT ECG.PT_NO, ECG.HSP_TP_CD, ECG.GENDER,
-         ECG.ECG_RECORD_ID, ECG.FILE_PATH  -- 추가
-  FROM CDW.FT_ECG_RECORDS ECG ...
+  SELECT DISTINCT IMG.ENTITY_ID, IMG.TENANT_CD, IMG.GRP_CD,
+         IMG.IMAGE_RECORD_ID, IMG.FILE_PATH  -- 추가
+  FROM DW.FT_IMAGE_FILES IMG ...
 
 -- 빠름: 조회 시 팩트 테이블 JOIN 불필요
 SELECT COUNT(*) FROM (
-  SELECT ... LVL.ECG_RECORD_ID AS RECORD_ID
+  SELECT ... LVL.IMAGE_RECORD_ID AS RECORD_ID
   FROM target_tbl TGT
   INNER JOIN level_tbl LVL ON ...
   -- 팩트 테이블 JOIN 없음
@@ -47,16 +47,16 @@ SELECT COUNT(*) FROM (
 
 ## 다중 비정형 도메인 시 UNION ALL은 유지
 
-ECG + DICOM처럼 2개 이상이면 UNION ALL이 여전히 필요하다. 없으면 cross product 발생.
+이미지 + 영상처럼 2개 이상이면 UNION ALL이 여전히 필요하다. 없으면 cross product 발생.
 
 ```sql
--- 정상: 도메인별 분리 → ECG 3건 + DICOM 2건 = 5행
-SELECT 'ecg' AS DMN_CD, LVL.ECG_RECORD_ID AS RECORD_ID FROM ...
+-- 정상: 도메인별 분리 → 이미지 3건 + 영상 2건 = 5행
+SELECT 'image' AS DMN_CD, LVL.IMAGE_RECORD_ID AS RECORD_ID FROM ...
 UNION ALL
-SELECT 'dicom' AS DMN_CD, LVL.DICOM_RECORD_ID AS RECORD_ID FROM ...
+SELECT 'video' AS DMN_CD, LVL.VIDEO_RECORD_ID AS RECORD_ID FROM ...
 
 -- 잘못됨: cross product → 3 × 2 = 6행
-SELECT LVL.ECG_RECORD_ID, LVL.DICOM_RECORD_ID FROM ...
+SELECT LVL.IMAGE_RECORD_ID, LVL.VIDEO_RECORD_ID FROM ...
 ```
 
 ## 수정 포인트
