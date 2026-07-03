@@ -27,6 +27,8 @@ order: 6
 
 ---
 ## 주요 저장소
+- [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) — jdtls용 JVM(JAVA_HOME) 환경 선택
+- [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) — vim-dadbod에 Vertica 어댑터 + dadbod-ui schema-tree 통합
 - [dotfiles](https://github.com/clang-engineer/dotfiles) — Neovim·zsh·tmux 등 개발환경 설정
 - [toolbox](https://github.com/clang-engineer/toolbox) — cheatsheets·playbooks·TIL 등 학습/작업 기록
 
