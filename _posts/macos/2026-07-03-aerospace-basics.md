@@ -1,8 +1,8 @@
 ---
 title       : AeroSpace 기본 — 워크스페이스·단축키·on-window-detected
 description : "SIP 비활성화 없이 쓰는 macOS 타일링 워크스페이스 매니저 AeroSpace. 설치부터 alt-hjkl 포커스·이동, 워크스페이스 전환, .aerospace.toml의 mode.main.binding과 on-window-detected 자동 배치까지 기본기를 정리한다."
-date        : 2026-07-03 23:30:00 +0900
-updated     : 2026-07-03 23:30:00 +0900
+date        : 2026-07-03 14:00:00 +0900
+updated     : 2026-07-03 14:00:00 +0900
 categories  : [macos, "창 관리"]
 tags        : [aerospace, window-manager, tiling]
 pin         : false

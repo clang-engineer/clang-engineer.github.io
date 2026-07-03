@@ -2,7 +2,7 @@
 title       : 새 맥 초기 설정 — 셋업 순서
 description : "새 맥을 개발 환경으로 만드는 day-1 순서. 시스템 설정 → Homebrew → dotfiles → Git 계정을 순서대로 짚고, 각 단계의 상세는 심화 글로 연결하는 셋업 런북."
 date        : 2022-02-05 09:32:27 +0900
-updated     : 2026-07-03 23:00:00 +0900
+updated     : 2026-07-03 14:20:00 +0900
 categories  : [macos, "시스템 운영"]
 redirect_from:
   - /posts/etc/2022-02-05-new-mac-initial-setup/

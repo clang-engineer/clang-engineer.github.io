@@ -1,8 +1,8 @@
 ---
 title       : Homebrew Brewfile로 패키지 선언적으로 관리하기
 description : "brew로 설치한 패키지를 Brewfile 하나로 선언해 관리하는 방법. dump로 현재 상태 덤프, bundle로 재설치, cleanup으로 목록에 없는 패키지 제거, check로 검증까지. Brewfile 문법과 dotfiles 버전관리도 함께 정리한다."
-date        : 2026-07-03 21:30:00 +0900
-updated     : 2026-07-03 21:30:00 +0900
+date        : 2026-07-03 12:00:00 +0900
+updated     : 2026-07-03 12:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [homebrew, brewfile, brew-bundle, dotfiles]
 pin         : false

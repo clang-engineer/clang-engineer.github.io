@@ -1,8 +1,8 @@
 ---
 title       : macOS CLI 개발 도구 모음 — Brewfile로 관리하는 터미널 툴킷
 description : "새 맥마다 다시 까는 터미널 개발 도구들을 Brewfile 하나로 관리한다. cat·ls·find·grep을 대체하는 모던 CLI(bat·eza·fd·ripgrep)부터 fzf·lazygit·delta, 언어 버전 관리까지 실제로 쓰는 도구를 갈래별로 정리한다."
-date        : 2026-07-03 21:00:00 +0900
-updated     : 2026-07-03 21:00:00 +0900
+date        : 2026-07-03 11:00:00 +0900
+updated     : 2026-07-03 11:00:00 +0900
 categories  : [macos, "시스템 운영"]
 tags        : [homebrew, brewfile, cli, fzf, ripgrep]
 pin         : false

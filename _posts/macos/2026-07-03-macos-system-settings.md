@@ -1,8 +1,8 @@
 ---
 title       : macOS 시스템 설정 — 세벌식·트랙패드·터미널·앱 권한
 description : "새 맥을 개발 환경으로 다듬을 때 손보는 시스템 설정 모음. 세벌식 입력, Caps Lock 전환, 세 손가락 드래그, Mission Control 단축키 충돌부터 터미널 테마, JetBrains, 앱 접근 권한, vim 스크롤까지."
-date        : 2026-07-03 23:00:00 +0900
-updated     : 2026-07-03 23:00:00 +0900
+date        : 2026-07-03 13:30:00 +0900
+updated     : 2026-07-03 13:30:00 +0900
 categories  : [macos, "시스템 운영"]
 tags        : [macos, settings, terminal]
 pin         : false

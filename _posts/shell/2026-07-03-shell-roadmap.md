@@ -1,8 +1,8 @@
 ---
 title       : "셸 로드맵 — 동작 원리·스크립팅·환경 관리·트러블슈팅 글을 어떻게 읽을까"
 description : "셸 초기화 파일 로딩 순서와 프로세스 동작 → 스크립팅 관용구 → dotfiles·Brewfile·direnv로 환경을 코드로 관리 → zoxide 같은 일상 속도 도구 → 원격·특수 환경 트러블슈팅까지, 이 블로그의 셸 글 11편을 단계별로 큐레이션."
-date        : 2026-07-03 23:00:00 +0900
-updated     : 2026-07-03 23:00:00 +0900
+date        : 2026-07-03 14:30:00 +0900
+updated     : 2026-07-03 14:30:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, shell, zsh, bash]
 pin         : false

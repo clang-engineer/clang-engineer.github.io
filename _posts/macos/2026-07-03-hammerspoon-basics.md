@@ -1,8 +1,8 @@
 ---
 title       : Hammerspoon 기본 — init.lua·hs API·ipc CLI·모듈 구조
 description : "Lua로 macOS를 자동화하는 Hammerspoon의 기본기. 설치와 Accessibility 권한, init.lua와 hs.hotkey.bind, 리로드, hs API 맛보기, 외부에서 리로드하는 ipc CLI, 설정을 모듈로 쪼개는 구조까지 정리한다."
-date        : 2026-07-03 23:45:00 +0900
-updated     : 2026-07-03 23:45:00 +0900
+date        : 2026-07-03 14:10:00 +0900
+updated     : 2026-07-03 14:10:00 +0900
 categories  : [macos, "창 관리"]
 tags        : [hammerspoon, lua, automation]
 pin         : false

@@ -1,8 +1,8 @@
 ---
 title       : dotfiles를 git 저장소 + 심볼릭 링크로 관리하기
 description : "흩어진 설정 파일을 git 저장소 한곳에 모으고 홈 디렉터리로 심볼릭 링크를 건다. ln -s의 재실행 문제를 없애는 멱등 링크 헬퍼, 도구별 setup.sh를 bootstrap으로 묶는 구조, GNU stow 대안, 시크릿 분리까지 정리한다."
-date        : 2026-07-03 22:00:00 +0900
-updated     : 2026-07-03 22:00:00 +0900
+date        : 2026-07-03 13:00:00 +0900
+updated     : 2026-07-03 13:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [dotfiles, symlink, bootstrap, stow]
 pin         : false

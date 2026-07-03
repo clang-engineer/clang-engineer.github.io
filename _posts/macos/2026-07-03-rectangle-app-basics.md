@@ -1,8 +1,8 @@
 ---
 title       : Rectangle.app 기본 — 가장 쉬운 macOS 창 분할
 description : "무료·오픈소스 창 분할 앱 Rectangle.app의 기본. 설치와 Accessibility 권한, 반·1/3·꼭짓점 분할 기본 단축키, 드래그 스냅, 설정 커스터마이즈까지. macOS 창 분할을 처음 시작할 때 가장 쉬운 길을 정리한다."
-date        : 2026-07-03 23:55:00 +0900
-updated     : 2026-07-03 23:55:00 +0900
+date        : 2026-07-03 13:50:00 +0900
+updated     : 2026-07-03 13:50:00 +0900
 categories  : [macos, "창 관리"]
 tags        : [rectangle, window-manager, macos]
 pin         : false
