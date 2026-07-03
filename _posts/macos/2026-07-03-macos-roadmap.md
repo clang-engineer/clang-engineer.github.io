@@ -1,6 +1,6 @@
 ---
 title       : "macOS 로드맵 — 개발환경으로 길들이는 글 모음"
-description : "macOS를 개발·생산성 환경으로 다듬는 주제별 인덱스. 창 관리(AeroSpace + Hammerspoon)를 시작으로, 이 블로그의 macOS 활용 글을 갈래별로 큐레이션한다."
+description : "macOS를 개발·생산성 환경으로 다듬는 주제별 인덱스. 새 맥 셋업(시스템 운영)에서 시작해 런처·생산성, 창 관리(AeroSpace + Hammerspoon)까지 이 블로그의 macOS 활용 글을 갈래별로 큐레이션한다."
 date        : 2026-07-03 17:30:00 +0900
 updated     : 2026-07-03 17:30:00 +0900
 categories  : [macos, "개요·인덱스"]
@@ -9,11 +9,32 @@ pin         : false
 hidden      : false
 ---
 
-macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — 창을 어떻게 배치하느냐, 무엇을 얼마나 빨리 호출하느냐, 시스템을 어떻게 운영하느냐. 이 로드맵은 그 갈래를 **주제별 섹션**으로 묶은 인덱스다. 지금은 **창 관리 · 런처·생산성 · 시스템 운영** 세 갈래가 채워져 있다. 본인 관심 갈래부터 진입하면 된다.
+macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — 시스템을 어떻게 운영하느냐, 무엇을 얼마나 빨리 호출하느냐, 창을 어떻게 배치하느냐. 이 로드맵은 그 갈래를 **주제별 섹션**으로 묶은 인덱스다. 지금은 **시스템 운영 · 런처·생산성 · 창 관리** 세 갈래가 채워져 있고, 새 맥을 막 받았다면 위에서부터 순서대로 읽으면 된다. 이미 익숙한 갈래는 건너뛰고 관심 지점부터 진입해도 좋다.
+
+## 시스템 운영
+
+도구를 얹기 전에, macOS 자체를 운영하다 마주치는 셋업·트러블슈팅 갈래. 새 맥의 출발점이 여기다.
+
+| 글 | 핵심 |
+|---|---|
+| [새 맥 초기 설정 — Homebrew Brewfile · dotfiles 심볼릭 링크](/posts/macos/2022-02-05-new-mac-initial-setup/) | 기본 환경설정, Brewfile로 패키지 이관, 터미널 테마, dotfiles 링크까지 새 맥 셋업 흐름 |
+| [macOS CLI 개발 도구 모음 — Brewfile로 관리하는 터미널 툴킷](/posts/macos/2026-07-03-macos-cli-toolkit-brewfile/) | cat·ls·find·grep을 대체하는 모던 CLI(bat·eza·fd·ripgrep·zoxide)부터 fzf·lazygit·delta, 언어 버전 관리까지 실제 Brewfile 기준 갈래별 정리 |
+| [Docker 실행 시 Operation not permitted 에러 해결](/posts/virtualization/2023-12-16-mac-docker-operation-not-permitted/) | macOS 파일·폴더 접근 권한 누락이 원인. 시스템 설정에서 Docker에 권한을 부여해 해결 |
+| [brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때](/posts/macos/2026-06-07-homebrew-cleanup-java-symlink-broken/) | Homebrew가 옛 JDK를 지우며 깨진 `/Library/Java/JavaVirtualMachines` 심볼릭 링크 복구 |
+
+## 런처·생산성 — Raycast
+
+시스템을 잡았다면, 다음은 **"무엇을 빠르게 호출하느냐"**의 축이다. 명령 팔레트·클립보드 히스토리·스니펫·확장이 여기 속한다. Raycast에도 창 관리 기능이 있어 뒤에 나올 도구들과 **역할이 겹칠 수 있다**. 그래서 이 갈래의 출발점은 "무엇을 켜느냐"가 아니라 **"무엇을 끄고 어디까지만 맡기느냐"**다.
+
+| 글 | 핵심 |
+|---|---|
+| [Raycast를 검색 계층으로 한정하기 — AeroSpace·Hammerspoon과 안 겹치게 쓰는 법](/posts/macos/2026-07-03-raycast-search-layer-role/) | 세 도구를 공간·자동화·검색 세 축으로 분업, Raycast의 창 관리 기능은 끄고 "검색형 진입 계층"으로 한정, Hammerspoon과의 경계선, 설정은 Cloud Sync가 정공법 |
+
+먼저 런처 자체를 고르는 단계라면 [Spotlight·Alfred·Raycast 비교](/posts/macos/2025-10-31-productivity-launchers/)부터 보고 오면 된다. 창 관리·자동화까지 포함한 생산성 앱 전반은 [macOS 생산성 앱 정리](/posts/macos/2025-12-29-mac-productivity-tool/)에서 큰 그림을 잡을 수 있다.
 
 ## 창 관리 — AeroSpace + Hammerspoon
 
-macOS 창 관리는 결국 두 축이다. **작업 공간(워크스페이스)을 나누는 것**과 **한 화면 안에서 창을 배치하는 것**. 이 블로그는 각각을 잘하는 도구에 맡긴다 — [AeroSpace](https://github.com/nikitabobko/AeroSpace)(공간)와 [Hammerspoon](https://www.hammerspoon.org/)(배치·자동화). 둘은 `open -g hammerspoon://` **URL scheme**으로 느슨하게 연결된다.
+가장 깊이 들어가는 갈래. macOS 창 관리는 결국 두 축이다. **작업 공간(워크스페이스)을 나누는 것**과 **한 화면 안에서 창을 배치하는 것**. 이 블로그는 각각을 잘하는 도구에 맡긴다 — [AeroSpace](https://github.com/nikitabobko/AeroSpace)(공간)와 [Hammerspoon](https://www.hammerspoon.org/)(배치·자동화). 둘은 `open -g hammerspoon://` **URL scheme**으로 느슨하게 연결된다.
 
 핵심 멘탈 모델은 **분업**이다.
 
@@ -64,25 +85,6 @@ macOS 창 관리는 결국 두 축이다. **작업 공간(워크스페이스)을
 | 글 | 핵심 |
 |---|---|
 | [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](/posts/macos/2026-06-07-aerospace-secure-input-hotkey-blocked/) | Secure Input이 활성이면 시스템 핫키를 못 잡는다. 어느 프로세스가 잡았는지 진단하고 푸는 법 |
-
-## 런처·생산성 — Raycast
-
-창 관리가 "무엇을 어디에 배치하느냐"라면, 런처는 **"무엇을 빠르게 호출하느냐"**의 축이다. 명령 팔레트·클립보드 히스토리·스니펫·확장이 여기 속한다. 창 관리와는 다른 축이지만, Raycast에도 창 관리 기능이 있어 앞의 도구들과 **역할이 겹칠 수 있다**. 그래서 이 갈래의 출발점은 "무엇을 켜느냐"가 아니라 **"무엇을 끄고 어디까지만 맡기느냐"**다.
-
-| 글 | 핵심 |
-|---|---|
-| [Raycast를 검색 계층으로 한정하기 — AeroSpace·Hammerspoon과 안 겹치게 쓰는 법](/posts/macos/2026-07-03-raycast-search-layer-role/) | 세 도구를 공간·자동화·검색 세 축으로 분업, Raycast의 창 관리 기능은 끄고 "검색형 진입 계층"으로 한정, Hammerspoon과의 경계선, 설정은 Cloud Sync가 정공법 |
-
-먼저 런처 자체를 고르는 단계라면 [Spotlight·Alfred·Raycast 비교](/posts/macos/2025-10-31-productivity-launchers/)부터 보고 오면 된다. 창 관리·자동화까지 포함한 생산성 앱 전반은 [macOS 생산성 앱 정리](/posts/macos/2025-12-29-mac-productivity-tool/)에서 큰 그림을 잡을 수 있다.
-
-## 시스템 운영
-
-도구를 얹기 전에, macOS 자체를 운영하다 마주치는 셋업·트러블슈팅 갈래.
-
-| 글 | 핵심 |
-|---|---|
-| [새 맥 초기 설정 — Homebrew Brewfile · dotfiles 심볼릭 링크](/posts/macos/2022-02-05-new-mac-initial-setup/) | 기본 환경설정, Brewfile로 패키지 이관, 터미널 테마, dotfiles 링크까지 새 맥 셋업 흐름 |
-| [brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때](/posts/macos/2026-06-07-homebrew-cleanup-java-symlink-broken/) | Homebrew가 옛 JDK를 지우며 깨진 `/Library/Java/JavaVirtualMachines` 심볼릭 링크 복구 |
 
 ---
 
