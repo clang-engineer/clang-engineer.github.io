@@ -32,6 +32,7 @@ hidden      : false
 | [ZMK 키맵 설계기 — HHKB + 40% + 세벌식 390](/posts/etc/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/) | 입력기 특성이 레이어를 강제하는 과정, 손버릇을 레이어로 재현, 위험한 키를 **hold-tap으로 실수 방지**, ZMK 레이어 인덱스 함정. **"40%에서 세벌식 390"은 선례가 드문 조합** |
 | [QMK로 키맵 짜기](/posts/etc/2026-07-03-qmk-keymap-build/) | `keymap.c` 레이어 배열, `MO`·`LT`·`MT` 키코드, `qmk compile`/`flash`까지 QMK 쪽 워크플로우 |
 | [VIA·VIAL 실전](/posts/etc/2026-07-03-via-vial-gui-remap/) | 컴파일 없이 **GUI로 실시간 리맵**. VIA vs VIAL 선택, ZMK는 ZMK Studio |
+| [Karabiner-Elements — macOS 소프트웨어 키맵](/posts/etc/2026-07-03-karabiner-elements-macos-keymap/) | 펌웨어가 아닌 **macOS 레벨** 리맵. 맥북 내장·기성 키보드까지, dual-role·Hyper 키, `karabiner.json`을 dotfiles로 관리 |
 
 ## 읽는 순서 정리
 
@@ -40,5 +41,6 @@ hidden      : false
 - **어떤 펌웨어·도구를 쓸지 모르겠으면** → 펌웨어 지형도로 지도를 먼저 그린다. 용어가 낯설면 용어집을 옆에 둔다.
 - **ZMK로 키맵을 짜려면** → 키매핑 가이드로 올리는 법을 익히고 → 설계기로 "왜 이렇게 배치하나"까지.
 - **QMK 쪽이면** → QMK로 키맵 짜기. 컴파일이 번거로우면 VIA·VIAL 실전으로 GUI 리맵.
+- **맥북 내장·리플래시 불가한 키보드까지 리맵하려면** → Karabiner-Elements로 macOS 레벨에서 덮는다.
 
 앞으로 키보드 관련 글이 늘면 이 로드맵에 단계를 추가할 예정이다.
