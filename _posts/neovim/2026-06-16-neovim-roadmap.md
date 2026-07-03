@@ -51,6 +51,7 @@ LazyVim을 "그냥 쓰는" 단계에서 "어떻게 동작하는지 알고 고치
 |---|---|
 | [LazyVim 주요 플러그인 정리](/posts/lazyvim/2026-06-07-lazyvim-plugins-overview/) | UI/편집/Git/진단/LSP 각 영역에 어떤 플러그인이 들어가 있는지 |
 | [LazyVim 기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/) | 각 기능 영역(Git·검색·LSP·완성·DAP)이 어떤 플러그인 묶음으로 만들어지는지, snacks.nvim의 hub 역할 |
+| [lazy.nvim 플러그인 spec 필드 완전 정리](/posts/lazyvim/2026-06-19-lazy-nvim-plugin-spec-fields/) | `lazy`·`keys`·`cmd`·`ft`·`priority`(로드 트리거), `init`·`opts`·`config`(로드 시 동작), `dependencies`·`optional`·`branch`(관계)를 실행 순서와 함께. spec merge를 읽기 전에 필드부터 |
 | [LazyVim 의존성 계층 — spec merge](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/) | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 순서 |
 | [LazyVim extra의 spec에 의존성만 보강하기](/posts/lazyvim/2026-05-07-lazyvim-extra-override-merge-deps/) | 같은 이름으로 다시 작성해 `dependencies`만 머지하는 패턴 |
 | [Which-Key Keymaps 정리](/posts/lazyvim/2025-10-04-whichkey/) | LazyVim 기본 키맵 그룹의 전체 지도 |
@@ -101,6 +102,12 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 | [autocommand·이벤트 심화](/posts/neovim/2026-06-19-neovim-autocommand-events/) | augroup 중복 방지·이벤트 종류·User 공개 이벤트. 플러그인의 이벤트 구동 |
 | [비동기 — vim.uv / vim.system](/posts/neovim/2026-06-19-neovim-async-vim-uv-system/) | 외부 프로세스를 UI 멈춤 없이. `vim.schedule`로 메인 루프 복귀 |
 
+`vim.*`를 손에 익혔다면 한 층 더 내려가 볼 수 있다 — 이 헬퍼들이 실제로 무엇을 호출하는지.
+
+| 글 | 핵심 |
+|---|---|
+| [vim.api 아래층 — nvim_* API·MessagePack-RPC·LuaJIT](/posts/neovim/2026-07-03-neovim-api-rpc-luajit/) | `vim.api`는 통로일 뿐. 진짜 API인 언어중립 `nvim_*` 집합, 그 아래 **MessagePack-RPC** 계층과 C 코어, Neovim이 Lua를 돌리는 **LuaJIT**의 정체까지. 원격 플러그인·RPC 클라이언트를 이해하는 토대 |
+
 ### 실전 케이스
 
 | 글 | 핵심 |
@@ -123,6 +130,15 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 |---|---|---|
 | [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) | vim-dadbod에 Vertica 어댑터 + dadbod-ui schema-tree 통합 | [어댑터 만들기 (제작 가이드)](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/) |
 | [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) | jdtls용 JVM(JAVA_HOME) 환경 선택. 첫 OSS 플러그인 | [발행 회고 (보강 사이클)](/posts/neovim/2026-06-17-jvm-env-nvim-publication-retrospective/) |
+
+## 비교·생태계 — 옆 동네와 견줘 보기
+
+실력 단계와는 별개로, "이 도구가 대체 뭐랑 다른 거지"를 짚어 두면 선택이 명확해진다. 겹쳐 보이는 도구의 **경계선**을 긋는 글들.
+
+| 글 | 핵심 |
+|---|---|
+| [Telescope vs fzf — 퍼지 파인더의 경계선](/posts/neovim/2026-07-03-telescope-vs-fzf/) | fzf는 Neovim 없이도 도는 **독립 Go 바이너리**, Telescope는 Neovim API에 얹힌 **순수 Lua 플러그인**. "둘 다 파일 검색된다"는 겹치는 기능 하나일 뿐, 어디서 도느냐가 본질 |
+| [LazyVim 사용자가 본 Emacs — 에디터가 아니라 Elisp 런타임](/posts/neovim/2026-07-03-neovim-user-view-of-emacs/) | 차이는 단축키가 아니라 "에디터를 무엇으로 보느냐". evil-mode, Doom=설정 레이어 vs Neovim=포크, magit/org-mode/런타임 리프로그래밍, 생태계 규모까지 |
 
 ## 환경 세팅·운영
 
