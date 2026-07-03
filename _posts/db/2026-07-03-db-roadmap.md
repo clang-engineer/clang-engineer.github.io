@@ -1,6 +1,6 @@
 ---
 title       : "DB 로드맵 — 트랜잭션 원리·성능 설계·운영·분산 이론 글을 어떻게 읽을까"
-description : "트랜잭션 동시성과 조인 원리 → 커넥션 풀·조인 회피 같은 성능 설계 → PostgreSQL 운영(경로 이전·백업·메이저 업그레이드) → CAP 분산 이론 → MyBatis·Liquibase·Kibana 도구 연동 → 연결·성능 장애 트러블슈팅까지, 이 블로그의 DB 글 15편을 단계별로 큐레이션."
+description : "트랜잭션·조인·인덱스·옵티마이저·MVCC 원리 → 파티셔닝·쿼리 튜닝 같은 성능 설계 → PostgreSQL 운영(백업·PITR·복제·모니터링·업그레이드) → CAP·샤딩·합의 분산 이론 → MyBatis·Liquibase·Kibana 도구 연동 → 장애 트러블슈팅까지, 이 블로그의 DB 글 23편을 단계별로 큐레이션."
 date        : 2026-07-03 15:00:00 +0900
 updated     : 2026-07-03 15:00:00 +0900
 categories  : [db, "개요·인덱스"]
@@ -9,40 +9,47 @@ pin         : false
 hidden      : false
 ---
 
-DB는 "쿼리 짜는 법"에서 멈추기 쉽다. 그런데 한 겹만 걷어내면 — 트랜잭션이 왜 이상 현상을 막는지, 옵티마이저가 조인 전략을 어떻게 고르는지, 커넥션 수를 무엇으로 정하는지, 운영 중 데이터를 어떻게 옮기고 올리는지 — 서비스의 안정성과 성능이 갈린다. 이 블로그의 DB 글 15편을 그 층위대로 묶었다. 본인 위치에서 가까운 단계부터 진입하면 된다.
+DB는 "쿼리 짜는 법"에서 멈추기 쉽다. 그런데 한 겹만 걷어내면 — 트랜잭션이 왜 이상 현상을 막는지, 옵티마이저가 조인 전략을 어떻게 고르는지, 커넥션 수를 무엇으로 정하는지, 운영 중 데이터를 어떻게 옮기고 올리는지 — 서비스의 안정성과 성능이 갈린다. 이 블로그의 DB 글 23편을 그 층위대로 묶었다. 본인 위치에서 가까운 단계부터 진입하면 된다.
 
-## 원리 — 트랜잭션과 조인
+## 원리 — 트랜잭션·조인·인덱스·옵티마이저
 
-쿼리를 던지기 전에, DB 엔진이 동시 트랜잭션을 어떻게 다루고 테이블을 어떻게 이어 붙이는지부터. 여기가 흔들리면 이후 성능·설계 판단이 다 감으로 흐른다.
+쿼리를 던지기 전에, DB 엔진이 동시 트랜잭션을 어떻게 다루고, 테이블을 어떻게 이어 붙이고 인덱스로 찾고, 옵티마이저가 어떤 계획을 세우는지부터. 여기가 흔들리면 이후 성능·설계 판단이 다 감으로 흐른다.
 
 | 글 | 핵심 |
 |---|---|
 | [트랜잭션 동시성 제어 — 격리 수준과 락](/posts/db/2024-05-03-isolation-level/) | Schedule·Serializability, S/X Lock과 2PL, READ COMMITTED·REPEATABLE READ·SERIALIZABLE이 각각 막아주는 이상 현상을 한 흐름으로 |
 | [RDB 조인(Join) 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/) | Nested Loop·Hash·Sort-Merge의 원리·시간 복잡도·메모리 패턴, 옵티마이저가 테이블 크기·인덱스·정렬 상태로 전략을 고르는 기준 |
 | [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) | B+tree 구조가 조회를 `O(log N)`으로 만드는 원리, 복합 인덱스 선두 컬럼 규칙, 커버링 인덱스, 그리고 인덱스를 만들고도 풀스캔이 도는 흔한 이유들 |
+| [쿼리 옵티마이저 작동 원리와 실행계획(EXPLAIN) 읽기](/posts/db/2026-07-03-query-optimizer-explain/) | 비용 기반 옵티마이저가 통계로 카디널리티를 추정해 계획을 고르는 원리, EXPLAIN/ANALYZE로 추정과 실제의 괴리를 읽어 튜닝 |
+| [MVCC와 VACUUM](/posts/db/2026-07-03-mvcc-vacuum/) | 격리 수준이 xmin/xmax·스냅샷으로 구현되는 방식과, 그 대가인 dead tuple·bloat를 청소하는 VACUUM·autovacuum·wraparound |
 
 여기까지면 "왜 같은 쿼리가 어떤 날은 느린가", "격리 수준을 왜 올리고 내리나" 같은 판단에 근거가 생긴다.
 
 ## 성능 — 최적화와 설계
 
-원리를 잡았으면, 성능이 실제로 갈리는 두 지점 — 커넥션을 몇 개나 열지, 무거운 조인을 아예 없앨 수 있는지.
+원리를 잡았으면, 성능이 실제로 갈리는 지점들 — 커넥션을 몇 개나 열지, 무거운 조인을 없앨지, 대용량 테이블을 어떻게 나누고 쿼리를 어떻게 다듬을지.
 
 | 글 | 핵심 |
 |---|---|
 | [DBCP — HikariCP 커넥션 풀 사이징](/posts/db/2024-03-06-dbcp/) | `minimumIdle`·`maximumPoolSize`·`maxLifetime`이 DB의 `max_connections`·`wait_timeout`과 맞물리는 방식, 적정 커넥션 수를 부하 테스트로 찾는 흐름 |
 | [RECORD_ID를 레벨 테이블에 사전 적재해 조인 제거](/posts/db/2026-06-09-preload-record-id-to-level-table/) | 수천만 건 팩트 테이블 JOIN을 INSERT 시점에 미리 옮겨 조회 시 JOIN 자체를 없애는 설계. 위 조인 원리의 "회피" 각도 |
+| [테이블 파티셔닝](/posts/db/2026-07-03-table-partitioning/) | Range·List·Hash로 대용량 테이블을 나누고 파티션 프루닝으로 스캔량을 줄이는 설계. 오래된 파티션 DROP으로 대량 삭제를 순식간에 |
+| [쿼리 튜닝 — 페이지네이션·N+1](/posts/db/2026-07-03-query-tuning-pagination-nplus1/) | OFFSET이 깊은 페이지에서 느려지는 이유와 keyset 대안, ORM에서 흔한 N+1을 조인·배치 로딩으로 없애기 |
 
 조인 원리(위)를 알고 나면, 사전 적재가 왜 "옵티마이저를 이기는" 게 아니라 "옵티마이저가 일할 필요를 없애는" 설계인지 읽힌다.
 
 ## 운영 — PostgreSQL 실무
 
-설계가 끝나도 DB는 살아 움직인다. 디스크를 옮기고, 백업을 뜨고, 버전을 올리는 — 운영 중 마주치는 세 관문.
+설계가 끝나도 DB는 살아 움직인다. 디스크를 옮기고, 백업·복제·모니터링을 걸고, 버전을 올리는 — 운영 중 마주치는 관문들.
 
 | 글 | 핵심 |
 |---|---|
 | [PostgreSQL 마운트 경로(PGDATA) 변경](/posts/db/2024-10-16-postgresql-change-mount-path/) | 데이터 디스크 분리·이전을 위해 PGDATA를 옮기는 절차. 서비스 중지 → 디렉토리 이동 → systemd `Environment=PGDATA` 수정 → 재시작 → `SHOW data_directory` 확인 |
 | [pg_dump / pg_restore 사용법](/posts/db/2025-01-14-postgresql-pgdump/) | plain/custom/directory/tar 포맷 선택 기준, psql로는 plain만 복원되는 이유, `pg_restore`의 병렬(`-j`)·선택 복원(`-n`/`-t`) |
 | [PostgreSQL 메이저 업그레이드 14→17](/posts/db/2026-07-03-postgresql-major-upgrade/) | 왜 바이너리 교체만으로 안 되는지, `pg_upgrade --link` vs dump/restore 트레이드오프, encoding·locale 관문과 `--check`→실행 절차 |
+| [복제와 고가용성](/posts/db/2026-07-03-postgresql-replication-ha/) | 스트리밍 복제가 WAL을 standby로 흘려보내는 원리, 동기·비동기 트레이드오프, 읽기 복제본의 replication lag, failover 승격 |
+| [PITR와 백업 전략](/posts/db/2026-07-03-postgresql-pitr-backup/) | pg_dump 논리 백업을 넘어 WAL 아카이빙·pg_basebackup으로 원하는 시점으로 복구하는 PITR과 RPO/RTO 설계 |
+| [모니터링 — pg_stat·슬로우 쿼리](/posts/db/2026-07-03-postgresql-monitoring/) | pg_stat_activity·user_tables·pg_stat_statements로 느린 쿼리·안 쓰는 인덱스·dead tuple·복제 지연을 잡기 |
 
 ## 이론 — 분산 시스템
 
@@ -51,6 +58,7 @@ DB는 "쿼리 짜는 법"에서 멈추기 쉽다. 그런데 한 겹만 걷어내
 | 글 | 핵심 |
 |---|---|
 | [CAP 정리 — P는 고르는 게 아니라 주어진다](/posts/db/2026-07-03-cap-theorem/) | CAP은 셋 중 둘 고르기가 아니라 파티션 발생 시 일관성·가용성 중 무엇을 살릴지의 문제. CA/CP/AP의 실제 의미와 PACELC까지 |
+| [분산 DB 확장 — 샤딩·분산 트랜잭션·합의](/posts/db/2026-07-03-distributed-db-scaling/) | 샤드 키로 여러 노드에 나눌 때의 원자성 문제를 2PC·Saga로, 복제 노드의 동의를 Raft로 — CAP 이후의 실무 확장 |
 
 ## 도구·연동
 
@@ -76,10 +84,10 @@ DB 자체가 아니라 그 주변 — 매핑, 마이그레이션, 시각화. 애
 
 본인 위치에 따라:
 
-- **쿼리는 짜지만 엔진 동작이 흐릿하다면** 원리 두 글로 트랜잭션·조인부터.
-- **성능이 어디서 갈리는지 감을 잡고 싶다면** 성능 단계 — 커넥션 사이징과 조인 회피 설계.
-- **운영 중 디스크 이전·백업·업그레이드가 닥쳤다면** PostgreSQL 운영 세 글로 직행.
-- **분산 스토어 선택의 밑그림이 필요하다면** CAP 정리.
+- **쿼리는 짜지만 엔진 동작이 흐릿하다면** 원리 단계로 트랜잭션·조인·인덱스·옵티마이저·MVCC부터.
+- **성능이 어디서 갈리는지 감을 잡고 싶다면** 성능 단계 — 커넥션 사이징·조인 회피·파티셔닝·쿼리 튜닝.
+- **운영 중 백업·복제·모니터링·업그레이드가 닥쳤다면** PostgreSQL 운영 글로 직행.
+- **분산 스토어 선택·확장의 밑그림이 필요하다면** CAP 정리와 분산 확장 글.
 - **MyBatis·Liquibase·Kibana를 붙이는 중이라면** 도구·연동.
 - **특정 에러(ORA-12514, SSH 터널, Vertica 조인)로 막혔다면** 트러블슈팅 글로 바로.
 
