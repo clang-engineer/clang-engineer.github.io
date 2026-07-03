@@ -3,13 +3,15 @@ title       : macOS 생산성 런처(Spotlight vs Alfred vs Raycast)
 description : "macOS 런처 Spotlight·Alfred·Raycast를 가격·확장성·클립보드·동기화·개발자 친화성 기준으로 비교하고 사용자 유형별로 추천한다."
 date        : 2025-10-31 09:20:19 +0900
 updated     : 2025-10-31 09:28:20 +0900
-categories  : [etc, "macOS"]
+categories  : [macos, "런처·생산성"]
+redirect_from:
+  - /posts/etc/2025-10-31-productivity-launchers/
 tags        : [macos, productivity, raycast]
 pin         : false
 hidden      : false
 ---
 
-> 관련: 런처를 포함한 macOS 생산성 앱 전반(창 관리·자동화 등)은 [macOS 생산성 앱 정리](/posts/etc/2025-12-29-mac-productivity-tool/)를 참고하세요.
+> 관련: 런처를 포함한 macOS 생산성 앱 전반(창 관리·자동화 등)은 [macOS 생산성 앱 정리](/posts/macos/2025-12-29-mac-productivity-tool/)를 참고하세요.
 
 ## 🌟 Spotlight (기본 내장)
 

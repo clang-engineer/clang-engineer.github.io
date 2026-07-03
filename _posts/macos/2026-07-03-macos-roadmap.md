@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — 창을 어떻게 배치하느냐, 무엇을 얼마나 빨리 호출하느냐, 시스템을 어떻게 운영하느냐. 이 로드맵은 그 갈래를 **주제별 섹션**으로 묶은 인덱스다. 지금은 **창 관리**와 **런처·생산성** 갈래가 채워져 있고, 앞으로 시스템 운영 등으로 확장한다. 본인 관심 갈래부터 진입하면 된다.
+macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — 창을 어떻게 배치하느냐, 무엇을 얼마나 빨리 호출하느냐, 시스템을 어떻게 운영하느냐. 이 로드맵은 그 갈래를 **주제별 섹션**으로 묶은 인덱스다. 지금은 **창 관리 · 런처·생산성 · 시스템 운영** 세 갈래가 채워져 있다. 본인 관심 갈래부터 진입하면 된다.
 
 ## 창 관리 — AeroSpace + Hammerspoon
 
@@ -59,6 +59,12 @@ macOS 창 관리는 결국 두 축이다. **작업 공간(워크스페이스)을
 - **한 화면 안 배치가 불편하다면** 2단계 Rectangle 대체로 직행.
 - **워크스페이스 전환이 헷갈린다면** 3단계 오버레이로.
 
+### 트러블슈팅 — 단축키가 갑자기 안 될 때
+
+| 글 | 핵심 |
+|---|---|
+| [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](/posts/macos/2026-06-07-aerospace-secure-input-hotkey-blocked/) | Secure Input이 활성이면 시스템 핫키를 못 잡는다. 어느 프로세스가 잡았는지 진단하고 푸는 법 |
+
 ## 런처·생산성 — Raycast
 
 창 관리가 "무엇을 어디에 배치하느냐"라면, 런처는 **"무엇을 빠르게 호출하느냐"**의 축이다. 명령 팔레트·클립보드 히스토리·스니펫·확장이 여기 속한다. 창 관리와는 다른 축이지만, Raycast에도 창 관리 기능이 있어 앞의 도구들과 **역할이 겹칠 수 있다**. 그래서 이 갈래의 출발점은 "무엇을 켜느냐"가 아니라 **"무엇을 끄고 어디까지만 맡기느냐"**다.
@@ -67,13 +73,16 @@ macOS 창 관리는 결국 두 축이다. **작업 공간(워크스페이스)을
 |---|---|
 | [Raycast를 검색 계층으로 한정하기 — AeroSpace·Hammerspoon과 안 겹치게 쓰는 법](/posts/macos/2026-07-03-raycast-search-layer-role/) | 세 도구를 공간·자동화·검색 세 축으로 분업, Raycast의 창 관리 기능은 끄고 "검색형 진입 계층"으로 한정, Hammerspoon과의 경계선, 설정은 Cloud Sync가 정공법 |
 
-먼저 런처 자체를 고르는 단계라면 [Spotlight·Alfred·Raycast 비교](/posts/etc/2025-10-31-productivity-launchers/)부터 보고 오면 된다.
+먼저 런처 자체를 고르는 단계라면 [Spotlight·Alfred·Raycast 비교](/posts/macos/2025-10-31-productivity-launchers/)부터 보고 오면 된다. 창 관리·자동화까지 포함한 생산성 앱 전반은 [macOS 생산성 앱 정리](/posts/macos/2025-12-29-mac-productivity-tool/)에서 큰 그림을 잡을 수 있다.
 
-## 앞으로 다룰 갈래
+## 시스템 운영
 
-이 인덱스는 계속 확장된다. 다음 후보:
+도구를 얹기 전에, macOS 자체를 운영하다 마주치는 셋업·트러블슈팅 갈래.
 
-- **시스템 운영** — 디스크 정리, LaunchDaemons, 심볼릭 링크 등 macOS 관리 트러블슈팅.
+| 글 | 핵심 |
+|---|---|
+| [새 맥 초기 설정 — Homebrew Brewfile · dotfiles 심볼릭 링크](/posts/macos/2022-02-05-new-mac-initial-setup/) | 기본 환경설정, Brewfile로 패키지 이관, 터미널 테마, dotfiles 링크까지 새 맥 셋업 흐름 |
+| [brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때](/posts/macos/2026-06-07-homebrew-cleanup-java-symlink-broken/) | Homebrew가 옛 JDK를 지우며 깨진 `/Library/Java/JavaVirtualMachines` 심볼릭 링크 복구 |
 
 ---
 

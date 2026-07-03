@@ -3,7 +3,9 @@ title       : PC 초기 설정
 description : "맥 기본 환경설정, Homebrew Brewfile로 라이브러리 이관, 터미널 테마, dotfiles 심볼릭 링크까지 새 맥 초기 셋업 과정을 정리한다."
 date        : 2022-02-05 09:32:27 +0900
 updated     : 2026-07-03 00:00:00 +0900
-categories  : [etc, "macOS"]
+categories  : [macos, "시스템 운영"]
+redirect_from:
+  - /posts/etc/2022-02-05-new-mac-initial-setup/
 tags        : [homebrew, dotfiles]
 pin         : false
 hidden      : false

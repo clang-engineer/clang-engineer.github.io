@@ -3,13 +3,15 @@ title       : macOS 생산성 앱 정리 (Raycast · Rectangle · BetterTouchToo
 description : 맥을 쓰다 보면 기본 기능만으로는 아쉬운 순간이 많습니다. 그래서 많은 사용자들이 **생산성 유틸 앱**을 추가로 사용합니다. 이 글에서는 **현재 가장 유명하고 많이 쓰이는 macOS 생산성 앱**들을 중심으로 정리합니다.
 date        : 2025-12-29 14:24:11 +0900
 updated     : 2025-12-29 14:25:30 +0900
-categories  : [etc, "macOS"]
+categories  : [macos, "런처·생산성"]
+redirect_from:
+  - /posts/etc/2025-12-29-mac-productivity-tool/
 tags        : [macos, productivity, raycast]
 pin         : false
 hidden      : false
 ---
 
-> 관련: 런처(Spotlight·Alfred·Raycast)만 깊게 비교한 글은 [macOS 생산성 런처 비교](/posts/etc/2025-10-31-productivity-launchers/)를 참고하세요.
+> 관련: 런처(Spotlight·Alfred·Raycast)만 깊게 비교한 글은 [macOS 생산성 런처 비교](/posts/macos/2025-10-31-productivity-launchers/)를 참고하세요.
 
 ## ✅ 왜 생산성 앱을 쓰는가?
 

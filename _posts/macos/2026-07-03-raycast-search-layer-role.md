@@ -10,7 +10,7 @@ hidden      : false
 ---
 
 > **[macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)** — 창 관리 시리즈에 이어 **런처·생산성** 갈래의 첫 글입니다.
-> 런처 자체를 고르는 문제(Spotlight·Alfred·Raycast 비교)는 [macOS 생산성 런처 비교](/posts/etc/2025-10-31-productivity-launchers/)를 먼저 보세요. 이 글은 **이미 Raycast를 쓰기로 정한 뒤**, 창 관리 도구와 어떻게 안 겹치게 배치하느냐를 다룹니다.
+> 런처 자체를 고르는 문제(Spotlight·Alfred·Raycast 비교)는 [macOS 생산성 런처 비교](/posts/macos/2025-10-31-productivity-launchers/)를 먼저 보세요. 이 글은 **이미 Raycast를 쓰기로 정한 뒤**, 창 관리 도구와 어떻게 안 겹치게 배치하느냐를 다룹니다.
 {: .prompt-info }
 
 Raycast를 설치하고 나면 흔히 부딪히는 문제가 있다. **이미 창 관리 도구를 쓰고 있는데 Raycast도 창 관리 기능을 갖고 있어서 서로 싸운다**는 것이다. 여기에 Hammerspoon 같은 자동화 런타임까지 있으면, 세 도구가 전부 "단축키를 누르면 뭔가 한다"는 점에서 역할이 뭉개진다.
@@ -122,7 +122,7 @@ Raycast를 "또 하나의 단축키 도구"로 쓰면 Hammerspoon과 싸우기�
 ---
 
 > **관련 글**
-> - 런처 자체 선택: [macOS 생산성 런처 비교 (Spotlight vs Alfred vs Raycast)](/posts/etc/2025-10-31-productivity-launchers/)
-> - 생산성 앱 전반: [macOS 생산성 앱 정리 (Raycast · Rectangle · BetterTouchTool)](/posts/etc/2025-12-29-mac-productivity-tool/)
+> - 런처 자체 선택: [macOS 생산성 런처 비교 (Spotlight vs Alfred vs Raycast)](/posts/macos/2025-10-31-productivity-launchers/)
+> - 생산성 앱 전반: [macOS 생산성 앱 정리 (Raycast · Rectangle · BetterTouchTool)](/posts/macos/2025-12-29-mac-productivity-tool/)
 > - 창 관리 축 실전: [AeroSpace + Hammerspoon 창 재정렬](/posts/macos/2026-07-03-aerospace-hammerspoon-window-reflow/), [Rectangle 대체 화면 분할](/posts/macos/2026-07-03-hammerspoon-window-tiling-rectangle/)
 {: .prompt-info }
