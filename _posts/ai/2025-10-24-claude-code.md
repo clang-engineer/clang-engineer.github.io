@@ -2,7 +2,7 @@
 title       : Claude Code 정리
 description : "터미널에서 동작하는 Anthropic의 AI 코딩 도구 Claude Code의 특징과 설치, 핵심 기능·권한 모드·키보드 단축키·MCP 연동·CLAUDE.md 활용을 정리한다."
 date        : 2025-10-24 09:47:55 +0900
-updated     : 2026-06-19 00:00:00 +0900
+updated     : 2026-07-03 00:00:00 +0900
 categories  : [ai, "Claude Code"]
 tags        : [claude, claude-code]
 pin         : false
@@ -94,10 +94,11 @@ Lint 수정, merge conflict 해결, release notes 작성, 문서 업데이트 �
 작업 승인 정책은 하나의 "모드"로 묶여 있고, `Shift + Tab` 으로 순환한다.
 
 - **default** — 파일 변경·명령 실행 전마다 승인 요청 (가장 안전)
-- **acceptEdits** — 파일 편집은 자동 수락, 위험한 bash 명령은 여전히 승인
-- **plan** — 코드를 건드리지 않고 계획만 수립 (복잡한 변경 전 전략 짜기)
+- **acceptEdits** — 파일 편집(Edit/Write)만 자동 수락, bash 등 나머지 도구는 정상 승인
+- **plan** — 코드를 건드리지 않고 계획만 수립. 이때는 allow 규칙이 매칭돼도 편집·쓰기가 **자동 승인되지 않는다** (복잡한 변경 전 전략 짜기)
+- **bypassPermissions** — 도달하는 거의 모든 작업을 확인 없이 실행. CLI에서 흔히 "auto"라 부르는 게 이 모드다 (되돌리기 어려운 작업도 안 물어봄, 격리 환경에서만 권장)
 
-이 밖에 `auto` / `bypassPermissions` 모드가 있다. 시작 시 직접 지정하거나, 권한 규칙을 관리할 수도 있다.
+시작 시 모드를 직접 지정하거나, `/permissions`로 허용·거부 규칙을 관리할 수 있다.
 
 ```bash
 claude --permission-mode plan          # 특정 모드로 시작
@@ -113,9 +114,31 @@ claude --dangerously-skip-permissions  # 모든 권한 우회 (주의!)
 claude                       # 대화형 실행
 claude -p "버그를 찾아 수정해줘"  # 헤드리스(print) 모드 — 실행 후 종료
 claude --continue            # 또는 -c. 최근 대화 이어가기
+claude --resume              # 또는 -r. 과거 세션 목록에서 골라 재개
+claude --model <name>        # 시작 모델 지정 (예: claude-opus-4-8)
+claude update                # 최신 버전으로 자체 업데이트
+claude --safe-mode           # 모든 커스터마이즈(훅·플러그인 등) 끄고 시작 — 문제 격리용
 ```
 
 슬래시 명령 전체 목록(기본/설정/Git/계정/통합 + 커스텀 커맨드)은 [Claude Code 슬래시 명령어 사전](/posts/ai/2025-10-24-claude-code-slash-commands/)에 따로 정리했다.
+
+---
+
+## 🆕 알아두면 좋은 기능
+
+### 체크포인트 & 되감기 (`/rewind`)
+Claude Code는 편집할 때마다 코드 상태를 자동으로 스냅샷(체크포인트)한다. `/rewind` 또는 `ESC` 두 번으로 **코드와 대화를 특정 시점으로 되돌릴 수 있다** — 에이전트가 엉뚱한 방향으로 파일을 고쳤을 때 수동 `git checkout` 없이 즉시 복구된다.
+
+### 플러그인 (`/plugin`)
+슬래시 명령·서브에이전트·MCP 서버·훅을 한 묶음으로 설치하는 확장 방식. `/plugin` 으로 마켓플레이스에서 설치·관리한다. 팀 공용 워크플로우를 패키지로 배포할 때 유용하다.
+
+### 컨텍스트 관리 (`/context`, `/compact`)
+- `/context` — 현재 컨텍스트 윈도우를 무엇이 채우고 있는지 시각화
+- `/compact` — 대화가 길어지면 요약해 공간 확보
+- `/usage` — 사용량·한도 확인
+
+### 모델·추론 조절 (`/model`, `/effort`)
+세션 도중 `/model` 로 모델을, `/effort` 로 추론 강도를 바꾼다. Opus 계열에서는 `/fast` 로 빠른 출력 모드를 켤 수 있다(모델을 낮추는 게 아니라 같은 Opus로 더 빠르게 응답).
 
 ---
 
