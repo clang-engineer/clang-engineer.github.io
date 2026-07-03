@@ -2,151 +2,165 @@
 title       : PC 초기 설정
 description : "맥 기본 환경설정, Homebrew Brewfile로 라이브러리 이관, 터미널 테마, dotfiles 심볼릭 링크까지 새 맥 초기 셋업 과정을 정리한다."
 date        : 2022-02-05 09:32:27 +0900
-updated     : 2025-09-25 08:38:28 +0900
+updated     : 2026-07-03 00:00:00 +0900
 categories  : [etc, "macOS"]
 tags        : [homebrew, dotfiles]
 pin         : false
 hidden      : false
 ---
 
-## 맥 기본 설정
-- 독 위치 조정 (system settings >> Desktop & Dock)
-- 세벌식 변경
-- 자동 대소문자 전환 끄기 (system settings >> keyboard >> text >> capitalize words automatically)
-- 대소문자 전환 capslock 활성화 (system settings >> keyboard >> input sources)
-- 세 손가락 드래그 활성화
-  + 시스템 환경설정 - 손쉬운 사용 - 포인트 제어기 - 트랙패드 옵션
-  + 드래그 활성화에서 세 손가락으로 드래그하기
-- vim ctrl + up, down, left, right 사용하려면 (Misson Control >> 단축키 >> Mission Control >> '이동' 항목 체크 해제)
+새 맥을 받았을 때 매번 처음부터 찾아 헤매지 않도록, 시스템 설정부터 Homebrew·dotfiles·터미널까지 초기 셋업 과정을 체크리스트로 정리한다.
 
-## 맥 Brew로 기존에 사용하던 맥 라이브러리들 옮기기 
-기존 사용하던 pc에서 Brew 를 통해 설치했다면 dump 명령어를 통해 Brewfile을 생성하여 새로운 pc에 라이브러리를 그대로 설치할 수 있다.
+## 시스템·키보드 설정
+
+- 독 위치 조정 (System Settings → Desktop & Dock)
+- 세벌식 입력 소스 추가
+- 자동 대소문자 전환 끄기 (System Settings → Keyboard → Text → Capitalize words automatically)
+- Caps Lock으로 대소문자 전환 활성화 (System Settings → Keyboard → Input Sources)
+- 세 손가락 드래그 활성화
+  + System Settings → 손쉬운 사용(Accessibility) → 포인터 제어기 → 트랙패드 옵션
+  + 드래그 활성화에서 "세 손가락으로 드래그하기" 선택
+- vim에서 `Ctrl + ↑/↓/←/→`를 사용하려면 Mission Control 단축키와 충돌을 없애야 한다 (Mission Control → 단축키 → Mission Control → '이동' 항목 체크 해제)
+
+## Homebrew로 라이브러리 이관
+
+기존 맥에서 Homebrew로 설치해 두었다면 `brew bundle dump`로 Brewfile을 만들어 새 맥에 그대로 재설치할 수 있다.
+
 ```sh
-# 기존 pc에서 아래와 같이 명령어를 실행하여 Brewfile을 생성
-# brew install <package> 로 라이브러리를 설치
-# brew cask install <package> 로 gui 기반의 어플리케이션을 설치
-brew bundle dump  # Brewfile 생성 (현재 설치된 라이브러리 목록을 Brewfile로 생성)
+# 기존 맥에서 아래 명령어를 실행해 Brewfile 생성
+# brew install <package>       로 라이브러리 설치
+# brew install --cask <package> 로 GUI 애플리케이션 설치
+brew bundle dump  # 현재 설치된 패키지 목록을 Brewfile로 덤프
 ```
 
-1.&nbsp;신규pc에서 Homebrew 설치 (전역 환경변수 설정)
+1. 새 맥에서 Homebrew 설치
+
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
-> brew 설치 후 별도 환경변수 설정이 필요한 경우가 있음 &#8594;
-> m1 mac의 경우 /opt/homebrew/bin을 PATH에 추가해야함
 
-2.&nbsp;사전에 백업해둔 기존 pc의 Brew 파일 가져오가
+> 설치 후 환경변수 설정이 필요한 경우가 있다 → Apple Silicon(M1 이상) 맥은 `/opt/homebrew/bin`을 PATH에 추가해야 한다.
+{: .prompt-tip }
+
+2. 백업해 둔 Brewfile 가져오기
+
 ```sh
-# 아래의 경우 개인 git repository에 Brewfile을 올려놓고 다운로드 받는 경우
+# 개인 git 저장소에 Brewfile을 올려두고 내려받는 경우
 curl -O https://raw.githubusercontent.com/clang-engineer/dotfiles/master/Brewfile
 ```
 
-3.&nbsp;Brewfile 다운받은 위치에서 brew bundle 실행
+3. Brewfile이 있는 위치에서 `brew bundle` 실행
+
 ```sh
-brew bundle # bundle 명령어는 해당 디렉토리에 있는 Brewfile을 읽어서 패키지를 설치
+brew bundle  # 현재 디렉토리의 Brewfile을 읽어 패키지 설치
 ```
 
-## 맥 termimal theme 설정
-- [terminal theme](https://github.com/lysyi3m/macos-terminal-themes) 다운로드
-- terminal >> preferences >> profiles >> import >> 다운로드 받은 테마 파일 선택
-> Vscode dark theme 추천
+## 터미널 테마
 
+- [macos-terminal-themes](https://github.com/lysyi3m/macos-terminal-themes)에서 테마 다운로드
+- Terminal → Preferences → Profiles → Import → 내려받은 테마 파일 선택
 
-## 기본 설정파일(.xxx, dotfile) 이관
-- 기존에 사용하던 설정파일들(.xxx, dotfile) 이관 
-- [dotfile repository](https://github.com/clang-engineer/dotfiles) 와 같이 별도로 관리하는 것이 좋음
-- 위 저장소를 clone한뒤 아래와 같이 link를 걸어주면 된다.
-> brew를 통해서 zsh, tmux, neovim 등이 되었다고 가정
+> VS Code Dark 테마를 추천한다.
+{: .prompt-tip }
 
-```ssh
+## dotfiles 이관
+
+기존에 사용하던 설정파일(`.xxx` dotfile)은 [dotfiles 저장소](https://github.com/clang-engineer/dotfiles)처럼 별도로 관리하는 것이 좋다. 저장소를 clone한 뒤 아래와 같이 심볼릭 링크를 걸어준다.
+
+> Homebrew로 zsh, tmux, neovim 등이 이미 설치되어 있다고 가정한다.
+{: .prompt-info }
+
+```sh
 ln -s $PWD/bashrc ~/.bashrc
 ln -s $PWD/bash_profile ~/.bash_profile
 
 # neovim 설정
 mkdir -p ~/.config
 ln -s $PWD/nvim ~/.config/nvim
-
-# neovim 플러그인은 lazy.nvim이 첫 실행 시 자동 설치 (별도 부트스트랩 불필요)
+# 플러그인은 lazy.nvim이 첫 실행 시 자동 설치 (별도 부트스트랩 불필요)
 
 # zsh 설정
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" # oh-my-zsh 다운로드
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"  # oh-my-zsh 설치
 ln -s $PWD/zshrc ~/.zshrc
-chsh -s /usr/bin/zsh # zsh를 기본 쉘로 변경
+chsh -s /usr/bin/zsh  # zsh를 기본 쉘로 변경
 
 # tmux 설정
 ln -s $PWD/tmux.conf ~/.tmux.conf
 tmux source-file ~/.tmux.conf
 
-ln -s $PWD/gitconfig ~/.gitconfig  # git 설정
-ln -s $PWD/hammerspoon ~/.hammerspoon # hammerspoon 설정, 권한 설정 및 자동 실행 설정 필요
-
-ln -s $PWD/ideavimrc ~/.ideavimrc # intellij vim 설정
+ln -s $PWD/gitconfig ~/.gitconfig        # git 설정
+ln -s $PWD/hammerspoon ~/.hammerspoon    # hammerspoon 설정 (권한·자동 실행 별도 설정 필요)
+ln -s $PWD/ideavimrc ~/.ideavimrc        # IntelliJ vim 설정
 ```
 
 ## Git 환경 설정
-1.&nbsp;Github 접근에 필요한 ssh key 생성
+
+1. GitHub 접근에 필요한 SSH 키 생성
+
 ```sh
 ssh-keygen
 ```
 
-2.&nbsp;생성된 공개키 등록
-github settings - SSH and GPG keys - SSH keys에 등록
+2. 생성된 공개키를 GitHub에 등록 (Settings → SSH and GPG keys → SSH keys)
 
-3.&nbsp;여러 계정을 사용하고 싶은 경우 아래와 같이 github host명을 구분하여 사용할 인증서를 지정
-~/.ssh/config 파일을 생성하고 다음과 값이 추가
+3. 여러 계정을 사용하려면 GitHub host명을 구분해 인증서를 지정한다. `~/.ssh/config` 파일을 만들고 다음과 같이 추가한다.
+
 ```plaintext
 # personal account
-host github.com-clang-engineer
-hostname github.com
-user git
-    identityfile ~/.ssh/id_rsa_clang-engineer
+Host github.com-clang-engineer
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_rsa_clang-engineer
+
 # work account
-host github.com-work
-hostname github.com
-user git
-    identityfile ~/.ssh/id_rsa_work
+Host github.com-work
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_rsa_work
 ```
 
-4.&nbsp;통신 확인
+4. 통신 확인
+
 ```sh
 ssh -T github.com-clang-engineer
 ssh -T github.com-work
 ```
 
-## Jebrains 환경 설정
-- Toolbox를 통해 intellij, clion, datagrid 등을 설치
+## JetBrains 환경 설정
 
-## hammerspoon 설정
-- privacy & security >> accessibility 
+- Toolbox를 통해 IntelliJ, CLion, DataGrip 등을 설치한다.
 
-## linux에서 별도 설치 필요한 프로그램
+## Hammerspoon 설정
+
+- Privacy & Security → Accessibility에서 Hammerspoon 접근 권한을 허용한다.
+
+## Linux에서 별도 설치가 필요한 프로그램
+
+맥이 아닌 Linux 환경을 함께 쓰는 경우, 아래 도구들은 직접 설치해야 한다.
+
 ```sh
-# tmux
-sudo apt-get install tmux
-# neovim
-sudo apt-get install neovim
-# git
-sudo apt-get install git
-# zsh
-sudo apt-get install zsh
-# on my zsh
+sudo apt-get install tmux       # tmux
+sudo apt-get install neovim     # neovim
+sudo apt-get install git        # git
+sudo apt-get install zsh        # zsh
+# oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-# autojump
-sudo apt-get install autojump
-# auto suggestions
-sudo apt-get install zsh-autosuggestions # git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-# syntax highlighting
-sudo apt-get install zsh-syntax-highlighting # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+sudo apt-get install autojump   # autojump
+# zsh 플러그인
+sudo apt-get install zsh-autosuggestions      # git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+sudo apt-get install zsh-syntax-highlighting  # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
-> zsh plugin 설치 후 ~/.zshrc에 설정파일 읽어오는 부분 추가 필요
+
+> zsh 플러그인 설치 후 `~/.zshrc`에 설정파일을 읽어오는 부분을 추가해야 한다.
+{: .prompt-info }
+
 ```sh
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ```
 
---- 
+## 터미널에서 vim 스크롤이 안 될 때
 
-## terminal에서 vim 사용 시 스크롤이 안되는 경우
-termianl >> settings >> profiles 에서 아래의 scroll alternate screen 옵션을 비활성화 하면 된다
-![Screenshot 2022-12-15 at 9 25 44 AM](https://user-images.githubusercontent.com/39648594/207744062-ad50f078-7b15-44a6-98b4-ac12a7262f51.png)
+Terminal → Settings → Profiles에서 "Scroll alternate screen" 옵션을 비활성화하면 된다.
 
+![터미널 대체 화면 스크롤 옵션 비활성화](https://user-images.githubusercontent.com/39648594/207744062-ad50f078-7b15-44a6-98b4-ac12a7262f51.png)

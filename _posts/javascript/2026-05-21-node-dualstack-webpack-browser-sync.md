@@ -102,3 +102,7 @@ new BrowserSyncPlugin({
 - `host`/`listen` 모두 박는 게 안전하다. 둘은 의미가 다르다 — `host`는 BrowserSync가 광고할 외부 주소, `listen`은 실제 바인딩/포트 스캔에 쓰는 주소.
 - dual-stack 회피는 webpack-dev-server와 browser-sync **두 곳 모두에** 적용해야 의미가 있다. 한쪽만 박으면 다른 쪽이 터진다.
 - `webpack-dev-server`가 `Project is running at: ... 9060`까지 찍고 죽으면 listen 자체는 성공한 것. 그 뒤 done hook에서 시작하는 BrowserSync가 범인이다.
+
+---
+
+> 같은 Node 17+ dual-stack 뿌리지만 **프록시 target(아웃바운드)** 쪽에서 `ECONNREFUSED`로 터지는 경우는 [nvm으로 Node 버전 변경 후 webpack-dev-server 프록시 ECONNREFUSED 해결기](/posts/javascript/2025-01-16-node-proxy-err/)를 참고. 이 글은 dev-server **listen(인바운드)**, 저 글은 프록시 **target(아웃바운드)** 문제다.

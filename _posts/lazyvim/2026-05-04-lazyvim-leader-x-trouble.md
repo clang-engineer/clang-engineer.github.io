@@ -92,3 +92,7 @@ Location List  →  윈도우별   →  :lopen / :lnext / :lprev
 - 일관된 인터페이스로 탐색 (같은 키로 이동, 접기/펼치기)
 - 파일별 그룹핑, 미리보기, 자동 갱신 지원
 - `<leader>x` 하나로 모든 목록에 접근 가능
+
+---
+
+> 진단 메시지·LSP 로그·`:messages`를 **실제로 열어 확인하는 방법**(`gl`, `:LspLog`, `:messages`)은 [LazyVim Diagnostics 로그/메시지 확인법](/posts/lazyvim/2026-02-04-lazyvim-diagnostics/)에 정리했습니다. 이 글은 `<leader>x` 키맵·개념, 저 글은 로그 확인 절차입니다.

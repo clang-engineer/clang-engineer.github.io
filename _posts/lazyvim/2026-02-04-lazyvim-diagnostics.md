@@ -64,3 +64,7 @@ hidden      : false
 - Trouble 창에서 `?`로 키 바인딩을 바로 확인할 수 있습니다.
 - `]d`/`[d` 이동 후 `gl`을 눌러 현재 위치 메시지를 곧바로 확인하면 편합니다.
 - 로그를 별도 보관하려면 `:LspLog`로 연 뒤 `:w lsp-debug.log`처럼 다른 이름으로 저장하세요.
+
+---
+
+> `:Trouble diagnostics`를 포함해 `<leader>x` 키맵 그룹 전체(Quickfix·Location List·Todo 통합)는 [LazyVim `<leader>x` — Trouble 기반 코드 문제 탐색](/posts/lazyvim/2026-05-04-lazyvim-leader-x-trouble/)에 정리했습니다. 이 글은 로그/메시지 **확인 방법**, 저 글은 Trouble **키맵·개념 레퍼런스**입니다.

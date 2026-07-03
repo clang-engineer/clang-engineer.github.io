@@ -142,3 +142,7 @@ set NODE_OPTIONS=--dns-result-order=ipv4first
 
 * ❌ `http://localhost:8080`
 * ✅ `http://127.0.0.1:8080`
+
+---
+
+> 같은 Node 17+ dual-stack 뿌리지만 **listen(바인딩) 쪽**에서 터지는 경우는 [Node 17+ localhost dual-stack — AggregateError와 browser-sync listen 함정](/posts/javascript/2026-05-21-node-dualstack-webpack-browser-sync/)을 참고. 이 글은 프록시 **target(아웃바운드)**, 저 글은 dev-server **listen(인바운드)** 문제다.
