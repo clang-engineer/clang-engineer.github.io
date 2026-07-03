@@ -1,5 +1,5 @@
 ---
-title       : 🧹 Windows 로그 파일 자동 삭제 스케줄 설정 가이드
+title       : "Windows 로그 파일 자동 삭제 스케줄 설정 가이드"
 description : "PowerShell 스크립트와 Windows 작업 스케줄러(Task Scheduler)를 활용해 지정 기간이 지난 로그 파일을 주기적으로 자동 삭제하는 방법을 단계별로 정리한다."
 date        : 2025-10-23 15:22:17 +0900
 updated     : 2025-10-23 15:23:06 +0900
@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-## 📖 개요
+## 개요
 
 운영 환경에서 로그 파일이 계속 쌓이면 디스크 용량을 압박하게 됩니다.
 이 문서는 **PowerShell 스크립트**와 **작업 스케줄러(Task Scheduler)** 를 활용하여
@@ -17,7 +17,7 @@ hidden      : false
 
 ---
 
-## ⚙️ 1. PowerShell 스크립트 작성
+## 1. PowerShell 스크립트 작성
 
 먼저, `C:\scripts\cleanup_logs.ps1` 파일을 생성하고 아래 내용을 작성합니다.
 
@@ -42,11 +42,11 @@ Get-ChildItem -Path $logPath -Filter $filter -Recurse |
 Write-Host "[$(Get-Date)] $days일 이상 된 로그 파일 삭제 완료."
 ```
 
-> 💡 `-Recurse` 옵션을 제거하면 하위 폴더는 제외됩니다.
+> `-Recurse` 옵션을 제거하면 하위 폴더는 제외됩니다.
 
 ---
 
-## 🧪 2. 스크립트 테스트
+## 2. 스크립트 테스트
 
 PowerShell을 **관리자 권한으로 실행**한 후 아래 명령을 입력하여 정상 동작을 확인합니다.
 
@@ -58,7 +58,7 @@ powershell -ExecutionPolicy Bypass -File "C:\scripts\cleanup_logs.ps1"
 
 ---
 
-## ⏰ 3. Windows 작업 스케줄러 등록
+## 3. Windows 작업 스케줄러 등록
 
 자동 실행을 위해 **작업 스케줄러(Task Scheduler)** 를 설정합니다.
 
@@ -88,7 +88,7 @@ powershell -ExecutionPolicy Bypass -File "C:\scripts\cleanup_logs.ps1"
 
 ---
 
-## 🔍 4. 실행 확인
+## 4. 실행 확인
 
 작업 스케줄러 라이브러리에서 생성한 작업을 선택 후
 **우클릭 → 실행(Run)** 을 눌러 수동 실행 테스트를 합니다.
@@ -97,7 +97,7 @@ PowerShell 창에서 “삭제 완료” 메시지가 표시되면 정상입니�
 
 ---
 
-## 🪵 5. (선택) 삭제 로그 기록 남기기
+## 5. (선택) 삭제 로그 기록 남기기
 
 삭제 내역을 텍스트 파일로 남기려면 스크립트 마지막에 다음을 추가합니다:
 
@@ -107,7 +107,7 @@ PowerShell 창에서 “삭제 완료” 메시지가 표시되면 정상입니�
 
 ---
 
-## ✅ 요약
+## 요약
 
 | 항목      | 내용                                                                       |
 | ------- | ------------------------------------------------------------------------ |
@@ -119,7 +119,7 @@ PowerShell 창에서 “삭제 완료” 메시지가 표시되면 정상입니�
 
 ---
 
-## 💡 참고 팁
+## 참고 팁
 
 * 여러 경로를 관리해야 한다면 `$logPath` 를 배열로 지정하여 반복 처리 가능
 

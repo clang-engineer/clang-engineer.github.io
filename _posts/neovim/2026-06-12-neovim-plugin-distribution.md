@@ -83,6 +83,8 @@ git push -u origin add-my-plugin
 gh pr create --title "Add owner/repo to Database section" --body "..."
 ```
 
+> CONTRIBUTING.md 규칙(백틱 PR 제목, 줄 끝 `.`, 금지어)과 실제 마주친 함정까지 단계별로는 [awesome-neovim에 PR 보내기 — gh CLI로 한 번에](/posts/neovim/2026-06-12-awesome-neovim-pr-walkthrough/)에서 다룬다.
+
 ## 3. Dotfyle
 
 [dotfyle.com](https://dotfyle.com/) — 모던한 Neovim 플러그인 디렉토리. GitHub 로그인 후 본인 플러그인을 등록하면 메타데이터(별 개수, README, 카테고리)가 자동 sync된다. VimAwesome보다 UI가 깔끔하고 Neovim 진영에서 활발히 사용되는 편.

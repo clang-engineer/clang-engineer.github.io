@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-## 📘 개요
+## 개요
 
 GitHub Actions에서 서버 배포나 CI/CD를 구성할 때는
 **Secrets**와 **Variables**를 통해 민감 정보와 환경 설정 값을 안전하게 관리할 수 있습니다.
@@ -17,7 +17,7 @@ GitHub Actions에서 서버 배포나 CI/CD를 구성할 때는
 
 ---
 
-## 🧱 1. GitHub Secrets의 종류
+## 1. GitHub Secrets의 종류
 
 | 구분                       | 설명                                  | 적용 범위     | 설정 경로                                                                              |
 | ------------------------ | ----------------------------------- | --------- | ---------------------------------------------------------------------------------- |
@@ -25,7 +25,7 @@ GitHub Actions에서 서버 배포나 CI/CD를 구성할 때는
 | **Environment secrets**  | 같은 저장소 내에서도 환경별(dev, prod 등)로 구분 가능 | 저장소 내 환경별 | `Settings > Environments > [환경 이름] > Environment secrets`                          |
 | **Organization secrets** | 조직 내 여러 저장소에서 공통 사용 가능              | 조직 전체     | `Organization > Settings > Secrets and variables > Actions > Organization secrets` |
 
-### 🔧 사용 가이드
+### 사용 가이드
 
 | 상황             | 추천 Secret 종류         | 이유           |
 | -------------- | -------------------- | ------------ |
@@ -35,7 +35,7 @@ GitHub Actions에서 서버 배포나 CI/CD를 구성할 때는
 
 ---
 
-## ⚙️ 2. Environment secrets 설정 예시
+## 2. Environment secrets 설정 예시
 
 **예시: 개발(Development) / 운영(Production) 환경 분리**
 
@@ -46,7 +46,7 @@ GitHub Actions에서 서버 배포나 CI/CD를 구성할 때는
    * `production`
 3. 각 환경에 Secrets 추가
 
-### 🔧 개발 서버 (Development)
+### 개발 서버 (Development)
 
 | Key                  | 설명                      | 예시               |
 | -------------------- | ----------------------- | ---------------- |
@@ -56,7 +56,7 @@ GitHub Actions에서 서버 배포나 CI/CD를 구성할 때는
 | `DEV_SERVER_PORT`    | SSH 포트                  | `2222`           |
 | `DEV_SERVER_PATH`    | 배포 경로                   | `/home/deployer` |
 
-### 🏭 운영 서버 (Production)
+### 운영 서버 (Production)
 
 | Key                   | 설명                      | 예시                 |
 | --------------------- | ----------------------- | ------------------ |
@@ -69,7 +69,7 @@ GitHub Actions에서 서버 배포나 CI/CD를 구성할 때는
 
 ---
 
-## ⚠️ 3. 중요 사항
+## 3. 중요 사항
 
 * 배포 사용자(`deployer`)는 다음 명령을 비밀번호 없이 실행할 수 있어야 합니다:
 
@@ -83,19 +83,19 @@ GitHub Actions에서 서버 배포나 CI/CD를 구성할 때는
 
 ---
 
-## 🔐 4. Secrets vs Variables
+## 4. Secrets vs Variables
 
 | 구분             | **Secrets**               | **Variables**          |
 | -------------- | ------------------------- | ---------------------- |
-| 🔒 **보안성**     | 암호화 저장 (Encrypted)        | 평문 저장 (Not encrypted)  |
-| 🕵️ **로그 노출**  | 자동 마스킹(`***`) 처리          | 그대로 출력될 수 있음           |
-| 🧩 **용도**      | 비밀번호, 토큰, SSH 키 등 민감 정보   | 일반 설정 값, 경로, 포트 등      |
-| 🔍 **값 확인**    | 저장 후 값 확인 불가              | 언제든 확인 및 수정 가능         |
-| 💬 **워크플로 접근** | `${{ secrets.KEY_NAME }}` | `${{ vars.KEY_NAME }}` |
+| **보안성**     | 암호화 저장 (Encrypted)        | 평문 저장 (Not encrypted)  |
+| **로그 노출**  | 자동 마스킹(`***`) 처리          | 그대로 출력될 수 있음           |
+| **용도**      | 비밀번호, 토큰, SSH 키 등 민감 정보   | 일반 설정 값, 경로, 포트 등      |
+| **값 확인**    | 저장 후 값 확인 불가              | 언제든 확인 및 수정 가능         |
+| **워크플로 접근** | `${{ secrets.KEY_NAME }}` | `${{ vars.KEY_NAME }}` |
 
 ---
 
-## 💡 5. 사용 예시
+## 5. 사용 예시
 
 ```yaml
 jobs:
@@ -115,15 +115,15 @@ jobs:
 
 ---
 
-## 🧠 6. 실무 팁
+## 6. 실무 팁
 
-✅ **Secrets**
+**Secrets**
 
 * 민감한 정보 (API Key, Token, SSH Key 등)
 * GitHub 로그에서 자동 마스킹
 * 저장 후 값 확인 불가
 
-⚙️ **Variables**
+**Variables**
 
 * 설정 값 (환경 이름, 경로, 포트, 버전 등)
 * 여러 워크플로에서 공유 가능
@@ -131,7 +131,7 @@ jobs:
 
 ---
 
-### 🎯 결론
+### 결론
 
 > * **Secrets** → 보안을 위한 민감 정보 저장소
 > * **Variables** → 일반 설정 값 관리용

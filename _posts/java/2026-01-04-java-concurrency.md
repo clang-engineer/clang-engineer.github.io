@@ -11,7 +11,7 @@ hidden      : false
 
 ## 1. 자바 동시성 모델의 진화
 
-### 1️⃣ Thread 직접 사용 (초기 모델)
+### Thread 직접 사용 (초기 모델)
 
 ```java
 new Thread(() -> doWork()).start();
@@ -24,11 +24,11 @@ new Thread(() -> doWork()).start();
 * 예외 처리 어려움
 * 서버 환경에서 확장 불가
 
-👉 Thread는 *실행 수단*이지, 작업 모델이 아님
+Thread는 *실행 수단*이지, 작업 모델이 아님
 
 ---
 
-### 2️⃣ Runnable – 작업 개념 도입
+### Runnable – 작업 개념 도입
 
 ```java
 Runnable task = () -> doWork();
@@ -40,7 +40,7 @@ new Thread(task).start();
 
 ---
 
-### 3️⃣ Callable + Future (Java 5)
+### Callable + Future (Java 5)
 
 ```java
 Callable<Integer> task = () -> 42;
@@ -53,7 +53,7 @@ Future<Integer> future = executor.submit(task);
 
 ---
 
-### 4️⃣ ExecutorService – 실무 표준
+### ExecutorService – 실무 표준
 
 ```java
 ExecutorService executor = Executors.newFixedThreadPool(10);
@@ -66,7 +66,7 @@ executor.submit(task);
 
 ---
 
-### 5️⃣ CompletableFuture (Java 8)
+### CompletableFuture (Java 8)
 
 ```java
 CompletableFuture
@@ -90,7 +90,7 @@ CompletableFuture
 | Runnable | 실행만 수행          |
 | Callable | 실행 + 결과 반환 + 예외 |
 
-👉 **동시성을 위한 함수형 인터페이스**
+→ **동시성을 위한 함수형 인터페이스**
 
 ---
 
@@ -131,7 +131,7 @@ future.get(); // blocking
 | 동시성 | 여러 작업을 관리 |
 | 병렬성 | 실제 동시에 실행 |
 
-👉 Java 동시성 모델은 **관리 중심**
+→ Java 동시성 모델은 **관리 중심**
 
 ---
 
@@ -182,7 +182,7 @@ CompletableFuture
   .thenRun(() -> done());
 ```
 
-👉 **결과 대기 → 흐름 연결**
+→ **결과 대기 → 흐름 연결**
 
 ---
 
