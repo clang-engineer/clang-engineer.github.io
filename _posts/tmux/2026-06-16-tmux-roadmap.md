@@ -2,7 +2,7 @@
 title       : "tmux 로드맵 — 입문·설정·플러그인·자동화·트러블슈팅 글을 어떻게 읽을까"
 description : "tmux 구조·설치 → 체감 옵션 → 플러그인 → 세션 부트스트랩 → 클립보드·자동 attach 트러블슈팅까지, 이 블로그의 tmux 글 6편을 단계별로 큐레이션."
 date        : 2026-06-16 15:00:00 +0900
-updated     : 2026-06-19 00:00:00 +0900
+updated     : 2026-07-03 00:00:00 +0900
 categories  : [tmux, "개요·인덱스"]
 tags        : [roadmap, terminal]
 pin         : false
@@ -10,6 +10,19 @@ hidden      : false
 ---
 
 tmux는 한 번 손에 익으면 터미널 작업 방식 자체가 바뀐다. 한국어 자료는 "세션·윈도우·패널 단축키"에서 끝나는 경우가 대부분인데, 매일 쓰는 사람은 그 너머의 설정·플러그인·자동화·클립보드 통합까지 들어간다. 이 블로그의 tmux 글 6편을 그 단계대로 묶었다. 본인 위치에서 가까운 단계부터 진입하면 된다.
+
+## 한눈에 보기
+
+| 단계 | 글 | 성격 |
+|---|---|---|
+| 입문 | [정리본 (Cheat Sheet + 가이드)](/posts/tmux/2021-11-30-tmux-config/) | 필수 시작점 |
+| 1단계 | [유용한 설정 (.tmux.conf)](/posts/tmux/2026-02-21-tmux-tips/) | 필수 |
+| 2단계 | [플러그인 · TPM](/posts/tmux/2025-11-17-tmux-tpm/) | 선택 — 확장 |
+| 3단계 | [세션 부트스트랩 스크립트](/posts/tmux/2026-02-21-tmux-bootstrap/) | 선택 — 자동화 |
+| 트러블슈팅 | [시스템 클립보드 (OSC52)](/posts/tmux/2026-06-10-tmux-clipboard-osc52-pbcopy-hangul/) | 막힐 때 |
+| 트러블슈팅 | [자동 attach 함정](/posts/tmux/2026-07-03-tmux-auto-attach-new-session-every-time/) | 막힐 때 |
+
+**입문 → 1단계가 핵심 경로**다. 2·3단계는 확장이라 필요해질 때, 트러블슈팅 두 글은 막혔을 때 곧장 들어가면 된다.
 
 ## 입문 — 구조와 cheatsheet
 

@@ -2,7 +2,7 @@
 title       : "Neovim 실력 향상 로드맵 — vim·neovim·lazyvim 글을 어떻게 읽을까"
 description : "Vim 기본기 → Lua → Neovim 내부 → LazyVim 구조 → 플러그인 작성까지, 이 블로그의 vim/neovim/lazyvim 글을 단계별로 큐레이션."
 date        : 2026-06-16 23:00:00 +0900
-updated     : 2026-06-19 22:00:00 +0900
+updated     : 2026-07-03 22:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : false
@@ -10,6 +10,19 @@ hidden      : false
 ---
 
 이 블로그에는 vim·neovim·lazyvim 세 디렉토리에 걸쳐 40여 편의 글이 있다. 처음 들어온 사람이 길을 잃지 않도록, "어떤 순서로 읽으면 Neovim 실력이 향상되는지"를 단계별로 정리했다.
+
+## 한눈에 보기
+
+| 단계 | 무엇을 잡나 | 누구부터 |
+|---|---|---|
+| 어디서 시작할까 | Vim/Neovim/배포판 관계와 시작점 선택 | 입문자 필독 |
+| 1단계 — Vim 기본기 | 키맵·레지스터·vimscript | 입문자 |
+| 2단계 — Neovim 내부 (Lua) | 설정·플러그인을 고칠 수 있는 Lua | 플러그인 지망생 |
+| 3단계 — LazyVim 구조 이해 | spec merge·extras override | LazyVim 사용자 |
+| 4단계 — 프로젝트별 설정 | exrc·.nvim.lua 메커니즘 | 필요할 때 |
+| 5단계 — 플러그인 작성 | 배치·발행·런타임 API·등록 | 생태계 기여자 |
+
+실력 흐름은 위가 본체다. 아래쪽 **비교·생태계 / 환경 세팅 / 트러블슈팅**은 단계와 무관하게 필요할 때 찾아 들어오는 부록이다.
 
 ## 어디서 시작할까
 
@@ -64,7 +77,8 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 
 | 글 | 핵심 |
 |---|---|
-| [Neovim 프로젝트별 로컬 설정 가이드 — exrc · .nvim.lua · trust](/posts/neovim/2026-06-15-neovim-exrc-nvim-lua-guide/) | Neovim 0.9+ exrc 동작·검색 파일명·trust 시스템·함정 한 번에 || [Windows에서 Dotfiles의 Neovim 설정 연결하기](/posts/neovim/2026-01-07-window-neovim/) | Windows에서 dotfiles 연결 시 경로 함정 |
+| [Neovim 프로젝트별 로컬 설정 가이드 — exrc · .nvim.lua · trust](/posts/neovim/2026-06-15-neovim-exrc-nvim-lua-guide/) | Neovim 0.9+ exrc 동작·검색 파일명·trust 시스템·함정 한 번에 |
+| [Windows에서 Dotfiles의 Neovim 설정 연결하기](/posts/neovim/2026-01-07-window-neovim/) | Windows에서 dotfiles 연결 시 경로 함정 |
 
 ## 5단계 — 플러그인 작성
 
