@@ -2,7 +2,7 @@
 title       : Postgresql 마운트 경로 변경
 description : "데이터 디스크 분리·이전을 위해 PGDATA를 옮기는 절차. 서비스 중지 → 디렉토리 이동 → systemd 유닛의 Environment=PGDATA 수정 → 재시작 → SHOW data_directory로 확인."
 date        : 2024-10-16 14:12:42 +0900
-updated     : 2026-07-03
+updated     : 2026-07-03 12:00:00 +0900
 categories  : [db, "PostgreSQL·운영"]
 tags        : [postgresql]
 pin         : false
@@ -27,6 +27,8 @@ PostgreSQL이 실제 데이터를 쌓는 디렉토리를 `PGDATA`(data directory
 {: .prompt-warning }
 
 ## 마운트 경로 변경 순서
+
+아래 명령의 `{version}`·`{new-mount-path}`는 각자 환경 값으로 바꿔 쓴다. 예시로는 `{version}`=`17`, `{new-mount-path}`=`/data/pgsql/17/data`처럼 잡으면 된다.
 
 ### 1. PostgreSQL 서비스 중지
 
@@ -88,3 +90,10 @@ psql -U postgres -c "SHOW data_directory;"
 ```
 
 경로가 `{new-mount-path}`로 나오고 정상 기동하면, 원본 디렉토리를 지워 디스크를 회수한다.
+
+## 관련 글
+
+| 글 | 관계 |
+| --- | --- |
+| [PostgreSQL 메이저 업그레이드 14→17](/posts/db/2026-07-03-postgresql-major-upgrade/) | 데이터 디렉터리·systemd를 똑같이 다루는 업그레이드 |
+| [PostgreSQL PITR와 백업 전략](/posts/db/2026-07-03-postgresql-pitr-backup/) | 경로 이전 전 물리 백업 |

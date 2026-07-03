@@ -2,6 +2,7 @@
 title       : "PostgreSQL 메이저 업그레이드 14→17 — pg_upgrade 실전 절차"
 description : "메이저 업그레이드가 왜 바이너리 교체만으로 안 되는지부터, pg_upgrade --link와 dump/restore의 트레이드오프, encoding·locale 관문과 --check→실행 절차, 설정 이전·후속까지 정리한다."
 date        : 2026-07-03 09:40:00 +0900
+updated     : 2026-07-03 12:00:00 +0900
 categories  : [db, "PostgreSQL·운영"]
 tags        : [postgresql, pg-upgrade, migration, linux]
 pin         : false
@@ -9,6 +10,9 @@ hidden      : false
 ---
 
 메이저 업그레이드가 특별한 이유는 버전마다 시스템 카탈로그 구조와 온디스크 데이터 포맷이 바뀌기 때문이다. 그래서 바이너리만 갈아끼우면 기존 데이터 디렉터리를 못 읽는다. 구버전 데이터를 신버전이 이해하는 형태로 변환해야 하는데, 이 변환을 어떻게 하느냐가 곧 업그레이드 방식이다.
+
+> 여기서 14→17은 절차를 보여주기 위한 예시 조합일 뿐이다. 현재 정식 최신 계열은 PostgreSQL 18(2025-09 릴리스)이므로, 대상 버전만 바꾸면 14→18 같은 조합에도 같은 절차가 그대로 적용된다.
+{: .prompt-info }
 
 ## 왜 메이저는 다른가 — 두 가지 변환 방식
 
@@ -127,8 +131,9 @@ diff /var/lib/pgsql/14/data/pg_hba.conf     /var/lib/pgsql/17/data/pg_hba.conf
 sudo systemctl enable postgresql-17
 sudo systemctl start postgresql-17
 
-# pg_upgrade가 생성한 스크립트가 있으면 실행
-sudo -u postgres /var/lib/pgsql/update_extensions.sql  # 있는 경우
+# pg_upgrade가 update_extensions.sql을 남겼으면 실행
+# (실행 파일이 아니라 SQL 스크립트이므로 psql -f로 돌린다)
+sudo -u postgres /usr/pgsql-17/bin/psql -f /var/lib/pgsql/update_extensions.sql  # 있는 경우
 sudo -u postgres /usr/pgsql-17/bin/vacuumdb --all --analyze-in-stages
 ```
 
@@ -138,3 +143,11 @@ sudo -u postgres /usr/pgsql-17/bin/vacuumdb --all --analyze-in-stages
 sudo -u postgres /var/lib/pgsql/delete_old_cluster.sh
 sudo dnf remove postgresql14*
 ```
+
+## 관련 글
+
+| 글 | 관계 |
+| --- | --- |
+| [PostgreSQL 마운트 경로(PGDATA) 변경](/posts/db/2024-10-16-postgresql-change-mount-path/) | 데이터 디렉터리 이동 절차 |
+| [PostgreSQL PITR와 백업 전략](/posts/db/2026-07-03-postgresql-pitr-backup/) | 업그레이드 전 백업 |
+| [PostgreSQL 복제와 고가용성](/posts/db/2026-07-03-postgresql-replication-ha/) | 무중단 업그레이드 대안 |

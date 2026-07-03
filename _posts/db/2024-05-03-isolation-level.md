@@ -1,8 +1,8 @@
 ---
-title       : Transaction Concurrency Control
+title       : "트랜잭션 동시성 제어 — 격리 수준과 락, 그리고 이상 현상"
 description : "Schedule과 Serializability, Recoverability 단계, S/X Lock과 2PL 변형들, READ COMMITTED·REPEATABLE READ·SERIALIZABLE이 막아주는 이상 현상까지 한 흐름으로 연결."
 date        : 2024-05-03 15:36:25 +0900
-updated     : 2026-06-19 09:00:00 +0900
+updated     : 2026-07-03 12:00:00 +0900
 categories  : [db, "RDB·트랜잭션"]
 tags        : [transaction, isolation, lock]
 pin         : false
@@ -10,7 +10,9 @@ hidden      : false
 ---
 
 ## 동시성 제어 개요
-- 여러 트랜잭션이 동시에 실행될 때 성능을 확보하면서도 일관성을 유지하는 것이 목표
+
+두 사람이 같은 계좌에서 동시에 돈을 인출한다고 하자. 한쪽이 잔액 10만 원을 읽어 5만 원을 빼는 사이, 다른 쪽도 같은 10만 원을 읽어 5만 원을 뺀다. 둘 다 "잔액 5만 원"을 쓰고 끝나면, 실제로는 10만 원이 빠져나갔는데 장부에는 5만 원만 줄어든다. 한쪽의 변경이 흔적도 없이 사라진 것이다. 이처럼 트랜잭션이 동시에 실행되면 커밋되지 않은 값을 읽거나, 같은 행을 두 번 읽었더니 값이 달라지거나, 서로의 수정을 덮어쓰는 식으로 데이터가 조용히 깨진다. 동시성 제어는 이런 이상 현상을 막으면서도 트랜잭션을 최대한 겹쳐 실행해 성능을 확보하는 것이 목표다.
+
 - 핵심 키워드: Schedule, Serializability, Recoverability, Isolation Level, Lock/2PL
 
 ## Schedule과 Serializability
@@ -107,4 +109,13 @@ hidden      : false
 
 ## Snapshot Isolation
 
-MVCC(Multi-Version Concurrency Control)를 이용해, Read Committed와 Serializable 사이에서 Serializable의 성능 저하를 줄이는 격리 수준이다. 각 트랜잭션이 시작 시점의 스냅샷을 읽으므로 읽기와 쓰기가 서로를 막지 않는다. 다만 Write Skew 같은 일부 이상 현상은 막지 못하며, 이를 보완한 것이 SSN(Serializable Snapshot Isolation)이다.
+각 트랜잭션이 시작 시점의 스냅샷을 읽어, 읽기와 쓰기가 서로를 막지 않게 하는 격리 수준이다. 락으로 직렬화하는 대신 데이터의 여러 버전을 유지하는 MVCC로 구현하며, Write Skew 같은 일부 이상 현상은 여전히 막지 못한다.
+
+스냅샷·xmin/xmax를 통한 실제 구현, 버전이 쌓이며 생기는 dead tuple, 이를 청소하는 VACUUM 등 동작의 대가는 [MVCC와 VACUUM](/posts/db/2026-07-03-mvcc-vacuum/) 글에서 다룬다.
+
+## 관련 글
+
+| 글 | 무엇을 다루나 |
+|---|---|
+| [MVCC와 VACUUM](/posts/db/2026-07-03-mvcc-vacuum/) | 이 격리 수준이 실제로 구현되는 방식(스냅샷·xmin/xmax)과 그 대가 |
+| [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/) | 격리 수준과 함께 보는 실행 관점 |

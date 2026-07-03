@@ -2,6 +2,7 @@
 title       : Kibana 개념 정리 — Saved Objects, Lens, Alerting, 7.x vs 8.x
 description : "환경 간 대시보드 이전(Saved Objects), 차트 종류별 적합한 데이터, Index threshold·ES query 룰, 그리고 8.x 보안 기본 활성과 Index Pattern → Data View 변경."
 date        : 2026-06-07 12:00:00 +0900
+updated     : 2026-07-03 12:00:00 +0900
 categories  : [db, "도구·연동"]
 tags        : [kibana, elasticsearch, lens, alerting]
 pin         : false
@@ -9,6 +10,8 @@ hidden      : false
 ---
 
 Kibana를 쓰면서 한 번씩 정리가 필요한 부분 — Saved Objects 이전, Lens 시각화 선택, Alerting 룰, 그리고 7.x → 8.x 버전 차이.
+
+> 지금은 9.x도 출시됐지만(2026년 기준 9.4대), 실무에서 여전히 널리 쓰이는 8.x를 기준으로 정리한다. 개념(Saved Objects, Lens, Alerting)은 9.x에서도 동일하다.
 
 ## Saved Objects
 
@@ -20,7 +23,17 @@ Management → Stack Management → Saved Objects.
 | Import | 다른 환경으로 이전 시 `Include related objects` 체크 |
 | Tags | 8.x 이상에서 saved object 태깅 |
 
-> CI/CD나 환경 마이그레이션은 `GET kbn:/api/saved_objects/_export` API로 자동화 가능.
+CI/CD나 환경 마이그레이션은 export API로 자동화한다. 대시보드 ID를 넣어 관련 객체까지 함께 내려받는 예시는 다음과 같다.
+
+```bash
+curl -X POST "http://localhost:5601/api/saved_objects/_export" \
+  -H "kbn-xsrf: true" -H "Content-Type: application/json" \
+  -u elastic:changeme \
+  -d '{"objects":[{"type":"dashboard","id":"<대시보드ID>"}],"includeReferencesDeep":true}' \
+  -o dashboard.ndjson
+```
+
+`includeReferencesDeep`가 위 `Include related objects`에 해당한다. Dev Tools 콘솔에서는 `POST kbn:/api/saved_objects/_export`로 같은 요청을 보낼 수 있다.
 
 대시보드를 dev → staging → prod로 옮기거나, 버전 백업 시 사용한다. `Include related objects`를 켜야 Data View, Saved Search, Visualization 등 의존 객체가 함께 따라간다.
 
@@ -36,7 +49,7 @@ Management → Stack Management → Saved Objects.
 | Maps | geo_point 좌표 |
 | TSVB | 복잡한 시계열 (다중 인덱스, %change 등) |
 
-> Lens가 기본 권장. 복잡한 시계열 분석(다중 인덱스, % 변화율, 누적 등)은 여전히 TSVB가 강력.
+> Lens가 기본 권장. 복잡한 시계열 분석(다중 인덱스, % 변화율, 누적 등)은 TSVB가 강력했지만, 현재 TSVB는 legacy editor로 분류되어 **Lens(또는 ES|QL) 사용이 공식 권장**된다. TSVB로 만든 패널은 Lens 에디터에서 그대로 열어 변환할 수 있으므로, 신규 시각화는 Lens로 만드는 것이 좋다.
 
 ## Alerting (Stack Alerts)
 

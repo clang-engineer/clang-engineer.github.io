@@ -1,8 +1,8 @@
 ---
 title       : "Vertica에서 OR 조건 JOIN은 성능을 죽인다"
-description : "LEFT OUTER JOIN의 ON 절 OR 조건이 Join Filter로 빠지면서 풀스캔이 발생하는 문제와 UNION ALL 분리 해법"
+description : "LEFT OUTER JOIN의 ON 절 OR 조건이 Join Filter로 빠지면서 풀스캔이 발생하는 문제와 UNION ALL 분리 해법."
 date        : 2026-04-15 10:00:00 +0900
-updated     : 2026-06-19 09:00:00 +0900
+updated     : 2026-07-03 12:00:00 +0900
 categories  : [db, "RDB·트랜잭션"]
 tags        : [vertica, join, performance, troubleshooting]
 pin         : false
@@ -10,6 +10,8 @@ hidden      : false
 ---
 
 Vertica에서 LEFT OUTER JOIN의 ON 절에 OR 조건을 쓰면, 옵티마이저가 **Join Cond이 아닌 Join Filter(후처리)**로 빠뜨려서 대용량 테이블을 풀스캔한다.
+
+> 옵티마이저 거동은 버전에 따라 달라질 수 있으니, 재현·비교 시 테스트 환경의 Vertica 버전을 함께 명시하는 것을 권장한다(`SELECT version();`).
 
 ## 느린 쿼리 (OR 조건)
 
