@@ -31,3 +31,6 @@ assets/js/dist
 .DS_Store
 Thumbs.db
 nohup.out
+
+# Obsidian vault artifacts (repo opened as an Obsidian vault locally)
+.obsidian/
