@@ -255,3 +255,4 @@ PostgreSQL이 힌트를 안 넣는 것은 설계 철학이다. "힌트로 계획
 | --- | --- |
 | [RDB에서 조인(Join) 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/) | 옵티마이저가 고르는 조인 알고리즘 각각의 원리 |
 | [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) | 옵티마이저가 인덱스를 언제 타고 안 타는지 |
+| [실행계획(EXPLAIN) 노드·필드 사전](/posts/db/2026-07-03-postgresql-explain-node-reference/) | EXPLAIN에 뜨는 모든 노드·계측 라인을 사전처럼 찾아보는 레퍼런스 |
