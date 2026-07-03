@@ -1,7 +1,7 @@
 ---
 layout: page
 icon: fas fa-route
-order: 4
+order: 2
 title: 로드맵
 ---
 
