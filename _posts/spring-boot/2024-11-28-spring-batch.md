@@ -76,6 +76,31 @@ hidden      : false
 - 실패 후 중단된 부분부터 시작될 수 있도록 실패후 검색해야하는 상태를 나타낸다.
 
 
+## 재시작·중복 실행 방지 메커니즘
+
+메타 테이블을 나열하는 것만으로는 "이게 왜 필요한가"가 안 잡힌다. 핵심은 **JobParameters가 JobInstance의 신원(identity)을 결정**한다는 것이다.
+
+### 중복 실행 방지
+
+- 같은 Job을 **같은 JobParameters**로 다시 실행하면, Spring Batch는 `BATCH_JOB_INSTANCE`에서 동일 인스턴스를 찾는다.
+- 그 인스턴스가 이미 `COMPLETED`면 재실행을 거부한다:
+
+  ```
+  JobInstanceAlreadyCompleteException:
+  A job instance already exists and is complete for parameters={date=2024-11-28}
+  ```
+- 그래서 **매일 도는 배치는 날짜 같은 유니크 파라미터**를 넣어 매번 새 JobInstance를 만든다. 파라미터가 늘 같으면 두 번째 실행부터 막힌다.
+- 스케줄러로 계속 돌려야 하는데 마땅한 유니크 값이 없으면 `RunIdIncrementer`를 써서 `run.id`를 자동 증가시킨다.
+
+> Spring Batch 4+는 파라미터를 **identifying / non-identifying**으로 구분한다. non-identifying(`identifying=false`) 파라미터는 JobInstance 신원 계산에서 빠지므로, 신원에 영향 없이 실행별 값(예: 로그용 타임스탬프)을 넘길 수 있다.
+
+### 재시작(resume)
+
+- `FAILED`나 `STOPPED`로 끝난 JobExecution은 **같은 파라미터로 다시 실행하면 이어서** 돈다(중복 방지 규칙의 예외).
+- 어디서부터 이어갈지는 `BATCH_STEP_EXECUTION_CONTEXT` / `BATCH_JOB_EXECUTION_CONTEXT`에 저장된 상태로 결정된다. Chunk 모델이면 커밋된 지점까지의 read/write count가 여기 남아, **이미 처리한 청크는 건너뛰고** 실패 지점부터 재개한다.
+- 완료된 Step은 기본적으로 재실행 시 건너뛴다(`allowStartIfComplete(true)`로 강제 가능).
+- 재시작을 원치 않는 Job은 `preventRestart()`로 막을 수 있다.
+
 ## Spring Batch의 실행 흐름
 ![Spring Batch Flow](https://terasoluna-batch.github.io/guideline/5.0.0.RELEASE/en/images/ch02/SpringBatchArchitecture/Ch02_SpringBatchArchitecture_Architecture_ProcessFlow.png)
 

@@ -79,26 +79,57 @@ scheduler.scheduleJob(jobDetail, trigger);
 - JDBCJobStore는 Quartz Scheduler가 종료되어도 정보가 유지되지만, RAMJobStore는 종료 시 정보가 사라짐
 - JDBCJobStore는 Quartz Scheduler를 여러 대의 서버에서 공유할 때 사용
 
+## 클러스터링 — 스케줄러를 여러 대에 띄울 때
+
+인스턴스를 2대 이상 띄우면 **같은 Job이 양쪽에서 동시에 실행**되는 문제가 생긴다. 클러스터링은 이걸 막고, 한 노드가 죽어도 다른 노드가 이어받게(fail-over) 한다. 전제는 **JDBCJobStore(공유 DB)** — RAMJobStore로는 불가능하다.
+
+```properties
+org.quartz.jobStore.isClustered=true
+org.quartz.scheduler.instanceId=AUTO          # 노드마다 고유 ID 자동 부여
+org.quartz.jobStore.clusterCheckinInterval=15000
+```
+
+- 조율은 애플리케이션이 아니라 **DB의 `qrtz_locks` 행 락**으로 이뤄진다. 트리거를 획득할 때 노드들이 이 락을 놓고 경쟁해, 한 번의 실행은 한 노드만 가져간다.
+- `instanceId`는 **노드마다 반드시 달라야** 한다. `AUTO`가 호스트명+타임스탬프로 생성해주니 직접 지정하지 않는다. 같은 ID를 두 노드에 주면 서로를 죽은 노드로 오인한다.
+- 모든 노드의 **시계(NTP)를 맞춰야** 한다. clock skew가 크면 checkin·트리거 시점 판정이 어긋난다.
+- Job이 **한 노드에서만 돌면 충분**할 때(중복 실행 절대 금지)는 `@DisallowConcurrentExecution`을 함께 건다.
+
+## Misfire — 놓친 실행 처리
+
+스케줄된 시각에 트리거를 못 쏜 경우(=misfire)를 어떻게 만회할지의 정책이다. **misfire는 생각보다 자주 난다** — 서버 다운타임, 스레드 풀 고갈, DB 지연, `@DisallowConcurrentExecution`으로 이전 실행이 안 끝난 경우 등. `org.quartz.jobStore.misfireThreshold`(기본 60초)를 넘겨 지각하면 misfire로 판정된다.
+
+정책을 지정하지 않으면 기본값은 **smart policy**인데, 트리거 종류에 따라 동작이 갈려 헷갈린다. Cron 트리거의 대표 선택지:
+
+| 정책 | 동작 |
+|---|---|
+| `withMisfireHandlingInstructionFireAndProceed` | 놓친 것 중 **1회만 즉시 실행**하고 이후 정상 스케줄 복귀 (기본, 대개 이걸 원함) |
+| `withMisfireHandlingInstructionDoNothing` | 놓친 건 **버리고** 다음 정상 시각을 기다림 |
+| `withMisfireHandlingInstructionIgnoreMisfires` | 놓친 모든 실행을 **몰아서 실행**(catch-up) |
+
+```java
+CronScheduleBuilder.cronSchedule("0 0/5 * * * ?")
+    .withMisfireHandlingInstructionFireAndProceed();
+```
+
+> 흔한 오해: "5분마다"인데 서버가 1시간 죽었다 살아나면, 기본 정책은 밀린 12번을 다 돌리지 **않는다.** 밀린 실행을 반드시 채워야 하는 정산·집계라면 `Ignore`를, 중복이 해로우면 `DoNothing`을 명시적으로 골라야 한다.
+
 ## Quartz Database Schema
+
+Quartz 2.x의 표준 스키마는 **11개 테이블**이다(접두어 `QRTZ_`는 `org.quartz.jobStore.tablePrefix`로 변경 가능). 배포판 `docs/dbTables`의 `tables_*.sql`에 DB별 DDL이 있다. (Quartz 1.x의 리스너 테이블·`qrtz_job_trigger_rel` 등은 2.x에 존재하지 않는다.)
 
 | Table Name | Description |
 |------------|-------------|
-| qrtz_calendars | 쿼츠에서 사용하는 비표준 캘린더 정보를 저장 |
 | qrtz_job_details | JobDetail 정보를 저장 |
-| qrtz_locks | 쿼츠에서 사용하는 Lock 정보를 저장 |
-| qrtz_scheduler_state | Scheduler 상태 정보를 저장 |
-| qrtz_triggers | Trigger 정보를 저장 |
-| qrtz_cron_triggers | Cron Trigger 정보를 저장 |
-| qrtz_fired_triggers | 현재 실행 중인 Trigger 정보를 저장 |
-| qrtz_blob_triggers | Blob Trigger 정보를 저장 |
-| qrtz_simple_triggers | Simple Trigger 정보를 저장 |
-| qrtz_simprop_triggers | 사용자 정의 Trigger 정보를 저장 |
-| qrtz_paused_trigger_grps | Trigger 그룹의 Pause 상태 정보를 저장 |
-| qrtz_job_listeners | Job Listener 정보를 저장 |
-| qrtz_trigger_listeners | Trigger Listener 정보를 저장 |
-| qrtz_scheduler_listeners | Scheduler Listener 정보를 저장 |
-| qrtz_job_trigger_rel | Job과 Trigger의 관계를 저장 |
-| qrtz_job_trigger_state | Job과 Trigger의 상태 정보를 저장 |
+| qrtz_triggers | Trigger 정보(Job 연결·상태 포함)를 저장 |
+| qrtz_cron_triggers | Cron Trigger의 표현식을 저장 |
+| qrtz_simple_triggers | Simple Trigger(반복 횟수·간격)를 저장 |
+| qrtz_simprop_triggers | CalendarInterval 등 프로퍼티 기반 Trigger를 저장 |
+| qrtz_blob_triggers | 커스텀 Trigger를 직렬화(Blob)해 저장 |
+| qrtz_calendars | 실행 제외일 등 Calendar 객체를 직렬화해 저장 |
+| qrtz_paused_trigger_grps | Pause된 Trigger 그룹을 저장 |
+| qrtz_fired_triggers | 현재 실행(fire) 중인 Trigger의 상태를 저장 |
+| qrtz_scheduler_state | 클러스터 노드별 인스턴스 상태(heartbeat)를 저장 |
+| qrtz_locks | 클러스터 동시성 제어용 비관적 락 행 |
 
 
 ## Quartz Trigger State
@@ -109,9 +140,8 @@ scheduler.scheduleJob(jobDetail, trigger);
 | Paused | Trigger가 일시 중지되어 있으며, 실행되지 않음 |
 | Complete | Trigger가 더 이상 실행되지 않으며, 실행할 "fire times"가 없음 |
 | Error | Trigger가 오류가 발생하여 더 이상 실행되지 않음 |
-| Blocked | Trigger가 DisallowConcurrentExecutionAttribute가 설정된 Job과 연결되어 있어 대기 중인 상태 |
+| Blocked | Trigger가 @DisallowConcurrentExecution이 설정된 Job과 연결되어 있어 대기 중인 상태 |
 | None | Trigger가 존재하지 않음 |
 | Waiting | Trigger가 대기 중인 상태로, Job이 실행될 준비가 되어 있음 |
-| Error | Trigger가 오류가 발생하여 더 이상 실행되지 않음 |
 
 

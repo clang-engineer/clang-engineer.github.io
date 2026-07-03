@@ -29,7 +29,7 @@ x -> x * 2   // 타입 없음 (단독 사용 불가)
 Function<Integer, Integer> f = x -> x * 2; // 정상
 ```
 
-➡️ `java.util.function`은 **람다의 표준 타겟 타입**을 제공하기 위해 만들어졌다.
+→ `java.util.function`은 **람다의 표준 타겟 타입**을 제공하기 위해 만들어졌다.
 
 ---
 
@@ -115,13 +115,13 @@ interface MyCreator<T> { T create(); }
 * 타입 불일치 빈번
 * 다형성 활용 불가
 
-➡️ **결과적으로 람다는 문법 설탕에 그치고 생태계는 붕괴**
+→ **결과적으로 람다는 문법 설탕에 그치고 생태계는 붕괴**
 
 ---
 
 ## 가장 중요한 4대장 (이것만 알아도 80%)
 
-### 1️⃣ Function<T, R> — 변환
+### Function<T, R> — 변환
 
 ```java
 R apply(T t)
@@ -141,7 +141,7 @@ Function<String, Integer> length = String::length;
 
 ---
 
-### 2️⃣ Predicate<T> — 조건
+### Predicate<T> — 조건
 
 ```java
 boolean test(T t)
@@ -165,7 +165,7 @@ p.and(p2).or(p3).negate();
 
 ---
 
-### 3️⃣ Consumer<T> — 소비
+### Consumer<T> — 소비
 
 ```java
 void accept(T t)
@@ -184,7 +184,7 @@ Consumer<String> printer = System.out::println;
 
 ---
 
-### 4️⃣ Supplier<T> — 공급
+### Supplier<T> — 공급
 
 ```java
 T get()
@@ -196,7 +196,7 @@ T get()
 Supplier<UUID> uuidSupplier = UUID::randomUUID;
 ```
 
-⚠️ **지연 실행(lazy)** 이 핵심
+**지연 실행(lazy)** 이 핵심
 
 ```java
 optional.orElseGet(() -> createExpensiveObject());
@@ -273,14 +273,9 @@ IntPredicate isEven = n -> n % 2 == 0;
 
 ## 언제 직접 함수형 인터페이스를 만들까?
 
-❌ 이런 경우 → 기본 제공 사용
+기본 원칙은 **웬만하면 `java.util.function` 표준을 쓴다**이다. 커스텀 인터페이스는 API 간 람다 호환을 깨고(내 `MyMapper`는 남의 `Function`을 못 받는다) 조합 메서드(`andThen`, `compose`, `and/or/negate`)도 직접 구현해야 한다. 그럼에도 직접 정의가 이득인 경우는 정해져 있다.
 
-```java
-Function<User, String>
-Predicate<Order>
-```
-
-⭕ 이런 경우 → 직접 정의
+**직접 정의가 맞는 경우**
 
 ```java
 @FunctionalInterface
@@ -289,7 +284,22 @@ interface PasswordPolicy {
 }
 ```
 
-➡️ **도메인 의미가 중요할 때**
+- **도메인 이름이 계약을 설명할 때** — `Predicate<String>`은 "문자열로 참/거짓"까지만 말하지만, `PasswordPolicy`는 의도를 드러낸다. 파라미터·필드 타입으로 쓰일 때 가독성 차이가 크다.
+- **인자가 3개 이상일 때** — 표준은 `BiFunction`(2개)까지만 있다. 셋 이상이면 커스텀이 불가피하다(또는 파라미터 객체로 묶는다).
+- **checked exception을 던져야 할 때** — 표준 함수형 인터페이스는 checked exception을 못 던진다. `throws IOException`이 필요하면 직접 선언하거나 래핑해야 한다.
+- **기본형 시그니처가 표준에 없을 때** — 예: `(long, int) -> boolean` 같은 조합은 표준에 없다.
+
+**표준을 쓰는 게 맞는 경우**
+
+```java
+Function<User, String>   // 그냥 "User를 String으로 변환"이면 충분
+Predicate<Order>         // 조합(and/or)이 필요하면 특히 표준
+```
+
+- 시그니처가 표준으로 표현되고, 도메인 이름이 굳이 필요 없다면 커스텀은 순수 비용이다.
+- `Stream`·`Optional` 등 표준 API에 넘길 값이면 반드시 표준 타입이어야 한다.
+
+> 판단은 "도메인 의미가 있는가 + 표준으로 시그니처가 표현되는가" 두 축이다. 이름값이 크고 표준으로 안 되면 커스텀, 아니면 표준.
 
 ---
 
