@@ -9,6 +9,8 @@ pin         : false
 hidden      : false
 ---
 
+> 관련: [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/)의 **Claude Code** 갈래 2단계(매일 쓰기)
+
 Claude Code(CLI)의 슬래시 명령어 전체 사전. 영역별로 묶어 정리. 전체 개요·설치·MCP는 [Claude Code 개요](/posts/ai/2025-10-24-claude-code/) 참고.
 
 ## 자주 쓰는 것

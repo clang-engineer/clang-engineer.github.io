@@ -13,6 +13,8 @@ redirect_from:
 
 ## Serena 기본 가이드
 
+> 관련: [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/)의 **MCP** 갈래 · 개념은 [MCP 개념 정리](/posts/ai/2025-10-23-mcp/), 여러 서버 붙이기는 [MCP 서버 더 붙이기](/posts/ai/2026-07-03-mcp-servers-catalog/)
+
 > Serena는 코드베이스 내에서 **의미 기반(semantic) 검색·편집**을 가능하게 하는 MCP 서버다.
 > 내부적으로 LSP(Language Server Protocol)를 써서 심볼 단위로 코드를 읽고 고치므로,
 > Claude Code·Codex 같은 LLM 코딩 에이전트와 함께 쓸 때 토큰 효율과 수정 정확도가 크게 올라간다. ([GitHub][1])

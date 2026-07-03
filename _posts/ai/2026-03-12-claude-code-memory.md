@@ -9,6 +9,8 @@ pin         : false
 hidden      : false
 ---
 
+> 관련: [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/)의 **Claude Code** 갈래 2단계(매일 쓰기)
+
 ## 메모리 시스템 개요
 
 Claude Code는 세션 간 컨텍스트를 유지하기 위해 두 가지 축의 메모리 시스템을 제공한다.

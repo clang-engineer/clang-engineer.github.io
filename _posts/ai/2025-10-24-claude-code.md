@@ -9,6 +9,8 @@ pin         : false
 hidden      : false
 ---
 
+> 관련: [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/)의 **Claude Code** 갈래 1단계 · 도구 선택은 [AI 코딩 도구 지형도](/posts/ai/2026-07-03-ai-coding-tools-landscape/)
+
 ## 📌 Claude Code란?
 
 Claude Code는 터미널에서 직접 실행되는 AI 코딩 도구로, 자연어 명령으로 코드 작성·디버깅·Git 워크플로우를 수행한다. 별도 IDE나 채팅 창 없이 현재 작업 디렉토리에서 바로 동작한다.
