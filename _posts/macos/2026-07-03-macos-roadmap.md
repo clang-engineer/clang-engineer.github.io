@@ -20,6 +20,7 @@ macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — �
 | [새 맥 초기 설정 — 셋업 순서](/posts/macos/2022-02-05-new-mac-initial-setup/) | 시스템 설정 → Homebrew → dotfiles → Git 계정으로 이어지는 day-1 셋업 순서. 각 단계를 심화 글로 연결하는 런북(진입점) |
 | [macOS 시스템 설정 — 세벌식·트랙패드·터미널·앱 권한](/posts/macos/2026-07-03-macos-system-settings/) | 세벌식 입력, Caps Lock 전환, 세 손가락 드래그, Mission Control 충돌부터 터미널 테마·앱 접근 권한·vim 스크롤까지 macOS 자체 설정 모음 |
 | [macOS CLI 개발 도구 모음 — Brewfile로 관리하는 터미널 툴킷](/posts/macos/2026-07-03-macos-cli-toolkit-brewfile/) | cat·ls·find·grep을 대체하는 모던 CLI(bat·eza·fd·ripgrep·zoxide)부터 fzf·lazygit·delta, 언어 버전 관리까지 실제 Brewfile 기준 갈래별 정리 |
+| [새 맥에 더 얹을 보조 유틸 모음](/posts/macos/2026-07-03-macos-extra-utilities/) | Ice(메뉴바)·Stats(모니터)·Shottr(스크린샷)·BetterDisplay(디스플레이)·Ghostty(터미널) — 큰 도구 다음에 취향껏 얹는 보조 유틸을 무엇·왜·대안까지 |
 | [Docker 실행 시 Operation not permitted 에러 해결](/posts/virtualization/2023-12-16-mac-docker-operation-not-permitted/) | macOS 파일·폴더 접근 권한 누락이 원인. 시스템 설정에서 Docker에 권한을 부여해 해결 |
 | [brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때](/posts/macos/2026-06-07-homebrew-cleanup-java-symlink-broken/) | Homebrew가 옛 JDK를 지우며 깨진 `/Library/Java/JavaVirtualMachines` 심볼릭 링크 복구 |
 
