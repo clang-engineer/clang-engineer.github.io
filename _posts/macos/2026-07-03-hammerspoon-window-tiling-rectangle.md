@@ -9,13 +9,17 @@ pin         : false
 hidden      : false
 ---
 
-> **[macOS 창 관리 로드맵](/posts/macos/2026-07-03-macos-window-management-roadmap/)** — AeroSpace × Hammerspoon 시리즈
+> **[macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)** — 창 관리(AeroSpace × Hammerspoon) 갈래
 > 1. [연계 & 창 재정렬](/posts/macos/2026-07-03-aerospace-hammerspoon-window-reflow/)
 > 2. **Rectangle 대체 — 화면 내 창 분할** (현재 글)
 > 3. [워크스페이스 정보 오버레이](/posts/macos/2026-07-03-aerospace-workspace-overlay/)
 {: .prompt-info }
 
-[AeroSpace](https://github.com/nikitabobko/AeroSpace)로 워크스페이스(가상 공간)를 나눴다면, 이제 **한 화면 안에서 창을 반으로, 1/3로, 꼭짓점에** 착착 배치하고 싶어진다. 보통 [Rectangle.app](https://rectangleapp.com/)을 쓰지만, 이미 Hammerspoon을 쓰고 있다면 Lua 수십 줄로 같은 걸 만들 수 있다.
+[AeroSpace](https://github.com/nikitabobko/AeroSpace)로 워크스페이스(가상 공간)를 나눴다면, 이제 **한 화면 안에서 창을 반으로, 1/3로, 꼭짓점에** 착착 배치하고 싶어진다.
+
+이 영역의 사실상 표준은 [Rectangle.app](https://rectangleapp.com/)이다. 무료·오픈소스이고, 설치 후 `Ctrl+Opt+←/→`로 반분할, `Ctrl+Opt+↩`로 최대화처럼 기본 단축키만으로 바로 쓸 수 있어 macOS 창 분할 앱 중 가장 널리 쓰인다. **막 시작한다면 Rectangle.app부터 깔아 보는 게 가장 쉬운 길이다.**
+
+다만 이미 Hammerspoon을 쓰고 있다면, 그 유명한 기능들을 Lua 수십 줄로 직접 만들어 앱 하나를 덜 수 있다. 이 글은 그 길을 택한다.
 
 ## 왜 Rectangle 대신 Hammerspoon인가
 

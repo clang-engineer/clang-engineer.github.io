@@ -17,7 +17,8 @@ macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — �
 
 | 글 | 핵심 |
 |---|---|
-| [새 맥 초기 설정 — Homebrew Brewfile · dotfiles 심볼릭 링크](/posts/macos/2022-02-05-new-mac-initial-setup/) | 기본 환경설정, Brewfile로 패키지 이관, 터미널 테마, dotfiles 링크까지 새 맥 셋업 흐름 |
+| [새 맥 초기 설정 — 셋업 순서](/posts/macos/2022-02-05-new-mac-initial-setup/) | 시스템 설정 → Homebrew → dotfiles → Git 계정으로 이어지는 day-1 셋업 순서. 각 단계를 심화 글로 연결하는 런북(진입점) |
+| [macOS 시스템 설정 — 세벌식·트랙패드·터미널·앱 권한](/posts/macos/2026-07-03-macos-system-settings/) | 세벌식 입력, Caps Lock 전환, 세 손가락 드래그, Mission Control 충돌부터 터미널 테마·앱 접근 권한·vim 스크롤까지 macOS 자체 설정 모음 |
 | [macOS CLI 개발 도구 모음 — Brewfile로 관리하는 터미널 툴킷](/posts/macos/2026-07-03-macos-cli-toolkit-brewfile/) | cat·ls·find·grep을 대체하는 모던 CLI(bat·eza·fd·ripgrep·zoxide)부터 fzf·lazygit·delta, 언어 버전 관리까지 실제 Brewfile 기준 갈래별 정리 |
 | [Docker 실행 시 Operation not permitted 에러 해결](/posts/virtualization/2023-12-16-mac-docker-operation-not-permitted/) | macOS 파일·폴더 접근 권한 누락이 원인. 시스템 설정에서 Docker에 권한을 부여해 해결 |
 | [brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때](/posts/macos/2026-06-07-homebrew-cleanup-java-symlink-broken/) | Homebrew가 옛 JDK를 지우며 깨진 `/Library/Java/JavaVirtualMachines` 심볼릭 링크 복구 |
@@ -46,6 +47,18 @@ macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — �
 
 > AeroSpace를 고른 이유는 **SIP(System Integrity Protection)를 비활성화하지 않는다**는 점이다. 자체 가상 워크스페이스로 macOS 네이티브 Spaces를 우회해 OS 업데이트에 강하다. (yabai는 전체 기능에 SIP 비활성화가 필요해 업데이트마다 깨지기 쉽다.)
 {: .prompt-tip }
+
+### 기본기 — 두 도구를 각각 먼저 익히기
+
+연동에 들어가기 전에, AeroSpace와 Hammerspoon을 하나씩 손에 익히는 단계. 각 도구의 설치·핵심 개념·기본 단축키를 잡는다.
+
+| 글 | 핵심 |
+|---|---|
+| [Rectangle.app 기본 — 가장 쉬운 macOS 창 분할](/posts/macos/2026-07-03-rectangle-app-basics/) | 코드 없이 지금 당장 창 분할. 무료·오픈소스 앱 설치, `⌃⌥` 반·1/3·꼭짓점 분할 단축키, 드래그 스냅. 가장 쉬운 출발점 |
+| [AeroSpace 기본 — 워크스페이스·단축키·on-window-detected](/posts/macos/2026-07-03-aerospace-basics/) | SIP 비활성화 없이 쓰는 타일링 워크스페이스 매니저. `alt-hjkl` 포커스·이동, 워크스페이스 전환, `.aerospace.toml`의 `mode.main.binding`과 앱 자동 배치 |
+| [Hammerspoon 기본 — init.lua·hs API·ipc CLI·모듈 구조](/posts/macos/2026-07-03-hammerspoon-basics/) | Lua로 macOS 자동화. Accessibility 권한, `hs.hotkey.bind`, hs API 맛보기, `hs` CLI와 URL scheme, 설정을 모듈로 쪼개기 |
+
+가장 쉬운 진입은 **Rectangle.app**(GUI 앱)으로 창 분할 감을 잡는 것이다. 여기서 더 나아가 워크스페이스 분리는 AeroSpace, 정밀 배치·자동화는 Hammerspoon으로 넘어간다. Rectangle의 기능을 Hammerspoon으로 옮기는 과정은 아래 2단계에서 다룬다.
 
 ### 1단계 — 연동의 기본기 (연계 & 재정렬)
 
