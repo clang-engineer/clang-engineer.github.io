@@ -1,29 +1,31 @@
 ---
 title       : "macOS 로드맵 — 개발환경으로 길들이는 글 모음"
-description : "macOS를 개발·생산성 환경으로 다듬는 주제별 인덱스. 새 맥 셋업(시스템 운영)에서 시작해 런처·생산성, 창 관리(AeroSpace + Hammerspoon)까지 이 블로그의 macOS 활용 글을 갈래별로 큐레이션한다."
+description : "macOS를 개발·생산성 환경으로 다듬는 학습 인덱스. 새 맥 셋업(시스템 운영)에서 시작해 런처·생산성, 창 관리(AeroSpace + Hammerspoon)까지 갈래별로 순서대로 큐레이션하고, 개별 트러블슈팅은 각 갈래 끝의 별도 구획으로 분리했다."
 date        : 2026-07-03 17:30:00 +0900
-updated     : 2026-07-03 17:30:00 +0900
+updated     : 2026-07-04 12:00:00 +0900
 categories  : [macos, "개요·인덱스"]
 tags        : [roadmap, macos, aerospace, hammerspoon, window-manager]
 pin         : false
 hidden      : false
 ---
 
-macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — 시스템을 어떻게 운영하느냐, 무엇을 얼마나 빨리 호출하느냐, 창을 어떻게 배치하느냐. 이 로드맵은 그 갈래를 **주제별 섹션**으로 묶은 인덱스다. 지금은 **시스템 운영 · 런처·생산성 · 창 관리** 세 갈래가 채워져 있고, 새 맥을 막 받았다면 위에서부터 순서대로 읽으면 된다. 이미 익숙한 갈래는 건너뛰고 관심 지점부터 진입해도 좋다.
+macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — 시스템을 어떻게 운영하느냐, 무엇을 얼마나 빨리 호출하느냐, 창을 어떻게 배치하느냐. 이 로드맵은 그 갈래를 **배우는 순서**로 묶은 학습 인덱스다. **시스템 운영 → 런처·생산성 → 창 관리**가 얕은 데서 깊은 데로 가는 척추고, 새 맥을 막 받았다면 위에서부터 순서대로 읽으면 된다. 이미 익숙한 갈래는 건너뛰고 관심 지점부터 진입해도 좋다.
+
+각 갈래에서 **특정 증상 전용 트러블슈팅**은 학습 흐름에 섞지 않고, 갈래 끝의 `트러블슈팅` 구획으로 내려 두었다. 배우는 동안은 본문 표만 따라 읽고, 같은 벽에 부딪혔을 때만 그 구획으로 찾아 들어오면 된다.
 
 ## 한눈에 보기
 
 | 갈래 | 무엇을 잡나 | 여기서 출발 |
 |---|---|---|
-| 1. 시스템 운영 | 새 맥 셋업 · CLI 도구 · 트러블슈팅 | [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/) |
-| 2. 런처·생산성 | 무엇을 빠르게 호출하나 — Raycast를 검색 계층으로 | [Raycast 역할 한정](/posts/macos/2026-07-03-raycast-search-layer-role/) |
+| 1. 시스템 운영 | 새 맥 셋업 · CLI·유틸 갖추기 (개별 트러블슈팅은 갈래 끝 별도 구획) | [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/) |
+| 2. 런처·생산성 | 무엇을 빠르게 호출하나 — 런처 고르기부터 Raycast 역할 한정까지 | [런처 고르기](/posts/macos/2025-10-31-productivity-launchers/) |
 | 3. 창 관리 | 워크스페이스(AeroSpace) + 화면 내 배치·자동화(Hammerspoon) | [Rectangle.app 기본](/posts/macos/2026-07-03-rectangle-app-basics/) |
 
 창 관리 갈래는 두 도구를 각각 익히는 **기본기**에서 시작해, **연동 → 화면 내 배치 → 오버레이**로 이어지는 단계가 아래에 세부로 붙는다.
 
 ## 시스템 운영
 
-도구를 얹기 전에, macOS 자체를 운영하다 마주치는 셋업·트러블슈팅 갈래. 새 맥의 출발점이 여기다.
+도구를 얹기 전에, macOS 자체를 개발환경으로 갖추는 셋업 갈래. 새 맥의 출발점이 여기다. 위에서 아래로 **셋업 순서 → 자체 설정 → CLI 툴킷 → 보조 유틸**의 흐름으로 읽으면 된다.
 
 | 글 | 핵심 |
 |---|---|
@@ -31,18 +33,29 @@ macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — �
 | [macOS 시스템 설정 — 세벌식·트랙패드·터미널·앱 권한](/posts/macos/2026-07-03-macos-system-settings/) | 세벌식 입력, Caps Lock 전환, 세 손가락 드래그, Mission Control 충돌부터 터미널 테마·앱 접근 권한·vim 스크롤까지 macOS 자체 설정 모음 |
 | [macOS CLI 개발 도구 모음 — Brewfile로 관리하는 터미널 툴킷](/posts/macos/2026-07-03-macos-cli-toolkit-brewfile/) | cat·ls·find·grep을 대체하는 모던 CLI(bat·eza·fd·ripgrep·zoxide)부터 fzf·lazygit·delta, 언어 버전 관리까지 실제 Brewfile 기준 갈래별 정리 |
 | [새 맥에 더 얹을 보조 유틸 모음](/posts/macos/2026-07-03-macos-extra-utilities/) | Ice(메뉴바)·Stats(모니터)·Shottr(스크린샷)·BetterDisplay(디스플레이)·Ghostty(터미널) — 큰 도구 다음에 취향껏 얹는 보조 유틸을 무엇·왜·대안까지 |
+
+여기까지면 새 맥을 개발환경으로 세우는 큰 줄기는 끝난다. 다음 갈래(런처·생산성)로 넘어가면 된다.
+
+### 트러블슈팅 — 셋업 중 막혔을 때
+
+학습 순서와는 무관하게, 같은 증상에 부딪혔을 때만 찾아 들어오면 되는 개별 사례들.
+
+| 글 | 핵심 |
+|---|---|
 | [Docker 실행 시 Operation not permitted 에러 해결](/posts/virtualization/2023-12-16-mac-docker-operation-not-permitted/) | macOS 파일·폴더 접근 권한 누락이 원인. 시스템 설정에서 Docker에 권한을 부여해 해결 |
 | [brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때](/posts/macos/2026-06-07-homebrew-cleanup-java-symlink-broken/) | Homebrew가 옛 JDK를 지우며 깨진 `/Library/Java/JavaVirtualMachines` 심볼릭 링크 복구 |
 
 ## 런처·생산성 — Raycast
 
-시스템을 잡았다면, 다음은 **"무엇을 빠르게 호출하느냐"**의 축이다. 명령 팔레트·클립보드 히스토리·스니펫·확장이 여기 속한다. Raycast에도 창 관리 기능이 있어 뒤에 나올 도구들과 **역할이 겹칠 수 있다**. 그래서 이 갈래의 출발점은 "무엇을 켜느냐"가 아니라 **"무엇을 끄고 어디까지만 맡기느냐"**다.
+시스템을 잡았다면, 다음은 **"무엇을 빠르게 호출하느냐"**의 축이다. 명령 팔레트·클립보드 히스토리·스니펫·확장이 여기 속한다. 위에서 아래로 **런처 고르기 → 생산성 앱 큰 그림 → 역할 한정**의 흐름으로 읽으면 된다. Raycast에도 창 관리 기능이 있어 뒤에 나올 창 관리 도구들과 **역할이 겹칠 수 있는데**, "무엇을 끄고 어디까지만 맡기느냐"를 정리하는 마지막 글이 이 갈래의 종착점이다.
 
 | 글 | 핵심 |
 |---|---|
+| [macOS 생산성 런처 — Spotlight vs Alfred vs Raycast](/posts/macos/2025-10-31-productivity-launchers/) | 런처 자체를 고르는 첫 단계. 가격·확장성·클립보드·동기화·개발자 친화성으로 세 런처를 비교하고 사용자 유형별로 추천 |
+| [macOS 생산성 앱 정리](/posts/macos/2025-12-29-mac-productivity-tool/) | Raycast·Rectangle·BetterTouchTool 3대장과 대표 조합. 런처 밖 창 관리·입력 자동화까지 생산성 앱 전반의 큰 그림 |
 | [Raycast를 검색 계층으로 한정하기 — AeroSpace·Hammerspoon과 안 겹치게 쓰는 법](/posts/macos/2026-07-03-raycast-search-layer-role/) | 세 도구를 공간·자동화·검색 세 축으로 분업, Raycast의 창 관리 기능은 끄고 "검색형 진입 계층"으로 한정, Hammerspoon과의 경계선, 설정은 Cloud Sync가 정공법 |
 
-먼저 런처 자체를 고르는 단계라면 [Spotlight·Alfred·Raycast 비교](/posts/macos/2025-10-31-productivity-launchers/)부터 보고 오면 된다. 창 관리·자동화까지 포함한 생산성 앱 전반은 [macOS 생산성 앱 정리](/posts/macos/2025-12-29-mac-productivity-tool/)에서 큰 그림을 잡을 수 있다.
+마지막 글은 다음에 나올 창 관리 갈래(AeroSpace·Hammerspoon)를 전제로 하니, 그 두 도구가 아직 낯설면 창 관리 갈래를 먼저 훑고 돌아와 읽어도 된다.
 
 ## 창 관리 — AeroSpace + Hammerspoon
 
@@ -120,4 +133,16 @@ macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — �
 
 ---
 
-데스크톱 쪽 공간 관리를 잡았다면, 터미널 안 공간 관리는 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)과 함께 보면 데스크톱–터미널 양쪽을 한 번에 다룰 수 있다.
+macOS를 개발환경으로 세우려는 사람은 이렇게 읽으면 된다:
+
+- **새 맥을 막 받았다면** 시스템 운영 갈래를 셋업 순서 → 자체 설정 → CLI 툴킷 → 보조 유틸 순으로.
+- **호출 속도를 올리고 싶다면** 런처·생산성 갈래에서 Raycast의 역할부터 정리한다.
+- **창 배치까지 손대려면** 창 관리 갈래를 기본기 → 연동 → 화면 내 배치 → 오버레이 단계로 밟는다.
+- **막힌 증상이 있을 때만** 해당 갈래 끝의 `트러블슈팅` 구획으로 직행한다.
+
+이 로드맵은 macOS **시스템·런처·창 관리**까지의 데스크톱 계층을 다룬다. 그 위·옆에 얹히는 개발환경의 나머지 축은 각각 별도 로드맵으로 이어진다.
+
+- **터미널 안 공간 관리** — [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/). 데스크톱–터미널 양쪽 공간 관리를 한 번에.
+- **셸 환경·스크립트** — [셸 로드맵](/posts/shell/2026-07-03-shell-roadmap/). Brewfile·dotfiles로 시작한 셸 설정을 스크립트 작성까지 밀고 나간다.
+- **에디터** — [Neovim 로드맵](/posts/neovim/2026-06-16-neovim-roadmap/). 터미널 기반 편집 환경으로 들어가는 갈래.
+- **키보드 커스텀** — [키보드 로드맵](/posts/etc/2026-07-03-keyboard-roadmap/). 시스템 설정의 세벌식·Caps Lock 리맵에서 더 들어가면 세벌식·Karabiner·커스텀 키맵까지.

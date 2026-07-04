@@ -2,7 +2,7 @@
 title       : Claude Code 정리
 description : "터미널에서 동작하는 Anthropic의 AI 코딩 도구 Claude Code의 특징과 설치, 핵심 기능·권한 모드·키보드 단축키·MCP 연동·CLAUDE.md 활용을 정리한다."
 date        : 2025-10-24 09:47:55 +0900
-updated     : 2026-07-03 00:00:00 +0900
+updated     : 2026-07-04 12:00:00 +0900
 categories  : [ai, "Claude Code"]
 tags        : [claude, claude-code]
 pin         : false
@@ -146,7 +146,7 @@ Claude Code는 편집할 때마다 코드 상태를 자동으로 스냅샷(체�
 
 ## 🔌 MCP (Model Context Protocol)
 
-MCP로 Claude Code를 외부 데이터소스·도구와 연결한다.
+MCP로 Claude Code를 외부 데이터소스·도구와 연결한다. 프로토콜 자체의 개념은 [MCP 개념 정리](/posts/ai/2025-10-23-mcp/), 여러 서버를 붙이는 실전은 [MCP 서버 더 붙이기](/posts/ai/2026-07-03-mcp-servers-catalog/)에서 이어진다.
 
 ```bash
 claude mcp add <name> -- <command...>   # 서버 추가 (stdio)
@@ -173,7 +173,7 @@ claude --debug                          # MCP 포함 디버그 로그
 ## 📋 베스트 프랙티스
 
 ### CLAUDE.md 로 프로젝트 컨텍스트 제공
-프로젝트 루트의 `CLAUDE.md` 는 매 세션 자동으로 읽힌다. 기술 스택·코딩 규칙·디렉토리 구조를 적어 두면 매번 설명할 필요가 없다.
+프로젝트 루트의 `CLAUDE.md` 는 매 세션 자동으로 읽힌다. 기술 스택·코딩 규칙·디렉토리 구조를 적어 두면 매번 설명할 필요가 없다. 계층·import·`.claude/rules`·Auto Memory까지 깊게는 [Claude Code 메모리 시스템 정리](/posts/ai/2026-03-12-claude-code-memory/)에서 다룬다.
 
 ```markdown
 # 프로젝트 개요

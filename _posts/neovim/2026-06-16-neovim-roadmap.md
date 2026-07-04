@@ -1,28 +1,32 @@
 ---
 title       : "Neovim 실력 향상 로드맵 — vim·neovim·lazyvim 글을 어떻게 읽을까"
-description : "Vim 기본기 → Lua → Neovim 내부 → LazyVim 구조 → 플러그인 작성까지, 이 블로그의 vim/neovim/lazyvim 글을 단계별로 큐레이션."
+description : "Vim 기본기 → Lua → LazyVim 구조 → 플러그인 작성을 학습 척추로 세우고, 이 블로그의 vim/neovim/lazyvim 글을 그 순서로 큐레이션. 비교·생태계, 프로젝트·언어별 환경 설정, 트러블슈팅은 학습 단계가 아닌 별도 축의 부록으로 분리."
 date        : 2026-06-16 23:00:00 +0900
-updated     : 2026-07-03 22:00:00 +0900
+updated     : 2026-07-04 12:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : false
 hidden      : false
 ---
 
-이 블로그에는 vim·neovim·lazyvim 세 디렉토리에 걸쳐 40여 편의 글이 있다. 처음 들어온 사람이 길을 잃지 않도록, "어떤 순서로 읽으면 Neovim 실력이 향상되는지"를 단계별로 정리했다.
+이 블로그에는 vim·neovim·lazyvim 세 디렉토리에 걸쳐 40여 편의 글이 있다. 처음 들어온 사람이 길을 잃지 않도록, "어떤 순서로 읽으면 Neovim 실력이 향상되는지"를 하나의 **학습 척추**로 묶었다 — 입문(계층 이해)에서 출발해 Vim 기본기 → Lua → LazyVim 구조 → 플러그인 작성으로 올라간다. 본인 위치에서 가까운 단계부터 진입하면 된다.
+
+실력 진행과 **결이 다른 축** — 옆 도구와의 비교·생태계, 프로젝트·언어별 환경 설정, 트러블슈팅 — 은 아래 **부록**으로 분리했다. 단계가 아니라, 해당 상황을 만났을 때 직행하는 별도 트랙이다.
 
 ## 한눈에 보기
 
-| 단계 | 무엇을 잡나 | 누구부터 |
-|---|---|---|
-| 어디서 시작할까 | Vim/Neovim/배포판 관계와 시작점 선택 | 입문자 필독 |
-| 1단계 — Vim 기본기 | 키맵·레지스터·vimscript | 입문자 |
-| 2단계 — Neovim 내부 (Lua) | 설정·플러그인을 고칠 수 있는 Lua | 플러그인 지망생 |
-| 3단계 — LazyVim 구조 이해 | spec merge·extras override | LazyVim 사용자 |
-| 4단계 — 프로젝트별 설정 | exrc·.nvim.lua 메커니즘 | 필요할 때 |
-| 5단계 — 플러그인 작성 | 배치·발행·런타임 API·등록 | 생태계 기여자 |
+입문 → 1 → 2 → 3 → 4단계가 실력이 올라가는 학습 척추다. 부록은 단계가 아니라 필요할 때 직행하는 별도 트랙이다.
 
-실력 흐름은 위가 본체다. 아래쪽 **비교·생태계 / 환경 세팅 / 트러블슈팅**은 단계와 무관하게 필요할 때 찾아 들어오는 부록이다.
+| 구역 | 무엇을 잡나 | 성격 |
+|---|---|---|
+| 입문 | Vim/Neovim/배포판 관계와 시작점 선택 | 학습 전제 |
+| 1단계 — Vim 기본기 | 키맵·레지스터·vimscript | 척추 |
+| 2단계 — Neovim 내부 (Lua) | 설정·플러그인을 고칠 수 있는 Lua | 척추 |
+| 3단계 — LazyVim 구조 이해 | spec merge·extras override | 척추 |
+| 4단계 — 플러그인 작성 | 배치·발행·런타임 API·등록 | 척추 |
+| 부록 A | 비교·생태계 — 옆 도구와 경계 긋기 | 다른 축 |
+| 부록 B | 프로젝트·언어별 환경 설정 — exrc·C++ 세팅 | 필요할 때 |
+| 부록 C | 트러블슈팅 모음 | 별도 트랙 |
 
 ## 어디서 시작할까
 
@@ -46,7 +50,7 @@ Vim/Neovim/배포판이 헷갈린다면 먼저 셋의 관계부터 잡자.
 
 ## 2단계 — Neovim 내부 (Lua)
 
-Neovim 설정·플러그인을 "고칠 수 있는" 수준이 되려면 Lua는 피할 수 없다. 시리즈 4부작 + 부록 1편으로 구성했다. `[Lua 종합 가이드](/posts/neovim/2026-06-15-lua-syntax-guide/)`가 hub고, 거기서 심화 3편으로 분기한다.
+Neovim 설정·플러그인을 "고칠 수 있는" 수준이 되려면 Lua는 피할 수 없다. 시리즈 4부작 + 부록 1편으로 구성했다. [Lua 종합 가이드](/posts/neovim/2026-06-15-lua-syntax-guide/)가 hub고, 거기서 심화 3편으로 분기한다.
 
 | 글 | 핵심 |
 |---|---|
@@ -71,16 +75,10 @@ LazyVim을 "그냥 쓰는" 단계에서 "어떻게 동작하는지 알고 고치
 | [LazyVim `<leader>x` — Trouble 기반 코드 문제 탐색](/posts/lazyvim/2026-05-04-lazyvim-leader-x-trouble/) | Diagnostics/Quickfix/Location List/Todo를 Trouble UI로 통합 |
 | [LazyVim의 Git 플러그인 구성](/posts/lazyvim/2026-06-09-lazyvim-git-plugins/) | gitsigns · lazygit · snacks 3축 |
 
-## 4단계 — 프로젝트별 설정
+> **경계 — IDE 기능 레이어는 이 척추가 직접 가르치지 않는다.** LSP 설정 기초·자동완성/스니펫·DAP(디버깅)·Treesitter는 학습 단계로 두지 않았다. LazyVim이 이 넷을 기본값으로 얹어 주므로, [기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 "어떤 플러그인이 담당하나"만 확인하고 실제 사용은 기본값에 맡기는 구성이다. 밑바닥부터 직접 설정·이해할 일이 생기면, 그때는 부록 C의 LSP·Treesitter 항목으로 직행하면 된다. (직접 손보는 유일한 예외가 언어별 환경 설정 — 부록 B.)
+{: .prompt-info }
 
-dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용하고 싶은 케이스. exrc / `.nvim.lua` 메커니즘이 핵심.
-
-| 글 | 핵심 |
-|---|---|
-| [Neovim 프로젝트별 로컬 설정 가이드 — exrc · .nvim.lua · trust](/posts/neovim/2026-06-15-neovim-exrc-nvim-lua-guide/) | Neovim 0.9+ exrc 동작·검색 파일명·trust 시스템·함정 한 번에 |
-| [Windows에서 Dotfiles의 Neovim 설정 연결하기](/posts/neovim/2026-01-07-window-neovim/) | Windows에서 dotfiles 연결 시 경로 함정 |
-
-## 5단계 — 플러그인 작성
+## 4단계 — 플러그인 작성
 
 이 단계까지 오면 "Neovim 사용자"에서 "Neovim 생태계 기여자"로 넘어간다. 4부작(배치·발행) + 런타임 API(구현 심화) + 실전 케이스 + 등록까지.
 
@@ -145,27 +143,33 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 | [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) | vim-dadbod에 Vertica 어댑터 + dadbod-ui schema-tree 통합 | [어댑터 만들기 (제작 가이드)](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/) |
 | [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) | jdtls용 JVM(JAVA_HOME) 환경 선택. 첫 OSS 플러그인 | [발행 회고 (보강 사이클)](/posts/neovim/2026-06-17-jvm-env-nvim-publication-retrospective/) |
 
-## 비교·생태계 — 옆 동네와 견줘 보기
+---
 
-실력 단계와는 별개로, "이 도구가 대체 뭐랑 다른 거지"를 짚어 두면 선택이 명확해진다. 겹쳐 보이는 도구의 **경계선**을 긋는 글들.
+## 부록 A — 비교·생태계 (다른 축)
+
+여기서부터는 실력 단계가 아니라 **필요할 때 직행하는 별도 트랙**이다. 먼저 옆 도구와의 비교 — "이 도구가 대체 뭐랑 다른 거지"를 짚어 두면 선택이 명확해진다. 겹쳐 보이는 도구의 **경계선**을 긋는 글들.
 
 | 글 | 핵심 |
 |---|---|
 | [Telescope vs fzf — 퍼지 파인더의 경계선](/posts/neovim/2026-07-03-telescope-vs-fzf/) | fzf는 Neovim 없이도 도는 **독립 Go 바이너리**, Telescope는 Neovim API에 얹힌 **순수 Lua 플러그인**. "둘 다 파일 검색된다"는 겹치는 기능 하나일 뿐, 어디서 도느냐가 본질 |
 | [LazyVim 사용자가 본 Emacs — 에디터가 아니라 Elisp 런타임](/posts/neovim/2026-07-03-neovim-user-view-of-emacs/) | 차이는 단축키가 아니라 "에디터를 무엇으로 보느냐". evil-mode, Doom=설정 레이어 vs Neovim=포크, magit/org-mode/런타임 리프로그래밍, 생태계 규모까지 |
 
-## 환경 세팅·운영
+## 부록 B — 프로젝트·언어별 환경 설정 (필요할 때)
+
+글로벌 설정은 학습 척추에서 다뤘고, 여기는 "특정 프로젝트·언어에 맞춰 별도로 손보는" 축이다. 실력 진행과 별개로, 해당 상황이 생겼을 때 찾아 들어오면 된다.
 
 | 글 | 핵심 |
 |---|---|
-| [Neovim으로 C++ 개발 환경 세팅 (coc.nvim + clangd)](/posts/neovim/2024-04-04-neovim-cpp-setting/) | C++ 워크플로 한 세트 |
+| [Neovim 프로젝트별 로컬 설정 가이드 — exrc · .nvim.lua · trust](/posts/neovim/2026-06-15-neovim-exrc-nvim-lua-guide/) | dotfiles 글로벌 설정 위에 프로젝트마다 다르게 얹기. Neovim 0.9+ exrc 동작·검색 파일명·trust 시스템·함정 한 번에 |
+| [Neovim으로 C++ 개발 환경 세팅 (coc.nvim + clangd)](/posts/neovim/2024-04-04-neovim-cpp-setting/) | 언어별 개발 환경 예시. coc.nvim 기반 C++ 워크플로 한 세트(초기 글이라 네이티브 LSP 이전 접근) |
 
-## 트러블슈팅 모음
+## 부록 C — 트러블슈팅 모음 (별도 트랙)
 
 실력 향상 흐름과 분리해서 모았다. 같은 에러를 만났을 때 검색해서 들어오는 용도.
 
 | 영역 | 글 |
 |---|---|
+| 프로젝트 설정 | [Windows에서 Dotfiles의 Neovim 설정 연결하기](/posts/neovim/2026-01-07-window-neovim/) — Windows dotfiles 연결 시 경로 함정 |
 | 진단 도구 | [LazyVim Diagnostics 로그/메시지 확인법](/posts/lazyvim/2026-02-04-lazyvim-diagnostics/) |
 | LSP | [Java LSP (jdtls) 작동 안함](/posts/lazyvim/2025-12-17-java-lsp-jdtls/) · [kotlin-language-server documentHighlight 크래시](/posts/lazyvim/2026-06-08-kotlin-language-server-document-highlight-crash/) · [kotlin-language-server가 import를 못 잡을 때 (kls_database.db 캐시)](/posts/neovim/2026-06-16-kotlin-language-server-stale-kls-database/) · [LSP가 안 붙을 때 — 헤드리스 모드로 attach 검증](/posts/neovim/2026-06-15-neovim-lsp-headless-attach-debug/) · [특정 LSP의 server_capability 한 줄로 끄기](/posts/lazyvim/2026-06-16-lazyvim-disable-lsp-server-capability/) |
 | Treesitter | [kotlin 쿼리 "..<" 노드 에러 + main 브랜치 0.12 전용 함정](/posts/lazyvim/2026-05-08-nvim-treesitter-kotlin-rangeuntil-query-error/) |
@@ -178,6 +182,11 @@ dotfiles에 깔린 글로벌 설정 위에, 프로젝트마다 다르게 적용�
 
 ---
 
-본인의 현재 위치에서 가까운 단계부터 진입하면 된다. 입문자는 "어디서 시작할까"부터, LazyVim 사용자는 3단계, 플러그인 만들고 싶은 사람은 2단계 → 5단계가 자연스러운 경로다.
+실력을 올리려는 사람은 이렇게 읽으면 된다:
 
-터미널 멀티플렉서를 함께 쓴다면 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)도 곁에 두면 좋다. `vim-tmux-navigator`로 Neovim 창과 tmux 패널을 한 키맵으로 오가는 구성이 자연스럽다.
+- **Vim/Neovim/배포판이 헷갈린다면** 입문("어디서 시작할까") 세 글로 계층부터.
+- **처음 손에 익힌다면** 1단계 Vim 기본기부터 순서대로 4단계까지.
+- **LazyVim만 쓰고 있었다면** 3단계로 바로 들어가 구조를 잡는다.
+- **플러그인을 만들고 싶다면** 2단계(Lua) → 4단계(플러그인 작성)가 최단 경로다.
+
+그다음은 상황껏 — 옆 도구와 견주고 싶으면 부록 A, 프로젝트·언어별로 환경을 손봐야 하면 부록 B, 에러에 막히면 부록 C로 직행하면 된다. 터미널 멀티플렉서를 함께 쓴다면 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)도 곁에 두면 좋다. `vim-tmux-navigator`로 Neovim 창과 tmux 패널을 한 키맵으로 오가는 구성이 자연스럽다.
