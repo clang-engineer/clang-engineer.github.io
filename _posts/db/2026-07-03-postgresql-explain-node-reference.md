@@ -100,7 +100,7 @@ hidden      : false
 | --- | --- | --- |
 | `Sort Method: external merge Disk` / `temp written` 큼 | `work_mem` 부족으로 디스크 정렬·스필 | [옵티마이저 글](/posts/db/2026-07-03-query-optimizer-explain/)의 튜닝 절, `work_mem` 조정 |
 | `HashAggregate`에 `Disk Usage` | 해시 테이블이 넘쳐 임시파일 사용 | `work_mem`, 그룹 카디널리티 재검토 |
-| `Heap Fetches` 큼 | 가시성맵 미갱신 → Index Only Scan 이점 상실 | [MVCC와 VACUUM](/posts/db/2026-07-03-mvcc-vacuum.md), 오토배큠 튜닝 |
+| `Heap Fetches` 큼 | 가시성맵 미갱신 → Index Only Scan 이점 상실 | [MVCC와 VACUUM](/posts/db/2026-07-03-mvcc-vacuum/), 오토배큠 튜닝 |
 | `Rows Removed by Filter` 큼 | 스캔 후 대량 폐기 → 인덱스로 선별 가능 | [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) |
 | `Rows Removed by Join Filter` 큼 | 조인 조건이 키를 못 타 대량 대조·폐기 | [조인 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/) |
 | `Recheck Cond` + `lossy` 비트맵 | 메모리 부족으로 페이지 단위 비트맵 | `work_mem`, Bitmap Scan 적정성 |
