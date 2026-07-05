@@ -47,6 +47,9 @@ hidden      : false
 |---|---|
 | [셸 스크립트 문법 종합 가이드 (bash 기준, zsh 차이 표기)](/posts/shell/2026-07-03-bash-syntax-guide/) | 변수·인용·파라미터 확장·`[[ ]]`·제어 흐름·함수·배열·확장 순서·`set -euo pipefail`을 한 장에. 2단계 각론이 매달리는 줄기 |
 
+> 📎 **치트시트** · [shell](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/shell.md) · [zsh](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/zsh.md) — bash `set` 옵션·`&&`/`||`·잡 관리 / zsh 단축키·glob 빠른 참조 (GitHub)
+{: .prompt-tip }
+
 인용·파라미터 확장·`set -euo pipefail`을 여기서 손에 익히면, 다음 단계의 실전 글이 "왜 이렇게 쓰나"까지 함께 읽힌다.
 
 ## 2단계 — 실전 관용구로 도구 짜기
@@ -58,6 +61,9 @@ hidden      : false
 | [셸로 파일명·문자열 일괄 변경하기](/posts/shell/2021-10-13-shell-script/) | bash 파라미터 확장·sed·brew rename·`find -exec`로 다수 파일의 이름·경로·내용을 한 번에. 문법 가이드의 파라미터 확장이 실전으로 |
 | [find의 -exec와 파이프 비교](/posts/shell/2025-09-19-exec-vs-pipe/) | `find -exec` vs 파이프(`\|`) vs `xargs` — 언제 무엇을 쓰나. 스크립트에서 반복 처리를 짤 때의 갈림길 |
 | [CLI 인자 컨벤션 — positional과 --flag는 왜 섞어 쓰나](/posts/shell/2026-06-10-cli-positional-vs-flag/) | 위치 인자와 옵션 플래그의 역할 분담, bash 파싱 최소 패턴, env var와의 비교. "남이 쓸 도구"로 만드는 인터페이스 설계 |
+
+> 📎 **치트시트** · [sed-awk](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/sed-awk.md) — sed 치환·삽입·삭제 / awk 필드·집계 빠른 참조 (GitHub)
+{: .prompt-tip }
 
 여기까지 오면 일회성 명령을 넘어, 인자를 받고 반복을 처리하는 **도구다운 스크립트**를 직접 짤 수 있다.
 
@@ -91,6 +97,9 @@ dotfiles의 bootstrap·멱등 링크 헬퍼는 1~2단계에서 배운 스크립�
 |---|---|
 | [zoxide로 디렉토리 이동 빠르게 — autojump 대체](/posts/shell/2026-07-03-zoxide-directory-jump/) | 방문 기록(frecency)으로 디렉토리 점프. 셸 연동, `z`/`zi`, autojump에서 갈아타기, fzf 연동 |
 
+> 📎 **치트시트** · [modern-cli](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/modern-cli.md) — bat·eza·fd·zoxide·delta·tldr 빠른 참조 (GitHub)
+{: .prompt-tip }
+
 `cat`·`ls`·`find`·`grep`을 대체하는 모던 CLI(bat·eza·fd·ripgrep)까지 한 번에 보고 싶다면 [macOS CLI 개발 도구 모음](/posts/macos/2026-07-03-macos-cli-toolkit-brewfile/)에 Brewfile 기준으로 갈래별 정리해 두었다.
 
 ## 부록 C — 셸 밖, 세션·프로세스 지속과 원격 (별도 트랙)
@@ -102,6 +111,9 @@ dotfiles의 bootstrap·멱등 링크 헬퍼는 1~2단계에서 배운 스크립�
 | [셸 백그라운드 잡: &, nohup, disown, tmux의 차이](/posts/shell/2026-06-16-background-jobs-and-session/) | `&`로 띄운 프로세스가 셸 종료 시 같이 죽는지 — zsh와 bash 기본이 다르다. 확실히 살리는 4가지 방법. 창을 닫아도 프로세스를 살려 두려 할 때 |
 | [SSH Broken Pipe Error 해결 방법](/posts/shell/2025-03-21-ssh-broken-pipe-err/) | NAT·방화벽 idle timeout으로 끊기는 원인, `ServerAliveInterval`/`ClientAliveInterval`, TCPKeepAlive·tmux·mosh 비교 |
 | [바이너리 파일을 텍스트로 변환하여 복사 붙여넣기](/posts/shell/2024-11-27-move-binary-file-by-cp/) | 망 분리 환경에서 xxd·base64·certutil로 바이너리를 텍스트화해 옮긴 뒤 복원. split 분할 전송과 해시 무결성 검증 |
+
+> 📎 **치트시트** · [ssh](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/ssh.md) · [linux-process](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/linux-process.md) — ~/.ssh/config·keepalive / 프로세스·백그라운드 잡 빠른 참조 (GitHub)
+{: .prompt-tip }
 
 프로세스를 셸 밖에서 오래 붙들어 두는 이야기는 자연히 터미널 멀티플렉서로 이어진다 — [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)과 함께 보면 좋다.
 

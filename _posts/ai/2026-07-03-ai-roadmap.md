@@ -49,6 +49,9 @@ AI 코딩 도구는 "채팅창에 붙여넣기"에서 멈추기 쉽다. 그런�
 | [Claude Code 슬래시 명령어 사전](/posts/ai/2025-10-24-claude-code-slash-commands/) | 기본/설정/프로젝트/Git/계정/통합 카테고리로 묶은 슬래시 명령어 전체 사전. 필요할 때 찾아 쓰는 레퍼런스 |
 | [Claude Code 메모리 시스템 정리](/posts/ai/2026-03-12-claude-code-memory/) | `CLAUDE.md`(프로젝트 규칙)와 Auto Memory(대화 간 지속되는 사실)로 컨텍스트를 관리. 매번 같은 배경을 다시 설명하지 않게 만드는 축 |
 
+> 📎 **치트시트** · [claude-code](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/claude-code.md) — CLI 명령·슬래시·설정 빠른 참조 (GitHub)
+{: .prompt-tip }
+
 ### 3단계 — 실전 워크플로와 확장
 
 조작법에서 활용법으로. 큰 작업을 안전·빠르게 굴리고, 도구 자체를 프로젝트에 맞게 확장한다.

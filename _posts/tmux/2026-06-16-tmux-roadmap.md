@@ -33,6 +33,9 @@ tmux를 처음 만지거나, 단축키가 자꾸 헷갈리는 단계.
 |---|---|
 | [tmux 정리본 (Cheat Sheet + 사용 가이드)](/posts/tmux/2021-11-30-tmux-config/) | 세션·윈도우·패널 3계층 구조, 설치, `~/.tmux.conf` 기본, 자주 쓰는 단축키·복사 모드·스크롤 한 장 |
 
+> 📎 **치트시트** · [tmux](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/tmux.md) — 세션·윈도우·패널·복사 모드 단축키 빠른 참조 (GitHub)
+{: .prompt-tip }
+
 여기까지만 알아도 "터미널이 닫혀도 살아있는 세션"은 누릴 수 있다. 다만 기본값은 손이 불편한 부분이 많아, 다음 단계에서 다듬는다.
 
 ## 1단계 — 설정 다듬기

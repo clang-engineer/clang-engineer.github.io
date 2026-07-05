@@ -68,6 +68,9 @@ DB는 "쿼리 짜는 법"에서 멈추기 쉽다. 그런데 한 겹만 걷어내
 | [DBCP — HikariCP 커넥션 풀 사이징](/posts/db/2024-03-06-dbcp/) | `minimumIdle`·`maximumPoolSize`·`maxLifetime`이 DB의 `max_connections`·`wait_timeout`과 맞물리는 방식, 적정 커넥션 수를 부하 테스트로 찾는 흐름 |
 | [DB 앞단 캐싱 전략 — Redis](/posts/db/2026-07-03-caching-strategy-redis/) | Cache-Aside·Write-Through 패턴과 무효화, DB-캐시 정합성, 스탬피드·침투·핫키 장애 대응 |
 
+> 📎 **치트시트** · [sql-snippets](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/sql-snippets.md) — information_schema·인덱스·튜닝 실전 SQL 빠른 참조 (GitHub)
+{: .prompt-tip }
+
 조인·인덱스·옵티마이저로 "엔진이 어떻게 찾나"를 잡으면, 파티셔닝·쿼리 튜닝이 왜 그렇게 동작하는지, 커넥션·캐시를 앞단에 어떻게 두는지가 원리 위에서 읽힌다. 설계 구역의 사전 적재가 왜 "옵티마이저를 이기는" 게 아니라 "옵티마이저가 일할 필요를 없애는" 설계인지도 여기 조인 원리를 알아야 보인다.
 
 ## 운영 — 어떻게 살려두나
@@ -105,6 +108,9 @@ DB는 "쿼리 짜는 법"에서 멈추기 쉽다. 그런데 한 겹만 걷어내
 | [JPA/ORM 핵심 — 영속성 컨텍스트·지연 로딩·N+1](/posts/db/2026-07-03-jpa-persistence-context/) | 영속성 컨텍스트의 1차 캐시·변경 감지, 지연 로딩 프록시, N+1을 fetch join·@EntityGraph·@BatchSize로 없애기. MyBatis와 대비되는 ORM 접근 |
 | [Liquibase 설정과 사용 패턴](/posts/db/2025-10-17-liquibase/) | `master.xml` 구성, changeset 작성 규칙, CSV·타임스탬프 처리 등 스키마 마이그레이션 실무 패턴 |
 | [Kibana 개념 정리 — Saved Objects·Lens·Alerting](/posts/db/2026-06-07-kibana-saved-objects-lens-alerting/) | 환경 간 대시보드 이전(Saved Objects), 차트별 적합 데이터, Index threshold·ES query 룰, 7.x→8.x 변화 |
+
+> 📎 **치트시트** · [kibana](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/kibana.md) · [elasticsearch](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/elasticsearch.md) — KQL·Dev Tools / ES 쿼리·관리 빠른 참조 (GitHub)
+{: .prompt-tip }
 
 ## 부록 B — 트러블슈팅 (별도 트랙)
 

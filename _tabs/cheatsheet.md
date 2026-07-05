@@ -22,7 +22,6 @@ title: 치트시트
 |------|------|
 | [rg.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/rg.md) | ripgrep — 텍스트 검색 (`grep` 대체) |
 | [fzf.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/fzf.md) | fzf — 퍼지 파인더 (Ctrl+R/T, 파이프 조합) |
-| [jq.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/jq.md) | jq — JSON 파이프라인 가공 |
 | [modern-cli.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/modern-cli.md) | bat / eza / fd / tree / zoxide / delta / tldr 통합 |
 
 ## 텍스트 처리
@@ -31,7 +30,7 @@ title: 치트시트
 |------|------|
 | [sed-awk.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/sed-awk.md) | sed (치환·삽입·삭제) + awk (필드·집계·보고서) |
 | [regex.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/regex.md) | 정규표현식 문법 + 도구별 플레이버(BRE/ERE/PCRE) 차이 |
-| [compression.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/compression.md) | tar / gzip / zip / xz / bzip2 / 7z |
+| [jq.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/jq.md) | jq — JSON 파이프라인 가공 (구조화 텍스트) |
 
 ## 셸
 
@@ -52,6 +51,7 @@ title: 치트시트
 | [nginx.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/nginx.md) | Nginx 설정/명령어 |
 | [openssl.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/openssl.md) | 인증서/암호화 |
 | [rocky-linux.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/rocky-linux.md) | Rocky Linux (firewalld, SELinux, certbot) |
+| [compression.md](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/compression.md) | tar / gzip / zip / xz / bzip2 / 7z — 압축·아카이브 |
 
 ## macOS
 

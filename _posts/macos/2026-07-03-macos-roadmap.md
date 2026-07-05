@@ -34,6 +34,9 @@ macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — �
 | [macOS CLI 개발 도구 모음 — Brewfile로 관리하는 터미널 툴킷](/posts/macos/2026-07-03-macos-cli-toolkit-brewfile/) | cat·ls·find·grep을 대체하는 모던 CLI(bat·eza·fd·ripgrep·zoxide)부터 fzf·lazygit·delta, 언어 버전 관리까지 실제 Brewfile 기준 갈래별 정리 |
 | [새 맥에 더 얹을 보조 유틸 모음](/posts/macos/2026-07-03-macos-extra-utilities/) | Ice(메뉴바)·Stats(모니터)·Shottr(스크린샷)·BetterDisplay(디스플레이)·Ghostty(터미널) — 큰 도구 다음에 취향껏 얹는 보조 유틸을 무엇·왜·대안까지 |
 
+> 📎 **치트시트** · [modern-cli](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/modern-cli.md) · [fzf](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/fzf.md) · [lazygit](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/lazygit.md) — 터미널 툴킷(bat·eza·fd / 퍼지 파인더 / Git TUI) 빠른 참조 (GitHub)
+{: .prompt-tip }
+
 여기까지면 새 맥을 개발환경으로 세우는 큰 줄기는 끝난다. 다음 갈래(런처·생산성)로 넘어가면 된다.
 
 ### 트러블슈팅 — 셋업 중 막혔을 때
@@ -81,6 +84,9 @@ macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — �
 | [Rectangle.app 기본 — 가장 쉬운 macOS 창 분할](/posts/macos/2026-07-03-rectangle-app-basics/) | 코드 없이 지금 당장 창 분할. 무료·오픈소스 앱 설치, `⌃⌥` 반·1/3·꼭짓점 분할 단축키, 드래그 스냅. 가장 쉬운 출발점 |
 | [AeroSpace 기본 — 워크스페이스·단축키·on-window-detected](/posts/macos/2026-07-03-aerospace-basics/) | SIP 비활성화 없이 쓰는 타일링 워크스페이스 매니저. `alt-hjkl` 포커스·이동, 워크스페이스 전환, `.aerospace.toml`의 `mode.main.binding`과 앱 자동 배치 |
 | [Hammerspoon 기본 — init.lua·hs API·ipc CLI·모듈 구조](/posts/macos/2026-07-03-hammerspoon-basics/) | Lua로 macOS 자동화. Accessibility 권한, `hs.hotkey.bind`, hs API 맛보기, `hs` CLI와 URL scheme, 설정을 모듈로 쪼개기 |
+
+> 📎 **치트시트** · [aerospace](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/aerospace.md) — 워크스페이스·바인딩·모드 빠른 참조 (GitHub)
+{: .prompt-tip }
 
 가장 쉬운 진입은 **Rectangle.app**(GUI 앱)으로 창 분할 감을 잡는 것이다. 여기서 더 나아가 워크스페이스 분리는 AeroSpace, 정밀 배치·자동화는 Hammerspoon으로 넘어간다. Rectangle의 기능을 Hammerspoon으로 옮기는 과정은 아래 2단계에서 다룬다.
 
@@ -130,6 +136,9 @@ macOS를 개발환경으로 길들이는 일은 여러 갈래로 나뉜다 — �
 | 글 | 핵심 |
 |---|---|
 | [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](/posts/macos/2026-06-07-aerospace-secure-input-hotkey-blocked/) | Secure Input이 활성이면 시스템 핫키를 못 잡는다. 어느 프로세스가 잡았는지 진단하고 푸는 법 |
+
+> 📎 **치트시트** · [macos-admin](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/macos-admin.md) — Secure Input·LaunchDaemons 등 진단 빠른 참조 (GitHub)
+{: .prompt-tip }
 
 ---
 
