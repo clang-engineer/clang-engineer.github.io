@@ -2,7 +2,7 @@
 title       : "AI 로드맵 — 도구 지형도에서 Claude Code·MCP·API까지 읽는 순서"
 description : "AI 코딩 도구를 개발 워크플로에 들이는 주제별 인덱스. 도구 지형도(왜 Claude Code인가)에서 시작해 Claude Code를 매일 쓰고 실전으로 확장하고, MCP로 외부를 연결하고, 그 아래 Claude API까지 — 이 블로그의 AI 글을 단계별로 큐레이션한다."
 date        : 2026-07-03 21:30:00 +0900
-updated     : 2026-07-04 12:00:00 +0900
+updated     : 2026-07-06 09:00:00 +0900
 categories  : [ai, "개요·인덱스"]
 tags        : [roadmap, ai, claude-code, mcp, claude]
 pin         : false
@@ -79,7 +79,7 @@ AI 코딩 도구는 "채팅창에 붙여넣기"에서 멈추기 쉽다. 그런�
 |---|---|
 | [Claude API 기초](/posts/ai/2026-07-03-claude-api-basics/) | 모델 ID·가격, Messages API 기본 요청, adaptive thinking·effort, 스트리밍, tool use, 프롬프트 캐싱, 토큰 카운팅을 공식 SDK 기준으로 |
 
-MCP는 이 tool use를 **표준 프로토콜로** 감싼 것이다 — API의 도구 사용을 이해하고 나면 MCP가 왜 필요한지가 함께 읽힌다.
+MCP는 이 tool use를 **표준 프로토콜로** 감싼 것이다 — 앞서 MCP로 붙였던 외부 연결이, 여기 API 레벨에서 실제로 어떻게 굴러가는지 한 층 아래에서 드러난다.
 
 ---
 

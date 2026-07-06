@@ -7,11 +7,13 @@ title: 로드맵
 
 흩어진 글을 "어떤 순서로 읽으면 되는지" 단계별로 묶은 학습 지도 모음. 각 주제에 처음 들어온 사람이 길을 잃지 않도록, 본인 위치에서 가까운 단계부터 진입하면 됩니다.
 
+각 로드맵은 맨 위 **"한눈에 보기"** 표로 시작합니다. 거기서 본인 단계를 고른 뒤 그 지점부터 읽으면 되고, 트러블슈팅·도구 비교 같은 곁가지는 "부록"으로 빼 두었으니 필요할 때만 찾아 들어가면 됩니다.
+
 ## 개발환경
 
 | 로드맵 | 설명 |
 |------|------|
-| [Neovim 실력 향상 로드맵](/posts/neovim/2026-06-16-neovim-roadmap/) | Vim 기본기 → Lua → Neovim 내부 → LazyVim 구조 → 플러그인 작성까지 vim·neovim·lazyvim 글 단계별 큐레이션 |
+| [Neovim 실력 향상 로드맵](/posts/neovim/2026-06-16-neovim-roadmap/) | 편집 기본기 → 언어(Lua·Vimscript) → LazyVim 구조까지가 "잘 쓰는" 척추(여기서 완결), 플러그인 개발은 만들 사람만 타는 갈림길. neovim·lazyvim 글 단계별 큐레이션 |
 | [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/) | 구조·설치 → 체감 옵션 → 플러그인 → 세션 부트스트랩까지 세션 관리를 익히는 척추, 클립보드·자동 attach 트러블슈팅은 부록. tmux 글 6편 |
 | [셸 로드맵](/posts/shell/2026-07-03-shell-roadmap/) | 셸 동작 원리 → 문법 척추 → 실전 관용구로 스크립트를 직접 짜는 데까지가 학습 척추. dotfiles·Brewfile·direnv 환경 관리, zoxide 일상 속도, 원격 트러블슈팅은 부록으로 분리. 셸 글 13편 |
 | [macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/) | 시스템 운영(새 맥 셋업·Brewfile) → 런처·생산성(Raycast) → 창 관리(AeroSpace + Hammerspoon)까지 macOS를 개발환경으로 다듬는 글 갈래별 인덱스 |
