@@ -40,7 +40,7 @@ C++는 배울 주제가 넓은 데다 서로 얽혀 있어서, 문법을 목차 
 
 **①~⑧의 [필수]만 세로로 따라가면 하나의 완결된 경로**입니다. 부록은 학습 단계가 아니라 필요할 때 직행하는 다른 축입니다. 아래는 각 단계를 왜 그 순서·우선순위로 두는지 풀어 쓴 것입니다.
 
-> 📎 **치트시트** · [c-cpp](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/c-cpp.md) — C/C++ 문법·스니펫·Google 스타일·GDB 빠른 참조. 전 단계에서 곁에 두기 (GitHub)
+> 📎 **치트시트** · [c-cpp](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/c-cpp.md) — C/C++ 문법·스니펫·Google 스타일·GDB 빠른 참조. 전 단계에서 곁에 두기 (GitHub)
 {: .prompt-tip }
 
 ## ① 초급 — C++로 사고하기
@@ -136,7 +136,7 @@ C++11 이후의 본체입니다. 실무의 어려움 대부분이 이 구간에 
 - **[필수] 빌드 시스템(Make & CMake)** — 여러 파일로 나뉜 프로젝트 빌드
 - **[선택] 실무 스타일** — 표준 라이브러리의 디자인 패턴, 대규모 팀의 C++ 사용 관례
 
-> 📎 **치트시트** · [make](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/make.md) — Makefile 자동변수·패턴 룰·`.PHONY`·함수 빠른 참조 (GitHub)
+> 📎 **치트시트** · [make](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/make.md) — Makefile 자동변수·패턴 룰·`.PHONY`·함수 빠른 참조 (GitHub)
 {: .prompt-tip }
 
 여기까지가 언어를 배우는 학습 척추입니다.

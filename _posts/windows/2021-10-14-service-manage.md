@@ -72,4 +72,4 @@ nssm remove MyApp confirm   :: 등록 해제
 
 ## 명령 레퍼런스
 
-PowerShell 네이티브 cmdlet(`Get-Service` / `Start-Service` / `New-Service` 등)까지 묶은 명령 표는 [PowerShell cheatsheet — 서비스 관리](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/powershell.md#서비스-관리-get-service--sc--nssm)에 정리해 두었다.
+PowerShell 네이티브 cmdlet(`Get-Service` / `Start-Service` / `New-Service` 등)까지 묶은 명령 표는 [PowerShell cheatsheet — 서비스 관리](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/powershell.md#서비스-관리-get-service--sc--nssm)에 정리해 두었다.

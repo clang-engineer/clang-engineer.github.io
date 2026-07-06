@@ -48,7 +48,7 @@ Vim의 진짜 심장은 모션·오퍼레이터·텍스트오브젝트로 편집
 |---|---|
 | [Vim/Neovim 레지스터 정리](/posts/neovim/2025-09-24-vim-register/) | `y`/`d`/`c`/`p`가 거치는 저장소들. 명명·익명·블랙홀 레지스터 |
 
-> 📎 **치트시트** · [vim](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/vim.md) — 모드별 명령어·모션·오퍼레이터 빠른 참조 (GitHub)
+> 📎 **치트시트** · [vim](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/vim.md) — 모드별 명령어·모션·오퍼레이터 빠른 참조 (GitHub)
 {: .prompt-tip }
 
 > **빈칸 고지 — 편집 기본기 본체는 이 블로그에 아직 없다.** hjkl·모션·오퍼레이터·텍스트오브젝트·dot-repeat·매크로 — Vim 편집의 심장에 전용 글이 없다. 이 로드맵은 그 자리를 다른 글로 메우지 않고 비워 둔다. 당장은 `vimtutor`나 *Practical Vim*으로 채우고, 위 레지스터 글은 그 위에 얹는 보강으로 읽으면 된다.
@@ -86,7 +86,7 @@ LazyVim을 "그냥 쓰는" 단계에서 "어떻게 동작하는지 알고 고치
 | [LazyVim `<leader>x` — Trouble 기반 코드 문제 탐색](/posts/lazyvim/2026-05-04-lazyvim-leader-x-trouble/) | Diagnostics/Quickfix/Location List/Todo를 Trouble UI로 통합 |
 | [LazyVim의 Git 플러그인 구성](/posts/lazyvim/2026-06-09-lazyvim-git-plugins/) | gitsigns · lazygit · snacks 3축 |
 
-> 📎 **치트시트** · [lazyvim](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/lazyvim.md) · [lazygit](https://github.com/clang-engineer/toolbox/blob/main/cheatsheets/lazygit.md) — LazyVim 키맵 / lazygit TUI 단축키 (GitHub)
+> 📎 **치트시트** · [lazyvim](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazyvim.md) · [lazygit](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazygit.md) — LazyVim 키맵 / lazygit TUI 단축키 (GitHub)
 {: .prompt-tip }
 
 > **경계 — IDE 기능 레이어는 이 척추가 직접 가르치지 않는다.** LSP 설정 기초·자동완성/스니펫·DAP(디버깅)·Treesitter는 학습 단계로 두지 않았다. LazyVim이 이 넷을 기본값으로 얹어 주므로, [기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 "어떤 플러그인이 담당하나"만 확인하고 실제 사용은 기본값에 맡기는 구성이다. 밑바닥부터 직접 설정·이해할 일이 생기면 부록 C의 LSP·Treesitter 항목으로 직행하면 된다. (직접 손보는 유일한 예외가 언어별 환경 설정 — 부록 B.)
