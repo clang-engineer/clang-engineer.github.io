@@ -2,7 +2,7 @@
 title       : "셸 로드맵 — 스크립트를 배워 직접 짤 수 있게 되는 순서"
 description : "첫 스크립트를 띄우고(shebang·권한·PATH), 문법 척추를 한 장으로 잡고, 실전 관용구로 도구를 짜는 데까지 — '셸 스크립트를 배워 직접 짤 수 있게'를 목표로 이 블로그의 셸 글을 큐레이션. 인터랙티브 기본(파이프·리다이렉션)은 전용 글이 없어 정직하게 비워 두고, 환경 관리·일상 속도·세션 지속/원격은 결이 다른 축이라 부록으로 분리."
 date        : 2026-07-03 14:30:00 +0900
-updated     : 2026-07-06 09:00:00 +0900
+updated     : 2026-07-08 12:00:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, shell, zsh, bash]
 pin         : false
@@ -86,6 +86,9 @@ hidden      : false
 | [direnv 사용법 정리](/posts/shell/2026-02-21-direnv/) | 디렉토리 진입 시 `.envrc`로 환경변수 자동 로드. 셸 레벨 direnv vs 앱 레벨 dotenv의 역할 분담 |
 | [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](/posts/shell/2026-07-03-dotfiles-symlink-management/) | 설정을 git 한곳에 모으고 홈으로 심볼릭 링크. 멱등 링크 헬퍼, bootstrap 구조, GNU stow 대안, 시크릿 분리 |
 | [Homebrew Brewfile로 패키지 선언적으로 관리하기](/posts/shell/2026-07-03-homebrew-brewfile-bundle/) | `dump`로 덤프 → `bundle`로 재설치 → `cleanup`으로 정리 → `check`로 검증. Brewfile 문법과 dotfiles 버전관리 |
+
+> **dotfiles를 축으로 깊게 파려면 → [dotfiles 로드맵](/posts/shell/2026-07-08-dotfiles-roadmap/).** 위 심링크·Brewfile을 한곳에 모으기 → 설치도 선언적으로 → 머신 분기(런타임 심링크 vs chezmoi 렌더)의 순서로 묶고, chezmoi 사용법·SSH 계정 분리·새 맥 셋업까지 연결한다. 이 부록은 그 로드맵의 입구다.
+{: .prompt-tip }
 
 dotfiles의 bootstrap·멱등 링크 헬퍼는 1~2단계에서 배운 스크립팅이 실제로 쓰이는 지점이기도 하다 — 학습이 끝났다면 스크립트로 자기 환경을 재현하는 첫 실전으로 삼기 좋다. 새 머신 셋업 흐름 전체는 [macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)의 *시스템 운영* 갈래와 함께 보면 된다.
 

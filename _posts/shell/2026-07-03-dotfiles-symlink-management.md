@@ -2,7 +2,7 @@
 title       : dotfiles를 git 저장소 + 심볼릭 링크로 관리하기
 description : "흩어진 설정 파일을 git 저장소 한곳에 모으고 홈 디렉터리로 심볼릭 링크를 건다. ln -s의 재실행 문제를 없애는 멱등 링크 헬퍼, 도구별 setup.sh를 bootstrap으로 묶는 구조, GNU stow 대안, 시크릿 분리까지 정리한다."
 date        : 2026-07-03 13:00:00 +0900
-updated     : 2026-07-03 13:00:00 +0900
+updated     : 2026-07-08 12:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [dotfiles, symlink, bootstrap, stow]
 pin         : false
@@ -139,6 +139,9 @@ stow zsh    # zsh/ 안의 구조를 그대로 ~/ 아래로 심볼릭 링크
 | GNU stow | 스크립트 없이 링크 자동화, 표준 도구 | 링크 외 설치는 별도로, 디렉터리 구조 규칙을 따라야 함 |
 
 **단순히 파일 링크만** 필요하면 stow가 가볍고 표준적입니다. 링크와 함께 **플러그인 설치·시크릿 처리 같은 절차**를 엮어야 하면 직접 스크립트가 더 유연합니다.
+
+> stow는 이 글과 같은 **심링크 층위**의 대안입니다. 한 층 다른 접근으로, 템플릿을 apply 시점에 머신용 실파일로 **렌더**하는 [chezmoi](/posts/shell/2026-07-08-chezmoi-vs-symlink-dotfiles/)가 있습니다 — 머신마다 config *내용*이 갈리거나 남이 클론해 바로 돌리게 할 때 값을 합니다. 방식 선택 전체 그림은 [dotfiles 로드맵](/posts/shell/2026-07-08-dotfiles-roadmap/)에 정리해 두었습니다.
+{: .prompt-info }
 
 ---
 

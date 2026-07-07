@@ -2,7 +2,7 @@
 title       : "macOS 로드맵 — 개발환경으로 길들이는 글 모음"
 description : "macOS를 개발·생산성 환경으로 다듬는 학습 인덱스. 새 맥 셋업(시스템 운영)에서 시작해 런처·생산성, 창 관리(AeroSpace + Hammerspoon)까지 갈래별로 순서대로 큐레이션하고, 개별 트러블슈팅은 각 갈래 끝의 별도 구획으로 분리했다."
 date        : 2026-07-03 17:30:00 +0900
-updated     : 2026-07-06 09:00:00 +0900
+updated     : 2026-07-08 12:00:00 +0900
 categories  : [macos, "개요·인덱스"]
 tags        : [roadmap, macos, aerospace, hammerspoon, window-manager]
 pin         : false
@@ -137,5 +137,6 @@ macOS를 개발환경으로 세우려는 사람은 이렇게 읽으면 된다:
 
 - **터미널 안 공간 관리** — [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/). 데스크톱–터미널 양쪽 공간 관리를 한 번에.
 - **셸 환경·스크립트** — [셸 로드맵](/posts/shell/2026-07-03-shell-roadmap/). Brewfile·dotfiles로 시작한 셸 설정을 스크립트 작성까지 밀고 나간다.
+- **설정을 코드로 재현** — [dotfiles 로드맵](/posts/shell/2026-07-08-dotfiles-roadmap/). day-1 셋업의 dotfiles 단계를 축으로, 심링크로 모으기 → Brewfile → 머신 분기(심링크 vs chezmoi)까지 깊게 판다.
 - **에디터** — [Neovim 로드맵](/posts/neovim/2026-06-16-neovim-roadmap/). 터미널 기반 편집 환경으로 들어가는 갈래.
 - **키보드 커스텀** — [키보드 로드맵](/posts/etc/2026-07-03-keyboard-roadmap/). 시스템 설정의 세벌식·Caps Lock 리맵에서 더 들어가면 세벌식·Karabiner·커스텀 키맵까지.
