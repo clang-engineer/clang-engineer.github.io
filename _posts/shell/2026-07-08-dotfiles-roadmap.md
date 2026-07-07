@@ -61,9 +61,12 @@ hidden      : false
 | 글 | 핵심 |
 |---|---|
 | [chezmoi vs 심링크 dotfiles — 근본 차이와 언제 무엇을 쓸까](/posts/shell/2026-07-08-chezmoi-vs-symlink-dotfiles/) | 머신 분기를 런타임에서 apply타임으로 옮기는 게 핵심. 차이를 표로 정리하고 chezmoi가 실제 이득인 세 경우와 심링크가 더 나은 경우를 가른다. stow와의 위치까지 |
-| [chezmoi 사용법 — 소스 표현과 apply 흐름](/posts/shell/2026-07-08-chezmoi-usage-source-apply/) | 소스 디렉토리(git repo), 파일명 메타 인코딩(`dot_`·`private_`·`.tmpl`), 템플릿 데이터, `init`→`add`→`chattr`→`diff`→`apply` 명령 흐름. 공유의 핵심 `init --apply` |
+| [chezmoi 사용법 — 소스 표현과 apply 흐름](/posts/shell/2026-07-08-chezmoi-usage-source-apply/) | 파일명 메타 인코딩(`dot_`·`private_`·`encrypted_`·`.tmpl`), 템플릿으로 머신 분기(`.chezmoi.hostname`·`[data]`), `edit`·`update` 일상 명령, 시크릿 암호화(`encrypted_`·패스워드 매니저), `run_` 스크립트로 apply 시 부트스트랩. 공유의 핵심 `init --apply` |
 
 > **대부분은 심링크로 충분하다.** 개인 1머신이거나 머신 차이가 경로 수준(환경변수로 처리 가능)에 그친다면, chezmoi는 일상 편집에 `apply` 한 단계를 얹어 무겁게만 만든다. chezmoi가 값을 하는 건 (1) 남이 클론해 바로 돌리게, (2) config *내용*이 머신마다 갈릴 때, (3) 비셸 config에 머신별 값이 필요할 때 — 이 세 경우다.
+{: .prompt-info }
+
+> **제3의 배치 모델 — bare git repo · yadm.** 척추는 "홈에 어떻게 되돌리나"를 링크(심링크)와 렌더(chezmoi)로 갈랐지만, 링크도 복사도 없이 **홈 디렉터리 자체를 git 워크트리로 삼는** bare git 방식이 하나 더 있다. 매니저 없이 git만으로 가장 가볍게 가고 싶을 때의 선택지이고, 여기에 템플릿·암호화를 얹은 매니저가 yadm이다 → [bare git repo · yadm로 dotfiles 관리하기](/posts/shell/2026-07-08-dotfiles-bare-git-yadm/).
 {: .prompt-info }
 
 ---
