@@ -11,6 +11,10 @@ lang: ko-KR
 # Change to your timezone › https://zones.arilyn.cc
 timezone: Asia/Seoul
 
+# Build posts even if their date is later than the CI build time (KST is ahead of UTC).
+# Without this, a post published earlier the same day is skipped and links to it break.
+future: true
+
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
