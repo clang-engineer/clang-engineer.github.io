@@ -2,7 +2,7 @@
 title       : "Neovim 실력 향상 로드맵 — vim·neovim·lazyvim 글을 어떤 순서로 읽을까"
 description : "입문(계층 이해) → 편집 기본기 → 언어(Lua·Vimscript) → LazyVim 구조 → 플러그인 개발을 하나의 학습 척추로 세우고, 이 블로그의 neovim/lazyvim 글을 그 순서로 큐레이션. 플러그인을 만들지 않을 사람은 3단계에서 완결되고, 4단계부터는 만들 사람만 들어오면 된다. 비교·생태계, 프로젝트·언어별 환경 설정, 트러블슈팅은 학습 단계가 아닌 별도 축의 부록으로 분리."
 date        : 2026-06-16 23:00:00 +0900
-updated     : 2026-07-06 09:00:00 +0900
+updated     : 2026-07-08 10:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : false
@@ -89,7 +89,7 @@ LazyVim을 "그냥 쓰는" 단계에서 "어떻게 동작하는지 알고 고치
 > 📎 **치트시트** · [lazyvim](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazyvim.md) · [lazygit](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazygit.md) — LazyVim 키맵 / lazygit TUI 단축키 (GitHub)
 {: .prompt-tip }
 
-> **경계 — IDE 기능 레이어는 이 척추가 직접 가르치지 않는다.** LSP 설정 기초·자동완성/스니펫·DAP(디버깅)·Treesitter는 학습 단계로 두지 않았다. LazyVim이 이 넷을 기본값으로 얹어 주므로, [기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 "어떤 플러그인이 담당하나"만 확인하고 실제 사용은 기본값에 맡기는 구성이다. 밑바닥부터 직접 설정·이해할 일이 생기면 부록 C의 LSP·Treesitter 항목으로 직행하면 된다. (직접 손보는 유일한 예외가 언어별 환경 설정 — 부록 B.)
+> **경계 — IDE 기능 레이어는 이 척추가 직접 가르치지 않는다.** LSP 설정 기초·자동완성/스니펫·DAP(디버깅)·Treesitter는 학습 단계로 두지 않았다. LazyVim이 이 넷을 기본값으로 얹어 주므로, [기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 "어떤 플러그인이 담당하나"만 확인하고 실제 사용은 기본값에 맡기는 구성이다. 다만 그 LSP 레이어가 실제로 **어떻게 물려 도는지**(mason·lspconfig·vim.lsp의 시점 분리)를 한 장으로 잡아 두면, 설정을 직접 안 만지더라도 "LSP가 안 될 때 어느 층 문제인지"를 짚을 수 있다 → [Neovim LSP 3계층 — mason·lspconfig·vim.lsp는 '언제' 일하는가](/posts/neovim/2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp/). 밑바닥부터 직접 설정·이해할 일이 생기면 이 글과 부록 C의 LSP·Treesitter 항목으로 직행하면 된다. (직접 손보는 유일한 예외가 언어별 환경 설정 — 부록 B.)
 {: .prompt-info }
 
 ---
