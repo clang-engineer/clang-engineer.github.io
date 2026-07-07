@@ -74,7 +74,7 @@ AI, C++, CSS, DB, Design Pattern, Docker, Git, Gradle, Java, JavaScript, LazyVim
 | 저장소 | 설명 |
 |---|---|
 | [dotfiles](https://github.com/clang-engineer/dotfiles) | zsh, tmux, git, nvim, claude 등 개발 환경 설정. `bootstrap.sh` 한 줄로 전체 환경 구성 |
-| [devkit](https://github.com/clang-engineer/devkit) | cheatsheets·templates·개념노트 등 공개 레퍼런스 모음 |
+| [devkit](https://github.com/clang-engineer/devkit) | cheatsheets·templates 등 공개 레퍼런스 모음 |
 
 ## 라이선스
 
