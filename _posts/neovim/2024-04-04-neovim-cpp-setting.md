@@ -9,6 +9,9 @@ pin         : false
 hidden      : false
 ---
 
+> **레거시 접근 안내** — 이 글은 네이티브 LSP 이전 방식인 `coc.nvim`(Node.js 기반 LSP 래퍼)을 다룬다. 지금 새로 잡는다면 Neovim 0.5+ 내장 LSP(`nvim-lspconfig` + clangd)가 표준이다. vim-plug/coc 기반 기존 셋업을 유지·이해할 때 참고용으로 읽으면 된다.
+{: .prompt-warning }
+
 Vim/Neovim에 C++ LSP를 붙이는 가장 흔한 두 길은 (1) `coc.nvim` + `coc-clangd`, (2) `nvim-lspconfig` + clangd 직접 연결이다. 이 글은 vim-plug 기반 셋업이라 (1)을 다룬다. LazyVim 같은 nvim 디스트로 쓰는 경우라면 본 블로그의 [LazyVim 글들](/categories/lazyvim/)이 더 가깝다.
 
 ## clangd가 무엇
