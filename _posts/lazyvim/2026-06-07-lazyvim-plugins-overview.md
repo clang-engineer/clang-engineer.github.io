@@ -137,7 +137,9 @@ LazyVim 기본 활성화된 주요 플러그인과 단축키/명령어 모음.
 | `H` | 숨김 파일 토글 |
 | `I` | .ignore 파일 토글 |
 | `l` | confirm |
-| `.` | 현재 파일에 focus |
+| `.` | 가리킨 폴더를 트리 root로 focus (`explorer_focus`) |
+| `<BS>` | 트리 root를 한 단계 상위로 (`explorer_up`) |
+| `<C-c>` | 가리킨 폴더를 nvim (탭) cwd로 변경 (`tcd`) |
 | `<C-v>` | vertical split |
 | `<C-s>` | horizontal split |
 | `<C-a>` | 전체 선택 |
