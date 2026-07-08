@@ -9,6 +9,8 @@ pin         : false
 hidden      : false
 ---
 
+> 관련: jenv가 아예 `version not installed`로 죽는다면 [Homebrew 패치 업그레이드가 JDK 심링크를 깨는 문제](/posts/etc/2026-07-08-jenv-homebrew-cellar-path-breakage/)를 참고. 이 글은 jenv는 멀쩡한데 "버전이 안 바뀌는" 경우다.
+
 서버에서 `UnsupportedClassVersionError: class file version 61.0 ... up to 55.0` 가 떠서 `jenv local 11`로 바꾸고 재빌드해도 같은 에러. 캐시인 줄 알았는데 **빌드 JVM 자체가 안 바뀐 거였다.**
 
 ## 핵심: `build.gradle`에 자바 버전이 없으면 빌드 JVM = 바이트코드 버전
