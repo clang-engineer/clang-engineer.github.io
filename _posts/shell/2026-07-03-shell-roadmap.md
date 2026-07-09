@@ -58,8 +58,7 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [셸로 파일명·문자열 일괄 변경하기](/posts/shell/2021-10-13-shell-script/) | bash 파라미터 확장·sed·brew rename·`find -exec`로 다수 파일의 이름·경로·내용을 한 번에. 문법 가이드의 파라미터 확장이 실전으로 |
-| [find의 -exec와 파이프 비교](/posts/shell/2025-09-19-exec-vs-pipe/) | `find -exec` vs 파이프(`\|`) vs `xargs` — 언제 무엇을 쓰나. 스크립트에서 반복 처리를 짤 때의 갈림길 |
+| [셸로 파일명·문자열 일괄 변경하기](/posts/shell/2021-10-13-shell-script/) | bash 파라미터 확장·sed·brew rename·`find -exec`로 다수 파일의 이름·경로·내용을 한 번에. 문법 가이드의 파라미터 확장이 실전으로 + `-exec` vs `\| xargs` 갈림길(언제 무엇을 쓰나) |
 | [CLI 인자 컨벤션 — positional과 --flag는 왜 섞어 쓰나](/posts/shell/2026-06-10-cli-positional-vs-flag/) | 위치 인자와 옵션 플래그의 역할 분담, bash 파싱 최소 패턴, env var와의 비교. "남이 쓸 도구"로 만드는 인터페이스 설계 |
 
 > 📎 **치트시트** · [sed-awk](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/sed-awk.md) — sed 치환·삽입·삭제 / awk 필드·집계 빠른 참조 (GitHub)

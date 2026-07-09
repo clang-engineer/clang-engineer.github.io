@@ -11,7 +11,7 @@ hidden      : false
 
 새 맥을 받을 때마다 "그때 뭘 깔았더라"를 반복하지 않으려고, 터미널 개발 도구를 `Brewfile` 하나에 선언해 둔다. 이 글은 그 Brewfile에 실제로 들어 있는 도구를 **왜 쓰는지** 중심으로 갈래별로 정리한 것이다. Brewfile을 만들고 재설치하는 방법 자체는 [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/) 글에서 다룬다.
 
-여기 있는 건 전부 `brew`(CLI 도구)다. GUI 앱(`cask`)은 [생산성 앱 정리](/posts/macos/2025-12-29-mac-productivity-tool/) 쪽에서 따로 다룬다.
+여기 있는 건 전부 `brew`(CLI 도구)다. GUI 앱(`cask`)은 [생산성 런처·앱 정리](/posts/macos/2025-10-31-productivity-launchers/) 쪽에서 따로 다룬다.
 
 ## 전통 도구를 대체하는 모던 CLI
 

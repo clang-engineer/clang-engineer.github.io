@@ -122,7 +122,6 @@ Raycast를 "또 하나의 단축키 도구"로 쓰면 Hammerspoon과 싸우기�
 ---
 
 > **관련 글**
-> - 런처 자체 선택: [macOS 생산성 런처 비교 (Spotlight vs Alfred vs Raycast)](/posts/macos/2025-10-31-productivity-launchers/)
-> - 생산성 앱 전반: [macOS 생산성 앱 정리 (Raycast · Rectangle · BetterTouchTool)](/posts/macos/2025-12-29-mac-productivity-tool/)
+> - 런처 자체 선택·생산성 앱 전반: [macOS 생산성 런처 비교와 생산성 앱 큰 그림 (Spotlight·Alfred·Raycast·Rectangle·BTT)](/posts/macos/2025-10-31-productivity-launchers/)
 > - 창 관리 축 실전: [AeroSpace + Hammerspoon 창 재정렬](/posts/macos/2026-07-03-aerospace-hammerspoon-window-reflow/), [Rectangle 대체 화면 분할](/posts/macos/2026-07-03-hammerspoon-window-tiling-rectangle/)
 {: .prompt-info }

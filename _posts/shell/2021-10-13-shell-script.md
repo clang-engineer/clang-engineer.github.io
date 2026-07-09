@@ -1,10 +1,12 @@
 ---
 title       : 셸로 파일명·문자열 일괄 변경하기
-description : "bash 파라미터 확장, sed, brew rename, find -exec로 다수 파일의 이름·경로·내용을 한 번에 바꾸는 패턴."
+description : "bash 파라미터 확장, sed, brew rename, find -exec로 다수 파일의 이름·경로·내용을 한 번에 바꾸는 패턴. 그리고 -exec vs | xargs 중 언제 무엇을 쓰나."
 date        : 2021-11-05 10:36:15 +0900
-updated     : 2026-06-17 10:00:00 +0900
+updated     : 2026-07-09 09:00:00 +0900
 categories  : [shell, "검색·파일 처리"]
 tags        : [bash, sed, rename, find]
+redirect_from:
+  - /posts/shell/2025-09-19-exec-vs-pipe/
 pin         : false
 hidden      : false
 ---
@@ -69,9 +71,34 @@ find path_A -name '*AAA*' -exec mv {} path_B \;
 - `{}`은 매칭된 파일 경로, `\;` 는 명령 종료자.
 - 다수 파일을 한 번에 처리하려면 `+`로 묶는 게 더 빠르다: `... -exec mv -t path_B {} +`.
 
+## 5. `-exec` vs `| xargs` — 어느 걸 쓰나
+
+찾은 파일에 명령을 돌리는 방법은 `find -exec`와 `find ... | xargs` 두 갈래다. 갈림길만 잡으면 된다.
+
+| 특징 | `-exec` | `\| xargs` |
+|---|---|---|
+| 동작 | 각 파일마다(`\;`) 또는 묶어서(`+`) 실행 | 표준 입력을 인자로 묶어 실행 |
+| 공백·특수문자 | 안전 | 주의 — `-print0 \| xargs -0` 필요 |
+| 성능 | `\;` 느림 · `+` 빠름 | 묶어서 처리 → 빠름 |
+| 적용 범위 | **`find` 전용 옵션** | `find` 밖에서도 씀 (`ls *.txt \| xargs rm`) |
+
+정리하면:
+
+- **`find`로 찾은 파일만** 처리 → `-exec`. 안전하고 문법이 짧다(대량이면 `+`).
+- **`find`가 아닌 명령의 출력**을 인자로 넘길 때 → `xargs`. 단, 공백/개행 안전을 위해 가능하면 `-print0 | xargs -0`.
+
+```bash
+# find 전용: -exec
+find . -name "*.txt" -exec cat {} +
+
+# find 밖에서도 되는 xargs (공백 안전 버전은 find와 -print0 조합일 때)
+ls *.txt | xargs rm
+```
+
 ## 정리
 
 - 단순 확장자 치환 → bash 파라미터 확장.
 - 경로 패턴 치환 → `sed` 파이프 + `mv`.
 - 표현력 필요 → `rename` (Perl 정규식, `-n` 으로 dry-run).
 - 디렉토리 트리에서 골라 이동 → `find -exec ... \;` 또는 `+`.
+- 찾은 파일에 명령 돌리기 → `find` 결과만이면 `-exec`, 그 외/파이프 조합이면 `xargs`(`-0`로 공백 안전).

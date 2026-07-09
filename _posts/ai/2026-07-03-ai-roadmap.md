@@ -46,7 +46,7 @@ AI 코딩 도구는 "채팅창에 붙여넣기"에서 멈추기 쉽다. 그런�
 
 | 글 | 핵심 |
 |---|---|
-| [Claude Code 슬래시 명령어 사전](/posts/ai/2025-10-24-claude-code-slash-commands/) | 기본/설정/프로젝트/Git/계정/통합 카테고리로 묶은 슬래시 명령어 전체 사전. 필요할 때 찾아 쓰는 레퍼런스 |
+| [Claude Code 슬래시 명령어 사전](/posts/ai/2025-10-24-claude-code-slash-commands/) | 기본/설정/프로젝트/Git/계정/통합 카테고리로 묶은 슬래시 명령어 전체 사전. 필요할 때 찾아 쓰는 레퍼런스 + `.claude/commands`로 **커스텀 명령 만들기**(`$ARGUMENTS`·frontmatter·`!`/`@`) |
 | [Claude Code 메모리 시스템 정리](/posts/ai/2026-03-12-claude-code-memory/) | `CLAUDE.md`(프로젝트 규칙)와 Auto Memory(대화 간 지속되는 사실)로 컨텍스트를 관리. 매번 같은 배경을 다시 설명하지 않게 만드는 축 |
 
 > 📎 **치트시트** · [claude-code](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/claude-code.md) — CLI 명령·슬래시·설정 빠른 참조 (GitHub)
@@ -59,7 +59,7 @@ AI 코딩 도구는 "채팅창에 붙여넣기"에서 멈추기 쉽다. 그런�
 | 글 | 핵심 |
 |---|---|
 | [Claude Code 실전 워크플로](/posts/ai/2026-07-03-claude-code-workflow/) | 플랜 모드로 전략 먼저, 서브에이전트로 컨텍스트 격리, 병렬 도구 실행, 헤드리스(`claude -p`)로 스크립트·CI에 태우기 |
-| [Claude Code 확장하기 — hooks와 커스텀 슬래시 명령](/posts/ai/2026-07-03-claude-code-hooks-custom-commands/) | `settings.json`의 hooks로 실행 전후에 셸을 끼우고(포맷·차단·알림), `.claude/commands`로 반복 프롬프트를 명령 하나로 |
+| [Claude Code hooks — 실행 흐름에 셸 끼우기](/posts/ai/2026-07-03-claude-code-hooks-custom-commands/) | `settings.json`의 hooks로 도구 실행 전후에 셸을 끼운다(편집 후 포맷·위험 명령 차단·완료 알림). 이벤트·종료 코드 제어·보안 주의점, 커스텀 명령/스킬과의 경계 |
 
 ## MCP — 외부로 확장
 

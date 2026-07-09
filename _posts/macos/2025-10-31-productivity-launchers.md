@@ -1,17 +1,17 @@
 ---
-title       : macOS 생산성 런처(Spotlight vs Alfred vs Raycast)
-description : "macOS 런처 Spotlight·Alfred·Raycast를 가격·확장성·클립보드·동기화·개발자 친화성 기준으로 비교하고 사용자 유형별로 추천한다."
+title       : macOS 생산성 런처 비교와 생산성 앱 큰 그림 (Spotlight · Alfred · Raycast)
+description : "macOS 런처 Spotlight·Alfred·Raycast를 가격·확장성·클립보드·동기화·개발자 친화성으로 비교해 유형별로 추천하고, 런처 너머 창 관리(Rectangle)·입력 자동화(BTT)까지 생산성 앱 전반의 큰 그림을 한 장으로 정리한다."
 date        : 2025-10-31 09:20:19 +0900
-updated     : 2025-10-31 09:28:20 +0900
+updated     : 2026-07-09 09:00:00 +0900
 categories  : [macos, "런처·생산성"]
 redirect_from:
   - /posts/etc/2025-10-31-productivity-launchers/
+  - /posts/macos/2025-12-29-mac-productivity-tool/
+  - /posts/etc/2025-12-29-mac-productivity-tool/
 tags        : [macos, productivity, raycast]
 pin         : false
 hidden      : false
 ---
-
-> 관련: 런처를 포함한 macOS 생산성 앱 전반(창 관리·자동화 등)은 [macOS 생산성 앱 정리](/posts/macos/2025-12-29-mac-productivity-tool/)를 참고하세요.
 
 ## 🌟 Spotlight (기본 내장)
 
@@ -102,6 +102,29 @@ brew install --cask raycast
 | 기본 검색만 필요           | **Spotlight** |
 | 세밀한 자동화, 스크립트 제어 선호 | **Alfred**    |
 | 현대적 UI, 개발자 확장성, 무료 | **Raycast**   |
+
+---
+
+## 🧩 런처 너머 — 생산성 앱 큰 그림
+
+런처는 "무엇을 빠르게 호출하나"의 한 축일 뿐이다. macOS 생산성 앱은 크게 **검색·호출(런처) · 창 관리 · 입력 자동화** 세 갈래로 나뉜다. 대표 앱을 한 장으로 보면 이렇다.
+
+| 구분    | Raycast   | Rectangle | BetterTouchTool |
+| ----- | --------- | --------- | --------------- |
+| 주요 역할 | 런처·생산성 허브 | 창 관리      | 입력·자동화          |
+| 난이도   | 낮음        | 매우 낮음     | 높음              |
+| 무료 사용 | 가능        | 가능        | 체험만 가능          |
+| 추천 대상 | 모든 사용자    | 창 정리 위주   | 파워 유저           |
+
+- **Rectangle** — 창 분할 표준. 코드 없이 단축키·드래그 스냅으로 창을 배치한다. → [Rectangle.app 기본](/posts/macos/2026-07-03-rectangle-app-basics/)
+- **BetterTouchTool(BTT)** — 트랙패드·마우스·키보드 제스처, 앱별 단축키, 매크로·워크플로 자동화까지 잡는 입력 커스터마이즈 도구. 45일 체험 후 유료. 파워 유저용.
+
+**대표 조합**: `Raycast + Rectangle`(가장 대중적, 생산성+창 관리 균형) · `Raycast + BTT`(키보드·제스처 중심) · 셋 다(개발자 풀세트).
+
+그 밖에 자주 쓰이는 유틸: [**AltTab**](/posts/macos/2026-07-03-alttab-window-switcher/)(Windows식 창 전환) · CleanShot X(스크린샷) · Keyboard Maestro(매크로) · Maccy(클립보드).
+
+> Raycast에도 창 관리 기능이 있어 Rectangle 같은 도구와 역할이 겹칠 수 있다. "무엇을 끄고 어디까지만 맡기느냐"는 [Raycast를 검색 계층으로 한정하기](/posts/macos/2026-07-03-raycast-search-layer-role/)에서 정리한다.
+{: .prompt-tip }
 
 ---
 

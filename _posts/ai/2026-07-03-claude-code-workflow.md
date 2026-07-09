@@ -77,4 +77,4 @@ claude -p "테스트 돌리고 실패 고쳐줘" --allowedTools "Bash,Read,Edit"
 
 ---
 
-정리하면 흐름은 이렇다 — **큰 변경은 플랜 모드로 전략을 먼저**, **장황하거나 병렬인 일은 서브에이전트로 격리**, **반복·자동화는 헤드리스로 스크립트화**. 여기서 더 나아가 훅·커스텀 명령으로 도구 자체를 확장하는 이야기는 [Claude Code 확장하기 — hooks와 커스텀 슬래시 명령](/posts/ai/2026-07-03-claude-code-hooks-custom-commands/)으로 이어진다. 전체 경로는 [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/).
+정리하면 흐름은 이렇다 — **큰 변경은 플랜 모드로 전략을 먼저**, **장황하거나 병렬인 일은 서브에이전트로 격리**, **반복·자동화는 헤드리스로 스크립트화**. 여기서 더 나아가 훅으로 도구 실행 흐름 자체를 확장하는 이야기는 [Claude Code hooks — 실행 흐름에 셸 끼우기](/posts/ai/2026-07-03-claude-code-hooks-custom-commands/)로 이어진다. 전체 경로는 [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/).
