@@ -82,7 +82,7 @@ tmux 자체로는 안 되는 영역(세션 저장·복원, 테마, Vim 패널 �
 
 | 글 | 핵심 |
 |---|---|
-| [tmux로 AI 에이전트 여러 개 관제하기 — herdr 대신 훅 기반 플러그인](/posts/tmux/2026-07-09-tmux-ai-agent-status-detection/) | 전용 멀티플렉서(herdr)와 훅 기반 tmux 플러그인 비교. `tmux-agent-indicator`로 running/needs-input/done을 정확히 감지 — tmux 단축키를 하나도 안 건드리고 |
+| [tmux로 AI 에이전트 여러 개 관제하기 — herdr 대신 훅 기반 플러그인](/posts/tmux/2026-07-09-tmux-ai-agent-status-detection/) | 전용 멀티플렉서(herdr)와 훅 기반 tmux 플러그인 비교. running/needs-input/done을 정확히 감지 — 대시보드가 목적이면 `sidebar`, 인라인이면 `indicator`. tmux 단축키는 하나도 안 건드리고 |
 
 ---
 

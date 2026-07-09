@@ -42,7 +42,7 @@ herdr이 파는 값어치가 바로 이 어려운 경우를 에이전트별로 �
 
 출력을 긁어 추측하는 대신, **에이전트가 상태 변화를 직접 알려주게** 하면 된다. Claude Code는 생명주기 시점마다 훅(hook)을 발화한다 — 프롬프트 제출(UserPromptSubmit), 권한 요청(PermissionRequest), 작업 종료(Stop). 이 훅을 받아 패널 상태를 갱신하면 파싱 없이 정확하게 잡힌다.
 
-이걸 그대로 구현한 tmux 플러그인이 이미 있다. 1순위는 [`accessd/tmux-agent-indicator`](https://github.com/accessd/tmux-agent-indicator).
+이걸 그대로 구현한 tmux 플러그인이 이미 있다. 가장 손이 덜 가는 인라인 방식이 [`accessd/tmux-agent-indicator`](https://github.com/accessd/tmux-agent-indicator)다 (herdr의 대시보드 경험을 원한다면 뒤의 [sidebar vs indicator](#sidebar-vs-indicator--어떤-걸-먼저-고를까) 판단을 먼저 보자).
 
 - 패널별 **running / needs-input / done** 상태를 **패널 테두리 색·윈도우 제목 색·상태바 아이콘**으로 표시
 - Claude Code, Codex, 커스텀 에이전트 지원
@@ -57,12 +57,34 @@ herdr이 파는 값어치가 바로 이 어려운 경우를 에이전트별로 �
 
 | 도구 | 성격 |
 |---|---|
-| [`accessd/tmux-agent-indicator`](https://github.com/accessd/tmux-agent-indicator) | **1순위.** 패널 테두리·제목·상태바로 상태 표시. 훅 기반이라 정확 |
-| [`hiroppy/tmux-agent-sidebar`](https://github.com/hiroppy/tmux-agent-sidebar) | 전 세션·윈도우의 에이전트를 사이드바에서 실시간 모니터 + 데스크톱 알림 (herdr 사이드바 컨셉에 가장 근접) |
+| [`accessd/tmux-agent-indicator`](https://github.com/accessd/tmux-agent-indicator) | 패널 테두리·제목·상태바로 **인라인** 상태 표시. 훅 기반이라 정확 |
+| [`hiroppy/tmux-agent-sidebar`](https://github.com/hiroppy/tmux-agent-sidebar) | 전 세션·윈도우의 에이전트를 **별도 사이드바 패널**에서 실시간 모니터 (herdr 사이드바 컨셉에 가장 근접) |
 | [`samleeney/tmux-agent-status`](https://github.com/samleeney/tmux-agent-status) | 어느 세션이 working/idle인지 상태줄에 요약 |
 | `flavio87/tap-to-tmux` | 에이전트가 주목을 필요로 할 때 폰으로 알림(ntfy/Slack). 원격 서버 작업 시 유용 |
 
-한 패널씩 상태를 눈에 띄게 하고 싶으면 **indicator**, 전체를 한 화면에서 감시하고 싶으면 **sidebar**, 폰까지 알림을 받고 싶으면 **tap-to-tmux**를 얹는 식으로 조합하면 된다.
+### sidebar vs indicator — 어떤 걸 먼저 고를까
+
+실제로 herdr 대체로 매일 쓸 거라면 이 둘 중 하나로 좁혀진다. 그런데 **"herdr처럼 대시보드로 보고 싶다"**는 목적과, 이미 `tmux-themepack` 같은 **테마 플러그인**을 쓰는 상황이 겹치면 선택이 갈린다.
+
+핵심 통찰은 하나다 — **UI를 어디에 그리느냐가 테마 충돌 여부를 가른다.**
+
+- **별도 패널에 그리면**(sidebar) 테마가 소유한 상태줄·패널 테두리를 건드리지 않는다 → 충돌 없음
+- **기존 요소를 재스타일하면**(indicator의 패널 테두리 색) 테마와 같은 속성을 놓고 싸운다 → 색이 덮이거나 로드 순서 문제
+
+| | `tmux-agent-sidebar` | `tmux-agent-indicator` |
+|---|---|---|
+| UI 위치 | **별도 사이드바 패널** (`prefix+e` 현재 / `prefix+E` 전체) | 패널 테두리·제목 색 (인라인, 앰비언트) |
+| herdr 느낌 | **가장 근접** — 전 세션·윈도우 대시보드 | 은근한 표시, 대시보드는 아님 |
+| 테마(themepack) 충돌 | **없음** (별도 패널) | 패널 테두리 색 소유권 다툼 가능 |
+| 런타임 | Rust 단일 바이너리 | bash 4+ |
+| Claude Code 연동 | `/plugin marketplace add` + `/plugin install` | 설치 시 `~/.claude/settings.json`에 훅 자동 주입 |
+
+트레이드오프는 대칭이다.
+
+- **sidebar** — 대시보드 경험 + 테마 무충돌이 장점. 대신 Claude Code 연동을 `/plugin` 명령으로 한 번 더 해줘야 한다.
+- **indicator** — 훅을 `settings.json`에 자동 주입해 연동이 더 매끄럽다. 대신 테마와 테두리 색이 충돌할 수 있다(아래 해결법 참고).
+
+**결론:** herdr 같은 한눈 대시보드가 목적이고 테마를 지키고 싶다면 **sidebar부터**. "대시보드까진 필요 없고 색으로만 알려줘"라면 **indicator**. 폰 알림까지 원하면 **tap-to-tmux**를 위에 얹는다.
 
 ### 설치
 
@@ -75,7 +97,14 @@ set -g @plugin 'accessd/tmux-agent-indicator'
 
 추가한 뒤 `prefix + I`로 설치하면 플러그인이 Claude Code 훅까지 함께 세팅한다.
 
-> 이미 `tmux-themepack` 같은 **테마 플러그인**을 쓰고 있다면 주의할 점이 하나 있다. 테마가 상태줄(status-line)과 패널 테두리(pane-border) 스타일을 이미 소유하고 있어서, agent-indicator의 표시와 충돌하거나 로드 순서에 따라 한쪽이 덮일 수 있다. 도입 후 상태 표시가 안 보이면 플러그인 로드 순서와 `pane-border-format`·`pane-border-status` 설정을 먼저 점검하자.
+> 이미 `tmux-themepack` 같은 **테마 플러그인**을 쓰면서 indicator를 고른다면 주의할 점이 있다. 테마가 패널 테두리(pane-border) 스타일을 이미 소유하고 있어서 indicator의 테두리 색과 충돌할 수 있다. indicator는 채널별 토글을 제공하니, 테두리는 끄고 상태바 아이콘만 쓰면 깔끔하게 피해 간다.
+>
+> ```tmux
+> set -g @agent-indicator-border-enabled ''      # 빈 값 = 이 속성 적용 안 함 → 테마 테두리 유지
+> set -g status-right '#{agent_indicator} ...'    # opt-in 변수만 상태바에 추가
+> ```
+>
+> 애초에 테마를 하나도 안 건드리는 쪽을 원하면 sidebar가 정답이다(별도 패널이라 충돌 자체가 없다).
 {: .prompt-warning }
 
 ## 교훈
