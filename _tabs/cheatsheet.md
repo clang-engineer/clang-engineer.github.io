@@ -15,6 +15,7 @@ title: 치트시트
 | [lazyvim.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazyvim.md) | LazyVim 키맵 |
 | [lazygit.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazygit.md) | LazyGit TUI 단축키 |
 | [tmux.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/tmux.md) | Tmux 세션/윈도우/패널 |
+| [ghostty.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/ghostty.md) | Ghostty 터미널 탭/분할/키맵 |
 
 ## 모던 CLI 도구 (grep/find/cat/ls 대체)
 
