@@ -2,8 +2,11 @@
 title       : "터미널 한글 깨짐, 3층위로 구분하기 — 명령이 실행되느냐로 원인을 가른다"
 description : "윈도우 터미널에서 한글이 깨지거나 영문이 넓어지는 문제를 코드페이지·IME 조합·전각 세 층위로 구분하는 진단 프레임. 핵심은 명령이 실행되는지 여부."
 date        : 2026-07-03 09:30:00 +0900
+updated     : 2026-07-09 09:00:00 +0900
 categories  : [windows, "셸·시스템"]
 tags        : [hangul, encoding, codepage, psreadline, ime]
+redirect_from:
+  - /posts/windows/2026-07-08-windows-terminal-encoding/
 pin         : false
 hidden      : false
 ---
