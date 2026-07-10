@@ -2,7 +2,7 @@
 title       : 🧷 tmux 세션 부트스트랩 — 세션 매니저와 그 속살(셸 스크립트)
 description : 같은 세션/윈도우/패널을 매번 손으로 세팅하지 않으려면 세션 매니저(smug·tmuxinator·tmuxp)가 정석. 그 도구가 내부에서 부르는 tmux 명령을 셸로 해부해 원리까지 잡는다.
 date        : 2026-02-21 10:05:00 +0900
-updated     : 2026-07-10 17:00:00 +0900
+updated     : 2026-07-11 10:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [terminal, tpm, plugin]
 pin         : false
@@ -30,7 +30,7 @@ attach: true
 windows:
   - name: main
     layout: main-vertical   # 좌 1 + 우 2 분할
-    panes:
+    panes:                  # 암묵 base pane 1개 + 아래 2개 분할 = 3-pane
       - type: vertical
       - type: vertical
   - name: secondary
@@ -54,7 +54,7 @@ windows:
   - secondary:
 ```
 
-`mux start main`으로 실행하고, **이미 떠 있으면 새로 만들지 않고 attach**한다 — 아래 셸 스크립트의 `has-session` 분기(§3)가 도구에선 기본 동작으로 들어 있다.
+`mux start main`으로 실행하고, **이미 떠 있으면 새로 만들지 않고 attach**한다 — 아래 셸 스크립트의 `has-session` 분기(§2)가 도구에선 기본 동작으로 들어 있다.
 
 ### 어느 걸 고르나 — 조건부 순위
 
@@ -64,11 +64,11 @@ windows:
 | 설치 | `brew install smug` | `pip install tmuxp` | `gem install tmuxinator` |
 | 실행 | `smug start main` | `tmuxp load main` | `mux start main` |
 | 강점 | 이식성 — 서버·컨테이너 어디서든 | `freeze`로 세션→config 역추출 | 자료·예제 최다, 클래식 |
-| 점유율 | 작지만 성장 (★1k대) | 활발히 유지보수 (★4k대) | 1위·노후 기득권 (★12k대) |
+| 활성·모멘텀 | 니치·저활동 (★0.9k, ~16커밋/년) | 최다 활동이나 사실상 1인 메인테이너 ⚠️ (★4.5k, ~690커밋/년) | 성숙·기득권, 활동 저조하나 커뮤니티 넓음 (★13.7k, ~31커밋/년) |
 
 셋 다 설치 명령이 제각각(`brew`/`pip`/`gem`)인 데서 드러나듯, TPM `@plugin`으로 까는 플러그인이 아니라 **각자 독립 프로그램**이다. 셸에서 직접 실행해 tmux를 밖에서 부린다.
 
-1. **무의존이 최우선(서버·컨테이너 오감)이면 smug** — 런타임 0. 이 글이 원래 셸로 풀려던 목적에 가장 정확히 맞는다.
+1. **무의존이 최우선(서버·컨테이너 오감)이면 smug** — 런타임 0. 이식성이 목적이면 가장 정확히 맞는다.
 2. **이미 Python 환경이면 tmuxp** — `tmuxp freeze`로 지금 떠 있는 세션을 그대로 config로 뽑아 준다. 손으로 만든 세션을 선언형으로 옮길 때 최고.
 3. **레퍼런스·예제가 많아야 하면 tmuxinator** — 점유율 1위지만 Ruby 의존이라 지금 새로 시작할 결정적 이유는 약하다.
 
@@ -177,5 +177,6 @@ tmux send-keys -t "$MAIN_SESSION":1 "cd ~/project" C-m
 ## 4. 참고
 
 * **세션 매니저는 2단계 TPM 플러그인과 다른 축이다.** tmux *밖*의 외부 CLI이고, `tmux-resurrect`/`continuum`(떠 있던 세션을 저장→복원)과도 목적이 다르다 — 세션 매니저는 레이아웃을 처음부터 **선언→생성**한다.
+* **선언형 3종은 다 성숙기 — 요즘 모멘텀은 다른 범주다.** [sesh](https://github.com/joshmedeski/sesh) 같은 **온디맨드 세션 스위처**(fzf·zoxide로 디렉토리에서 즉석 세션 생성)로 실력자들이 옮겨가는 중이다 — 생성 2.5년에 ★2.7k, 나이 대비 성장률이 이 셋보다 높다. 고정 레이아웃을 *선언*하는 이 글과 목적이 달라 스코프 밖이지만, 방향은 알아둘 것.
 * `tmux has-session`은 세션 존재 여부만 확인한다. 도구의 "이미 있으면 attach"가 이걸 대신한다.
 * 셸로 직접 짜는 게 유일해지는 건 **바이너리 하나도 못 까는 극한 환경**(락다운된 서버, 임시 컨테이너) 정도다. 그 외엔 세션 매니저가 상위호환이다.
