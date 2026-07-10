@@ -16,6 +16,7 @@ title: 로드맵
 | [셸](/posts/shell/2026-07-03-shell-roadmap/) | 동작 원리 → 문법 → 실전 관용구로 스크립트 직접 짜기까지 줄기. 환경 관리·일상 속도·원격은 부록 |
 | [dotfiles](/posts/shell/2026-07-08-dotfiles-roadmap/) | git+심링크로 모으기 → 설치도 선언적으로(Brewfile) → 머신 분기(심링크 vs chezmoi)까지 "설정을 코드로 재현" 줄기. 초기화·SSH·새 맥 셋업은 부록 |
 | [macOS](/posts/macos/2026-07-03-macos-roadmap/) | 시스템 운영(새 맥·Brewfile) → 런처(Raycast) → 창 관리(AeroSpace·Hammerspoon)까지 macOS를 개발환경으로 다듬는 인덱스 |
+| [Linux](/posts/linux/2026-07-11-linux-roadmap/) | 접속(배포판·SSH) → 관측(프로세스·모니터링·디스크) → 계정·권한(사용자·sudo·특수 비트·PAM) → 서비스(systemd) → 로그(수집·감사·회전)까지 서버를 운영하는 줄기. 네트워크·방화벽·폐쇄망은 부록 |
 | [키보드](/posts/etc/2026-07-03-keyboard-roadmap/) | 세벌식·HHKB 배경 → 펌웨어 지형도 → ZMK로 내 키맵 직접 짜기까지 줄기. QMK·VIA/VIAL·Karabiner는 부록 |
 
 ## 🤖 AI

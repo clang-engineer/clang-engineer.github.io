@@ -32,6 +32,10 @@
 | **SOLID 입문** (패턴이 지키려는 원칙) | design-pattern OCP가 4개 글에 인라인만, 앵커 없음 | design-pattern: 경계 섹션 앵커 | 대기 |
 | **macOS 앱 권한 통합** (손쉬운 사용·화면 기록·자동화) | Hammerspoon/AltTab/Docker에 흩어진 반복 전제 | macos: 창 관리 전제 | 대기 |
 | **온보딩·인증** (구독 vs API 키 로그인, /login, 첫 5분) | ai 설치↔실전 사이 전제 공백 | ai: 1단계 앞 | 대기 |
+| **예약 작업 cron·crontab** (문법·로그 확인, systemd 타이머 대비) | linux 3단계가 타이머만 스침, cron 본론 없음 | linux: 서비스 단계 짝 | 대기 |
+| **패키지 관리 심화** (dnf/apt 저장소·검색·업데이트) | 배포판 비교 글이 차이만 짚고 관리 흐름 없음 | linux: 시작~관측 사이 | 대기 |
+| **백업·동기화 rsync·tar** | 서버 운영 필수인데 본문 언급뿐 | linux: 부록 | 대기 |
+| **SELinux 입문** (강제 접근 제어, RHEL/Rocky) | 방화벽처럼 서버 보안 축인데 공백 | linux: 부록 A 네트워크 뒤 | 대기 |
 
 ## 低 — 있으면 좋은 것
 
