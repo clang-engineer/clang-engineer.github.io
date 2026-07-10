@@ -106,6 +106,16 @@ chezmoi는 apply 때 스크립트를 실행할 수 있다. 파일명 접두어�
 
 머신마다 있어야/없어야 하는 파일은 `.chezmoiignore`로 가른다 — `.gitignore`와 같은 문법이고 템플릿도 먹어서, `{{ if ne .chezmoi.os "darwin" }}Library/{{ end }}`처럼 OS별로 제외할 수 있다.
 
+## 지우기 — forget·destroy·purge
+
+라이프사이클의 반대편. 핵심은 **소스에서 파일만 지워도 홈의 실파일은 안 지워진다**(관리만 끊길 뿐)는 것 — 목적별로 명령이 갈린다.
+
+- `chezmoi forget ~/.zshrc` — 소스에서 빼 **관리만 중단**. 홈 파일은 그대로 둔다.
+- `chezmoi destroy ~/.zshrc` — 소스와 **홈 파일까지 삭제**. 되돌릴 수 없으니 `--dry-run`으로 먼저 확인.
+- `chezmoi purge` — chezmoi의 설정·상태·**소스 디렉토리째** 제거. ⚠️ 소스가 git 저장소의 하위 디렉토리면 **저장소가 통째로 날아간다** — 이 경우 purge 말고 `rm -rf ~/.config/chezmoi`로 chezmoi 흔적만 지워라.
+
+흔한 오해 하나: 소스에서 파일만 지우고 `apply`하면 홈엔 **고아 파일로 남는다**. chezmoi는 관리하지 않게 된 파일을 임의로 지우지 않기 때문. 홈에서도 없애려면 `destroy`나 `.chezmoiremove`를 써야 한다.
+
 ## 핵심 한 방 — init --apply
 
 chezmoi를 쓰는 진짜 이유에 가장 가까운 명령은 이것 하나다.
@@ -122,6 +132,7 @@ chezmoi init --apply <repo>  # 클론 + 렌더 + 적용을 한 번에
 - 머신 분기는 `.tmpl` 안에서 `.chezmoi.hostname`·`.os`나 `[data]` 커스텀 값으로. 편집은 소스에서 하고 `chezmoi apply`로 렌더해 홈에 반영한다 — `diff`로 먼저 확인하는 습관이 drift를 막는다.
 - 일상 리듬은 `edit`(소스 편집) → `cd && git push` → 다른 머신에서 `update`.
 - 시크릿은 `encrypted_`나 패스워드 매니저 함수로 저장소 안에서 다룬다.
+- 지울 땐 `forget`(관리만 중단) / `destroy`(홈 파일까지) / `purge`(chezmoi째)를 목적에 맞게. 소스가 저장소 하위면 `purge`가 저장소를 지우니 주의.
 - 공유의 핵심은 `chezmoi init --apply <repo>` — 클론·렌더·(`run_once_` 스크립트로) 설치까지 한 방.
 
 chezmoi를 아직 쓸지 말지 고민 중이라면, 심링크와의 선택 기준은 [chezmoi vs 심링크 dotfiles](/posts/shell/2026-07-08-chezmoi-vs-symlink-dotfiles/)에 정리해 두었다.
