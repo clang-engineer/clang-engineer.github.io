@@ -11,7 +11,7 @@ title: 로드맵
 
 | 로드맵 | 줄기 · 부록 |
 |------|------|
-| [Neovim 실력 향상](/posts/neovim/2026-06-16-neovim-roadmap/) | 편집 기본기 → 언어(Lua·Vimscript) → LazyVim 구조까지가 "잘 쓰는" 줄기. 플러그인 개발은 만들 사람만 타는 선택 갈림길 |
+| [Neovim](/posts/neovim/2026-06-16-neovim-roadmap/) | 편집 기본기 → 언어(Lua·Vimscript) → LazyVim 구조까지가 "잘 쓰는" 줄기. 플러그인 개발은 만들 사람만 타는 선택 갈림길 |
 | [tmux](/posts/tmux/2026-06-16-tmux-roadmap/) | 구조·설치 → 옵션 → 플러그인 → 세션 부트스트랩까지 세션 관리 줄기. 트러블슈팅은 부록 |
 | [셸](/posts/shell/2026-07-03-shell-roadmap/) | 동작 원리 → 문법 → 실전 관용구로 스크립트 직접 짜기까지 줄기. 환경 관리·일상 속도·원격은 부록 |
 | [dotfiles](/posts/shell/2026-07-08-dotfiles-roadmap/) | git+심링크로 모으기 → 설치도 선언적으로(Brewfile) → 머신 분기(심링크 vs chezmoi)까지 "설정을 코드로 재현" 줄기. 초기화·SSH·새 맥 셋업은 부록 |
