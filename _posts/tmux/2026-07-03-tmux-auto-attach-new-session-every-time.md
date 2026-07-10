@@ -137,5 +137,5 @@ tmux new-session -A -s default
 
 > **관련 글**
 > - 세션·윈도우·패널 기본기와 attach 명령들: [tmux 정리본 (Cheat Sheet + 사용 가이드)](/posts/tmux/2021-11-30-tmux-config/)
-> - 여러 세션을 스크립트로 한 번에 세팅하기: [tmux 초기 셋업용 세션/윈도우/패널 스크립트](/posts/tmux/2026-02-21-tmux-bootstrap/)
+> - 여러 세션을 한 번에 세팅하기: [tmux 세션 부트스트랩 — 세션 매니저와 그 속살(셸)](/posts/tmux/2026-02-21-tmux-bootstrap/)
 {: .prompt-info }

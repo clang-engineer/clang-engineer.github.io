@@ -1,26 +1,82 @@
 ---
-title       : 🧷 tmux 초기 셋업용 세션/윈도우/패널 스크립트
-description : main/sub 세션을 만들고 main에서 좌/우 + 오른쪽 상/하 분할을 구성하는 초기 셋업 스크립트 기록.
+title       : 🧷 tmux 세션 부트스트랩 — 세션 매니저와 그 속살(셸 스크립트)
+description : 같은 세션/윈도우/패널을 매번 손으로 세팅하지 않으려면 세션 매니저(smug·tmuxinator·tmuxp)가 정석. 그 도구가 내부에서 부르는 tmux 명령을 셸로 해부해 원리까지 잡는다.
 date        : 2026-02-21 10:05:00 +0900
-updated     : 2026-07-09 16:00:00 +0900
+updated     : 2026-07-10 17:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [terminal, tpm, plugin]
 pin         : false
 hidden      : false
 ---
 
-main/sub 세션을 나누고, main은 2개 window로 분리한 뒤
-첫 window에서 좌/우 + 오른쪽 상/하 분할을 만드는 초기 셋업 기록.
-필요할 때 파일 하나로 바로 띄우는 목적.
+같은 작업 환경(세션·윈도우·패널)을 매번 손으로 세팅하지 않으려면 **세션 부트스트랩**이 답이다. 그런데 이건 이미 해결된 문제다 — [tmuxinator](https://github.com/tmuxinator/tmuxinator)(2011~)·[tmuxp](https://github.com/tmux-python/tmuxp)·[smug](https://github.com/ivaaaan/smug) 같은 **세션 매니저**가 YAML 한 장으로 레이아웃을 선언하면 알아서 띄워준다. **결론부터: 이걸 써라.** 매번 셸로 직접 짜는 건 바퀴 재발명이다.
 
-같은 일을 하는 전용 도구로 [tmuxinator](https://github.com/tmuxinator/tmuxinator)(YAML로 레이아웃 선언)나 [tmuxp](https://github.com/tmux-python/tmuxp)가 있다. 다만 여기선 Ruby/Python 의존성 없이 셸 한 장으로 어디서든 재현하려는 게 목적이라, `tmux` 명령만으로 직접 짠다. (두 방식의 비교와 선택 기준은 아래 [§4 선언형 대안](#4-선언형-대안--tmuxinator--tmuxp))
+그럼 이 글은 왜 셸 스크립트까지 다루나 — **세션 매니저가 안에서 하는 일이 정확히 그거이기 때문**이다. smug도 tmuxinator도 결국 `tmux new-session`·`split-window`를 순서대로 부르는 래퍼다. 그 속살을 셸로 한 번 짜보면 도구가 뭘 대신해 주는지, 왜 YAML 몇 줄이 그렇게 동작하는지 손에 잡힌다. 그래서 이 글은 **(1) 정석인 세션 매니저를 먼저 세우고 → (2) 그 아래 메커니즘을 셸로 해부**한다. 쓰라는 건 도구고, 셸은 원리를 보기 위한 해부용이다.
 
-> 이 글은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 **3단계(세션 부트스트랩 자동화)** 다. 입문·설정·플러그인 단계는 로드맵에서.
+> 이 글은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 **3단계(세션 부트스트랩 자동화)** 다. 입문·설정·플러그인 단계는 로드맵에서. 여기 나오는 세션 매니저는 2단계 TPM 플러그인과 **다른 축** — tmux *안*에서 도는 플러그인이 아니라 tmux *밖*의 외부 CLI다.
 {: .prompt-tip }
 
 ---
 
-## 1. 스크립트
+## 1. 정석 — 세션 매니저로 선언하기
+
+레이아웃을 "이런 모양"이라고 YAML로 적으면 끝이다. `main` 세션(좌 1 + 우 2, 3-pane + `secondary` 윈도우)을 [smug](https://github.com/ivaaaan/smug)로 옮기면 이렇게 된다.
+
+```yaml
+# ~/.config/smug/main.yml
+session: main
+root: ~/                    # 모든 pane 시작 디렉토리 — 셸의 `cd ~/`가 통째로 사라진다
+attach: true
+windows:
+  - name: main
+    layout: main-vertical   # 좌 1 + 우 2 분할
+    panes:
+      - type: vertical
+      - type: vertical
+  - name: secondary
+```
+
+`smug start main` 한 줄이면 이 세션이 뜬다. 설치는 Go 단일 바이너리(`brew install smug`)라 Ruby/Python 런타임 의존이 없다.
+
+tmuxinator·tmuxp도 거의 같은 YAML을 쓴다. tmuxinator 버전:
+
+```yaml
+# ~/.config/tmuxinator/main.yml
+name: main
+root: ~/
+windows:
+  - main:
+      layout: main-vertical
+      panes:
+        -
+        -
+        -
+  - secondary:
+```
+
+`mux start main`으로 실행하고, **이미 떠 있으면 새로 만들지 않고 attach**한다 — 아래 셸 스크립트의 `has-session` 분기(§3)가 도구에선 기본 동작으로 들어 있다.
+
+### 어느 걸 고르나 — 조건부 순위
+
+| | [smug](https://github.com/ivaaaan/smug) | [tmuxp](https://github.com/tmux-python/tmuxp) | [tmuxinator](https://github.com/tmuxinator/tmuxinator) |
+|---|---|---|---|
+| 런타임 | **Go 단일 바이너리 (무의존)** | Python | Ruby |
+| 설치 | `brew install smug` | `pip install tmuxp` | `gem install tmuxinator` |
+| 실행 | `smug start main` | `tmuxp load main` | `mux start main` |
+| 강점 | 이식성 — 서버·컨테이너 어디서든 | `freeze`로 세션→config 역추출 | 자료·예제 최다, 클래식 |
+| 점유율 | 작지만 성장 (★1k대) | 활발히 유지보수 (★4k대) | 1위·노후 기득권 (★12k대) |
+
+셋 다 설치 명령이 제각각(`brew`/`pip`/`gem`)인 데서 드러나듯, TPM `@plugin`으로 까는 플러그인이 아니라 **각자 독립 프로그램**이다. 셸에서 직접 실행해 tmux를 밖에서 부린다.
+
+1. **무의존이 최우선(서버·컨테이너 오감)이면 smug** — 런타임 0. 이 글이 원래 셸로 풀려던 목적에 가장 정확히 맞는다.
+2. **이미 Python 환경이면 tmuxp** — `tmuxp freeze`로 지금 떠 있는 세션을 그대로 config로 뽑아 준다. 손으로 만든 세션을 선언형으로 옮길 때 최고.
+3. **레퍼런스·예제가 많아야 하면 tmuxinator** — 점유율 1위지만 Ruby 의존이라 지금 새로 시작할 결정적 이유는 약하다.
+
+---
+
+## 2. 속살 — 도구가 부르는 tmux 명령
+
+여기부터는 "쓰는 법"이 아니라 "원리"다. 위 YAML이 실행되면 세션 매니저가 내부에서 하는 일이 결국 이거다 — `tmux` 명령을 순서대로 부르는 것뿐:
 
 ```bash
 #!/usr/bin/env bash
@@ -30,7 +86,7 @@ set -euo pipefail
 MAIN_SESSION="main"
 SUB_SESSION="sub"
 
-# 이미 main 세션이 있으면 바로 붙기
+# 이미 main 세션이 있으면 바로 붙기 (도구의 "떠 있으면 attach"에 해당)
 if tmux has-session -t "$MAIN_SESSION" 2>/dev/null; then
   tmux attach -t "$MAIN_SESSION"
   exit 0
@@ -39,20 +95,20 @@ fi
 # 1) main 세션 생성 + 첫 윈도우
 tmux new-session -d -s "$MAIN_SESSION" -n "main"
 
-# 2) 첫 윈도우: 좌/우 분할 + 오른쪽 상/하 분할 (총 3 panes)
+# 2) 첫 윈도우: 좌/우 분할 + 오른쪽 상/하 분할 (총 3 panes) → smug의 layout: main-vertical
 tmux split-window -h -t "$MAIN_SESSION":0
 tmux split-window -v -t "$MAIN_SESSION":0.1
 
-# 필요하면 커맨드 자동 실행
+# 시작 디렉토리 지정 → smug/tmuxinator의 root: ~/ 한 줄이 대신하는 부분
 tmux send-keys -t "$MAIN_SESSION":0.0 "cd ~/" C-m
 tmux send-keys -t "$MAIN_SESSION":0.1 "cd ~/" C-m
 tmux send-keys -t "$MAIN_SESSION":0.2 "cd ~/" C-m
 
-# 3) main 두 번째 윈도우
+# 3) main 두 번째 윈도우 → windows: 목록의 secondary 항목
 tmux new-window -t "$MAIN_SESSION" -n "secondary"
 tmux send-keys -t "$MAIN_SESSION":1 "cd ~/" C-m
 
-# 4) sub 세션 생성
+# 4) sub 세션 생성 → 도구에선 보통 파일 하나 = 세션 하나라, 별도 config가 된다
 tmux new-session -d -s "$SUB_SESSION" -n "sub"
 tmux send-keys -t "$SUB_SESSION":0 "cd ~/" C-m
 
@@ -61,25 +117,24 @@ tmux select-window -t "$MAIN_SESSION":0
 tmux attach -t "$MAIN_SESSION"
 ```
 
----
+한 줄씩 보면 도구의 정체가 드러난다 — `new-session`으로 세션을 만들고, `split-window`로 쪼개고, `send-keys`로 명령을 밀어넣고, `attach`로 붙는다. smug의 `layout: main-vertical`은 저 `split-window` 두 줄이고, `root: ~/`는 저 `send-keys "cd ~/"` 세 줄이며, `attach: true`는 마지막 `tmux attach`다. 맨 위 `has-session` 분기가 "이미 떠 있으면 attach"에 해당한다. **도구는 이 나열을 YAML 뒤에 숨겨 줄 뿐, 하는 일은 똑같다.**
 
-## 2. 실행 방법
+한 가지 차이 — 이 스크립트는 `main`·`sub` **두 세션을 한 파일**에 넣었는데, 세션 매니저는 보통 **파일 하나 = 세션 하나**다. 도구로 옮기면 `main.yml`·`sub.yml` 둘로 갈라지는데, 용도별로 분리되니 오히려 관리가 깔끔해진다.
+
+### 실행 방법 (셸 버전)
 
 ```bash
-# 파일 저장
 mkdir -p ~/bin
 vi ~/bin/tmux-work.sh
-
-# 실행 권한
 chmod +x ~/bin/tmux-work.sh
-
-# 실행
 ~/bin/tmux-work.sh
 ```
 
 ---
 
-## 3. 구조 변경 예시
+## 3. 만져보는 tmux 프리미티브
+
+도구가 감싸는 명령들을 직접 바꿔 보면 원리가 더 붙는다.
 
 ### ● 윈도우 이름 변경
 
@@ -91,8 +146,7 @@ tmux new-window -t "$MAIN_SESSION" -n "ops"
 
 ### ● 패널 이름(타이틀) 지정
 
-pane 자체에 "이름"을 붙이는 개념은 없고, 대신 pane title을 설정해서 표시한다.
-표시 위치는 pane-border-format으로 제어한다.
+pane 자체에 "이름"을 붙이는 개념은 없고, 대신 pane title을 설정해 표시한다. 표시 위치는 `pane-border-format`으로 제어한다.
 
 ```bash
 # pane title 지정
@@ -120,41 +174,8 @@ tmux send-keys -t "$MAIN_SESSION":1 "cd ~/project" C-m
 
 ---
 
-## 4. 선언형 대안 — tmuxinator / tmuxp
+## 4. 참고
 
-위 스크립트는 `tmux` 명령을 순서대로 부르는 **명령형**이다. 같은 레이아웃을 **선언형**(YAML로 "이런 모양"만 적고 실행은 도구에 맡기는 방식)으로 관리하고 싶다면 전용 도구가 있다. 위 `main` 세션(3-pane + `secondary` 윈도우)을 [tmuxinator](https://github.com/tmuxinator/tmuxinator)로 옮기면 이렇게 된다.
-
-```yaml
-# ~/.config/tmuxinator/main.yml
-name: main
-windows:
-  - main:
-      layout: main-vertical      # 좌 1 + 우 2 분할
-      panes:
-        - cd ~/
-        - cd ~/
-        - cd ~/
-  - secondary: cd ~/
-```
-
-`mux start main` 한 줄이면 이 세션이 뜬다. [tmuxp](https://github.com/tmux-python/tmuxp)도 거의 같은 YAML을 쓰고 `tmuxp load main.yaml`로 실행한다.
-
-| | 셸 스크립트 (이 글) | tmuxinator / tmuxp |
-|---|---|---|
-| 의존성 | 없음 (`tmux`만) | Ruby / Python 런타임 |
-| 표현 | 명령형 — 조건 분기·로직 자유 | 선언형 — 레이아웃이 한눈에, 재사용 쉬움 |
-| 세션 여러 개 | 한 스크립트에 다 넣음 | 보통 프로젝트당 파일 하나 |
-| 이식성 | 서버·컨테이너 어디서든 | 런타임 깔린 곳만 |
-
-- **tmuxinator** (Ruby): `gem install tmuxinator`, 설정은 `~/.config/tmuxinator/*.yml`. `mux` 별칭으로 프로젝트별 세션을 관리하는 데 강하다.
-- **tmuxp** (Python): `pip install tmuxp`. YAML/JSON 둘 다 되고, `tmuxp freeze`로 **지금 떠 있는 세션을 그대로 config로 뽑아** 준다 — 손으로 만든 세션을 선언형으로 옮길 때 편하다.
-
-기준은 단순하다 — **의존성 없이 어디서든 재현**이 우선이면 이 글의 셸 스크립트, **레이아웃을 여러 프로젝트에 걸쳐 선언적으로 관리**하고 런타임 설치가 부담 없으면 tmuxinator/tmuxp다.
-
----
-
-## 5. 참고
-
-* `tmux has-session`은 세션 존재 여부만 확인한다.
-* 기존 main 세션이 있으면 구조를 다시 만들지 않고 attach만 수행한다.
-* 세션 이름만 바꿔두면 용도별 스크립트를 여러 개 만들어두기 좋다.
+* **세션 매니저는 2단계 TPM 플러그인과 다른 축이다.** tmux *밖*의 외부 CLI이고, `tmux-resurrect`/`continuum`(떠 있던 세션을 저장→복원)과도 목적이 다르다 — 세션 매니저는 레이아웃을 처음부터 **선언→생성**한다.
+* `tmux has-session`은 세션 존재 여부만 확인한다. 도구의 "이미 있으면 attach"가 이걸 대신한다.
+* 셸로 직접 짜는 게 유일해지는 건 **바이너리 하나도 못 까는 극한 환경**(락다운된 서버, 임시 컨테이너) 정도다. 그 외엔 세션 매니저가 상위호환이다.
