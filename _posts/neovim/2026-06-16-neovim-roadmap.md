@@ -2,7 +2,7 @@
 title       : "Neovim 실력 향상 로드맵 — vim·neovim·lazyvim 글을 어떤 순서로 읽을까"
 description : "입문(계층 이해) → 편집 기본기 → 언어(Lua·Vimscript) → LazyVim 구조 → 플러그인 개발을 하나의 학습 줄기로 세우고, 이 블로그의 neovim/lazyvim 글을 그 순서로 큐레이션. 플러그인을 만들지 않을 사람은 3단계에서 완결되고, 4단계부터는 만들 사람만 들어오면 된다. 비교·생태계, 프로젝트·언어별 환경 설정, 트러블슈팅은 학습 단계가 아닌 별도 축의 부록으로 분리."
 date        : 2026-06-16 23:00:00 +0900
-updated     : 2026-07-08 10:00:00 +0900
+updated     : 2026-07-12 10:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : false
@@ -160,6 +160,7 @@ LazyVim을 "그냥 쓰는" 단계에서 "어떻게 동작하는지 알고 고치
 
 | 글 | 핵심 |
 |---|---|
+| [LazyVim 밖의 인기 Neovim 플러그인 — 기본값의 대안과 2025-2026 라이저](/posts/neovim/2026-07-12-popular-plugins-beyond-lazyvim/) | LazyVim 기본값을 대조 기준선으로 — snacks.picker↔fzf-lua, neo-tree↔**oil.nvim**, blink↔nvim-cmp 같은 대안과, harpoon·neogit·avante 같은 기본에 없는 인기템, blink·oil·avante로 이어지는 라이저 서사. 별 개수·정착도 실측 |
 | [Telescope vs fzf — 퍼지 파인더의 경계선](/posts/neovim/2026-07-03-telescope-vs-fzf/) | fzf는 Neovim 없이도 도는 **독립 Go 바이너리**, Telescope는 Neovim API에 얹힌 **순수 Lua 플러그인**. "둘 다 파일 검색된다"는 겹치는 기능 하나일 뿐, 어디서 도느냐가 본질 |
 | [LazyVim 사용자가 본 Emacs — 에디터가 아니라 Elisp 런타임](/posts/neovim/2026-07-03-neovim-user-view-of-emacs/) | 차이는 단축키가 아니라 "에디터를 무엇으로 보느냐". evil-mode, Doom=설정 레이어 vs Neovim=포크, magit/org-mode/런타임 리프로그래밍, 생태계 규모까지 |
 

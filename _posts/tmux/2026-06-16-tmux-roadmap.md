@@ -57,6 +57,7 @@ tmux 자체로는 안 되는 영역(세션 저장·복원, 테마, Vim 패널 �
 | 글 | 핵심 |
 |---|---|
 | [tmux 설정 & 플러그인 설명](/posts/tmux/2025-11-17-tmux-tpm/) | TPM 설치·키바인딩, 대표 플러그인(`tmux-sensible`·`tmux-resurrect`·`tmux-continuum`·`vim-tmux-navigator`)을 `.tmux.conf` 예시와 함께 |
+| [필수 그다음 — 요즘 얹는 tmux 플러그인](/posts/tmux/2026-07-11-tmux-plugins-beyond-essentials/) | 위 필수 6종 위에 얹는 층. `catppuccin`으로 상태바 현대화(방치된 themepack 대체)·`tmux-yank`·`extrakto` 추출·퍼지 계열을 별 개수·정착도 실측과 함께 |
 
 ### 만들기 — 직접 플러그인 제작 (심화)
 
