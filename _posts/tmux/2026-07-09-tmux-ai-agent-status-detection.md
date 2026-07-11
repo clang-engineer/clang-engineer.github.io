@@ -2,6 +2,7 @@
 title       : "tmux로 AI 에이전트 여러 개 관제하기 — herdr 대신 훅 기반 플러그인을 고른 이유"
 description : "AI 코딩 에이전트를 여러 개 굴릴 때 working/blocked/done을 자동 감지하는 법. 전용 멀티플렉서(herdr)와 훅 기반 tmux 플러그인을 비교하고, tmux에 익숙한 사람에게 왜 후자가 맞는지 정리."
 date        : 2026-07-09 11:00:00 +0900
+updated     : 2026-07-11
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [tmux, claude-code, ai-agent, hooks, terminal, guide]
 pin         : false
@@ -88,14 +89,27 @@ herdr이 파는 값어치가 바로 이 어려운 경우를 에이전트별로 �
 
 ### 설치
 
-[TPM](https://github.com/tmux-plugins/tpm)(Tmux Plugin Manager)을 쓴다면 한 줄이면 된다.
+[TPM](https://github.com/tmux-plugins/tpm)(Tmux Plugin Manager)을 쓴다면 둘 다 한 줄이면 된다.
+
+**indicator** — 추가한 뒤 `prefix + I`로 설치하면 플러그인이 Claude Code 훅까지 함께 세팅한다.
 
 ```tmux
 # ~/.tmux.conf
 set -g @plugin 'accessd/tmux-agent-indicator'
 ```
 
-추가한 뒤 `prefix + I`로 설치하면 플러그인이 Claude Code 훅까지 함께 세팅한다.
+**sidebar** — 플러그인 줄은 똑같이 한 줄이지만, Rust 단일 바이너리라 설치 방식이 조금 다르다.
+
+```tmux
+set -g @plugin 'hiroppy/tmux-agent-sidebar'
+```
+
+`prefix + I` 첫 설치 때 wizard가 pre-built 바이너리 다운로드를 제안한다 — 이걸 고르면 **Rust/cargo 없이** 끝난다(소스 빌드를 고를 때만 Rust 필요). Claude Code 연동도 indicator처럼 훅 자동 주입이 아니라, Claude Code 안에서 다음 두 줄을 직접 친다.
+
+```text
+/plugin marketplace add ~/.tmux/plugins/tmux-agent-sidebar
+/plugin install tmux-agent-sidebar@hiroppy
+```
 
 > 이미 `tmux-themepack` 같은 **테마 플러그인**을 쓰면서 indicator를 고른다면 주의할 점이 있다. 테마가 패널 테두리(pane-border) 스타일을 이미 소유하고 있어서 indicator의 테두리 색과 충돌할 수 있다. indicator는 채널별 토글을 제공하니, 테두리는 끄고 상태바 아이콘만 쓰면 깔끔하게 피해 간다.
 >
@@ -105,6 +119,15 @@ set -g @plugin 'accessd/tmux-agent-indicator'
 > ```
 >
 > 애초에 테마를 하나도 안 건드리는 쪽을 원하면 sidebar가 정답이다(별도 패널이라 충돌 자체가 없다).
+{: .prompt-warning }
+
+> sidebar를 골랐다면 키 하나만 주의하면 된다. 전역 키는 `e`(현재 윈도우 토글)·`E`(전체 윈도우 토글) 둘뿐인데, `E`가 tmux 기본 `select-layout -E`를 덮는다. 게다가 이 토글 키는 **끄기가 안 되고 리바인드만 된다**(빈 값으로 두면 기본 `E`로 되돌아온다). 그러니 기본 `E`를 지키려면 전체 토글을 빈 키로 옮긴다.
+>
+> ```tmux
+> set -g @sidebar_key_all 'A'   # 전체 토글을 E→A로 (tmux 기본 select-layout -E 보존)
+> ```
+>
+> 참고로 `e`/`E`는 *보여주는 내용*(항상 전 세션·윈도우의 에이전트)이 아니라 *패널을 어느 윈도우에 띄우냐*만 가른다. 그리고 `@sidebar_auto_create`(기본 on)가 **새 윈도우를 만들 때마다** 사이드바를 자동으로 붙여줘서, 전체 토글 없이도 대시보드처럼 쓸 수 있다(윈도우 *전환* 시엔 안 붙는다).
 {: .prompt-warning }
 
 ## 교훈
