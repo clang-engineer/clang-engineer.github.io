@@ -73,6 +73,7 @@ Claude Code·Codex 같은 AI 코딩 에이전트를 **여러 개 동시에** 굴
 | 글 | 핵심 |
 |---|---|
 | [tmux로 AI 에이전트 여러 개 관제하기 — herdr 대신 훅 기반 플러그인](/posts/tmux/2026-07-09-tmux-ai-agent-status-detection/) | 전용 멀티플렉서(herdr)와 훅 기반 tmux 플러그인 비교. running/needs-input/done을 정확히 감지 — 대시보드가 목적이면 `sidebar`, 인라인이면 `indicator`. tmux 단축키는 하나도 안 건드리고 |
+| [tmux 선택을 AI 에이전트 패널로 보내기 — Y 바인딩과 marked pane](/posts/tmux/2026-07-11-tmux-send-selection-to-agent-pane/) | 셸 출력을 에이전트에 복붙하는 마찰을 copy-mode 바인딩 하나로. copy-mode가 nvim은 못 긁는 이유(alternate screen)와 `{marked}` 타깃 해소까지 |
 
 ## 3단계 — 세션 부트스트랩 자동화
 

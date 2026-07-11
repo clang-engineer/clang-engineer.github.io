@@ -143,5 +143,7 @@ set -g @plugin 'hiroppy/tmux-agent-sidebar'
 
 tmux를 이미 잘 쓰고 있다면, AI 에이전트 관제를 위해 새 멀티플렉서로 이주할 이유는 거의 없다. 필요한 건 이주가 아니라 플러그인 한 줄이다.
 
+이 글이 에이전트의 *상태를 감지*하는 쪽이라면, 반대로 에이전트에게 *셸 출력을 보내는* 쪽은 [tmux 선택을 AI 에이전트 패널로 보내기](/posts/tmux/2026-07-11-tmux-send-selection-to-agent-pane/)에서 다뤘다 — 둘을 같이 쓰면 다중 에이전트 워크플로가 매끄러워진다.
+
 > tmux 학습 전체 흐름은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)에 정리해 뒀다.
 {: .prompt-tip }
