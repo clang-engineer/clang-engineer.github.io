@@ -1,7 +1,8 @@
 ---
 title       : "Telescope vs fzf — 퍼지 파인더의 경계선"
-description : "fzf는 Neovim 없이도 도는 독립 Go 바이너리, Telescope는 Neovim API에 얹힌 순수 Lua 플러그인. '둘 다 파일 검색된다'는 겹치는 기능 하나일 뿐, 어디서 도느냐가 본질이다."
+description : "fzf는 Neovim 없이도 도는 독립 Go 바이너리, Telescope는 Neovim API에 얹힌 순수 Lua 플러그인. '둘 다 파일 검색된다'는 겹치는 기능 하나일 뿐, 어디서 도느냐가 본질이다. 나아가 2026년 plenary.nvim 아카이빙과 snacks.picker 부상으로 지형이 어떻게 바뀌는지도 짚는다."
 date        : 2026-07-03 09:00:00 +0900
+updated     : 2026-07-12 17:30:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [telescope, fzf, picker, lua, ripgrep]
 pin         : false
@@ -51,7 +52,26 @@ Telescope가 순수 Lua라고 해서 혼자 다 하는 건 아니다. 경계가 
 - **telescope-fzf-native.nvim** — Telescope의 정렬 알고리즘을 fzf의 C 구현으로 바꿔 속도를 끌어올리는 확장. C로 컴파일되므로 `make`가 필요하다. picker UI는 Telescope 그대로, 매칭만 빨라진다.
 - **fzf-lua** — fzf 바이너리를 Telescope처럼 Neovim picker로 감싼 플러그인. fzf의 속도 + 에디터 통합을 둘 다 가져간다. 가볍고 빠른 쪽을 원할 때 매력적이다.
 
-kickstart.nvim처럼 정리하는 흐름이면 Telescope + fzf-native 조합이 무난하고, plenary + fzf-native + ripgrep이 기본 조합이다. (참고로 LazyVim의 현재 기본 picker는 Telescope가 아니라 snacks.picker다.)
+kickstart.nvim처럼 정리하는 흐름이면 Telescope + fzf-native 조합이 무난하고, plenary + fzf-native + ripgrep이 기본 조합이다. 다만 아래에서 보듯 이 "기본 조합"의 발밑이 2026년 들어 흔들리고 있다.
+
+## 2026 지형 변화 — plenary 아카이빙과 snacks.picker
+
+위 구조에서 Telescope의 유일한 Lua 의존성이 `plenary.nvim`이라고 했다. 그런데 **`plenary.nvim`은 더 이상 활발히 유지되지 않으며, 2026-06-30자로 아카이브**되었다(그 이후로는 보안·치명적 버그 수정만, 신규 기능은 없음). neo-tree·CopilotChat·mcphub 등 plenary에 얹혀 있던 플러그인들이 잇달아 의존성을 걷어내는 중이다. Telescope는 여전히 plenary 위에 서 있으므로, **장기 설정 관점에선 "유지되지 않는 토대"를 물고 있는 셈**이다.
+
+그 빈자리를 채우며 부상한 게 folke의 **snacks.nvim**이다. QoL 플러그인 묶음인데, 그 안의 **snacks.picker가 LazyVim의 기본 picker 자리를 Telescope에서 넘겨받았다.** 핵심은 snacks.picker가 **plenary 의존성을 걷어내고** folke 자체의 async·레이아웃 유틸로 대체했다는 점 — 앞 절의 "plenary가 유일한 필수 의존성" 구조에서 벗어난 것이다.
+
+정리하면 퍼지 파인더 선택지가 셋으로 갈라졌다.
+
+| 선택지 | 성격 | 의존성 | 결 |
+| --- | --- | --- | --- |
+| **Telescope** | 성숙·확장 생태계 최대 | plenary(아카이브됨) | 안정적이나 토대가 유지보수 종료 |
+| **snacks.picker** | LazyVim 기본, 수직 통합 | 없음(folke 자체 유틸) | 빠르게 움직임 · folke 의존 집중(SPOF) |
+| **mini.pick** | echasnovski의 독립 모듈 | 없음(zero-dep) | 보수적·미니멀, 모듈 독립성 |
+
+여기에 **fzf-lua**는 "plenary 스택도 folke 단일 의존도 피하고 속도만 취하는" 제3의 탈출구로 재조명받는다.
+
+> 어느 하나가 "정답"은 아니다. 생태계·확장성이면 Telescope, LazyVim 기본에 얹혀 가면 snacks.picker, 의존성을 최소화하고 싶으면 mini.pick/fzf-lua다. 다만 **"plenary + Telescope가 영원한 표준"이라는 전제는 2026년부로 깨졌다**는 것만은 분명하다.
+{: .prompt-warning }
 
 ## 함정 정리
 
