@@ -33,9 +33,11 @@ os:
 
 `nvim-remote` preset은 내부적으로 다음과 같은 bash 문법을 사용한다:
 
+{% raw %}
 ```bash
 [ -z "$NVIM" ] && nvim -- {{filename}} || nvim --server "$NVIM" --remote-tab {{filename}}
 ```
+{% endraw %}
 
 nvim의 내장 터미널은 Windows 기본 shell(cmd.exe)을 사용하므로, bash 전용 명령어인 `[`를 인식하지 못해 에러가 발생한다.
 
@@ -54,6 +56,7 @@ nvim (shell=cmd.exe)
 
 lazygit 플러그인 설정 파일에서 snacks.nvim의 lazygit config를 오버라이드한다.
 
+{% raw %}
 ```lua
 -- ~/.config/nvim/lua/plugins/lazygit.lua
 return {
@@ -84,6 +87,7 @@ return {
   },
 }
 ```
+{% endraw %}
 
 ### 2. 캐시 정리
 

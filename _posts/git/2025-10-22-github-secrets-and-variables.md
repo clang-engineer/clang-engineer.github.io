@@ -97,6 +97,7 @@ GitHub Actions에서 서버 배포나 CI/CD를 구성할 때는
 
 ## 5. 사용 예시
 
+{% raw %}
 ```yaml
 jobs:
   deploy:
@@ -109,6 +110,7 @@ jobs:
               ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }} \
               -p ${{ vars.SERVER_PORT }}
 ```
+{% endraw %}
 
 * `secrets.SSH_PRIVATE_KEY` → 민감 정보
 * `vars.SERVER_PORT`, `vars.SERVER_USER` → 일반 설정 값

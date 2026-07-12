@@ -60,6 +60,7 @@ goatcounter.html
 
 `goatcounter.html` 내용은 단순하다.
 
+{% raw %}
 ```html
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -77,6 +78,7 @@ goatcounter.html
   });
 </script>
 ```
+{% endraw %}
 
 핵심은 **클라이언트에서 직접 카운터 JSON을 가져올 수 있는 공개 엔드포인트**가 필요하다는 점이다. GoatCounter는 `/counter/{path}.json`을 인증 없이 노출한다. 반면 GA·Plausible·Umami는 페이지별 조회수를 가져오려면 API 키 + 서버 측 요청이 필요하다 — 정적 사이트의 브라우저에서 직접 부르기에 부적합하다.
 

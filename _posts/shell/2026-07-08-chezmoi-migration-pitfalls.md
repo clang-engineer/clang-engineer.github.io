@@ -34,10 +34,12 @@ mv /path/to/repo/ssh ~/.ssh      # 실디렉토리를 repo 밖으로 통째 이�
 ## 3. chezmoi 부트스트랩 닭-달걀
 인증 config(ssh host별칭)를 **제공하는** private secrets repo를 **그 ssh 별칭으로 클론**하면 fresh 머신에서 데드락(설정이 있어야 클론, 클론해야 설정 생김). → secrets repo는 **HTTPS + token**으로 클론해 순환을 끊는다.
 
+{% raw %}
 ```toml
 # .chezmoiexternal.toml.tmpl — ssh 별칭 대신 token URL
 url = "https://x-access-token:{{ env "GITHUB_TOKEN" }}@github.com/{{ env "SECRETS_REPO" }}.git"
 ```
+{% endraw %}
 
 ## 4. git "이동됨" ≠ 디스크 "이동됨"
 `git mv`/커밋으로 추적을 옮겨도, `~/.ssh` 심링크가 옛 폴더를 계속 물고 있으면 **디스크엔 파일이 남는다**. 마이그레이션 검증은 git 로그만이 아니라 **실제 심링크/파일 배치**까지.

@@ -212,6 +212,7 @@ sonar.token=your-token
 ---
 
 ## 10. 2. GitHub Actions 통합
+{% raw %}
 ```sh
 # .github/workflows/ci-cd.yml
 name: CI/CD Pipeline
@@ -273,6 +274,7 @@ jobs:
             docker-compose -f docker-compose.prod.yml up -d
           "
 ```
+{% endraw %}
 
 
 ---

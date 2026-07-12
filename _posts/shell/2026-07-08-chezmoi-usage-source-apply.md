@@ -27,6 +27,7 @@ chezmoi의 모든 것은 하나의 **소스 디렉토리**에서 시작한다.
 
 `.tmpl` 파일은 Go 템플릿 문법으로 머신별 분기를 담는다. 개념보다 예시가 빠르다 — 회사·개인 머신에서 git 이메일을 가르는 `dot_gitconfig.tmpl`:
 
+{% raw %}
 ```
 [user]
     name = clang
@@ -36,6 +37,7 @@ chezmoi의 모든 것은 하나의 **소스 디렉토리**에서 시작한다.
     email = clang.engineer@gmail.com
 {{- end }}
 ```
+{% endraw %}
 
 apply 시점에 `.chezmoi.hostname`이 평가돼, 이 머신에 맞는 한 줄만 남은 **평범한 `~/.gitconfig`**로 렌더된다. 파일엔 조건문 흔적이 없다 — 분기는 이미 apply 때 끝났다. (`.gitconfig`는 런타임에 `source`로 분기할 수 없는 대표적 파일이라, 이런 렌더 분기가 chezmoi를 쓰는 이유 중 하나다.)
 
