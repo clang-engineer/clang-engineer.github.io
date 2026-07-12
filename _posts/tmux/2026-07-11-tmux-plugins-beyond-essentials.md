@@ -2,6 +2,7 @@
 title       : "필수 그다음 — 요즘 얹는 tmux 플러그인 (테마·추출·퍼지)"
 description : "tmux-tpm의 필수 6종 위에 얹는 층. catppuccin으로 상태바 현대화(방치된 themepack 대체), tmux-yank·extrakto로 복사·추출, tmux-fzf 계열 퍼지까지 — 별 개수·정착도를 실측 근거와 함께."
 date        : 2026-07-11 16:00:00 +0900
+updated     : 2026-07-12 11:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [plugin, catppuccin, extrakto]
 pin         : false
@@ -92,6 +93,19 @@ set -g @plugin 'laktak/extrakto'
 | wfxr/tmux-fzf-url | 720 | 화면의 URL만 모아 fzf로 열기 | 활발하나 정착 후기 스레드 거의 없음 |
 
 화면 텍스트 추출이 목적이면 **extrakto(위) 하나로 대부분 해결**된다. fingers/thumbs는 "마우스 없이 클릭할 지점으로 점프" 성격이라 목적이 다르다.
+
+---
+
+## 얹는 게 아니라 통째로 받기 — Oh My Tmux! (다른 축)
+
+지금까지가 "필수 6종 위에 취향껏 **얹는**" 이야기였다면, 정반대 노선도 있다 — 잘 짜인 `.tmux.conf`를 **통째로 받는** 것. **Oh My Tmux!**(`gpakosz/.tmux`, "oh-my-zsh의 tmux판")가 이 카테고리의 사실상 유일한 강자다. **25.2k⭐**로 이 글의 어떤 플러그인보다 별이 많지만 성격이 다르다 — 플러그인이 아니라 **완성형 config 배포판**이다.
+
+구조는 2파일: `.tmux.conf`(본체, 건드리지 않음) + `.tmux.conf.local`(내 override). 세련된 상태바, **중첩 세션 감지해 톤 다운**, mouse·synchronize 토글 표시등을 즉시 준다. 같은 카테고리에 samoshkin/tmux-config(2.3k⭐, 2024 방치)·tony/tmux-config(1.9k⭐, 예제 성격)도 있지만 살아있는 건 사실상 OMT뿐이다.
+
+**그런데 왜 "얹지 않았나".** 이 블로그의 노선은 필수 6종에서 시작해 필요한 것만 손으로 얹는 **hand-craft**다. 완성형 배포판을 상속하면 (1) 안 쓰는 기능까지 딸려오고, (2) 손수 다듬은 설정을 OMT의 `.tmux.conf.local` override 방식에 다시 맞춰야 하며, (3) 무엇보다 **스스로 조립하며 배우는 과정**이 사라진다. oh-my-zsh를 통째로 쓰다 결국 자기 zsh를 직접 짜게 되는 것과 같은 흐름이다.
+
+> 💡 **채택보다 "레퍼런스로 훔치기".** OMT의 `.tmux.conf`를 열어 탐나는 아이디어만 내 config로 가져오는 게 실속 있다 — 특히 **중첩(SSH) 세션일 때 상태바 dimming**과 **mouse/synchronize-panes 토글 상태 표시**. 통째 채택은 이미 curate한 config가 있다면 오히려 후퇴다.
+{: .prompt-tip }
 
 ---
 
