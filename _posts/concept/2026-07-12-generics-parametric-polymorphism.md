@@ -32,7 +32,7 @@ template<typename T>
 T max(T a, T b) { return a > b ? a : b; }   // 모든 타입에 하나로
 ```
 
-> 제네릭 ≠ 상속 다형성. 상속(subtyping)은 "여러 타입을 부모 하나로 다룸(virtual/interface)", 제네릭은 "하나의 코드를 여러 타입에 찍어냄"이다. 둘은 다른 축이다.
+> 제네릭 ≠ 상속 다형성. 상속(subtyping)은 "여러 타입을 부모 하나로 다룸(virtual/interface)", 제네릭은 "하나의 코드를 여러 타입에 찍어냄"이다. 둘은 다른 축이다. → 나머지 절반은 [서브타입 다형성과 동적 디스패치](/posts/concept/2026-07-12-subtype-polymorphism-dynamic-dispatch/)에서.
 
 ## 구현의 갈림길 — 단형화 vs 타입 소거
 

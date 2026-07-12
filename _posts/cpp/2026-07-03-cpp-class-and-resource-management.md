@@ -96,6 +96,8 @@ public:
 
 상속으로 코드를 확장하고, 가상 함수로 "기반 클래스 포인터로 파생 클래스의 동작을 부르는" 다형성을 얻습니다.
 
+> **언어 공통 개념**: 이 `virtual`이 하는 일(여러 타입을 하나로 다루고 실제 동작은 런타임에 고르기)은 언어 무관 개념 **서브타입 다형성**입니다. Go `interface`·Rust `trait`가 vtable로 같은 일을 어떻게 하는지, "누가 인터페이스 만족을 선언하나"가 갈리는 지점은 → [서브타입 다형성 — 인터페이스·트레이트·가상 함수](/posts/concept/2026-07-12-subtype-polymorphism-dynamic-dispatch/).
+
 ```cpp
 class Animal {
 public:

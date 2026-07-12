@@ -30,6 +30,7 @@
 | **락 경합·데드락 실무 진단** (SELECT FOR UPDATE, pg_locks) | db 이론(격리수준)↔계측(모니터링) 사이 공백 | db: 부록 트러블슈팅 각도 | 대기 |
 | **고급 SQL** (윈도우 함수·CTE·재귀) | db가 "범위 밖"으로 선언한 축 | db: 별도 track | 대기 |
 | **SOLID 입문** (패턴이 지키려는 원칙) | design-pattern OCP가 4개 글에 인라인만, 앵커 없음 | design-pattern: 경계 섹션 앵커 | 대기 |
+| **람다·클로저** (캡처 `[=]`/`[&]`, `std::function`, 제네릭 람다) | concept 클로저 글이 C++ 람다를 앵커로 쓰는데 cpp-modern-syntax엔 1회 언급뿐 = **앵커 dead link** (2026-07-12 concept 허브 스캔에서 발견) | cpp: ⑦ 모던 문법 내 섹션 or STL과 짝 | 대기 |
 | **macOS 앱 권한 통합** (손쉬운 사용·화면 기록·자동화) | Hammerspoon/AltTab/Docker에 흩어진 반복 전제 | macos: 창 관리 전제 | 대기 |
 | **온보딩·인증** (구독 vs API 키 로그인, /login, 첫 5분) | ai 설치↔실전 사이 전제 공백 | ai: 1단계 앞 | 대기 |
 | **예약 작업 cron·crontab** (문법·로그 확인, systemd 타이머 대비) | linux 3단계가 타이머만 스침, cron 본론 없음 | linux: 서비스 단계 짝 | 대기 |
