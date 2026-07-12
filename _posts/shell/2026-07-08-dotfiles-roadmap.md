@@ -2,7 +2,7 @@
 title       : "dotfiles 로드맵 — 설정을 코드로 재현하는 순서"
 description : "흩어진 설정을 git 한곳에 모으고(심링크), 설치까지 선언적으로(Brewfile) 만든 뒤, 머신마다 갈리는 값을 어떻게 처리하느냐(런타임 분기 vs chezmoi 렌더)에서 방식이 갈린다 — 이 블로그의 dotfiles 글을 그 순서로 큐레이션. init 파일 이해·direnv·SSH 분리·새 맥 셋업은 결이 다른 축이라 부록으로 분리."
 date        : 2026-07-08 12:00:00 +0900
-updated     : 2026-07-08 12:00:00 +0900
+updated     : 2026-07-12 11:00:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, dotfiles, chezmoi, symlink]
 pin         : false
@@ -67,6 +67,9 @@ hidden      : false
 {: .prompt-info }
 
 > **제3의 배치 모델 — bare git repo · yadm.** 줄기는 "홈에 어떻게 되돌리나"를 링크(심링크)와 렌더(chezmoi)로 갈랐지만, 링크도 복사도 없이 **홈 디렉터리 자체를 git 워크트리로 삼는** bare git 방식이 하나 더 있다. 매니저 없이 git만으로 가장 가볍게 가고 싶을 때의 선택지이고, 여기에 템플릿·암호화를 얹은 매니저가 yadm이다 → [bare git repo · yadm로 dotfiles 관리하기](/posts/shell/2026-07-08-dotfiles-bare-git-yadm/).
+{: .prompt-info }
+
+> 💡 **chezmoi의 숨은 축 — `.chezmoiexternal`로 남의 설정을 통째로 추적.** 위 갈림길이 "내 설정"을 다뤘다면, 남이 만든 **설정 프레임워크**(Oh My Tmux!·oh-my-zsh 류)를 통째로 쓰되 upstream을 추적하고 싶을 때가 있다. chezmoi는 `.chezmoiexternal`로 외부 파일·repo를 `apply` 시점에 가져온다 — **특정 커밋에 고정**하면 재현성과 예고 없는 변경 차단까지 얻고, 내 커스텀은 배포판이 정해 둔 override 파일(예: `.tmux.conf.local`) 하나로 격리한다. "완성형 배포판 상속"의 약점을 규율로 상쇄하는 패턴이다 → [요즘 얹는 tmux 플러그인](/posts/tmux/2026-07-11-tmux-plugins-beyond-essentials/)의 Oh My Tmux! 절에 tmux 실사례.
 {: .prompt-info }
 
 ---

@@ -2,7 +2,7 @@
 title       : "tmux 로드맵 — 세션 관리를 익혀 작업 환경을 자동화하는 순서"
 description : "tmux 구조·설치 → 체감 옵션 → 플러그인 → 세션 부트스트랩 자동화까지, 이 블로그의 tmux 글을 학습 순서대로 큐레이션. 클립보드·자동 attach 트러블슈팅은 부록으로 분리."
 date        : 2026-06-16 15:00:00 +0900
-updated     : 2026-07-11 11:00:00 +0900
+updated     : 2026-07-12 11:00:00 +0900
 categories  : [tmux, "개요·인덱스"]
 tags        : [roadmap, terminal]
 pin         : false
@@ -47,6 +47,9 @@ tmux를 처음 만지거나, 단축키가 자꾸 헷갈리는 단계.
 | 글 | 핵심 |
 |---|---|
 | [tmux 유용한 설정 정리 (.tmux.conf 기준)](/posts/tmux/2026-02-21-tmux-tips/) | 매일 체감되는 옵션만 추림 — ESC 지연 제거·True Color·마우스·분할 시 경로 유지·vi 복사모드·세션 트리 정렬 |
+
+> 💡 **완성형 배포판이라는 갈림길.** 기본값을 손수 다듬는 대신, 잘 짜인 `.tmux.conf`를 통째로 상속하는 길도 있다 — [Oh My Tmux!](/posts/tmux/2026-07-12-oh-my-tmux/)(25k⭐, 이 카테고리 독주). 무엇을 바꾸고 어떻게 커스텀하는지는 전용 글에서, 채택 판단은 2단계 [beyond-essentials](/posts/tmux/2026-07-11-tmux-plugins-beyond-essentials/)의 '다른 축' 절에서 다룬다. 이 로드맵은 직접 조립을 택하지만, 반대 노선을 알고 고르는 편이 낫다.
+{: .prompt-tip }
 
 ## 2단계 — 플러그인으로 확장
 

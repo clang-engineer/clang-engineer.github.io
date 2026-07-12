@@ -100,11 +100,14 @@ set -g @plugin 'laktak/extrakto'
 
 지금까지가 "필수 6종 위에 취향껏 **얹는**" 이야기였다면, 정반대 노선도 있다 — 잘 짜인 `.tmux.conf`를 **통째로 받는** 것. **Oh My Tmux!**(`gpakosz/.tmux`, "oh-my-zsh의 tmux판")가 이 카테고리의 사실상 유일한 강자다. **25.2k⭐**로 이 글의 어떤 플러그인보다 별이 많지만 성격이 다르다 — 플러그인이 아니라 **완성형 config 배포판**이다.
 
-구조는 2파일: `.tmux.conf`(본체, 건드리지 않음) + `.tmux.conf.local`(내 override). 세련된 상태바, **중첩 세션 감지해 톤 다운**, mouse·synchronize 토글 표시등을 즉시 준다. 같은 카테고리에 samoshkin/tmux-config(2.3k⭐, 2024 방치)·tony/tmux-config(1.9k⭐, 예제 성격)도 있지만 살아있는 건 사실상 OMT뿐이다.
+구조는 2파일: `.tmux.conf`(본체, 건드리지 않음) + `.tmux.conf.local`(내 override). 세련된 powerline 상태바, **SSH/Mosh 접속 시 원격 호스트·유저 자동 표시**(로컬일 땐 숨김), prefix·mouse·synchronize 토글 표시등을 즉시 준다. 같은 카테고리에 samoshkin/tmux-config(2.3k⭐, 2024 방치)·tony/tmux-config(1.9k⭐, 예제 성격)도 있지만 살아있는 건 사실상 OMT뿐이다.
 
 **그런데 왜 "얹지 않았나".** 이 블로그의 노선은 필수 6종에서 시작해 필요한 것만 손으로 얹는 **hand-craft**다. 완성형 배포판을 상속하면 (1) 안 쓰는 기능까지 딸려오고, (2) 손수 다듬은 설정을 OMT의 `.tmux.conf.local` override 방식에 다시 맞춰야 하며, (3) 무엇보다 **스스로 조립하며 배우는 과정**이 사라진다. oh-my-zsh를 통째로 쓰다 결국 자기 zsh를 직접 짜게 되는 것과 같은 흐름이다.
 
-> 💡 **채택보다 "레퍼런스로 훔치기".** OMT의 `.tmux.conf`를 열어 탐나는 아이디어만 내 config로 가져오는 게 실속 있다 — 특히 **중첩(SSH) 세션일 때 상태바 dimming**과 **mouse/synchronize-panes 토글 상태 표시**. 통째 채택은 이미 curate한 config가 있다면 오히려 후퇴다.
+> 💡 **채택보다 "레퍼런스로 훔치기".** OMT의 `.tmux.conf`를 열어 탐나는 아이디어만 내 config로 가져오는 게 실속 있다 — 특히 **SSH/Mosh 접속 시 원격 호스트·유저를 자동 표시하는 상태바**와 **prefix/mouse/synchronize-panes 토글 표시등**. 통째 채택은 이미 curate한 config가 있다면 오히려 후퇴다.
+{: .prompt-tip }
+
+> 💡 **그래도 채택한다면 — chezmoi로 규율 있게.** OMT를 통째로 쓰기로 했다면, [chezmoi](https://chezmoi.io) 기준 정공법은 이렇다: 본체(`.tmux.conf`)는 `.chezmoiexternal`로 **upstream을 특정 커밋에 고정해** 가져오고(재현 가능·`apply` 때 예고 없는 변경 차단), `~/.tmux.conf`는 그 파일의 심링크, 내 커스텀은 `.tmux.conf.local` **한 파일로 격리**한다(플러그인도 여기서 `set -g @plugin`으로 선언 — tpm 설치·갱신까지 OMT가 대신 한다). 이러면 "완성형 배포판 상속"의 약점(안 쓰는 기능·upstream 추적 공백)을 상당 부분 상쇄한다 — 규율 있는 채택은 naive한 통째 상속과 다르다.
 {: .prompt-tip }
 
 ---
