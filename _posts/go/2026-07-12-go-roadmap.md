@@ -20,13 +20,11 @@ Go는 C++과 방향이 정반대인 언어입니다. C++이 기능을 계속 쌓
 - **[나중]** — 중요하지만 급하지 않습니다. 필요해질 때 돌아와도 됩니다.
 - **[선택]** — 특정 상황에서만 필요합니다. 개념만 알고 넘어가도 됩니다.
 
-그리고 이 로드맵은 **진행형**입니다. 상세 글은 아직 없고, 배우면서 직접 채워 나갈 예정이라 각 단계에 **학습 상태**를 표시합니다.
+그리고 각 단계에는 **C++ 하던 사람을 위한 상세 글**을 붙였습니다. 정본 교재 챕터를 요약하되, 그 위에 세 가지를 얹은 학습용 다이제스트입니다 — **대응**("이건 C++의 뭐냐"), **차이**(겉은 같은데 속이 다른 지점), **습관 교정**(C++ 사고가 오히려 방해되는 지점). 그 글만 읽어도 학습이 되도록 쓰되, 더 깊이는 각 글 끝의 정본 교재로 연결합니다.
 
-- **⬜ 미학습** · **🚧 진행 중** · **✅ 정리 완료** (상세 글 링크가 붙으면 완료)
+- 학습 상태: **⬜ 미학습** · **🚧 진행 중** · **✅ 상세 글 완료**
 
-지금 단계에서 각 주제의 "목적지"는 개인 글이 아니라 **정본 교재**입니다. Go는 공식 학습 자료가 워낙 잘 되어 있어서, 새로 쓰기보다 그걸 타는 게 맞습니다.
-
-> 📖 **정본 교재 3종** — 이 로드맵은 아래를 가리키는 인덱스입니다.
+> 📖 **정본 교재 3종** — 각 상세 글이 더 깊이 볼 때 아래로 연결합니다.
 > - [A Tour of Go](https://go.dev/tour/) — 브라우저에서 바로 돌리는 인터랙티브 투어. **여기서 시작.** 반나절.
 > - [Go by Example](https://gobyexample.com/) — 주제별 최소 예제 모음. 사전처럼.
 > - 『The Go Programming Language』(Donovan & Kernighan) — C의 K&R 저자가 쓴 정본 책.
@@ -47,13 +45,13 @@ Go는 C++과 방향이 정반대인 언어입니다. C++이 기능을 계속 쌓
 
 | 단계 | 주제 | 우선순위 | 상태 |
 |---|---|---|---|
-| 기초 | ① 문법·패키지·모듈 | 필수 | ⬜ |
-| 타입 | ② struct·method·interface (+method set) | 필수 · **뼈대** | ⬜ |
-| 타입 | ③ slice·map·string | 필수 | ⬜ |
-| 흐름 | ④ error 처리 + defer·panic·recover | 필수 | ⬜ |
-| 동시성 | ⑤ goroutine·channel·context (+`-race`) | 필수 · Go의 정체성 | ⬜ |
-| 실전 | ⑥ 표준 라이브러리·관용구·testing | 필수 | ⬜ |
-| 마지막 | ⑦ 도구 — go build·mod·fmt·vet | 필수 | ⬜ |
+| 기초 | [① 문법·패키지·모듈](/posts/go/2026-07-12-go-basics-package-module/) | 필수 | ✅ |
+| 타입 | [② struct·method·interface (+method set)](/posts/go/2026-07-12-go-struct-method-interface/) | 필수 · **뼈대** | ✅ |
+| 타입 | [③ slice·map·string](/posts/go/2026-07-12-go-slice-map-string/) | 필수 | ✅ |
+| 흐름 | [④ error 처리 + defer·panic·recover](/posts/go/2026-07-12-go-error-handling-defer/) | 필수 | ✅ |
+| 동시성 | [⑤ goroutine·channel·context (+`-race`)](/posts/go/2026-07-12-go-concurrency-goroutine-channel/) | 필수 · Go의 정체성 | ✅ |
+| 실전 | [⑥ 표준 라이브러리·관용구·testing](/posts/go/2026-07-12-go-stdlib-idiom-testing/) | 필수 | ✅ |
+| 마지막 | [⑦ 도구 — go build·mod·fmt·vet](/posts/go/2026-07-12-go-tooling/) | 필수 | ✅ |
 | 부록 | 제네릭 (1.18+) | 나중 | ⬜ |
 | 부록 | C++ → Go 개념 대응표 | 참고 | ✅ |
 
@@ -61,7 +59,7 @@ Go는 C++과 방향이 정반대인 언어입니다. C++이 기능을 계속 쌓
 
 ## ① 기초 — 문법·패키지·모듈
 
-> 📖 [A Tour of Go](https://go.dev/tour/) — "Basics" 섹션
+> 📖 상세 글: [① 문법·패키지·모듈](/posts/go/2026-07-12-go-basics-package-module/)
 
 C를 알면 문법 절반은 익숙합니다. 이 단계 목표는 암기가 아니라 **C++과 다른 Go의 뼈대 규칙**입니다.
 
@@ -75,7 +73,7 @@ C를 알면 문법 절반은 익숙합니다. 이 단계 목표는 암기가 아
 
 ## ② 타입 — struct·method·interface (뼈대)
 
-> 📖 [A Tour of Go](https://go.dev/tour/) — "Methods and interfaces"
+> 📖 상세 글: [② struct·method·interface](/posts/go/2026-07-12-go-struct-method-interface/)
 
 Go에는 **클래스가 없습니다.** 이 단계가 C++ 습관과 가장 크게 충돌하는 지점이자 Go 설계의 핵심이라, 뼈대로 둡니다.
 
@@ -90,7 +88,7 @@ Go에는 **클래스가 없습니다.** 이 단계가 C++ 습관과 가장 크�
 
 ## ③ 타입 — slice·map·string
 
-> 📖 [Go by Example](https://gobyexample.com/slices) · [블로그: slice 내부 동작](https://go.dev/blog/slices-intro)
+> 📖 상세 글: [③ slice·map·string](/posts/go/2026-07-12-go-slice-map-string/)
 
 Go의 핵심 자료구조. C++ 컨테이너와 겉은 비슷하지만 내부가 다릅니다.
 
@@ -102,7 +100,7 @@ Go의 핵심 자료구조. C++ 컨테이너와 겉은 비슷하지만 내부가 
 
 ## ④ 흐름 — error 처리 (예외가 없다)
 
-> 📖 [A Tour of Go](https://go.dev/tour/) — "Errors" · [블로그: Error handling](https://go.dev/blog/error-handling-and-go)
+> 📖 상세 글: [④ error 처리 + defer·panic·recover](/posts/go/2026-07-12-go-error-handling-defer/)
 
 C++/Java에서 온 사람에게 가장 큰 문화 충격. **Go에는 예외(exception)가 없습니다.** 예외·에러 값·Result 세 모델의 비교는 [에러 핸들링 모델](/posts/concept/2026-07-12-error-handling-models/) 참고.
 
@@ -117,7 +115,7 @@ C++/Java에서 온 사람에게 가장 큰 문화 충격. **Go에는 예외(exce
 
 ## ⑤ 동시성 — goroutine·channel (Go의 정체성)
 
-> 📖 [A Tour of Go](https://go.dev/tour/concurrency/1) · [Go by Example: Goroutines](https://gobyexample.com/goroutines)
+> 📖 상세 글: [⑤ goroutine·channel·context](/posts/go/2026-07-12-go-concurrency-goroutine-channel/)
 
 Go를 Go답게 만드는 킬러 피처. C++의 `std::thread`·뮤텍스 고생과 비교하면 놀랄 만큼 가볍습니다.
 
@@ -134,7 +132,7 @@ Go를 Go답게 만드는 킬러 피처. C++의 `std::thread`·뮤텍스 고생�
 
 ## ⑥ 실전 — 표준 라이브러리·관용구·testing
 
-> 📖 [Go by Example](https://gobyexample.com/) — HTTP, JSON, Testing 항목 · [Effective Go](https://go.dev/doc/effective_go)
+> 📖 상세 글: [⑥ 표준 라이브러리·관용구·testing](/posts/go/2026-07-12-go-stdlib-idiom-testing/)
 
 문법을 넘어 실제로 뭔가 만들고, **Go답게** 쓰는 단계. 표준 라이브러리도 관용구도 여기서.
 
@@ -147,7 +145,7 @@ Go를 Go답게 만드는 킬러 피처. C++의 `std::thread`·뮤텍스 고생�
 
 ## ⑦ 마지막 — 도구
 
-> 📖 [Go 공식: Managing dependencies](https://go.dev/doc/modules/managing-dependencies)
+> 📖 상세 글: [⑦ 도구 — go build·mod·fmt·vet](/posts/go/2026-07-12-go-tooling/)
 
 Go는 도구가 언어에 내장되어 있어서 C++의 CMake 같은 외부 빌드 시스템이 필요 없습니다.
 

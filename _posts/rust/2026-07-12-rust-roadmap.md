@@ -22,13 +22,11 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 - **[나중]** — 중요하지만 급하지 않습니다. 필요해질 때 돌아와도 됩니다.
 - **[선택]** — 특정 상황(라이브러리 저자, 고성능)에서만 필요합니다. 개념만 알고 넘어가도 됩니다.
 
-그리고 이 로드맵은 **진행형**입니다. 상세 글은 아직 없고, 배우면서 직접 채워 나갈 예정이라 각 단계에 **학습 상태**를 표시합니다.
+그리고 각 단계에는 **C++ 하던 사람을 위한 상세 글**을 붙였습니다. 정본 교재 챕터를 요약하되, 그 위에 세 가지를 얹은 학습용 다이제스트입니다 — **대응**("이건 C++의 뭐냐"), **차이**(겉은 같은데 속이 다른 지점), **습관 교정**(C++ 사고가 오히려 방해되는 지점). 그 글만 읽어도 학습이 되도록 쓰되, 더 깊이는 각 글 끝의 정본 교재로 연결합니다.
 
-- **⬜ 미학습** · **🚧 진행 중** · **✅ 정리 완료** (상세 글 링크가 붙으면 완료)
+- 학습 상태: **⬜ 미학습** · **🚧 진행 중** · **✅ 상세 글 완료**
 
-지금 단계에서 각 주제의 "목적지"는 개인 글이 아니라 **정본 교재**입니다. Rust는 공식 책이 사실상 유일한 표준이라, 새로 쓰기보다 그걸 타는 게 맞습니다.
-
-> 📖 **정본 교재** — 이 로드맵은 아래를 가리키는 인덱스입니다.
+> 📖 **정본 교재** — 각 상세 글이 더 깊이 볼 때 아래로 연결합니다.
 > - [The Rust Book](https://doc.rust-lang.org/book/) — 공식·무료. 거의 모든 러스타시안이 여기서 시작. **여기가 본체.**
 > - [rustlings](https://github.com/rust-lang/rustlings) — borrow checker와 강제로 싸우게 하는 연습문제. 책과 병행 필수.
 > - [Rust by Example](https://doc.rust-lang.org/rust-by-example/) — 주제별 실행 가능한 예제.
@@ -49,16 +47,16 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 
 | 단계 | 주제 | 우선순위 | 상태 |
 |---|---|---|---|
-| 기초 | ① 문법·불변성·cargo | 필수 | ⬜ |
-| 핵심 | ② 소유권·빌림·수명 | 필수 · **뼈대** | ⬜ |
-| 타입 | ③ struct·enum·match | 필수 | ⬜ |
-| 타입 | ④ 컬렉션·String vs &str | 필수 | ⬜ |
-| 흐름 | ⑤ error 처리 — Result·Option·? | 필수 | ⬜ |
-| 추상화 | ⑥ trait·제네릭 (+심화·dyn·orphan) | 필수 | ⬜ |
-| 관용구 | ⑦ 반복자·클로저 (Rust다움의 본체) | 필수 · **고유** | ⬜ |
-| 소유권 심화 | ⑧ 스마트 포인터 — Box·Rc·RefCell | 나중 | ⬜ |
-| 동시성 | ⑨ thread·Send/Sync·async | 나중 | ⬜ |
-| 마지막 | ⑩ 도구 — cargo·crates·모듈 | 필수 | ⬜ |
+| 기초 | [① 문법·불변성·cargo](/posts/rust/2026-07-12-rust-basics-cargo-immutability/) | 필수 | ✅ |
+| 핵심 | [② 소유권·빌림·수명](/posts/rust/2026-07-12-rust-ownership-borrow-lifetime/) | 필수 · **뼈대** | ✅ |
+| 타입 | [③ struct·enum·match](/posts/rust/2026-07-12-rust-struct-enum-match/) | 필수 | ✅ |
+| 타입 | [④ 컬렉션·String vs &str](/posts/rust/2026-07-12-rust-collections-string-str/) | 필수 | ✅ |
+| 흐름 | [⑤ error 처리 — Result·Option·?](/posts/rust/2026-07-12-rust-error-handling-result-option/) | 필수 | ✅ |
+| 추상화 | [⑥ trait·제네릭 (+심화·dyn·orphan)](/posts/rust/2026-07-12-rust-trait-generics/) | 필수 | ✅ |
+| 관용구 | [⑦ 반복자·클로저 (Rust다움의 본체)](/posts/rust/2026-07-12-rust-iterator-closure/) | 필수 · **고유** | ✅ |
+| 소유권 심화 | [⑧ 스마트 포인터 — Box·Rc·RefCell](/posts/rust/2026-07-12-rust-smart-pointers/) | 나중 | ✅ |
+| 동시성 | [⑨ thread·Send/Sync·async](/posts/rust/2026-07-12-rust-concurrency/) | 나중 | ✅ |
+| 마지막 | [⑩ 도구 — cargo·crates·모듈](/posts/rust/2026-07-12-rust-tooling/) | 필수 | ✅ |
 | 부록 | 매크로 — macro_rules!·derive | 나중 | ⬜ |
 | 부록 | unsafe·FFI | 선택 | ⬜ |
 | 부록 | C++ → Rust 개념 대응표 | 참고 | ✅ |
@@ -67,7 +65,7 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 
 ## ① 기초 — 문법·불변성·cargo
 
-> 📖 [The Rust Book Ch.1–3](https://doc.rust-lang.org/book/ch01-00-getting-started.html)
+> 📖 상세 글: [① 문법·불변성·cargo](/posts/rust/2026-07-12-rust-basics-cargo-immutability/)
 
 이 단계 목표는 암기가 아니라 **C++과 다른 Rust의 기본 태도**입니다.
 
@@ -81,7 +79,7 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 
 ## ② 핵심 — 소유권·빌림·수명 (뼈대, 최우선)
 
-> 📖 [The Rust Book Ch.4](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html) · [rustlings: move_semantics](https://github.com/rust-lang/rustlings)
+> 📖 상세 글: [② 소유권·빌림·수명](/posts/rust/2026-07-12-rust-ownership-borrow-lifetime/)
 
 **Rust의 전부.** 여기에 학습 시간의 절반을 쓸 각오로 들어갑니다. C++의 이동 시맨틱·RAII를 안다면 직관이 크게 도와줍니다.
 
@@ -95,7 +93,7 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 
 ## ③ 타입 — struct·enum·match
 
-> 📖 [The Rust Book Ch.5–6](https://doc.rust-lang.org/book/ch05-00-structs.html)
+> 📖 상세 글: [③ struct·enum·match](/posts/rust/2026-07-12-rust-struct-enum-match/)
 
 Rust의 타입 시스템은 C++보다 강력하고, 특히 enum이 다릅니다.
 
@@ -107,7 +105,7 @@ Rust의 타입 시스템은 C++보다 강력하고, 특히 enum이 다릅니다.
 
 ## ④ 타입 — 컬렉션·String vs &str
 
-> 📖 [The Rust Book Ch.8](https://doc.rust-lang.org/book/ch08-00-common-collections.html)
+> 📖 상세 글: [④ 컬렉션·String vs &str](/posts/rust/2026-07-12-rust-collections-string-str/)
 
 - **[필수] Vec·HashMap** — `std::vector`·`unordered_map` 대응.
 - **[필수] String vs &str** — Rust 입문자를 가장 헷갈리게 하는 지점. `String`(소유, 힙)과 `&str`(빌린 문자열 슬라이스)의 구분은 **②의 소유권과 직결**됩니다. 여기서 소유권이 다시 몸에 붙습니다.
@@ -116,7 +114,7 @@ Rust의 타입 시스템은 C++보다 강력하고, 특히 enum이 다릅니다.
 
 ## ⑤ 흐름 — error 처리 (Result·Option·?)
 
-> 📖 [The Rust Book Ch.9](https://doc.rust-lang.org/book/ch09-00-error-handling.html)
+> 📖 상세 글: [⑤ error 처리 — Result·Option·?](/posts/rust/2026-07-12-rust-error-handling-result-option/)
 
 C++/Java에서 온 사람에게 문화 충격. **Rust에도 예외가 없습니다.** 대신 ③의 enum으로 에러를 표현합니다. 파일 하나만 열어도 바로 `Result`를 만나므로, 추상화(trait)보다 먼저 잡습니다(정본 Book도 이 순서).
 
@@ -132,7 +130,7 @@ C++/Java에서 온 사람에게 문화 충격. **Rust에도 예외가 없습니�
 
 ## ⑥ 추상화 — trait·제네릭
 
-> 📖 [The Rust Book Ch.10](https://doc.rust-lang.org/book/ch10-00-generics.html)
+> 📖 상세 글: [⑥ trait·제네릭](/posts/rust/2026-07-12-rust-trait-generics/)
 
 C++의 인터페이스·템플릿·concept에 해당하는 축. Rust 추상화의 중심이라 심화까지 여기서 짚습니다.
 
@@ -145,7 +143,7 @@ C++의 인터페이스·템플릿·concept에 해당하는 축. Rust 추상화�
 
 ## ⑦ 관용구 — 반복자·클로저 (Rust다움의 본체)
 
-> 📖 [The Rust Book Ch.13](https://doc.rust-lang.org/book/ch13-00-functional-features.html) · [rustlings: iterators](https://github.com/rust-lang/rustlings)
+> 📖 상세 글: [⑦ 반복자·클로저](/posts/rust/2026-07-12-rust-iterator-closure/)
 
 **C++ 대응이 흐릿한, Rust에서 새로 배우는 축.** 문법만 알고 여길 건너뛰면 "C++을 Rust 문법으로 쓴" 코드가 나옵니다. Rust 코드가 실제로 어떻게 생겼는지가 여기서 갈립니다.
 
@@ -159,7 +157,7 @@ C++의 인터페이스·템플릿·concept에 해당하는 축. Rust 추상화�
 
 ## ⑧ 소유권 심화 — 스마트 포인터
 
-> 📖 [The Rust Book Ch.15](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html)
+> 📖 상세 글: [⑧ 스마트 포인터 — Box·Rc·RefCell](/posts/rust/2026-07-12-rust-smart-pointers/)
 
 ②의 소유권 규칙이 너무 빡빡할 때 푸는 도구. **C++ 스마트 포인터와 거의 1:1 대응**이라 C++ 배경이 크게 유리한 구간입니다.
 
@@ -170,7 +168,7 @@ C++의 인터페이스·템플릿·concept에 해당하는 축. Rust 추상화�
 
 ## ⑨ 동시성 — thread·Send/Sync·async
 
-> 📖 [The Rust Book Ch.16](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
+> 📖 상세 글: [⑨ thread·Send/Sync·async](/posts/rust/2026-07-12-rust-concurrency/)
 
 Rust의 슬로건 "fearless concurrency". 소유권 시스템이 데이터 레이스를 **컴파일 타임에** 막습니다.
 
@@ -180,7 +178,7 @@ Rust의 슬로건 "fearless concurrency". 소유권 시스템이 데이터 레�
 
 ## ⑩ 마지막 — 도구
 
-> 📖 [The Cargo Book](https://doc.rust-lang.org/cargo/)
+> 📖 상세 글: [⑩ 도구 — cargo·crates·모듈](/posts/rust/2026-07-12-rust-tooling/)
 
 Rust는 도구 경험이 언어의 강점입니다.
 
