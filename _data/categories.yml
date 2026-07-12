@@ -13,7 +13,11 @@ order:
   - javascript
   - java
   - cpp
+  - go
+  - rust
   - css
+  # 개념 (언어 공통)
+  - concept
   # 프레임워크·패턴
   - spring-boot
   - design-pattern

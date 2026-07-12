@@ -30,6 +30,8 @@ title: 로드맵
 | 로드맵 | 줄기 · 부록 |
 |------|------|
 | [모던 C++](/posts/cpp/2026-07-03-cpp-learning-roadmap/) | 참조자·동적 할당 → 클래스·RAII → 이동 시맨틱·스마트 포인터 → STL → 템플릿 → 동시성 → 모던 문법 → 빌드(CMake)까지, 필수/나중/선택 우선순위로 |
+| [Go](/posts/go/2026-07-12-go-roadmap/) | 문법·모듈 → struct·interface(상속 없이 조합) → slice·map → error·defer → goroutine·channel·context → 표준 라이브러리·관용구(Effective Go) → 도구까지, C++ 습관을 덜어내는 순서. context·race detector 같은 Go 고유 축도 줄기로. C++↔Go 대응표는 부록 · **배우며 채우는 진행형** |
+| [Rust](/posts/rust/2026-07-12-rust-roadmap/) | 문법·불변성 → **소유권·빌림·수명**(뼈대) → struct·enum·match → 컬렉션 → trait·제네릭 → Result·Option → **반복자·클로저**(Rust다움) → 스마트 포인터 → 동시성 → cargo. C++ RAII·이동을 컴파일러가 강제하는 순서에 더해, 대응표로 안 잡히는 고유 영역(반복자·매크로)을 줄기로. 매크로·unsafe·대응표는 부록 · **배우며 채우는 진행형** |
 
 ## 🗄️ 데이터베이스
 
