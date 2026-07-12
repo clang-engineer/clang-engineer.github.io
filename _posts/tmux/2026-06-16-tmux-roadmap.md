@@ -87,6 +87,7 @@ Claude Code·Codex 같은 AI 코딩 에이전트를 **여러 개 동시에** 굴
 |---|---|
 | [tmux 세션 부트스트랩 — 세션 매니저와 그 속살(셸)](/posts/tmux/2026-02-21-tmux-bootstrap/) | 정석은 세션 매니저(smug/tmuxp/tmuxinator, 조건부 순위) — YAML 선언·이미 있으면 attach. 그 도구가 부르는 `tmux` 명령을 셸로 해부해 원리까지 |
 | [smug — 의존성 없는 미니멀 tmux 세션 매니저](/posts/tmux/2026-07-11-smug-minimal-tmux-session-manager/) **(선택)** | 세션 매니저 중 무의존·미니멀(Go 단일 바이너리)을 골랐다면 실전 — 기본 config·**프리셋에 없는 커스텀 레이아웃을 layout 문자열로 고정**·smug의 범위(freeze는 tmuxp) |
+| [sesh — 즉석 tmux 세션 전환 (피커)](/posts/tmux/2026-07-12-sesh-tmux-session-picker/) **(선택 · 다른 축)** | 레이아웃을 *선언*하는 부트스트래퍼와 다른 범주 — fzf·zoxide로 디렉토리·git repo에서 세션을 **즉석 전환**. `prefix+T` 피커·핵심 CLI·부트스트래퍼에서 옮긴 이유 |
 
 ---
 
