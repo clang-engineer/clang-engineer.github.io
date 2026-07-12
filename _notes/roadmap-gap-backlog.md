@@ -15,7 +15,7 @@
 |---|---|---|---|
 | **첫 셸 스크립트 만들고 실행하기** (shebang·chmod +x·`./`·PATH) | shell 입문↔1단계 사이 최대 전제 공백 | shell: 입문과 1단계 사이 | ✅ 작성완료 (2026-07-04) |
 | **Vim 모션·오퍼레이터·텍스트 오브젝트** (operator+motion, iw/ap, count, `.`) | neovim 1단계가 암묵 전제하는 편집 문법 | neovim: 1단계 최상단 | 대기 |
-| **예외 처리 정공법** (try/catch/throw, 안전 3등급, noexcept) | cpp ②③이 예외를 전제로 RAII 설명하는데 예외 글이 없음 | cpp: ②~③ 사이 | 대기 |
+| **예외 처리 정공법** (try/catch/throw, 안전 3등급, noexcept) | cpp ②③이 예외를 전제로 RAII 설명하는데 예외 글이 없음 | cpp: ②~③ 사이 | ✅ 작성완료 (2026-07-13) — 로드맵 "경계" 문구 삭제, ②에 [나중]으로 편입, error-handling concept 앵커 연결 |
 | **커스텀 키보드 하드웨어 입문** (스위치·키캡·폼팩터·핫스왑·PCB) | keyboard "하드웨어 배경"이 개인 셋업만 다룸 | keyboard: 입문 | 대기 |
 | **비용·사용량 관리** (구독 vs API 종량, /usage·/cost, 캐싱·compact) | ai 학습자가 가장 기대하는데 전용 글 없음 | ai: 지형도~Claude Code 사이 | 대기 |
 
@@ -30,7 +30,7 @@
 | **락 경합·데드락 실무 진단** (SELECT FOR UPDATE, pg_locks) | db 이론(격리수준)↔계측(모니터링) 사이 공백 | db: 부록 트러블슈팅 각도 | 대기 |
 | **고급 SQL** (윈도우 함수·CTE·재귀) | db가 "범위 밖"으로 선언한 축 | db: 별도 track | 대기 |
 | **SOLID 입문** (패턴이 지키려는 원칙) | design-pattern OCP가 4개 글에 인라인만, 앵커 없음 | design-pattern: 경계 섹션 앵커 | 대기 |
-| **람다·클로저** (캡처 `[=]`/`[&]`, `std::function`, 제네릭 람다) | concept 클로저 글이 C++ 람다를 앵커로 쓰는데 cpp-modern-syntax엔 1회 언급뿐 = **앵커 dead link** (2026-07-12 concept 허브 스캔에서 발견) | cpp: ⑦ 모던 문법 내 섹션 or STL과 짝 | 대기 |
+| **람다·클로저** (캡처 `[=]`/`[&]`, `std::function`, 제네릭 람다) | concept 클로저 글이 C++ 람다를 앵커로 쓰는데 cpp-modern-syntax엔 1회 언급뿐 = **앵커 dead link** (2026-07-12 concept 허브 스캔에서 발견) | cpp: ③의 [나중] 함수를 객체로 | ✅ 작성완료 (2026-07-13) — ③ [나중] 링크로 전환, closure concept 앵커 연결 |
 | **macOS 앱 권한 통합** (손쉬운 사용·화면 기록·자동화) | Hammerspoon/AltTab/Docker에 흩어진 반복 전제 | macos: 창 관리 전제 | 대기 |
 | **온보딩·인증** (구독 vs API 키 로그인, /login, 첫 5분) | ai 설치↔실전 사이 전제 공백 | ai: 1단계 앞 | 대기 |
 | **예약 작업 cron·crontab** (문법·로그 확인, systemd 타이머 대비) | linux 3단계가 타이머만 스침, cron 본론 없음 | linux: 서비스 단계 짝 | 대기 |

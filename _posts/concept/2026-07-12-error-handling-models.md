@@ -107,7 +107,7 @@ let content = read_file("x")?;   // ★ ? : 성공이면 값 꺼내고, 실패�
 
 ## 언어별 정리
 
-- **C++**: 예외가 기본. 다만 성능·예측성 때문에 예외를 끄거나 피하는 코드베이스(게임·임베디드)도 많고, C++23의 `std::expected`로 Result 스타일도 가능해졌다.
+- **C++**: 예외가 기본. 다만 성능·예측성 때문에 예외를 끄거나 피하는 코드베이스(게임·임베디드)도 많고, C++23의 `std::expected`로 Result 스타일도 가능해졌다. → C++ 예외를 직접 다루는 법(스택 언와인딩·예외 안전 3등급·`noexcept`)은 [예외 처리 — try/catch와 예외 안전](/posts/cpp/2026-07-13-cpp-exception-handling/)
 - **Go**: `(val, err)` + `if err != nil`. `fmt.Errorf("...: %w", err)`로 감싸고 `errors.Is`/`errors.As`로 판별. → [Go 학습 로드맵 — ④ 에러 처리](/posts/go/2026-07-12-go-roadmap/)
 - **Rust**: `Result<T, E>` + `?`. `Option<T>`으로 null을 대체. 에러 처리가 타입 시스템의 일부.
 
