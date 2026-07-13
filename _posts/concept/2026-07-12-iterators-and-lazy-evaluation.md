@@ -2,7 +2,7 @@
 title       : 이터레이터와 지연 평가 — 순회를 추상화하기
 description : "컬렉션의 내부 구조를 노출하지 않고 원소를 하나씩 훑는 공통 인터페이스가 이터레이터다. 거기에 map·filter를 지연(lazy)으로 엮으면 중간 컬렉션 없이 한 번에 훑는다. C++ STL 이터레이터·알고리즘에 넘기던 그 람다가 Rust Iterator 어댑터의 클로저이고, C++20 ranges의 지연 view가 Rust에선 언어 중심이 된 과정을 대응시킨다."
 date        : 2026-07-12 15:20:00 +0900
-updated     : 2026-07-12 15:20:00 +0900
+updated     : 2026-07-13 15:20:00 +0900
 categories  : [concept]
 tags        : [iterator, lazy-evaluation]
 pin         : false
@@ -46,7 +46,7 @@ let sum: i32 = v.iter()
 
 Rust `Iterator`는 **기본이 지연**이다. `filter`·`map`은 "무엇을 할지"만 기억하고, `sum()`·`collect()` 같은 소비자가 붙어야 실제로 흐른다.
 
-> **C++에선 이게 나뉜다 — 발판과 그 한계.** 고전 STL 알고리즘(`std::transform` 등)은 **즉시(eager)** 실행돼 결과 컨테이너를 바로 채운다. 지연 view는 **C++20 ranges**에서야 왔다: `v | std::views::filter(...) | std::views::transform(...)`가 Rust 체인과 판박이다. **단 등치가 깨지는 지점** — ranges는 C++20 최신 기능이라 [모던 C++ 로드맵도 [필수] 밖으로](/posts/cpp/2026-07-03-cpp-learning-roadmap/) 미뤄뒀다. 즉 "이터레이터"는 C++에 단단히 있지만, "지연 어댑터 체인"은 **Rust가 더 native**하고 C++에선 신기능이다.
+> **C++에선 이게 나뉜다 — 발판과 그 한계.** 고전 STL 알고리즘(`std::transform` 등)은 **즉시(eager)** 실행돼 결과 컨테이너를 바로 채운다. 지연 view는 **C++20 ranges**에서야 왔다: `v | std::views::filter(...) | std::views::transform(...)`가 Rust 체인과 판박이다. **단 등치가 깨지는 지점** — ranges는 C++20 최신 기능이라 [모던 C++ 로드맵도 '필수' 밖으로](/posts/cpp/2026-07-03-cpp-learning-roadmap/) 미뤄뒀다. 즉 "이터레이터"는 C++에 단단히 있지만, "지연 어댑터 체인"은 **Rust가 더 native**하고 C++에선 신기능이다.
 
 ## Go는 왜 오래 비어 있었나
 
