@@ -10,6 +10,8 @@ hidden      : false
 ---
 
 > **난이도** 중급 · **선행** [클로저](/posts/concept/2026-07-12-closure/)(어댑터에 넘기는 게 클로저다)를 봤으면 좋다.
+>
+> 🗺️ [프로그래밍 언어 개념 로드맵](/posts/concept/2026-07-13-concept-roadmap/)의 한 편
 
 ## 한 줄 요약
 

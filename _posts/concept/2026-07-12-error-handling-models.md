@@ -10,6 +10,8 @@ hidden      : false
 ---
 
 > **난이도** 입문 · **선행** 없음
+>
+> 🗺️ [프로그래밍 언어 개념 로드맵](/posts/concept/2026-07-13-concept-roadmap/)의 한 편
 
 ## 한 줄 요약
 

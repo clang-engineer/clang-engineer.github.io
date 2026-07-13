@@ -2,7 +2,7 @@
 title       : 값 vs 참조 의미론 — 대입하면 복사냐 공유냐 이동이냐
 description : "변수를 대입하거나 함수에 넘길 때 값이 복사되는가(copy), 같은 것을 가리키게 되는가(reference), 소유권이 넘어가는가(move). C++이 셋을 손으로 고르던 이 선택을 Go는 '복사 기본', Rust는 '이동 기본'으로 각자 언어 차원의 기본값으로 굳혔다. C++ std::move-after-use 버그를 Rust가 컴파일 타임에 막는 지점까지 대응시킨다."
 date        : 2026-07-12 15:10:00 +0900
-updated     : 2026-07-12 15:10:00 +0900
+updated     : 2026-07-13 15:10:00 +0900
 categories  : [concept]
 tags        : [value-semantics, move, ownership]
 pin         : false
@@ -10,6 +10,8 @@ hidden      : false
 ---
 
 > **난이도** 중급 · **선행** 스택/힙, [메모리 관리 모델](/posts/concept/2026-07-12-memory-management-models/)을 봤으면 더 좋다.
+>
+> 🗺️ [프로그래밍 언어 개념 로드맵](/posts/concept/2026-07-13-concept-roadmap/)의 한 편
 
 ## 한 줄 요약
 

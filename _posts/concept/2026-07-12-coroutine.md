@@ -2,7 +2,7 @@
 title       : 코루틴이란 무엇인가 — 스레드와 무엇이 다른가
 description : "코루틴을 언어에 종속되지 않은 공통 개념으로 정리한다. 일반 함수와의 차이(suspend/resume), 스레드와의 차이(cooperative vs preemptive), 구현 방식의 갈림길(stackful vs stackless)을 짚는다. 나아가 'async/await은 별도 스레드를 만든다'는 흔한 오해를 이벤트 루프로 깨고, 코루틴이 실행 단위가 아니라 힙에 놓인 데이터임을 밝히며, C++의 std::async와 co_await 비교까지 파고든다."
 date        : 2026-07-12 14:00:00 +0900
-updated     : 2026-07-12 16:00:00 +0900
+updated     : 2026-07-13 16:00:00 +0900
 categories  : [concept]
 tags        : [coroutine, concurrency, async]
 pin         : false
@@ -10,6 +10,8 @@ hidden      : false
 ---
 
 > **난이도** 중급 · **선행** 없음 (스레드를 들어봤으면 충분)
+>
+> 🗺️ [프로그래밍 언어 개념 로드맵](/posts/concept/2026-07-13-concept-roadmap/)의 한 편
 
 ## 한 줄 요약
 

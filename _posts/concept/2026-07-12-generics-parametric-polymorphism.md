@@ -2,7 +2,7 @@
 title       : 제네릭 — 파라미터 다형성과 그 구현의 갈림길
 description : "타입을 매개변수로 받아 여러 타입에 같은 코드를 재사용하는 제네릭(파라미터 다형성)을 언어 공통 개념으로 정리한다. 구현이 갈리는 지점(단형화 vs 타입 소거), 아무 타입이나 막는 제약(constraints)을 짚고, C++ 템플릿·Go generics·Rust 제네릭이 같은 개념을 어떻게 다르게 구현하는지 대응시킨다."
 date        : 2026-07-12 14:40:00 +0900
-updated     : 2026-07-12 14:40:00 +0900
+updated     : 2026-07-13 14:40:00 +0900
 categories  : [concept]
 tags        : [generics, polymorphism]
 pin         : false
@@ -10,6 +10,8 @@ hidden      : false
 ---
 
 > **난이도** 중급 · **선행** 없음
+>
+> 🗺️ [프로그래밍 언어 개념 로드맵](/posts/concept/2026-07-13-concept-roadmap/)의 한 편
 
 ## 한 줄 요약
 
