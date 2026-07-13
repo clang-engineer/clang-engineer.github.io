@@ -2,7 +2,7 @@
 title       : "AI 로드맵 — 도구 지형도에서 Claude Code·MCP·API까지 읽는 순서"
 description : "AI 코딩 도구를 개발 워크플로에 들이는 주제별 인덱스. 도구 지형도(왜 Claude Code인가)에서 시작해 Claude Code를 매일 쓰고 실전으로 확장하고, MCP로 외부를 연결하고, 그 아래 Claude API까지 — 이 블로그의 AI 글을 단계별로 큐레이션한다."
 date        : 2026-07-03 21:30:00 +0900
-updated     : 2026-07-06 09:00:00 +0900
+updated     : 2026-07-13 14:00:00 +0900
 categories  : [ai, "개요·인덱스"]
 tags        : [roadmap, ai, claude-code, mcp, claude]
 pin         : false
@@ -16,11 +16,12 @@ AI 코딩 도구는 "채팅창에 붙여넣기"에서 멈추기 쉽다. 그런�
 | 단계 | 무엇을 잡나 | 성격 |
 |---|---|---|
 | 입문 | AI 코딩 도구 지형도 — 왜 Claude Code인가 | 시작점 |
+| 웹 지형 | claude.ai 웹의 메뉴들 — Projects·Connectors·Routines | 곁가지 |
 | Claude Code | 개요 → 명령·메모리 → 실전 워크플로·확장 | 핵심 경로 (1~3단계) |
 | MCP | 외부 리소스 연결 — 개념 → Serena → 서버 확장 | 확장 |
 | API | 그 아래 Claude API — 직접 앱에 붙일 때 | 저변 |
 
-**입문 → Claude Code가 핵심 경로**다. MCP는 바깥을 붙일 때, API는 직접 앱에 얹을 때 필요해지면 들어가면 된다.
+**입문 → Claude Code가 핵심 경로**다. 웹 지형은 브라우저에서 먼저 감을 잡는 곁가지, MCP는 바깥을 붙일 때, API는 직접 앱에 얹을 때 필요해지면 들어가면 된다.
 
 ## 입문 — 도구 지형도부터
 
@@ -31,6 +32,14 @@ AI 코딩 도구는 "채팅창에 붙여넣기"에서 멈추기 쉽다. 그런�
 | [AI 코딩 도구 지형도](/posts/ai/2026-07-03-ai-coding-tools-landscape/) | Claude Code·Cursor·Copilot·Codex·Aider를 폼팩터(터미널·에디터·플러그인·클라우드)·모델 종속성·과금·오픈소스 네 축으로 비교. "왜 이 도구인가"를 잡는 진입점 |
 
 여기서 "터미널 에이전트 vs 에디터 vs 클라우드"의 갈림길을 잡고 나면, 이 블로그가 왜 Claude Code에 집중하는지가 선명해진다.
+
+## 곁가지 — claude.ai 웹 지형
+
+터미널로 가기 전, 브라우저에서 먼저 감을 잡는 사람이 많다. claude.ai 웹의 사이드바 메뉴들이 각각 무엇을 하고 언제 쓰는지 한 바퀴 돌아둔다. 핵심 경로는 아니지만, Projects·Connectors·Routines는 CLI로 넘어가서도 그대로 이어지는 개념이다.
+
+| 글 | 핵심 |
+|---|---|
+| [claude.ai 웹 지형](/posts/ai/2026-07-13-claude-ai-web-tour/) | Projects(대화+지식+지침)·Artifacts·Customize(Skills·Connectors·Plugins)·Design, 그리고 Code 웹의 Routines·Dispatch까지. 메뉴가 두 제품 표면에 나뉜 구조와 "언제 뭘 쓰나"를 화면 기준으로 정리 |
 
 ## Claude Code — 도구 익히기
 
