@@ -2,7 +2,7 @@
 title       : 메모리 관리 모델 — 수동 vs GC vs 소유권
 description : "힙 메모리를 언제 잡고 언제 푸느냐를 누가 결정하는가. 수동 관리(C/C++)·가비지 컬렉션(Go/Java)·소유권(Rust)이라는 세 모델을 안전성·성능·예측성 축으로 비교하고, C++의 RAII와 스마트 포인터, Go의 GC, Rust의 소유권/빌림이 같은 문제를 어떻게 다르게 푸는지 정리한다."
 date        : 2026-07-12 14:20:00 +0900
-updated     : 2026-07-12 14:20:00 +0900
+updated     : 2026-07-13 14:20:00 +0900
 categories  : [concept]
 tags        : [memory, ownership, gc]
 pin         : false
@@ -107,7 +107,7 @@ C++이 수동 관리의 위험을 길들인 방법이 **RAII(Resource Acquisitio
 
 - **C++**: `new`/`delete`를 직접 쓰지 말고 스마트 포인터로. → [이동 시맨틱과 스마트 포인터](/posts/cpp/2026-07-03-cpp-move-and-smart-pointers/) · [클래스와 자원 관리(RAII)](/posts/cpp/2026-07-03-cpp-class-and-resource-management/)
 - **Go**: 포인터를 쓰되 해제는 GC가. 값 의미론이 기본이라 복사가 잦다. → [Go 학습 로드맵](/posts/go/2026-07-12-go-roadmap/)
-- **Rust**: 값은 기본적으로 move되고, 빌려 쓸 땐 `&`로 참조. 소유권·수명이 언어의 중심축.
+- **Rust**: 값은 기본적으로 move되고, 빌려 쓸 땐 `&`로 참조. 소유권·수명이 언어의 중심축. → 빌린 값을 바꿀 수 있는가(`&` vs `&mut`)는 [불변성 — const·mut·val](/posts/concept/2026-07-13-immutability/)에서.
 
 > C++ `unique_ptr`을 이해했다면 Rust 소유권의 절반은 이미 아는 셈이다. "소유자는 하나, 이동하면 원본 무효"가 정확히 같은 개념이다.
 
