@@ -106,6 +106,7 @@ aerospace list-apps
 
 AeroSpace 기본기가 잡혔다면:
 
+- 서비스 모드의 기능과 설계 철학을 다룬 [AeroSpace 서비스 모드](/posts/macos/2026-07-14-aerospace-service-mode/)
 - 화면 내 정밀 배치와 자동화를 위한 [Hammerspoon 기본](/posts/macos/2026-07-03-hammerspoon-basics/)
 - 두 도구를 잇는 [AeroSpace + Hammerspoon 창 재정렬](/posts/macos/2026-07-03-aerospace-hammerspoon-window-reflow/)
 - 단축키가 갑자기 안 먹을 때 [macOS Secure Input](/posts/macos/2026-06-07-aerospace-secure-input-hotkey-blocked/)
