@@ -1,10 +1,10 @@
 ---
 title       : Serena 기본 가이드
-description : "코드베이스의 의미 기반 검색·편집을 지원하는 MCP 서버 Serena의 설치, 서버 실행, 설정 파일 구조, 프로젝트 활성화와 인덱싱, Claude Code·Codex 연동 흐름을 정리한다."
+description : "코드베이스의 의미 기반 검색·편집을 지원하는 MCP 서버 Serena의 설치, 서버 실행, 설정 파일 구조, 프로젝트 활성화와 인덱싱, Claude Code·Codex·OpenCode 연동 흐름을 정리한다."
 date        : 2025-11-07 13:43:00 +0900
-updated     : 2026-06-19 11:00:00 +0900
+updated     : 2026-07-23 14:00:07 +0900
 categories  : [ai, "MCP"]
-tags        : [mcp, serena, claude, model-context-protocol]
+tags        : [mcp, serena, claude, codex, opencode, model-context-protocol]
 pin         : false
 hidden      : false
 redirect_from:
@@ -17,13 +17,13 @@ redirect_from:
 
 > Serena는 코드베이스 내에서 **의미 기반(semantic) 검색·편집**을 가능하게 하는 MCP 서버다.
 > 내부적으로 LSP(Language Server Protocol)를 써서 심볼 단위로 코드를 읽고 고치므로,
-> Claude Code·Codex 같은 LLM 코딩 에이전트와 함께 쓸 때 토큰 효율과 수정 정확도가 크게 올라간다. ([GitHub][1])
+> Claude Code·Codex·OpenCode 같은 LLM 코딩 에이전트와 함께 쓸 때 토큰 효율과 수정 정확도가 크게 올라간다. ([GitHub][1])
 
 > **빠른 시작(Claude Code)**: 프로젝트 루트에서 아래 한 줄이면 끝이다. 자세한 설명은 5장 참고.
 >
 > ```bash
 > claude mcp add serena -- uvx --from git+https://github.com/oraios/serena \
->   serena start-mcp-server --context ide-assistant --project $(pwd)
+>   serena start-mcp-server --context claude-code --project "$(pwd)"
 > ```
 
 ---
@@ -44,6 +44,17 @@ uv run serena config edit
 ```
 
 건드리지 않아도 첫 실행 시 기본 설정 파일이 자동 생성된다.
+
+### 여러 클라이언트에서 공용으로 쓸 때
+
+Claude Code·Codex·OpenCode에 같은 Serena 설치를 연결하려면 `uv tool`로 한 번 설치한다.
+
+```bash
+uv tool install serena-agent
+SERENA="$(uv tool dir --bin)/serena"
+```
+
+여기서 중요한 것은 `SERENA`의 **절대경로**다. 터미널에서 `serena`가 실행되더라도 GUI나 이미 실행 중인 코딩 에이전트는 `.zshrc`·`.bashrc`의 `PATH`를 상속하지 않을 수 있다. Serena 공식 문서도 이런 경우 MCP 설정에 실행 파일의 전체 경로를 넣으라고 권장한다. ([클라이언트 연결 문서][2])
 
 ---
 
@@ -70,7 +81,7 @@ Serena는 설정으로 동작 방식과 통합 클라이언트를 조정한다.
 - **실행 옵션**: `--context`, `--mode` 등으로 동작 맥락(Context)·모드(Mode)를 지정
 
 > `--context`는 어떤 클라이언트에 붙는지를 알려 툴 구성을 맞춘다.
-> 코딩 에이전트(Claude Code 등)에는 `ide-assistant`, Codex에는 `codex`를 쓴다.
+> Claude Code에는 `claude-code`, Codex에는 `codex`, 그 밖의 IDE형 코딩 에이전트에는 `ide`를 쓴다.
 
 ---
 
@@ -98,12 +109,19 @@ uv run serena project index
 
 ```bash
 claude mcp add serena -- uvx --from git+https://github.com/oraios/serena \
-  serena start-mcp-server --context ide-assistant --project $(pwd)
+  serena start-mcp-server --context claude-code --project "$(pwd)"
 ```
 
-- `--context ide-assistant` : 코딩 에이전트용 툴 구성을 잡아준다.
-- `--project $(pwd)` : 현재 디렉토리를 프로젝트로 지정해 인덱싱·검색 범위를 고정한다.
+- `--context claude-code` : Claude Code와 겹치는 기본 파일 도구를 줄인다.
+- `--project "$(pwd)"` : 현재 디렉토리를 프로젝트로 지정해 인덱싱·검색 범위를 고정한다.
 - 사용자 범위로 등록하려면 `-s user`를 붙인다.
+
+모든 프로젝트에서 공용으로 쓸 때는 설치 단계에서 구한 절대경로와 `--project-from-cwd`를 쓴다.
+
+```bash
+claude mcp add --scope user serena -- \
+  "$SERENA" start-mcp-server --context claude-code --project-from-cwd
+```
 
 ### 5.2. 확인 및 사용
 
@@ -113,8 +131,56 @@ Claude Code에서 `/mcp`로 `serena`가 연결됐는지 확인한 뒤, 새 대�
 - "authentication 관련 코드를 찾아줘"
 - "error handling 패턴을 보여줘"
 
-Serena가 코드베이스를 의미적으로 분석해 관련 코드를 찾아준다. 서버는 로그·종료용 웹 대시보드
-(`http://localhost:24282/dashboard/index.html`)도 함께 띄운다.
+Serena가 코드베이스를 의미적으로 분석해 관련 코드를 찾아준다. 기본 설정에서는 로그·종료용 웹
+대시보드(`http://localhost:24282/dashboard/index.html`)도 함께 띄운다.
+
+### 5.3 여러 클라이언트에서 동시에 사용할 때
+
+로컬 `stdio`(standard input/output, 표준 입출력으로 프로세스끼리 통신하는 방식) 연결에서는
+Claude Code·Codex·OpenCode가 **각자 Serena 프로세스**를 시작한다. 하나의 Serena 세션에 여러
+클라이언트가 붙는 구조가 아니다.
+
+| 대상 | 공유 여부 |
+| --- | --- |
+| 같은 프로젝트의 소스 파일 | 공유됨. 디스크의 변경이 다른 클라이언트에도 보인다. |
+| `.serena/` 설정과 저장된 memory(세션 밖에 보존하는 프로젝트 메모) | 디스크에서는 공유되지만 다른 세션이 자동으로 읽지는 않는다. |
+| 에이전트의 대화·분석·수정 이유 | 공유되지 않는다. |
+| LSP 런타임·도구 호출 이력·대시보드 | 클라이언트별로 독립적이다. |
+
+여러 프로세스가 동시에 실행되면 대시보드 포트는 충돌을 피해 `24282`, `24283`, `24284`처럼
+증가한다. 대시보드는 유지하되 시작할 때마다 브라우저 탭이 열리는 것만 막으려면
+`~/.serena/serena_config.yml`을 다음처럼 설정한다.
+
+```yaml
+web_dashboard: true
+web_dashboard_open_on_launch: false
+```
+
+대시보드 서버 자체를 끄는 설정과 브라우저 자동 열기를 끄는 설정은 서로 다르다. ([대시보드 문서][3])
+
+이 격리는 장애와 프로세스 수명 주기를 분리하지만, 병렬 에이전트의 작업 충돌까지 막아주지는
+않는다. 같은 프로젝트를 동시에 편집한다면 독립 작업은 Git branch와
+worktree(독립 작업 디렉터리)로 나누고, 같은 함수나 설정 파일을 건드리는 작업은 한 에이전트에
+맡기는 편이 낫다.
+
+### 5.4 대시보드에 `Error loading ...`이 표시될 때
+
+대시보드의 외형은 보이는데 configuration·stats·executions가 모두 `Error loading ...`이라면,
+정적 HTML을 연 뒤 Serena 백엔드 프로세스가 종료된 **stale tab**(이미 끝난 서버의 남은 탭)일 수
+있다. 브라우저에 로드된 화면은 남지만 내부 API 요청은 더 이상 응답받지 못한다.
+
+주소창의 실제 포트로 서버와 listener(포트를 열고 요청을 기다리는 프로세스)를 확인한다.
+
+```bash
+curl -i --max-time 5 http://127.0.0.1:24282/dashboard/index.html
+lsof -nP -iTCP:24282 -sTCP:LISTEN
+pgrep -fl '[s]erena'
+```
+
+포트를 듣는 프로세스가 없고 `curl`도 `Couldn't connect to server`라면 설정 파싱 오류가 아니라
+종료된 Serena 탭이다. MCP 클라이언트에서 Serena를 재시작하고 새로 출력된 dashboard URL을
+연다. listener가 살아 있다면 그때 Serena 로그와 브라우저 Network 탭에서 실패한 API 응답을
+확인한다.
 
 ---
 
@@ -188,7 +254,51 @@ TUI 안에서 `/mcp` 입력 → 목록에 `serena`가 보이면 연결 성공.
 
 ---
 
-## 8. 정리
+## 8. OpenCode에서 사용하기
+
+글로벌 설정 `~/.config/opencode/opencode.json` 또는 `opencode.jsonc`에 local MCP 서버를 추가한다. OpenCode는 설정 문자열의 `{env:HOME}`을 환경변수로 치환한다.
+
+```jsonc
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "serena": {
+      "type": "local",
+      "command": [
+        "{env:HOME}/.local/bin/serena",
+        "start-mcp-server",
+        "--context=ide",
+        "--project-from-cwd"
+      ],
+      "enabled": true,
+      "timeout": 30000
+    }
+  }
+}
+```
+
+`~/.local/bin`은 `uv`의 기본 tool 경로다. `uv tool dir --bin` 결과가 다르면 첫 번째 command를 그 절대경로로 바꾼다. 설정은 시작할 때 한 번 읽으므로 OpenCode를 완전히 재시작한 뒤 확인한다.
+
+```bash
+opencode mcp list
+```
+
+### 연결 확인이 프로젝트 파일을 바꿀 수 있다
+
+`--project-from-cwd`는 현재 디렉토리에서 `.serena/project.yml`이나 `.git`을 찾아 프로젝트를 자동 활성화한다. 이때 Serena 버전이 바뀌었다면 기존 `.serena/project.yml`의 설명·필드를 새 형식으로 갱신할 수 있다.
+
+연결 상태만 확인하려는 테스트는 작업 저장소가 아닌 임시 Git 저장소에서 실행하면 추적 파일이 뜻밖에 바뀌는 일을 피할 수 있다.
+
+```bash
+check_dir="$(mktemp -d)"
+git -C "$check_dir" init
+(cd "$check_dir" && opencode mcp list)
+rm -rf "$check_dir"
+```
+
+---
+
+## 9. 정리
 
 ```bash
 # 로컬 클론 방식
@@ -198,13 +308,15 @@ uv run serena start-mcp-server
 
 # 또는 Claude Code에 한 줄로 등록 (uvx 원격 실행)
 claude mcp add serena -- uvx --from git+https://github.com/oraios/serena \
-  serena start-mcp-server --context ide-assistant --project $(pwd)
+  serena start-mcp-server --context claude-code --project "$(pwd)"
 ```
 
-지원하는 MCP 클라이언트(Claude Code, Codex CLI 등)에서 Serena 서버를 연결하면 의미 기반 코드 검색·편집을 쓸 수 있다.
+지원하는 MCP 클라이언트(Claude Code, Codex CLI, OpenCode 등)에서 Serena 서버를 연결하면 의미 기반 코드 검색·편집을 쓸 수 있다. 여러 클라이언트에 전역 등록할 때는 셸 `PATH` 대신 Serena 실행 파일의 절대경로를 쓰는 편이 안전하다.
 
 MCP 프로토콜 자체의 개념은 [Model Context Protocol(MCP) 개념 정리](/posts/ai/2025-10-23-mcp/) 참고.
 
 ---
 
 [1]: https://github.com/oraios/serena "GitHub - oraios/serena: A powerful coding agent toolkit providing semantic retrieval and editing capabilities (MCP server & other integrations)"
+[2]: https://oraios.github.io/serena/02-usage/030_clients.html "Connecting Your MCP Client - Serena Documentation"
+[3]: https://oraios.github.io/serena/02-usage/060_dashboard.html "The Serena Dashboard - Serena Documentation"
