@@ -2,7 +2,7 @@
 title       : "리눅스 로드맵 — 접속하고, 관측하고, 계정·권한을 다루고, 서비스를 띄우고, 로그를 읽는 순서"
 description : "리눅스 박스에 들어가(배포판·SSH) → 시스템을 관측하고(프로세스·모니터링·디스크) → 계정과 권한을 다루고(사용자·sudo·특수 비트·PAM) → 서비스를 띄우고(systemd) → 로그로 무슨 일이 있었는지 읽는(syslog·로그인 기록·회전) 데까지. 서버를 '운영'하는 관점으로 이 블로그의 리눅스 글을 큐레이션. 네트워크·방화벽은 부록으로, 셸 스크립트·데스크톱 환경은 결이 다른 축이라 별도 로드맵으로 링크."
 date        : 2026-07-11 18:00:00 +0900
-updated     : 2026-07-11 18:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [linux, "개요·인덱스"]
 tags        : [roadmap, linux, server, sysadmin]
 pin         : false
@@ -62,7 +62,7 @@ hidden      : false
 | [특수 권한 비트: SUID, SGID, Sticky Bit](/posts/linux/2026-07-11-special-permission-bits-suid-sgid-sticky/) | passwd가 왜 일반 사용자로도 root 파일을 고치나(SUID), 공유 디렉토리의 그룹 상속(SGID), /tmp의 삭제 보호(sticky). `find -perm`로 SUID 감사까지 |
 | [비밀번호 정책과 PAM: 만료·최소 길이·복잡도·잠금](/posts/linux/2026-07-11-password-policy-pam/) | "8자 이상·90일마다·5번 틀리면 잠금"을 실제로 강제하기 — login.defs·chage(만료), pam_pwquality(복잡도), pam_faillock(잠금). PAM을 안전하게 건드리는 authselect까지 |
 
-> 계정을 막 만들었는데 비밀번호가 맞는데도 `su`가 거부된다면 → [passwd 직후 su 실패: chage 트랩](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/). `/etc/shadow`의 최소 변경 주기가 원인인, 이 단계에서 가장 흔히 밟는 지뢰다. (부록 B에도 실어 둠)
+> 계정을 막 만들었는데 `su`가 거부된다면 → [passwd 직후 su 인증 점검 순서](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/). PAM 로그에서 시작해 잠금·만료·접근 정책·로그인 셸을 구분한다. (부록 B에도 실어 둠)
 {: .prompt-tip }
 
 계정과 권한이 잡혔으면, 이제 그 위에서 내 애플리케이션을 "서비스"로 띄울 차례다.
@@ -116,7 +116,7 @@ hidden      : false
 | 글 | 핵심 |
 |---|---|
 | [폐쇄망 환경에서 서비스 운영을 위한 환경 구축](/posts/linux/2025-01-14-offline-runtime-enviroment/) | 외부에서 `dnf download --resolve`로 의존성까지 받아 내부망에서 rpm 설치. postgresql·java·nginx 사례. 인터넷 없는 서버를 다룰 때 |
-| [passwd 직후 su가 실패할 때 — chage 트랩](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/) | `/etc/shadow`의 최소 변경 주기 때문에 막 만든 비밀번호로도 인증이 거부되는 경우. `chage -m 0`으로 해결 |
+| [passwd 직후 su 인증이 실패할 때 점검 순서](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/) | PAM 로그, 계정 잠금, faillock, 만료, 접근 정책과 셸을 순서대로 좁힌다. `PASS_MIN_DAYS`가 인증을 막는다는 오해도 교정 |
 
 ---
 

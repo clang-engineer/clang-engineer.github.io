@@ -1,8 +1,8 @@
 ---
 title       : "Neovim 프로젝트별 로컬 설정 가이드 — exrc · .nvim.lua · trust · dotfiles 모듈 재사용"
-description : "Neovim 0.9+ 기준 exrc 옵션 동작, 공식 검색 파일명(.nvim.lua/.nvimrc/.exrc), secure·trust 시스템, 글로벌 dotfiles의 lua 모듈을 .nvim.lua에서 require하는 메커니즘, jdtls 크로스플랫폼 처리, 흔히 빠지는 함정까지 한 번에 정리."
+description : "Neovim 0.11/0.12의 exrc 검색 범위 차이, 공식 파일명(.nvim.lua/.nvimrc/.exrc), trust 시스템과 dotfiles Lua 모듈 재사용을 정리."
 date        : 2026-06-15 18:00:00 +0900
-updated     : 2026-06-19 09:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "구조·설정"]
 tags        : [exrc, dotfiles, lua, jdtls]
 redirect_from:
@@ -12,11 +12,18 @@ pin         : false
 hidden      : false
 ---
 
-프로젝트마다 다른 jdtls JDK 버전, 다른 DB 목록, 다른 키맵을 쓰고 싶을 때 Neovim이 제공하는 표준 메커니즘이 **exrc**다. `vim.o.exrc = true` 한 줄로 켜는 기능인데, 문서를 안 보고 쓰면 `~/.exrc.lua`처럼 "이름은 맞는데 안 불리는" 함정에 잘 빠진다. Neovim 0.9+ 기준으로 정확한 동작과 흔한 오해를 정리한다.
+프로젝트마다 다른 jdtls JDK 버전, DB 목록, 키맵을 쓰고 싶을 때 Neovim이 제공하는 표준 메커니즘이 **exrc**다. `vim.o.exrc = true`로 켜며, 문서를 안 보고 쓰면 `~/.exrc.lua`처럼 "이름은 비슷하지만 검색 대상이 아닌" 파일을 만들기 쉽다. 검색 범위가 바뀌는 Neovim 0.11과 0.12의 경계까지 구분한다.
 
 ## exrc 옵션이 하는 일
 
-`vim.o.exrc = true`로 켜면 Neovim은 **시작 시점의 cwd**(current working directory)에서 로컬 설정 파일을 찾아 자동 실행한다. 핵심은 **cwd 기반**이라는 것 — `nvim`을 어디서 띄웠는지가 기준이지 편집 중인 파일 위치가 아니다.
+`vim.o.exrc = true`로 켜면 Neovim은 시작할 때 **current directory**(현재 작업 디렉터리)를 기준으로 로컬 설정을 찾는다. 편집 중인 파일의 디렉터리가 기준은 아니다. 검색 범위는 버전에 따라 다르다.
+
+| 버전 | 검색 범위 |
+|---|---|
+| Neovim 0.11 | current directory만 검색 |
+| Neovim 0.12+ | current directory에서 상위 디렉터리로 올라가며 검색 |
+
+0.12+의 상향 검색은 프로젝트 하위 디렉터리에서 실행해도 상위 프로젝트 루트의 설정을 찾게 한다. 상위 검색을 멈추고 싶은 `.nvim.lua`에서는 `vim.o.exrc = false`로 이후 탐색을 중단할 수 있다.
 
 ```bash
 cd ~/work/project-A
@@ -26,11 +33,11 @@ cd ~/work/project-B
 nvim main.go   # → ~/work/project-B/.nvim.lua 로드 (project-A 건 무시)
 ```
 
-cwd가 바뀌면 다른 설정이 자동으로 따라온다는 게 매력이다.
+따라서 같은 파일을 열더라도 Neovim을 어느 디렉터리에서 시작했는지에 따라 로컬 설정이 달라질 수 있다.
 
 ## 공식 검색 파일명 (Neovim 0.9+)
 
-검색 순서는 다음과 같고, **첫 번째 매치 하나만 로드**된다:
+공식 검색 파일명은 다음 세 가지다:
 
 | 우선순위 | 파일명 | 형식 |
 |---|---|---|
@@ -40,7 +47,7 @@ cwd가 바뀌면 다른 설정이 자동으로 따라온다는 게 매력이다.
 
 > **흔한 오해 1**: `.exrc.lua`는 공식 검색 대상이 **아니다**. Vim 시절 흔적으로 만든 `~/.exrc.lua` 같은 파일은 그대로 두면 dead file이 된다.
 
-> **흔한 오해 2**: `~/.exrc.lua`를 만들면 항상 로드될 것 같지만, cwd가 정확히 `$HOME`일 때만 로드된다. 보통 프로젝트 디렉토리에서 `nvim`을 띄우니까 실질적으로 안 불린다.
+> **흔한 오해 2**: `~/.exrc.lua`는 current directory가 `$HOME`이어도 로드되지 않는다. 파일 위치 문제가 아니라 이름 자체가 공식 검색 대상이 아니다.
 
 새로 쓰는 거면 `.nvim.lua`로 통일하는 게 좋다. Lua를 쓸 수 있고, 트리·디버깅 도구도 다 Lua 쪽이 잘 받쳐준다.
 
@@ -55,20 +62,10 @@ cwd가 바뀌면 다른 설정이 자동으로 따라온다는 게 매력이다.
 :trust    " 현재 파일을 신뢰 등록
 ```
 
-- 신뢰 정보는 `~/.local/share/nvim/trust`에 SHA256 해시 + 경로 형태로 저장된다.
+- 신뢰 정보는 `vim.fn.stdpath("state") .. "/trust"`에 저장된다. 기본 Unix 경로는 `$XDG_STATE_HOME/nvim/trust`이며, 흔히 `~/.local/state/nvim/trust`다.
 - 파일 내용이 바뀌면 해시가 달라져 자동으로 신뢰가 풀린다 → 변경된 내용을 다시 검토 후 `:trust`.
 
 이 덕분에 남의 레포를 clone하고 무심코 `nvim` 띄워도 안전하다.
-
-## `secure` 옵션 — Vim 시절 보호 장치
-
-`vim.o.secure = true`는 trust보다 오래된 보호 장치다. 로컬 설정 파일 안에서 위험한 명령(쉘 실행, `:autocmd` 등)을 막는다. 0.9 이후엔 trust가 메인 방어선이지만, 두 옵션 모두 켜두면 다중 방어가 된다.
-
-```lua
--- 보통 이렇게 같이 켠다
-vim.opt.exrc = true
-vim.opt.secure = true
-```
 
 ## 활용 패턴 — 프로젝트별 정책 오버라이드
 
@@ -85,8 +82,8 @@ require("config.java-env").setup({ jdtls = "17", gradle = "11" })
 DB 연결 목록도 마찬가지로 좁힐 수 있다:
 
 ```lua
--- 이 프로젝트에선 SNUH + SHINE만 보임
-vim.g.dbs = require("config.options.dbs").pick("snuh", "shine")
+-- 이 프로젝트에선 project-a + project-b만 보임
+vim.g.dbs = require("config.options.dbs").pick("project-a", "project-b")
 ```
 
 ## dotfiles의 lua 모듈을 `.nvim.lua`에서 재사용하는 메커니즘
@@ -134,9 +131,9 @@ require("config.java-env").setup({ jdtls = "21", gradle = "17" })
 
 ## 빠지기 쉬운 함정 4가지
 
-### 1. cwd가 아닌 파일 위치 기준이라 착각
+### 1. current directory가 아닌 파일 위치 기준이라 착각
 
-`nvim ~/work/project-A/main.go`를 다른 디렉토리에서 띄우면, project-A의 `.nvim.lua`는 로드되지 않는다. cwd 기반이라는 점만 확실히 기억하면 된다.
+`nvim ~/work/project-A/main.go`를 다른 디렉터리에서 띄워도 검색 기준은 그 파일 위치가 아니라 current directory다. 0.11은 그 디렉터리만, 0.12+는 그 디렉터리와 부모를 검색한다.
 
 ### 2. trust 안 해서 "내 설정이 안 먹어요"
 
@@ -146,9 +143,9 @@ require("config.java-env").setup({ jdtls = "21", gradle = "17" })
 
 위에서 설명한 대로 `.exrc.lua`는 공식 검색 대상이 아니다. 옛 dotfiles에서 이런 파일을 `~/`에 자동 링크하는 부트스트랩 스크립트가 있다면 정리 후보다.
 
-### 4. 여러 파일을 동시에 둘 수 있다고 착각
+### 4. 로컬 설정을 여러 이름으로 쪼갬
 
-`.nvim.lua`와 `.exrc`가 같이 있으면 `.nvim.lua` 하나만 로드된다. "둘 다 적용되겠지"가 아니라 "우선순위 하나"라는 점.
+`.nvim.lua`, `.nvimrc`, `.exrc`는 로컬 설정의 대체 이름이다. 여러 형식에 설정을 나눠 기대하기보다 새 설정은 `.nvim.lua` 하나로 통일한다. 0.12+에서 여러 부모 디렉터리의 설정을 읽는 동작과, 한 디렉터리 안에서 파일명을 여러 개 쓰는 것은 별개다.
 
 ## 디버깅 팁
 
@@ -164,10 +161,10 @@ require("config.java-env").setup({ jdtls = "21", gradle = "17" })
 
 ## 정리
 
-- `vim.opt.exrc = true` + `vim.opt.secure = true` 두 줄로 켠다.
+- `vim.opt.exrc = true`로 켠다. 신뢰 관리는 `:trust`와 `vim.secure`가 담당한다.
 - 공식 검색 파일은 **`.nvim.lua` / `.nvimrc` / `.exrc`** 세 개. `.exrc.lua`는 함정.
-- **cwd 기반**으로 첫 매치 하나만 로드.
-- 0.9+는 **trust 시스템**(`:trust`, `~/.local/share/nvim/trust`)으로 안전장치.
+- **current directory 기반**이며, 0.11은 해당 디렉터리만, 0.12+는 부모 디렉터리까지 올라간다.
+- 0.9+는 **trust 시스템**을 쓰며 데이터베이스는 `vim.fn.stdpath("state") .. "/trust"`에 있다.
 - 활용은 "글로벌 기본 + 프로젝트별 오버라이드" 패턴이 깔끔하다.
 
-`:h 'exrc'`, `:h vim.secure`로 공식 문서도 함께 보면 좋다.
+`:h 'exrc'`, `:h vim.secure`, `:h :trust`로 공식 문서를 함께 확인한다.

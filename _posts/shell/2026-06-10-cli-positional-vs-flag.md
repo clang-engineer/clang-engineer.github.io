@@ -2,7 +2,7 @@
 title       : "CLI 인자 컨벤션 — positional과 --flag는 왜 섞어 쓰나"
 description : "위치 인자와 옵션 플래그의 역할 분담, bash 파싱 최소 패턴, env var와의 비교."
 date        : 2026-06-10 12:00:00 +0900
-updated     : 2026-06-10 12:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [bash]
 pin         : false
@@ -15,12 +15,12 @@ hidden      : false
 
 | 종류 | 형태 | 의미 |
 |---|---|---|
-| **위치 인자(positional)** | `snuh`, `private` | 명령의 핵심 대상. 순서로 의미가 정해짐. "뭘 할 건가" |
+| **위치 인자(positional)** | `work`, `private` | 명령의 핵심 대상. 순서로 의미가 정해짐. "뭘 할 건가" |
 | **옵션 플래그(flag)** | `--keep-wifi`, `-v` | 위치 무관한 부가 옵션. 부울 토글이나 보조 값 |
 
 예:
 ```bash
-./setup.sh snuh private --keep-wifi
+./setup.sh work private --keep-wifi
 #          ^^^^ ^^^^^^^ ^^^^^^^^^^^
 #          위치 인자들    옵션 플래그
 ```
@@ -41,7 +41,7 @@ POSIX/GNU 컨벤션: 짧은 플래그 `-x`(자주 쓰는 한 글자), 긴 플래
 
 ## 왜 섞어 쓰나
 
-1. **모호성 회피.** 모두 `--` 없이 쓰면 `./setup.sh snuh keep-wifi`에서 `keep-wifi`가 mode 자리에 들어와서 파싱이 깨진다.
+1. **모호성 회피.** 모두 `--` 없이 쓰면 `./setup.sh work keep-wifi`에서 `keep-wifi`가 mode 자리에 들어와서 파싱이 깨진다.
 2. **간결성 vs 확장성 균형.** 필수 인자는 짧게(위치), 부가 옵션은 명시적으로(플래그).
 3. **확장성.** 새 옵션이 늘어나도 `--xxx` 형태로 자연스럽게 추가됨.
 
@@ -60,7 +60,7 @@ for arg in "$@"; do
 done
 set -- "${POSARGS[@]}"
 
-HOSPITAL="$1"
+PROFILE="$1"
 MODE="${2:-private}"
 ```
 

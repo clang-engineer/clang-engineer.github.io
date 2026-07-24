@@ -2,6 +2,7 @@
 title       : "lazy.nvim 플러그인 spec 필드 완전 정리 — 로드 트리거 / init·opts·config / 의존성"
 description : "lazy.nvim의 플러그인 spec을 읽고 쓸 때 만나는 필드들 — lazy·keys·cmd·ft·priority(언제 로드), init·opts·config(로드 시 동작), dependencies·optional·branch(관계) — 를 실행 순서와 함께 정리한다. opts의 테이블 vs 함수 차이와 흔한 함정 포함."
 date        : 2026-06-19 12:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [lazyvim, "구조·설정"]
 tags        : [neovim, lazy-nvim, guide]
 pin         : false
@@ -180,20 +181,21 @@ end
 |------|------|
 | `dependencies` | 이 플러그인보다 **먼저** 로드할 것들 (함께 끌려옴) |
 | `optional = true` | 다른 데서 이미 추가된 경우에만 이 spec 적용 (단독으론 무시) |
-| `name` | 내부 식별명 (clone 디렉토리 / require 경로) |
+| `name` | 기본 repo 이름 대신 사용할 플러그인 식별명 |
+| `main` | `opts`가 자동 호출할 `require(<main>).setup(opts)`의 모듈명 |
 | `branch` | 기본 브랜치가 아닌 특정 브랜치 |
 | `specs` | 이 플러그인 활성화 시 함께 적용할 별도 spec 묶음 |
 
 ### `dependencies`
 
-표기는 단일이면 문자열, 복수면 테이블 — 둘 다 유효하다.
+`dependencies`의 타입은 `LazySpec[]`, 즉 **목록**이다. 원소는 플러그인 이름 문자열이나 완전한 spec 테이블이 될 수 있지만, 필드 자체에 문자열 하나를 바로 넣는 형태는 문서화된 타입이 아니다.
 
 ```lua
 { "kdheepak/lazygit.nvim", dependencies = { "nvim-lua/plenary.nvim" } }
-{ "mfussenegger/nvim-dap", dependencies = "mason-org/mason.nvim" }   -- 문자열도 OK
+{ "mfussenegger/nvim-dap", dependencies = { "mason-org/mason.nvim" } }
 ```
 
-`dependencies`는 "먼저 로드"일 뿐 아니라 **부모가 로드될 때 함께 로드**된다. 그래서 lazy 플러그인의 의존은 부모가 켜질 때 같이 켜진다.
+`dependencies`는 부모가 로드될 때 함께 로드되며, 별도 설정이 없으면 의존 플러그인 자체도 lazy로 취급된다. 단순히 설치 순서만 적는 필드가 아니다.
 
 ### `optional = true`
 
@@ -214,12 +216,13 @@ end
 
 lazy.nvim은 브랜치를 명시하지 않으면 **리포의 기본 브랜치**를 쓴다. 그래서 기본 브랜치가 이미 `master`인 플러그인에 `branch = "master"`를 적는 건 사실상 중복이다 — 설치 스니펫을 복붙하면 따라오는 경우가 많다. 해롭진 않지만, 기본과 다른 브랜치를 써야 할 때만 적는 게 깔끔하다.
 
-### `name`
+### `name`과 `main`
 
-clone될 디렉토리명과 require 경로 식별에 쓰인다. 리포명과 모듈명이 다를 때 맞춰준다.
+`name`은 lazy.nvim 내부에서 플러그인을 식별할 이름을 바꾼다. 반면 `main`은 `opts`를 지정했을 때 자동으로 불러 `setup(opts)`를 호출할 Lua 모듈명이다. repo 이름과 실제 `require` 이름이 다르면 `name`이 아니라 `main`을 지정한다.
 
 ```lua
-{ "catppuccin/nvim", name = "catppuccin" }   -- require("catppuccin")로 쓰려고
+{ "catppuccin/nvim", name = "catppuccin" }
+{ "maarutan/nvim-nocut", main = "no-cut", opts = {} }
 ```
 
 ## 한눈에 — 필드 분류표
@@ -234,7 +237,7 @@ clone될 디렉토리명과 require 경로 식별에 쓰인다. 리포명과 모
 | | `config` | 로드 **후** setup 실행 |
 | 관계 | `dependencies` | 먼저·함께 로드 |
 | | `optional` | 이미 있을 때만 적용 |
-| | `branch`/`name` | 브랜치·식별명 |
+| | `branch`/`name`/`main` | 브랜치·식별명·setup 모듈명 |
 | | `specs` | 활성화 시 딸려가는 spec |
 
 ## 왜 플러그인마다 설정 모양이 다를까 — 껍데기 vs 알맹이

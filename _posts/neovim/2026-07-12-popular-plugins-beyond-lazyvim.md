@@ -2,6 +2,7 @@
 title       : "LazyVim 밖의 인기 Neovim 플러그인 — 기본값의 대안과 2025-2026 라이저"
 description : "LazyVim이 기본으로 얹는 플러그인은 이미 문서화했다. 이 글은 그 밖 — snacks.picker↔fzf-lua, neo-tree↔oil.nvim, blink↔nvim-cmp 같은 '기본값의 대안'과, harpoon·neogit·avante 같은 기본에 없는 인기템, 그리고 blink·oil·avante로 이어지는 2025-2026 라이저를 별 개수·정착도와 함께."
 date        : 2026-07-12 09:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [plugin, lazyvim, oil, harpoon, blink]
 pin         : false

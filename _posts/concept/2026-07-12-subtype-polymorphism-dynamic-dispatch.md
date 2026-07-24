@@ -1,8 +1,8 @@
 ---
-title       : 서브타입 다형성 — 인터페이스·트레이트·가상 함수는 하나다
-description : "여러 타입을 하나의 공통 타입으로 다루고 실제 동작은 런타임에 고르는 서브타입 다형성을 언어 공통 개념으로 정리한다. C++ 가상 함수가 하는 그 일을 Go 인터페이스·Rust 트레이트가 어떻게 구현하는지, 그 밑의 vtable과 뚱뚱한 포인터, static vs dynamic dispatch, '누가 인터페이스 만족을 선언하나'(명목적 vs 구조적)를 대응시킨다."
+title       : 서브타입 다형성 — Go interface 값·Rust dyn Trait·C++ virtual
+description : "여러 타입을 공통 타입으로 다루고 실제 동작을 런타임에 고르는 서브타입 다형성을 정리한다. C++ 가상 함수가 하는 일을 Go interface 값과 Rust dyn Trait trait object가 어떻게 제공하는지, 대표 구현 모델과 static vs dynamic dispatch, 명목적 vs 구조적 만족 규칙을 대응시킨다."
 date        : 2026-07-12 14:50:00 +0900
-updated     : 2026-07-13 14:50:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [concept]
 tags        : [polymorphism, dispatch]
 pin         : false
@@ -15,23 +15,34 @@ hidden      : false
 
 ## 한 줄 요약
 
-서브타입 다형성은 **여러 타입을 하나의 공통 타입(인터페이스)으로 다루고, 실제로 어느 동작을 부를지는 런타임에 실제 타입 걸로 고르는 것**이다. **C++의 가상 함수(`virtual`)가 하는 바로 그 일**이고, Go의 `interface`·Rust의 `trait`가 같은 개념을 각자 구현한 것이다.
+서브타입 다형성은 **여러 타입을 하나의 공통 타입(인터페이스)으로 다루고, 실제로 어느 동작을 부를지는 런타임에 실제 타입 걸로 고르는 것**입니다. **C++의 가상 함수(`virtual`)가 하는 바로 그 일**이고, Go의 `interface` 값과 Rust의 **`dyn Trait` trait object**가 이 동적 디스패치를 구현합니다. Rust의 `T: Trait` 제네릭은 같은 trait을 쓰지만 정적 디스패치라는 점을 구분해야 합니다.
 
 ## 어떤 문제를 푸는가 — C++ 가상 함수에서 출발
 
 도형 여러 개를 하나의 목록에 담아 넓이를 구한다고 하자. C++이라면 이렇게 쓴다.
 
 ```cpp
-struct Shape { virtual double area() const = 0; };   // 순수 가상 = 인터페이스
-struct Circle : Shape { double area() const override { return 3.14 * r * r; } };
-struct Rect   : Shape { double area() const override { return w * h; } };
+struct Shape {
+    virtual double area() const = 0;
+    virtual ~Shape() = default;
+};
+struct Circle : Shape {
+    explicit Circle(double radius) : r(radius) {}
+    double area() const override { return 3.14 * r * r; }
+    double r;
+};
+struct Rect : Shape {
+    Rect(double width, double height) : w(width), h(height) {}
+    double area() const override { return w * h; }
+    double w, h;
+};
 
 void print(const Shape& s) { std::cout << s.area(); }  // 실제 타입이 뭐든 상관없다
 ```
 
 `print`는 `Circle`인지 `Rect`인지 모른 채 `Shape`로만 다룬다. 그런데 `s.area()`는 **런타임에 실제 타입의 것**이 불린다. 이게 서브타입 다형성이고, C++에서는 `virtual`이 그 스위치다.
 
-> **여기서 이미 알던 게 나온다.** "여러 타입을 부모 하나로 다루고, 실제 메서드는 런타임에 고른다" — 추상 클래스와 가상 함수. **이 개념이 곧 C++의 `virtual`이다.** Go·Rust는 이걸 이름만 바꿔 구현했다.
+> **여기서 이미 알던 게 나온다.** "여러 타입을 부모 하나로 다루고, 실제 메서드는 런타임에 고른다" — 추상 클래스와 가상 함수. Go interface 값과 Rust `dyn Trait`도 이 목적을 제공하지만, 만족 규칙과 객체 표현은 서로 다릅니다.
 
 ### 제네릭과 무엇이 다른가
 
@@ -47,9 +58,9 @@ void print(const Shape& s) { std::cout << s.area(); }  // 실제 타입이 뭐�
 
 ## 어떻게 동작하나 — vtable과 뚱뚱한 포인터
 
-C++을 아는 사람은 이미 답을 안다. **vtable(가상 함수 테이블)**이다. 가상 함수를 가진 객체는 숨겨진 포인터(`vptr`) 하나를 들고, 그게 그 타입의 함수 포인터 배열(vtable)을 가리킨다. `s.area()`는 "vtable에서 `area` 슬롯을 찾아 그 주소로 점프"로 번역된다.
+C++의 흔한 구현은 **vtable(가상 함수 테이블)**과 객체 안의 숨겨진 `vptr`을 사용합니다. 다만 C++ 표준은 이 ABI 표현을 요구하지 않습니다. `s.area()`가 동적 디스패치된다는 의미론만 보장하고, 실제 배치는 컴파일러 ABI가 정합니다.
 
-Go와 Rust도 **정확히 같은 장치**를 쓴다. 이름과 배치만 다르다.
+Go와 Rust도 보통 데이터와 메서드 metadata를 함께 들고 간접 호출하지만, 아래 표는 **대표 구현 모델**이지 언어 specification이 고정한 공통 ABI가 아닙니다.
 
 | 언어 | 다형성 값의 실체 | vtable 위치 |
 |---|---|---|
@@ -57,16 +68,16 @@ Go와 Rust도 **정확히 같은 장치**를 쓴다. 이름과 배치만 다르�
 | **Go** | `interface` 값 = **2워드** `(*itab, *data)` | `itab`이 타입정보 + 메서드 테이블 |
 | **Rust** | `dyn Trait` = **뚱뚱한 포인터(fat pointer) 2워드** `(*data, *vtable)` | 포인터가 vtable을 따로 가리킴 |
 
-차이는 **vtable을 어디에 두느냐**뿐이다. C++은 객체 안에 심고, Go·Rust는 인터페이스 값 자체가 `(데이터, 타입/함수표)` 쌍을 들고 다닌다(그래서 포인터가 2배 크기라 "뚱뚱하다"). 하지만 결국 셋 다 **"함수표를 든 포인터로 간접 호출"**이다.
+공통 직관은 **데이터와 실제 메서드를 찾을 metadata가 필요하다**는 것입니다. 그러나 C++·Go·Rust는 object safety, coercion, nil 표현, 값 저장 방식과 ABI가 다릅니다. “보관 위치만 다르고 정확히 같다”로 축약하면 이 차이를 놓칩니다.
 
-> **아, 그래서 뚱뚱한 거구나.** Rust의 `Box<dyn Trait>`나 Go의 인터페이스 값이 왜 포인터보다 큰지 헷갈렸다면 — **C++ 객체가 `vptr`을 품는 대신, 이 언어들은 그 vptr을 포인터 옆에 붙여 들고 다니는 것**이다. 같은 vtable, 다른 보관 위치.
+> **C++ 발판.** Rust trait object는 대표적으로 data pointer와 vtable metadata를 함께 운반합니다. Go interface도 type/method metadata와 값을 함께 표현합니다. C++ `vptr`과 목적은 비슷하지만 이 layout을 언어 간 동일 ABI로 보면 안 됩니다.
 
 ## static vs dynamic dispatch — 다형성 구현의 두 끝
 
 "어느 함수를 부를지 **언제** 정하느냐"가 갈린다.
 
-- **정적 디스패치(static)**: 컴파일 타임에 확정. 일반 함수 호출, 그리고 [제네릭의 단형화](/posts/concept/2026-07-12-generics-parametric-polymorphism/)가 여기다. 인라인이 되어 **비용 0**.
-- **동적 디스패치(dynamic)**: 런타임에 vtable을 거쳐 결정. 간접 점프 한 번 + 인라인 불가라는 **작은 비용**을 내고 런타임 유연성을 산다.
+- **정적 디스패치(static)**: 컴파일 타임에 호출 대상을 확정합니다. [제네릭의 단형화](/posts/concept/2026-07-12-generics-parametric-polymorphism/)가 여기이며 최적화기가 인라인하기 쉬워집니다. 인라인이나 비용 0이 보장되는 것은 아닙니다.
+- **동적 디스패치(dynamic)**: 보통 런타임 metadata를 거쳐 간접 호출합니다. 다만 컴파일러가 실제 타입을 증명하면 devirtualize한 뒤 인라인할 수도 있습니다.
 
 C++에서 이 둘은 이미 익숙하다 — **`virtual`을 붙이면 동적, 안 붙이면 정적**. Rust는 이 선택을 문법으로 아예 갈라 놨다.
 
@@ -84,7 +95,7 @@ C++에서 이 둘은 이미 익숙하다 — **`virtual`을 붙이면 동적, �
 
 - **C++ — 명목적(nominal), 상속으로 명시**: `struct Circle : Shape`처럼 **상속 트리에 명시적으로 넣어야** 한다. 이름(상속 관계)으로 엮인다.
 - **Rust — 명목적, 하지만 상속 트리 없이**: `impl Shape for Circle`이라고 **명시적으로 적어야** 한다. 다만 C++처럼 부모-자식 계층을 만드는 게 아니라, 기존 타입에 트레이트를 **나중에 갖다 붙인다**(단, 고아 규칙 orphan rule의 제약을 받는다).
-- **Go — 구조적(structural), 자동**: 아무 선언도 안 한다. **메서드 시그니처만 맞으면** 그 타입은 자동으로 인터페이스를 만족한다(덕 타이핑). `implements` 키워드가 없다.
+- **Go — 구조적(structural), 정적 검사**: 아무 선언도 안 한다. **메서드 시그니처만 맞으면** 그 타입은 자동으로 인터페이스를 만족한다. 동적 duck typing과 겉모습은 비슷하지만 만족 여부는 컴파일 타임에 검사된다.
 
 ```go
 type Shape interface { Area() float64 }
@@ -107,7 +118,7 @@ func (c Circle) Area() float64 { return 3.14 * c.r * c.r }
 - **Go**: 작은 인터페이스 + 구조적 만족이 언어 관용구의 중심. → [Go 학습 로드맵 — ② 인터페이스](/posts/go/2026-07-12-go-roadmap/)
 - **Rust**: 트레이트가 다형성·제네릭·연산자 오버로딩까지 관장. 정적(`impl`)/동적(`dyn`)을 명시적으로 가른다. → [Rust 학습 로드맵 — ⑥ 트레이트·dyn](/posts/rust/2026-07-12-rust-roadmap/)
 
-> 정리: **C++ 가상 함수를 알면 세 언어의 이 기능은 전부 아는 것이다.** vtable로 런타임에 실제 타입 걸 부른다는 뼈대가 같고, 딱 두 곳 — ①vtable을 객체에 심느냐 포인터에 붙이느냐, ②만족을 명시하느냐 자동이냐 — 에서만 갈린다.
+> 정리: C++ 가상 함수는 동적 디스패치를 이해하는 좋은 발판입니다. 다만 각 언어가 보장하는 것은 공통 인터페이스를 통한 호출 의미론이며, layout·만족 규칙·object safety와 coercion은 별도로 배워야 합니다.
 
 ## 스스로 점검
 
@@ -125,7 +136,7 @@ func (c Circle) Area() float64 { return 3.14 * c.r * c.r }
 <details markdown="1">
 <summary>답</summary>
 
-C++은 객체 안에 `vptr`을 심어 vtable을 가리킨다. Go·Rust는 그 vtable 포인터를 **데이터 포인터 옆에 함께 들고 다닌다**(`(*data, *vtable)` 2워드) — 그래서 "뚱뚱한 포인터"다. vtable로 간접 호출한다는 원리는 셋 다 같고, 보관 위치만 다르다.
+대표 구현에서 Rust trait object는 data pointer와 vtable metadata를 함께 운반하고, Go interface도 타입·메서드 metadata와 값을 함께 표현합니다. C++은 흔히 객체의 `vptr`을 사용합니다. 이는 동작을 이해하는 구현 모델이며 세 언어의 specification이 같은 2-word ABI를 보장한다는 뜻은 아닙니다.
 
 </details>
 
@@ -134,6 +145,6 @@ C++은 객체 안에 `vptr`을 심어 vtable을 가리킨다. Go·Rust는 그 vt
 <details markdown="1">
 <summary>답</summary>
 
-C++(`: Base`)·Rust(`impl Trait for T`)는 **명목적** — 명시적으로 선언해야 한다. Go는 **구조적** — 메서드 시그니처만 맞으면 선언 없이 자동으로 만족한다(덕 타이핑). 그래서 Go는 구현체가 인터페이스의 존재를 몰라도 된다.
+C++(`: Base`)·Rust(`impl Trait for T`)는 **명목적**이라 명시적으로 선언해야 합니다. Go는 **구조적**이라 메서드 시그니처만 맞으면 선언 없이 만족하며 컴파일러가 이를 검사합니다. 그래서 구현체가 인터페이스의 존재를 몰라도 됩니다.
 
 </details>

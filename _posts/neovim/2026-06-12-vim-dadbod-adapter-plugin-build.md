@@ -2,7 +2,7 @@
 title       : "vim-dadbod 어댑터 플러그인 만들기 — 디렉토리 골격부터 dadbod-ui 트리 통합까지"
 description : "임의 DBMS CLI를 vim-dadbod / vim-dadbod-ui에 연결하는 절차. 어댑터 함수 5종, table helpers, schema-tree monkey-patch, LazyVim 지연 주입."
 date        : 2026-06-12 16:00:00 +0900
-updated     : 2026-06-12 16:00:00 +0900
+updated     : 2026-07-24 15:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [vim-dadbod, vim-dadbod-ui, plugin, adapter, vimscript, lua, lazyvim]
 pin         : false
@@ -35,7 +35,7 @@ vim-dadbod은 postgres·mysql·sqlite·redis 등 주요 DBMS는 기본 어댑터
 3. **stdout/stderr 포맷?** — 라이선스 banner나 NOTICE를 흘리면 결과 파싱이 깨진다.
 4. **카탈로그 스키마 구조?** — 시스템 스키마 이름, 메타데이터 뷰 위치.
 5. **인덱스/제약 메타데이터 위치?** — Vertica는 전통적 인덱스가 없어서 `v_catalog.projections`로 대체.
-6. **URL 스킴 표기?** — `<scheme>://user:pw@host:port/db`로 정규화 가능한가.
+6. **URL 스킴 표기?** — `<scheme>://user@host:port/db`로 정규화하고 credential은 URL·프로세스 인자 밖에서 공급할 수 있는가.
 
 ## 1. 디렉토리 골격
 
@@ -93,10 +93,8 @@ function! s:base_command(url) abort
   if !empty(get(parsed, 'user', ''))
     let cmd += ['-U', parsed.user]
   endif
-  if !empty(get(parsed, 'password', ''))
-    " vsql -w는 password 값을 받음 (psql과 의미 다름)
-    let cmd += ['-w', parsed.password]
-  endif
+  " 비밀번호는 argv에 넣지 않는다. CLI가 지원하는 환경변수·credential
+  " 파일·대화형 입력 중 운영 환경에 맞는 방식을 어댑터 밖에서 구성한다.
   let path = get(parsed, 'path', '')
   if !empty(path) && path !=# '/'
     let cmd += ['-d', substitute(path, '^/', '', '')]
@@ -105,7 +103,7 @@ function! s:base_command(url) abort
 endfunction
 ```
 
-> **함정**: psql 감각으로 추측하지 말 것. CLI 문서를 읽고 옮긴다. Vertica `vsql`은 psql과 80% 비슷해 보이지만 `-w`·`-P` 등에서 다르다.
+> **함정**: psql 감각으로 추측하지 말 것. CLI 문서를 읽고 옮긴다. 특히 비밀번호를 URL에서 꺼내 argv에 넣으면 프로세스 목록과 로그에 노출될 수 있다.
 
 ### 2.3 filter — stderr 처리 + 안전 옵션
 
@@ -113,20 +111,15 @@ endfunction
 
 ```vim
 function! db#adapter#vertica#filter(url) abort
-  let base = db#adapter#vertica#interactive(a:url,
+  return db#adapter#vertica#interactive(a:url,
         \ ['-X', '-q', '-v', 'ON_ERROR_STOP=1'])
-  if !has('unix') || !get(g:, 'dadbod_vertica_suppress_notice', 1)
-    return base
-  endif
-  return ['/bin/sh', '-c', '"$@" 2>/dev/null', 'dbvertica-sh'] + base
 endfunction
 ```
 
 핵심:
 - `-X`/`-q` 같은 "조용히" 옵션이 있는지 CLI에서 확인.
-- 그래도 새는 출력이 있으면 `sh -c '"$@" 2>/dev/null'`로 감싼다.
-- `$@` 사용이 중요 — dadbod이 후행 인자(`-c`, `-f`, `-tA`)를 그대로 forward한다.
-- Windows 호환은 `has('unix')` 가드로 우회 (희생 인정).
+- stderr 전체를 `/dev/null`로 버리지 않는다. 인증 실패·접속 오류·SQL 오류까지 사라져 성공처럼 오진할 수 있다.
+- 알려진 banner가 stdout 결과 파싱을 방해하면 아래 `marker prefix`처럼 데이터 행을 식별하거나, 정확히 알려진 문구만 필터링한다.
 
 ### 2.4 input / interactive — 한 줄
 
@@ -165,7 +158,7 @@ endfunction
 여기서 막히면 다음 단계로 넘어가지 말 것.
 
 ```vim
-:let g:db = 'vertica://user:pw@host:5433/dbname'
+:let g:db = 'vertica://user@db.example.com:5433/dbname'
 :DB SELECT 1
 :DB :tables
 ```
@@ -299,7 +292,6 @@ endif
 ```vim
 " 단일 출처
 g:dadbod_<scheme>_<cli>                  " 실행 파일 경로
-g:dadbod_<scheme>_suppress_notice        " stderr 억제 on/off
 g:dadbod_<scheme>_system_schemas         " 시스템 스키마 필터 ([]로 비활성)
 g:dadbod_<scheme>_disable_schema_tree    " monkey-patch off → flat 목록
 ```
@@ -349,7 +341,7 @@ return M
 
 ```vim
 " 인터랙티브
-:DB vertica://user:pw@host:5433/dbname
+:DB vertica://user@db.example.com:5433/dbname
 :DB SELECT current_database()
 
 " UI
@@ -367,7 +359,7 @@ return M
 [ ] 디렉토리 골격 (autoload/db/adapter/<scheme>.vim)
 [ ] canonicalize / base_command / filter / input / interactive / tables 6개 구현
 [ ] :DB SELECT 1 동작 확인
-[ ] stderr 노이즈 처리 (sh wrapper 또는 -q 옵션)
+[ ] 출력 노이즈 처리 (CLI quiet 옵션 또는 알려진 행만 필터링, 오류 stderr 보존)
 [ ] table helpers dict (g:db_ui_table_helpers.<scheme>)
 [ ] db_ui#schemas#get monkey-patch + snapshot
 [ ] LazyVim 지연 주입 (SourcePost autocmd)

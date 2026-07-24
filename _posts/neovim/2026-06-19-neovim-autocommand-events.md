@@ -2,6 +2,7 @@
 title       : "Neovim autocommand·이벤트 심화 — 플러그인은 이벤트로 움직인다"
 description : "augroup로 중복 등록 막기, callback이 받는 args, pattern vs buffer, 자주 쓰는 이벤트, nvim_exec_autocmds로 내 플러그인의 공개 이벤트 만들기까지."
 date        : 2026-06-19 20:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [lua, api, plugin]
 pin         : false

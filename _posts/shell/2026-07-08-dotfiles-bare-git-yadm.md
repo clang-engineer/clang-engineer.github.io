@@ -2,6 +2,7 @@
 title       : "bare git repo · yadm로 dotfiles 관리하기 — 심링크 없이 홈을 워크트리로"
 description : "심링크도 복사도 없이 홈 디렉터리 자체를 git 워크트리로 삼는 bare git 방식과, 그 위에 템플릿·암호화를 얹은 yadm. init --bare + config 알리아스 셋업, showUntrackedFiles·checkout 충돌 같은 함정, 심링크·chezmoi와의 위치까지."
 date        : 2026-07-08 13:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [dotfiles, git, yadm, bare-repo]
 pin         : false

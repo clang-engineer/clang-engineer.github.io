@@ -2,7 +2,7 @@
 title       : Rust 학습 로드맵 — C++ 하던 사람이 무엇을 먼저
 description : "C++ 배경에서 Rust로 넘어올 때의 학습 순서를 기초·소유권·타입·트레이트·반복자·에러·동시성·도구로 묶고, 각 주제를 필수·나중·선택으로 표시한 로드맵. C++ 개념(RAII·이동·스마트 포인터)과의 대응뿐 아니라 반복자·클로저·매크로·소유권 기반 설계 같은 Rust 고유 축을 줄기로 넣었다. 정본 교재(The Rust Book·rustlings) 링크와 자주 막히는 지점을 함께 정리한, 배우면서 채우는 진행형 인덱스."
 date        : 2026-07-12 11:00:00 +0900
-updated     : 2026-07-13 00:26:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [rust]
 tags        : [roadmap, rust]
 pin         : false
@@ -14,6 +14,8 @@ hidden      : false
 Rust를 처음 시작하면서, "무슨 문법이 있나"를 목차 순서로 훑는 대신 **C++을 아는 사람이 무엇을 먼저 배우고 무엇을 나중으로 미뤄도 되는지**를 지도로 만들었습니다.
 
 Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·빌림(borrow)은 결국 C++의 RAII·이동 시맨틱·`unique_ptr`/`shared_ptr`·댕글링 포인터 문제를 **컴파일러가 강제하는 버전**이거든요. C++에서 "조심해서 지켜야 했던 규칙"을 Rust는 안 지키면 컴파일이 안 됩니다. 대신 초반에 **borrow checker와 싸우는** 구간이 가파릅니다 — 이 로드맵은 그 벽을 가장 효율적인 순서로 넘는 걸 목표로 합니다.
+
+> **검토 기준:** Rust 1.97, Edition 2024. safe Rust의 보장과 `unsafe` 작성자의 proof obligation을 구분해 설명합니다.
 
 다만 **C++ 대응만으로 Rust를 다 배우는 건 아닙니다.** 반복자·클로저, 매크로, 소유권 기반 API 설계처럼 C++ 대응이 없거나 Rust에서만 배우는 축이 따로 있고, 그게 오히려 Rust를 Rust답게 쓰는 핵심입니다. 그래서 그것들을 각주가 아니라 **줄기 안**에 넣었습니다(아래 "고유 영역" 참고).
 
@@ -42,7 +44,7 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 - **enum + `match` 의 표현력** (③): 상태를 타입으로 강제. `Option`/`Result`가 여기서 나옴.
 - **내부 가변성(`Cell`/`RefCell`)** (⑧): 빌림 검사를 런타임으로 미루는 Rust 특유 개념. C++에 직접 대응 없음.
 - **매크로(`macro_rules!`·`derive`·proc-macro)** (부록): `#[derive(...)]`·`println!`의 정체. 코드가 코드를 생성.
-- **`unsafe`·FFI** (부록): 안전 보장을 명시적으로 끄는 문. C에 연결하거나 저수준을 만질 때.
+- **`unsafe`·FFI** (부록): 제한된 unsafe 연산을 허용하고 그 안전 계약을 작성자가 증명하는 경계. C에 연결하거나 저수준을 만질 때.
 
 ## 한눈에 보기
 
@@ -85,7 +87,7 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 **Rust의 전부.** 여기에 학습 시간의 절반을 쓸 각오로 들어갑니다. C++의 이동 시맨틱·RAII를 안다면 직관이 크게 도와줍니다.
 
 - **[필수] 소유권(ownership)** — 값에는 소유자가 하나. 소유자가 스코프를 벗어나면 자동 해제(RAII와 동일). 대입/전달이 **이동(move)**이라 원본은 무효화됩니다 — C++의 `std::move`가 기본 동작인 셈. → 언어 공통 개념: [메모리 관리 모델](/posts/concept/2026-07-12-memory-management-models/)(누가 해제하나)·[값 vs 참조 의미론](/posts/concept/2026-07-12-value-vs-reference-semantics/)(대입=이동이라는 기본값)
-- **[필수] 빌림(borrow)** — `&`(불변 참조)·`&mut`(가변 참조). "가변 참조는 동시에 하나만" 규칙이 데이터 레이스를 컴파일 타임에 막습니다.
+- **[필수] 빌림(borrow)** — `&`(shared reference)·`&mut`(exclusive reference). safe Rust에서 aliasing과 변경의 잘못된 조합을 컴파일 타임에 막습니다. 공유 가변 상태에는 `Mutex`·atomic 같은 동기화가 여전히 필요합니다.
 - **[필수] 수명(lifetime)** — 참조가 원본보다 오래 살 수 없음. 댕글링 포인터를 컴파일러가 거절. 처음엔 `'a` 문법이 낯설지만 대부분 자동 추론됩니다.
 
 **자주 막히는 지점:** "borrow checker와 싸운다"는 바로 이 구간. 값을 옮긴 뒤 또 쓰려 하거나(use after move), 불변 참조가 살아있는데 가변으로 빌리려는 것. **에러 메시지를 적으로 보지 말고 선생으로 보세요** — Rust 컴파일러 에러는 해결책까지 알려줍니다.
@@ -148,7 +150,7 @@ C++의 인터페이스·템플릿·concept에 해당하는 축. Rust 추상화�
 
 **C++ 대응이 흐릿한, Rust에서 새로 배우는 축.** 문법만 알고 여길 건너뛰면 "C++을 Rust 문법으로 쓴" 코드가 나옵니다. Rust 코드가 실제로 어떻게 생겼는지가 여기서 갈립니다.
 
-- **[필수] 클로저(`Fn`/`FnMut`/`FnOnce`)** — 익명 함수. 환경을 어떻게 캡처하느냐(빌림·가변 빌림·소유 이동)가 세 트레이트로 나뉘는데, 이게 ②의 소유권과 정확히 맞물립니다. `move` 클로저. → 언어 공통 개념: [클로저란 무엇인가](/posts/concept/2026-07-12-closure/)
+- **[필수] 클로저(`Fn`/`FnMut`/`FnOnce`)** — `move`는 캡처 소유 방식을 정하고, call trait은 본문이 캡처 값을 읽는지·바꾸는지·밖으로 이동시키는지로 결정됩니다. → 언어 공통 개념: [클로저란 무엇인가](/posts/concept/2026-07-12-closure/)
 - **[필수] 반복자(iterator)** — `for`문 대신 `iter().map().filter().fold().collect()` 체인. **lazy**하고 **zero-cost**(손 루프만큼 빠름). `Iterator` trait 하나로 굴러갑니다. → [이터레이터와 지연 평가](/posts/concept/2026-07-12-iterators-and-lazy-evaluation/)
 - **[나중] 커스텀 iterator** — 내 타입에 `Iterator`를 구현해 `for`로 돌게 만들기.
 
@@ -163,7 +165,7 @@ C++의 인터페이스·템플릿·concept에 해당하는 축. Rust 추상화�
 ②의 소유권 규칙이 너무 빡빡할 때 푸는 도구. **C++ 스마트 포인터와 거의 1:1 대응**이라 C++ 배경이 크게 유리한 구간입니다.
 
 - **[나중] Box** — 힙 할당. `unique_ptr` 대응(유일 소유).
-- **[나중] Rc / Arc** — 참조 카운트 공유 소유. `shared_ptr` 대응(Arc는 스레드 안전 버전).
+- **[나중] Rc / Arc** — 참조 카운트 공유 소유. `Arc`가 thread-safe하게 만드는 것은 참조 카운트이며, 내부 값의 공유 변경에는 `Mutex`·`RwLock`·atomic이 필요합니다.
 - **[나중] RefCell·Cell — 내부 가변성(interior mutability)** — 빌림 검사를 런타임으로 미룸. C++엔 직접 대응이 없는 **Rust 특유 개념**으로, `Rc<RefCell<T>>` 조합은 공유+가변이 필요한 자료구조(그래프·트리)의 관용구.
 - **[선택] Weak** — 순환 참조 끊기. `weak_ptr` 대응.
 
@@ -171,7 +173,7 @@ C++의 인터페이스·템플릿·concept에 해당하는 축. Rust 추상화�
 
 > 📖 상세 글: [⑨ thread·Send/Sync·async](/posts/rust/2026-07-12-rust-concurrency/)
 
-Rust의 슬로건 "fearless concurrency". 소유권 시스템이 데이터 레이스를 **컴파일 타임에** 막습니다. 공유 상태+락 vs 채널 vs 소유권이라는 조율 모델의 갈림은 → [동시성 조율 모델](/posts/concept/2026-07-12-concurrency-coordination-models/).
+Rust의 슬로건 "fearless concurrency". safe Rust는 소유권·`Send`/`Sync`와 동기화 타입으로 데이터 레이스 경로를 차단합니다. `unsafe`에서는 작성자가 같은 계약을 직접 지켜야 합니다. → [동시성 조율 모델](/posts/concept/2026-07-12-concurrency-coordination-models/).
 
 - **[나중] thread + 채널** — `std::thread`, `mpsc` 채널. C++보다 안전.
 - **[나중] Send / Sync** — 타입이 스레드 간 이동/공유 가능한지 표시하는 마커 트레이트. Rust 동시성 안전성의 근간.
@@ -205,10 +207,10 @@ Rust는 도구 경험이 언어의 강점입니다.
 
 > 📖 [The Rust Book Ch.20.1](https://doc.rust-lang.org/book/ch20-01-unsafe-rust.html)
 
-**[선택]** 안전 보장을 명시적으로 끄는 문. 대부분의 앱 코드는 평생 안 써도 됩니다.
+**[선택]** `unsafe`는 Rust의 검사를 전부 끄지 않습니다. borrow checker와 타입 검사는 계속 동작하고, 아래 제한된 연산을 허용하는 대신 작성자가 그 연산의 안전 계약을 증명해야 합니다.
 
-- **[선택] unsafe** — 원시 포인터 역참조 등. 컴파일러가 못 지켜 주는 영역을 사람이 책임.
-- **[선택] FFI** — C 라이브러리 연결(`extern "C"`). C++ 자산을 Rust에서 부를 때.
+- **[선택] unsafe** — raw pointer 역참조와 unsafe function 호출 같은 제한 연산을 허용합니다. 허용 범주는 edition과 언어 발전에 따라 추가될 수 있으므로 [Rust Reference의 unsafety 목록](https://doc.rust-lang.org/reference/unsafety.html)을 기준으로 확인하고, 각 연산의 proof obligation을 사람이 책임집니다.
+- **[선택] FFI·unsafe attribute** — Edition 2024에서는 `unsafe extern "C"` block과 `#[unsafe(no_mangle)]`처럼 선언 자체의 안전 계약도 명시합니다.
 
 ## 부록 — C++ → Rust 개념 대응표 (참고)
 
@@ -235,9 +237,9 @@ C++을 알고 오는 사람의 지도. Rust가 특히 잘 대응되는 언어라
 | 람다 | 클로저(`Fn`/`FnMut`/`FnOnce`) | 캡처 방식이 소유권과 맞물림 |
 | `<algorithm>` + 범위 for | iterator 체인(`map`·`filter`) | lazy·zero-cost. Rust의 기본 스타일 |
 | 전처리기 매크로(`#define`) | `macro_rules!`·derive | 텍스트 치환이 아니라 위생적(hygienic) |
-| `std::thread` | `thread` + Send/Sync | 데이터 레이스를 컴파일 타임 차단 |
+| `std::thread` | `thread` + Send/Sync | safe Rust 경계 검사 + 필요한 런타임 동기화 |
 | CMake + Conan/vcpkg | `cargo` | 빌드·의존성·테스트 통합 |
-| `extern "C"` | `unsafe` + FFI(`extern "C"`) | 안전 경계를 명시적으로 넘음 |
+| `extern "C"` | `unsafe` + FFI(`unsafe extern "C"`) | 제한된 unsafe 연산의 계약을 작성자가 증명 |
 
 ## 이 로드맵을 쓰는 법
 

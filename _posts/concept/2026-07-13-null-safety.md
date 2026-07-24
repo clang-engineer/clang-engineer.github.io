@@ -2,7 +2,7 @@
 title       : Null 안전성 — '10억 달러 실수'를 언어는 어떻게 막나
 description : "null 참조가 왜 '10억 달러 실수'인지에서 출발해, 없음(absence)을 다루는 세 모델 — 구분 없는 널(C++ 포인터·Java·Go), Option 타입(Rust·Swift), nullable 타입(Kotlin·TS·C#)을 '타입에 드러나는가'와 '언제 막히는가' 두 축으로 비교한다. C++ std::optional이 Rust Option과 같은 물건이면서 무엇이 다른지, Go의 'nil인데 nil이 아닌' 함정까지 대응시킨다."
 date        : 2026-07-13 10:00:00 +0900
-updated     : 2026-07-13 10:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [concept]
 tags        : [null-safety, optional]
 pin         : false
@@ -21,7 +21,7 @@ hidden      : false
 
 **Tony Hoare**가 1965년 ALGOL W에 null 참조를 집어넣었고, 2009년에 그걸 **"10억 달러 실수(billion-dollar mistake)"**라 불렀다. "구현이 쉬워서 넣었을 뿐인데, 그 뒤 수십 년간 무수한 버그·취약점·크래시를 낳았다"고.
 
-문제는 단순하다. **모든 참조가 null일 수 있다면, 모든 역참조가 지뢰다.**
+문제는 단순하다. **null 가능성이 타입에서 구분되지 않으면, 참조 사용마다 런타임 실패 가능성을 따로 추적해야 한다.**
 
 ```java
 String name = user.getName();   // getName이 null을 주면?
@@ -49,14 +49,14 @@ if (o) use(*o);           // 있을 때만 꺼낸다
 ```
 
 - **raw 포인터 `T*`** — null일 수 있다. 문제의 원흉 그대로다.
-- **참조 `T&`** — null 바인딩이 UB라, "값이 있다"는 걸 문법으로 **약하게** 강제한다(부분적 non-null 도구).
+- **참조 `T&`** — 언어의 값으로 null 상태를 갖지 않는다. 다만 존재하지 않는 객체를 역참조해 억지로 참조를 만들면 그 과정 자체가 UB이고, 수명 안전까지 보장하지는 않는다.
 - **`std::optional<T>`** (C++17) — "값이거나 없음"을 **타입에 담는** 물건. 뒤에 나올 Rust `Option`과 **같은 발상**이다.
 
 즉 C++엔 문제(raw 포인터)와 해법의 씨앗(`optional`·참조)이 **공존**한다. 다만 어느 것도 **강제되지 않는다** — `optional`을 쓸지는 선택이고, 그 옆에서 raw null 포인터는 여전히 열려 있다. 이 "조각은 있지만 강제는 없다"가 다음 두 모델과 갈리는 출발점이다.
 
 ## 모델 ① 구분 없는 널 — 타입이 null을 숨긴다 (C++ 포인터, Java, Go)
 
-가장 흔한 길. **모든 포인터·참조 타입이 null을 암묵적으로 포함**한다. `String`은 사실 "String 또는 null"이고, 그 사실이 타입에 안 보인다. 없음에 손대면 **런타임에** 터진다.
+가장 흔한 길. Java reference, Go pointer·map·slice·channel·function·interface, C++ pointer처럼 **일부 참조적 타입이 null/nil을 암묵적으로 포함**한다. C++ `T&`처럼 null 상태가 없는 타입도 있으므로 “모든 참조”로 일반화하면 안 됩니다. 중요한 문제는 null 가능 타입에서도 그 가능성이 시그니처에 구분되지 않는다는 점입니다.
 
 ```go
 var p *User        // nil
@@ -65,7 +65,7 @@ name := p.Name     // 💥 nil pointer dereference — 런타임 panic
 
 - **C++ raw 포인터**: `*nullptr` → UB(대개 segfault).
 - **Java**: `null` 역참조 → `NullPointerException`.
-- **Go**: `nil` 포인터·맵·인터페이스. 컴파일은 멀쩡히 되고 런타임에 panic.
+- **Go**: nil 가능 타입마다 허용 연산이 다릅니다. nil pointer 역참조는 panic이지만, nil map은 읽기·`len`·`range`가 가능하고 쓰기만 panic입니다. nil slice는 읽기·`len`·`range`·`append`가 가능합니다. interface는 typed nil을 담을 수 있습니다.
 
 컴파일러가 못 막으니 방어는 순전히 개발자 몫이다 — `if (p != null)`을 **기억해서** 둘러야 한다. 잊으면? 런타임까지 아무도 안 알려준다.
 
@@ -134,8 +134,8 @@ Option 모델과 목표는 같다(컴파일 타임 차단). 차이는 **null을 
 
 | | 구분 없는 널 (C++ 포인터·Java·Go) | Option 타입 (Rust·Swift) | Nullable 타입 (Kotlin·TS·C#) |
 |---|---|---|---|
-| null이 타입에 | **숨음**(모든 참조에 암묵 포함) | **없앰**(`Option<T>`로 표현) | **표시됨**(`T` vs `T?`) |
-| 없음 접근 차단 | ❌ 런타임(NPE·segfault·panic) | ✅ 컴파일(언랩 강제) | ✅ 컴파일(흐름 분석) |
+| null이 타입에 | **숨음**(null 가능 타입을 별도 표기하지 않음) | **없앰**(`Option<T>`로 표현) | **표시됨**(`T` vs `T?`) |
+| 없음 접근 차단 | 연산별 런타임 실패 또는 정의된 nil 동작 | ✅ 컴파일(언랩 강제) | ✅ 컴파일(흐름 분석) |
 | 도망칠 구멍 | (항상 열림) | `.unwrap()` / `!` | `!!` / `!` |
 | 대표 실패 | NPE·nil panic | unwrap 남용 시 panic | `!!` 남용 시 예외 |
 
@@ -165,7 +165,7 @@ Option 모델과 목표는 같다(컴파일 타임 차단). 차이는 **null을 
 <details markdown="1">
 <summary>답</summary>
 
-**타입이 거짓말을 하기 때문.** `String`처럼 "값이 있다"고 적힌 타입이 실제론 null일 수 있어, **모든 역참조가 잠재적 크래시**가 된다. 그런데 그 위험이 타입에 안 보여서 컴파일러가 못 막고, 방어가 개발자의 기억에 의존한다. 그 결과가 수십 년치 NPE·segfault·보안 취약점이다.
+**null 가능성이 타입에 구분되어 있지 않기 때문.** `String`처럼 값이 있다고 보이는 타입이 실제로 null일 수 있고, 안전한 사용 여부가 개발자의 흐름 추적과 방어 검사에 의존합니다. 그 결과가 수십 년치 NPE·segfault·보안 취약점입니다.
 
 </details>
 

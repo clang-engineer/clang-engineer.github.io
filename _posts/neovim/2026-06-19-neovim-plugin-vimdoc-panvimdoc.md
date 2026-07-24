@@ -2,6 +2,7 @@
 title       : "Neovim 플러그인 문서화 — vimdoc 포맷과 panvimdoc"
 description : "README를 :help로 변환하는 panvimdoc, doc/*.txt vimdoc 포맷(태그·링크·모드라인), :helptags 생성. awesome-neovim 등록 요건인 헬프 문서를 자동으로 만드는 법."
 date        : 2026-06-19 20:30:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [lua, plugin, vimdoc]
 pin         : false

@@ -2,7 +2,7 @@
 title       : 에러 핸들링 모델 — 예외 vs 에러 값 vs Result
 description : "함수가 실패했을 때 그것을 호출자에게 어떻게 전달하는가. 예외(C++/Java)·에러 값 반환(Go)·Result/Option 타입(Rust)이라는 세 모델을 명시성·강제성·성능 축으로 비교하고, '복구 가능한 에러'와 '프로그래밍 버그'를 왜 다르게 다뤄야 하는지 정리한다."
 date        : 2026-07-12 14:30:00 +0900
-updated     : 2026-07-13 14:30:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [concept]
 tags        : [error-handling]
 pin         : false
@@ -65,7 +65,7 @@ if err != nil {
 
 ### ③ Result / Option 타입 (Rust, Swift, Haskell)
 
-성공값과 에러값을 **하나의 타입에 담아** 반환한다. 타입 시스템이 에러 처리를 강제한다.
+성공값과 에러값을 **하나의 타입에 담아** 반환한다. 실패 가능성이 타입에 드러나고, Rust의 `Result`에는 `#[must_use]`가 붙어 있어 방치하면 경고가 난다.
 
 ```rust
 fn read_file(path: &str) -> Result<String, io::Error> { ... }
@@ -73,7 +73,7 @@ fn read_file(path: &str) -> Result<String, io::Error> { ... }
 let content = read_file("x")?;   // ★ ? : 성공이면 값 꺼내고, 실패면 이 함수가 즉시 그 에러를 반환
 ```
 
-- **장점**: **에러를 무시할 수 없다** — `Result`를 안 다루면 컴파일 경고/에러. `?` 연산자로 전파가 간결하다. 실패 가능성이 타입에 드러난다.
+- **장점**: `Result`를 안 다루면 기본적으로 `unused_must_use` 경고가 난다. CI에서 `-D unused_must_use`나 `-D warnings`를 쓰면 에러로 승격할 수 있다. `?` 연산자로 전파가 간결하고 실패 가능성이 타입에 드러난다.
 - **단점**: 대수적 타입·패턴 매칭에 익숙해져야 한다.
 - `Option<T>` — "값이 없을 수 있음"([null의 안전한 대체](/posts/concept/2026-07-13-null-safety/)). `Result<T, E>` — "실패할 수 있음".
 
@@ -83,7 +83,7 @@ let content = read_file("x")?;   // ★ ? : 성공이면 값 꺼내고, 실패�
 |---|---|---|---|
 | 실패 전달 | throw/catch | 반환값 | 반환 타입 |
 | 시그니처에 드러남 | ❌ (숨음) | △ (반환에 보임) | ✅ (타입에 명시) |
-| 무시 방지(강제성) | 약함 | 약함(무시 가능) | 강함(컴파일 강제) |
+| 무시 방지(강제성) | 약함 | 약함(무시 가능) | `must_use` 경고, lint 정책으로 에러 가능 |
 | 정상 로직 가독성 | 깔끔 | 장황(`if err`) | 중간(`?`로 완화) |
 | 전파 | 자동(스택 위로) | 수동(`return err`) | `?`로 반자동 |
 | 성능 | 던질 때 비쌈 | 일정 | 일정 |
@@ -131,7 +131,7 @@ let content = read_file("x")?;   // ★ ? : 성공이면 값 꺼내고, 실패�
 <details markdown="1">
 <summary>답</summary>
 
-**강제성.** Go는 반환된 `error`를 무시해도 컴파일된다. Rust는 `Result`를 다루지 않으면 컴파일 경고/에러가 나 **무시할 수 없다.** 또 Rust는 `?`로 전파가 간결한 반면 Go는 `if err != nil { return err }`를 매번 쓴다.
+**타입 가시성과 lint 강도.** Go는 반환값을 받지 않으면 `error`를 조용히 버릴 수 있습니다. Rust는 `Result`가 타입에 드러나고 방치하면 기본적으로 `must_use` 경고가 나지만, 컴파일 자체는 lint 정책이 경고를 허용하면 성공합니다. 엄격한 프로젝트는 해당 경고를 deny해 빌드 실패로 만듭니다. Rust는 `?`로 전파가 간결한 반면 Go는 `if err != nil { return err }`를 직접 씁니다.
 
 </details>
 

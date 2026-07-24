@@ -2,6 +2,7 @@
 title       : 🌀 tmux — 터미널 열 때마다 새 세션이 생기는 이유 (attach -t 함정)
 description : 셸 시작 시 tmux 자동 attach 스니펫이 매번 빈 세션을 새로 만드는 문제. `attach -t <이름>` 하드코딩과 세션 이름 불일치가 원인이고, 타깃 없는 attach 한 줄로 해결한다. JetBrains IDE 터미널에서 tmux가 자동 실행되는 것을 막는 방법까지.
 date        : 2026-07-03 09:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [tmux, session, zsh, terminal, jetbrains]
 pin         : false

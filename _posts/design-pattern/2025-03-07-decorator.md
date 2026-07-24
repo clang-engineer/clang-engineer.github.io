@@ -2,7 +2,7 @@
 title       : Decorator Pattern
 description : "상속으로 기능을 조합하면 클래스 수가 폭발한다. Component를 감싸는 Decorator를 위임으로 쌓아 동적으로 기능을 추가하는 구조."
 date        : 2025-03-07 22:50:42 +0900
-updated     : 2025-03-07 22:50:42 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [design-pattern, "구조"]
 tags        : [structural-pattern]
 pin         : false
@@ -132,7 +132,7 @@ Beverage (interface)
 ## 실전 사례
 
 - **Java `java.io`**: `new BufferedReader(new InputStreamReader(new FileInputStream(...)))` — `Reader` 인터페이스 위에 버퍼링·인코딩 변환 데코레이터를 쌓는 정통 데코레이터.
-- **C++ 스트림 조작자(manipulator)**: `std::cout << std::hex << std::setw(8) << value;` — 출력 동작을 데코레이트.
+- **C++ 스트림 조작자(manipulator)**: `std::hex`·`std::setw`는 stream formatting 상태를 바꾸는 관련 조합 기법이지, 같은 Component 인터페이스로 객체를 감싸는 GoF Decorator의 직접 사례는 아니다.
 - **HTTP 미들웨어**: 인증·로깅·압축을 핸들러에 차례로 덧붙이는 구조도 같은 형태.
 
 ## Proxy Pattern과의 차이

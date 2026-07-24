@@ -1,14 +1,15 @@
 ---
 title       : LazyVim 주요 플러그인 정리 — UI / 편집 / Git / 진단 / LSP
-description : "LazyVim이 기본으로 켜두는 noice·snacks·bufferline·mini 계열·flash·gitsigns·lazygit 등 주요 플러그인을 UI·편집·Git·진단·LSP 묶음으로 분류한 단축키 모음."
+description : "LazyVim core와 선택한 extras에서 자주 만나는 주요 플러그인을 UI·편집·Git·진단·LSP 묶음으로 분류한 단축키 모음."
 date        : 2026-06-07 12:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [lazyvim, "플러그인"]
 tags        : [neovim, plugin]
 pin         : false
 hidden      : false
 ---
 
-LazyVim 기본 활성화된 주요 플러그인과 단축키/명령어 모음.
+LazyVim core와 선택한 extras에서 자주 만나는 주요 플러그인·단축키 모음이다. 모든 항목이 설치 직후 동시에 켜지는 것은 아니다. picker·completion·explorer는 `:LazyExtras`와 `vim.g.lazyvim_*` 설정에 따라 구현이 바뀌고, 언어·Markdown·Git UI도 해당 extra나 사용자 spec을 켰을 때만 들어올 수 있다. 실제 구성은 `:LazyExtras`와 `:Lazy`에서 확인한다.
 
 ## UI · 메시지
 
@@ -62,19 +63,14 @@ LazyVim 기본 활성화된 주요 플러그인과 단축키/명령어 모음.
 - 변경된 줄 표시 (numhl, signs, linehl, deleted, word_diff, current_line_blame 등)
 - `:Gitsigns <옵션>`
 
-### lazygit.nvim
-- `<leader>gg` — lazygit 실행
-- 설치:
+### snacks.lazygit
+- `<leader>gg` — 외부 `lazygit`을 Snacks terminal에서 실행
+- 외부 바이너리 설치:
   ```sh
   brew install lazygit
   ```
-  ```lua
-  return {
-    "kdheepak/lazygit.nvim",
-    lazy = true,
-    dependencies = { "nvim-lua/plenary.nvim" },
-  }
-  ```
+
+`kdheepak/lazygit.nvim`은 별도로 선택할 수 있는 대안이며 LazyVim의 현행 기본 launcher가 아니다.
 
 ## Diagnostics · 검색
 
@@ -85,19 +81,20 @@ LazyVim 기본 활성화된 주요 플러그인과 단축키/명령어 모음.
 |---|---|
 | `<leader>xx` | Trouble Diagnostics 토글 |
 | `<leader>xX` | 현재 버퍼 Diagnostics |
-| `<leader>xq` | Quickfix 목록 |
-| `<leader>xl` | Location List |
-| `<leader>xt` | TODO 목록 (`todo-comments.nvim` 연동) |
+| `<leader>xQ` | Quickfix 목록 |
+| `<leader>xL` | Location List |
+| `<leader>cs` | LSP 문서 Symbols |
+| `<leader>cS` | LSP references/definitions 등 |
+| `<leader>xt` / `<leader>xT` | Todo 전체 / TODO·FIX·FIXME 필터 |
 
 연동 가능 소스:
 
 | 항목 | 설명 |
 |---|---|
 | LSP Diagnostics | `:Trouble diagnostics` 로 LSP 에러/워닝 트리 |
-| QuickFix / Location | `:Trouble quickfix`, `:Trouble loclist` |
+| Quickfix / Location | `:Trouble qflist`, `:Trouble loclist` |
 | TODO Comments | `:TodoTrouble` 로 TODO/FIXME |
-| References / Definitions | `:Trouble lsp_references`, `:Trouble lsp_definitions` |
-| Telescope 통합 | `require("trouble").open_with_trouble` |
+| References / Definitions | `:Trouble lsp` |
 
 ### todo-comments
 
@@ -176,7 +173,7 @@ LazyVim 기본 활성화된 주요 플러그인과 단축키/명령어 모음.
 ## Markdown
 
 ### RenderMarkdown
-- LazyVim 기본 활성. 기본 비활성으로 두려면:
+- Markdown extra 등으로 플러그인을 활성화한 뒤 기본 비활성으로 두려면:
   ```lua
   -- ~/.config/nvim/lua/plugins/render-markdown.lua
   return {
@@ -233,7 +230,7 @@ Neovim 내장 Diagnostic 시스템 (vim.diagnostic)
 LazyVim UI 계층
  ├─ Trouble.nvim      → 진단 목록 패널 (<leader>xx)
  ├─ Noice.nvim        → 메시지 / 경고 팝업
- ├─ Telescope.nvim    → 진단 검색 (<leader>fD)
+ ├─ 선택된 picker     → 진단 검색 (<leader>sd / <leader>sD)
  ├─ Lualine.nvim      → 상태줄의 에러/경고 카운트
  └─ Virtual Text / Signs → 코드 옆의 빨간줄, 아이콘
 ```

@@ -2,7 +2,7 @@
 title       : Prototype Pattern
 description : "이미 만들어진 객체를 복제해 새 객체를 얻는 패턴. 생성 비용이 크거나 구체 타입을 모른 채 같은 종류를 찍어내야 할 때, new 대신 clone()을 부른다."
 date        : 2026-06-19 13:00:00 +0900
-updated     : 2026-06-19 13:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [design-pattern, "생성"]
 tags        : [creational-pattern]
 pin         : false
@@ -114,9 +114,9 @@ public:
 
 ## 실전 사례
 
-- **JavaScript의 프로토타입 상속**: 언어 자체가 이 패턴 위에 서 있다. `Object.create(proto)`는 견본을 복제하는 호출이다.
+- **에디터의 Duplicate와 명시적 `clone()`**: 이미 설정된 객체를 기준으로 독립된 새 객체를 만드는 직접적인 사례.
+- **JavaScript `Object.create(proto)`는 다른 개념**: `proto`의 own property를 복제하지 않고 새 객체의 `[[Prototype]]`을 `proto`로 설정해 위임 체인을 만든다. 이름은 같지만 GoF Prototype의 clone과 등치하면 안 된다.
 - **`clone()` / 복사 생성자**: C++ 복사 생성자, Java `Cloneable`(다만 설계 결함으로 악명 높아 복사 생성자·정적 팩토리가 권장된다).
-- **에디터의 "복제(Duplicate)"**: 도형·레이어를 선택해 Ctrl+D로 똑같은 걸 하나 더 만드는 동작.
 
 ## Factory Pattern과의 차이
 

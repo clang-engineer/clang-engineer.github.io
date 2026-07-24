@@ -2,6 +2,7 @@
 title       : "Neovim의 vim 전역 API 지도 — vim.api vs vim.fn, 옵션·매핑·커맨드"
 description : "플러그인 Lua 코드에 나오는 vim.* 가 대체 뭔지 한 장으로. 옵션 4갈래(o/opt/bo/wo/g), vim.api와 vim.fn의 갈림길, 키매핑·커맨드·오토커맨드·유틸·스케줄링까지."
 date        : 2026-06-19 18:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "원리·언어"]
 tags        : [lua, api]
 pin         : false

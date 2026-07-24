@@ -2,6 +2,7 @@
 title       : "vim.api 아래층 — nvim_* API·MessagePack-RPC·LuaJIT"
 description : "vim.api는 본체가 아니라 통로다. 진짜 API인 언어중립 nvim_* 집합, 그 아래 MessagePack-RPC 계층 스택과 C 코어, 그리고 Neovim이 Lua를 돌리는 LuaJIT의 정체까지 파고든다."
 date        : 2026-07-03 09:20:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "원리·언어"]
 tags        : [api, rpc, msgpack, luajit, architecture]
 pin         : false

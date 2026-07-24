@@ -2,6 +2,7 @@
 title       : "LazyVim 사용자가 본 Emacs — 에디터가 아니라 Elisp 런타임"
 description : "Vim과 Emacs의 차이는 단축키가 아니라 '에디터를 무엇으로 보느냐'다. evil-mode, Doom=설정 레이어 vs Neovim=포크, magit/org-mode/런타임 리프로그래밍, 생태계 규모까지 Neovim 유저 관점으로 정리한다."
 date        : 2026-07-03 09:10:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [emacs, elisp, evil-mode, org-mode, editor]
 pin         : false

@@ -2,7 +2,7 @@
 title       : "vim-dadbod + PostgreSQL .pgpass 인증 (Windows)"
 description : "Windows의 pgpass.conf 경로, user 자동 fallback, JDBC URL 미지원 등 vim-dadbod로 PostgreSQL 붙일 때의 함정 다섯 가지"
 date        : 2026-05-06 12:00:00 +0900
-updated     : 2026-05-06 12:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [lazyvim, "Dadbod"]
 tags        : [vim-dadbod, postgresql, windows, troubleshooting]
 pin         : false
@@ -36,7 +36,7 @@ dbui에서 URL을 `postgresql://host/db`로 user 빼면 OS 사용자명(`myuser`
 -- nvim/lua/config/options/dbui.lua
 vim.g.dbs = {
   { name = "docker pg",  url = "postgres://appuser@localhost:5432/appdb" },
-  { name = "remote pg",  url = "postgresql://dbuser@10.0.0.10:5432/db?connect_timeout=5" },
+  { name = "remote pg",  url = "postgresql://dbuser@203.0.113.10:5432/db?connect_timeout=5" },
 }
 ```
 
@@ -47,10 +47,12 @@ URL의 user가 그대로 매칭 키로 들어간다. 비번만 채우고 user �
 ```ini
 # pgpass.conf — user 필드도 정확히 일치해야 함
 localhost:5432:appdb:appuser:your_password
-10.0.0.10:5432:db:dbuser:your_password
+203.0.113.10:5432:db:dbuser:your_password
 ```
 
 user 자리에 `*` 와일드카드도 가능하지만, 그러면 host:port:db에 비번이 하나로 통일된다.
+
+필드 값에 `:` 또는 `\`가 들어가면 앞에 `\`를 붙여 escape해야 한다. 예를 들어 비밀번호 `pa:ss\word`는 `pa\:ss\\word`로 적는다.
 
 ## 4. vim-dadbod은 JDBC URL을 모른다
 

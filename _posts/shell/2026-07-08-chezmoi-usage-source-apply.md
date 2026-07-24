@@ -2,6 +2,7 @@
 title       : "chezmoi 사용법 — 소스 표현과 apply 흐름"
 description : "chezmoi가 dotfiles를 어떻게 표현하고 적용하는지: 소스 디렉토리(git repo), 파일명에 인코딩된 메타(dot_·private_·encrypted_·.tmpl), 템플릿으로 머신 분기(.chezmoi.hostname·[data]), init→apply와 edit·update 일상 명령, encrypted_·패스워드 매니저로 시크릿, run_ 스크립트로 apply 시 부트스트랩까지 한 장으로."
 date        : 2026-07-08 11:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [dotfiles, chezmoi, template, guide]
 pin         : false
@@ -19,7 +20,9 @@ chezmoi의 모든 것은 하나의 **소스 디렉토리**에서 시작한다.
   - `dot_zshrc` → `~/.zshrc` (`dot_`이 앞의 `.`을 대신)
   - `private_` / `executable_` / `readonly_` → 렌더된 파일의 퍼미션
   - `.tmpl` 확장자 → 이 파일은 템플릿이니 렌더가 필요하다는 표시
+{% raw %}
 - 템플릿 데이터: `.tmpl` 파일 안에서 `{{ .chezmoi.hostname }}`, `{{ .chezmoi.os }}`, `{{ .chezmoi.arch }}` 같은 내장 변수를 쓸 수 있고, `chezmoi.toml`에 커스텀 값을 정의해 끌어 쓸 수도 있다.
+{% endraw %}
 
 즉 `~/.local/share/chezmoi/dot_zshrc.tmpl`은 "머신별로 렌더될 `~/.zshrc`의 원본"이라는 뜻을 파일명만으로 담는다.
 
@@ -31,10 +34,10 @@ chezmoi의 모든 것은 하나의 **소스 디렉토리**에서 시작한다.
 ```
 [user]
     name = clang
-{{- if eq .chezmoi.hostname "work-mbp" }}
-    email = clang@company.com
+{{- if eq .chezmoi.hostname "work-laptop" }}
+    email = developer@work.example.com
 {{- else }}
-    email = clang.engineer@gmail.com
+    email = developer@example.com
 {{- end }}
 ```
 {% endraw %}
@@ -47,12 +50,14 @@ apply 시점에 `.chezmoi.hostname`이 평가돼, 이 머신에 맞는 한 줄�
 - `.chezmoi.os` / `.chezmoi.arch` — `darwin`/`linux`, `amd64`/`arm64`로 OS·아키텍처 분기
 - `.chezmoi.username` — 사용자명
 
+{% raw %}
 내장 변수로 안 갈리는 값(회사 프록시 주소 등)은 **직접 정의**한다. `~/.config/chezmoi/chezmoi.toml`의 `[data]`에 넣으면 템플릿에서 `{{ .email }}`로 끌어 쓴다:
+{% endraw %}
 
 ```toml
 # chezmoi.toml — 이 머신의 값
 [data]
-    email = "clang@company.com"
+    email = "developer@work.example.com"
 ```
 
 새 머신에서 클론하는 사람마다 자기 값을 넣게 하려면, 소스에 `.chezmoi.toml.tmpl`을 두고 `promptString`으로 init 때 프롬프트를 띄운다.
@@ -71,7 +76,9 @@ chezmoi apply                # 템플릿을 렌더해 홈에 실제로 씀
 
 1. `chezmoi init` — 소스 저장소를 만든다. 이후 모든 편집은 이 저장소 안에서 일어난다.
 2. `chezmoi add ~/.zshrc` — 지금 홈에 있는 실파일을 소스로 가져온다. chezmoi가 알아서 `dot_zshrc`라는 이름으로 저장한다.
+{% raw %}
 3. `chezmoi chattr +template ~/.zshrc` — 머신별로 내용이 갈려야 하는 파일을 템플릿으로 승격한다. 이제 그 파일 안에서 `{{ .chezmoi.hostname }}` 같은 분기를 쓸 수 있다.
+{% endraw %}
 4. `chezmoi diff` — apply를 실행하면 홈 파일이 어떻게 바뀌는지 **미리** 보여준다. 복사 방식이라 원본과 어긋날(drift) 수 있는 chezmoi에서, 이 미리보기가 안전장치다.
 5. `chezmoi apply` — 템플릿을 이 머신용으로 렌더해 홈에 실제로 쓴다. 편집→반영이 즉시가 아니라 이 단계를 거친다는 점이 심링크 방식과 결정적으로 다른 지점이다.
 
@@ -92,7 +99,9 @@ chezmoi managed          # chezmoi가 관리 중인 파일 목록
 심링크 방식은 시크릿을 저장소 *밖*(`~/.secrets` + gitignore)에 두는 게 정석이다. chezmoi는 반대로 **암호화해서 저장소 안에** 넣을 수 있다 — 이게 심링크 대비 실질적 차별점이다.
 
 - **`encrypted_` 접두어 + age(또는 gpg)** — `encrypted_private_id_rsa`처럼 두면 소스엔 암호문으로 저장되고 apply 때 복호화돼 홈에 쓰인다. 키 하나만 안전하게 옮기면 개인키·토큰도 저장소에 담아 재현할 수 있다.
+{% raw %}
 - **패스워드 매니저 연동** — 템플릿 안에서 `{{ onepasswordRead "op://..." }}`, `{{ (bitwarden "item" "id").login.password }}` 같은 함수로 apply 시점에 값을 끌어온다. 저장소엔 시크릿이 아예 안 들어가고 참조만 남는다.
+{% endraw %}
 
 즉 chezmoi에선 시크릿을 "저장소에서 뺄지"가 아니라 "암호화해 넣을지 / 매니저에서 당길지"의 선택이 된다. 여러 머신에 개인키까지 재현하려면 이 기능이 심링크 + `.secrets`보다 편하다.
 
@@ -106,7 +115,9 @@ chezmoi는 apply 때 스크립트를 실행할 수 있다. 파일명 접두어�
 
 `run_once_before_install-packages.sh`에 `brew bundle` 한 줄을 넣어 두면, 새 머신에서 `chezmoi init --apply` 한 방에 **패키지 설치까지** 딸려 온다. [2단계 Brewfile](/posts/shell/2026-07-03-homebrew-brewfile-bundle/)이 여기서 chezmoi 흐름 안으로 들어온다.
 
+{% raw %}
 머신마다 있어야/없어야 하는 파일은 `.chezmoiignore`로 가른다 — `.gitignore`와 같은 문법이고 템플릿도 먹어서, `{{ if ne .chezmoi.os "darwin" }}Library/{{ end }}`처럼 OS별로 제외할 수 있다.
+{% endraw %}
 
 ## 지우기 — forget·destroy·purge
 
@@ -114,7 +125,7 @@ chezmoi는 apply 때 스크립트를 실행할 수 있다. 파일명 접두어�
 
 - `chezmoi forget ~/.zshrc` — 소스에서 빼 **관리만 중단**. 홈 파일은 그대로 둔다.
 - `chezmoi destroy ~/.zshrc` — 소스와 **홈 파일까지 삭제**. 되돌릴 수 없으니 `--dry-run`으로 먼저 확인.
-- `chezmoi purge` — chezmoi의 설정·상태·**소스 디렉토리째** 제거. ⚠️ 소스가 git 저장소의 하위 디렉토리면 **저장소가 통째로 날아간다** — 이 경우 purge 말고 `rm -rf ~/.config/chezmoi`로 chezmoi 흔적만 지워라.
+- `chezmoi purge` — 대상 dotfile은 남겨 두고 chezmoi의 설정·상태·소스 디렉터리를 제거. 먼저 `chezmoi source-path`와 원격 push 상태를 확인하고, 소스까지 버릴 의도가 분명할 때만 실행한다. 설정만 일부 지우고 싶다면 `purge` 대신 `chezmoi doctor`로 실제 경로를 확인한 뒤 해당 항목만 명시적으로 처리한다.
 
 흔한 오해 하나: 소스에서 파일만 지우고 `apply`하면 홈엔 **고아 파일로 남는다**. chezmoi는 관리하지 않게 된 파일을 임의로 지우지 않기 때문. 홈에서도 없애려면 `destroy`나 `.chezmoiremove`를 써야 한다.
 

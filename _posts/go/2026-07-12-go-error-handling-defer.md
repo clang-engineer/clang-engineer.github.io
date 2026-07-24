@@ -2,7 +2,7 @@
 title       : 흐름 ④ error 처리 + defer·panic·recover — 예외가 없다
 description : "C++/Java 출신에게 가장 큰 문화 충격. Go에는 예외가 없다. 함수가 (결과, error)를 반환하고 if err != nil로 매번 확인하는 값 기반 흐름, fmt.Errorf %w 래핑과 errors.Is/As 판별, RAII를 대체하는 defer, 그리고 진짜 복구 불가 상황용 panic/recover까지. 이 명시성을 Go가 일부러 택한 이유와 함께."
 date        : 2026-07-12 10:40:00 +0900
-updated     : 2026-07-12 10:40:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [go]
 tags        : [roadmap, go]
 pin         : false
@@ -61,8 +61,11 @@ C++의 RAII 소멸자가 자동으로 하던 정리(파일 닫기·언락)를 Go
 mu.Lock()
 defer mu.Unlock()        // 함수 끝에서 반드시 언락 — 어느 경로로 빠져나가든
 
-f, _ := os.Open(path)
-defer f.Close()          // 열자마자 닫기를 예약 → 닫기 누락 방지
+f, err := os.Open(path)
+if err != nil {
+    return err
+}
+defer f.Close()          // 성공을 확인한 직후 닫기를 예약 → 닫기 누락 방지
 ```
 
 핵심 감각은 **"자원을 얻은 바로 다음 줄에 `defer`로 해제를 예약"**하는 것입니다. 이러면 중간에 `return`이 몇 개든 정리가 보장됩니다. 여러 개면 **LIFO**(마지막 defer가 먼저) 순으로 실행됩니다 — RAII의 역순 소멸과 같습니다.

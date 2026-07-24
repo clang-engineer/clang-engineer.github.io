@@ -2,7 +2,7 @@
 title       : "Neovim swap 파일 안전하게 정리하기"
 description : "복구 후 swap이 자동 삭제되지 않아 경고가 반복되는 문제. 파일명 규칙과 자동 판정 휴리스틱."
 date        : 2026-06-11 10:00:00 +0900
-updated     : 2026-06-11 10:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "원리·언어"]
 tags        : [bash, troubleshooting]
 pin         : false
@@ -16,7 +16,7 @@ hidden      : false
 Neovim 은 `/` 를 `%` 로 치환해 swap 파일명을 만든다. 선두 `%` 가 leading `/` 역할:
 
 ```text
-%Users%zero%.pgpass.swp  →  /Users/zero/.pgpass
+%Users%alice%.pgpass.swp  →  /Users/alice/.pgpass
 ```
 
 쉘에서 역변환:
@@ -33,17 +33,17 @@ echo "${name//%//}"   # % → /
 ```bash
 nvim -r ~/.pgpass               # 복구
 # :w 저장 후 :q
-rm ~/.local/share/nvim/swap/%Users%zero%.pgpass.sw*  # 같은 원본의 swap 전부 제거
+rm ~/.local/share/nvim/swap/%Users%alice%.pgpass.sw*  # 복구 내용을 확인한 뒤 제거
 ```
 
-## 안전한 자동 판정 휴리스틱
+## 자동 삭제하지 말고 판단 자료로만 쓸 것
 
-- **사용 중**: `lsof -t -- "$swap"` 으로 감지 → 절대 삭제 금지
-- **원본보다 swap 이 오래됨**: 저장 후 남은 잔재 → 자동 삭제 안전
-- **원본보다 swap 이 최신**: 미저장 변경 가능성 → 보존 또는 사용자 확인
-- **원본 파일 없음**: 삭제된 파일의 잔재 → 사용자 확인
+- **사용 중**: `lsof -t -- "$swap"` 으로 감지되면 삭제 금지
+- **원본보다 swap 이 오래됨**: 잔재일 가능성이 있지만 미저장 내용이 없다고 보장하지 않음
+- **원본보다 swap 이 최신**: 미저장 변경 가능성이 높으므로 보존
+- **원본 파일 없음**: 삭제된 파일의 미저장 내용일 수 있으므로 복구 확인
 
-bash `[[ "$swap" -nt "$original" ]]` 로 mtime 비교가 핵심.
+bash `[[ "$swap" -nt "$original" ]]`와 `lsof`는 판단 자료일 뿐이다. mtime이나 프로세스 검사만으로 자동 삭제하지 말고 `nvim -r` 또는 `:recover`로 내용을 확인한 뒤 명시적으로 지운다. 원본 경로에 `%`가 들어가면 단순 치환으로 정확히 역변환할 수도 없다.
 
 ## 인터랙티브 프롬프트 패턴
 

@@ -2,7 +2,7 @@
 title       : 객체지향 ② 클래스와 자원 관리
 description : "C++ 객체지향의 핵심을 자원 관리 관점으로 정리. 생성자·소멸자로 자원 수명을 묶는 RAII, 얕은 복사 문제에서 나오는 Rule of Three, 그리고 상속·다형성에서 가상 소멸자가 필요한 이유까지 예제로 짚는다."
 date        : 2026-07-03 10:20:00 +0900
-updated     : 2026-07-03
+updated     : 2026-07-24
 categories  : [cpp]
 tags        : [roadmap, modern-cpp]
 pin         : false
@@ -66,10 +66,13 @@ public:
 
     Buffer& operator=(const Buffer& other) {              // ③ 복사 대입 연산자
         if (this == &other) return *this;                 // 자기 대입 방어
+
+        int* new_data = new int[other.size];              // 먼저 복제: 실패하면 기존 객체 유지
+        std::copy(other.data, other.data + other.size, new_data);
+
         delete[] data;
+        data = new_data;
         size = other.size;
-        data = new int[size];
-        std::copy(other.data, other.data + size, data);
         return *this;
     }
 };
@@ -115,12 +118,12 @@ a->speak();   // "멍멍" — 실제 타입(Dog)의 함수가 호출됨
 delete a;     // 가상 소멸자 덕분에 ~Dog()가 올바르게 호출됨
 ```
 
-**가상 소멸자를 빠뜨리면** `delete a`가 `~Dog()`를 건너뛰고 `~Animal()`만 불러 자원이 새어 나갑니다. "기반 클래스로 다형적으로 삭제할 거면 소멸자를 `virtual`로" — 이게 규칙입니다.
+**가상 소멸자를 빠뜨린 채** 기반 클래스 포인터로 파생 객체를 `delete`하면 동작이 정의되지 않습니다(undefined behavior). 파생 자원이 새는 정도로 끝난다고 보장할 수 없습니다. "기반 클래스로 다형적으로 삭제할 거면 소멸자를 `virtual`로" — 이게 규칙입니다.
 
 ## 자주 막히는 지점
 
 - **소멸자만 정의하고 복사를 방치** — 얕은 복사로 이중 해제. Rule of Three를 지키거나, 아예 복사를 막으세요(`= delete`).
-- **가상 소멸자 누락** — 기반 클래스 포인터로 삭제 시 파생 소멸자 미호출.
+- **가상 소멸자 누락** — 기반 클래스 포인터로 파생 객체를 삭제하면 undefined behavior.
 - **객체 슬라이싱** — 파생 객체를 기반 타입 *값*에 대입하면 파생 부분이 잘려 나갑니다. 다형성은 포인터·참조로만.
 
 ## 통과 기준

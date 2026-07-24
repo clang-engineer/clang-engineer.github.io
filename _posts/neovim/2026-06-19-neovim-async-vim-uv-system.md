@@ -1,7 +1,8 @@
 ---
 title       : "Neovim 플러그인 비동기 — vim.system · jobstart · vim.uv"
-description : "외부 프로세스를 UI 멈춤 없이 돌리는 법. 0.10+ vim.system, 레거시 jobstart, 저수준 vim.uv(libuv), 그리고 콜백을 vim.schedule로 메인 루프에 되돌리는 이유."
+description : "외부 프로세스를 UI 멈춤 없이 돌리는 법. 0.10+ vim.system, 레거시 jobstart, 저수준 vim.uv와 fast-event 콜백만 vim.schedule로 넘겨야 하는 이유."
 date        : 2026-06-19 20:20:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [lua, api, plugin]
 pin         : false
@@ -16,7 +17,7 @@ linter를 돌리고, `git`을 부르고, 파일을 읽어 결과를 버퍼에 �
 - 0.10 미만 호환이나 스트리밍이 필요하면 **`vim.fn.jobstart`**.
 - 빠른 일회성 블로킹이면 `vim.fn.system` — 단 **UI를 멈추므로** 긴 작업엔 금지.
 - 타이머·파일시스템·저수준 제어는 **`vim.uv`**(libuv, 구 `vim.loop`).
-- **libuv 콜백은 메인 루프 밖에서 돈다.** 거기서 `vim.api`를 부르면 깨진다 → `vim.schedule`로 되돌린다.
+- **`vim.uv` 콜백과 `vim.system` 완료 콜백은 fast event에서 돈다.** 대부분의 `vim.api` 호출은 금지되므로 에디터 상태를 만질 때 `vim.schedule`로 되돌린다. `jobstart` 콜백까지 같은 규칙이라고 일반화하면 안 된다.
 
 ## vim.system — 0.10+ 표준
 
@@ -25,7 +26,7 @@ linter를 돌리고, `git`을 부르고, 파일을 읽어 결과를 버퍼에 �
 vim.system({ "rg", "--json", "TODO" }, { text = true }, function(obj)
   -- obj.code, obj.signal, obj.stdout, obj.stderr
   vim.schedule(function()
-    print(obj.stdout)  -- 콜백은 메인 루프 밖 → schedule로 감싸 UI 접근
+    print(obj.stdout)
   end)
 end)
 
@@ -34,7 +35,7 @@ local obj = vim.system({ "git", "rev-parse", "HEAD" }, { text = true }):wait()
 print(obj.stdout)
 ```
 
-`{ text = true }`를 줘야 stdout/stderr가 문자열로 온다(안 주면 바이트). `opts`에 `cwd`, `env`, `stdin`도 줄 수 있다. 새로 짜고 0.10+를 타깃해도 된다면 이게 1순위다.
+stdout/stderr는 기본 캡처에서도 Lua 문자열로 온다. `{ text = true }`는 반환 타입을 바꾸는 옵션이 아니라 Windows 줄바꿈 `\r\n`을 `\n`으로 정규화하는 옵션이다. `opts`에 `cwd`, `env`, `stdin`도 줄 수 있다. 새로 짜고 0.10+를 타깃해도 된다면 이게 1순위다.
 
 ## vim.fn.jobstart — 레거시·스트리밍
 
@@ -79,19 +80,19 @@ vim.uv.fs_stat(path, function(err, stat) ... end)
 
 ## 핵심: 콜백을 메인 루프로 되돌리기
 
-`vim.system`/`jobstart`/`vim.uv`의 콜백은 **fast event 컨텍스트**(메인 이벤트 루프 밖)에서 실행된다. 여기서 `vim.api.nvim_buf_set_lines` 같은 호출을 하면 `E5560` 류 에러가 나거나 동작이 깨진다.
+`vim.uv`의 저수준 콜백과 `vim.system`의 완료 콜백은 **fast event 컨텍스트**에서 실행된다. 여기서 fast-safe가 아닌 `vim.api.nvim_buf_set_lines` 같은 호출을 하면 `E5560`이 난다. 반면 `jobstart`의 job 콜백은 같은 실행 컨텍스트라고 일반화하지 않는다. 확실하지 않은 콜백 경계에서는 `vim.in_fast_event()`로 확인할 수 있다.
 
 ```lua
-vim.system({ "rg", "foo" }, { text = true }, function(obj)
+vim.uv.fs_stat("README.md", function(err, stat)
   vim.schedule(function()
-    -- 여기는 메인 루프 → 버퍼·윈도우 조작 안전
+    assert(not err, err)
     local buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(obj.stdout, "\n"))
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, { vim.inspect(stat) })
   end)
 end)
 ```
 
-규칙은 단순하다 — **비동기 콜백 안에서 에디터 상태를 만지면 `vim.schedule`로 감싼다.** 콜백 자체를 `vim.schedule_wrap`으로 한 번 감싸 두는 패턴도 많이 쓴다.
+규칙은 **`vim.uv`와 `vim.system`의 fast-event 콜백에서 에디터 상태를 만질 때 `vim.schedule`로 감싼다**이다. 모든 비동기 콜백을 같은 실행 컨텍스트로 취급하지 않는다. 콜백 자체를 `vim.schedule_wrap`으로 감싸는 패턴도 쓸 수 있다.
 
 ## 어느 걸 쓰나
 
@@ -105,9 +106,9 @@ end)
 
 ## 함정 정리
 
-1. **비동기 콜백은 메인 루프 밖**. `vim.api`·버퍼 조작은 `vim.schedule`로 감싼다.
+1. **`vim.uv`와 `vim.system` 완료 콜백은 fast event**. fast-safe가 아닌 `vim.api`·버퍼 조작은 `vim.schedule`로 감싼다.
 2. `vim.fn.system`·`:wait()`는 **UI를 멈춘다.** 긴 작업에 쓰면 에디터가 얼어붙는다.
-3. `vim.system`에 `{ text = true }`를 빠뜨리면 stdout이 바이트로 온다.
+3. `vim.system`의 `{ text = true }`는 문자열 변환이 아니라 CRLF 줄바꿈 정규화다.
 4. `jobstart`의 `on_stdout` data는 마지막 원소가 부분 라인. `stdout_buffered`로 피하거나 직접 이어 붙인다.
 5. `vim.uv` 타이머는 명시적으로 `:stop()`/`:close()` 안 하면 샌다.
 

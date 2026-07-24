@@ -2,7 +2,7 @@
 title       : GitHub 다중 계정 관리 Cheat Sheet
 description : "SSH 키를 계정별로 분리하고 ~/.ssh/config의 Host 별칭과 .gitconfig의 includeIf로 디렉토리마다 user.email까지 자동 전환하는 방법."
 date        : 2025-10-03 12:37:44 +0900
-updated     : 2025-10-03 12:43:03 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [git, "GitHub·플랫폼"]
 tags        : [github, ssh]
 pin         : false
@@ -20,17 +20,17 @@ hidden      : false
 ### 1.1 SSH 키 생성
 ```bash
 # 개인 계정
-ssh-keygen -t rsa -C "your_personal_email@domain.com" -f "~/.ssh/id_rsa_personal"
+ssh-keygen -t ed25519 -C "personal@example.com" -f "$HOME/.ssh/id_ed25519_personal"
 
 # 업무 계정
-ssh-keygen -t rsa -C "your_work_email@domain.com" -f "~/.ssh/id_rsa_work"
-````
+ssh-keygen -t ed25519 -C "work@example.com" -f "$HOME/.ssh/id_ed25519_work"
+```
 
 ### 1.2 SSH 키 등록
 
 ```bash
-ssh-add ~/.ssh/id_rsa_personal
-ssh-add ~/.ssh/id_rsa_work
+ssh-add ~/.ssh/id_ed25519_personal
+ssh-add ~/.ssh/id_ed25519_work
 ```
 
 ### 1.3 SSH config 설정 (`~/.ssh/config`)
@@ -40,13 +40,13 @@ ssh-add ~/.ssh/id_rsa_work
 Host github.com-personal
     HostName github.com
     User git
-    IdentityFile ~/.ssh/id_rsa_personal
+    IdentityFile ~/.ssh/id_ed25519_personal
 
 # 업무 계정
 Host github.com-work
     HostName github.com
     User git
-    IdentityFile ~/.ssh/id_rsa_work
+    IdentityFile ~/.ssh/id_ed25519_work
 ```
 
 ### 1.4 테스트
@@ -86,7 +86,7 @@ git config --global user.email "default@example.com"
 ```ini
 [user]
     name = customuser
-    email = customuser@gmail.com
+    email = work@example.com
 ```
 
 #### 전역 Git 설정파일에 includeIf 추가 (`~/.gitconfig`)
@@ -107,7 +107,7 @@ git config --global user.email "default@example.com"
 ```bash
 cd ~/workspace/company/projectA
 git config --get user.email
-# → customuser@gmail.com
+# → work@example.com
 ```
 
 ---
@@ -127,4 +127,3 @@ git config --get user.email
 
 * [Managing Multiple GitHub Accounts (Medium)](https://medium.com/the-andela-way/a-practical-guide-to-managing-multiple-github-accounts-8e7970c8fd46)
 * [Multiple GitHub Accounts (Velog)](https://velog.io/@jay/multiplegithubaccounts)
-

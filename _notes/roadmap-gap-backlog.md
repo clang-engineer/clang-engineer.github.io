@@ -24,7 +24,7 @@
 | 글감 | 메우는 갭 | 로드맵 편입 위치 | 상태 |
 |---|---|---|---|
 | **셸 스크립트 디버깅** (`set -x`, `bash -x`, shellcheck) | 문법 배운 직후 반드시 부딪힘 | shell: 2단계와 짝 | 대기 |
-| **LSP 설정 기초** (vim.lsp / nvim-lspconfig / mason) | neovim IDE화 핵심, 부록 C 트러블슈팅의 전제 | neovim: 3단계~부록 C 사이 | 대기 |
+| **LSP 설정 기초** (vim.lsp / nvim-lspconfig / mason) | neovim IDE화 핵심, 부록 C 트러블슈팅의 전제 | neovim: 3단계~부록 C 사이 | ✅ 작성완료 (2026-07-08), Neovim 0.11+ `vim.lsp.config`/`vim.lsp.enable` 기준 갱신 (2026-07-24) |
 | **Raycast 실전 사용법** (확장·클립보드·스니펫·퀵링크) | macos 갈래 핵심 도구인데 "끄는 법"만 있음 | macos: 런처·생산성 | 대기 |
 | **tmux 페인 동기화** (synchronize-panes) | 완전 공백, 실무 수요 큼 | tmux: 활용 편/부록 | 대기 |
 | **락 경합·데드락 실무 진단** (SELECT FOR UPDATE, pg_locks) | db 이론(격리수준)↔계측(모니터링) 사이 공백 | db: 부록 트러블슈팅 각도 | 대기 |

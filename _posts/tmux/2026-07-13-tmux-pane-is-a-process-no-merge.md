@@ -2,6 +2,7 @@
 title       : "tmux엔 왜 pane '병합(merge)'이 없을까 — pane은 살아있는 프로세스다"
 description : "윈도우마다 갈라진 pane 두 개를 하나로 합치려다 merge 명령이 없다는 걸 발견한다. 그 부재는 버그가 아니라 설계다 — pane이 PTY에 물린 독립 프로세스이기 때문. join-pane·break-pane·swap-pane이라는 tmux의 동사가 왜 그렇게 생겼는지 정신 모델로 정리한다."
 date        : 2026-07-13 12:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [tmux, "구조·개념"]
 tags        : [tmux, terminal, pty, guide]
 pin         : false
