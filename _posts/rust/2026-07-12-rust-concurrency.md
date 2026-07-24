@@ -1,8 +1,8 @@
 ---
 title       : 동시성 ⑨ thread·Send/Sync·async — fearless concurrency
-description : "Rust의 슬로건 'fearless concurrency'. 소유권 시스템이 데이터 레이스를 컴파일 타임에 막는다. std::thread와 mpsc 채널, 타입이 스레드 간 이동·공유 가능한지 표시하는 마커 트레이트 Send/Sync, 그리고 tokio 생태계의 async/await까지. C++보다 안전한 이유를 소유권으로 설명한다."
+description : "Rust의 슬로건 'fearless concurrency'. safe Rust가 소유권·Send/Sync와 동기화 타입으로 데이터 레이스를 막는 원리를 설명한다. std::thread와 mpsc 채널, Arc<Mutex<T>>, tokio 생태계의 async/await까지 C++과 대응시킨다."
 date        : 2026-07-12 11:45:00 +0900
-updated     : 2026-07-12 11:45:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [rust]
 tags        : [roadmap, rust]
 pin         : false
@@ -11,7 +11,7 @@ hidden      : false
 
 > [Rust 학습 로드맵](/posts/rust/2026-07-12-rust-roadmap/)의 **⑨ 동시성** 단계입니다. 앞 글: [⑧ 스마트 포인터](/posts/rust/2026-07-12-rust-smart-pointers/)
 
-Rust의 슬로건이 **"fearless concurrency"**입니다. ②의 소유권 시스템이 데이터 레이스를 **컴파일 타임에** 막아 주기 때문입니다 — C++에서 뮤텍스로 조심조심 지키던 걸 컴파일러가 대신 증명합니다.
+Rust의 슬로건이 **"fearless concurrency"**입니다. safe Rust에서는 소유권과 `Send`/`Sync`가 안전하지 않은 공유를 컴파일 단계에서 거절하고, 실제 공유 가변 상태는 `Mutex`·atomic 같은 동기화 타입을 통해서만 다루게 합니다. 컴파일러가 뮤텍스를 없애 주는 게 아니라, **동기화 없이 공유 가변 데이터에 접근하는 경로를 타입으로 닫는 것**입니다.
 
 ## thread + 채널
 
@@ -54,7 +54,9 @@ thread::spawn(move || {
 });
 ```
 
-⑧의 `Rc`가 스레드 안전이 아니어서(`Send`가 아님) 컴파일 에러가 나고, 스레드 간에는 **`Arc`**를 쓴다고 했던 게 이 트레이트 때문입니다. 컴파일러가 "이 타입은 `Send`가 아니라 스레드로 못 보낸다"고 **미리** 거절하므로, 데이터 레이스가 애초에 컴파일되지 않습니다.
+⑧의 `Rc`가 스레드 안전이 아니어서(`Send`가 아님) 컴파일 에러가 나고, 스레드 간에는 **`Arc`**를 쓴다고 했던 게 이 트레이트 때문입니다. 단, `Arc`가 안전하게 만드는 것은 **참조 카운트**입니다. 내부 `T`를 여러 스레드가 변경하려면 `T`의 `Send`/`Sync` 조건과 `Mutex`·`RwLock`·atomic 같은 동기화가 별도로 필요합니다.
+
+이 보장은 **safe Rust 경계 안**에서 성립합니다. `unsafe`로 `Send`/`Sync`를 잘못 구현하거나 별칭 규칙을 깨면 데이터 레이스를 만들 수 있고, 그 결과는 undefined behavior입니다.
 
 ## async / await — tokio 생태계
 
@@ -77,9 +79,9 @@ Rust의 `async`는 런타임이 언어에 내장돼 있지 않아 **`tokio`**(�
 |---|---|---|
 | `std::thread` | `thread::spawn` | 소유권으로 캡처 안전 강제 |
 | 공유 변수 + 뮤텍스 | `mpsc` 채널 / `Arc<Mutex<T>>` | 통신 선호 + 락을 타입으로 강제 |
-| (규율로 지키는 스레드 안전) | `Send` / `Sync` | 컴파일 타임 마커로 보장 |
+| 스레드 간 이동·공유 계약 | `Send` / `Sync` | safe API 경계를 컴파일 타임에 검사 |
 | `std::async` / 코루틴 | `async`/`await` + tokio | 런타임은 crate로 선택 |
-| ThreadSanitizer (런타임) | 컴파일 타임 거절 | 데이터 레이스가 안 컴파일됨 |
+| ThreadSanitizer (런타임) | 소유권 검사 + 동기화 타입 | safe Rust에서 race 경로 차단; unsafe는 계약 책임 |
 
 ## 자주 막히는 지점
 
@@ -92,7 +94,7 @@ Rust의 `async`는 런타임이 언어에 내장돼 있지 않아 **`tokio`**(�
 
 - 스레드를 띄우고 `mpsc` 채널 또는 `Arc<Mutex<T>>`로 안전하게 데이터를 주고받을 수 있다.
 - `Send`/`Sync`가 무엇을 보장하는지, 왜 `Rc` 대신 `Arc`를 쓰는지 설명할 수 있다.
-- 데이터 레이스가 왜 컴파일 타임에 막히는지 소유권으로 설명할 수 있다.
+- safe Rust가 데이터 레이스를 막는 범위와 `Mutex`·atomic이 여전히 필요한 이유를 설명할 수 있다.
 
 다음은 [⑩ 도구 — cargo·crates·모듈](/posts/rust/2026-07-12-rust-tooling/)로, Rust를 배우는 학습 줄기의 마지막입니다.
 

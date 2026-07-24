@@ -2,6 +2,7 @@
 title       : "Neovim 플러그인의 본체 — 버퍼·윈도우·extmark 조작"
 description : "scratch 버퍼 만들기, floating window 띄우기, extmark로 virtual text·하이라이트 붙이기. 거의 모든 플러그인이 화면에 뭔가 그릴 때 쓰는 API와 인덱스 함정을 한 장으로."
 date        : 2026-06-19 19:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [lua, api, plugin]
 pin         : false

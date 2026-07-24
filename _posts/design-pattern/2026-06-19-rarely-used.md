@@ -1,8 +1,8 @@
 ---
-title       : 자주 안 쓰는 GoF 패턴 — Bridge · Flyweight · Interpreter
-description : "GoF 23개 중 실무 빈도가 낮은 세 패턴을 한 곳에 모아 짧게 훑는다. 언제 쓰나, 핵심 구조, 그리고 왜 요즘 잘 안 쓰는지까지."
+title       : 특정 문제에서 선명한 GoF 패턴 — Bridge · Flyweight · Interpreter
+description : "Bridge·Flyweight·Interpreter를 한 곳에 모아, 언제 패턴 이름이 선명하게 드러나는지와 현대 코드에서 어떤 형태로 남아 있는지 짚는다."
 date        : 2026-06-19 16:00:00 +0900
-updated     : 2026-06-19 16:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [design-pattern, "개요"]
 tags        : [design-pattern, structural-pattern, behavioral-pattern]
 pin         : false
@@ -11,7 +11,7 @@ hidden      : false
 
 > **난이도** 참고용 · **선행** 없음
 
-GoF 23개 패턴 중에는 개념은 분명한데 실무에서 마주칠 일이 드문 것들이 있다. 각각 한 페이지를 채울 만큼 할 얘기가 많지 않아 한 곳에 모았다. 이름만 보고 "이게 뭐지?" 하지 않도록, **언제 쓰나 · 핵심 구조 · 왜 잘 안 쓰나**만 짚는다.
+Bridge·Flyweight·Interpreter는 현대 코드에도 쓰이지만 그 **GoF 이름으로 직접 드러나는 빈도**는 프레임워크·도메인에 따라 크게 다르다. 한 곳에 모아 **언제 쓰나 · 핵심 구조 · 요즘은 어떤 형태로 보이나**를 짚는다. 객관적인 사용량 순위가 아니라 적용 범위가 전문적인 패턴 묶음이다.
 
 ---
 
@@ -48,7 +48,7 @@ public:
 
 도형 M개 × 렌더러 N개가 `M+N` 클래스로 끝난다 (`M×N`이 아니라).
 
-**왜 잘 안 쓰나**: "변하는 축이 둘"인 상황 자체가 흔치 않고, 막상 만나도 구성(composition)으로 자연스럽게 풀려 패턴 이름을 의식하지 않는다. [Strategy](/posts/design-pattern/2025-03-07-strategy/)·[Adapter](/posts/design-pattern/2025-04-12-adapter/)와 구조가 닮아 더 헷갈린다 — Bridge는 *설계 단계에서* 두 축을 미리 분리하는 것이고, Adapter는 *이미 있는* 것을 끼우는 사후 조치다.
+**요즘 보이는 형태**: 두 축을 interface와 composition으로 분리하는 설계에 녹아 있어 Bridge라는 이름을 붙이지 않는 경우가 많다. [Strategy](/posts/design-pattern/2025-03-07-strategy/)·[Adapter](/posts/design-pattern/2025-04-12-adapter/)와 구조가 닮아 더 헷갈린다 — Bridge는 *설계 단계에서* 두 축을 독립적으로 확장하려는 것이고, Adapter는 *이미 있는* 계약을 맞추는 조치다.
 
 ---
 
@@ -59,11 +59,17 @@ public:
 **언제 쓰나**: 같은 상태의 객체가 수만~수백만 개 생길 때. 텍스트 에디터의 글자 하나하나를 객체로 만들면 폰트·글리프 정보가 글자마다 중복된다. 이 공통 정보를 한 번만 만들어 공유하고, 위치처럼 객체마다 다른 부분(extrinsic)만 바깥에서 넘긴다.
 
 ```cpp
+#include <memory>
+#include <unordered_map>
+
+struct Font { /* font metadata */ };
+
 // 공유되는 내재 상태 — 글리프 모양은 'A'마다 같다
 class Glyph {
     char symbol;
     Font font;        // 무겁다
 public:
+    explicit Glyph(char value) : symbol(value) {}
     void draw(int x, int y) { /* x, y는 외부에서 받는다 */ }
 };
 
@@ -78,7 +84,7 @@ public:
 };
 ```
 
-**왜 잘 안 쓰나**: 메모리가 귀하던 시절의 최적화 기법이라, 일반 앱에서는 이 정도 절약이 필요한 경우가 드물다. 여전히 살아 있는 곳은 게임(나무·파티클 수만 개), 폰트 렌더링, 대규모 시뮬레이션 정도. 잘못 쓰면 공유 객체가 가변 상태를 갖게 돼 버그를 부른다 — 내재 상태는 반드시 불변이어야 한다.
+**요즘 보이는 형태**: 문자열 interning, glyph cache, 게임 asset 공유, immutable metadata pool처럼 대량 중복을 줄이는 최적화에 남아 있다. 일반 앱에 미리 도입할 이유는 적지만 데이터 규모가 크면 여전히 유효하다. 공유 내재 상태를 가변으로 만들면 버그를 부르므로 불변으로 유지한다.
 
 ---
 
@@ -110,7 +116,7 @@ public:
 
 규칙이 트리로 조립되는 모습은 [Composite](/posts/design-pattern/2026-06-18-composite/)와 사실상 같다.
 
-**왜 잘 안 쓰나**: GoF 23개 중 실무 빈도가 가장 낮다. 문법이 조금만 복잡해져도 클래스가 폭발하고, 진짜 파서가 필요하면 ANTLR·yacc 같은 파서 제너레이터나 기존 표현식 라이브러리를 쓰는 게 정석이다. 손으로 Interpreter를 짜는 경우는 정말 단순한 DSL 한정.
+**적용 경계**: 문법이 조금만 복잡해져도 클래스가 폭발하므로 ANTLR·yacc 같은 parser generator나 기존 표현식 라이브러리가 낫다. 반면 작은 규칙식·검색 조건·정책 DSL처럼 grammar가 작고 안정적이면 직접 구성한 AST evaluator로 이 구조를 만날 수 있다.
 
 ---
 
@@ -118,8 +124,8 @@ public:
 
 | 패턴 | 분류 | 한 줄 | 살아 있는 자리 |
 |------|------|-------|----------------|
-| **Bridge** | 구조 | 추상·구현 두 축을 분리 | 변하는 축이 둘일 때 (드묾) |
+| **Bridge** | 구조 | 추상·구현 두 축을 분리 | 독립적으로 변하는 두 축 |
 | **Flyweight** | 구조 | 공통 상태 공유로 메모리 절약 | 게임·폰트·대규모 시뮬레이션 |
 | **Interpreter** | 행위 | 문법 규칙을 클래스로 | 아주 단순한 DSL 한정 |
 
-셋 다 "이런 게 있다"를 아는 것으로 충분하다. 실무에서 필요해지는 순간이 오면 그때 깊게 파도 늦지 않다. 자주 쓰이는 패턴들은 [디자인 패턴 로드맵](/posts/design-pattern/2026-06-19-roadmap/)에서 분류별로 정리해 두었다.
+세 패턴 모두 문제 조건이 맞을 때만 가치가 있다. 이름보다 **두 확장 축, 대량 중복 상태, 작은 grammar**라는 적용 신호를 기억하고 필요할 때 깊게 보면 된다. 전체 패턴은 [디자인 패턴 로드맵](/posts/design-pattern/2026-06-19-roadmap/)에서 분류별로 정리해 두었다.

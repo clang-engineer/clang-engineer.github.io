@@ -2,7 +2,7 @@
 title       : 관용구 ⑦ 반복자·클로저 — Rust다움의 본체
 description : "C++ 대응이 흐릿한, Rust에서 새로 배우는 축. 여길 건너뛰면 'C++을 Rust 문법으로 쓴' 코드가 된다. 환경 캡처 방식이 소유권과 맞물리는 클로저(Fn/FnMut/FnOnce), for문 대신 iter().map().filter().collect()로 짜는 lazy하고 zero-cost한 반복자 체인까지. 인덱스 루프 습관을 교정한다."
 date        : 2026-07-12 11:35:00 +0900
-updated     : 2026-07-12 11:35:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [rust]
 tags        : [roadmap, rust]
 pin         : false
@@ -23,23 +23,26 @@ let times = |x| x * factor;   // factor를 캡처. 타입은 대개 추론
 println!("{}", times(5));     // 15
 ```
 
-캡처 방식에 따라 클로저가 구현하는 trait이 셋으로 나뉩니다.
+클로저가 캡처한 값을 **호출할 때 어떻게 사용하는지**에 따라 구현하는 call trait이 갈립니다. `move`는 캡처 값을 클로저 안으로 가져오는 방식일 뿐, 한 번만 호출된다는 뜻은 아닙니다.
 
-| trait | 캡처 방식 | C++ 람다 대응 |
+| trait | 호출에 필요한 receiver | 전형적인 이유 |
 |---|---|---|
-| `Fn` | 불변 빌림 (`&`) | `[&]` 읽기만 |
-| `FnMut` | 가변 빌림 (`&mut`) | `[&]` 수정 |
-| `FnOnce` | 소유 이동 (한 번만 호출) | `[=]` / 이동 캡처 |
+| `Fn` | `&self` | 캡처를 소비하지 않음. `Cell`·atomic 등을 통한 내부 변경은 가능 |
+| `FnMut` | `&mut self` | 캡처 상태를 직접 변경 |
+| `FnOnce` | `self` | 모든 클로저가 구현. 캡처를 소비하는 클로저는 이것만 구현 |
 
 ```rust
 let mut count = 0;
 let mut inc = || count += 1;   // count를 &mut로 캡처 → FnMut
 
 let data = vec![1, 2, 3];
-let consume = move || println!("{:?}", data);   // move로 소유권째 캡처 → FnOnce
+let show = move || println!("{:?}", data);      // 소유 캡처지만 읽기만 → Fn도 구현
+
+let data = vec![1, 2, 3];
+let consume = move || drop(data);                // 호출 때 data를 이동 → FnOnce만 구현
 ```
 
-`move` 키워드를 붙이면 캡처한 값의 **소유권을 클로저 안으로 가져갑니다** — goroutine이나 스레드에 넘길 때(⑨) 필수입니다. "이 클로저가 환경을 빌리나, 가져가나"가 곧 소유권 규칙이라, ②를 이해했으면 자연히 따라옵니다.
+`move` 키워드를 붙이면 캡처한 값의 **소유권을 클로저 안으로 가져갑니다** — 클로저를 스레드에 넘길 때 자주 필요합니다. 그러나 `move` 클로저도 값을 읽기만 하면 `Fn`을 구현할 수 있습니다. 모든 클로저는 `FnOnce`로 호출할 수 있고, 본문이 캡처를 소비하지 않으면 `FnMut`, shared receiver로도 충분하면 `Fn`까지 추가로 구현합니다. **`FnOnce`만 구현하는 클로저**가 실제로 한 번 호출하면 캡처를 소비합니다.
 
 ## 반복자 — for문을 대체하는 체인
 
@@ -67,7 +70,7 @@ C++의 `<algorithm>` + 범위 for를 하나의 흐르는 체인으로 쓰는 셈
 
 | C++ | Rust | 핵심 차이 |
 |---|---|---|
-| 람다 `[&]`/`[=]` | 클로저 `Fn`/`FnMut`/`FnOnce` | 캡처 방식이 소유권과 맞물림 |
+| 람다 캡처 + `operator()` const 여부 | 클로저 `Fn`/`FnMut`/`FnOnce` | 캡처 방식보다 본문의 사용 방식이 call trait 결정 |
 | 이동 캡처 `[x = std::move(x)]` | `move` 클로저 | 소유권째 가져가기 |
 | `<algorithm>` + 범위 for | `iter().map().filter()` 체인 | lazy·zero-cost, 흐르는 체인 |
 | `std::transform`/`copy_if` | `map`/`filter` | 이름이 더 직관적, 연결됨 |
@@ -83,7 +86,7 @@ C++의 `<algorithm>` + 범위 for를 하나의 흐르는 체인으로 쓰는 셈
 ## 통과 기준
 
 - 인덱스 `for` 루프로 짠 로직을 `map`/`filter`/`collect` 체인으로 바꿔 쓸 수 있다.
-- 클로저의 `Fn`/`FnMut`/`FnOnce`가 캡처 방식(빌림·가변 빌림·이동)과 어떻게 대응하는지 설명할 수 있다.
+- `move` 캡처와 `Fn`/`FnMut`/`FnOnce` call trait이 왜 별개인지 설명할 수 있다.
 - 반복자가 왜 lazy하고 zero-cost인지 말할 수 있다.
 
 여기까지 오면 "Rust식 사고"가 붙기 시작한 것입니다. 다음은 [⑧ 스마트 포인터](/posts/rust/2026-07-12-rust-smart-pointers/)로, ②의 소유권 규칙이 빡빡할 때 푸는 도구입니다(C++ 스마트 포인터와 거의 1:1).

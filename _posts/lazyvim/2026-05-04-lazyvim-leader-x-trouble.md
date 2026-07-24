@@ -1,7 +1,8 @@
 ---
-title       : "LazyVim <leader>x — Trouble 기반 코드 문제 탐색"
-description : Diagnostics / Quickfix / Location List / Todo Comments를 Trouble UI 하나로 통합 탐색하는 키맵 그룹 정리
+title       : "LazyVim Trouble — 코드 문제와 목록 탐색"
+description : "LazyVim의 현행 Trouble 키맵으로 Diagnostics·Quickfix·Location List와 LSP Symbols·References를 탐색하는 방법"
 date        : 2026-05-04 10:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [lazyvim, "플러그인"]
 tags        : [trouble, diagnostics]
 pin         : false
@@ -10,7 +11,7 @@ hidden      : false
 
 ## 개요
 
-LazyVim에서 `<leader>x`는 **Trouble** 플러그인을 통해 코드 문제와 목록을 탐색하는 키맵 그룹이다. Diagnostics, Quickfix List, Location List, Todo Comments 등을 통합 UI로 제공한다.
+LazyVim은 **Trouble** 플러그인으로 Diagnostics, Quickfix List, Location List, Todo Comments와 LSP 결과를 통합해 보여준다. 현행 기본 키맵은 문제 목록을 `<leader>x`, 코드 탐색 목록을 `<leader>c` 아래에 나눈다. Todo는 Trouble 키맵 `<leader>xt`/`<leader>xT`와 picker 키맵 `<leader>st`/`<leader>sT`를 모두 제공한다.
 
 ## 키맵 요약
 
@@ -20,10 +21,12 @@ LazyVim에서 `<leader>x`는 **Trouble** 플러그인을 통해 코드 문제와
 | `<leader>xX` | Buffer Diagnostics | 현재 버퍼의 진단 결과만 |
 | `<leader>xL` | Location List | 현재 윈도우의 location list |
 | `<leader>xQ` | Quickfix List | 전역 quickfix list |
-| `<leader>xs` | Symbols | LSP 심볼 목록 |
-| `<leader>xl` | LSP | LSP references/definitions 등 |
-| `<leader>xt` | Todo Comments | TODO/FIX/FIXME/HACK 등 전체 |
-| `<leader>xT` | Todo (filtered) | TODO/FIX/FIXME만 필터링 |
+| `<leader>cs` | Symbols | 현재 문서의 LSP 심볼 목록 |
+| `<leader>cS` | LSP | references/definitions 등 LSP 결과 |
+| `<leader>xt` | Todo | Trouble로 TODO/FIX/FIXME/HACK 등 검색 |
+| `<leader>xT` | Todo/Fix/Fixme | Trouble로 TODO/FIX/FIXME만 검색 |
+
+picker로 같은 항목을 검색하려면 `<leader>st`/`<leader>sT`를 쓴다.
 
 ## 핵심 개념 비교
 
@@ -91,8 +94,8 @@ Location List  →  윈도우별   →  :lopen / :lnext / :lprev
 
 - 일관된 인터페이스로 탐색 (같은 키로 이동, 접기/펼치기)
 - 파일별 그룹핑, 미리보기, 자동 갱신 지원
-- `<leader>x` 하나로 모든 목록에 접근 가능
+- 문제 목록은 `<leader>x`, 코드 구조·LSP 목록은 `<leader>c`로 접근
 
 ---
 
-> 진단 메시지·LSP 로그·`:messages`를 **실제로 열어 확인하는 방법**(`gl`, `:LspLog`, `:messages`)은 [LazyVim Diagnostics 로그/메시지 확인법](/posts/lazyvim/2026-02-04-lazyvim-diagnostics/)에 정리했습니다. 이 글은 `<leader>x` 키맵·개념, 저 글은 로그 확인 절차입니다.
+> 진단 메시지·LSP 로그·`:messages`를 **실제로 열어 확인하는 방법**(`<leader>cd`, `:LspLog`, `:messages`)은 [LazyVim Diagnostics 로그/메시지 확인법](/posts/lazyvim/2026-02-04-lazyvim-diagnostics/)에 정리했습니다. 이 글은 Trouble 키맵·개념, 저 글은 로그 확인 절차입니다.

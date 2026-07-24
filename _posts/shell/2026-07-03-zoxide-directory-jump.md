@@ -2,7 +2,7 @@
 title       : zoxide로 디렉토리 이동 빠르게 — autojump 대체
 description : "cd로 경로를 매번 다 치는 대신, 방문 기록(frecency)으로 디렉토리를 점프하는 zoxide. 설치·셸 연동부터 z/zi 사용법, autojump에서 갈아타기, fzf 연동까지 정리한다."
 date        : 2026-07-03 20:00:00 +0900
-updated     : 2026-07-03 20:00:00 +0900
+updated     : 2026-07-24 09:46:29 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [zoxide, autojump, fzf, zsh, bash]
 pin         : false
@@ -134,10 +134,26 @@ zoxide의 기록은 명령으로 조회·편집할 수 있습니다.
 | `zoxide query -l` | 기록된 전체 디렉토리를 점수 순으로 나열 |
 | `zoxide add <경로>` | 경로를 수동으로 등록 |
 | `zoxide remove <경로>` | 잘못 쌓였거나 사라진 경로를 제거 |
+| `zoxide edit` | fzf에서 점수를 조정하거나 항목을 제거 |
 
 ```sh
 zoxide query -l        # 지금 내 점프 목록이 어떻게 쌓였는지 확인
 zoxide remove ~/tmp/throwaway   # 지워진 임시 디렉토리 정리
+```
+
+특정 경로가 검색 상단에 계속 나오면 `zoxide edit`에서 직접 순위를 조정할 수 있습니다.
+
+| 키 | 동작 |
+| --- | --- |
+| `Ctrl-S` | 선택한 경로의 점수를 1 낮춤 |
+| `Ctrl-D` | 선택한 경로를 데이터베이스에서 삭제 |
+| `Ctrl-W` | 선택한 경로의 점수를 1 높임 |
+| `Enter` | 편집 종료 |
+
+경로를 완전히 제거하려면 대화형 편집기 대신 정확한 경로를 지정해도 됩니다.
+
+```sh
+zoxide remove "/삭제할/정확한/경로"
 ```
 
 `z`가 이상하게 동작할 때 `zoxide query -l`로 상태를 들여다보면 원인이 대개 보입니다.

@@ -2,6 +2,7 @@
 title       : 🧩 tmux 플러그인은 어떻게 만드나 — CLI가 곧 API
 description : "tmux 플러그인엔 런타임도 SDK도 없다. TPM이 실행하는 .tmux 셸 스크립트가 tmux CLI를 호출하는 게 전부. 진입 스크립트 구조·설정형/상호작용형·hooks·배포까지."
 date        : 2026-07-09 10:40:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [plugin, guide]
 pin         : false

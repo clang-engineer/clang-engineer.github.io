@@ -26,4 +26,4 @@ Neovim에서 아래 명령 실행 후 `Auto`를 선택한다:
 - [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim)
 - 관련 커밋: `84a3968 fix: use gpt-5-mini as default model (#1568)`
 
-> 관련: Auto/모델 선택으로도 안 풀리고 `Resolved model not found:` 가 뜬다면 Business 조직 정책 케이스다 → [Copilot Business + CopilotChat.nvim "Model not found" 우회](/posts/neovim/2026-06-17-copilotchat-copilot-business-model-not-found/)
+> 관련: Auto/모델 선택으로도 안 풀리고 `Resolved model not found:` 가 뜬다면 Business 조직 정책 케이스다 → [Copilot Business + CopilotChat.nvim "Model not found" 진단](/posts/neovim/2026-06-17-copilotchat-copilot-business-model-not-found/)

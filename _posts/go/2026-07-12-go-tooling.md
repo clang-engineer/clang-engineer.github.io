@@ -2,7 +2,7 @@
 title       : 마지막 ⑦ 도구 — build·mod·fmt·vet
 description : "Go는 도구가 언어에 내장돼 있어 CMake 같은 외부 빌드 시스템이 필요 없다. build·run·test 명령 하나씩, 스타일을 언어 표준으로 강제하는 gofmt(논쟁이 사라진다), go.mod 의존성 관리, 그리고 go vet·staticcheck 정적 분석까지. C++의 파편화된 도구 생태계와 비교하며 로드맵을 마무리한다."
 date        : 2026-07-12 10:58:00 +0900
-updated     : 2026-07-12 10:58:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [go]
 tags        : [roadmap, go]
 pin         : false
@@ -22,7 +22,7 @@ go test ./...         # 테스트 실행 (⑥의 _test.go를 찾아서)
 go install            # 빌드 후 $GOBIN에 설치
 ```
 
-`go build`는 **단일 정적 바이너리**를 뽑습니다 — 런타임·의존성이 다 박혀 있어 그 파일 하나만 배포하면 됩니다. C++의 동적 링킹·`.so` 배포 씨름이 사라지는 지점이고, Go가 컨테이너·CLI 배포에서 사랑받는 이유입니다.
+`go build`는 실행 파일 하나를 만듭니다. **순수 Go 코드**는 흔히 별도 Go 런타임 설치 없이 배포 가능한 self-contained 바이너리가 됩니다. 하지만 cgo, 시스템 resolver, plugin, 외부 링커나 공유 라이브러리를 사용하면 동적 의존성이 생길 수 있습니다. 배포 전에는 Linux의 `ldd`, macOS의 `otool -L` 등으로 실제 링크 결과를 확인해야 합니다.
 
 ## gofmt — 스타일 논쟁이 사라진다
 
@@ -62,7 +62,7 @@ go vet ./...      # 표준 내장 — Printf 포맷 불일치, 락 복사 등
 | C++ | Go | 핵심 차이 |
 |---|---|---|
 | CMake / Make (외부) | `go build` | 빌드 시스템이 언어 내장 |
-| 동적 링킹 / `.so` 배포 | 단일 정적 바이너리 | 파일 하나로 배포 |
+| 동적 링킹 / `.so` 배포 | 순수 Go는 흔히 self-contained | cgo·플랫폼 의존성은 별도 확인 |
 | `.clang-format` 팀 합의 | `gofmt` (강제) | 스타일 논쟁 자체가 없음 |
 | Conan / vcpkg | `go mod` | 의존성·버전 재현이 표준 |
 | clang-tidy | `go vet` / staticcheck | 정적 분석도 표준·준표준 |
@@ -75,8 +75,8 @@ go vet ./...      # 표준 내장 — Printf 포맷 불일치, 락 복사 등
 
 ## 통과 기준
 
-- `go build`로 단일 바이너리를 뽑고, `go mod tidy`로 의존성을 정리할 수 있다.
-- gofmt가 왜 스타일 논쟁을 없애는지, 정적 바이너리가 왜 배포에 유리한지 설명할 수 있다.
+- `go build`로 실행 파일을 만들고, `go mod tidy`로 의존성을 정리할 수 있다.
+- gofmt가 왜 스타일 논쟁을 없애는지, 순수 Go build와 cgo build의 배포 차이를 설명할 수 있다.
 
 ---
 

@@ -2,7 +2,7 @@
 title       : 셸로 파일명·문자열 일괄 변경하기
 description : "bash 파라미터 확장, sed, brew rename, find -exec로 다수 파일의 이름·경로·내용을 한 번에 바꾸는 패턴. 그리고 -exec vs | xargs 중 언제 무엇을 쓰나."
 date        : 2021-11-05 10:36:15 +0900
-updated     : 2026-07-09 09:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [shell, "검색·파일 처리"]
 tags        : [bash, sed, rename, find]
 redirect_from:
@@ -38,13 +38,17 @@ for file in *_h.png; do mv "$file" "${file/_h.png/_half.png}"; done
 파일 경로 자체에 들어있는 문자열을 바꿀 때.
 
 ```bash
-for path in $(find . -name '*.txt'); do
-  mv "$path" "$(echo "$path" | sed 's|/e/|/h/|')"
-done
+find . -name '*.txt' -print0 |
+  while IFS= read -r -d '' path; do
+    target=$(printf '%s\n' "$path" | sed 's|/e/|/h/|')
+    printf 'mv -- %q %q\n' "$path" "$target"  # 먼저 dry-run
+    # mv -- "$path" "$target"                 # 확인 후 주석 해제
+  done
 ```
 
 - 구분자는 `/` 대신 `|`를 쓰면 경로 안의 `/`와 충돌하지 않는다.
-- 공백 포함 파일명을 다룬다면 `find ... -print0 | xargs -0` 패턴이 더 안전.
+- `find -print0`과 `read -d ''`를 함께 써야 공백·개행이 든 파일명도 보존된다.
+- 일괄 변경은 먼저 명령만 출력해 충돌 여부를 확인한 뒤 실제 `mv`를 실행한다.
 
 ## 3. brew rename — 매크로 한 줄
 
@@ -80,25 +84,25 @@ find path_A -name '*AAA*' -exec mv {} path_B \;
 | 동작 | 각 파일마다(`\;`) 또는 묶어서(`+`) 실행 | 표준 입력을 인자로 묶어 실행 |
 | 공백·특수문자 | 안전 | 주의 — `-print0 \| xargs -0` 필요 |
 | 성능 | `\;` 느림 · `+` 빠름 | 묶어서 처리 → 빠름 |
-| 적용 범위 | **`find` 전용 옵션** | `find` 밖에서도 씀 (`ls *.txt \| xargs rm`) |
+| 적용 범위 | **`find` 전용 옵션** | NUL 등 안전한 구분자를 출력하는 명령과 조합 |
 
 정리하면:
 
 - **`find`로 찾은 파일만** 처리 → `-exec`. 안전하고 문법이 짧다(대량이면 `+`).
-- **`find`가 아닌 명령의 출력**을 인자로 넘길 때 → `xargs`. 단, 공백/개행 안전을 위해 가능하면 `-print0 | xargs -0`.
+- **인자 목록을 NUL로 출력할 수 있는 명령**과 조합할 때 → `xargs -0`. 일반 텍스트 출력은 파일명 경계가 보존되지 않으므로 삭제·이동에 바로 연결하지 않는다.
 
 ```bash
 # find 전용: -exec
 find . -name "*.txt" -exec cat {} +
 
-# find 밖에서도 되는 xargs (공백 안전 버전은 find와 -print0 조합일 때)
-ls *.txt | xargs rm
+# 묶어서 처리하되 공백·개행까지 안전
+find . -name '*.txt' -print0 | xargs -0 cat
 ```
 
 ## 정리
 
 - 단순 확장자 치환 → bash 파라미터 확장.
-- 경로 패턴 치환 → `sed` 파이프 + `mv`.
+- 경로 패턴 치환 → NUL 구분 `find` 루프에서 dry-run 후 `mv`.
 - 표현력 필요 → `rename` (Perl 정규식, `-n` 으로 dry-run).
 - 디렉토리 트리에서 골라 이동 → `find -exec ... \;` 또는 `+`.
 - 찾은 파일에 명령 돌리기 → `find` 결과만이면 `-exec`, 그 외/파이프 조합이면 `xargs`(`-0`로 공백 안전).

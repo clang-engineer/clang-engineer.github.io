@@ -2,7 +2,7 @@
 title       : dotfiles를 git 저장소 + 심볼릭 링크로 관리하기
 description : "흩어진 설정 파일을 git 저장소 한곳에 모으고 홈 디렉터리로 심볼릭 링크를 건다. ln -s의 재실행 문제를 없애는 멱등 링크 헬퍼, 도구별 setup.sh를 bootstrap으로 묶는 구조, GNU stow 대안, 시크릿 분리까지 정리한다."
 date        : 2026-07-03 13:00:00 +0900
-updated     : 2026-07-08 12:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [dotfiles, symlink, bootstrap, stow]
 pin         : false
@@ -53,6 +53,7 @@ ln -s ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
 재실행해도 결과가 같도록(멱등), 링크를 걸기 전에 대상 상태를 확인하는 헬퍼를 하나 둡니다.
 
 ```sh
+#!/usr/bin/env bash
 # scripts/lib/common.sh
 FORCE="${FORCE:-false}"
 
@@ -66,16 +67,25 @@ link_path() {
     return 0
   fi
 
-  # 다른 무언가가 이미 있으면, --force 일 때만 치우고 링크
+  # 실제 디렉터리는 자동으로 지우지 않는다.
+  if [[ -d "$dest" && ! -L "$dest" ]]; then
+    printf '오류: %s 디렉터리는 수동 이전 필요\n' "$dest" >&2
+    return 1
+  fi
+
+  # 다른 파일/링크가 있으면 --force에서도 삭제하지 않고 백업한다.
   if [[ -e "$dest" || -L "$dest" ]]; then
     if [[ "$FORCE" == true ]]; then
-      rm -rf "$dest"
+      local backup="${dest}.backup.$(date +%Y%m%d%H%M%S)"
+      mv "$dest" "$backup"
+      printf '백업: %s → %s\n' "$dest" "$backup"
     else
       printf '⚠︎ %s 존재 — 건너뜀 (덮어쓰려면 FORCE=true)\n' "$dest"
       return 0
     fi
   fi
 
+  mkdir -p "$(dirname "$dest")"
   ln -s "$src" "$dest"
   printf '→ Linked %s → %s\n' "$dest" "$src"
 }
@@ -86,10 +96,11 @@ link_path() {
 | 대상 상태 | 동작 |
 |---|---|
 | 이미 올바른 링크 | 통과(다시 안 만듦) |
-| 다른 파일/링크가 있음 | 기본은 건너뜀, `FORCE=true`면 치우고 링크 |
+| 다른 파일/링크가 있음 | 기본은 건너뜀, `FORCE=true`면 백업 후 링크 |
+| 실제 디렉터리가 있음 | 자동 삭제하지 않고 오류 |
 | 아무것도 없음 | 링크 생성 |
 
-덕분에 셋업 스크립트를 몇 번을 돌려도 안전하고, 기존 설정을 덮어쓸지 말지는 `FORCE`로 명시적으로 정합니다.
+덕분에 셋업 스크립트를 몇 번을 돌려도 안전하고, `FORCE=true`여도 기존 파일을 삭제하지 않고 타임스탬프 백업으로 남깁니다. 실제 디렉터리는 내용 전체를 잃을 수 있으므로 자동 교체하지 않습니다.
 
 ---
 
@@ -98,25 +109,27 @@ link_path() {
 도구마다 링크할 파일과 추가 설치(플러그인 등)가 다릅니다. 그래서 각 디렉터리에 자기 몫만 하는 `setup.sh`를 두고, 최상위 `bootstrap.sh`가 이들을 순서대로 호출합니다.
 
 ```sh
+#!/usr/bin/env bash
 # zsh/setup.sh — zsh 몫만
 source "$REPO/scripts/lib/common.sh"
 
 link_path "$REPO/zsh/.zshrc" "$HOME/.zshrc"
-sh "$REPO/zsh/install-oh-my-zsh.sh"     # 링크만이 아니라 설치도
-sh "$REPO/zsh/install-zsh-plugins.sh"
+bash "$REPO/zsh/install-oh-my-zsh.sh"     # 링크만이 아니라 설치도
+bash "$REPO/zsh/install-zsh-plugins.sh"
 ```
 
 ```sh
+#!/usr/bin/env bash
 # bootstrap.sh — 전체 오케스트레이션
-sh "$REPO"/zsh/setup.sh
-sh "$REPO"/tmux/setup.sh
-sh "$REPO"/git/setup.sh
-sh "$REPO"/nvim/setup.sh
+bash "$REPO"/zsh/setup.sh
+bash "$REPO"/tmux/setup.sh
+bash "$REPO"/git/setup.sh
+bash "$REPO"/nvim/setup.sh
 ```
 
 이렇게 나누면 좋은 점:
 
-- **부분 실행**: zsh만 다시 잡고 싶으면 `sh zsh/setup.sh`만 돌립니다.
+- **부분 실행**: zsh만 다시 잡고 싶으면 `bash zsh/setup.sh`만 돌립니다.
 - **추가가 쉬움**: 새 도구는 디렉터리 + `setup.sh`를 만들고 bootstrap에 한 줄 더합니다.
 - **링크 이상의 셋업**: 심볼릭 링크뿐 아니라 플러그인 설치 같은 도구별 절차를 같은 자리에 둘 수 있습니다.
 

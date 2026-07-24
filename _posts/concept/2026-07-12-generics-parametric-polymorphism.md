@@ -2,7 +2,7 @@
 title       : 제네릭 — 파라미터 다형성과 그 구현의 갈림길
 description : "타입을 매개변수로 받아 여러 타입에 같은 코드를 재사용하는 제네릭(파라미터 다형성)을 언어 공통 개념으로 정리한다. 구현이 갈리는 지점(단형화 vs 타입 소거), 아무 타입이나 막는 제약(constraints)을 짚고, C++ 템플릿·Go generics·Rust 제네릭이 같은 개념을 어떻게 다르게 구현하는지 대응시킨다."
 date        : 2026-07-12 14:40:00 +0900
-updated     : 2026-07-13 14:40:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [concept]
 tags        : [generics, polymorphism]
 pin         : false
@@ -75,9 +75,9 @@ Go 제네릭(1.18+)은 **GC shape stenciling**이라는 절충을 쓴다. 메모
 |---|---|
 | **C++** | concepts (C++20) — `template<std::totally_ordered T>` |
 | **Rust** | trait bounds — `fn max<T: PartialOrd>(...)` |
-| **Go** | 인터페이스 제약 — `func Max[T constraints.Ordered](...)` |
+| **Go** | 인터페이스 제약 — `func Max[T cmp.Ordered](...)` (`import "cmp"`) |
 
-세 언어 모두 "타입 T는 **비교/출력/복제 등 특정 능력을 갖춰야 한다**"를 명시하게 한다. 제약을 붙이면 에러가 **정의 지점에서** 명확히 잡히고, 문서 역할도 한다.
+세 언어 모두 "타입 T는 **비교/출력/복제 등 특정 능력을 갖춰야 한다**"를 명시하게 한다. 제네릭 본문은 선언한 제약만 사용해 검사되고, 호출자가 bound를 만족하지 않으면 **사용 지점**에서 진단됩니다. 제약은 본문이 의존할 수 있는 연산의 계약이자 호출자 문서입니다.
 
 ## 언어별 정리
 
@@ -118,6 +118,6 @@ Go 제네릭(1.18+)은 **GC shape stenciling**이라는 절충을 쓴다. 메모
 <details markdown="1">
 <summary>답</summary>
 
-아무 타입이나 허용하면 `>`·출력 같은 연산이 되는지 보장할 수 없다. 제약을 붙이면 에러가 **사용 지점이 아니라 정의 지점에서** 명확히 잡히고, "이 타입은 이런 능력이 필요하다"는 문서 역할도 한다. C++ concepts, Rust trait bounds, Go 인터페이스 제약이 각각 이 역할이다.
+아무 타입이나 허용하면 `>`·출력 같은 연산이 되는지 보장할 수 없습니다. 제약을 붙이면 제네릭 본문은 그 계약만 전제로 검사되고, bound를 만족하지 않는 호출은 사용 지점에서 명확히 거절됩니다. C++ concepts, Rust trait bounds, Go 인터페이스 제약이 이 계약과 문서 역할을 합니다.
 
 </details>

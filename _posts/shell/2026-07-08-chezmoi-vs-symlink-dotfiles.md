@@ -2,6 +2,7 @@
 title       : "chezmoi vs 심링크 dotfiles — 근본 차이와 언제 무엇을 쓸까"
 description : "chezmoi는 템플릿을 apply 시점에 머신용 실파일로 렌더한다. 심링크+런타임 분기와 층위가 다르다. 머신 분기를 런타임에서 빌드타임으로 옮기는 게 핵심 — 이 차이를 표로 정리하고, chezmoi가 실제로 이득인 세 경우와 심링크가 더 나은 경우를 가른다."
 date        : 2026-07-08 10:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [dotfiles, chezmoi, symlink, stow]
 pin         : false

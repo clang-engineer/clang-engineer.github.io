@@ -2,7 +2,7 @@
 title       : "tmux 로드맵 — 세션 관리를 익혀 작업 환경을 자동화하는 순서"
 description : "tmux 구조·설치 → 체감 옵션 → 플러그인 → 세션 부트스트랩 자동화까지, 이 블로그의 tmux 글을 학습 순서대로 큐레이션. 클립보드·자동 attach 트러블슈팅은 부록으로 분리."
 date        : 2026-06-16 15:00:00 +0900
-updated     : 2026-07-12 11:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [tmux, "개요·인덱스"]
 tags        : [roadmap, terminal]
 pin         : false

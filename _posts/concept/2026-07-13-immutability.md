@@ -2,7 +2,7 @@
 title       : 불변성 — const·mut·val, 누가 무엇을 못 바꾸게 하나
 description : "값을 바꿀 수 있는가를 누가·어떻게 통제하는가. C++ const correctness를 발판으로, '기본이 가변이냐 불변이냐'와 '바인딩만 막느냐 값까지 막느냐' 두 축으로 Rust(불변 기본 + mut 옵트인)·Kotlin val·JS const·함수형 영속 자료구조를 비교한다. Kotlin val 리스트 내용이 왜 바뀌는지(바인딩 vs 값), Rust의 &T/&mut T 규칙이 데이터 레이스를 막는 지점까지 대응시킨다."
 date        : 2026-07-13 11:00:00 +0900
-updated     : 2026-07-13 11:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [concept]
 tags        : [immutability, const, mutability]
 pin         : false
@@ -15,7 +15,7 @@ hidden      : false
 
 ## 한 줄 요약
 
-값을 **바꿀 수 있는가**를 누가 통제하느냐로 언어가 갈린다. 가변 상태(mutable state)는 버그와 [데이터 레이스](/posts/concept/2026-07-12-concurrency-coordination-models/)의 근원이라, 언어들은 "이건 안 바뀐다"는 보장을 서로 다르게 준다. 두 축이다 — **기본값이 가변이냐 불변이냐**, 그리고 불변이 **바인딩만 막느냐 값까지 막느냐**. C++ `const`는 값까지 막되 관례에 가깝고, Rust는 **불변을 기본값으로** 삼아 컴파일러가 강제한다.
+값을 **바꿀 수 있는가**를 누가 통제하느냐로 언어가 갈린다. 가변 상태(mutable state)는 버그와 [데이터 레이스](/posts/concept/2026-07-12-concurrency-coordination-models/)의 원인이 될 수 있어, 언어들은 "이 접근 경로에서는 바꿀 수 없다"는 보장을 서로 다르게 준다. 두 축이다 — **기본값이 가변이냐 불변이냐**, 그리고 불변이 **바인딩만 막느냐 접근한 값의 변경까지 막느냐**. C++ `const`와 Rust 빌림은 모두 컴파일러가 강제하지만, aliasing과 내부 가변성을 다루는 규칙이 다르다.
 
 ## 어떤 문제를 푸는가
 
@@ -55,7 +55,7 @@ struct Cache {
 >
 > 이 구분이 바로 아래에서 말할 **"바인딩 불변 vs 값 불변"**의 C++판이다.
 
-단, C++ `const`는 **강제라기보다 관례**에 가깝다. `const_cast`로 벗겨낼 수 있고(뚫는 순간 UB 위험은 있지만 **컴파일은 된다**), `mutable` 멤버는 const 객체 안에서도 바뀐다. 즉 도구는 있지만 우회로가 열려 있다 — 다음 두 모델과 갈리는 지점이다.
+C++ `const`는 **컴파일러가 강제하는 접근 규칙**입니다. `const_cast`로 cv-qualification을 제거할 수는 있지만, 원래 `const`로 정의된 객체를 그 경로로 수정하면 undefined behavior입니다. 원래 non-const 객체를 `const` view로 받았던 경우에만 제한적으로 원복할 수 있습니다. `mutable` 멤버는 논리적 constness를 표현하기 위해 타입 선언이 명시적으로 허용한 예외입니다.
 
 ## 모델 ① 가변이 기본 — 불변은 옵트인 (C++, Go, Java, JS)
 
@@ -83,9 +83,9 @@ fn print(s: &String);        // 불변 빌림 — 못 바꾼다
 fn push(s: &mut String);     // 가변 빌림 — 바꿀 수 있다
 ```
 
-기본값이 뒤집힌 효과는 크다. **가변이 눈에 띈다** — `mut`이 붙은 변수만 의심하면 되니, "이 값이 어디서 바뀌나"의 탐색 범위가 확 준다. 그리고 이건 관례가 아니라 **컴파일러가 강제**한다. `const_cast` 같은 뒷문은 없다(가변이 꼭 필요하면 `Cell`/`RefCell`의 내부 가변성을 **명시적으로** 옵트인하거나 `unsafe`로 내려가야 한다).
+기본값이 뒤집힌 효과는 크다. **가변이 눈에 띈다** — 재대입·직접 변경에는 `mut`이나 `&mut`이 필요합니다. 다만 `&T`가 항상 물리적 불변을 뜻하지는 않습니다. `UnsafeCell`을 기반으로 한 `Cell`·`RefCell`·`Mutex` 같은 내부 가변성 타입은 shared reference 뒤에서도 규칙에 맞게 상태를 바꿀 수 있습니다.
 
-> **여기가 착지점.** C++ const correctness를 아는 사람에게 Rust는 **"`const`를 기본값으로 삼고 컴파일러가 강제하는 것"**이다. 대응이 거의 1:1이다 — C++ `const T&` = Rust `&T`, C++ `T&`(가변 참조) = Rust `&mut T`. C++에서 습관과 규율로 지키던 const correctness를, Rust는 기본값과 타입 강제로 바꿨다. → [메모리 관리 모델](/posts/concept/2026-07-12-memory-management-models/)의 "관례 vs 강제" 구도가 여기서도 반복된다.
+> **C++ 발판과 깨지는 지점.** `const T&`와 Rust `&T`, `T&`와 `&mut T`는 각각 읽기 전용·가변 접근이라는 출발점이 가깝습니다. 그러나 Rust `&mut T`는 변경 가능성뿐 아니라 **배타적 aliasing**을 뜻하고, `&T` 뒤의 내부 가변성은 `UnsafeCell` 계열 타입으로만 허용됩니다. C++ `const`의 단순 기본값 전환이 아니라 aliasing 계약까지 강화한 모델입니다.
 
 > **불변 기본이 데이터 레이스를 막는 뿌리.** Rust 빌림 규칙은 **"가변 빌림(`&mut`)은 배타적, 불변 빌림(`&`)은 여럿 가능"** — 한 값에 `&mut`이 있으면 다른 빌림이 하나도 없어야 한다. 이 **aliasing XOR mutability**(공유와 변경은 동시에 안 됨)가 곧 [데이터 레이스가 성립할 수 없는](/posts/concept/2026-07-12-concurrency-coordination-models/) 조건이다 — 레이스는 "둘 이상이 공유하는데 최소 하나가 쓴다"에서 나는데, 그 조합을 타입이 금지하니까. 불변성 통제와 동시성 안전이 같은 규칙의 양면이다.
 
@@ -124,14 +124,14 @@ Clojure·Haskell·Elm이 이 모델이고, JS 진영의 Immutable.js·Redux도 �
 |---|---|---|---|---|
 | 기본값 | **가변**(const는 옵트인) | **불변**(mut 옵트인) | 가변(val/const는 옵트인) | 불변(유일한 길) |
 | 불변의 범위 | 값까지(const 접근 통해) | 값까지 + 빌림 규칙 | **바인딩만**(내용 가변) | 값 전체(새 버전) |
-| 강제성 | 관례(`const_cast`로 뚫림) | **컴파일 강제** | 컴파일(바인딩 한정) | 언어 전체 |
-| 우회 장치 | `const_cast`, `mutable` | `Cell`/`RefCell`(명시) | (내용은 원래 가변) | 없음 |
+| 강제성 | 컴파일 강제(접근 경로 기준) | 컴파일 강제 + aliasing 규칙 | 컴파일(바인딩 한정) | 언어 전체 |
+| 내부 변경 | `mutable`, 원래 non-const 객체의 제한적 cast | `UnsafeCell` 기반 `Cell`/`RefCell`/동기화 타입 | 내용은 원래 가변 | 새 버전 생성 |
 
 > 흐름: ①은 **편의**를 위해 가변을 기본으로 두고 불변을 선택하게 한다. ②는 **불변을 기본**으로 뒤집어 가변을 눈에 띄게 만들고 컴파일러가 강제한다. ③은 **재대입만** 잠그는 얕은 절충이고, ④는 변경 자체를 없앤다. 무엇을 기본으로 두고 어디까지 강제하느냐의 선택이다.
 
 ## 언어별 정리
 
-- **C++**: `const`를 **최대한 붙이는** const correctness가 정석이다. 인자·멤버 함수·반환에 습관적으로 `const`를 달아 변경 지점을 좁힌다. 다만 강제는 아니다. → 값의 복사/공유 관점은 [값 vs 참조 의미론](/posts/concept/2026-07-12-value-vs-reference-semantics/)과 이어진다.
+- **C++**: `const`를 **최대한 붙이는** const correctness가 정석이다. 인자·멤버 함수·반환의 변경 가능성을 타입으로 제한하며 컴파일러가 검사한다. 다만 aliasing과 내부 가변성 규칙은 Rust와 다르다. → 값의 복사/공유 관점은 [값 vs 참조 의미론](/posts/concept/2026-07-12-value-vs-reference-semantics/)과 이어진다.
 - **Rust**: 불변이 기본. `mut`과 `&mut`이 붙은 곳만 "여기서 바뀐다"는 신호다. 이 통제가 [소유권·빌림](/posts/concept/2026-07-12-memory-management-models/)·동시성 안전과 한 몸이다.
 - **Kotlin/JS**: `val`/`const`를 기본으로 쓰되, **그건 바인딩 불변**임을 잊지 말 것. 값까지 불변이 필요하면 불변 컬렉션(`listOf`, `Object.freeze`)을 따로 써야 한다.
 - **함수형**: 불변이 언어의 전제다. C++/Rust에서 "골라서" 얻는 보장을 기본으로 깔고 시작한다.
@@ -145,7 +145,7 @@ Clojure·Haskell·Elm이 이 모델이고, JS 진영의 Immutable.js·Redux도 �
 <details markdown="1">
 <summary>답</summary>
 
-발상이 같고 **기본값과 강제성**이 다르다. C++ `const T&` = Rust `&T`, C++ 가변 참조 `T&` = Rust `&mut T`로 거의 1:1 대응한다. 차이는 ① C++은 가변이 기본이고 `const`를 붙여야 하는 반면 Rust는 불변이 기본이고 `mut`을 붙여야 하며, ② C++ `const`는 `const_cast`로 뚫리는 관례지만 Rust는 컴파일러가 강제한다는 점이다.
+둘 다 컴파일러가 접근 경로의 변경 가능성을 검사한다. C++은 가변이 기본이고 `const`를 붙이며, Rust는 불변 binding이 기본이고 `mut`을 붙인다. 더 중요한 차이는 Rust `&mut T`가 배타적 aliasing까지 요구하고 `&T`의 내부 변경은 `UnsafeCell` 계열로 제한된다는 점이다. 따라서 유용한 발판이지만 1:1 등치는 아니다.
 
 </details>
 

@@ -2,7 +2,7 @@
 title       : "리눅스 사용자·그룹 관리: useradd, usermod, sudo, /etc/passwd·shadow"
 description : "계정을 만들고(useradd) 고치고(usermod) 지우고(userdel), 그룹·sudo 권한을 붙이는 표준 흐름. /etc/passwd·shadow·group 파일이 실제로 무엇을 담는지, Debian과 RHEL의 adduser 차이까지."
 date        : 2026-07-11 11:00:00 +0900
-updated     : 2026-07-11 11:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [linux, "시스템 관리"]
 tags        : [user, group, sudo, useradd, permissions]
 pin         : false
@@ -47,7 +47,7 @@ sudo grep zero /etc/shadow
 #          └ $6$ = SHA-512 해시 (비었으면 로그인 불가, ! 나 * 면 잠김)
 ```
 
-`/etc/shadow`의 날짜·주기 컬럼(최소 변경 주기 등)은 [chage 트랩 글](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/)에서 컬럼별로 자세히 다뤘습니다. 만든 계정이 비밀번호가 맞는데도 인증이 거부되면 그 글을 보세요.
+`/etc/shadow`의 날짜·주기 컬럼은 비밀번호 변경·만료 정책을 담습니다. 만든 계정의 인증이 거부되면 [passwd 직후 su 인증 점검 순서](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/)에서 PAM 로그, 잠금, 만료와 접근 정책을 구분해 확인하세요.
 
 > **파일을 직접 편집하지 마세요.** `/etc/passwd`·`/etc/shadow`를 `vim`으로 여는 대신 항상 아래 명령을 씁니다. 꼭 손봐야 하면 `vipw`(passwd) / `vipw -s`(shadow) — 편집 중 잠금을 걸고 문법을 검사해 줍니다.
 {: .prompt-warning }

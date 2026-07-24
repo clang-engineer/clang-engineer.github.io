@@ -2,7 +2,7 @@
 title       : "LazyVim 기능 지도 — Git·검색·LSP·완성을 만드는 플러그인 묶음"
 description : "LazyVim에서 각 기능 영역(Git, 검색, LSP, 자동완성, DAP 등)이 어떤 플러그인들이 협력해 만들어지는지, 그리고 snacks.nvim이 어떻게 새로운 hub가 되었는지"
 date        : 2026-06-07 13:00:00 +0900
-updated     : 2026-06-07 13:00:00 +0900
+updated     : 2026-07-24 15:00:00 +0900
 categories  : [lazyvim, "플러그인"]
 tags        : [neovim, snacks, gitsigns, lazygit, mason]
 pin         : false
@@ -13,13 +13,13 @@ hidden      : false
 
 [지난 글](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/) 이 "LazyVim이 어떻게 조립되는가(구조)"였다면, 이번 글은 "그 안에 뭐가 들어 있는가(내용)" 다.
 
-> 본인 환경 기준 (LazyVim 11.x, snacks.nvim 시대). 10.x 이하라면 Telescope/alpha 가 살아있어서 다르다.
+> 2026-07 LazyVim 기준. picker·completion·explorer는 선택형 extra이며, 새 설치의 fallback 선택은 snacks picker·blink.cmp·snacks explorer다. 기존 설치와 `vim.g.lazyvim_*` 설정은 다른 구현을 유지할 수 있다.
 
-## 0. 한눈에 — snacks.nvim 이 새 hub 다
+## 0. 한눈에 — snacks.nvim이 기본 hub다
 
-10.x → 11.x 로 넘어오면서 LazyVim 의 진영이 크게 정리됐다. 한때 따로 깔던 것들이 **snacks.nvim 하나로 흡수**됐다:
+LazyVim은 dashboard·notifier·terminal·lazygit launcher 같은 여러 기능을 **snacks.nvim**에 모았다. picker와 explorer도 새 설치의 fallback 선택이 snacks지만, `:LazyExtras`에서 다른 구현을 고를 수 있다.
 
-| 옛 LazyVim (~10.x) | 현재 LazyVim (11.x) — `snacks.nvim` |
+| 이전에 흔히 쓰던 구현 | 현재 선택지의 기본 축 — `snacks.nvim` |
 |---|---|
 | Telescope (picker) | `snacks.picker` |
 | alpha-nvim (dashboard) | `snacks.dashboard` |
@@ -28,7 +28,7 @@ hidden      : false
 | nvim-bufdel | `snacks.bufdelete` |
 | (외부 명령) lazygit | `snacks.lazygit` |
 
-Telescope 가 자취를 감추니 처음엔 당황스럽지만, picker 호출 키 (`<leader>ff` 등) 는 그대로다. **인터페이스는 같고 엔진만 바뀐 것.**
+picker 호출 키(`<leader>ff` 등)는 선택한 구현과 분리돼 있다. **LazyVim 인터페이스는 유지하고 snacks·fzf-lua·Telescope 중 엔진을 바꿀 수 있다.**
 
 이 점만 이해해도 아래의 기능 묶음들이 훨씬 자연스럽게 읽힌다.
 
@@ -58,13 +58,13 @@ nvim 에서 lazygit 띄우기                →  snacks.lazygit (또는 lazygit
 
 > Git 영역의 전체 키맵과 작업 동선은 [LazyVim의 Git 플러그인 구성 — gitsigns·lazygit·snacks](/posts/lazyvim/2026-06-09-lazyvim-git-plugins/) 에서 따로 깊게 다룬다.
 
-## 2. 검색 / Picker — snacks.picker + grug-far + flash
+## 2. 검색 / Picker — 선택한 picker + grug-far + flash
 
 세 종류의 "검색" 이 따로 있다.
 
 | 컴포넌트 | 담당 |
 |---|---|
-| `snacks.picker` | **파일/문자열/심볼 등 picker UI** (옛 Telescope 자리) |
+| `snacks.picker` | 새 설치의 기본 선택인 **파일/문자열/심볼 picker UI** |
 | `grug-far.nvim` | **프로젝트 전체 검색/치환 UI** (`:GrugFar`, `<leader>sr`) |
 | `flash.nvim` | **화면 내 점프** — `s` + 두 글자로 라벨 점프 |
 
@@ -74,7 +74,7 @@ nvim 에서 lazygit 띄우기                →  snacks.lazygit (또는 lazygit
 "현재 화면에서 빠른 점프"    →  flash
 ```
 
-`<leader>ff`, `<leader>sg`, `<leader>fb` 같은 키는 전부 snacks.picker 가 받는다. Telescope 키를 같은 자리에 매핑했기 때문에 익숙한 흐름은 유지된다.
+`<leader>ff`, `<leader>sg`, `<leader>fb` 같은 키는 LazyVim의 picker 추상화를 거쳐 현재 선택된 snacks·fzf-lua·Telescope 구현으로 간다.
 
 > 안에서 ripgrep (`rg`) 을 부르므로 시스템에 `rg` 가 깔려 있어야 함. snacks.picker 가 grep 을 못 한다고 느껴지면 `:checkhealth snacks` 부터 본다.
 
@@ -91,24 +91,25 @@ LSP 관련은 세 층으로 나뉜다.
    mason-lspconfig.nvim    ← mason ↔ lspconfig 연결
    mason-nvim-dap.nvim     ← mason ↔ nvim-dap 연결
         ↑ "이 LSP 서버 깔아둬" 라는 요청
-[ Layer C — nvim 측 클라이언트 ]
-   nvim-lspconfig          ← 서버별 시작 옵션·root_dir 등 표준 설정
+[ Layer C — 설정 자료와 Neovim 클라이언트 ]
+   nvim-lspconfig          ← 서버별 cmd·filetypes·root_markers 기본 config
+   vim.lsp                 ← config·enable·attach·JSON-RPC 통신
    lazydev.nvim            ← Lua 작성 시 nvim API 자동완성/타입
-   nvim-jdtls              ← Java 는 별도 어댑터 필요 (extras lang.java)
+   nvim-jdtls              ← jdtls의 Neovim 통합을 보강하는 선택 wrapper (extras lang.java)
    SchemaStore.nvim        ← JSON/YAML 스키마 데이터
 ```
 
-`<leader>cd` (diagnostics), `gd` (definition), `K` (hover) 같은 키는 LazyVim 이 `lsp/keymaps.lua` 에서 일괄 매핑한다. 즉 LSP 서버가 어떤 거든 사용자가 보는 키맵은 동일하다.
+`<leader>cd` (diagnostics), `gd` (definition), `K` (hover) 같은 키는 LazyVim의 LSP plugin spec과 keymap helper가 일관되게 구성한다. 즉 LSP 서버가 달라도 사용자가 보는 기본 키맵은 같다.
 
-Java 가 유난한 이유 — `jdtls` 가 표준 LSP 가 아니라 별도 wrapper (`nvim-jdtls`) 가 필요해서. 이게 `extras/lang/java.lua` 가 별도로 분리된 배경이다.
+`jdtls` 자체는 표준 LSP 서버다. `nvim-jdtls`는 필수 프로토콜 구현이 아니라 Java의 workspace·명령·디버깅 같은 Neovim 통합을 보강하는 wrapper이고, LazyVim의 `extras/lang/java.lua`가 이를 조립한다.
 
-## 4. 자동완성 — blink.cmp + blink-copilot + copilot.lua
+## 4. 자동완성 — 선택한 completion extra
 
-11.x 시점 LazyVim 기본 completion 은 nvim-cmp 가 아니라 **blink.cmp** 다.
+새 설치는 **blink.cmp**를 fallback 기본값으로 고른다. `:LazyExtras`나 `vim.g.lazyvim_cmp`로 nvim-cmp를 선택한 기존 구성은 그대로 다른 경로를 쓴다.
 
 | 컴포넌트 | 담당 |
 |---|---|
-| `blink.cmp` | completion 엔진. Rust 기반으로 빠름 |
+| `blink.cmp` | Lua completion 엔진. 선택 가능한 Rust fuzzy matcher 지원 |
 | `friendly-snippets` | 언어별 snippet 데이터셋 |
 | `blink-copilot` | **GitHub Copilot 결과를 blink.cmp 의 source 로 노출** |
 | `copilot.lua` | Copilot 자체 클라이언트 (`extras/ai/copilot.lua`) |

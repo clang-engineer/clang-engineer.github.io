@@ -2,7 +2,7 @@
 title       : RDB에서 조인(Join) 방식 총정리
 description : "Nested Loop·Hash·Sort-Merge JOIN의 원리와 시간 복잡도, 메모리 사용 패턴, 옵티마이저가 테이블 크기·인덱스·정렬 상태를 보고 어떤 전략을 고르는지."
 date        : 2026-01-04 19:42:22 +0900
-updated     : 2026-07-03 12:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [db, "RDB·트랜잭션"]
 tags        : [join]
 pin         : false
@@ -123,5 +123,5 @@ ORDER BY A.key, B.key;
 | **RDB에서 조인(Join) 방식 총정리 (현재 글)** | 조인 알고리즘과 옵티마이저의 전략 선택 |
 | [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) | Index Nested Loop의 전제 — 인덱스가 언제 타나 |
 | [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/) | 옵티마이저가 조인 전략을 고르는 일반 원리와 EXPLAIN |
-| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](/posts/db/2026-04-15-vertica-or-join-kills-performance/) | OR 조건이 Join Filter로 빠지는 문제와 UNION ALL 해법 |
+| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](/posts/db/2026-04-15-vertica-or-join-kills-performance/) | OR 조건이 Join Filter로 빠지는 문제와 의미를 보존한 매칭 쌍 분리 해법 |
 | [RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선](/posts/db/2026-06-09-preload-record-id-to-level-table/) | INSERT 시점에 컬럼을 옮겨 조회 JOIN 자체를 제거 |

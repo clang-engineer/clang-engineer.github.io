@@ -2,7 +2,7 @@
 title       : LazyVim Diagnostics 로그/메시지 확인법
 description : Diagnostics 팝업, Trouble 리스트, LSP 로그, :messages 사용법 정리
 date        : 2026-02-04 10:00:00 +0900
-updated     : 2026-02-04 10:00:00 +0900
+updated     : 2026-07-24 15:00:00 +0900
 categories  : [lazyvim, "LSP·Treesitter"]
 tags        : [neovim, diagnostics, lsp, trouble, troubleshooting]
 pin         : false
@@ -17,7 +17,7 @@ hidden      : false
 
 ## 빠른 키/명령 요약
 
-- `gl` — 커서 위치 diagnostic 팝업
+- `<leader>cd` — 커서 줄 diagnostic 팝업
 - `]d` / `[d` — 다음/이전 diagnostic 이동
 - `:Trouble diagnostics` — 프로젝트/버퍼 diagnostics 리스트 보기
 - `:LspLog` — LSP 통신 로그 파일 열기
@@ -27,7 +27,7 @@ hidden      : false
 
 ## 1) 진단 메시지를 창으로 보기 (가장 흔함)
 
-- `gl`: 커서 위치의 diagnostic message를 floating window로 확인
+- `<leader>cd`: 커서 줄의 diagnostic message를 floating window로 확인
 - `]d` / `[d`: 다음/이전 diagnostic로 점프
 - `:Trouble diagnostics`: 프로젝트/버퍼 전체 diagnostics를 트리/리스트로 확인
 - LazyVim 기본 번들에 Trouble이 포함된 경우가 많아, 이 조합이 가장 편리합니다.
@@ -53,7 +53,7 @@ hidden      : false
 
 ## 추천 선택 기준
 
-1) 에러/워닝 목록을 보고 싶다 → `:Trouble diagnostics` (+ `]d`/`[d`, `gl`)
+1) 에러/워닝 목록을 보고 싶다 → `:Trouble diagnostics` (+ `]d`/`[d`, `<leader>cd`)
 2) LSP 서버 통신 로그를 보고 싶다 → `:LspLog` (경로: `~/.local/state/nvim/lsp.log`)
 3) 최근 명령 출력/에러를 다시 보고 싶다 → `:messages`
 
@@ -62,9 +62,9 @@ hidden      : false
 ## 추가 팁
 
 - Trouble 창에서 `?`로 키 바인딩을 바로 확인할 수 있습니다.
-- `]d`/`[d` 이동 후 `gl`을 눌러 현재 위치 메시지를 곧바로 확인하면 편합니다.
+- `]d`/`[d` 이동 후 `<leader>cd`를 눌러 현재 줄 메시지를 곧바로 확인하면 편합니다.
 - 로그를 별도 보관하려면 `:LspLog`로 연 뒤 `:w lsp-debug.log`처럼 다른 이름으로 저장하세요.
 
 ---
 
-> `:Trouble diagnostics`를 포함해 `<leader>x` 키맵 그룹 전체(Quickfix·Location List·Todo 통합)는 [LazyVim `<leader>x` — Trouble 기반 코드 문제 탐색](/posts/lazyvim/2026-05-04-lazyvim-leader-x-trouble/)에 정리했습니다. 이 글은 로그/메시지 **확인 방법**, 저 글은 Trouble **키맵·개념 레퍼런스**입니다.
+> `:Trouble diagnostics`와 현행 Diagnostics·Quickfix·Location List·LSP 키맵은 [LazyVim Trouble — 코드 문제와 목록 탐색](/posts/lazyvim/2026-05-04-lazyvim-leader-x-trouble/)에 정리했습니다. 이 글은 로그/메시지 **확인 방법**, 저 글은 Trouble **키맵·개념 레퍼런스**입니다.

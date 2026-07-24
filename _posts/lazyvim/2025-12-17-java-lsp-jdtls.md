@@ -2,7 +2,7 @@
 title       : LazyVim Java LSP (jdtls) 작동 안함
 description : Java 21 + jenv export 플러그인 설정으로 해결
 date        : 2025-12-17 16:37:51 +0900
-updated     : 2026-02-01 10:36:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [lazyvim, "LSP·Treesitter"]
 tags        : [java, lsp, jdtls, jenv, troubleshooting]
 pin         : false
@@ -118,9 +118,11 @@ return {
 
 #### 캐시 정리 (필요 시)
 ```bash
-rm -rf ~/.cache/nvim/jdtls/ResearchEx
-rm -rf ~/.gradle/daemon ~/.gradle/caches/7.5
+mv ~/.cache/nvim/jdtls/project-a ~/.cache/nvim/jdtls/project-a.backup
+./gradlew --stop
 ```
+
+프로젝트별 JDTLS 캐시는 먼저 이름을 바꿔 복구 가능하게 보관한다. `~/.gradle/caches` 전체는 여러 프로젝트가 공유하므로 원인 확인 없이 재귀 삭제하지 않는다.
 
 ---
 

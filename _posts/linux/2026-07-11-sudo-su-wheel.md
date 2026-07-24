@@ -2,7 +2,7 @@
 title       : "su vs sudo, 그리고 wheel 그룹 — 리눅스 권한 상승 제대로 이해하기"
 description : "su는 대상 계정의 비밀번호를, sudo는 내 비밀번호를 묻는다 — 이 차이에서 감사 로그·최소 권한·wheel 그룹까지 권한 상승(privilege escalation)의 원리와 sudoers·visudo 실무를 정리합니다."
 date        : 2026-07-11 12:00:00 +0900
-updated     : 2026-07-11 12:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [linux, "시스템 관리"]
 tags        : [sudo, su, wheel, sudoers, permissions, security]
 pin         : false
@@ -52,7 +52,7 @@ echo $PATH            # /usr/sbin, /sbin 포함 — 관리 명령 정상
 > **root로 전환할 땐 거의 항상 `su -`를 쓰세요.** 그냥 `su`는 원래 유저의 `PATH`를 물려받아 `/sbin`·`/usr/sbin`의 관리 명령(`useradd`·`ip`·`shutdown` 등)이 "command not found"로 안 잡히는 함정에 빠집니다. `-`가 있어야 root의 진짜 로그인 환경이 됩니다.
 {: .prompt-warning }
 
-> `passwd`로 방금 비밀번호를 걸었는데 `su - user`가 "Authentication failure"로 거부된다면, 비밀번호가 아니라 `/etc/shadow`의 **최소 변경 주기(chage)** 트랩일 수 있습니다 — [비밀번호 직후 su 인증 실패 글](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/)에서 원인과 해결을 다뤘습니다.
+> `passwd` 직후 `su - user`가 "Authentication failure"로 거부된다면 메시지만으로 원인을 단정하지 마세요. [비밀번호 직후 su 인증 실패 글](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/)의 순서대로 PAM 로그, 계정 잠금, 만료, 접근 정책과 로그인 셸을 확인합니다.
 {: .prompt-tip }
 
 ---

@@ -31,7 +31,7 @@ Neovim에서 DAP 클라이언트 역할은 `nvim-dap`이 한다. 주변 플러�
 
 언어별로 **어댑터를 따로** 설정한다 — Python은 `debugpy`, Go는 `delve`, C/C++/Rust는 `codelldb`. 이 어댑터 설치를 `mason-nvim-dap`이 `mason`에 위임하는 구조는 LSP에서 `mason-lspconfig`가 하던 것과 정확히 같다.
 
-> 설치(mason) / 설정(lspconfig·nvim-dap) / 엔진(vim.lsp)으로 나뉘는 3계층 구조는 [Neovim LSP 3계층 — mason·lspconfig·vim.lsp](/posts/neovim/2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp/)에서 다뤘다. DAP도 같은 골격에 `nvim-dap`이 클라이언트로 들어간다.
+> 설치(mason) / 설정 자료(nvim-lspconfig) / 코어 클라이언트(vim.lsp)로 나뉘는 구조는 [Neovim 0.11+ LSP 3계층 — mason·lspconfig·vim.lsp의 역할](/posts/neovim/2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp/)에서 다뤘다. DAP에서는 `nvim-dap`이 클라이언트 역할을 맡는다.
 {: .prompt-info }
 
 ## LSP와 결정적으로 다른 점 — 생명주기

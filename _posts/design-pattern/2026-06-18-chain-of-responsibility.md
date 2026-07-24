@@ -2,7 +2,7 @@
 title       : Chain of Responsibility Pattern
 description : "요청을 처리할 수 있는 핸들러들을 사슬로 연결해 차례로 시도하는 패턴. HTTP 미들웨어, 결재 흐름의 본체."
 date        : 2026-06-18 22:50:42 +0900
-updated     : 2026-06-18 22:50:42 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [design-pattern, "행위"]
 tags        : [behavioral-pattern]
 pin         : false
@@ -51,6 +51,7 @@ void handleRequest(Request& req) {
 ```cpp
 #include <iostream>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 
@@ -64,51 +65,54 @@ protected:
     std::unique_ptr<Handler> next;
 public:
     void setNext(std::unique_ptr<Handler> h) { next = std::move(h); }
-    virtual void handle(Request& req) {
-        if (next) next->handle(req);
+    virtual std::optional<std::string> handle(Request& req) {
+        if (next) return next->handle(req);
+        return std::nullopt;
     }
     virtual ~Handler() = default;
 };
 
 class LogHandler : public Handler {
 public:
-    void handle(Request& req) override {
+    std::optional<std::string> handle(Request& req) override {
         std::cout << "[LOG] " << req.url << "\n";
-        Handler::handle(req); // 다음으로
+        return Handler::handle(req); // 다음으로
     }
 };
 
 class AuthHandler : public Handler {
 public:
-    void handle(Request& req) override {
+    std::optional<std::string> handle(Request& req) override {
         if (req.token.empty()) {
             std::cout << "[AUTH] 401 거부\n";
-            return; // 체인 종료
+            return std::nullopt; // 체인 종료
         }
         std::cout << "[AUTH] 통과\n";
-        Handler::handle(req);
+        return Handler::handle(req);
     }
 };
 
 class CacheHandler : public Handler {
     std::unordered_map<std::string, std::string> store;
 public:
-    void handle(Request& req) override {
+    std::optional<std::string> handle(Request& req) override {
         auto it = store.find(req.url);
         if (it != store.end()) {
             std::cout << "[CACHE] HIT → " << it->second << "\n";
-            return;
+            return it->second;
         }
         std::cout << "[CACHE] MISS\n";
-        Handler::handle(req);
-        store[req.url] = "응답_for_" + req.url;
+        auto response = Handler::handle(req);
+        if (response) store[req.url] = *response;
+        return response;
     }
 };
 
 class BusinessHandler : public Handler {
 public:
-    void handle(Request& req) override {
+    std::optional<std::string> handle(Request& req) override {
         std::cout << "[BIZ] " << req.url << " 처리\n";
+        return "응답_for_" + req.url;
     }
 };
 

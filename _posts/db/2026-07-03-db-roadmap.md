@@ -2,7 +2,7 @@
 title       : "DB 로드맵 — 설계·동시성·성능·운영·분산, 다섯 질문으로 나눈 글 지도"
 description : "DB 글 28편을 '각 구역이 답하는 질문' 하나로 갈랐다. 데이터를 어떻게 담나(설계) → 동시 접근을 어떻게 안전하게(트랜잭션·동시성) → 어떻게 빨리 읽나(성능) → 어떻게 살려두나(운영) → 여러 노드로 어떻게(분산). 추상 대 응용으로 나누지 않고 질문으로 나눠, 한 글이 두 구역에 걸치지 않게 했다. 애플리케이션 연동과 장애 트러블슈팅은 결이 다른 축이라 부록으로 분리."
 date        : 2026-07-03 15:00:00 +0900
-updated     : 2026-07-06 09:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [db, "개요·인덱스"]
 tags        : [roadmap, database, rdb, postgresql]
 pin         : false
@@ -120,7 +120,7 @@ DB는 "쿼리 짜는 법"에서 멈추기 쉽다. 그런데 한 겹만 걷어내
 |---|---|
 | [IntelliJ DB SSH 터널 — JDBC URL 주의점](/posts/db/2026-04-29-intellij-ssh-tunnel-jdbc-url/) | 내장 SSH 터널 사용 시 JDBC URL에 localhost가 아니라 베스천에서 본 원격 주소를 넣어야 하는 이유 |
 | [ORA-12514 리스너 서비스 오류](/posts/db/2026-07-03-oracle-ora-12514/) | 리스너까지는 붙었는데 서비스 이름이 없어 나는 오류를 PMON 동적 등록부터 `lsnrctl` 진단까지 |
-| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](/posts/db/2026-04-15-vertica-or-join-kills-performance/) | LEFT OUTER JOIN의 ON 절 OR가 Join Filter로 빠지며 풀스캔이 나는 문제와 UNION ALL 분리 해법. 성능 구역 조인 원리의 "장애" 각도 |
+| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](/posts/db/2026-04-15-vertica-or-join-kills-performance/) | LEFT OUTER JOIN의 ON 절 OR가 Join Filter로 빠지며 풀스캔이 나는 문제와, outer join 의미를 보존한 매칭 쌍 분리 해법. 성능 구역 조인 원리의 "장애" 각도 |
 
 ---
 

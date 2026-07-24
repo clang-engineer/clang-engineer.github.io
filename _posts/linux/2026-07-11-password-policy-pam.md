@@ -58,11 +58,11 @@ auth        required     pam_faillock.so         preauth deny=5
 ```bash
 # /etc/login.defs
 PASS_MAX_DAYS   90     # 최대 사용 일수 (이후 변경 강제)
-PASS_MIN_DAYS   0      # 최소 변경 주기 (0 권장 — chage 트랩 방지)
+PASS_MIN_DAYS   0      # 최소 변경 주기 (사용자가 다시 바꿀 수 있는 시점)
 PASS_WARN_AGE   7      # 만료 며칠 전부터 경고
 ```
 
-> `login.defs`는 **이미 존재하는 계정에는 소급 적용되지 않습니다.** 기존 계정은 `chage`로 개별 변경해야 합니다. 또한 `PASS_MIN_DAYS`가 0이 아니면 방금 만든 비밀번호로도 인증이 막히는 함정이 있습니다 — [passwd 직후 su 실패: chage 트랩](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/)에서 다룬 그 문제입니다.
+> `login.defs`는 **이미 존재하는 계정에는 소급 적용되지 않습니다.** 기존 계정은 `chage`로 개별 변경해야 합니다. `PASS_MIN_DAYS`는 비밀번호를 다시 **변경할 수 있는 시점**을 제한하며, 현재 비밀번호로 인증할 수 있는지는 제한하지 않습니다.
 {: .prompt-warning }
 
 기존 사용자에게 만료 정책을 거는 건 `chage`:

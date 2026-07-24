@@ -2,7 +2,7 @@
 title       : "LazyVim 의존성 계층 — lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 방식"
 description : "lazy.nvim의 spec/import 모델, LazyVim이 어떻게 자체 spec을 모아 lazyvim.json의 extras를 활성화하는지, 그리고 사용자 plugin이 그 위에 override되는 순서"
 date        : 2026-06-07 12:00:00 +0900
-updated     : 2026-06-19 12:00:00 +0900
+updated     : 2026-07-24 15:00:00 +0900
 categories  : [lazyvim, "구조·설정"]
 tags        : [neovim, lazy-nvim]
 pin         : false
@@ -50,11 +50,11 @@ require("lazy").setup({
 
 ### `opts` 가 조용히 안 먹는 함정 — `main` 모듈명 추론
 
-`opts = { ... }` 는 lazy 가 대신 `require(main).setup(opts)` 를 호출해주는 설탕이다. 이때 `main` (호출할 모듈명)은 **repo 이름에서 자동 추론**된다. 문제는 repo 이름과 실제 `require` 모듈명이 다를 때 — 추론이 어긋나 setup 이 **에러 없이 조용히 안 불린다**.
+`opts = { ... }` 는 lazy 가 대신 `require(main).setup(opts)` 를 호출해주는 설탕이다. 이때 `main` (호출할 모듈명)은 **repo 이름에서 자동 추론**된다. repo 이름과 실제 `require` 모듈명이 다르면 추론이 어긋나므로 `main`을 명시한다. 로드 시 발생한 오류는 `:messages`와 `:Lazy`에서 확인한다.
 
 ```lua
 -- repo 는 nvim-nocut 인데 실제 모듈은 no-cut (하이픈 위치가 다름)
-{ "maarutan/nvim-nocut", opts = {} }          -- main 추론 실패 가능 → setup 안 됨
+{ "maarutan/nvim-nocut", opts = {} }          -- main 추론이 실제 모듈명과 다를 수 있음
 
 { "maarutan/nvim-nocut", main = "no-cut", opts = {} }  -- main 명시로 안전
 ```
@@ -63,11 +63,11 @@ require("lazy").setup({
 
 ## 2. 같은 spec 이 여러 번 등장하면? — Deep Merge
 
-같은 플러그인이 여러 spec 에 등장하면 lazy.nvim 은 **이름(`"owner/repo"`)을 키로 deep merge** 한다. 대략 이런 규칙:
+같은 플러그인이 여러 spec 에 등장하면 lazy.nvim 은 정규화한 플러그인 이름을 기준으로 spec을 합친다. 다만 "모든 테이블을 재귀 병합"하는 단일 규칙은 아니다.
 
-- 스칼라 (`event`, `cmd`, `lazy` 등): **뒤에 정의된 값이 이김**
-- 테이블 (`opts`, `dependencies`, `keys` 등): **deep merge** (병합)
-- `config` 함수: 마지막에 정의된 것이 이김
+- `opts` 테이블은 부모 spec의 값과 병합된다. `opts` 함수가 테이블을 반환하면 부모 opts를 대체하고, 받은 `opts`를 직접 수정하면 기존 값 위에 보강할 수 있다.
+- `dependencies`, `cmd`, `event`, `ft`, `keys`는 합쳐지지만, 단순 Lua deep merge가 아니라 lazy.nvim의 필드별 병합·중복 제거 규칙을 따른다.
+- `config` 같은 일반 값은 뒤 spec이 대체한다.
 
 이게 LazyVim 의 override 메커니즘의 전부다. 사용자가 자신의 `lua/plugins/foo.lua` 에 같은 이름의 spec 을 다시 쓰면, 그 spec 이 LazyVim 의 spec 과 **합쳐진다**.
 
@@ -139,7 +139,7 @@ plugins/
 
 ## 5. extras 와 `lazyvim.json` — `:LazyExtras` 의 정체
 
-`:LazyExtras` 로 본인이 활성화한 extras 는 `lua/lazyvim.json` 에 저장된다.
+`:LazyExtras` 로 본인이 활성화한 extras 는 기본적으로 **설정 루트의 `lazyvim.json`**, 즉 `vim.fn.stdpath("config") .. "/lazyvim.json"`에 저장된다. 보통 경로는 `~/.config/nvim/lazyvim.json`이고 `lua/` 아래가 아니다. `vim.g.lazyvim_json`을 설정하면 위치를 바꿀 수 있다.
 
 ```json
 {
@@ -303,7 +303,7 @@ return {
 
 ## 정리
 
-- **lazy.nvim** 은 spec 트리만 받는다. spec 머지 규칙 (이름이 같으면 deep merge) 이 모든 override 의 기반.
+- **lazy.nvim** 은 spec 트리를 받는다. 같은 플러그인의 spec을 필드별 규칙으로 합치는 것이 override의 기반이다.
 - **LazyVim core** 는 그냥 spec 묶음. 사용자 plugin 과 동등한 자격으로 트리에 들어간다.
 - **extras** 는 `:LazyExtras` 로 lazyvim.json 에 기록되고, 시작 시 `xtras.lua` 가 import spec 으로 변환해 트리에 흡수한다.
 - **사용자 plugin** 은 LazyVim/extras spec 위에 deep merge 되는 마지막 층이다. 같은 이름이면 override, 다른 이름이면 신규.

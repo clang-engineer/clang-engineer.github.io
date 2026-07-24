@@ -2,6 +2,7 @@
 title       : "Vim vs Neovim vs 배포판 — 각 계층이 제공하는 기능 정리"
 description : "Vim 내장, Neovim 추가, 배포판 계층별로 어떤 기능을 제공하는지 구분 정리"
 date        : 2026-06-08 10:00:00 +0900
+updated     : 2026-07-24 12:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [vim, lsp, treesitter, lazyvim]
 redirect_from:
@@ -102,19 +103,22 @@ Neovim의 LSP/Treesitter 기반 위에 실용적인 플러그인을 미리 조�
 
 | 플러그인 | 역할 |
 |----------|------|
-| nvim-lspconfig + mason.nvim | LSP 서버 설치/연결 자동화 |
-| nvim-cmp / blink.cmp | 자동완성 엔진 |
+| nvim-lspconfig + mason.nvim | 서버별 설정 제공 / 외부 도구 설치 |
+| blink.cmp 또는 nvim-cmp extra | 자동완성 엔진 |
 | conform.nvim | 포맷팅 |
 | nvim-lint | 린팅 |
-| telescope.nvim / fzf-lua | 퍼지 파인더 |
-| neo-tree.nvim | 파일 탐색기 |
+| snacks.picker·fzf-lua·telescope 중 선택한 extra | 퍼지 파인더 |
+| snacks explorer·neo-tree 중 선택한 extra | 파일 탐색기 |
 | which-key.nvim | 키맵 디스커버리 |
-| gitsigns.nvim + lazygit.nvim | Git 통합 |
-| mini.nvim | surround, pairs, bufremove 등 |
+| gitsigns.nvim + snacks.lazygit | 버퍼 Git 표시 / 외부 lazygit 실행 |
+| mini.ai + mini.pairs | 텍스트 객체 / 자동 괄호 |
+| snacks.bufdelete | 레이아웃을 보존하는 버퍼 삭제 |
 
 ### Extras 시스템
 
-`:LazyExtras`로 언어/도구 팩을 선택적으로 활성화. 각 extra가 LSP + 포맷터 + 린터 + DAP을 한 번에 설정한다.
+`:LazyExtras`로 언어·도구 spec 묶음을 선택적으로 활성화한다. 언어 extra는 필요에 따라 LSP·포맷터·린터·DAP 중 일부를 조합하며, 모든 extra가 네 종류를 전부 제공하는 것은 아니다.
+
+LazyVim의 현재 picker·completion·explorer도 같은 선택 계층이다. 새 설치는 각각 snacks picker·blink.cmp·snacks explorer를 fallback 기본값으로 고르지만, `vim.g.lazyvim_picker`/`vim.g.lazyvim_cmp`나 활성화한 extra에 따라 fzf-lua·Telescope·nvim-cmp·neo-tree로 바뀔 수 있다. 따라서 이 도구들을 모두 core 기본 플러그인이라고 보면 안 된다.
 
 ### 키맵 레이어
 
@@ -127,10 +131,10 @@ Neovim API 위에 `<leader>` 기반 일관된 키맵을 제공.
 | `<leader>cr` | Rename | `vim.lsp.buf.rename()` |
 | `<leader>cf` | Format | conform.nvim |
 | `<leader>cd` | 라인 진단 float | `vim.diagnostic.open_float()` |
-| `<leader>ff` | 파일 찾기 | telescope/fzf-lua |
-| `<leader>/` | 전체 검색 | telescope live_grep |
-| `<leader>gg` | Lazygit | lazygit.nvim |
-| `<leader>e` | 파일 탐색기 | neo-tree.nvim |
+| `<leader>ff` | 파일 찾기 | 선택된 LazyVim picker |
+| `<leader>/` | 전체 검색 | 선택된 LazyVim picker |
+| `<leader>gg` | Lazygit | snacks.lazygit |
+| `<leader>e` | 파일 탐색기 | 선택된 LazyVim explorer |
 
 > `<leader>cc`로 CodeLens를 실행하지만, CodeLens 자체는 Neovim 내장이다.
 > LazyVim은 키맵을 붙여준 것일 뿐.
