@@ -2,7 +2,7 @@
 title       : "vim-dadbod + PostgreSQL .pgpass 인증 (Windows)"
 description : "Windows의 pgpass.conf 경로, user 자동 fallback, JDBC URL 미지원 등 vim-dadbod로 PostgreSQL 붙일 때의 함정 다섯 가지"
 date        : 2026-05-06 12:00:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-07-29 12:00:00 +0900
 categories  : [lazyvim, "Dadbod"]
 tags        : [vim-dadbod, postgresql, windows, troubleshooting]
 pin         : false
@@ -62,6 +62,15 @@ jdbc:postgresql://host/db   →  E605: no adapter for jdbc
 
 JDBC 접두어를 떼고 dadbod 어댑터 스킴으로 써야 한다(`postgres://`, `postgresql://`, `mysql://` 등). **H2는 어댑터 자체가 없어** dadbod 대신 H2 Web Console / IntelliJ Database 툴 사용.
 
+접두어만 뗀다고 JDBC 전용 연결 속성까지 호환되지는 않는다. 예를 들어 pgJDBC의 `currentSchema`는 `psql`이 사용하는 libpq 연결 속성이 아니므로, libpq의 `options`로 `search_path`를 지정해야 한다.
+
+```text
+?currentSchema=app_schema
+→ ?options=-csearch_path%3Dapp_schema
+```
+
+`%3D`는 URL에서 `=`를 percent-encoding한 값이다. 이 설정은 스키마를 생략한 SQL의 탐색 경로를 바꾸며, dadbod-ui 트리에서 특정 스키마만 표시하는 UI 옵션은 아니다.
+
 ## 5. 원격 DB는 `?connect_timeout=5`
 
 libpq 기본 timeout이 매우 길어 VPN 끊긴 상태에서 사이드바 펼치면 nvim이 수십 초 멈칫한다. URL에 `?connect_timeout=5`로 fail-fast.
@@ -70,10 +79,12 @@ libpq 기본 timeout이 매우 길어 VPN 끊긴 상태에서 사이드바 펼�
 
 - **URL에 user 박고, 비번은 `pgpass.conf`로 분리**
 - **Windows 경로는 `%APPDATA%\postgresql\pgpass.conf`** (절대 `~/.pgpass` 아님)
-- **JDBC URL은 안 됨** — 접두어 떼기
+- **JDBC URL·전용 연결 속성은 안 됨** — dadbod 스킴과 libpq 속성으로 치환
 
 ## 참고
 
 - libpq pgpass: <https://www.postgresql.org/docs/current/libpq-pgpass.html>
+- libpq connection strings: <https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING>
+- pgJDBC connection properties: <https://jdbc.postgresql.org/documentation/use/>
 - vim-dadbod: <https://github.com/tpope/vim-dadbod>
 - vim-dadbod-ui: <https://github.com/kristijanhusak/vim-dadbod-ui>
