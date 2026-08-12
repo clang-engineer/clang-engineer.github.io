@@ -96,13 +96,13 @@ git --no-pager diff
     diffFilter = delta --color-only
 ```
 
-여기서 `--color-only`는 레이아웃을 크게 바꾸지 않고 색과 문법 강조만 입힌다. `git add -p`의 hunk 선택 동작은 그대로 유지된다. hunk와 부분 스테이징 자체는 [Git hunk와 `git add -p`](/posts/git/2026-07-12-git-hunk-and-interactive-staging/)에서 따로 정리했다.
+대화형 filter의 출력은 원본 diff와 행이 일대일로 대응해야 한다. `--color-only`는 행을 추가하거나 레이아웃을 바꾸지 않고 색과 문법 강조만 입혀 이 조건을 지킨다. `git add -p`의 hunk 선택 동작은 그대로 유지된다. hunk와 부분 스테이징 자체는 [Git hunk와 `git add -p`](/posts/git/2026-07-12-git-hunk-and-interactive-staging/)에서 따로 정리했다.
 
 ## 자주 쓰는 옵션의 선택 기준
 
 ### `navigate = true`
 
-diff가 pager에서 열렸을 때 `n`과 `N`으로 다음·이전 파일 또는 hunk 경계를 이동한다. 검색 결과가 아니라 delta가 만든 탐색 지점을 따라가므로 긴 diff에서 유용하다.
+diff가 pager에서 열렸을 때 `n`과 `N`으로 다음·이전 파일 또는 hunk 경계를 이동한다. delta가 `less`의 초기 검색 패턴을 경계에 맞춰 주는 방식이다. `/문자열`로 새 검색을 시작하면 이후 `n`과 `N`은 그 문자열의 다음·이전 결과를 따른다.
 
 | 키 | 동작 |
 |---|---|
@@ -168,10 +168,10 @@ Git이 아닌 명령이 unified diff를 출력한다면 delta를 직접 filter�
 diff -u old.conf new.conf | delta
 ```
 
-하지만 이미 `core.pager = delta`인 `git diff`에는 다음 pipe가 중복이다.
+Git 출력을 pipe하면 Git은 terminal에 직접 쓰지 않으므로 `core.pager`를 실행하지 않는다. 따라서 다음 명령에서 delta가 두 번 실행되는 것은 아니지만, 사람이 terminal에서 결과를 읽는 용도라면 명시적 pipe가 필요 없다.
 
 ```bash
-# 불필요함
+# 일반적인 대화형 사용에는 불필요함
 git diff --no-index old.conf new.conf | delta
 ```
 
@@ -183,9 +183,10 @@ lazygit처럼 자신이 화면과 키 입력을 관리하는 TUI(Terminal User I
 
 ```yaml
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
+  diffRenderers:
+    - name: delta
+      command: delta --dark --paging=never
+      colorArg: always
 ```
 
 같은 원칙으로, 다른 프로그램이 delta 출력을 받아 자체 화면에 그린다면 `--paging=never`를 검토한다. 사람이 터미널에서 직접 읽는 일반 `git diff`는 기본 `auto` paging이 알맞다.
