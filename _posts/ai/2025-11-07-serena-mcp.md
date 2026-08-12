@@ -2,7 +2,7 @@
 title       : Serena 기본 가이드
 description : "코드베이스의 의미 기반 검색·편집을 지원하는 MCP 서버 Serena의 설치, 서버 실행, 설정 파일 구조, 프로젝트 활성화와 인덱싱, Claude Code·Codex·OpenCode 연동 흐름을 정리한다."
 date        : 2025-11-07 13:43:00 +0900
-updated     : 2026-07-23 14:00:07 +0900
+updated     : 2026-08-12 09:51:55 +0900
 categories  : [ai, "MCP"]
 tags        : [mcp, serena, claude, codex, opencode, model-context-protocol]
 pin         : false
@@ -147,6 +147,12 @@ Claude Code·Codex·OpenCode가 **각자 Serena 프로세스**를 시작한다. 
 | 에이전트의 대화·분석·수정 이유 | 공유되지 않는다. |
 | LSP 런타임·도구 호출 이력·대시보드 | 클라이언트별로 독립적이다. |
 
+프로세스의 LSP 런타임은 독립적이지만 언어 서버의 영속 작업공간까지 항상 격리되는 것은 아니다.
+예를 들어 같은 Java 프로젝트의 여러 Serena 프로세스는 프로젝트 해시로 정해진 동일한 JDTLS
+작업공간을 사용할 수 있다. 같은 프로젝트에서 로컬 `stdio` 클라이언트를 여러 개 실행한다면
+프로세스 수뿐 아니라 공유 캐시 상태도 함께 확인해야 한다. 동시 접근만으로 캐시가 손상된다고
+단정할 수는 없지만, 이미 캐시 오류가 발생한 환경에서는 유력한 기여 요인으로 보고 먼저 제거한다.
+
 여러 프로세스가 동시에 실행되면 대시보드 포트는 충돌을 피해 `24282`, `24283`, `24284`처럼
 증가한다. 대시보드는 유지하되 시작할 때마다 브라우저 탭이 열리는 것만 막으려면
 `~/.serena/serena_config.yml`을 다음처럼 설정한다.
@@ -181,6 +187,57 @@ pgrep -fl '[s]erena'
 종료된 Serena 탭이다. MCP 클라이언트에서 Serena를 재시작하고 새로 출력된 dashboard URL을
 연다. listener가 살아 있다면 그때 Serena 로그와 브라우저 Network 탭에서 실패한 API 응답을
 확인한다.
+
+### 5.5 “Serena 없이 계속할까요?”가 반복될 때
+
+에이전트가 Serena에 연결할 수 없다고 설명해도 MCP 연결 자체가 끊겼다고 단정하지 않는다.
+Serena 내부 언어 서버가 시작에 실패해도 이후 도구 호출은 모두 사용할 수 없는 것처럼 보인다.
+Java 프로젝트에서는 다음 오류가 함께 나타나는지 확인한다.
+
+```text
+The language server manager is not initialized
+LanguageServerTerminatedException
+ObjectNotFoundException: Tree element '.../DeletedFile.java' not found
+```
+
+이 조합은 JDTLS의 Eclipse 작업공간 메타데이터가 이미 삭제된 파일을 계속 참조할 때 발생할 수
+있다. 캐시는 OpenCode나 Serena 프로세스보다 오래 유지되므로 클라이언트만 재시작하면 새 세션도
+같은 오류를 반복한다.
+
+먼저 같은 프로젝트를 사용하는 MCP 클라이언트를 모두 종료한다. 그다음 JDTLS 로그에서 오류가
+발생한 프로젝트 해시를 찾는다.
+
+```bash
+rg -n 'ObjectNotFoundException|LanguageServerTerminatedException' \
+  ~/.serena/language_servers/static/EclipseJDTLS/workspaces/*/data_dir/.metadata/.log
+```
+
+해시를 확인했다면 `workspaces` 전체나 `~/.gradle/caches`를 지우지 말고 해당 프로젝트의
+디렉터리만 이름을 바꿔 보관한다. Serena가 다음 실행에서 깨끗한 작업공간을 다시 만든다.
+
+```bash
+cache="$HOME/.serena/language_servers/static/EclipseJDTLS/workspaces/<project-hash>"
+mv "$cache" "$cache.backup-$(date +%Y%m%d-%H%M%S)"
+
+serena project health-check .
+```
+
+Health check는 언어 서버 시작뿐 아니라 심볼 개요·검색·참조 검색까지 검증한다. 통과하면 새 MCP
+클라이언트를 하나만 시작해 Serena 도구 호출을 확인한다. 병렬 작업이 필요하면 같은 디렉터리에서
+OpenCode를 중복 실행하기보다 Git worktree로 작업 경로와 변경 범위를 분리하는 편이 안전하다.
+Serena 버전이 바뀐 뒤 처음 실행한다면 전역에 등록된 다른 프로젝트 설정도 자동 마이그레이션될
+수 있으므로, 실행 전후에 해당 저장소들의 `git status`도 확인한다.
+
+Serena가 `uv tool`에 정확한 버전으로 고정돼 있으면 `uv tool upgrade`가 본체 버전을 올리지
+않을 수 있다. 최신 버전 제약으로 교체하려면 다음처럼 설치한다.
+
+```bash
+uv tool install serena-agent@latest
+```
+
+Serena 1.7.0에는 다중 클라이언트 ProjectServer 경쟁 상태와 타임아웃 뒤 task executor 복구
+수정이 포함됐다. 다만 변경 로그에는 위 JDTLS 메타데이터 손상을 직접 고친다는 내용이 없으므로,
+해당 오류가 확인됐다면 업그레이드와 프로젝트별 캐시 재생성을 구분해서 수행한다. ([변경 로그][4])
 
 ---
 
@@ -285,9 +342,9 @@ opencode mcp list
 
 ### 연결 확인이 프로젝트 파일을 바꿀 수 있다
 
-`--project-from-cwd`는 현재 디렉토리에서 `.serena/project.yml`이나 `.git`을 찾아 프로젝트를 자동 활성화한다. 이때 Serena 버전이 바뀌었다면 기존 `.serena/project.yml`의 설명·필드를 새 형식으로 갱신할 수 있다.
+`--project-from-cwd`는 현재 디렉토리에서 `.serena/project.yml`이나 `.git`을 찾아 프로젝트를 자동 활성화한다. 이때 Serena 버전이 바뀌었다면 기존 `.serena/project.yml`의 설명·필드를 새 형식으로 갱신할 수 있다. Serena는 전역에 등록된 프로젝트도 시작 중 읽으므로 현재 저장소뿐 아니라 다른 등록 저장소의 설정이 함께 마이그레이션될 수 있다.
 
-연결 상태만 확인하려는 테스트는 작업 저장소가 아닌 임시 Git 저장소에서 실행하면 추적 파일이 뜻밖에 바뀌는 일을 피할 수 있다.
+연결 상태만 확인하려는 테스트를 임시 Git 저장소에서 실행하면 현재 작업 저장소가 바뀌는 것은 피할 수 있다. 하지만 Serena가 전역 등록 프로젝트를 함께 읽는 버전에서는 다른 저장소의 설정 마이그레이션까지 격리하지 못하므로, 임시 저장소 사용만으로 충분하다고 가정하지 않는다.
 
 ```bash
 check_dir="$(mktemp -d)"
@@ -320,3 +377,4 @@ MCP 프로토콜 자체의 개념은 [Model Context Protocol(MCP) 개념 정리]
 [1]: https://github.com/oraios/serena "GitHub - oraios/serena: A powerful coding agent toolkit providing semantic retrieval and editing capabilities (MCP server & other integrations)"
 [2]: https://oraios.github.io/serena/02-usage/030_clients.html "Connecting Your MCP Client - Serena Documentation"
 [3]: https://oraios.github.io/serena/02-usage/060_dashboard.html "The Serena Dashboard - Serena Documentation"
+[4]: https://github.com/oraios/serena/blob/main/CHANGELOG.md "Serena changelog"
