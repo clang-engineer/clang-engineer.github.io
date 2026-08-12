@@ -40,6 +40,49 @@ new Thread(task).start();
 
 ---
 
+## 블로킹/논블로킹, 동기/비동기 정리
+
+동시성 논의에서 자주 섞이는 두 축을 분리해서 보면 결정이 쉬워진다.
+
+- **Blocking / Non-Blocking**: 호출이 끝날 때까지 호출자가 멈추는가?
+- **Synchronous / Asynchronous**: 결과를 기다리는 정책이 호출자 쪽에 있나, 완료를 알림으로 넘기나?
+
+| 호출 반환 | 완료 대기 방식 | 의미 |
+|---|---|---|
+| Blocking | Synchronous | `future.get()`에서 스레드가 멈춰 결과를 받는 형태 |
+| Non-Blocking | Synchronous | 즉시 돌아오지만 폴링/상태조회로 완료를 확인 |
+| Non-Blocking | Asynchronous | 콜백/이벤트/`CompletionStage` 체인을 통해 완료를 전파 |
+| Blocking | Asynchronous | 구조상 가능하나 운영상 이득이 적은 편 |
+
+Java의 `CompletableFuture`는 기본 API만 봐도 이 조합을 드러낸다. `supplyAsync`로 시작한 작업은 "비동기 실행"이고, `get/join`에서 동기 대기가 생기면 블로킹-동기 구간이 된다.
+
+```java
+CompletableFuture
+  .supplyAsync(this::heavy)
+  .thenApply(this::decode);
+```
+
+`thenApply`는 앞단 결과가 준비될 때까진 기다리지 않는 것이 아니라, **연쇄 구성**을 만든다. 실행은 실행자 풀의 스레드에 배치되고, 대기 지점에서만 블로킹이 생긴다.
+
+---
+
+## CPU-bound vs I/O-bound와 스레드 풀 튜닝
+
+CPU-bound와 I/O-bound의 구분은 스레드 풀 전략에 직접 들어간다. 일반적인 가이드:
+
+- **CPU-bound 작업**: 병렬 계산이 핵심이므로 풀 크기를 `코어 수` 또는 `코어 수+1` 근처로 둔다.
+- **I/O-bound 작업**: 소켓·디스크 대기가 많으면 더 많은 스레드를 둬도 대기 시간을 숨길 수 있다.
+- 다만 무한 확장은 컨텍스트 스위칭과 메모리 압박을 만들므로 큐/타임아웃 정책이 필수.
+
+```java
+ExecutorService cpuPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
+ExecutorService ioPool = Executors.newCachedThreadPool();   // 또는 bounded queue/timeout 조합
+```
+
+`newCachedThreadPool()`은 편하지만 폭주 상황에서 스레드 폭주를 부를 수 있어, 프로덕션에서는 큐 용량과 거부 정책을 직접 가진 커스텀 `ThreadPoolExecutor`가 안전하다.
+
+---
+
 ### Callable + Future (Java 5)
 
 ```java
@@ -218,4 +261,3 @@ CompletableFuture
 | **Java 동시성 모델 (현재 글)** | Thread→Executor→Future→CompletableFuture 흐름과 책임 분리 |
 | [volatile vs static](/posts/java/2026-04-01-java-volatile-vs-static/) | 메모리 가시성 키워드의 의미와 조합 선택 기준 |
 | [Java Lock 비교 — synchronized · ReentrantLock · ReadWriteLock · StampedLock](/posts/java/2026-05-11-java-lock-comparison/) | 락 4종의 보장·재진입성·tryLock·낙관적 읽기 |
-

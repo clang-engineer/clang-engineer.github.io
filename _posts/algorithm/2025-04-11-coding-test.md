@@ -23,8 +23,8 @@ hidden      : false
 | - | 키워드 | 설명 |
 |---|---|---|
 | 스택 | 쌍이 맞는지 <br> 최근 | 무언가를 저장하고 반대로 처리해야할 때 <br> 데이터의 조합이 균형을 이뤄야 할 때 <br> 알고리즘이 재귀 특성을 가질 때 <br> 최근 상태 추적 |
-| 큐 | 순서대로 <br> ~대로 동작하는 경우 <br> 스케쥴링 <br> 최소 시간 | 특정 조건에 따라 시뮬레이션 할 때 <br> 시작 지점부터 목표 지점까지 최단거리 |
-| 깊이 우선 탐색 | 모든 경로 | 메모리 사융량이 제한적일 때의 탐색 <br> 백트래킹 문제를 풀 때 |
+| 큐 | 순서대로 <br> 끝나기 전까지 대기 상태 동작 <br> 스케줄링 <br> 최소 시간 | 특정 조건에 따라 시뮬레이션 할 때 <br> 시작 지점부터 목표 지점까지 최단거리 |
+| 깊이 우선 탐색 | 모든 경로 | 메모리 사용량이 제한적일 때의 탐색 <br> 백트래킹 문제를 풀 때 |
 | 너비 우선 탐색 | 최적 <br> 레벨 순회 <br> 최소 단계 <br> 네트워크 전파 | 시작 지점부터 최단 경로나 최소 횟수를 찾아야 할 때 |
 | 백트래킹 | 조합 <br> 순열 <br> 부분 집합 | 조합 및 순열 문제 <br> 특정 조건을 만족하는 부분 집합 |
 | 최단 경로 | 최단 경로 <br> 최소 시간 <br> 최소 비용 <br> 트래픽 <br> 음의 순환 <br> 단일 출발점 경로 | 다익스트라: 특정 지점에서 나머지 지점까지 가는 최단 경로 <br> 벨만 포드: 음의 순환 탐지, 음의 가중치를 가진 그래프에서 최단 경로 |
@@ -98,21 +98,31 @@ vector<int> v2(10); // 크기가 10인 int형 벡터 선언
 vector<int> v3(10, 5); // 크기가 10이고 모든 원소가 5인 int형 벡터 선언
 vector<int> v4(v3); // v3를 복사하여 v4를 선언
 vector<int> v5(v3.begin(), v3.end()); // v3의 모든 원소를 복사하여 v5를 선언
-vector<int> v6 = {1, 2, 3, 4, 5}; // 초기화 리스트를 사용하여 벡터 선언
+vector<int> v6; // int형 벡터 선언
+v6.push_back(1);
+v6.push_back(2);
+v6.push_back(3);
+v6.push_back(4);
+v6.push_back(5);
 // 2차원 벡터 선언
 vector<vector<int>> v7(3, vector<int>(4)); // 3x4 크기의 2차원 벡터 선언
-vector<vector<int>> v8 = {\{1, 2, 3\}, \{4, 5, 6\}}; // 초기화 리스트를 사용하여 2차원 벡터 선언
+vector<vector<int>> v8; // int형 2차원 벡터 선언
+v8.push_back(vector<int>{1, 2, 3});
+v8.push_back(vector<int>{4, 5, 6});
 // 벡터 원소 추가, 삭제
-v.push_back(10); // 벡터의 끝에 10을 추가
-v.pop_back(); // 벡터의 끝 원소를 삭제
-v.insert(v.begin() + 2, 20); // 벡터의 2번째 위치에 20을 추가
-v.erase(v.begin() + 2); // 벡터의 2번째 원소를 삭제
+v6.push_back(10); // 벡터의 끝에 10을 추가
+v6.pop_back(); // 벡터의 끝 원소를 삭제
+v6.insert(v6.begin() + 2, 20); // 벡터의 2번째 위치에 20을 추가
+ v6.erase(v6.begin() + 2); // 벡터의 2번째 원소를 삭제
 ```
 - set
 ```cpp
 // 선언
 set<int> s1; // int형 set 선언
-set<int> s2 = {1, 2, 3}; // 초기화 리스트를 사용하여 set 선언
+set<int> s2; // int형 set 선언
+s2.insert(1);
+s2.insert(2);
+s2.insert(3);
 set<int> s3(s2); // s2를 복사하여 s3를 선언
 // set 원소 추가, 삭제
 s.find(2); // 2가 있는지 탐색 s.find(2) == s.end()이면 2가 없다
@@ -126,7 +136,9 @@ s.empty(); // set이 비어있는지 확인
 ```cpp
 // 선언
 map<int, string> m1; // int형 키와 string형 값을 가지는 map 선언
-map<int, string> m2 = {\{1, "one"\}, \{2, "two"\}}; // 초기화 리스트를 사용하여 map 선언
+map<int, string> m2; // int형 키와 string형 값을 가지는 map 선언
+m2.insert({1, "one"});
+m2.insert({2, "two"});
 map<int, string> m3(m2); // m2를 복사하여 m3를 선언
 map<int, string> m4(m2.begin(), m2.end()); // m2의 모든 원소를 복사하여 m4를 선언
 // map 원소 접근
