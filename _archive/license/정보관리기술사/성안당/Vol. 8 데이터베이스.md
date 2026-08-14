@@ -1,4 +1,22 @@
-목차
+# 학습 가이드
+
+## 권장 흐름
+
+`DBMS와 스키마 → 요구사항과 데이터 모델링 → 관계모델과 정규화 → SQL → 트랜잭션과 동시성 제어 → 회복·백업 → 저장·인덱스와 성능 → 분산·분석·거버넌스`
+
+## 학습 깊이
+
+- **핵심**: 3단계 스키마, ER 모델, 관계대수, 키와 정규화, SQL, ACID, 동시성 제어, 회복, 인덱스와 튜닝
+- **연결**: 분산DB/NoSQL, DW·마이닝, 데이터 품질·거버넌스·보안. 알고리즘과 클라우드의 기반 개념을 참조한다.
+- **조회**: 반복 모델링·SQL 문제, 해시·트리 구현, 특정 DB 제품과 비DB 인프라 항목은 대표 사례만 확인한다.
+
+## 회독 종료 기준
+
+- 요구사항에서 논리·물리 모델과 SQL이 만들어지고 트랜잭션으로 안전하게 처리되는 흐름을 설명할 수 있다.
+- 정규화, 격리·동시성, 회복, 인덱스 선택의 목적과 트레이드오프를 비교할 수 있다.
+- SQL과 모델링은 대표 문제를 풀되 모든 변형을 반복하지 않는다.
+
+# 목차
 Part 1. DB 기초 및 특징
 1. 정보, 지식, 지혜
 2. DB의 정의와 특성(구조)
@@ -66,7 +84,7 @@ Part 3. SQL(Structured Query Language)
 49. 질문(대학 RDBMS)에서 다음 질문에 답하시오.
 1) 학번이 300인 학생이 등록한 과목수
 2) 과목 “C413”에 대한 중간 성적의 평균
-3) 과목별 기발 성적(Final)의 평균을 검색(GROUP BY 이용)
+3) 과목별 기말 성적(Final)의 평균을 검색(GROUP BY 이용)
 4) 3명 이상 등록한 과목의 기말 평균 성적을 검색(HAVING 사용)
 
 50. 질문(대학 RDBMS) 에서 다음 질문에 답하시오.
@@ -135,7 +153,7 @@ Part 5. 병행 제어
 Part 6. 해싱(Hashing)
 78. 해쉬 함수(Hash Function)의 4가지 특징(필수 요건)
 79. UNDO, REDO, ACID, DBMS, SQL, INDEX, HASH, BTREE, ERR의 데이터에서 해싱(Hashing)을 이용하여 ACID와 FDA가 존재하는지를 검색해 보는 과정을 기술하시오.
-Hash 함수는 Division(나누기) 방법인 f(h) = x mod m (x: 나머지, m: 버킷(Bucket)을 사용하시오.(아래 EDCDIC Code Table을 활용하여 Hash 함수를 구하고 Bucket 수는 10개 이고 한 개의 Bucket에는 2개의 Data를 저장할 수 있음)
+Hash 함수는 Division(나누기) 방법인 f(h) = x mod m (x: 입력 키, m: 버킷 수)을 사용하시오. (아래 EBCDIC Code Table을 활용하여 Hash 함수를 구하고 Bucket 수는 10개이고 한 개의 Bucket에는 2개의 Data를 저장할 수 있음)
 80. 해싱(Hashing) 함수의 종류와 Hashing 의 장·단점
 81. Hashing, Hash Table, Hash Function에 대해 각각 정의하고 Hashing 충돌과 해결방법
 82. Hashing 충돌 해결 방법인 선형 탐색(Linear Probing) 기법과 예를 제시하고 설명
@@ -173,7 +191,7 @@ Part 8. DB의 종류
 110. 분산 DB에서 Data의 분할(Partition)과 할당(Allocation) 전략
 111. 분산 데이터베이스의 3가지 설계 전략을 비교하고, 분산 Database가 갖추어야 할 4가지 특성
 112. 분산 DB의 Issue와 해결방안에 대해 설명하고 분산 DB 구축시의 고려사항
-113. 2PC(Phase Commit)
+113. 2PC(Two-Phase Commit)
 
 Part 9. DB 품질 관리
 114. Data 표준화의 필요성과 원칙

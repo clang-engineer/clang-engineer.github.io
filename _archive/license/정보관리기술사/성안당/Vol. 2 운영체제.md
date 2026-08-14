@@ -1,4 +1,22 @@
-목차
+# 학습 가이드
+
+## 권장 흐름
+
+`커널과 시스템 콜 → 프로세스와 스레드 → CPU 스케줄링 → 동기화와 교착상태 → 메모리 관리 → 파일과 I/O`
+
+## 학습 깊이
+
+- **핵심**: 프로세스/스레드, 문맥 교환, 스케줄링, 임계구역과 동기화, 교착상태, 가상메모리, 파일시스템, I/O
+- **연결**: 실시간/임베디드 OS, 가상화, 고가용성, 시스템 튜닝. 컴퓨터 구조 및 클라우드와의 관계까지만 이해한다.
+- **조회**: C 언어 문법, 모바일 앱 개발, 특정 운영체제와 제품은 관련 문제가 나올 때 확인한다.
+
+## 회독 종료 기준
+
+- 프로세스 생성부터 CPU 배정, 동기화, 메모리 할당, I/O 완료까지의 흐름을 설명할 수 있다.
+- 대표 스케줄링과 페이지 교체 문제를 풀고, 교착상태의 조건과 대응책을 비교할 수 있다.
+- 세부 커널 구현보다 자원관리의 목적과 선택 기준이 보이면 다음 과목으로 이동한다.
+
+# 목차
 PART 1 OS(Operating System)
 
 1. 운영체제
@@ -12,10 +30,10 @@ PART 1 OS(Operating System)
 9. Unix System에서 파일이나 디렉토리 접근제한 기능인 umask
 10. Unix System Call 동작 과정
 11. Unix File System의 개념, 구조, 특징 및 inode 설명
-12. Application과 Kernel 통신방법에서 Non Blocked I/O와 Blocked I/O에 대해 비교
+12. Application과 Kernel 통신방법에서 Non-blocking I/O와 Blocking I/O에 대해 비교
 13. Application과 Kernel 간 비동기 I/O(Asynchronous I/O) 제어 방식
-14. 마이크로 커널과(Micro Kernel)과 Monolithic 커널
-15. Cloud 운영체제, Open Stack
+14. 마이크로 커널(Microkernel)과 Monolithic 커널
+15. 클라우드 인프라 관리 플랫폼 OpenStack
 16. Embedded OS의 특징과 기능
 17. 실시간(Realtime) 운영체제
 18. Tiny OS(운영체제) 구조와 Tiny OS에 적용되는 Kernel Scheduler 동작
@@ -36,7 +54,7 @@ PART 2 스케줄링(Scheduling)
 30. 비선점 스케줄링 방식인 FCFS와 SJF의 동작 원리
 31. 아래 Table 상황에서 SRT(Shortest Remaining Time) 스케줄링 알고리즘을 사용하여 평균 대기 시간과 평균 반환 시간을 구하시오
 32. MLQ(Multi-Level Queue)와 MLFQ(Multi-Level Feedback Queue)
-33. SJF(Shortest Job First) 방식에서 기아현상(Starvation) 현상을 HRN(Highest Response Ratio Next) 방식으로 해결됨을 증명하시오
+33. SJF(Shortest Job First) 방식에서 기아현상(Starvation) 현상을 HRRN(Highest Response Ratio Next) 방식으로 완화하는 원리를 설명하시오
 34. Round Robin(도착시간 고려하지 않아도 됨) 스케줄링
 35. 우선 순위 역전(Priority Inversion) 발생 원인
 36. 우선 순위 역전(Priority Inversion) 방지 방법

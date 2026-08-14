@@ -1,4 +1,22 @@
-목차
+# 학습 가이드
+
+## 권장 흐름
+
+`통신과 OSI/TCP-IP 계층 → 물리·데이터링크 → IP 주소와 라우팅 → TCP/UDP와 혼잡제어 → 응용 프로토콜 → 네트워크 가상화와 서비스`
+
+## 학습 깊이
+
+- **핵심**: OSI/TCP-IP, Ethernet, IP/IPv6, 라우팅, TCP/UDP, 혼잡제어, QoS, VLAN/VPN, 네트워크 보안의 기반
+- **연결**: 무선 LAN, 이동통신, MPLS, CDN, SDN/NFV, IoT. 구조와 적용 목적 중심으로 본다.
+- **조회**: 과거 무선·이동통신 규격, 개별 인터페이스와 세부 프레임 값은 비교나 기출이 필요할 때 확인한다.
+
+## 회독 종료 기준
+
+- 데이터가 응용 계층에서 링크를 거쳐 상대 호스트에 도달하는 과정을 계층별로 설명할 수 있다.
+- IP 주소·라우팅과 TCP 신뢰성·혼잡제어의 역할을 구분할 수 있다.
+- 개별 프로토콜의 모든 필드보다 계층, 목적, 동작, 비교 기준을 재현할 수 있으면 멈춘다.
+
+# 목차
 PART 1. 데이터통신
 01. 캐스팅 모드
 02. 단방향, 반이중 및 전이중 통신
@@ -48,7 +66,7 @@ PART 1. 데이터통신
 46. Active FTP와 Passive FTP의 차이점
 47. HTTP 및 HTTP의 keep alive
 48. RTSP(Real-Time Streaming Protocol)의 세션수립과정과 주요기능
-49. RTP(Real-Time Protocol)의 개념과 헤더구조
+49. RTP(Real-time Transport Protocol)의 개념과 헤더구조
 50. RTCP(Real-Time Control Protocol)의 개념과 동작방식
 51. DHCP(Dynamic Host Configuration Protocol)
 
@@ -91,7 +109,7 @@ PART 4. 정보통신망
 83. CDN(Contents Delivery Network)
 84. ADN(Application Delivery Network)의 개념과 주요 기능
 85. MPLS(Multi-Protocol Label Switching)의 개요, 특징 및 FEC 구성
-86. VPLS(Virtual Private Local Service)의 구조와 주요 기술
+86. VPLS(Virtual Private LAN Service)의 구조와 주요 기술
 87. 무선 메쉬네트워크(Wireless Mesh Network)
 88. VPN(Virtual Private Network)
 89. Internet Exchange의 구축 유형과 운영 방식

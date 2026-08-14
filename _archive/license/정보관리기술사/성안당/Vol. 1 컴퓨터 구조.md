@@ -1,9 +1,27 @@
-목차
+# 학습 가이드
+
+## 권장 흐름
+
+`컴퓨터 구성과 ISA → CPU 명령어 처리 → 메모리 계층과 캐시 → 파이프라인과 병렬처리 → 성능평가 → I/O와 저장장치`
+
+## 학습 깊이
+
+- **핵심**: CPU/ISA, 명령어 사이클, 메모리 계층, 캐시, MMU/TLB, 파이프라인, 인터럽트/DMA, 성능평가
+- **연결**: RAID/Flash/SSD, 멀티코어, GPU, 병렬성. 운영체제와 클라우드의 기반 개념까지만 연결한다.
+- **조회**: 논리회로 계산, 개별 인터페이스와 디스플레이 규격, 특정 세대 제품은 기출이나 비교가 필요할 때 확인한다.
+
+## 회독 종료 기준
+
+- 프로그램이 명령어로 실행되고 메모리와 I/O를 거치는 과정을 한 장으로 설명할 수 있다.
+- 캐시, 가상메모리, 파이프라인의 목적과 병목 해결 방식을 비교할 수 있다.
+- CPI와 Amdahl의 법칙을 이용한 대표 성능 문제를 풀 수 있으면 세부 회로로 더 들어가지 않는다.
+
+# 목차
 Part 1. CPU(Central Processing Unit)
 1. Computer의 5대 구성요소
 2. Computer System의 구성요소와 발전 방향
 3. Stored Program Computer 개념을 제시한 폰노이만 컴퓨터(Von Neumann Computer) 구조의 특징과 문제점, 해결방안(Harvard 구조와 비교)
-4. 폰노이만(Von Neumann)과 하바드(Havard) 컴퓨터 구조
+4. 폰노이만(Von Neumann)과 하버드(Harvard) 컴퓨터 구조
 5. CPU(Central Processing Unit)
 6. 컴퓨터 명령어 집합인 CISC와 RISC
 7. 아래 연산을 CISC와 RISC 명령어 구조로 연산하는 예를 들고 CISC와 RISC에 대해 비교
@@ -12,7 +30,7 @@ X=(A＋B)×(C＋D)
 
 8. CPU 명령어 형식의 유형에 대해 설명하고 산술식 Y＝A×(B＋C)에 대해 0 주소, 1 주소, 2 주소, 3 주소 명령 방식을 아래 명령어를 선택하여 기술하시오. (PUSH, POP, MUL, ADD, LOAD, STORE, MOV 명령)
 9. 컴퓨터 시스템에서 System Bus
-10. CPI(Clock Per Instruction) 개념을 설명하고 Processor 성능 향상 방안
+10. CPI(Cycles Per Instruction) 개념을 설명하고 Processor 성능 향상 방안
 11. CPU명령어 사이클(Cycle)
 12. CPU Major State
 13. CPU의 Major State를 Flowchart화 하여 설명하시오.
@@ -48,8 +66,8 @@ Part 2. Memory
 40. FTL(Flash Translation Layer)의 개념 필요성 동작방법, Mapping 방법
 41. Flash Memory 타입(Type)에는 SLC, MLC, TLC, QLC 타입으로 구분할 수 있다. 각각에 대해 설명하고 특징을 비교하시오.
 42. FTL(Flash Translation Layer)구조에 대해 상세하게 설명하시오.
-43. FTL(Flash Translation Layer)의 핵심기술인 Wear Leveling, Garbage Collection, Over Provision, NCQ(Native Command Queuing), TRIM 동작에 대해 각각 설명하시오. 44. SSD(Solid State Device)
-45. SSD(Solid State Device)와 HDD(Hard Disk Drive) 차이점
+43. FTL(Flash Translation Layer)의 핵심기술인 Wear Leveling, Garbage Collection, Over Provisioning과 SSD 관련 기술인 NCQ(Native Command Queuing), TRIM 동작에 대해 각각 설명하시오. 44. SSD(Solid-State Drive)
+45. SSD(Solid-State Drive)와 HDD(Hard Disk Drive) 차이점
 46. CPU 관점에서 주기억장치 Access Time이 400ns이고 Cache Access Time이 50ns일 때 캐쉬의 적중률이 90%라면 평균기억장치 Access Time은 몇 ns인가?
 47. 두 계층으로 이루어진 기억장치시스템에서 첫 번째 계층의 기억장치 액세스 시간이 40ns이고 두 번째 계층의 기억장치 액세스 시간은 400ns이다. 아래 2가지 질문에 답하시오.
 문1) 첫 번째 계층의 기억장치에 대한 적중률이 90%일 때 평균기억장치 액세스 시간을 구하시오.
@@ -215,7 +233,7 @@ Part 7. 컴퓨팅(Computing)
 168. 암달(Amdahl’s) 법칙(Law)
 169. 암달(Amdahl’s)공식을 활용한 시스템 성능향상도이다.
 
-시스템 성능 향상도=1/(1-P)+(P/S)
+시스템 성능 향상도=1/((1-P)+(P/S))
 * P = 속도 향상 가능 부분, S = 속도향상배수
 
 시스템 속도 향상 가능 부분은 아래와 같을 때 각각의 질문에 답하시오.
