@@ -1,34 +1,16 @@
-# 학습 가이드
-
-## 권장 흐름
-
-`AI·ML·DL 관계와 윤리 → 학습 유형과 데이터 준비 → 공통 평가 → 지도·비지도·강화학습 알고리즘 → 신경망과 딥러닝 → 활용·운영·통제`
-
-## 학습 깊이
-
-- **핵심**: AI/ML/DL 관계, 지도·비지도·강화학습, 회귀·분류·군집, 과적합과 검증, 신경망·역전파, 평가 지표, 윤리와 XAI
-- **연결**: NLP, 추천, 시계열, AI 보안과 데이터 품질, 배포 후 모니터링·드리프트·재학습의 운영 피드백. 알고리즘·DB·클라우드와 연결한다.
-- **조회**: 특정 프로젝트와 도구, 반복 알고리즘 문제, 모델별 세부 수식은 기출이나 비교가 필요할 때 확인한다.
-
-## 회독 종료 기준
-
-- 문제와 데이터 특성에 맞는 학습 유형, 모델, 평가 지표를 선택하고 학습 절차를 설명할 수 있다.
-- 데이터 편향, 과적합, 설명가능성, 보안·윤리 위험과 대응책을 함께 제시할 수 있다.
-- 모델 수식의 완전한 유도보다 입력·학습·평가·운영의 전체 흐름이 보이면 멈춘다.
-
-# 목차
+목차
 PART 1. 인공지능(人工知能, Artificial Intelligence)의 개요
 
 1. 인공지능(Artificial Intelligence)의 역사
 2. 인공지능
 3. 약 인공지능(Weak AI), 강 인공지능(Strong AI), 초 인공지능(Super AI)
 4. 인공지능(AI)의 특이점(Singularity)
-5. 아실로마(Asilomar) AI(인공지능) 원칙
+5. 아실로마(ASILOMA) AI(인공지능) 원칙
 6. 규칙기반모델
 7. 추천엔진(Recommendation Engine)
 8. 전문가시스템(Expert System)
 9. 정규표현식과 유한 오토마타
-10. 유한 오토마타(Finite Automata)
+10. 유한 오타마타(Finite Automata)
 11. 튜링테스트(Turing Test)
 12. 에이전트(Agent) - 1교시형 답안
 13. 에이전트(Agent) - 2교시형 답안
@@ -68,7 +50,7 @@ PART 2. 인공지능 알고리즘(Algorithm)
 44. 베이즈(Bayes)정리
 45. 크기와 모양이 같은 공이 상자 A에는 검은 공 2개와 흰공 2개, 상자 B에는 검은공 1개와 흰공 2개가 들어 있다. 두 상자 A, B 중 임의로 선택한 하나의 상자에서 공을 1개 꺼냈더니 검은공이 나왔을 때, 그 상자에 남은 공이 모두 흰공일 확률은? (베이즈(Bayes)정리를 활용하시오)
 46. K-Means
-47. DBSCAN(Density-Based Spatial Clustering of Applications with Noise)
+47. DBSCAN(Density Based Spatial Clustering with Application Notes)
 48. 차원축소(Dimensionality Reduction)
 49. 특징추출(Feature Extraction)
 50. 주성분 분석, PCA(Principal Component Analysis)
@@ -93,7 +75,7 @@ PART 3. 심층 신경망 상세
 66. MCP(McCulloch-Pitts)뉴런(Neuron)
 67. 헵 규칙(Hebb Rule)
 68. 퍼셉트론(Perceptron)
-69. 아달라인(ADALINE, Adaptive Linear Neuron)
+69. 아달라인(Adaline- Adaptive Linear Neutron)
 70. 활성화 함수(Activation Function) - 1
 71. 활성화 함수(Activation Function) - 2
 72. 신경망 학습 - FFNN(Feed Forward Neural Network)
@@ -106,7 +88,7 @@ PART 3. 심층 신경망 상세
 79. Dropout
 80. ANN(Artificial Neural Network)
 81. DNN(Deep Neural Network)
-82. CNN(Convolutional Neural Network)
+82. CNN(Convolution Neural Network)
 83. RNN(Recurrent Neural Network)
 84. LSTM(Long Short-Term Memory)
 85. GRU(Gated Recurrent Unit)
@@ -134,7 +116,7 @@ TTS(Text to Speech)
 103. 딥뷰(Deepview)
 104. SNA(Social Network Analysis)
 105. 텐서플로(Tensorflow)
-106. 파이썬(Python)의 특징 및 자료형(Data Type)
+106. 파이션(Python)의 특징 및 자료형(Data Type)
 107. 패션 의류용 이미지를 분류하는 다층 신경망을 들려고 한다. 의류용 이미지는 바지, 치마, 셔츠 등 10가지 유형의 흑백 이미지(32*32 pixels)로 구성되어 있고, 학습에 투입할 이미지 데이터는 검증 및 테스트용 데이터를 제외하고 총 48,000장이다. 입력층, 은닉층, 출력층의 완전연결(fully connected) 3계층으로 구성되어 있고 은닉층의 뉴런개수는 100개일 때, 다음에 대하여 설명하시오
 가. 신경망 구성도
 나. 입력층의 입력개수, 출력층의 뉴런 개수, 학습할 가중치와 절편의 총 개수

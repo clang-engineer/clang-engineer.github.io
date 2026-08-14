@@ -1,22 +1,4 @@
-# 학습 가이드
-
-## 권장 흐름
-
-`클라우드 특성과 배치·서비스 모델 → 가상화 → VM과 컨테이너 → 클라우드 네트워크·스토리지 → 보안과 운영 → 클라우드 네이티브와 전환`
-
-## 학습 깊이
-
-- **핵심**: NIST 특성, 서비스/배치 모델, SLA, 가상화, VM·컨테이너, 네트워크·스토리지, 보안, 클라우드 네이티브
-- **연결**: 서버리스, MSA, Kubernetes, 멀티·하이브리드 클라우드, 마이그레이션. 기존 과목을 통합하는 관점으로 본다.
-- **조회**: XaaS의 긴 목록, 특정 제품·OpenStack 구성요소, 중복 가상화 문항은 필요할 때 대표 항목만 확인한다.
-
-## 회독 종료 기준
-
-- 요구사항에 따라 서비스·배치 모델과 구성 기술을 선택하고 전체 아키텍처를 그릴 수 있다.
-- 확장성, 가용성, 보안, 비용, 운영의 트레이드오프와 공동 책임을 설명할 수 있다.
-- 개별 서비스 암기보다 컴퓨팅·네트워크·스토리지·보안·운영의 관계가 보이면 멈춘다.
-
-# 목차
+목차
 PART 1. 클라우드(Cloud)의 개요
 
 1. Cloud Computing(클라우드 컴퓨팅)
@@ -29,7 +11,7 @@ PART 1. 클라우드(Cloud)의 개요
 8. 멀티 클라우드(Multi-Cloud)
 9. 하이브리드 클라우드(Hybrid Cloud)
 10. Mobile Cloud
-11. Cloud Computing 서비스 모델과 배치(전개) 모델
+11. Cloud Computing 서비스 유형(전개 모델)
 가. 클라우드 컴퓨팅의 계층구조
 나. 클라우드 컴퓨팅의 서비스 유형 개념도 및 분류
 다. 클라우드 컴퓨팅 서비스 유형 비교(Public vs Private)
@@ -48,7 +30,7 @@ PART 2. 클라우드(Cloud)의 서비스(Service)
 21. 사설(Private) Cloud, 공용(Public) Cloud, 하이브리드(Hybrid)
 22. Cloud Computing의 서비스 전달 방식
 23. IaaS, PaaS, SaaS의 모델 분류와 SLA 특징
-24. DaaS(Data as a Service 또는 Desktop as a Service, 문맥에 따라 구분)
+24. DaaS(Datacenter as a Service)
 25. XaaS(Everything as a Service)
 26. Cloud Computing과 XaaS 비교
 27. TaaS(Testing as a Service)
@@ -99,7 +81,7 @@ PART 4. 클라우드 네트워크(Network)
 64. Spine-Leaf 구조
 65. 티밍(Teaming)과 본딩(Bonding)
 66. 네트워크 스토리지(Network Storage)
-67. iSCSI(Internet Small Computer Systems Interface)
+67. iSCSI(Internet Small Computer Small Interface)
 68. NFS(Network File System), CIFS(Common Internet File System)
 69. 엣지 데이터센터(Edge Datacenter)
 70. 뉴트론(Neutron)

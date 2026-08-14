@@ -1,22 +1,4 @@
-# 학습 가이드
-
-## 권장 흐름
-
-`IT와 경영전략 → 프로세스 혁신과 EA/ISP → 전사 정보시스템 → IT 서비스관리 → 연속성·재해복구 → 거버넌스와 투자성과 → 감리`
-
-## 학습 깊이
-
-- **핵심**: 전략분석, EA/ISP/BPR, ITSM/SLA, BCP/DR, IT 거버넌스, 투자평가, 감리
-- **연결**: ERP/SCM/CRM, 품질경영, 통계, 디지털 전환. 기술을 경영 목표와 성과지표에 연결한다.
-- **조회**: 경영기법의 긴 목록, 특정 제품·제도 세칙, 개정 가능한 법령 수치는 필요할 때 최신 근거로 확인한다.
-
-## 회독 종료 기준
-
-- 경영 목표가 정보화 전략, 구축, 운영, 통제, 성과평가로 이어지는 흐름을 설명할 수 있다.
-- 사례에서 이해관계자, 위험, KPI, 거버넌스 체계와 개선 절차를 제시할 수 있다.
-- 경영 용어를 모두 암기하기보다 대표 프레임워크를 상황에 적용할 수 있으면 멈춘다.
-
-# 목차
+목차
 Part 1 정보 기술(IT; Information Technology)
 1. 자료(Data)와 정보(Information), 지식(Knowledge)의 관계, 정보(Information)의 특성
 2. 시스템(System) 정의, 특성, 유형
@@ -33,7 +15,7 @@ Part 1 정보 기술(IT; Information Technology)
 - 전략적 제휴(Strategic Alliance)
 - 고객 만족 경영(Customer Satisfaction Management)
 - 스피드/타이밍 경영(Speed(Timing) Management)
-- 시나리오 경영(Scenario Management)
+- 시나리오 경영(Sinario Management)
 - 가치기반 경영(Value Based Management)
 8. MOT(Management Of Technology)
 
@@ -85,7 +67,7 @@ Part 4 정보 시스템 구축
 49. MES(Manufacturing Execution System)
 50. SAM(Software Asset Management)
 51. ISO-19770
-52. SRM(Supplier Relationship Management)
+52. SRM(Storage Resource Management)
 53. MRO(Maintenance, Repair, Operation)
 54. ILM(Information Lifecycle Management)
 55. BPM(Business Process Management)
@@ -116,7 +98,7 @@ Part 6 기업 연속성 관리
 76. 정보 System에서 발생할 수 있는 재난(Disaster)의 종류 및 전산 센터의 Backup 센터 구축 기법
 77. 재해 복구 시스템(DRS: Disaster Recovery System)
 78. 재해 복구 시스템 구축 방법에는 Mirror, Hot, Warm, Cold site 구축, Mirror Site 구축 방식에서 비동기(Asynchronous)방식과 동기(Synchronous) 방식
-79. 정보 시스템 재해 복구의 수준별 유형을 분류하고 RTO(Recovery Time Objective)와 RPO(Recovery Point Objective) 관점에서 비교
+79. 정보 시스템 재해 복구의 수준별 유형을 분류하고 RTO(Recovery Time Object)와 RPO(Recovery Point Object) 관점에서 비교
 80. 기업의 CIO(정보 담당이사 : Chief Information Officer)로서 업무 연속성 보장을 위한 BCP와 DR 체계를 수립하고 이에 대한 전략 제시
 81. System에 대해 재해 복구 전략 수립 시 고려해야 할 RSO, RTO, RPO, RCO, BCO의 특성
 82. BCP(Business Continuity Plan)와 DRS(Disaster Recovery System) 비교
@@ -187,11 +169,11 @@ Part 10 자주 출제되는 토픽
 139. CPND(Contents, Platform, Network, Device)
 140. 스마트팩토리(Smart Factory)의 주요 핵심기술
 141. 스마트시티(Smart City) 통합플랫폼에 대해 설명하시오.
-142. 디자인 씽킹(Design Thinking)
+142. 디자인 씽킹(Design Thingking)
 143. ISO22301(기업 비즈니스 연속성관리 국제표준)
 144. 비즈니스 연속성계획(BCP : Business Continuity Plan)의 구성방안과 검사방안에 대해 설명하시오.
 145. 빅데이터 분석방법인 Bagging과 Boosting 기법을 비교하여 설명하시오.
-146. 빅데이터 프로세싱 아키텍처의 필요성, 람다(Lambda) 아키텍처와 카파(Kappa) 아키텍처 비교
+146. 빅데이터 프로세싱 아키텍처의 필요성, 람다(Lamda) 아키텍처와 카파(Capa) 아키텍처 비교
 147. 빅데이터 분석플랫폼이 추구하는 데이터 통합아키텍처
 148. 데이터 거버넌스(Governance)
 149. 기업 경쟁력 제고를 위해 빅데이터(Bigdata) 분석의 중요성이 대두됨에 따라, 기업의 문제점을 체계적으로 파악하고 이를 해결하여 사업적 가치를 재평가하기 위해서는 통합적 빅데이터 프로젝트 수행이 필요하다. 빅데이터 분석의 특징을 설명한 후, 적절한 수행절차와 각 단계에서의 처리 내용을 설명하시오.
