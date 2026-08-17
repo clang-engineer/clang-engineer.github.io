@@ -1,5 +1,11 @@
 # VLAN·서브넷·브로드캐스트 도메인
 
+## 이 문서에서 되짚을 질문
+
+- VLAN과 Subnet은 둘 다 망을 나누는데 왜 서로 다른 개념인가?
+- Switch를 사용하면 Broadcast Domain도 자동으로 나뉘는가?
+- 서로 다른 VLAN의 단말은 왜 Router나 L3 Switch를 거쳐야 하는가?
+
 ## 출발점
 
 세 개념은 모두 네트워크를 나누는 것처럼 보이지만 기준 계층과 목적이 다르다.
@@ -22,11 +28,17 @@ VLAN은 Layer 2 분리이고 Subnet은 Layer 3 주소 분리다. 실무에서는
 
 같은 VLAN에 서로 다른 Subnet을 둘 수도 있지만 통신과 운영이 복잡해진다. 서로 다른 VLAN에 같은 Subnet을 배치하는 것도 일반적인 설계가 아니다.
 
+여기서 가장 중요한 구분은 **VLAN은 Frame이 퍼지는 범위를 나누고, Subnet은 IP 주소상 같은 망인지 판단하는 범위를 나눈다**는 것이다. 둘은 서로 다른 계층의 개념이지만, 실제 설계에서는 경계를 일치시켜야 이해와 운영이 쉬워진다.
+
+예를 들어 한 Switch에 인사팀과 개발팀 단말이 함께 연결되어 있다고 하자. Port를 VLAN 10과 VLAN 20으로 나누면 두 팀의 Broadcast Frame은 서로 넘어가지 않는다. 여기에 VLAN 10은 `192.168.10.0/24`, VLAN 20은 `192.168.20.0/24`를 배정하면 Layer 2 경계와 Layer 3 경계가 같은 위치에 놓인다.
+
 ## VLAN 사이 통신
 
 서로 다른 VLAN은 Layer 2에서 분리되어 있으므로 직접 통신할 수 없다. 통신하려면 Router 또는 L3 Switch가 필요하다.
 
 단말은 목적지 IP가 자기 Subnet 밖에 있음을 확인하고 Default Gateway의 MAC 주소로 Frame을 보낸다. L3 Switch는 Routing Table을 보고 목적지 VLAN으로 Packet을 전달하고, 그 VLAN의 Frame으로 다시 캡슐화한다. 이를 Inter-VLAN Routing이라고 한다.
+
+이때 단말이 목적지 단말의 MAC 주소를 직접 찾는 것이 아니다. 목적지 IP가 다른 Subnet에 있으므로 **Gateway의 MAC 주소**를 찾아 Frame을 보낸다. Router는 IP Packet의 목적지를 보고 다음 망으로 넘기면서, 출발지·목적지 MAC 주소가 새 Link에 맞게 바뀐 Frame을 만든다. IP Packet은 망 사이를 이동하지만 Frame은 Link마다 새로 만들어진다는 점이 핵심이다.
 
 ## 혼동하지 않을 것
 
