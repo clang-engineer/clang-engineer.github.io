@@ -37,6 +37,24 @@ AS와 AS 사이의 경로 선택
 → BGP / Path Vector / Policy
 ```
 
+### Mermaid로 보는 학습 흐름
+
+```mermaid
+flowchart TD
+    A[경로를 어떻게 찾을까?] --> B[Distance Vector]
+    A --> C[Link State]
+    B --> D[Bellman-Ford]
+    D --> E[RIP]
+    C --> F[Dijkstra / SPF]
+    F --> G[OSPF]
+    G --> H{Internet 전체에도<br/>같은 방식을 쓸 수 있을까?}
+    H -->|Topology 규모 부담| I[AS 단위로 추상화]
+    H -->|조직별 Policy 필요| I
+    I --> J[AS 내부: IGP]
+    I --> K[AS 간: BGP]
+    K --> L[AS-PATH + Path Attribute + Policy]
+```
+
 즉 **RIP → OSPF → BGP**는 단순 Protocol 나열이 아니라, 내부 Network의 경로 계산에서 Internet 규모의 조직 간 경로 선택으로 시야가 확장되는 과정이다.
 
 ## 라우팅이 필요한 이유
@@ -55,6 +73,14 @@ Router가 매 Packet마다 목적지까지의 전체 이동 경로를 적어 보
 → 다음 Router(Next Hop)로 전달
 → 다음 Router도 자기 Routing Table 조회
 → 반복
+```
+
+```mermaid
+flowchart LR
+    H[Host] --> R1[Router A]
+    R1 -->|Routing Table에서<br/>Next Hop 선택| R2[Router B]
+    R2 -->|자기 Routing Table에서<br/>다시 Next Hop 선택| R3[Router C]
+    R3 --> D[Destination Network]
 ```
 
 > **Routing Algorithm = 좋은 경로를 계산하는 방법**  
@@ -104,6 +130,15 @@ Dijkstra(SPF)
 내 위치 기준 최단경로 Tree
       ↓
 Routing Table
+```
+
+```mermaid
+flowchart TD
+    A[각 Router의 Link State] --> B[LSA Flooding]
+    B --> C[동일 Area의 Topology DB]
+    C --> D[Dijkstra SPF]
+    D --> E[자기 기준 Shortest Path Tree]
+    E --> F[Routing Table]
 ```
 
 - 대표 Protocol: OSPF
@@ -170,6 +205,19 @@ R1 ─ R2 ─ R3
 R1 ─ R2 ─ R3
 ```
 
+```mermaid
+flowchart LR
+    subgraph ASA[AS A]
+        A1[R1] --- A2[R2]
+        A2 --- A3[Border Router]
+    end
+    subgraph ASB[AS B]
+        B1[Border Router] --- B2[R2]
+        B2 --- B3[R3]
+    end
+    A3 == BGP ==> B1
+```
+
 AS A의 Router가 AS B 내부의 모든 Router와 Link 구조를 알 필요는 없다.
 
 > **AS 내부에서 어느 Router를 탈지 = IGP**  
@@ -222,6 +270,17 @@ Internet의 AS들은 독립적인 회사·기관일 수 있다. 그래서 경로
 ```
 
 A가 AS 수로는 더 짧더라도 사업·운영 정책 때문에 B를 선택할 수 있다.
+
+```mermaid
+flowchart LR
+    ME[우리 AS] --> X[AS X]
+    X --> AWS[AWS]
+    ME --> Y[AS Y]
+    Y --> Z[AS Z]
+    Z --> AWS
+
+    P[Policy] -. 계약/비용/선호 .-> ME
+```
 
 > **BGP의 '좋은 경로'는 반드시 가장 짧은 경로가 아니라 조직의 Policy를 가장 잘 만족하는 경로다.**
 
