@@ -320,24 +320,169 @@ Transformer가 다음 Token의 확률분포를 만들면 실제로 어떤 Token�
 
 ---
 
-## 12. 기억 흐름
+## 12. 자연어뿐 아니라 코드도 같은 Transformer가 처리한다
+
+요즘 Coding Agent를 보면 `다음 Token 예측 모델이 어떻게 코드를 이해하고 수정할 수 있지?`라는 의문이 생긴다.
+
+핵심은 **LLM 입장에서는 자연어와 Code 모두 Token의 연속**이라는 점이다.
 
 ```text
-문장
-→ Tokenization
-→ Token Embedding
-→ Transformer
-   └─ Attention으로 Token 관계 계산
-→ 문맥화된 내부 표현
-→ 다음 Token 확률
-→ Token 하나 생성
-→ Context에 추가
-→ 다시 다음 Token 예측
-→ 반복
+자연어 ─┐
+Java   ─┤
+Python ─┼→ Tokenization → Embedding → 같은 Transformer → 다음 Token 예측
+SQL    ─┤
+설명문 ─┘
 ```
 
-그리고 학습과 사용을 연결해서 보면 다음 한 문장으로 정리된다.
+Code를 생성하거나 수정할 때 별도의 `코드 수정 Transformer`가 따로 실행되는 것이 아니다. 현재 Context에 자연어 요구사항, Source Code, Error Log 등이 들어오면 같은 Transformer가 이 관계를 처리하고 Code Token을 출력한다.
 
-> **LLM은 Training 때 다음 Token을 더 잘 맞히도록 Weight를 학습하고, Inference 때 그 Weight를 이용해 다음 Token을 하나씩 반복 생성한다.**
+예를 들어 다음 Context가 있다고 하자.
 
-Chat, RAG, Tool Calling, Agent는 이 기본 LLM을 목적에 맞게 감싼 응용 구조다.
+```text
+사용자 요청
+"사용자가 없을 때 Null 오류가 나지 않게 수정해줘"
+
+현재 Code
+User user = repository.findById(id).orElse(null);
+return user.getName();
+
+Error Log
+NullPointerException
+```
+
+모델은 학습된 Weight를 사용해 `orElse(null)`, `user.getName()`, `NullPointerException` 사이의 관계를 현재 Context에서 처리한다. 그리고 다음 출력으로 수정 Code나 Patch를 생성할 수 있다.
+
+```diff
+- User user = repository.findById(id).orElse(null);
++ User user = repository.findById(id)
++     .orElseThrow(() -> new UserNotFoundException(id));
+```
+
+이 Patch 역시 결국 Token을 하나씩 생성한 결과다.
+
+---
+
+## 13. 다음 Token 예측만으로 어떻게 Code 구조까지 다룰 수 있는가
+
+`다음 Token 예측`이라는 말만 들으면 단순한 자동완성처럼 느껴질 수 있다. 하지만 복잡한 Code의 다음 Token을 정확히 맞히려면 앞의 구조와 관계를 파악하는 것이 유리하다.
+
+예를 들어:
+
+```java
+public int divide(int a, int b) {
+    if (b == 0) {
+        throw new
+```
+
+다음에 어떤 예외가 올지 잘 예측하려면 단순 문자열 빈도뿐 아니라 다음 관계를 포착하는 것이 유리하다.
+
+```text
+divide
+→ 나눗셈
+
+b
+→ 분모 역할
+
+b == 0
+→ 0으로 나누는 상황 검사
+
+throw new ...
+→ 해당 상황의 예외 처리
+```
+
+대규모 자연어와 Code에서 다음 Token 예측을 반복하면 모델은 문법뿐 아니라 Code 구조, API 사용 패턴, 오류 처리, 테스트, 설계 패턴 등 **예측에 유용한 내부 표현**을 학습할 수 있다.
+
+따라서 `LLM이 코드를 이해한다`는 표현을 엄밀하게 보면:
+
+> **Code를 처리하고 적절한 다음 출력을 예측하는 데 유용한 내부 표현을 학습했다.**
+
+정도로 이해하는 것이 좋다.
+
+---
+
+## 14. 자연어와 여러 프로그래밍 언어가 하나의 모델에서 연결되는 이유
+
+학습 Data에는 자연어 설명과 여러 프로그래밍 언어가 함께 존재할 수 있다.
+
+```text
+자연어
+"값이 존재하지 않으면 예외를 발생시킨다"
+
+Java
+if (x == null) throw ...
+
+Python
+if x is None: raise ...
+
+Java Optional
+.orElseThrow(...)
+```
+
+이런 관계가 반복되면 같은 개념이 서로 다른 표현으로 나타나는 패턴을 학습할 수 있다.
+
+그래서 현재 Context가 Java라면 Java Code를, Python이라면 Python Code를 생성할 수 있다.
+
+```text
+자연어 요구사항
+"사용자가 없으면 예외 처리"
+        ↓
+학습된 일반적인 관계와 Code 패턴
+        +
+현재 Java Project Context
+        ↓
+Java 표현 생성
+```
+
+모델이 우리 회사 Project를 미리 학습해야 하는 것은 아니다.
+
+```text
+Weight
+= Java / Python / SQL
+  일반적인 Framework·API
+  오류 처리·테스트·설계 패턴 등
+
+Context
+= 현재 Project의 실제 Code
+  Error Log
+  Interface
+  설정
+  Project 규칙
+```
+
+즉 **Weight에 학습된 일반 능력과 현재 Context의 구체적인 Project 정보가 결합**되어 처음 보는 Code Base에서도 작업할 수 있다.
+
+---
+
+## 15. 일반 질문과 Coding 작업은 필요한 Context 규모가 다르다
+
+일반적인 지식 질문은 모델 Weight에 관련 지식이 이미 있다면 짧은 질문만으로 답할 수 있다.
+
+```text
+"TCP 3-way handshake가 뭐야?"
+        ↓
+학습된 Weight + 짧은 Context
+        ↓
+답변
+```
+
+하지만 다음 요청은 다르다.
+
+```text
+"우리 Project의 로그인 Bug를 고쳐줘"
+```
+
+모델 Weight에는 **현재 Project의 구체적인 구조가 없다.** 따라서 다음 정보가 필요할 수 있다.
+
+```text
+사용자 요청
++ 관련 Source Code
++ Interface / Type 정의
++ 호출·참조 관계
++ Error Log
++ Test Code
++ 설정
++ Architecture 규칙
++ Coding Convention
+```
+
+대형 Project에서는 이
