@@ -21,6 +21,19 @@ IP 주소가 있다
 → 사설 IP로 Internet에는 어떻게 나가나? NAT / PAT
 ```
 
+```mermaid
+flowchart TD
+    A[IP 주소를 사용한다] --> B[같은 Network 범위 판단]
+    B --> C[Subnet / Subnet Mask]
+    C --> D[주소 공간 효율화]
+    D --> E[CIDR / VLSM]
+    E --> F[단말에 설정 자동 할당]
+    F --> G[DHCP]
+    G --> H[사설 IP로 외부 통신]
+    H --> I[NAT / PAT]
+    I --> J[Internet]
+```
+
 > **Subnet은 범위를 정하고 → DHCP는 설정을 주고 → NAT는 Network 경계에서 주소를 바꾼다.**
 
 ## Subnet과 Subnetting
@@ -37,6 +50,15 @@ Subnet Mask 또는 Prefix(`/24`)는 IP 주소에서 **Network 부분과 Host 부
 목적지가 다른 Subnet
 → 다른 Network
 → Default Gateway로 전달
+```
+
+```mermaid
+flowchart TD
+    S[송신 단말] --> Q{목적지가 같은 Subnet인가?}
+    Q -->|Yes| L[같은 LAN에서 직접 전달]
+    Q -->|No| G[Default Gateway로 전달]
+    G --> R[Router]
+    R --> N[다른 Network]
 ```
 
 > **Subnet = 나누어진 Network 자체**  
@@ -65,6 +87,15 @@ VLSM(Variable Length Subnet Mask)은 모든 Subnet을 같은 크기로 자르지
 ├─ 사용자 100명 부서 → /25
 ├─ 사용자 50명 부서  → /26
 └─ 장비 10대 구간    → /28
+```
+
+```mermaid
+flowchart TD
+    A[/24 주소 Block] --> B[/25 - 큰 부서]
+    A --> C[남은 /25]
+    C --> D[/26 - 중간 부서]
+    C --> E[남은 /26]
+    E --> F[/28 - 작은 장비망]
 ```
 
 필요 Host 수에 따라 서로 다른 크기의 Subnet을 배정해 주소 낭비를 줄인다.
@@ -96,6 +127,16 @@ CIDR과 VLSM 모두 Prefix 표기를 사용하므로 비슷해 보이지만 보�
 DHCP(Dynamic Host Configuration Protocol)는 단말이 접속할 때 Network 설정을 자동으로 제공한다.
 
 대표 흐름은 Discover → Offer → Request → Acknowledge이며 DORA라고 부른다. 단말은 아직 자기 주소를 모르므로 초기 메시지에 Broadcast를 사용한다. 다른 Subnet의 DHCP Server를 사용하면 Router의 DHCP Relay가 요청을 전달할 수 있다.
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant D as DHCP Server
+    C->>D: Discover
+    D-->>C: Offer
+    C->>D: Request
+    D-->>C: Acknowledge
+```
 
 DHCP가 주는 것은 IP 하나만이 아니다.
 
@@ -169,6 +210,18 @@ DHCP와 NAT는 서로 필수 관계가 아니다. 수동으로 사설 IP를 설�
 외부
 203.0.113.5:40001
 203.0.113.5:40002
+```
+
+```mermaid
+flowchart LR
+    A[192.168.0.10:51001] -->|PAT| P[203.0.113.5:40001]
+    B[192.168.0.11:52003] -->|PAT| Q[203.0.113.5:40002]
+    P --> I[Internet]
+    Q --> I
+    I -->|Response :40001| P
+    I -->|Response :40002| Q
+    P --> A
+    Q --> B
 ```
 
 NAT 장비는 대략 다음 대응 관계를 상태 Table에 유지한다.
