@@ -32,6 +32,20 @@ Router / Switch / Firewall / Server
        상세 분석 및 조치
 ```
 
+### Mermaid로 보는 운영자 개입 지점
+
+```mermaid
+flowchart TD
+    D[Router / Switch / Firewall / Server] -->|상태 수집| N[NMS]
+    N --> S[(Metric / Event 저장)]
+    S --> R{Rule / 임계치 판단}
+    R -->|정상| N
+    R -->|이상| A[Alert / Web UI]
+    A --> O[운영자]
+    O --> X[SSH / 장비 UI / 상세 분석]
+    X --> C[조치]
+```
+
 예를 들어 NMS가 Memory 90% 초과를 감지하면 운영자는 NMS 그래프에서 추세를 확인하고, 필요하면 Server에 SSH 접속해 `top`, `free`, `jcmd` 같은 도구로 원인을 더 깊게 본다. 즉 **NMS는 자동 관제하고, 사람은 판단과 조치에 개입한다.**
 
 ## 기본 구조
@@ -52,6 +66,15 @@ NMS (Manager)
       │
       ▼
    MIB / OID
+```
+
+```mermaid
+flowchart LR
+    M[NMS / Manager] -->|SNMP GET / SET| A[SNMP Agent]
+    A --> O[MIB / OID]
+    O --> A
+    A -->|Response| M
+    A -. Trap / Inform .-> M
 ```
 
 Web 서비스에 비유하면 Manager가 상태를 조회하는 Client 역할에 가깝고, 장비의 Agent가 요청에 응답하는 Server 역할에 가깝다. 다만 NMS는 단순 화면이 아니라 수집 일정, 지표 저장, 임계치 판단, 경보와 보고까지 담당하는 관리 시스템이다.
@@ -99,6 +122,17 @@ Agent
 "Port Down!"
   ↓ Trap / Inform
 NMS
+```
+
+### Polling과 Trap을 같이 쓰는 이유
+
+```mermaid
+flowchart TD
+    N[NMS] -->|주기적 GET| A[Agent]
+    A -->|상태 Response| N
+    E{이벤트 발생?} -->|No| A
+    E -->|Yes| T[Trap / Inform]
+    T --> N
 ```
 
 > **정상 상태와 추세 = Polling(Pull)**  
@@ -175,6 +209,24 @@ Switch-01
 ```
 
 NMS는 단순히 `network_bytes`라는 Metric을 보는 것보다 **어느 장비의 어느 Interface·Port인가**라는 관리 객체 관점이 강하다.
+
+### Mermaid로 보는 NMS와 Grafana의 출발점 차이
+
+```mermaid
+flowchart LR
+    subgraph NM[NMS: Device 중심]
+        SW[Switch / Router] --> SN[SNMP]
+        SN --> NMS[NMS]
+        NMS --> DEV[Device / Interface / Port 관리]
+    end
+
+    subgraph GR[Grafana: Data 중심]
+        SV[Server / App] --> EX[Exporter / Data Source]
+        EX --> PR[Prometheus / Elasticsearch]
+        PR --> GF[Grafana]
+        GF --> VIS[Metric / Log 시각화]
+    end
+```
 
 ## NMS와 Grafana 비교
 
