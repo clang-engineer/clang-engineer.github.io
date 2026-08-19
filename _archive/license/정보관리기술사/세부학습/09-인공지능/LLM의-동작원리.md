@@ -83,6 +83,28 @@ Token 1 / Token 2 / Token 3 / ...
 Token ID 4712 / 83 / 19201 / ...
 ```
 
+여기서 **Token ID는 의미를 표현하는 Vector가 아니라 Vocabulary에서 해당 Token을 가리키는 번호(Index)**다.
+
+예를 들어 아주 단순화한 Vocabulary가 다음과 같다고 하자.
+
+```text
+Token       Token ID
+<eos>          0
+나는           42
+사과         1287
+먹었다       9213
+```
+
+`사과 → 1287`이라고 해서 숫자 `1287` 자체가 사과의 의미를 담고 있는 것은 아니다. 또한 ID가 서로 가깝다고 의미가 비슷한 것도 아니다.
+
+```text
+1287과 1288이 숫자상 가까움
+        ↓
+두 Token의 의미도 비슷함   X
+```
+
+Token ID는 뒤의 Embedding 단계에서 어떤 Vector를 가져올지 지정하기 위한 **번호표**라고 이해하면 된다.
+
 형태소 분석기처럼 먼저 문법을 완전히 이해해서 자르는 것이 아니다. 학습 Data를 효율적으로 표현할 수 있도록 Vocabulary와 분할 규칙이 만들어진다.
 
 모델마다 Vocabulary와 Tokenizer가 다르므로 같은 문장도 모델별 Token 수가 다를 수 있다.
@@ -99,11 +121,35 @@ Vector는 숫자의 배열이다.
 
 Embedding은 Text 같은 대상을 신경망이 처리할 수 있는 Vector 표현으로 만드는 개념이다.
 
+LLM 내부에서는 앞에서 만든 Token ID를 이용해 Embedding Table의 해당 행을 조회하여 초기 Token Vector를 얻는다.
+
+```text
+Text
+ ↓
+Tokenizer
+ ↓
+Token
+ ↓
+Token ID             ← Vocabulary의 번호
+ ↓
+Embedding Table 조회
+ ↓
+초기 Token Vector
+```
+
+예를 들어 `사과`의 Token ID가 `1287`이라면 개념적으로 다음과 같다.
+
 ```text
 Token "사과"
-   ↓ Embedding
+   ↓
+Token ID 1287
+   ↓
+Embedding Table의 1287번 행
+   ↓
 [0.21, -0.53, 0.82, ...]
 ```
+
+즉 **Token ID는 번호이고, Embedding이 그 번호를 계산 가능한 Vector로 바꾼다.**
 
 LLM 내부의 Token Embedding은 Token ID를 초기 Vector로 바꾼다. 이 Vector 자체가 현재 문장의 의미를 모두 반영한 최종 표현은 아니다. 이후 Transformer를 통과하면서 주변 Token의 정보가 섞이고 문맥화된다.
 
@@ -125,6 +171,48 @@ RAG에서 만든 검색 Vector를 그대로 LLM의 Token Embedding 자리에 넣
 ## 5. Transformer: 초기 Token Vector를 문맥화한다
 
 처음 Embedding된 Token Vector는 해당 Token 자체의 기본 표현에 가깝다. 하지만 같은 단어라도 문장에 따라 의미가 달라질 수 있다.
+
+예를 들어 다음 두 문장을 보자.
+
+```text
+"먹는 사과"
+"잘못을 사과한다"
+```
+
+Tokenizer가 두 문장의 `사과`를 동일한 Token으로 만든다고 가정하면 처음에는 다음 단계까지 같다.
+
+```text
+"사과"
+   ↓
+동일한 Token ID
+   ↓
+동일한 초기 Token Embedding
+```
+
+하지만 주변 Context는 다르다.
+
+```text
+먹는 ←→ 사과
+잘못 ←→ 사과
+```
+
+Transformer의 Self-Attention을 통과하면서 주변 Token과의 관계가 반영되므로 두 `사과`의 내부 표현은 서로 다른 문맥화 Vector가 될 수 있다.
+
+```text
+동일한 "사과" Token
+        ↓
+동일한 Token ID
+        ↓
+동일한 초기 Embedding
+     ↙              ↘
+ "먹는 사과"     "잘못을 사과"
+     ↓              ↓
+ 서로 다른 Context
+     ↓              ↓
+ Self-Attention
+     ↓              ↓
+서로 다른 문맥화 Token Vector
+```
 
 Transformer는 여러 Token Vector를 함께 보고 서로의 관계를 반영해 새로운 표현으로 바꾼다.
 
@@ -154,13 +242,27 @@ Self-Attention은 현재 Token을 처리할 때 문장 안의 다른 Token을 �
 
 `사과`의 문맥적 표현을 만들 때 `먹었다`와의 관계가 중요할 수 있다. Attention은 이런 관계를 입력마다 계산하고, 더 관련 있는 Token의 정보를 더 많이 반영한다.
 
+여기서 중요한 점은 **Attention의 출력도 Vector이며, 기본적으로 각 Token마다 새로운 문맥화 Vector가 만들어진다**는 것이다.
+
+```text
+입력
+Token Vector × N개
+        ↓
+Self-Attention
+        ↓
+출력
+문맥이 반영된 Token Vector × N개
+```
+
+즉 Self-Attention이 문장 전체를 하나의 Vector로 압축하는 것이 아니다. 각 Token이 다른 Token을 참고하여 **자신의 표현을 문맥에 맞게 갱신**한다고 이해하는 편이 좋다.
+
 ### Q · K · V를 직관적으로 보면
 
 - Query: 나는 지금 어떤 정보를 찾고 있는가
 - Key: 나는 어떤 정보와 관련 있는가
 - Value: 실제로 전달할 정보는 무엇인가
 
-Query와 Key의 관계로 참고 비중을 만들고, 그 비중으로 Value의 정보를 섞는다.
+Query와 Key의 관계로 참고 비중을 만들고, 그 비중으로 Value의 정보를 섞는다. 이렇게 섞인 결과도 다시 Token의 Vector 표현으로 다음 계산에 전달된다.
 
 ### Model Weight와 Attention Weight는 다르다
 
@@ -370,119 +472,3 @@ NullPointerException
 
 ```java
 public int divide(int a, int b) {
-    if (b == 0) {
-        throw new
-```
-
-다음에 어떤 예외가 올지 잘 예측하려면 단순 문자열 빈도뿐 아니라 다음 관계를 포착하는 것이 유리하다.
-
-```text
-divide
-→ 나눗셈
-
-b
-→ 분모 역할
-
-b == 0
-→ 0으로 나누는 상황 검사
-
-throw new ...
-→ 해당 상황의 예외 처리
-```
-
-대규모 자연어와 Code에서 다음 Token 예측을 반복하면 모델은 문법뿐 아니라 Code 구조, API 사용 패턴, 오류 처리, 테스트, 설계 패턴 등 **예측에 유용한 내부 표현**을 학습할 수 있다.
-
-따라서 `LLM이 코드를 이해한다`는 표현을 엄밀하게 보면:
-
-> **Code를 처리하고 적절한 다음 출력을 예측하는 데 유용한 내부 표현을 학습했다.**
-
-정도로 이해하는 것이 좋다.
-
----
-
-## 14. 자연어와 여러 프로그래밍 언어가 하나의 모델에서 연결되는 이유
-
-학습 Data에는 자연어 설명과 여러 프로그래밍 언어가 함께 존재할 수 있다.
-
-```text
-자연어
-"값이 존재하지 않으면 예외를 발생시킨다"
-
-Java
-if (x == null) throw ...
-
-Python
-if x is None: raise ...
-
-Java Optional
-.orElseThrow(...)
-```
-
-이런 관계가 반복되면 같은 개념이 서로 다른 표현으로 나타나는 패턴을 학습할 수 있다.
-
-그래서 현재 Context가 Java라면 Java Code를, Python이라면 Python Code를 생성할 수 있다.
-
-```text
-자연어 요구사항
-"사용자가 없으면 예외 처리"
-        ↓
-학습된 일반적인 관계와 Code 패턴
-        +
-현재 Java Project Context
-        ↓
-Java 표현 생성
-```
-
-모델이 우리 회사 Project를 미리 학습해야 하는 것은 아니다.
-
-```text
-Weight
-= Java / Python / SQL
-  일반적인 Framework·API
-  오류 처리·테스트·설계 패턴 등
-
-Context
-= 현재 Project의 실제 Code
-  Error Log
-  Interface
-  설정
-  Project 규칙
-```
-
-즉 **Weight에 학습된 일반 능력과 현재 Context의 구체적인 Project 정보가 결합**되어 처음 보는 Code Base에서도 작업할 수 있다.
-
----
-
-## 15. 일반 질문과 Coding 작업은 필요한 Context 규모가 다르다
-
-일반적인 지식 질문은 모델 Weight에 관련 지식이 이미 있다면 짧은 질문만으로 답할 수 있다.
-
-```text
-"TCP 3-way handshake가 뭐야?"
-        ↓
-학습된 Weight + 짧은 Context
-        ↓
-답변
-```
-
-하지만 다음 요청은 다르다.
-
-```text
-"우리 Project의 로그인 Bug를 고쳐줘"
-```
-
-모델 Weight에는 **현재 Project의 구체적인 구조가 없다.** 따라서 다음 정보가 필요할 수 있다.
-
-```text
-사용자 요청
-+ 관련 Source Code
-+ Interface / Type 정의
-+ 호출·참조 관계
-+ Error Log
-+ Test Code
-+ 설정
-+ Architecture 규칙
-+ Coding Convention
-```
-
-대형 Project에서는 이
