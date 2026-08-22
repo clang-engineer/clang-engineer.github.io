@@ -1,150 +1,222 @@
 ---
-title       : 서브타입 다형성 — Go interface 값·Rust dyn Trait·C++ virtual
-description : "여러 타입을 공통 타입으로 다루고 실제 동작을 런타임에 고르는 서브타입 다형성을 정리한다. C++ 가상 함수가 하는 일을 Go interface 값과 Rust dyn Trait trait object가 어떻게 제공하는지, 대표 구현 모델과 static vs dynamic dispatch, 명목적 vs 구조적 만족 규칙을 대응시킨다."
+title       : 서브타입 다형성과 동적 디스패치 — 같은 개념인가
+description : "서브타이핑, 인터페이스 만족, 다형성, 동적 디스패치를 분리하고 C++ virtual, Go interface, Rust dyn Trait가 각각 어떤 역할을 담당하는지 비교한다."
 date        : 2026-07-12 14:50:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-08-22 17:00:00 +0900
 categories  : [concept]
 tags        : [polymorphism, dispatch]
 pin         : false
 hidden      : false
 ---
 
-> **난이도** 중급 · **선행** [제네릭(파라미터 다형성)](/posts/concept/2026-07-12-generics-parametric-polymorphism/)을 먼저 읽으면 좋다 — 이 글은 그 나머지 절반이다.
+> **난이도** 중급 · **선행** [제네릭 — 파라미터 다형성과 구현 전략](/posts/concept/2026-07-12-generics-parametric-polymorphism/)을 먼저 읽으면 비교하기 쉽다.
 >
 > 🗺️ [프로그래밍 언어 개념 로드맵](/posts/concept/2026-07-13-concept-roadmap/)의 한 편
 
 ## 한 줄 요약
 
-서브타입 다형성은 **여러 타입을 하나의 공통 타입(인터페이스)으로 다루고, 실제로 어느 동작을 부를지는 런타임에 실제 타입 걸로 고르는 것**입니다. **C++의 가상 함수(`virtual`)가 하는 바로 그 일**이고, Go의 `interface` 값과 Rust의 **`dyn Trait` trait object**가 이 동적 디스패치를 구현합니다. Rust의 `T: Trait` 제네릭은 같은 trait을 쓰지만 정적 디스패치라는 점을 구분해야 합니다.
+여러 구체 타입을 공통 추상 타입을 통해 다루는 것을 흔히 **서브타입 다형성(subtype polymorphism)**이라고 설명한다. 이때 실제 메서드 구현을 런타임에 고르는 대표 기법이 **동적 디스패치(dynamic dispatch)**다.
 
-## 어떤 문제를 푸는가 — C++ 가상 함수에서 출발
+하지만 둘은 같은 단어가 아니다.
 
-도형 여러 개를 하나의 목록에 담아 넓이를 구한다고 하자. C++이라면 이렇게 쓴다.
+```text
+서브타이핑 / 인터페이스 만족
+→ 어떤 값을 어떤 추상 타입으로 취급할 수 있는가
+
+동적 디스패치
+→ 호출 시점에 실제 어느 구현을 실행할 것인가
+```
+
+C++ `virtual`, Go interface value, Rust `dyn Trait`은 이 두 층이 만나는 대표적인 사례다.
+
+## 1. C++ virtual에서 출발
 
 ```cpp
 struct Shape {
     virtual double area() const = 0;
     virtual ~Shape() = default;
 };
+
 struct Circle : Shape {
-    explicit Circle(double radius) : r(radius) {}
-    double area() const override { return 3.14 * r * r; }
-    double r;
-};
-struct Rect : Shape {
-    Rect(double width, double height) : w(width), h(height) {}
-    double area() const override { return w * h; }
-    double w, h;
+    double area() const override { return 10.0; }
 };
 
-void print(const Shape& s) { std::cout << s.area(); }  // 실제 타입이 뭐든 상관없다
+void print(const Shape& shape) {
+    std::cout << shape.area();
+}
 ```
 
-`print`는 `Circle`인지 `Rect`인지 모른 채 `Shape`로만 다룬다. 그런데 `s.area()`는 **런타임에 실제 타입의 것**이 불린다. 이게 서브타입 다형성이고, C++에서는 `virtual`이 그 스위치다.
+여기에는 두 가지 일이 동시에 있다.
 
-> **여기서 이미 알던 게 나온다.** "여러 타입을 부모 하나로 다루고, 실제 메서드는 런타임에 고른다" — 추상 클래스와 가상 함수. Go interface 값과 Rust `dyn Trait`도 이 목적을 제공하지만, 만족 규칙과 객체 표현은 서로 다릅니다.
+1. `Circle`은 `Shape`의 파생 타입이므로 `Shape&`로 취급할 수 있다.
+2. `area()`가 `virtual`이므로 실제 호출 구현은 런타임의 동적 타입에 따라 결정된다.
 
-### 제네릭과 무엇이 다른가
+C++에서는 상속과 virtual dispatch가 자주 함께 쓰여 둘을 하나의 개념처럼 느끼기 쉽다.
 
-[제네릭](/posts/concept/2026-07-12-generics-parametric-polymorphism/)도 "여러 타입"을 다루지만 방향이 반대다.
+## 2. 서브타이핑과 동적 디스패치를 분리해야 하는 이유
 
-| | 제네릭(파라미터 다형성) | 서브타입 다형성 |
-|---|---|---|
-| 한 문장 | 하나의 코드를 **여러 타입에 찍어냄** | 여러 타입을 **하나의 인터페이스로 다룸** |
-| 결정 시점 | 대개 컴파일 타임 | 런타임 |
-| C++ | 템플릿 | `virtual` |
+서브타입 관계가 있다고 모든 호출이 동적 디스패치되는 것은 아니다. 반대로 언어에 따라 전통적인 클래스 상속 없이도 공통 인터페이스 값과 동적 디스패치를 제공할 수 있다.
 
-제네릭이 다형성의 한쪽 절반이라면, 이 글이 나머지 절반이다.
+따라서 `subtyping = dynamic dispatch`라고 외우면 Go와 Rust를 설명할 때 경계가 흐려진다.
 
-## 어떻게 동작하나 — vtable과 뚱뚱한 포인터
+더 일반적으로는 다음 질문을 따로 본다.
 
-C++의 흔한 구현은 **vtable(가상 함수 테이블)**과 객체 안의 숨겨진 `vptr`을 사용합니다. 다만 C++ 표준은 이 ABI 표현을 요구하지 않습니다. `s.area()`가 동적 디스패치된다는 의미론만 보장하고, 실제 배치는 컴파일러 ABI가 정합니다.
+```text
+1. 만족 관계
+   이 타입이 어떤 인터페이스/트레이트/기반 타입의 계약을 만족하는가?
 
-Go와 Rust도 보통 데이터와 메서드 metadata를 함께 들고 간접 호출하지만, 아래 표는 **대표 구현 모델**이지 언어 specification이 고정한 공통 ABI가 아닙니다.
+2. 값 표현
+   여러 구체 타입을 하나의 추상 값으로 어떻게 담는가?
 
-| 언어 | 다형성 값의 실체 | vtable 위치 |
-|---|---|---|
-| **C++** | 객체 안에 `vptr` 한 개 | 객체가 vtable을 가리킴 |
-| **Go** | `interface` 값 = **2워드** `(*itab, *data)` | `itab`이 타입정보 + 메서드 테이블 |
-| **Rust** | `dyn Trait` = **뚱뚱한 포인터(fat pointer) 2워드** `(*data, *vtable)` | 포인터가 vtable을 따로 가리킴 |
+3. 호출 방식
+   정적으로 호출 대상을 정하는가, 런타임에 고르는가?
+```
 
-공통 직관은 **데이터와 실제 메서드를 찾을 metadata가 필요하다**는 것입니다. 그러나 C++·Go·Rust는 object safety, coercion, nil 표현, 값 저장 방식과 ABI가 다릅니다. “보관 위치만 다르고 정확히 같다”로 축약하면 이 차이를 놓칩니다.
+## 3. C++ — 명목적 상속 + virtual dispatch
 
-> **C++ 발판.** Rust trait object는 대표적으로 data pointer와 vtable metadata를 함께 운반합니다. Go interface도 type/method metadata와 값을 함께 표현합니다. C++ `vptr`과 목적은 비슷하지만 이 layout을 언어 간 동일 ABI로 보면 안 됩니다.
+C++ 클래스 기반 다형성은 보통 명시적인 상속 관계를 사용한다. `Base*`/`Base&`를 통해 virtual 함수를 호출하면 동적 디스패치가 일어난다.
 
-## static vs dynamic dispatch — 다형성 구현의 두 끝
+대표 ABI는 객체가 `vptr`을 가지고 `vtable`을 참조하는 방식이지만, C++ 표준이 이 메모리 배치를 요구하는 것은 아니다. 언어가 보장하는 것은 virtual call의 의미론이다.
 
-"어느 함수를 부를지 **언제** 정하느냐"가 갈린다.
+## 4. Go — 구조적 interface 만족 + interface value
 
-- **정적 디스패치(static)**: 컴파일 타임에 호출 대상을 확정합니다. [제네릭의 단형화](/posts/concept/2026-07-12-generics-parametric-polymorphism/)가 여기이며 최적화기가 인라인하기 쉬워집니다. 인라인이나 비용 0이 보장되는 것은 아닙니다.
-- **동적 디스패치(dynamic)**: 보통 런타임 metadata를 거쳐 간접 호출합니다. 다만 컴파일러가 실제 타입을 증명하면 devirtualize한 뒤 인라인할 수도 있습니다.
-
-C++에서 이 둘은 이미 익숙하다 — **`virtual`을 붙이면 동적, 안 붙이면 정적**. Rust는 이 선택을 문법으로 아예 갈라 놨다.
-
-| 언어 | 정적 디스패치 | 동적 디스패치 |
-|---|---|---|
-| **C++** | 비-virtual 함수, 템플릿 | `virtual` 함수 (`Base*`/`Base&`) |
-| **Rust** | 제네릭 `<T: Trait>` / `impl Trait` (단형화) | `dyn Trait` (`&dyn`/`Box<dyn>`) |
-| **Go** | 구체 타입 직접 호출 | `interface` 값을 통한 호출 |
-
-> **Rust의 갈림이 곧 C++의 `template` vs `virtual`이다.** C++에서 "성능이면 템플릿, 유연성이면 virtual"을 손끝으로 골랐던 그 선택을, Rust는 `impl Trait`(정적) vs `dyn Trait`(동적)로 **타입에 대놓고 적어** 강제한다. Go는 반대로 대부분 인터페이스=동적 하나로 밀고, 성능이 필요하면 구체 타입을 쓰라는 쪽이다.
-
-## 누가 "이 타입은 인터페이스를 만족한다"고 선언하나
-
-같은 서브타입 다형성인데 셋이 **가장 크게 갈리는 지점**이다. 어떤 타입이 인터페이스를 구현한다는 걸 **누가, 어떻게** 정하느냐.
-
-- **C++ — 명목적(nominal), 상속으로 명시**: `struct Circle : Shape`처럼 **상속 트리에 명시적으로 넣어야** 한다. 이름(상속 관계)으로 엮인다.
-- **Rust — 명목적, 하지만 상속 트리 없이**: `impl Shape for Circle`이라고 **명시적으로 적어야** 한다. 다만 C++처럼 부모-자식 계층을 만드는 게 아니라, 기존 타입에 트레이트를 **나중에 갖다 붙인다**(단, 고아 규칙 orphan rule의 제약을 받는다).
-- **Go — 구조적(structural), 정적 검사**: 아무 선언도 안 한다. **메서드 시그니처만 맞으면** 그 타입은 자동으로 인터페이스를 만족한다. 동적 duck typing과 겉모습은 비슷하지만 만족 여부는 컴파일 타임에 검사된다.
+Go에서는 타입이 interface를 구현한다고 별도로 선언하지 않는다.
 
 ```go
-type Shape interface { Area() float64 }
-type Circle struct{ r float64 }
-func (c Circle) Area() float64 { return 3.14 * c.r * c.r }
-// Circle은 "Shape를 구현한다"고 어디에도 안 썼지만, Area()가 있으니 이미 Shape다
+type Shape interface {
+    Area() float64
+}
+
+type Circle struct{}
+func (Circle) Area() float64 { return 10 }
 ```
 
-> **C++/Rust 쓰던 사람이 Go에서 놀라는 지점.** "이 타입이 이 인터페이스 구현한다고 어디서 선언하지?" — 안 한다. Go는 **구현체가 인터페이스를 몰라도 되도록** 설계했다("accept interfaces, return structs"의 뿌리). 대신 "정말 만족하는지"를 컴파일러가 사용 지점에서 확인한다.
+`Circle`의 method set이 `Shape`가 요구하는 메서드를 만족하면 컴파일러가 관계를 인정한다. 이를 흔히 **구조적 만족(structural satisfaction)**이라고 설명한다.
 
-## 언어별 정리
+`Shape` interface value에 `Circle` 값을 담고 `Area()`를 호출하면 런타임에 담긴 구체 타입의 구현으로 디스패치된다.
 
-| 언어 | 다형성 도구 | 동적 값의 표현 | 만족 선언 방식 |
+```text
+Circle이 Shape를 만족하는가?
+→ 정적 타입 검사
+
+Shape 값 안에 어떤 구체 값이 들어 있는가?
+→ 런타임 값 표현
+
+Area()의 어느 구현을 부르는가?
+→ interface dispatch
+```
+
+Go interface를 단순히 "상속 없는 virtual"이라고 부르면 구조적 만족이라는 중요한 차이를 놓친다.
+
+## 5. Rust — trait 구현과 trait object를 구분한다
+
+Rust에서 `impl Shape for Circle`은 `Circle`이 `Shape` trait의 계약을 구현한다는 뜻이다. 그러나 이것만으로 모든 호출이 동적 디스패치가 되는 것은 아니다.
+
+### 정적 사용
+
+```rust
+fn print<T: Shape>(shape: &T) { /* ... */ }
+```
+
+`T: Shape`는 generic constraint이고 보통 단형화되어 정적으로 호출된다.
+
+### 동적 사용
+
+```rust
+fn print(shape: &dyn Shape) { /* ... */ }
+```
+
+`dyn Shape`는 trait object이며 런타임 동적 디스패치를 사용한다.
+
+즉 `Trait 구현 ≠ Trait object`다. 같은 trait 계약을 정적 다형성과 동적 다형성 양쪽에서 사용할 수 있다.
+
+## 6. 정적 디스패치와 동적 디스패치
+
+호출 대상을 언제 결정하는가의 문제다.
+
+| 방식 | 의미 |
+|---|---|
+| 정적 디스패치 | 컴파일 시점에 구체 호출 대상을 알 수 있음 |
+| 동적 디스패치 | 런타임 값의 실제 타입/메타데이터를 보고 호출 구현을 선택 |
+
+동적 디스패치는 보통 간접 호출을 사용하지만 **항상 느리다**고 단정할 수는 없다. 컴파일러가 실제 타입을 증명하면 devirtualization과 inline 최적화를 적용할 수도 있다.
+
+반대로 정적 디스패치라고 모든 비용이 0인 것도 아니다. 여기서 비교하는 것은 **호출 대상을 결정하는 방식**이다.
+
+## 7. 구현 표현은 의미론과 구분한다
+
+대표 구현을 보면 공통 직관을 얻을 수 있다.
+
+- C++ — 흔히 객체의 `vptr` → `vtable`
+- Go — interface value가 구체 값과 타입/메서드 정보를 함께 표현
+- Rust — `&dyn Trait` 같은 trait object pointer가 data와 metadata를 함께 운반
+
+하지만 이를 세 언어가 같은 고정 ABI를 가진다고 외우면 안 된다. 메모리 배치와 최적화는 언어 specification과 구현 ABI에 따라 다르다.
+
+개념 설명에서는 먼저 **구체 값 + 호출에 필요한 타입/메서드 정보**라는 역할을 이해하고, 실제 layout은 구현 세부로 내려가는 편이 안전하다.
+
+## 8. 제네릭과의 관계
+
+제네릭 글과 이 글을 `컴파일 타임 vs 런타임` 두 칸으로만 나누면 너무 단순해진다.
+
+더 정확한 좌표는 다음과 같다.
+
+```text
+타입을 매개변수화하는가?
+→ generics / parametric polymorphism
+
+공통 추상 타입으로 값을 취급하는가?
+→ subtyping / interface satisfaction / trait relation
+
+호출 대상을 언제 고르는가?
+→ static dispatch / dynamic dispatch
+```
+
+Rust가 이 분리를 잘 보여준다.
+
+```text
+T: Trait
+→ 제네릭 제약 + 보통 정적 디스패치
+
+&dyn Trait
+→ trait object + 동적 디스패치
+```
+
+## 한눈에 비교
+
+| 언어 | 계약/관계 | 동적 값 | 동적 호출 |
 |---|---|---|---|
-| **C++** | `virtual` 함수 + 상속 | `Base*` / `Base&` (객체에 `vptr`) | 명목적 — 상속으로 명시 |
-| **Go** | `interface` | 인터페이스 값 `(*itab, *data)` | 구조적 — 시그니처 맞으면 자동 |
-| **Rust** | `trait` | `dyn Trait` 뚱뚱한 포인터 | 명목적 — `impl` 명시(계층 없이) |
+| C++ | 명목적 상속 | `Base*` / `Base&` | `virtual` |
+| Go | 구조적 interface 만족 | interface value | interface method call |
+| Rust | 명시적 `impl Trait for T` | `dyn Trait` trait object | trait object dispatch |
 
-- **C++**: 다형성의 원형. 상속·가상 함수. → [클래스와 리소스 관리](/posts/cpp/2026-07-03-cpp-class-and-resource-management/)
-- **Go**: 작은 인터페이스 + 구조적 만족이 언어 관용구의 중심. → [Go 학습 로드맵 — ② 인터페이스](/posts/go/2026-07-12-go-roadmap/)
-- **Rust**: 트레이트가 다형성·제네릭·연산자 오버로딩까지 관장. 정적(`impl`)/동적(`dyn`)을 명시적으로 가른다. → [Rust 학습 로드맵 — ⑥ 트레이트·dyn](/posts/rust/2026-07-12-rust-roadmap/)
-
-> 정리: C++ 가상 함수는 동적 디스패치를 이해하는 좋은 발판입니다. 다만 각 언어가 보장하는 것은 공통 인터페이스를 통한 호출 의미론이며, layout·만족 규칙·object safety와 coercion은 별도로 배워야 합니다.
+이 표의 열을 하나로 합치지 않는 것이 핵심이다.
 
 ## 스스로 점검
 
-**1. 제네릭(파라미터 다형성)과 서브타입 다형성은 방향이 어떻게 반대인가?**
+**1. 서브타이핑과 동적 디스패치는 같은가?**
 
 <details markdown="1">
 <summary>답</summary>
 
-제네릭은 **하나의 코드를 여러 타입에 찍어낸다**(대개 컴파일 타임, 정적 디스패치). 서브타입 다형성은 **여러 타입을 하나의 인터페이스로 다룬다**(런타임, 동적 디스패치). C++로 보면 전자가 템플릿, 후자가 `virtual`이다.
+아니다. 서브타이핑/인터페이스 만족은 어떤 값을 어떤 추상 타입으로 취급할 수 있는지에 관한 관계이고, 동적 디스패치는 런타임에 어느 구현을 호출할지 결정하는 방식이다.
 
 </details>
 
-**2. Rust `dyn Trait`와 Go 인터페이스 값이 일반 포인터보다 큰 이유는? C++과 비교해서.**
+**2. Rust에서 `T: Trait`와 `dyn Trait`은 왜 다른가?**
 
 <details markdown="1">
 <summary>답</summary>
 
-대표 구현에서 Rust trait object는 data pointer와 vtable metadata를 함께 운반하고, Go interface도 타입·메서드 metadata와 값을 함께 표현합니다. C++은 흔히 객체의 `vptr`을 사용합니다. 이는 동작을 이해하는 구현 모델이며 세 언어의 specification이 같은 2-word ABI를 보장한다는 뜻은 아닙니다.
+`T: Trait`은 type parameter의 정적 계약이고 보통 단형화된다. `dyn Trait`은 여러 구체 타입을 하나의 trait object로 다루며 런타임 동적 디스패치를 사용한다.
 
 </details>
 
-**3. "이 타입이 인터페이스를 만족한다"를 Go와 Rust/C++이 다르게 정하는 방식은?**
+**3. Go interface가 C++ virtual과 다른 중요한 점은?**
 
 <details markdown="1">
 <summary>답</summary>
 
-C++(`: Base`)·Rust(`impl Trait for T`)는 **명목적**이라 명시적으로 선언해야 합니다. Go는 **구조적**이라 메서드 시그니처만 맞으면 선언 없이 만족하며 컴파일러가 이를 검사합니다. 그래서 구현체가 인터페이스의 존재를 몰라도 됩니다.
+Go의 interface 만족은 별도 상속 선언 없이 method set이 맞는지를 컴파일러가 구조적으로 검사한다. interface value를 통한 메서드 호출은 동적 디스패치가 될 수 있지만, 그 만족 관계 자체는 런타임 duck typing이 아니다.
 
 </details>
