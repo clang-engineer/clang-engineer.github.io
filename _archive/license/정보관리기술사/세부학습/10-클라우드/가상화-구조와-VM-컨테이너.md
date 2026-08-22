@@ -17,12 +17,32 @@
 
 가상화가 CPU와 메모리를 새로 만들어내는 것은 아니다. 실제 물리 자원을 논리적으로 나누어 여러 실행환경이 공유하게 한다. 다만 **VM과 컨테이너는 가상화하는 계층 자체가 다르다.**
 
-### 먼저 전체 분류를 잡기
+### 먼저 범위를 잡기 — 가상화 전체가 VM과 컨테이너로 양분되는 것은 아니다
 
-가상화라고 해서 모든 기술에 `Type 1 / Type 2`, `전가상화 / 반가상화`를 적용하는 것은 아니다. 이 용어들은 기본적으로 **Hypervisor를 이용하는 VM 기반 Hardware Virtualization**을 설명하는 분류다.
+가상화 전체에는 서버·컴퓨팅 가상화뿐 아니라 스토리지 가상화, 네트워크 가상화, 데스크톱 가상화 등 여러 대상이 있다. 따라서 **`가상화 = VM + Container`라고 일반화하면 범위가 너무 넓다.**
+
+이 문서에서 VM과 Container를 두 갈래로 나누는 것은 **서버의 실행환경을 가상화하는 서버·컴퓨팅 가상화 관점**이다. 이 범위에서는 다음처럼 큰 그림을 잡아도 좋다.
 
 ```text
 가상화
+├─ 서버·컴퓨팅 가상화
+│  ├─ Hardware 수준 가상화 → VM
+│  └─ OS 수준 가상화       → Container
+│
+├─ 스토리지 가상화
+├─ 네트워크 가상화
+└─ 데스크톱 가상화 등
+```
+
+즉 학습할 때는 다음처럼 기억한다.
+
+> **서버·컴퓨팅 가상화 → 크게 VM 방식과 Container 방식으로 구분**
+
+이제 이 범위 안에서 VM과 Container의 내부 구조를 내려가면 된다.
+
+```text
+서버·컴퓨팅 가상화
+│
 ├─ Hardware 수준 가상화 → VM
 │  ├─ Hypervisor 배치 위치
 │  │  ├─ Type 1 (Bare-metal)
@@ -38,19 +58,7 @@
       └─ cgroup → 자원 사용량 제한
 ```
 
-즉 분류의 대상을 먼저 잡아야 한다.
-
-```text
-VM
-└─ Hypervisor 기반 Hardware Virtualization
-   ├─ Type 1 / Type 2
-   └─ 전가상화 / 반가상화
-
-Container
-└─ Host Kernel 기반 OS-level Virtualization
-   ├─ Namespace
-   └─ cgroup
-```
+여기서 `Type 1 / Type 2`, `전가상화 / 반가상화`는 모든 가상화 기술에 적용하는 용어가 아니다. 기본적으로 **Hypervisor를 이용하는 VM 기반 Hardware Virtualization**을 설명하는 분류다.
 
 따라서 다음 질문은 분류축이 맞지 않는다.
 
@@ -335,26 +343,4 @@ Hardware                        Hardware
 
 중앙 Infrastructure
 ├─ 사용자 A의 Windows Desktop VM ← 화면·입력 → 사용자 단말 A
-└─ 사용자 B의 Windows Desktop VM ← 화면·입력 → 사용자 단말 B
-```
-
-둘 다 VM 기술을 활용할 수 있지만 바라보는 목적이 다르다.
-
-- 서버 가상화: **서버 자원을 어떻게 효율적으로 나누어 서버 업무를 실행할 것인가?**
-- 데스크톱 가상화: **사용자의 Desktop 실행환경을 어떻게 중앙에서 제공할 것인가?**
-
-따라서 VDI는 서버 가상화를 기반 기술로 활용할 수 있지만, 서버 가상화 자체와 VDI를 같은 개념으로 보면 안 된다.
-
-## 기억 흐름
-
-가상화
-→ Hardware 수준 가상화(VM)와 OS 수준 가상화(Container)를 먼저 구분
-→ VM에서는 Hypervisor가 물리 자원을 가상 Hardware로 제공
-→ Hypervisor 위치에 따라 Type 1 / Type 2
-→ Guest와 Hypervisor의 상호작용 방식에 따라 전가상화 / 반가상화
-→ 이 두 분류는 컨테이너에는 적용하지 않음
-→ 컨테이너는 Hardware 가상화 없이 Host Kernel을 공유
-→ Namespace로 가시 범위를, cgroup으로 자원 사용량을 격리
-→ Cloud에서는 VM 위에 컨테이너가 올라갈 수도 있음
-→ 사용자 Desktop까지 중앙화하면 VDI
-→ 격리·성능·운영 목적에 따라 선택
+└─ 사용자 B
