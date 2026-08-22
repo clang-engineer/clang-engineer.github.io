@@ -474,6 +474,52 @@ Diffusion
 
 이들은 `Text / Image / Video`라는 Modality 구분과도 별개의 축이다.
 
+### Transformer와 Autoregressive는 실제 LLM에서 함께 동작한다
+
+`Transformer`와 `Autoregressive`는 분류축은 다르지만, GPT류 LLM의 실제 생성 흐름에서는 서로 떨어져 동작하지 않는다.
+
+```text
+Autoregressive Generation
+= 전체 생성 방식
+
+한 Step 안에서
+├─ 현재 Context를 입력으로 사용
+├─ Transformer가 Token 간 관계를 계산
+├─ LM Head가 다음 Token 후보 점수(Logit)를 계산
+├─ Decoding이 후보 중 Token 하나를 선택
+└─ 선택된 Token을 Context 뒤에 붙임
+
+이 Step을 반복
+→ 긴 Text 생성
+```
+
+따라서 다음처럼 이해하면 좋다.
+
+```text
+Transformer
+= 다음 Token 후보 분포를 계산하는 Architecture
+
+Autoregressive Generation
+= Transformer가 계산한 다음 Token 분포에서
+  Decoding으로 Token을 선택하고,
+  선택된 Token을 다시 Context에 포함해
+  다음 Token 생성을 반복하는 전체 생성 방식
+```
+
+즉 Autoregressive Generation은 단순히 `선택된 Token을 붙이는 작은 후처리`가 아니다. **이전까지의 Token을 조건으로 다음 Token을 생성하고, 그 결과를 다시 조건에 포함시키는 생성 방식 전체**를 가리킨다.
+
+```text
+Architecture 축
+→ Transformer
+
+생성 방식 축
+→ Autoregressive Generation
+
+GPT류 LLM의 실행 흐름
+→ Transformer Architecture를 사용해
+  Autoregressive 방식으로 Token을 하나씩 생성
+```
+
 ---
 
 ## 14. 기술사에서 용어를 만났을 때 분류하는 방법
@@ -540,6 +586,16 @@ Data 특성에 맞는 Architecture 발전
 └─ Diffusion
 ```
 
+단, 이 둘이 항상 따로 논다는 뜻은 아니다. GPT류 LLM처럼 실제 Model에서는 다음처럼 결합될 수 있다.
+
+```text
+LLM
+= Text Modality를 다루는 Language Model
++ Transformer Architecture
++ Autoregressive Generation
++ 대규모 사전학습
+```
+
 가장 중요한 한 문장:
 
-> **CNN·RNN·Transformer는 주로 Data를 처리하는 신경망 구조를 설명하고, GAN·Diffusion·Autoregressive는 생성 문제를 푸는 방식이라는 서로 다른 좌표에서 먼저 이해한다.**
+> **CNN·RNN·Transformer는 주로 Data를 처리하는 신경망 구조를 설명하고, GAN·Diffusion·Autoregressive는 생성 문제를 푸는 방식이라는 서로 다른 좌표에서 먼저 이해한다. 다만 GPT류 LLM에서는 Transformer Architecture가 Autoregressive Generation 방식 안에서 다음 Token 분포를 계산하는 핵심 구조로 함께 사용된다.**
