@@ -161,23 +161,24 @@ VM과 컨테이너의 차이를 이해할 때 가장 먼저 잡아야 하는 질
 
 **일반적인 컨테이너 자체에는 Hypervisor가 필요하지 않다.** Hypervisor는 물리 Hardware를 가상화하여 VM마다 독립적인 가상 Hardware를 제공하는 계층이다. 반면 컨테이너는 Hardware를 가상화하지 않고, 이미 실행 중인 Host Kernel의 기능을 이용하여 Process와 OS 자원을 격리한다.
 
-```mermaid
-graph TB
-    subgraph VM[VM 방식 - Hardware Virtualization]
-        VA[Application]
-        VG[Guest OS + Guest Kernel]
-        VH[Hypervisor]
-        VP[Physical Hardware]
-        VA --> VG --> VH --> VP
-    end
+```text
+VM 방식
+Application
+   ↓
+Guest OS + Guest Kernel
+   ↓
+Hypervisor
+   ↓
+Physical Hardware
 
-    subgraph CT[Container 방식 - OS-level Virtualization]
-        CA[Application + Library]
-        CR[Container Runtime]
-        CK[Host OS + Shared Kernel]
-        CP[Physical Hardware]
-        CA --> CR --> CK --> CP
-    end
+Container 방식
+Application + Library
+   ↓
+Container Runtime
+   ↓
+Host OS + Shared Kernel
+   ↓
+Physical Hardware
 ```
 
 VM에서는 각 Guest OS가 자신만의 Hardware가 있다고 생각할 수 있도록 Hypervisor가 CPU·Memory·Disk·NIC 등을 가상화한다.
@@ -219,13 +220,18 @@ Application
 
 실제 Cloud 환경에서는 컨테이너 아래에 Hypervisor가 보이는 경우가 있다. 예를 들어 VM을 생성한 뒤 그 VM에 Linux와 Docker를 설치하여 컨테이너를 실행할 수 있다.
 
-```mermaid
-graph TB
-    A[Container Application] --> R[Container Runtime]
-    R --> K[VM의 Host OS / Kernel]
-    K --> V[Virtual Machine]
-    V --> H[Hypervisor]
-    H --> P[Physical Hardware]
+```text
+Container Application
+        ↓
+Container Runtime
+        ↓
+VM의 Host OS / Kernel
+        ↓
+Virtual Machine
+        ↓
+Hypervisor
+        ↓
+Physical Hardware
 ```
 
 이 구조에서 Hypervisor가 존재한다고 해서 **컨테이너가 Hypervisor를 사용하는 것은 아니다.** Hypervisor는 아래쪽의 VM을 만들기 위해 존재하고, 컨테이너는 그 VM의 Kernel을 공유하여 실행된다.
