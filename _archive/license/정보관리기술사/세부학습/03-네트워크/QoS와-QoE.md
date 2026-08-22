@@ -18,10 +18,25 @@ QoS(Quality of Service)는 네트워크가 제공하는 품질을 기술적인 �
 
 대표적인 품질 지표:
 
-- Bandwidth / Throughput
+- Bandwidth
+- Throughput
 - Delay
 - Jitter
 - Packet Loss
+
+여기서 **Bandwidth와 Throughput은 같은 말이 아니다.**
+
+```text
+Bandwidth
+= Link가 이론적으로 제공할 수 있는 전송 용량
+
+Throughput
+= 실제로 일정 시간 동안 성공적으로 전달된 데이터 양
+```
+
+예를 들어 1 Gbps 회선을 사용하더라도 Protocol Overhead, 혼잡, Packet Loss, Server 처리 한계 등으로 실제 Throughput은 그보다 낮을 수 있다.
+
+즉 **Bandwidth는 '얼마나 담을 수 있는가', Throughput은 '실제로 얼마나 흘려보냈는가'**에 가깝다.
 
 QoE(Quality of Experience)는 사용자가 실제로 느끼는 서비스 품질이다.
 
@@ -50,7 +65,10 @@ QoS가 좋아도 Application 오류, Server 지연, 단말 성능 문제 때문�
 
 따라서:
 
-> **QoS는 QoE를 개선하기 위한 중요한 기반이지만 QoE 그 자체는 아니다.**
+> **QoS는 QoE에 영향을 주는 중요한 요소이지만 QoE를 단독으로 결정하지는 않는다.**  
+> **QoE는 Network뿐 아니라 Server, Application, Codec, 단말, 사용자 상황까지 함께 영향을 받는다.**
+
+즉 QoS는 QoE를 개선하기 위한 기반이자 수단이지 QoE 그 자체가 아니다.
 
 ---
 
@@ -391,7 +409,17 @@ Jitter 감소
 
 그런데 사용자는 여전히 영상이 자주 멈춘다고 한다면 Server, Application, Codec, 단말 등 다른 원인이 있을 수 있다.
 
-따라서 운영 관점에서는 다음 Loop가 필요하다.
+```text
+Network QoS
+   ↓ 영향을 줌
+사용자 QoE
+   ↑ 동시에 영향
+Server / Application / Codec / 단말 / 사용자 환경
+```
+
+따라서 **QoS 개선은 QoE 개선 가능성을 높이지만, QoS가 좋다는 이유만으로 좋은 QoE가 보장되지는 않는다.**
+
+운영 관점에서는 다음 Loop가 필요하다.
 
 ```text
 Service 요구
@@ -412,6 +440,11 @@ QoS 지표를 목표 자체가 아니라 **사용자 Service 품질을 위한 �
 QoS = Bandwidth 증가?
 → X
 한정된 자원의 우선순위와 사용 정책을 관리한다.
+
+Bandwidth = Throughput?
+→ X
+Bandwidth는 Link의 전송 용량이고,
+Throughput은 실제 전달된 처리량이다.
 
 QoS가 좋으면 QoE도 반드시 좋다?
 → X
