@@ -34,18 +34,6 @@ TCP는 기능을 따로 외우기보다 **문제의 범위가 점점 바깥으�
    Keep-Alive / Connection Pool
 ```
 
-```mermaid
-flowchart TD
-    A[연결 생성] --> B[3-Way Handshake]
-    B --> C[데이터 전송]
-    C --> D[오류 제어<br/>정확히 갔는가?]
-    D --> E[흐름 제어<br/>수신자가 받을 수 있는가?]
-    E --> F[혼잡 제어<br/>Network가 버틸 수 있는가?]
-    F --> G[HTTP Keep-Alive<br/>연결 재사용]
-    G --> H[FIN / 4-Way 종료]
-    H --> I[TIME_WAIT]
-```
-
 오류 제어에서는 가장 먼저 **전달 자체의 정확성**을 해결한다. 그다음 데이터는 잘 가지만 상대가 느린 경우를 흐름 제어로 해결하고, 마지막으로 송수신자는 괜찮지만 중간 Network가 버티지 못하는 경우를 혼잡 제어로 해결한다.
 
 > **연결을 만들고 → 데이터를 확실히 보내고 → 상대방 속도에 맞추고 → Network 속도에도 맞춘다.**
@@ -85,14 +73,14 @@ Kernel은 각 연결에 다음 정보를 보관한다.
 
 ## 3. 연결 설정: 3-Way Handshake
 
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant S as Server
-    C->>S: SYN, Seq=x
-    S-->>C: SYN+ACK, Seq=y, Ack=x+1
-    C->>S: ACK, Ack=y+1
-    Note over C,S: ESTABLISHED
+```text
+Client                              Server
+  │                                    │
+  │──── SYN, Seq=x ───────────────────→│
+  │←── SYN+ACK, Seq=y, Ack=x+1 ────────│
+  │──── ACK, Ack=y+1 ─────────────────→│
+  │                                    │
+              ESTABLISHED
 ```
 
 1. Client가 SYN으로 자기 초기 순서번호를 알린다.
@@ -111,18 +99,17 @@ HTTP 요청 하나가 끝날 때마다 TCP를 닫으면 다음 요청마다 다�
 
 HTTP Keep-Alive는 하나의 TCP 연결을 바로 닫지 않고 여러 HTTP 요청과 응답에 재사용한다.
 
-```mermaid
-sequenceDiagram
-    participant C as HTTP Client
-    participant S as HTTP Server
-    C->>S: TCP 연결 생성
-    C->>S: HTTP Request 1
-    S-->>C: HTTP Response 1
-    C->>S: HTTP Request 2 (같은 TCP)
-    S-->>C: HTTP Response 2
-    Note over C,S: Idle / Keep-Alive
-    C->>S: HTTP Request 3 (같은 TCP)
-    S-->>C: HTTP Response 3
+```text
+HTTP Client                         HTTP Server
+     │                                   │
+     │──── TCP 연결 생성 ────────────────→│
+     │──── HTTP Request 1 ───────────────→│
+     │←─── HTTP Response 1 ───────────────│
+     │──── HTTP Request 2 ───────────────→│
+     │←─── HTTP Response 2 ───────────────│
+     │          Idle / Keep-Alive         │
+     │──── HTTP Request 3 ───────────────→│
+     │←─── HTTP Response 3 ───────────────│
 ```
 
 ### HTTP/1.0과 HTTP/1.1
@@ -153,15 +140,14 @@ HTTP Keep-Alive는 한 번 건 전화로 여러 용건을 이어서 말하는 �
 
 둘은 관련 있지만 같지 않다. Kernel은 TCP가 동작하기 위해 모든 연결 상태를 관리한다. Connection Pool은 그 위에서 애플리케이션이 여러 연결의 생성·대여·반납·폐기 정책을 관리한다.
 
-```mermaid
-flowchart TD
-    A[HTTP Client / Library] --> P[Connection Pool]
-    P --> C1[TCP Connection #1]
-    P --> C2[TCP Connection #2]
-    P --> C3[TCP Connection #3]
-    C1 --> K[OS Kernel TCP State]
-    C2 --> K
-    C3 --> K
+```text
+HTTP Client / Library
+         │
+         ▼
+   Connection Pool
+    ├─ TCP Connection #1 ─┐
+    ├─ TCP Connection #2 ─┼─→ OS Kernel의 TCP 상태
+    └─ TCP Connection #3 ─┘
 ```
 
 > **Kernel의 TCP 상태 = 연결 자체**  
@@ -171,16 +157,17 @@ flowchart TD
 
 TCP는 양방향 통신이다. 한쪽이 보낼 데이터를 모두 보냈더라도 상대는 아직 보낼 데이터가 남아 있을 수 있으므로 두 방향을 따로 닫는다.
 
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant S as Server
-    C->>S: FIN
-    S-->>C: ACK
-    Note over S: 남은 데이터 전송 가능
-    S-->>C: FIN
-    C->>S: ACK
-    Note over C: TIME_WAIT
+```text
+Client                              Server
+  │                                    │
+  │──── FIN ──────────────────────────→│
+  │←─── ACK ───────────────────────────│
+  │            Server는 남은           │
+  │            데이터 전송 가능        │
+  │←─── FIN ───────────────────────────│
+  │──── ACK ──────────────────────────→│
+  │                                    │
+TIME_WAIT
 ```
 
 1. 한쪽이 FIN으로 더 보낼 데이터가 없다고 알린다.
@@ -216,11 +203,18 @@ sequenceDiagram
 | 흐름 제어 | 송신자가 수신자보다 너무 빠름 | 수신 Window(`rwnd`) |
 | 혼잡 제어 | Network 내부에 Packet이 과도하게 몰림 | 혼잡 Window(`cwnd`), 속도 조절 |
 
-```mermaid
-flowchart LR
-    E[오류 제어] -->|데이터 자체| E1[손실 / 중복 / 순서]
-    F[흐름 제어] -->|수신자 보호| F1[Receive Buffer / rwnd]
-    C[혼잡 제어] -->|Network 보호| C1[Router / Queue / cwnd]
+```text
+오류 제어
+→ 데이터 자체 보호
+→ 손실 / 중복 / 순서 문제
+
+흐름 제어
+→ 수신자 보호
+→ Receive Buffer / rwnd
+
+혼잡 제어
+→ 중간 Network 보호
+→ Router / Queue / cwnd
 ```
 
 이 셋을 **오류 → 흐름 → 혼잡** 순으로 보면 문제 범위가 자연스럽게 넓어진다.
@@ -278,15 +272,24 @@ TCP는 연결 직후 Network가 얼마나 감당할 수 있는지 모른다. 작
 
 손실 하나가 발생했다고 Network 전체가 완전히 막힌 것은 아닐 수 있다. 전송량을 무조건 처음 수준까지 내리지 않고 줄인 뒤 다시 회복한다.
 
-```mermaid
-flowchart TD
-    S[작은 cwnd에서 시작] --> SS[Slow Start<br/>빠른 증가]
-    SS --> CA[Congestion Avoidance<br/>완만한 증가]
-    CA --> L{손실 신호?}
-    L -->|No| CA
-    L -->|중복 ACK| FR[Fast Retransmit]
-    FR --> RC[Fast Recovery]
-    RC --> CA
+```text
+작은 cwnd에서 시작
+        ↓
+Slow Start
+빠르게 증가
+        ↓
+Congestion Avoidance
+완만하게 증가
+        ↓
+손실 신호?
+├─ 없음 → 계속 Congestion Avoidance
+└─ 중복 ACK
+      ↓
+   Fast Retransmit
+      ↓
+   Fast Recovery
+      ↓
+Congestion Avoidance로 복귀
 ```
 
 세부 TCP Algorithm마다 수치와 동작은 다르지만 기술사 학습에서는 먼저 이 원리를 잡는다.
@@ -313,27 +316,4 @@ Handshake, Keep-Alive, Window, TIME_WAIT는 서로 무관한 암기 항목이 �
 - Connection Pool은 TCP 연결 자체가 아니라 여러 연결을 재사용하는 상위 관리 방식이다.
 - FIN은 연결을 처음 시작한 주체만 보내는 것이 아니다.
 - 4-Way 종료는 양방향 전송을 각각 닫기 때문에 필요하다.
-- TIME_WAIT는 쓸모없이 남은 연결이 아니라 안전한 종료를 위한 상태다.
-- 흐름 제어는 수신자를, 혼잡 제어는 중간 Network를 보호한다.
-- Slow Start는 계속 느리게 증가한다는 뜻이 아니라 작은 전송량에서 시작한다는 뜻이다.
-
-## 13. 기술사 답안에서 가져갈 핵심
-
-```text
-목적
-IP의 비신뢰성을 보완해 신뢰성 있는 Byte Stream 제공
-
-연결 관리
-3-Way Handshake → 상태 유지·연결 재사용 → 4-Way 종료·TIME_WAIT
-
-전송 제어
-오류 제어(정확성)
-+ 흐름 제어(수신자 보호)
-+ 혼잡 제어(Network 보호)
-
-Trade-off
-Keep-Alive로 연결 비용 절감 ↔ 유휴 연결의 자원 점유
-Window 확대로 처리량 향상 ↔ 수신자·Network 한계 보호
-```
-
-> TCP는 연결 상태와 Sequence·ACK·재전송으로 신뢰성을 제공하고, `rwnd`와 `cwnd`로 수신자 및 Network의 처리 한계에 맞춰 전송량을 조절한다.
+- TIME_WAIT는 쓸모없이 남은 연결이
