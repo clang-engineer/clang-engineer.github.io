@@ -43,6 +43,22 @@ Transformer
 
 즉 모델이 완성된 답변 `서울입니다.`를 먼저 만들어놓고 화면에 조금씩 보여주는 것이 아니다. **실제 생성 자체가 한 Token씩 순차적으로 이루어진다.** 이 방식을 Autoregressive Generation이라고 한다.
 
+여기서 중요한 경계가 있다.
+
+```text
+LLM
+= 언어 Token의 분포를 모델링하는 Model 자체
+
+Transformer
+= 현재 Context를 문맥화하고 다음 Token 후보 분포를 계산하는 대표 Architecture
+
+Autoregressive Generation
+= LLM을 이용해 다음 Token을 하나씩 생성하고,
+  선택한 Token을 다시 Context에 넣어 반복하는 생성 방식
+```
+
+따라서 `LLM = Autoregressive Generation`은 아니다. **LLM은 Model이고, Autoregressive Generation은 그 Model을 사용해 긴 Text를 생성하는 방식**이다.
+
 이 관점이 중요한 이유는 뒤에서 나오는 Attention, Context Window, KV Cache, 출력 Token 비용까지 모두 이 구조에서 설명되기 때문이다.
 
 ---
