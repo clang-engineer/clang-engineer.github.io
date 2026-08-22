@@ -5,6 +5,7 @@
 - 가상화는 실제 물리 자원을 복제하는 것인가, 나누어 쓰게 하는 것인가?
 - VM마다 운영체제가 있는데 어떻게 한 물리 서버에서 동시에 실행되는가?
 - Type 1/Type 2가 전가상화/반가상화와 같은 분류인가?
+- 컨테이너에는 왜 Hypervisor가 필요하지 않은가?
 - 컨테이너도 격리되는데 왜 VM보다 가볍고 보안 경계는 다르게 보는가?
 - 서버 가상화와 데스크톱 가상화는 둘 다 VM을 쓰는데 왜 다른 개념인가?
 
@@ -154,6 +155,91 @@ Container Image는 애플리케이션과 Library를 묶어 배포 일관성을 �
 
 컨테이너 안에서 별도 OS처럼 보이는 파일과 Process 공간이 있어도 Kernel까지 새로 부팅하는 것은 아니다. Host Kernel 하나가 Namespace로 “보이는 범위”를 다르게 보여주고 cgroup으로 “사용 가능한 양”을 제한한다. 그래서 빠르지만 Kernel 문제가 여러 컨테이너에 함께 영향을 줄 수 있다.
 
+### 컨테이너에는 왜 Hypervisor가 없는가?
+
+VM과 컨테이너의 차이를 이해할 때 가장 먼저 잡아야 하는 질문이다.
+
+**일반적인 컨테이너 자체에는 Hypervisor가 필요하지 않다.** Hypervisor는 물리 Hardware를 가상화하여 VM마다 독립적인 가상 Hardware를 제공하는 계층이다. 반면 컨테이너는 Hardware를 가상화하지 않고, 이미 실행 중인 Host Kernel의 기능을 이용하여 Process와 OS 자원을 격리한다.
+
+```mermaid
+graph TB
+    subgraph VM[VM 방식 - Hardware Virtualization]
+        VA[Application]
+        VG[Guest OS + Guest Kernel]
+        VH[Hypervisor]
+        VP[Physical Hardware]
+        VA --> VG --> VH --> VP
+    end
+
+    subgraph CT[Container 방식 - OS-level Virtualization]
+        CA[Application + Library]
+        CR[Container Runtime]
+        CK[Host OS + Shared Kernel]
+        CP[Physical Hardware]
+        CA --> CR --> CK --> CP
+    end
+```
+
+VM에서는 각 Guest OS가 자신만의 Hardware가 있다고 생각할 수 있도록 Hypervisor가 CPU·Memory·Disk·NIC 등을 가상화한다.
+
+반면 컨테이너는 별도의 가상 Hardware와 Guest Kernel을 만들지 않는다. Host Kernel 위에서 실행되는 Process를 격리하여 각각 독립적인 실행환경처럼 보이게 한다.
+
+```text
+VM
+Hardware
+   ↓
+Hypervisor       ← Hardware 가상화
+   ↓
+Virtual Hardware
+   ↓
+Guest Kernel
+   ↓
+Application
+
+Container
+Hardware
+   ↓
+Host Kernel      ← 하나의 Kernel 공유
+   ↓
+Namespace / cgroup
+   ↓
+격리된 Process
+   ↓
+Application
+```
+
+따라서 다음처럼 기억하면 된다.
+
+- **VM = Hypervisor 기반 Hardware Virtualization**
+- **Container = Host Kernel 기반 OS-level Virtualization**
+
+이 차이 때문에 컨테이너에는 VM처럼 Guest OS와 Guest Kernel을 부팅하는 과정이 없고, Image가 작고 시작이 빠르며 동일한 Hardware에서 더 많은 실행환경을 운영하기 쉽다.
+
+### 그렇다면 클라우드 컨테이너 아래의 Hypervisor는 무엇인가?
+
+실제 Cloud 환경에서는 컨테이너 아래에 Hypervisor가 보이는 경우가 있다. 예를 들어 VM을 생성한 뒤 그 VM에 Linux와 Docker를 설치하여 컨테이너를 실행할 수 있다.
+
+```mermaid
+graph TB
+    A[Container Application] --> R[Container Runtime]
+    R --> K[VM의 Host OS / Kernel]
+    K --> V[Virtual Machine]
+    V --> H[Hypervisor]
+    H --> P[Physical Hardware]
+```
+
+이 구조에서 Hypervisor가 존재한다고 해서 **컨테이너가 Hypervisor를 사용하는 것은 아니다.** Hypervisor는 아래쪽의 VM을 만들기 위해 존재하고, 컨테이너는 그 VM의 Kernel을 공유하여 실행된다.
+
+즉 계층을 나누어 봐야 한다.
+
+```text
+컨테이너 관점 : Container → Host Kernel
+VM 관점       : VM → Hypervisor → Hardware
+전체 구조     : Container → VM의 Kernel → VM → Hypervisor → Hardware
+```
+
+따라서 “컨테이너에는 Hypervisor가 없다”는 말은 **컨테이너 가상화 자체가 Hypervisor를 필요로 하지 않는다**는 의미다. Cloud Infrastructure 전체에 Hypervisor가 존재하지 않는다는 의미는 아니다.
+
 ### 구조로 비교하기
 
 ```text
@@ -173,6 +259,7 @@ Hardware                        Hardware
 ## 비교 기준
 
 - 격리 단위: VM은 가상 하드웨어, 컨테이너는 Process·OS 자원
+- 가상화 계층: VM은 Hypervisor, 컨테이너는 Host Kernel의 Namespace·cgroup
 - 운영체제: VM은 Guest OS 포함, 컨테이너는 Host Kernel 공유
 - 시작속도·밀도: 컨테이너가 일반적으로 유리
 - 이기종 OS: VM이 유리
@@ -215,6 +302,8 @@ Hardware                        Hardware
 → Hypervisor 위치에 따라 Type 1 / Type 2
 → Guest와 Hypervisor의 상호작용 방식에 따라 전가상화 / 반가상화
 → 더 가벼운 배포 요구
-→ Kernel을 공유하는 컨테이너
+→ Hardware 가상화 없이 Host Kernel을 공유하는 컨테이너
+→ 컨테이너는 Namespace로 가시 범위를, cgroup으로 자원 사용량을 격리
+→ Cloud에서는 VM 위에 컨테이너가 올라갈 수도 있음
 → 사용자 Desktop까지 중앙화하면 VDI
 → 격리·성능·운영 목적에 따라 선택
