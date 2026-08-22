@@ -414,6 +414,36 @@ RAID 6 → Dual Parity   → Disk 2개 장애 대응
 
 다만 Parity 계산과 갱신이 필요하기 때문에 RAID 0/1/10과 다른 Write 특성이 생긴다.
 
+## 9.1 RAID 5/6의 Write Penalty는 왜 생기는가
+
+RAID 5/6은 데이터를 쓸 때 데이터 Block만 바꾸면 끝나지 않는다. Parity가 기존 Data를 기준으로 계산된 복구 정보이기 때문에, Data가 바뀌면 Parity도 함께 갱신해야 한다.
+
+작은 Random Write에서는 일반적으로 다음 작업이 추가된다.
+
+```text
+기존 Data 읽기
+기존 Parity 읽기
+새 Data 쓰기
+새 Parity 쓰기
+```
+
+즉 하나의 작은 Write가 내부적으로 여러 번의 Read/Write로 커질 수 있다. 이를 RAID Write Penalty라고 이해하면 된다.
+
+```text
+RAID 0 / RAID 10
+→ Data를 쓰면 됨
+→ Parity 계산 없음
+
+RAID 5 / RAID 6
+→ Data 변경
+→ Parity 재계산·갱신 필요
+→ 작은 Random Write에 불리
+```
+
+RAID 6은 Dual Parity를 사용하므로 보호 수준은 높지만, 갱신해야 할 Parity 정보도 더 많아 쓰기 부담이 더 커질 수 있다.
+
+그래서 RAID 5/6은 용량 효율이 장점이지만, 작은 Random Write가 많은 DB·트랜잭션성 업무에서는 RAID 10이 더 선호되는 경우가 많다. 반대로 대용량 순차 읽기·쓰기나 용량 효율이 중요한 환경에서는 RAID 5/6도 선택지가 될 수 있다.
+
 ---
 
 # 10. RAID 5/6과 RAID 10이 갈리는 지점
@@ -428,6 +458,8 @@ Parity 이용
 용량 효율 좋음
     ↓
 대신 Parity 계산·갱신 필요
+    ↓
+작은 Random Write에서 Write Penalty 발생 가능
 
 RAID 10
 원본을 Mirror에 그대로 복제
@@ -497,7 +529,16 @@ RAID 10
 Set 사이에 Striping
 ```
 
-## 12.4 RAID는 Backup이 아니다
+## 12.4 RAID 5/6의 Parity는 공짜가 아니다
+
+```text
+Parity
+→ 원본 전체를 복제하지 않아 용량 효율은 좋음
+→ 하지만 Data 변경 시 Parity도 다시 맞춰야 함
+→ Write Penalty 발생 가능
+```
+
+## 12.5 RAID는 Backup이 아니다
 
 RAID는 Disk 장애에 대한 가용성을 높이지만 다음 문제를 해결하지 못한다.
 
@@ -557,6 +598,8 @@ RAID 0                       RAID 1
          Parity
            ↓
       RAID 5 / RAID 6
+           ↓
+용량 효율은 좋지만 Parity 갱신 부담 존재
 ```
 
 ## 13.1 숫자 모양으로 RAID 0과 RAID 1 기억하기
