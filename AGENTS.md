@@ -8,6 +8,15 @@
 
 기존 문서를 수정할 때는 내용의 정확성뿐 아니라 기존 용어와 맥락의 일관성도 유지한다.
 
+### 정보관리기술사 세부학습 Diagram
+
+`_archive/license/정보관리기술사/세부학습/` 문서에서는 **Text/ASCII Diagram을 원칙으로 사용하고 Mermaid는 특별한 경우가 아니면 사용하지 않는다.**
+
+- 짧은 Pipeline, 계층, 비교, 반복 흐름, 일반적인 Architecture는 Text/ASCII로 표현한다.
+- Mermaid는 관계가 복잡해 Text/ASCII로 표현했을 때 오히려 이해가 크게 떨어지고, 시각화 자체가 학습에 실질적인 이점을 주는 경우에만 예외적으로 사용한다.
+- Mermaid를 사용하지 못하는 GitHub 모바일 앱, Terminal, 일반 Markdown Viewer에서도 핵심 내용을 완전히 이해할 수 있어야 한다.
+- 기존 세부학습 문서를 수정할 때 단순한 Mermaid Diagram이 있으면 가능하면 Text/ASCII Diagram으로 교체한다.
+
 ## Safe Editing
 
 기존 파일 수정에서는 **원문 보존을 최우선**으로 한다.
