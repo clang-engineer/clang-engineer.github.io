@@ -197,7 +197,6 @@ Noise를 조금 제거
 실제 수학적·구현적 구조는 더 복잡하지만 학습 단계에서는 이 큰 흐름을 먼저 잡는 것이 좋다.
 
 ---
-
 ## 6. GAN과 Diffusion은 무엇이 다른가
 
 ```text
@@ -397,7 +396,6 @@ Video 생성
 # Multimodal
 
 ## 11. Modality란 무엇인가
-
 Modality는 Model이 다루는 정보 형태를 의미한다.
 
 ```text
@@ -593,4 +591,26 @@ Transformer = LLM?
 Transformer는 Neural Network Architecture이며 Image 등에도 적용할 수 있다.
 
 GAN과 Diffusion은 Image 전용인가?
-→ Image 생성으로 널리 알려졌지만 생성 원리 자체를 Image에만 한
+→ X
+Image 생성으로 널리 알려졌지만 생성 원리 자체를 Image에만 한정할 수는 없다.
+Audio·Video 등 다른 Modality의 생성에서도 관련 아이디어와 변형이 사용될 수 있다.
+
+Multimodal = 하나의 특정 Architecture인가?
+→ X
+Multimodal은 여러 정보 형태를 함께 다룬다는 특성이고, 실제 내부 Architecture는 Model마다 다를 수 있다.
+```
+
+---
+
+## 17. 기억 흐름
+
+```text
+생성형 AI
+├─ 무엇을 생성하는가? → Text / Image / Audio / Video
+├─ 어떤 생성 원리인가? → Autoregressive / GAN / Diffusion 등
+└─ 몇 가지 Modality를 함께 다루는가? → Unimodal / Multimodal
+```
+
+가장 중요한 한 문장:
+
+> **LLM·GAN·Diffusion·Multimodal은 같은 계층의 경쟁 기술이 아니라 서로 다른 질문에 답하는 개념이며, 생성형 AI를 이해할 때는 처리 대상·생성 원리·Modality 결합 여부를 분리해서 봐야 한다.**
