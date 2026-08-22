@@ -594,4 +594,174 @@ V: [V1][V2][V3][V4]
 
 처음 보면 다음 의문이 자연스럽다.
 
-> `서울`이 추가됐으면
+> `서울`이 추가됐으면 앞의 `대한민국의`, `수도는`도 이제 `서울`을 볼 수 있으니 K/V가 달라져야 하지 않을까?
+
+GPT 계열 Causal LLM에서는 그렇지 않다. **과거 위치는 미래 Token을 볼 수 없기 때문**이다.
+
+```text
+① 대한민국의
+→ ①만 볼 수 있음
+
+② 수도는
+→ ① ②만 볼 수 있음
+
+③ 서울
+→ ① ② ③을 볼 수 있음
+```
+
+③ `서울`이 새로 생겨도 ①과 ②의 Attention 범위는 바뀌지 않는다. 따라서 이미 계산한 과거 위치의 K/V를 다시 계산할 필요가 없다.
+
+새 Token에서 필요한 것은 해당 위치의 Q/K/V를 새로 계산하고, Q가 **기존 KV Cache + 자기 위치의 K/V**를 참조하도록 하는 것이다.
+
+이게 Causal Attention과 KV Cache가 잘 맞는 이유다.
+
+---
+
+## 15. KV Cache가 줄이는 것과 줄이지 못하는 것
+
+KV Cache는 과거 Token의 K/V 계산을 재사용하므로 Decode 비용을 크게 줄인다. 하지만 새 Token 생성 자체를 공짜로 만들지는 않는다.
+
+새 Token 하나마다 여전히:
+
+```text
+새 Token 입력
+ ↓
+각 Transformer Layer 통과
+ ↓
+새 Q/K/V 계산
+ ↓
+기존 KV Cache와 Attention
+ ↓
+Feed-Forward Network
+ ↓
+마지막 Hidden Vector
+ ↓
+LM Head
+ ↓
+다음 Token 선택
+```
+
+과정이 필요하다.
+
+또 Context가 길어질수록 Cache에 저장되는 K/V도 늘어난다. 그래서 KV Cache는 **연산 재사용을 위한 메모리와 계산량 사이의 절충**으로 볼 수 있다.
+
+> KV Cache는 "전체 Context를 다시 계산하지 않게 해주는 장치"이지, "긴 Context 비용을 없애는 장치"는 아니다.
+
+---
+
+## 16. 생성은 언제 끝나는가
+
+Autoregressive Decode는 무한히 반복하지 않는다. 대표적인 종료 조건은 다음과 같다.
+
+- Model이 EOS(End Of Sequence) Token을 선택한 경우
+- API나 Runtime에 설정한 최대 출력 Token 수에 도달한 경우
+- Stop Sequence 같은 애플리케이션 종료 조건을 만족한 경우
+- 외부 실행기가 도구 호출이나 정책상 다른 흐름으로 전환한 경우
+
+가장 기본적인 흐름은 다음과 같다.
+
+```text
+현재 Context
+ ↓
+Transformer
+ ↓
+LM Head
+ ↓
+Logit
+ ↓
+Decoding
+ ↓
+Token 선택
+ ↓
+EOS인가?
+ ├─ 예 → 생성 종료
+ └─ 아니오
+      ↓
+    Context에 추가
+      ↓
+    KV Cache 갱신
+      ↓
+    다음 Decode 반복
+```
+
+EOS도 특별한 문자열 판정 규칙이 아니라 Vocabulary에 포함된 **특수 Token 중 하나**다. Model은 일반 Token과 마찬가지로 EOS에도 Logit을 부여하고 Decoding 결과로 선택할 수 있다.
+
+---
+
+## 17. 전체 흐름을 한 번에 연결하면
+
+Prompt 입력부터 응답 종료까지를 하나의 흐름으로 다시 묶으면 다음과 같다.
+
+```text
+[입력]
+Prompt
+ ↓
+Tokenization
+ ↓
+Embedding
+ ↓
+
+[Prefill]
+Prompt 전체를 Transformer에 통과
+ ↓
+각 Layer의 K/V를 KV Cache에 저장
+ ↓
+마지막 위치 Hidden Vector
+ ↓
+LM Head
+ ↓
+Vocabulary Logit
+ ↓
+Decoding
+ ↓
+첫 출력 Token 선택
+ ↓
+
+[Decode 반복]
+새 Token을 Transformer에 입력
+ ↓
+새 Q/K/V 계산
+ ↓
+기존 KV Cache 재사용
+ ↓
+새 K/V를 Cache에 추가
+ ↓
+마지막 Hidden Vector
+ ↓
+LM Head
+ ↓
+Vocabulary Logit
+ ↓
+Decoding
+ ↓
+다음 Token 선택
+ ↓
+EOS / 최대 Token / Stop 조건 확인
+ ↓
+조건을 만족할 때까지 반복
+```
+
+핵심 연결은 다음 네 문장으로 압축할 수 있다.
+
+1. **Transformer는 현재 Context를 반영한 Hidden Vector를 만든다.**
+2. **LM Head는 마지막 위치의 Hidden Vector를 Vocabulary 전체 Logit으로 바꾼다.**
+3. **Decoding은 그 점수에서 실제 다음 Token 하나를 선택한다.**
+4. **Decode에서는 KV Cache로 과거 K/V를 재사용하면서 새 Token만 순차적으로 처리한다.**
+
+---
+
+## 헷갈리기 쉬운 경계
+
+```text
+Hidden Vector ≠ Token
+Logit ≠ 확률 그 자체
+Softmax ≠ Decoding
+Prompt Token ≠ 생성 Token
+Prefill ≠ Decode
+KV Cache ≠ Model Weight
+EOS ≠ 자연어 문장부호
+```
+
+특히 `KV Cache`는 Model이 학습한 지식을 저장하는 Weight와 다르다. **현재 요청의 Context를 효율적으로 이어서 계산하기 위해 일시적으로 보관하는 중간 계산 결과**다.
+
+이 경계를 잡으면 LLM 추론을 "Model이 문장을 한 번에 만들어낸다"고 보는 대신, **현재 Context에서 다음 Token 하나를 예측하고 그 결과를 다시 Context에 붙이는 반복 계산**으로 이해할 수 있다.
