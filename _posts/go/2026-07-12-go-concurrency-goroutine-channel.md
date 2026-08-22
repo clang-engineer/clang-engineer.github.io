@@ -1,132 +1,254 @@
 ---
 title       : 동시성 ⑤ goroutine·channel·context — Go의 정체성
-description : "Go를 Go답게 만드는 킬러 피처. go 한 줄로 수천 개를 띄우는 경량 goroutine, '메모리 공유 대신 통신으로 공유'하는 channel과 select, sync.WaitGroup·Mutex, 취소·타임아웃을 전파하는 context, 그리고 눈에 안 보이는 데이터 레이스를 잡는 -race까지. std::thread 고생과 비교하며 정리한다."
+description : "goroutine을 단순한 경량 스레드로 등치하지 않고 Go 런타임이 스케줄링하는 경량 실행 단위로 설명한다. channel·select·context·WaitGroup·Mutex·race detector의 역할을 구분한다."
 date        : 2026-07-12 10:50:00 +0900
-updated     : 2026-07-12 10:50:00 +0900
+updated     : 2026-08-22 18:00:00 +0900
 categories  : [go]
 tags        : [roadmap, go]
 pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](/posts/go/2026-07-12-go-roadmap/)의 **⑤ 동시성** 단계입니다. 앞 글: [④ error 처리 + defer](/posts/go/2026-07-12-go-error-handling-defer/)
+> [Go 학습 로드맵](/posts/go/2026-07-12-go-roadmap/)의 **⑤ 동시성** 단계다. 앞 글: [④ error 처리 + defer](/posts/go/2026-07-12-go-error-handling-defer/)
 
-Go를 Go답게 만드는 킬러 피처입니다. C++의 `std::thread`·뮤텍스 고생과 비교하면 놀랄 만큼 가볍습니다. goroutine이 스레드·코루틴과 뭐가 다른지는 [코루틴이란 무엇인가](/posts/concept/2026-07-12-coroutine/)를 함께 보세요.
+Go의 동시성 모델을 이해하려면 `goroutine`, channel, `sync`, `context`를 한 덩어리로 외우기보다 **실행 단위·통신·동기화·취소 전파**로 역할을 나눠 보는 편이 좋다.
 
-## goroutine — `go` 한 줄
+```text
+goroutine
+→ Go 런타임이 스케줄링하는 경량 실행 단위
 
-함수 앞에 `go`를 붙이면 **경량 스레드**로 동시에 실행됩니다. OS 스레드가 아니라 런타임이 관리하는 가벼운 단위라, 수천~수만 개를 띄워도 됩니다(스택이 몇 KB에서 시작해 필요할 때 자랍니다).
+channel
+→ goroutine 사이의 통신·동기화 지점
 
-```go
-go doWork()          // doWork를 별도 goroutine에서 실행, 즉시 다음 줄로
+sync
+→ 공유 상태와 완료 대기를 직접 조율
+
+context
+→ 취소·deadline·요청 범위 값을 하위 호출로 전파
 ```
 
-문제는 **main이 끝나면 프로그램이 통째로 죽는다**는 것 — 띄운 goroutine의 완료를 기다리지 않습니다. 그래서 완료를 기다릴 장치(채널·WaitGroup)가 반드시 필요합니다.
-
-## channel — 통신으로 공유하라
-
-Go의 동시성 철학은 한 문장입니다. **"메모리를 공유해 통신하지 말고, 통신으로 메모리를 공유하라."** 뮤텍스로 공유 변수를 지키는 대신, **채널**로 값을 주고받습니다.
+## goroutine — Go 런타임의 경량 실행 단위
 
 ```go
-ch := make(chan int)     // 채널 생성
-go func() { ch <- 42 }() // 보내기 (받는 쪽이 준비될 때까지 대기)
-v := <-ch                // 받기
-
-// 버퍼 있는 채널 — 버퍼가 찰 때까지 안 막힘
-buf := make(chan int, 3)
-buf <- 1
-buf <- 2                 // 버퍼에 여유가 있으면 받는 쪽 없이도 진행
-
-// 다 보냈으면 닫고, range로 받으면 남은 값을 모두 꺼낸다
-close(buf)
-for v := range buf { ... }   // 1, 2
+go doWork()
 ```
 
-버퍼 없는(unbuffered) 채널은 **보내는 쪽과 받는 쪽이 만나야** 통과합니다(랑데부). 이 blocking이 곧 동기화라, 별도 락 없이 순서가 맞춰집니다.
+`go` statement는 함수를 새로운 goroutine에서 실행하도록 예약하고 현재 goroutine은 계속 진행한다.
 
-## select — 여러 채널을 동시에
+goroutine을 흔히 **경량 스레드**라고 설명하지만 OS thread와 같은 단위는 아니다. Go runtime scheduler가 많은 goroutine을 더 적은 수의 OS thread 위에서 실행할 수 있고, 필요에 따라 선점과 재스케줄링을 수행한다.
 
-여러 채널 중 준비된 것을 골라 처리합니다. `switch`의 채널 버전입니다.
+```text
+OS thread
+→ 운영체제 스케줄링 단위
+
+goroutine
+→ Go runtime 스케줄링 단위
+```
+
+코루틴과도 역사적·구현적 공통점이 있지만 일반적인 `async/await` stackless coroutine과 같은 의미론으로 등치하지 않는다. 자세한 경계는 [코루틴이란 무엇인가](/posts/concept/2026-07-12-coroutine/)에서 본다.
+
+main goroutine이 종료되면 프로그램 프로세스가 끝나므로 다른 goroutine의 완료를 자동으로 기다려 주지 않는다. 완료를 기다려야 한다면 `WaitGroup`, channel 등으로 수명 관계를 명시한다.
+
+## channel — 통신과 동기화 지점
+
+```go
+ch := make(chan int)
+
+go func() {
+    ch <- 42
+}()
+
+v := <-ch
+```
+
+unbuffered channel의 send와 receive는 상대편이 준비될 때까지 서로 동기화된다.
+
+buffered channel은 용량만큼 값을 임시 보관할 수 있다.
+
+```go
+ch := make(chan int, 2)
+ch <- 1
+ch <- 2
+```
+
+channel은 통신을 구조화하는 강력한 도구지만 **값을 보냈다고 자동으로 소유권이 이전되는 것은 아니다.**
+
+```go
+ch <- slice
+```
+
+처럼 slice·map·pointer를 보내면 송신 측에 같은 backing data나 객체를 가리키는 별칭이 남을 수 있다. 양쪽 goroutine이 같은 데이터를 동시에 수정하면 여전히 data race가 가능하다.
+
+따라서 Go의 격언
+
+> "Do not communicate by sharing memory; instead, share memory by communicating."
+
+은 **공유 가변 상태를 줄이는 설계 방향**이지 channel이 모든 race를 자동으로 제거한다는 뜻은 아니다.
+
+## channel close — 누가 닫는가
+
+channel을 닫는 것은 "더 이상 값을 보내지 않는다"는 신호다.
+
+```go
+close(ch)
+```
+
+일반적인 원칙은 **보내는 쪽이 send가 끝났음을 확실히 알 때 닫는다**는 것이다. receiver가 무조건 channel을 닫는다는 식으로 규칙을 외우지 않는다.
+
+닫힌 channel에서는
+
+- receive 가능
+- 버퍼를 다 비우면 zero value와 `ok=false`를 받을 수 있음
+- send는 panic
+- 이미 닫힌 channel을 다시 close하면 panic
+
+이다.
+
+## select — 여러 channel operation 중 준비된 것을 선택
 
 ```go
 select {
-case v := <-ch1:      fmt.Println("ch1", v)
-case ch2 <- x:        fmt.Println("ch2로 보냄")
-case <-time.After(time.Second): fmt.Println("타임아웃")   // 흔한 관용구
-default:              fmt.Println("아무것도 준비 안 됨")   // 있으면 non-blocking
+case v := <-ch1:
+    fmt.Println(v)
+case ch2 <- x:
+    fmt.Println("sent")
+case <-ctx.Done():
+    return ctx.Err()
 }
 ```
 
-## sync — 채널로 안 풀릴 때
+`select`는 여러 send/receive case 중 진행 가능한 것을 선택한다. 여러 case가 동시에 준비돼 있으면 하나가 선택된다.
 
-모든 걸 채널로 풀 필요는 없습니다. 단순히 "여러 goroutine이 끝나기를 기다림"은 `WaitGroup`이, 짧은 임계 구역 보호는 `Mutex`가 더 간단합니다.
+`default`를 넣으면 아무 case도 준비되지 않았을 때 즉시 진행할 수 있어 non-blocking poll 형태가 된다.
+
+타임아웃을 반복 루프에서 구현할 때는 매 반복마다 `time.After`를 새로 만드는 것보다 `context.WithTimeout`, `time.NewTimer` 등 수명과 비용을 명확히 관리하는 방식이 더 적합한 경우가 많다.
+
+## sync — 공유 상태와 완료 대기
+
+channel이 모든 동기화의 정답은 아니다.
+
+### WaitGroup
 
 ```go
 var wg sync.WaitGroup
+
 for _, job := range jobs {
     wg.Add(1)
     go func(j Job) {
-        defer wg.Done()      // 끝나면 카운트 감소 (defer로 보장)
+        defer wg.Done()
         process(j)
     }(job)
 }
-wg.Wait()                    // 전부 Done 될 때까지 대기
+
+wg.Wait()
 ```
 
-## context — 취소·타임아웃 전파
+`WaitGroup`은 여러 goroutine의 완료를 기다리는 단순한 카운터 동기화에 적합하다.
 
-C++에 대응 개념이 없는 Go 고유 축이지만, **실전 서버·클라이언트에서는 사실상 필수**입니다. `context`는 "이 작업 이제 그만"이라는 취소 신호를 여러 goroutine에 **전파**합니다.
+### Mutex
+
+공유된 in-memory state를 짧은 critical section으로 보호해야 한다면 `sync.Mutex`가 더 직접적일 수 있다.
+
+```go
+mu.Lock()
+state++
+mu.Unlock()
+```
+
+```text
+channel
+→ 통신과 ownership-like handoff 규약을 설계할 때 유리
+
+Mutex
+→ 이미 공유된 상태의 원자적 접근을 보호할 때 유리
+```
+
+둘을 "Go다운 것 vs 나쁜 것"으로 나누지 않는다.
+
+## context — 취소와 deadline 전파
+
+`context.Context`는 요청 범위의 취소·deadline과 일부 request-scoped value를 호출 그래프 아래로 전달한다.
 
 ```go
 ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 defer cancel()
 
-select {
-case res := <-slowCall(ctx):  use(res)
-case <-ctx.Done():            return ctx.Err()   // 타임아웃·취소 시
+if err := doWork(ctx); err != nil {
+    return err
 }
 ```
 
-관례상 함수의 **첫 인자로 `ctx context.Context`**를 받아 하위로 계속 넘깁니다. 그러면 최상위에서 `cancel()` 한 번에 아래 모든 작업이 정리됩니다.
+관용적으로 `ctx context.Context`를 함수의 첫 번째 인자로 전달한다.
 
-## -race — 눈에 안 보이는 레이스 잡기
+중요한 점은 **context가 goroutine을 강제로 종료하지 않는다는 것**이다. 하위 함수와 goroutine이 `ctx.Done()` 또는 context-aware API를 관찰하고 스스로 종료 경로를 구현해야 한다.
 
-경량이라 goroutine을 남발하다 보면 **데이터 레이스**(여러 goroutine이 동기화 없이 같은 변수를 읽고 씀)가 생깁니다. 이건 **평소엔 안 드러나다가 운 나쁘면 터집니다.** Go는 런타임 탐지기를 내장합니다.
+```text
+cancel()
+→ 취소 신호를 보냄
+
+≠
+
+goroutine 강제 kill
+```
+
+또한 `context.Value`를 일반 설정 전달용 map처럼 남용하지 않는다. 요청 범위를 가로질러 필요한 메타데이터에 제한하는 것이 일반적이다.
+
+## race detector
 
 ```bash
 go test -race ./...
 go run -race main.go
 ```
 
-동시성 코드를 실전에 올리기 전 반드시 한 번 `-race`로 돌리세요. 함께 조심할 것이 **goroutine 누수** — 아무도 안 받는 채널에 영원히 막혀 goroutine이 안 죽고 쌓이는 것.
+race detector는 실행 중 실제로 관찰된 메모리 접근을 바탕으로 data race를 탐지한다.
 
-## C++ 전환으로 정리
+따라서
 
-| C++ | Go | 핵심 차이 |
+```text
+-race에서 안 나옴
+→ race가 절대 없음
+```
+
+을 의미하지 않는다. 테스트가 해당 실행 경로를 지나지 않았다면 탐지할 수 없다. 동시성 테스트의 coverage와 함께 사용해야 한다.
+
+## goroutine leak
+
+끝나지 않는 goroutine은 메모리뿐 아니라 channel·timer·socket 같은 자원을 계속 붙잡을 수 있다.
+
+대표 원인은 다음과 같다.
+
+- 아무도 받지 않는 channel send에서 영구 대기
+- receive가 끝나지 않는 channel 기다림
+- context 취소를 전달하지 않음
+- ticker/timer 또는 I/O 수명을 정리하지 않음
+
+따라서 goroutine을 만들 때는 **누가 언제 끝내는가**를 같이 설계한다.
+
+## C++을 발판으로 비교
+
+| C++에서 떠올릴 것 | Go | 경계 |
 |---|---|---|
-| `std::thread` (OS 스레드) | goroutine | 경량, 수천 개 OK. `go` 한 줄 |
-| 공유 변수 + mutex | channel (통신) | 공유보다 통신 선호 |
-| `std::mutex` / `join()` | `sync.Mutex` / `WaitGroup` | 필요할 땐 전통 방식도 |
-| (대응 없음) | `context` | 취소·타임아웃 전파 |
-| ThreadSanitizer | `-race` (내장) | 빌드 플래그 하나 |
-
-## 자주 막히는 지점
-
-- **deadlock** — 아무도 안 받는 채널에 보내거나, 채널을 안 닫고 `range`로 받으면 전체가 멈춥니다(`fatal error: all goroutines are asleep - deadlock!`). 한 번 겪어야 채널이 이해됩니다.
-- **닫힌 채널에 send → 패닉** — 받기는 닫힌 뒤에도 되지만(버퍼에 남은 값을 다 꺼낸 뒤엔 zero value), **보내기는 패닉**. 닫는 책임은 **보내는 쪽**에 둡니다.
-- **루프 변수 캡처** — `for` 안에서 `go func(){ use(v) }()`처럼 루프 변수를 클로저로 캡처하면 예전 Go에선 전부 마지막 값을 봤습니다. 인자로 넘기거나(위 WaitGroup 예제), Go 1.22+의 새 루프 변수 시맨틱에 의존.
-- **보이지 않는 레이스** — `-race` 없이는 안 드러납니다. 습관적으로 테스트를 `-race`로.
+| `std::thread` | goroutine | 둘 다 동시 실행 흐름이지만 스케줄링 주체와 비용 모델이 다름 |
+| queue + mutex/condvar | channel | 통신 직관은 비슷하지만 channel semantics가 언어에 통합됨 |
+| `std::mutex` | `sync.Mutex` | 공유 상태 보호라는 역할은 비슷함 |
+| join/future wait | `WaitGroup` | 완료 대기 목적은 비슷하지만 API 모델은 다름 |
+| cancellation token류 | `context` | 취소 전파라는 목적은 비슷하지만 Go API 관용구가 별도로 정립됨 |
+| ThreadSanitizer | `-race` | dynamic race detection이라는 목적이 비슷함 |
 
 ## 통과 기준
 
-- goroutine 여러 개가 채널로 결과를 모으고, main이 `WaitGroup` 또는 채널로 완료를 기다리는 코드를 짤 수 있다.
-- unbuffered vs buffered 채널의 차이, `select`·`context` 취소를 설명할 수 있다.
-- `-race`로 데이터 레이스를 탐지할 수 있다.
+- goroutine이 OS thread와 같은 단위가 아니라는 점을 설명할 수 있다.
+- channel send가 소유권 이전을 자동 보장하지 않는다는 것을 안다.
+- channel과 Mutex 중 무엇이 현재 문제에 더 자연스러운지 판단할 수 있다.
+- context cancel이 강제 종료가 아니라 협력적 취소 신호임을 설명할 수 있다.
+- race detector가 실행 경로 기반 동적 분석임을 안다.
 
-다음은 [⑥ 표준 라이브러리·관용구·testing](/posts/go/2026-07-12-go-stdlib-idiom-testing/)입니다. 문법을 넘어 실제로 뭔가 만들고 **Go답게** 쓰는 단계입니다.
+다음은 [⑥ 표준 라이브러리·관용구·testing](/posts/go/2026-07-12-go-stdlib-idiom-testing/)이다.
 
 ## Reference
 
-- [A Tour of Go — Concurrency](https://go.dev/tour/concurrency/1) — goroutine·channel·select의 정본.
-- [Go by Example: Goroutines](https://gobyexample.com/goroutines) · [Channels](https://gobyexample.com/channels) · [Context](https://gobyexample.com/context)
-- [코루틴이란 무엇인가](/posts/concept/2026-07-12-coroutine/) — goroutine이 스레드·코루틴과 어떻게 다른지.
+- [A Tour of Go — Concurrency](https://go.dev/tour/concurrency/1)
+- [Go Blog — Share Memory By Communicating](https://go.dev/blog/codelab-share)
+- [Go Blog — Context](https://go.dev/blog/context)
+- [Data Race Detector](https://go.dev/doc/articles/race_detector)
+- [코루틴이란 무엇인가](/posts/concept/2026-07-12-coroutine/)
