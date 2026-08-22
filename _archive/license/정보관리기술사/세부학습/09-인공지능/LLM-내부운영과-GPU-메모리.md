@@ -585,3 +585,100 @@ Inference
 RAG의 Vector DB가 내부에 있다고 해서 Data가 자동으로 내부에만 머무는 것은 아니다.
 
 ### 외부 LLM API 사용
+
+```text
+사내 문서
+   ↓
+내부 Vector DB에서 관련 Chunk 검색
+   ↓
+질문 + 검색된 Chunk
+   ↓
+외부 LLM API
+```
+
+이 구조에서는 Vector DB가 내부에 있더라도 **검색된 원문 Chunk와 질문이 외부 Provider로 전송될 수 있다.** 따라서 폐쇄망·민감정보 환경에서는 단순히 Vector DB 위치만 볼 것이 아니라 LLM 호출 경로와 전송 Data를 함께 봐야 한다.
+
+### 내부 LLM 사용
+
+```text
+사내 문서
+   ↓
+내부 Vector DB
+   ↓
+질문 + 검색된 Chunk
+   ↓
+내부 LLM Serving
+   ↓
+답변
+```
+
+이렇게 Embedding, Vector DB, LLM Serving을 내부에 구성하면 주요 Data 흐름을 내부망 안에 둘 수 있다. 다만 실제 보안성은 Model 자체보다도 접근통제, 로그, 암호화, 계정·권한, 학습·저장 정책까지 포함해 판단해야 한다.
+
+> **폐쇄망 RAG의 핵심은 Vector DB가 내부에 있다는 사실 하나가 아니라, 검색된 Context가 최종적으로 어느 Model과 Runtime으로 전달되는지까지 포함한 전체 Data Flow다.**
+
+---
+
+## 17. 자체 Hosting에서 함께 봐야 할 운영 항목
+
+Model Weight를 GPU에 올릴 수 있다고 Serving 준비가 끝나는 것은 아니다.
+
+실제 운영에서는 다음 항목을 함께 본다.
+
+```text
+Model 선택·정밀도
+   ↓
+GPU / VRAM 용량
+   ↓
+Serving Runtime
+   ↓
+동시 요청·Batching
+   ↓
+Context 길이와 KV Cache
+   ↓
+Latency / Throughput
+   ↓
+Monitoring
+   ↓
+비용·장애 대응·보안
+```
+
+특히 같은 Model이라도 동시 사용자 수와 Context 길이가 늘면 KV Cache와 Runtime Memory 사용량이 커지고, 요청을 어떻게 Batch하느냐에 따라 처리량과 지연시간이 달라진다.
+
+따라서 Hardware 산정은 `Model Weight가 VRAM에 들어가는가`만 계산해서 끝내지 않는다.
+
+---
+
+## 18. 기억 흐름
+
+```text
+Parameter 수
+   ↓
+Weight 크기 결정에 영향
+   ↓
+정밀도(FP16 / INT8 / 4-bit 등)
+   ↓
+필요 Memory 규모
+   ↓
+한 GPU에 안 들어가면
+Quantization / Multi-GPU / Offloading
+   ↓
+실제 Serving에서는
+KV Cache + Runtime Memory + 동시성까지 고려
+   ↓
+대규모 구성에서는
+GPU 간 통신과 Network도 중요
+```
+
+그리고 운영 관점에서 가장 중요한 경계는 다음과 같다.
+
+```text
+Model 파일을 저장할 수 있음
+≠
+Model을 Memory에 올려 실행할 수 있음
+≠
+실서비스 속도로 Serving할 수 있음
+```
+
+한 문장으로 정리하면 다음과 같다.
+
+> **LLM 자체 Hosting은 Model Weight를 보관하는 문제를 넘어, Weight와 KV Cache를 감당할 Memory, 반복 Matrix 연산을 수행할 Compute, 여러 GPU를 연결할 Network, 그리고 동시 요청을 처리할 Serving Runtime을 함께 설계하는 Infrastructure 문제다.**
