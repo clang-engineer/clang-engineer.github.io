@@ -12,15 +12,18 @@
 
 장치는 전송 전에 매체를 듣고, 충돌을 감지하면 전송을 멈춘 뒤 무작위 시간 후 재시도한다. 현대 Switch 기반 Full-Duplex Ethernet에서는 각 Port가 충돌 영역을 분리하므로 CSMA/CD의 실질적 필요가 크게 줄었다.
 
-```mermaid
-flowchart TD
-    A[공유 Ethernet] --> B[여러 장치가 같은 매체 사용]
-    B --> C{동시 송신?}
-    C -->|No| D[정상 전송]
-    C -->|Yes| E[Collision]
-    E --> F[전송 중단]
-    F --> G[Random Backoff]
-    G --> A
+```text
+공유 Ethernet
+   ↓
+여러 장치가 같은 매체 사용
+   ↓
+동시 송신 발생
+   ↓
+Collision 감지
+   ↓
+전송 중단
+   ↓
+Random Backoff 후 재시도
 ```
 
 ## 무선은 왜 충돌하는가
@@ -31,12 +34,12 @@ flowchart TD
 
 무선에서는 단말마다 전용 회선이 주어지는 것이 아니다. 같은 AP의 같은 채널을 쓰는 단말은 같은 공기와 주파수 자원을 시간으로 나눠 사용한다. 주파수 대역이나 채널이 다르면 간섭을 줄일 수 있지만, 같은 채널 안에서는 여전히 공유 매체다.
 
-```mermaid
-flowchart LR
-    A[단말 A] -->|같은 Channel| AP[Access Point]
-    B[단말 B] -->|같은 Channel| AP
-    C[단말 C] -->|같은 Channel| AP
-    AP --> N[유선 Network]
+```text
+단말 A ─┐
+단말 B ─┼─ 같은 Channel ─→ Access Point ─→ 유선 Network
+단말 C ─┘
+
+같은 Channel 안에서는 여러 단말이 같은 무선 매체를 공유한다.
 ```
 
 유선 장치는 Cable에서 보낸 신호와 실제 신호를 비교해 충돌을 알아챌 수 있었다. 무선 단말은 자기 송신 신호가 너무 강해 송신 중 다른 단말의 약한 신호를 제대로 듣기 어렵다. 따라서 충돌이 난 뒤 즉시 탐지하기보다, 먼저 듣고 무작위로 기다린 다음 ACK가 오지 않으면 실패로 판단한다.
@@ -45,66 +48,59 @@ flowchart LR
 
 CSMA/CA(Carrier Sense Multiple Access with Collision Avoidance)의 기본 흐름은 다음과 같다.
 
+```text
 채널이 사용 중인지 확인
-→ 비어 있으면 일정 시간 대기
-→ 무작위 Backoff 값 선택
-→ Counter가 0이 되면 전송
-→ 수신 측 ACK 확인
-→ ACK가 없으면 충돌·손실로 보고 재전송
-
-```mermaid
-flowchart TD
-    A[Channel Sense] --> B{사용 중?}
-    B -->|Yes| A
-    B -->|No| C[IFS 대기]
-    C --> D[Random Backoff]
-    D --> E{Counter = 0?}
-    E -->|No, Channel Idle| D
-    E -->|Yes| F[Frame 전송]
-    F --> G{ACK 수신?}
-    G -->|Yes| H[성공]
-    G -->|No| I[손실/충돌 추정]
-    I --> D
+        ↓
+사용 중이면 대기
+        ↓
+비어 있으면 IFS 대기
+        ↓
+Random Backoff 선택
+        ↓
+Counter가 0이 되면 전송
+        ↓
+수신 측 ACK 확인
+        ↓
+ACK가 없으면 충돌·손실로 보고 재전송
 ```
 
 RTS/CTS는 송신 예정 구간을 주변 단말에 알려 Hidden Node 충돌을 줄일 수 있지만 제어 Frame 비용이 생긴다.
 
 Hidden Node는 두 단말이 서로의 전파는 듣지 못하지만 같은 AP에는 도달하는 상황이다. 두 단말은 각자 채널이 비었다고 생각해 동시에 보낼 수 있다. RTS/CTS를 사용하면 AP의 CTS를 들은 주변 단말이 일정 시간 전송을 미루므로 이런 충돌을 줄일 수 있다.
 
-```mermaid
-sequenceDiagram
-    participant A as 단말 A
-    participant AP as AP
-    participant B as 단말 B
-    Note over A,B: A와 B는 서로 신호를 못 들음
-    A->>AP: RTS
-    AP-->>A: CTS
-    AP-->>B: CTS
-    Note over B: NAV 설정, 전송 대기
-    A->>AP: DATA
-    AP-->>A: ACK
+```text
+단말 A와 단말 B는 서로 신호를 듣지 못함
+하지만 둘 다 AP에는 도달 가능
+
+단말 A ── RTS ──→ AP
+단말 A ←─ CTS ─── AP ── CTS ──→ 단말 B
+                         ↓
+                     단말 B는 NAV 설정 후 대기
+
+단말 A ── DATA ──→ AP
+단말 A ←─ ACK ─── AP
 ```
 
 ## WLAN 연결 흐름
 
-1. 단말이 Beacon 또는 Probe로 Access Point 탐색
-2. 인증과 Association 수행
-3. 보안 방식에 따라 Key 협상
-4. DHCP로 IP·Gateway·DNS 획득
-5. ARP·Neighbor Discovery로 같은 망의 주소 해석
-6. Gateway를 통해 외부망 통신
-7. 이동하면 다른 AP로 Handover
-
-```mermaid
-flowchart TD
-    A[AP 탐색<br/>Beacon / Probe] --> B[Authentication]
-    B --> C[Association]
-    C --> D[보안 Key 협상]
-    D --> E[DHCP]
-    E --> F[IP / Gateway / DNS 획득]
-    F --> G[ARP / ND]
-    G --> H[외부망 통신]
-    H --> I[이동 시 Roaming / Handover]
+```text
+1. AP 탐색
+   Beacon / Probe
+        ↓
+2. Authentication
+        ↓
+3. Association
+        ↓
+4. 보안 Key 협상
+        ↓
+5. DHCP
+   IP / Gateway / DNS 획득
+        ↓
+6. ARP / Neighbor Discovery
+        ↓
+7. 외부망 통신
+        ↓
+8. 이동 시 Roaming / Handover
 ```
 
 무선 연결 문제는 이 계층을 나누어 진단해야 한다. AP가 보이지만 바로 끊어진다면 저장된 인증정보, 보안 방식, Driver, DHCP, AP 정책 등을 단계별로 확인한다.
