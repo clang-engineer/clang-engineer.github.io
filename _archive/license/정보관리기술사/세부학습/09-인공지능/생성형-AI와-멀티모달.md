@@ -76,6 +76,38 @@ Context에 추가
 
 즉 Text 생성에서는 **앞의 Token을 조건으로 다음 Token을 반복 예측하는 Autoregressive 방식**이 핵심적인 구조 중 하나다.
 
+다만 여기서 Transformer와 Autoregressive를 완전히 떨어진 별도 계층처럼 이해하면 다시 헷갈릴 수 있다.
+
+```text
+Transformer
+= 현재 Context를 보고 다음 Token 후보 분포를 계산하는 Architecture
+
+Autoregressive Generation
+= 그 후보 분포에서 Decoding으로 Token을 선택하고,
+  선택된 Token을 다시 Context에 포함해
+  다음 Token 생성을 반복하는 전체 생성 방식
+```
+
+따라서 GPT류 LLM의 실행 흐름은 다음처럼 보는 것이 자연스럽다.
+
+```text
+현재 Context
+ ↓
+Transformer
+ ↓
+다음 Token 후보 분포
+ ↓
+Decoding
+ ↓
+Token 하나 선택
+ ↓
+선택 Token을 Context에 추가
+ ↓
+다음 Step 반복
+```
+
+즉 Transformer와 Autoregressive는 같은 층의 경쟁 기술이 아니지만, 실제 LLM 생성에서는 **Autoregressive Generation이라는 생성 방식 안에서 Transformer가 다음 Token 분포를 계산하는 핵심 구조로 사용**된다.
+
 하지만 Image는 처음부터 문장처럼 Token의 순서로만 표현되는 Data가 아니며, Image 생성에는 GAN이나 Diffusion처럼 다른 생성 방식도 발전해왔다.
 
 ---
@@ -538,6 +570,17 @@ LLM → GAN → Diffusion → Multimodal   X
 
 처럼 **서로 다른 분류축**으로 이해한다.
 
+다만 서로 다른 분류축은 실제 Model 안에서 함께 결합될 수 있다.
+
+```text
+GPT류 LLM
+= Text를 다룸
++ Transformer 구조를 주로 사용
++ Autoregressive 방식으로 Token을 생성
+```
+
+따라서 `Transformer와 Autoregressive는 다른 축이다`라는 말은 서로 경쟁하는 같은 계층이 아니라는 뜻이지, 실제 LLM 실행에서 서로 관련이 없다는 뜻은 아니다.
+
 ---
 
 ## 15. 지금까지 배운 AI 개념과 연결
@@ -590,6 +633,10 @@ Transformer = LLM?
 → X
 Transformer는 Neural Network Architecture이며 Image 등에도 적용할 수 있다.
 
+Transformer와 Autoregressive는 완전히 따로 노는가?
+→ X
+분류축은 다르지만 GPT류 LLM에서는 Autoregressive Generation 방식 안에서 Transformer가 다음 Token 후보 분포를 계산하는 핵심 구조로 사용된다.
+
 GAN과 Diffusion은 Image 전용인가?
 → X
 Image 생성으로 널리 알려졌지만 생성 원리 자체를 Image에만 한정할 수는 없다.
@@ -609,8 +656,13 @@ Multimodal은 여러 정보 형태를 함께 다룬다는 특성이고, 실제 �
 ├─ 무엇을 생성하는가? → Text / Image / Audio / Video
 ├─ 어떤 생성 원리인가? → Autoregressive / GAN / Diffusion 등
 └─ 몇 가지 Modality를 함께 다루는가? → Unimodal / Multimodal
+
+GPT류 LLM
+├─ 처리 대상 → Text
+├─ 주요 구조 → Transformer
+└─ 생성 방식 → Autoregressive Generation
 ```
 
 가장 중요한 한 문장:
 
-> **LLM·GAN·Diffusion·Multimodal은 같은 계층의 경쟁 기술이 아니라 서로 다른 질문에 답하는 개념이며, 생성형 AI를 이해할 때는 처리 대상·생성 원리·Modality 결합 여부를 분리해서 봐야 한다.**
+> **LLM·GAN·Diffusion·Multimodal은 같은 계층의 경쟁 기술이 아니라 서로 다른 질문에 답하는 개념이며, 생성형 AI를 이해할 때는 처리 대상·생성 원리·Modality 결합 여부를 분리해서 봐야 한다. 다만 실제 GPT류 LLM에서는 Text Modality, Transformer Architecture, Autoregressive Generation이 한 생성 시스템 안에서 결합된다.**
