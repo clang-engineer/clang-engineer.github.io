@@ -1,98 +1,237 @@
 ---
-title       : 이터레이터와 지연 평가 — 순회를 추상화하기
-description : "컬렉션의 내부 구조를 노출하지 않고 원소를 하나씩 훑는 공통 인터페이스가 이터레이터다. 거기에 map·filter를 지연(lazy)으로 엮으면 중간 컬렉션 없이 한 번에 훑는다. C++ STL 이터레이터·알고리즘에 넘기던 그 람다가 Rust Iterator 어댑터의 클로저이고, C++20 ranges의 지연 view가 Rust에선 언어 중심이 된 과정을 대응시킨다."
+title       : 이터레이터와 지연 평가 — 순회와 실행 시점을 분리하기
+description : "이터레이터가 순회 방식을 추상화하는 개념이고 지연 평가는 계산 시점을 늦추는 별도 개념임을 구분한다. C++ STL/ranges, Rust Iterator, Go range-over-func를 비교한다."
 date        : 2026-07-12 15:20:00 +0900
-updated     : 2026-07-13 15:20:00 +0900
+updated     : 2026-08-22 17:00:00 +0900
 categories  : [concept]
 tags        : [iterator, lazy-evaluation]
 pin         : false
 hidden      : false
 ---
 
-> **난이도** 중급 · **선행** [클로저](/posts/concept/2026-07-12-closure/)(어댑터에 넘기는 게 클로저다)를 봤으면 좋다.
+> **난이도** 중급 · **선행** [클로저](/posts/concept/2026-07-12-closure/)를 보면 `map`·`filter`에 함수를 넘기는 부분이 쉽게 읽힌다.
 >
 > 🗺️ [프로그래밍 언어 개념 로드맵](/posts/concept/2026-07-13-concept-roadmap/)의 한 편
 
 ## 한 줄 요약
 
-이터레이터는 **컬렉션의 내부 구조(배열이냐 트리냐)를 노출하지 않고 원소를 하나씩 훑는 공통 인터페이스**다. 거기에 `map`·`filter`를 **지연(lazy)**으로 엮으면 중간 컬렉션을 만들지 않고 한 번의 순회로 처리한다. C++ STL 이터레이터·알고리즘이 그 원형이고, Rust의 `Iterator` 트레이트가 그걸 언어 중심으로 끌어올렸다.
+이터레이터(iterator)는 **원소를 어떤 순서와 방식으로 하나씩 꺼낼지 추상화**한다. 지연 평가(lazy evaluation)는 **계산을 결과가 필요할 때까지 미룬다**. 둘은 자주 함께 쓰이지만 같은 개념은 아니다.
 
-## 어떤 문제를 푸는가
+```text
+이터레이터 → 어떻게 하나씩 순회할 것인가
+지연 평가   → 그 계산을 언제 수행할 것인가
+클로저      → 각 원소에 어떤 동작을 적용할 것인가
+```
 
-컨테이너마다 순회 방법이 다르면(`vector`는 인덱스, `map`은 트리 순회), "짝수만 골라 제곱해 더하기" 같은 로직을 컨테이너마다 다시 짜야 한다. **이터레이터는 "다음 원소 줘"라는 하나의 인터페이스로 순회를 통일**해, 알고리즘을 컨테이너와 분리한다.
+이 세 축을 분리하면 C++ STL, C++20 ranges, Rust Iterator, Go의 iterator 지원이 한 줄로 보인다.
 
-## C++에서 출발 — begin/end와 알고리즘
+## 1. 이터레이터가 푸는 문제
 
-C++ 개발자는 이미 이터레이터를 쓴다.
+컨테이너마다 내부 구조는 다르다. 배열은 인덱스로 접근할 수 있지만 연결 리스트·트리·생성형 시퀀스는 같은 방식으로 접근하지 않는다.
+
+이터레이터는 내부 구조를 감추고 **현재 위치에서 다음 원소로 진행하는 규약**을 제공한다. 덕분에 알고리즘을 컨테이너 구조와 분리할 수 있다.
 
 ```cpp
 std::vector<int> v = {1, 2, 3, 4};
-auto it = std::find_if(v.begin(), v.end(),
-                       [](int x) { return x % 2 == 0; });  // 첫 짝수를 찾음
+auto it = std::find_if(
+    v.begin(), v.end(),
+    [](int x) { return x % 2 == 0; }
+);
 ```
 
-`begin()`/`end()`가 이터레이터이고, `std::find_if`·`std::transform` 같은 알고리즘이 그걸 받아 동작한다. 그리고 **알고리즘에 넘기는 저 `[](int x){...}`가 바로 클로저**다.
+여기서
 
-> **여기가 착지점.** Rust의 `v.iter().filter(|x| x % 2 == 0)`에서 `filter`에 넘기는 클로저는 **C++ `find_if`에 넘기던 그 람다와 같은 것**이다. Rust는 이걸 `.` 체인으로 엮게 만들었을 뿐. → [STL 컨테이너와 알고리즘](/posts/cpp/2026-07-03-cpp-stl-containers-and-algorithms/)
+- `begin()`/`end()`가 순회 범위를 표현하고
+- `find_if`가 알고리즘이며
+- 람다가 각 원소에 적용할 조건을 표현한다.
 
-## 지연 평가 — 중간 컬렉션을 안 만든다
+람다가 외부 환경을 사용하면 클로저가 된다.
 
-"짝수만 골라 제곱"을 순진하게 짜면 **매 단계 새 컬렉션**이 생긴다. `filter`가 벡터 하나, `map`이 또 하나. 지연 평가는 이걸 없앤다 — 어댑터를 엮어두기만 하고 **실제 순회는 결과가 필요한 순간 딱 한 번** 흐른다.
+## 2. 이터레이터와 지연 평가는 별개다
+
+이터레이터를 쓴다고 계산이 자동으로 지연되는 것은 아니다.
+
+고전 C++ STL의 `std::transform`은 이터레이터를 받지만 호출하면 즉시 순회한다.
+
+```cpp
+std::transform(input.begin(), input.end(), output.begin(), square);
+```
+
+반면 C++20 ranges의 view는 계산을 조합해 두고 실제 원소가 필요할 때 처리할 수 있다.
+
+```cpp
+auto result = values
+    | std::views::filter([](int x) { return x % 2 == 0; })
+    | std::views::transform([](int x) { return x * x; });
+```
+
+즉 다음 등식은 성립하지 않는다.
+
+```text
+iterator = lazy evaluation   // X
+```
+
+이터레이터는 순회 추상화이고, lazy view나 lazy iterator adapter가 그 위에 지연 계산을 얹는 구조다.
+
+## 3. Rust Iterator — 두 개념을 자연스럽게 결합한다
+
+Rust의 `Iterator` 어댑터는 기본적으로 지연된다.
 
 ```rust
-let sum: i32 = v.iter()
-    .filter(|&&x| x % 2 == 0)   // 아직 아무것도 안 함(lazy)
-    .map(|&x| x * x)            // 여기도 안 함
-    .sum();                     // ★ 이 순간 원소가 filter→map→sum을 한 번에 통과
+let sum: i32 = values.iter()
+    .filter(|&&x| x % 2 == 0)
+    .map(|&x| x * x)
+    .sum();
 ```
 
-Rust `Iterator`는 **기본이 지연**이다. `filter`·`map`은 "무엇을 할지"만 기억하고, `sum()`·`collect()` 같은 소비자가 붙어야 실제로 흐른다.
+`filter`와 `map`은 즉시 전체 컬렉션을 만들어내지 않는다. 소비자(consumer)인 `sum`, `collect`, `for` 등이 원소를 요구할 때 계산이 진행된다.
 
-> **C++에선 이게 나뉜다 — 발판과 그 한계.** 고전 STL 알고리즘(`std::transform` 등)은 **즉시(eager)** 실행돼 결과 컨테이너를 바로 채운다. 지연 view는 **C++20 ranges**에서야 왔다: `v | std::views::filter(...) | std::views::transform(...)`가 Rust 체인과 판박이다. **단 등치가 깨지는 지점** — ranges는 C++20 최신 기능이라 [모던 C++ 로드맵도 '필수' 밖으로](/posts/cpp/2026-07-03-cpp-learning-roadmap/) 미뤄뒀다. 즉 "이터레이터"는 C++에 단단히 있지만, "지연 어댑터 체인"은 **Rust가 더 native**하고 C++에선 신기능이다.
+이 때문에
 
-## Go는 왜 오래 비어 있었나
+```text
+values
+→ filter
+→ map
+→ sum
+```
 
-Go는 이터레이터 추상화를 **일부러 오래 두지 않았다**. `for range`로 slice·map을 직접 돌 뿐, `filter`/`map` 체인이 없어 루프를 손으로 썼다(단순성 우선). **Go 1.23(2024)**에서야 `range`-over-func 이터레이터가 들어와 사용자 정의 순회가 가능해졌다.
+이 논리적으로 여러 단계여도 각 원소는 필요할 때 파이프라인을 통과할 수 있다. 중간 컬렉션 할당을 피할 수 있다는 것이 대표적인 장점이다.
 
-## 언어별 정리
+다만 **지연 = 항상 빠름**은 아니다. 어댑터 조합, 최적화, 캐시 지역성, 반복 계산 여부에 따라 실제 비용은 달라진다. 지연 평가는 우선 실행 시점과 중간 결과 생성을 바꾸는 의미론으로 이해하는 편이 정확하다.
 
-| | 이터레이터 | 지연 어댑터 체인 | 어댑터에 넘기는 것 |
+## 4. 클로저는 이터레이터의 필수 조건이 아니다
+
+`filter`, `map` 같은 고차 어댑터가 함수를 받기 때문에 클로저와 자주 붙어 다닌다.
+
+```rust
+let threshold = 10;
+values.iter().filter(|&&x| x > threshold);
+```
+
+여기서는 `threshold`를 캡처하므로 실제 클로저다.
+
+하지만 이터레이터 자체는 클로저 없이도 존재한다. 단순 순회나 미리 정의된 함수 포인터를 사용하는 알고리즘도 이터레이터다.
+
+따라서 관계는
+
+```text
+이터레이터
+└─ 순회 규약
+
+지연 평가
+└─ 실행 시점
+
+클로저
+└─ 주변 환경을 포함한 함수
+```
+
+이고, Rust 같은 API가 이들을 편리하게 조합해 사용하는 것이다.
+
+## 5. C++ — STL iterator와 ranges view
+
+C++에서는 역사적으로 두 층이 비교적 잘 보인다.
+
+### 고전 STL
+
+```text
+container
+→ iterator pair(begin/end)
+→ algorithm
+→ 즉시 실행
+```
+
+`find_if`, `sort`, `transform` 같은 알고리즘이 이터레이터 범위를 받는다.
+
+### C++20 ranges
+
+```text
+range
+→ view adapter
+→ view adapter
+→ 필요할 때 순회
+```
+
+`views::filter`, `views::transform` 같은 view는 Rust iterator adapter와 비슷한 사용 경험을 제공한다.
+
+하지만 `C++ iterator = Rust Iterator`라고 완전히 등치하면 안 된다. C++ iterator는 전통적으로 **위치/순회 개념**이 강하고, Rust의 `Iterator` trait은 `next()`를 중심으로 한 **원소 생산 인터페이스**이며 다양한 adapter method까지 함께 제공한다.
+
+## 6. Go — range-over-func가 추가한 것
+
+Go는 오랫동안 slice·map·channel 등을 `for range`로 직접 순회하는 방식을 선호했다. Go 1.23부터 함수 형태의 iterator를 `range`할 수 있는 언어 지원이 추가됐다.
+
+중요한 것은 Go가 Rust식 `map().filter().collect()` 체인을 언어 중심 관용구로 바꾼 것은 아니라는 점이다. Go의 기본 스타일은 여전히 명시적인 `for` 루프에 가깝다.
+
+따라서
+
+```text
+Go 1.23
+→ 사용자 정의 순회를 for range에 연결하기 쉬워짐
+
+≠
+
+Rust식 lazy adapter chain이 표준 관용구가 됨
+```
+
+으로 이해하는 편이 좋다.
+
+## 한눈에 비교
+
+| | 순회 추상화 | 지연 조합 | 대표 형태 |
 |---|---|---|---|
-| **C++** | STL `begin/end` + 알고리즘 | C++20 ranges `views`(신기능) | 람다 |
-| **Go** | 1.23+ `range`-over-func | 없음(수동 루프) | — |
-| **Rust** | `Iterator` 트레이트(중심) | 기본 지연(`map`/`filter`/`collect`) | 클로저 |
+| **C++ STL** | iterator | 기본적으로 별개 | `begin/end` + algorithm |
+| **C++20 ranges** | range/iterator | view로 지원 | `views::filter` |
+| **Rust** | `Iterator` trait | adapter가 기본적으로 lazy | `.filter().map()` |
+| **Go 1.23+** | range-over-func 지원 | 언어 중심 체인은 아님 | `for ... range seq` |
 
-- **C++**: 이터레이터는 STL의 뼈대. 지연 view는 C++20 ranges. → [STL 컨테이너와 알고리즘](/posts/cpp/2026-07-03-cpp-stl-containers-and-algorithms/)
-- **Go**: 오래 수동 루프. 1.23에서 이터레이터 도입. → [Go 학습 로드맵](/posts/go/2026-07-12-go-roadmap/)
-- **Rust**: `Iterator` 어댑터 체인이 관용구의 중심. "반복자다움"이 곧 Rust다움. → [Rust 학습 로드맵 — 반복자](/posts/rust/2026-07-12-rust-roadmap/)
+## 7. 이 글에서 기억할 경계
 
-> 정리: **이터레이터(순회 통일)는 C++ STL에서 이미 익숙**하다. 갈리는 건 그 위의 **지연 어댑터 체인** — C++은 C++20 ranges로 뒤늦게, Go는 거의 안 두고, Rust는 언어 중심으로 삼았다. `find_if`에 넘기던 람다가 `.filter()`의 클로저라는 걸 알면 Rust 체인이 낯설지 않다.
+```text
+iterator ≠ lazy evaluation
+closure  ≠ iterator
+range     ≠ iterator와 완전히 같은 추상화
+```
+
+대신 이 개념들은 다음처럼 조합된다.
+
+```text
+데이터/생성원
+   ↓
+순회 추상화(iterator/range)
+   ↓
+변환 규칙(map/filter + 함수/클로저)
+   ↓
+즉시 또는 지연 실행
+   ↓
+소비(sum/collect/for/...)
+```
+
+이 구조를 잡으면 언어별 문법 차이보다 공통 개념이 먼저 보인다.
 
 ## 스스로 점검
 
-**1. 이터레이터가 푸는 근본 문제는?**
+**1. 이터레이터와 지연 평가의 차이는?**
 
 <details markdown="1">
 <summary>답</summary>
 
-컨테이너마다 다른 순회 방법을 **"다음 원소 줘"라는 하나의 인터페이스로 통일**해, 알고리즘을 컨테이너 구조와 분리한다. 그래서 `find_if` 하나가 `vector`든 `list`든 동작한다.
+이터레이터는 원소를 어떻게 하나씩 순회할지 추상화하고, 지연 평가는 계산을 언제 수행할지 결정한다. 이터레이터를 사용해도 즉시 계산할 수 있다.
 
 </details>
 
-**2. 지연 평가가 없애는 낭비는?**
+**2. Rust의 `filter`/`map` 체인에 클로저가 자주 등장하는 이유는?**
 
 <details markdown="1">
 <summary>답</summary>
 
-`filter`→`map`을 즉시 실행하면 **매 단계 중간 컬렉션**이 생긴다. 지연은 어댑터를 엮어두기만 하고, 소비자(`sum`/`collect`)가 붙을 때 원소가 **한 번의 순회로 전체 체인을 통과**하게 해 중간 할당을 없앤다.
+각 원소에 적용할 동작을 함수로 전달하기 때문이다. 그 함수가 주변 변수를 사용하면 클로저가 된다. 클로저 자체가 이터레이터의 필수 조건은 아니다.
 
 </details>
 
-**3. Rust `.filter(|x| ...)`의 클로저를 C++ 개념으로 옮기면?**
+**3. Go 1.23의 iterator 지원이 Rust Iterator와 같은 방향인가?**
 
 <details markdown="1">
 <summary>답</summary>
 
-`std::find_if(v.begin(), v.end(), [](int x){...})`에서 **알고리즘에 넘기던 그 람다**와 같다. Rust는 그걸 `.` 체인으로 엮고 기본을 지연으로 만들었을 뿐, 술어를 클로저로 넘긴다는 뼈대는 같다.
+사용자 정의 순회를 공통 문법에 연결한다는 점은 비슷하지만, Go가 Rust식 lazy adapter chain을 중심 관용구로 채택한 것은 아니다. Go는 여전히 명시적인 `for range` 스타일을 우선한다.
 
 </details>
