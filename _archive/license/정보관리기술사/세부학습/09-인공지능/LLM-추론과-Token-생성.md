@@ -37,6 +37,19 @@ EOS 또는 다른 종료 조건
 응답 종료
 ```
 
+이 전체 반복 구조를 Autoregressive Generation으로 이해하면 된다.
+
+```text
+Autoregressive Generation
+= 현재까지의 Token을 조건으로
+  다음 Token 분포를 계산하고
+  Decoding으로 Token 하나를 선택한 뒤
+  선택 Token을 다시 Context에 포함해
+  다음 Token 생성을 반복하는 방식
+```
+
+따라서 AG는 Transformer와 Decoding 바깥에 따로 붙은 작은 후처리 단계라기보다, **Transformer · LM Head · Decoding · Context 누적을 사용해 긴 Sequence를 만드는 전체 생성 방식**이다.
+
 ---
 
 ## 1. Transformer의 출력은 Token별 Hidden Vector다
@@ -382,6 +395,8 @@ LM Head가 Vocabulary 점수를 만들었다고 해서 아직 다음 Token이 �
 따라서 Decoding은 `Vector를 글자로 변환하는 단계`라고 표현하기보다 다음처럼 이해하는 것이 정확하다.
 
 > **Hidden Vector → LM Head → Vocabulary Logit → 확률분포 → Decoding → Token 선택**
+
+Decoding은 Autoregressive Generation과 경쟁하는 별도 개념이 아니다. AG라는 전체 생성 방식 안에서 **각 Step마다 실제 다음 Token을 고르는 하위 절차**로 이해하면 된다.
 
 ---
 
@@ -741,12 +756,14 @@ EOS / 최대 Token / Stop 조건 확인
 조건을 만족할 때까지 반복
 ```
 
+이 전체가 GPT류 LLM의 Autoregressive Generation 실행 흐름이다. 즉 AG는 `Transformer와 다른 곳에 따로 있는 작은 모듈`이 아니라, **Transformer로 다음 Token 분포를 계산하고 Decoding으로 Token을 선택한 뒤 그 Token을 다시 Context에 포함시키는 반복 생성 절차**다.
+
 핵심 연결은 다음 네 문장으로 압축할 수 있다.
 
 1. **Transformer는 현재 Context를 반영한 Hidden Vector를 만든다.**
 2. **LM Head는 마지막 위치의 Hidden Vector를 Vocabulary 전체 Logit으로 바꾼다.**
 3. **Decoding은 그 점수에서 실제 다음 Token 하나를 선택한다.**
-4. **Decode에서는 KV Cache로 과거 K/V를 재사용하면서 새 Token만 순차적으로 처리한다.**
+4. **Autoregressive Generation은 선택된 Token을 Context에 누적해 이 과정을 반복한다.**
 
 ---
 
@@ -756,6 +773,7 @@ EOS / 최대 Token / Stop 조건 확인
 Hidden Vector ≠ Token
 Logit ≠ 확률 그 자체
 Softmax ≠ Decoding
+Decoding ≠ Autoregressive 전체
 Prompt Token ≠ 생성 Token
 Prefill ≠ Decode
 KV Cache ≠ Model Weight
