@@ -1,188 +1,257 @@
 ---
-title       : Null 안전성 — '10억 달러 실수'를 언어는 어떻게 막나
-description : "null 참조가 왜 '10억 달러 실수'인지에서 출발해, 없음(absence)을 다루는 세 모델 — 구분 없는 널(C++ 포인터·Java·Go), Option 타입(Rust·Swift), nullable 타입(Kotlin·TS·C#)을 '타입에 드러나는가'와 '언제 막히는가' 두 축으로 비교한다. C++ std::optional이 Rust Option과 같은 물건이면서 무엇이 다른지, Go의 'nil인데 nil이 아닌' 함정까지 대응시킨다."
+title       : Null 안전성 — 값의 부재를 타입은 어떻게 표현하나
+description : "값의 부재(absence)를 null/nil, nullable type, Option 계열로 표현하는 방식을 비교한다. 부재 표현과 메모리 안전, 에러 처리, 런타임 표현을 서로 다른 축으로 구분한다."
 date        : 2026-07-13 10:00:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-08-22 17:00:00 +0900
 categories  : [concept]
 tags        : [null-safety, optional]
 pin         : false
 hidden      : false
 ---
 
-> **난이도** 입문 · **선행** [에러 핸들링 모델](/posts/concept/2026-07-12-error-handling-models/)을 봤으면 `Option` 연결이 쉽다
+> **난이도** 입문 · **선행** [에러 핸들링 모델](/posts/concept/2026-07-12-error-handling-models/)을 보면 `Option`과 `Result`의 차이를 연결하기 쉽다.
 >
 > 🗺️ [프로그래밍 언어 개념 로드맵](/posts/concept/2026-07-13-concept-roadmap/)의 한 편
 
 ## 한 줄 요약
 
-"값이 없음"을 가리키는 참조(null)를 그대로 쓰면 프로그램이 죽는다. 언어가 갈리는 지점은 둘 — **없음을 타입에서 구분하느냐**, 그리고 **없음에 손대는 걸 컴파일 타임에 막느냐 런타임까지 미루느냐**. 세 모델이다 — **구분 없는 널(C++ 포인터·Java·Go)**, **없음을 별도 타입에 담는 `Option`(Rust·Swift)**, **null을 두되 타입에 표시하는 nullable(Kotlin·TypeScript)**.
+Null 안전성은 **값이 없을 수 있다는 사실을 타입과 제어 흐름에 어떻게 표현하고, 없는 값을 잘못 사용하는 것을 어떻게 막는가**의 문제다.
 
-## 10억 달러 실수 — 문제의 정체
+```text
+부재 표현
+→ null/nil, nullable type, Option 등
 
-**Tony Hoare**가 1965년 ALGOL W에 null 참조를 집어넣었고, 2009년에 그걸 **"10억 달러 실수(billion-dollar mistake)"**라 불렀다. "구현이 쉬워서 넣었을 뿐인데, 그 뒤 수십 년간 무수한 버그·취약점·크래시를 낳았다"고.
+정적 보장
+→ 부재 가능성이 타입에 드러나는가
 
-문제는 단순하다. **null 가능성이 타입에서 구분되지 않으면, 참조 사용마다 런타임 실패 가능성을 따로 추적해야 한다.**
-
-```java
-String name = user.getName();   // getName이 null을 주면?
-int len = name.length();        // 💥 런타임에 NullPointerException
+사용 규칙
+→ 값을 꺼내기 전에 확인·패턴 매칭·narrowing이 필요한가
 ```
 
-핵심은 **타입이 거짓말을 한다**는 것이다. 시그니처엔 `String`이라 적혀 있지만 실제 값은 "String **이거나, 없음**"이다. 타입은 "있다"고 보장하는 척하는데 런타임엔 없을 수 있다. 이 거짓말을 어떻게 다루느냐가 모델을 가른다. 두 축으로.
+`null`, `Option`, nullable type은 비슷한 문제를 풀지만 메모리 표현과 타입 시스템 의미론까지 같은 것은 아니다.
 
-1. **없음이 타입에 드러나는가** — `String`이 null 가능성을 숨기는가, 아니면 "없을 수 있음"이 타입 자체에 보이는가.
-2. **없음 접근이 언제 막히는가** — 컴파일 타임에 걸러지나, 런타임까지 가서 터지나.
+## 1. 문제는 null이라는 값 하나보다 "숨겨진 부재 가능성"이다
 
-## C++에서 출발 — 문제와 해법 조각을 다 쥐고 있다
+Tony Hoare가 null reference를 자신의 "billion-dollar mistake"라고 표현한 일화가 널리 알려져 있다. 핵심 문제는 값의 부재 가능성이 타입에서 충분히 드러나지 않을 때 호출자가 그 가능성을 놓치기 쉽다는 점이다.
 
-C++ 개발자는 이 이야기의 양쪽을 다 안다. **문제**도, **해법의 조각**도 손에 있다.
+```java
+String name = user.getName();
+int len = name.length();
+```
+
+`getName()`이 `null`을 반환할 수 있는데 타입과 API 계약만 보고 그 사실을 놓치면 런타임 `NullPointerException`이 발생할 수 있다.
+
+다만 이를 **모든 null = 메모리 안전성 실패**로 일반화하지 않는다. Java/Kotlin의 null dereference는 예외로 끝나지만 C++의 잘못된 포인터 역참조는 undefined behavior가 될 수 있다. 같은 "없는 값을 잘못 사용했다"여도 실패 모델은 언어마다 다르다.
+
+## 2. C++ — 포인터, 참조, optional이 서로 다른 계약을 가진다
 
 ```cpp
 int* p = nullptr;
-*p;                       // 💥 UB — 보통 segfault
-
-int& r = *p;              // 참조는 null이면 안 된다(바인딩 자체가 UB)
-                          // → 관례상 "T&는 값이 있다"는 약한 보장
-
-std::optional<int> o;     // C++17 — "int이거나, 없음"을 타입에 담는다
-if (o) use(*o);           // 있을 때만 꺼낸다
+std::optional<int> value;
 ```
 
-- **raw 포인터 `T*`** — null일 수 있다. 문제의 원흉 그대로다.
-- **참조 `T&`** — 언어의 값으로 null 상태를 갖지 않는다. 다만 존재하지 않는 객체를 역참조해 억지로 참조를 만들면 그 과정 자체가 UB이고, 수명 안전까지 보장하지는 않는다.
-- **`std::optional<T>`** (C++17) — "값이거나 없음"을 **타입에 담는** 물건. 뒤에 나올 Rust `Option`과 **같은 발상**이다.
+C++ `T*`는 null pointer value를 가질 수 있다. 반면 `T&`는 정상적인 언어 값으로 null 상태를 표현하는 타입이 아니다. 하지만 참조라고 해서 객체 수명까지 자동으로 안전해지는 것은 아니다.
 
-즉 C++엔 문제(raw 포인터)와 해법의 씨앗(`optional`·참조)이 **공존**한다. 다만 어느 것도 **강제되지 않는다** — `optional`을 쓸지는 선택이고, 그 옆에서 raw null 포인터는 여전히 열려 있다. 이 "조각은 있지만 강제는 없다"가 다음 두 모델과 갈리는 출발점이다.
+`std::optional<T>`는 **T가 있거나 없는 상태를 값 타입으로 표현**한다.
 
-## 모델 ① 구분 없는 널 — 타입이 null을 숨긴다 (C++ 포인터, Java, Go)
+```cpp
+std::optional<int> find();
 
-가장 흔한 길. Java reference, Go pointer·map·slice·channel·function·interface, C++ pointer처럼 **일부 참조적 타입이 null/nil을 암묵적으로 포함**한다. C++ `T&`처럼 null 상태가 없는 타입도 있으므로 “모든 참조”로 일반화하면 안 됩니다. 중요한 문제는 null 가능 타입에서도 그 가능성이 시그니처에 구분되지 않는다는 점입니다.
-
-```go
-var p *User        // nil
-name := p.Name     // 💥 nil pointer dereference — 런타임 panic
-```
-
-- **C++ raw 포인터**: `*nullptr` → UB(대개 segfault).
-- **Java**: `null` 역참조 → `NullPointerException`.
-- **Go**: nil 가능 타입마다 허용 연산이 다릅니다. nil pointer 역참조는 panic이지만, nil map은 읽기·`len`·`range`가 가능하고 쓰기만 panic입니다. nil slice는 읽기·`len`·`range`·`append`가 가능합니다. interface는 typed nil을 담을 수 있습니다.
-
-컴파일러가 못 막으니 방어는 순전히 개발자 몫이다 — `if (p != null)`을 **기억해서** 둘러야 한다. 잊으면? 런타임까지 아무도 안 알려준다.
-
-> **Go의 함정 — nil인데 nil이 아니다.** Go 인터페이스 값은 `(타입, 값)` 쌍이다. `nil` 포인터를 인터페이스에 넣으면 **값은 nil이지만 타입 칸이 채워져** 인터페이스 자체는 nil이 아니게 된다.
->
-> ```go
-> func do() error {
->     var p *MyError = nil
->     return p            // nil 포인터를 error 인터페이스로 반환
-> }
-> if do() != nil {        // ✅ true! — 타입 칸이 있어 인터페이스는 non-nil
->     // 여기 들어온다. "에러 없음"인데 에러 있음으로 읽힌다
-> }
-> ```
->
-> "구분 없는 널"이 인터페이스와 만나 만드는 대표적 함정이다. 서브타입 다형성 글의 **[인터페이스 값 = `(*itab, *data)` 2워드](/posts/concept/2026-07-12-subtype-polymorphism-dynamic-dispatch/)**를 알면 왜 이런지 바로 보인다 — `data`가 nil이어도 `itab`이 채워지면 인터페이스는 nil이 아니다.
-
-## 모델 ② Option 타입 — 없음을 별도 타입에 담는다 (Rust, Swift)
-
-발상을 뒤집는다. **null을 아예 없애고**, "없을 수 있음"을 **별도 타입**으로 표현한다. Rust의 `Option<T>`는 `Some(T)` 아니면 `None`인 [합타입](/posts/concept/2026-07-12-error-handling-models/)이다.
-
-```rust
-fn find(id: u32) -> Option<User> { ... }   // "User이거나 None"이 타입에 보인다
-
-let u = find(1);
-// u.name;                 // ★ 컴파일 에러 — Option<User>엔 .name이 없다
-match u {
-    Some(user) => use(user),
-    None => { /* 없을 때를 강제로 다뤄야 한다 */ }
+if (auto v = find()) {
+    use(*v);
 }
 ```
 
-`Option<User>`에서 `User`를 꺼내려면 **반드시 언랩을 거쳐야** 하고, 언랩은 None인 경우를 다루도록 강제한다. 그리고 일반 참조 `&T`에는 **null이 존재하지 않는다** — "값이 있다"가 타입의 보장이다. 없음을 표현하고 싶으면 `Option<&T>`라고 **명시**해야 한다.
+따라서 C++ 안에서도
 
-- **Rust**: `Option<T>`, `match`/`if let`, `?`로 전파, `.unwrap()`은 None이면 panic — **위험을 명시적으로 옵트인**하는 장치.
-- **Swift**: 옵셔널 `T?`, `if let`/`guard let`으로 안전 언랩, `?.` 옵셔널 체이닝, `!` 강제 언랩.
+```text
+T*
+→ 주소/참조 의미 + null 가능
 
-> **여기가 착지점.** `std::optional<T>`를 아는 C++ 개발자에게 Rust `Option<T>`는 **새 개념이 아니다 — 같은 물건**이다. 차이는 딱 하나, **강제성**이다. C++은 `optional`을 "골라서" 쓰고 그 옆에 raw null 포인터가 열려 있지만, Rust는 **null을 언어에서 없애** 없음을 표현할 유일한 길을 `Option`으로 만들었다. → 이건 [메모리 관리 모델](/posts/concept/2026-07-12-memory-management-models/)의 "`unique_ptr`은 관례, Rust 소유권은 강제"와 **똑같은 구도**다. C++이 도구를 주고 선택에 맡긴 걸, Rust는 타입 시스템으로 강제한다.
+T&
+→ null 상태를 표현하지 않는 참조
 
-> **저수준 한 조각 — 널 포인터 최적화(null pointer optimization).** "없음을 별도 타입에 담으면 태그 비트만큼 메모리가 더 들지 않나?" — 대개 안 든다. `Option<&T>`나 `Option<Box<T>>`는 **참조·박스가 절대 null이 될 수 없다는 걸 컴파일러가 알기에**, 그 안 쓰는 null 비트 패턴(all-zero)을 `None`으로 재활용한다. 그래서 `Option<&T>`는 그냥 포인터와 **같은 크기**다. null을 없앤 대가로 오히려 null 비트가 `None` 표현에 공짜로 쓰인다.
-
-## 모델 ③ nullable 타입 — null을 두되 타입에 표시한다 (Kotlin, TypeScript, C#)
-
-세 번째 길은 절충이다. **null을 유지하되**, 타입을 **non-null**과 **nullable**로 쪼개고 컴파일러가 null 흐름을 추적한다. 기존 언어에 null 안전을 **후차적으로 얹은** 접근이라 Java·JS 계열에서 나왔다.
-
-```kotlin
-var a: String  = "hi"    // non-null — null 대입 자체가 컴파일 에러
-var b: String? = null    // nullable — ? 붙여야 null 가능
-
-// a.length              // OK
-// b.length              // ★ 컴파일 에러 — b는 null일 수 있다
-b?.length                // 안전 호출 — null이면 통째로 null
-val len = b?.length ?: 0 // 엘비스(?:)로 기본값
-b!!.length               // 강제 — null이면 여기서 예외(위험 옵트인)
+optional<T>
+→ 값의 존재/부재를 명시적으로 표현
 ```
 
-컴파일러가 **흐름 분석(flow analysis)**을 한다. `if (b != null) { b.length }`처럼 null 체크를 하면 그 블록 안에서 `b`는 **자동으로 non-null로 스마트 캐스트**돼 그냥 쓸 수 있다.
+처럼 역할이 다르다.
 
-- **Kotlin**: `T` vs `T?`, `?.`, `?:`(엘비스), `!!`(강제).
-- **TypeScript**: `strictNullChecks` 켜면 `string | null`을 좁히기(narrowing)로 걸러야 접근 가능.
-- **C#**: 8.0의 nullable reference types — `?` 어노테이션 + 경고.
+## 3. 구분되지 않은 null/nil — 부재 가능성이 타입 이름에서 잘 드러나지 않는다
 
-Option 모델과 목표는 같다(컴파일 타임 차단). 차이는 **null을 없애느냐(② Option) vs 남기고 타입에 표시하느냐(③ nullable)**다. ③은 기존 코드베이스에 점진 도입하기 쉬운 대신, `!!`·`!`로 도망칠 구멍이 남는다.
+Java reference나 Go의 일부 타입, C++ pointer처럼 타입 자체의 일반적인 사용에서 null/nil 상태가 함께 허용되는 경우가 있다.
 
-## 한눈에 비교
+### Java
 
-| | 구분 없는 널 (C++ 포인터·Java·Go) | Option 타입 (Rust·Swift) | Nullable 타입 (Kotlin·TS·C#) |
-|---|---|---|---|
-| null이 타입에 | **숨음**(null 가능 타입을 별도 표기하지 않음) | **없앰**(`Option<T>`로 표현) | **표시됨**(`T` vs `T?`) |
-| 없음 접근 차단 | 연산별 런타임 실패 또는 정의된 nil 동작 | ✅ 컴파일(언랩 강제) | ✅ 컴파일(흐름 분석) |
-| 도망칠 구멍 | (항상 열림) | `.unwrap()` / `!` | `!!` / `!` |
-| 대표 실패 | NPE·nil panic | unwrap 남용 시 panic | `!!` 남용 시 예외 |
+`String`이라는 타입 표기만으로 전통적인 Java에서는 null 가능 여부를 구분하지 않는다. annotation과 외부 정적 분석 도구가 이를 보완할 수 있지만 언어의 기본 reference type 자체는 null을 허용한다.
 
-> 흐름: ①은 **편의**를 위해 null을 어디에나 두고 런타임에 맡긴다. ②는 **null을 없애** 없음을 타입으로 끌어올린다. ③은 **null을 남기되 보이게** 만들어 기존 언어에 안전을 소급 적용한다. ②·③은 방식은 달라도 "없음을 컴파일 타임에 다루게 강제한다"는 목표가 같다.
+### Go
 
-## 언어별 정리
+Go에서는 pointer, map, slice, channel, function, interface 등이 nil 상태를 가질 수 있지만 **nil일 때 허용되는 연산이 타입마다 다르다**.
 
-| 언어 | 모델 | 핵심 도구 |
+- nil pointer dereference → panic
+- nil map → 읽기·`len`·`range` 가능, 쓰기는 panic
+- nil slice → `len`·`range`·`append` 가능
+- nil channel → 송수신이 영원히 block될 수 있음
+- interface → typed nil 함정이 있음
+
+따라서 `nil = 사용하면 바로 panic`이라고 한 줄로 일반화하면 안 된다.
+
+### Go interface의 typed nil
+
+```go
+func makeError() error {
+    var p *MyError = nil
+    return p
+}
+
+err := makeError()
+fmt.Println(err == nil) // false
+```
+
+인터페이스 값에는 동적 타입 정보와 동적 값이 함께 들어간다. 내부 포인터 값이 nil이어도 동적 타입이 설정돼 있으면 interface value 자체는 nil interface가 아니다.
+
+이를 특정 2-word ABI 배치로 외우기보다 **interface가 동적 타입과 값을 함께 표현한다**는 의미론으로 이해하는 편이 안전하다.
+
+## 4. Option 계열 — 부재를 값 타입의 variant로 표현한다
+
+Rust의 `Option<T>`는 `Some(T)` 또는 `None`이다.
+
+```rust
+fn find(id: u32) -> Option<User> {
+    // ...
+}
+
+match find(1) {
+    Some(user) => use_user(user),
+    None => handle_absence(),
+}
+```
+
+`Option<User>`는 `User`와 다른 타입이므로 값을 사용하려면 `match`, `if let`, combinator, `?` 등으로 부재 가능성을 처리해야 한다.
+
+Rust reference `&T` 자체에는 null이 없고, nullable reference가 필요하면 `Option<&T>`처럼 명시한다.
+
+### C++ optional과 Rust Option은 어디까지 비슷한가
+
+둘 다 **값의 존재/부재를 명시적인 합 형태로 표현한다**는 좋은 대응 관계가 있다.
+
+하지만
+
+```text
+std::optional<T> = Rust Option<T>
+```
+
+이라고 언어 전체의 null 모델까지 같다고 보면 안 된다.
+
+- C++에는 여전히 null pointer가 존재한다.
+- Rust safe reference에는 null이 없다.
+- 두 타입의 API·레이아웃·niche optimization 보장은 서로 다르다.
+- C++ optional의 잘못된 접근과 Rust Option의 unwrap 실패도 세부 동작이 다르다.
+
+즉 **추상 모델은 비슷하지만 언어의 전체 안전성 모델은 다르다.**
+
+## 5. Nullable type — null을 타입에 표시한다
+
+Kotlin의 `String?`, TypeScript의 `string | null`처럼 null 자체를 유지하면서 **null 가능성을 타입에 표시**하는 방법도 있다.
+
+```kotlin
+val a: String = "hi"
+val b: String? = null
+
+if (b != null) {
+    println(b.length)
+}
+```
+
+Kotlin compiler는 흐름 분석을 통해 null check 뒤의 값을 non-null로 좁힐 수 있다. `?.`, `?:`, `!!` 같은 연산도 nullable value를 다루기 위한 문법이다.
+
+TypeScript의 `strictNullChecks`, C# nullable reference types도 비슷한 목표를 가지지만 보장 강도와 런타임 표현은 각각 다르다. 이들을 하나의 동일한 구현 모델로 묶기보다 **null 가능성을 타입 시스템에 드러낸다**는 공통 목표만 대응시키는 편이 좋다.
+
+## 6. Option과 nullable은 목표가 비슷하지만 표현 방식이 다르다
+
+```text
+Option<T>
+→ Some(T) / None 같은 variant로 부재 표현
+
+T?
+→ T의 nullable 형태로 부재 가능성을 타입에 표시
+```
+
+둘 모두 호출자에게 부재 가능성을 드러내고 확인 없이 값을 사용하는 것을 제한하려는 목적이 있다.
+
+하지만 `Option = nullable의 다른 문법`이라고만 보면 pattern matching, generic composition, 런타임 표현, 플랫폼 interop 같은 차이를 놓칠 수 있다.
+
+## 7. Null 안전성과 에러 처리는 연결되지만 같은 문제는 아니다
+
+```text
+Option<User>
+→ 사용자가 없을 수 있음
+
+Result<User, Error>
+→ 사용자를 얻는 과정이 실패할 수 있음
+```
+
+"검색 결과 없음"은 정상적인 부재일 수 있다. 반면 DB 연결 실패는 원인을 전달해야 하는 오류다.
+
+따라서 `None = Error`라고 일반화하지 않는다. API에 따라 부재 자체가 오류인 경우도 있지만 그것은 **도메인 의미**가 결정한다.
+
+이 경계는 [에러 핸들링 모델](/posts/concept/2026-07-12-error-handling-models/)과 연결된다.
+
+## 8. 런타임 표현과 언어 의미론을 구분한다
+
+Rust compiler는 일부 `Option<T>`에서 niche optimization을 사용해 별도 tag 공간을 줄일 수 있다. 대표적으로 특정 reference/pointer 계열에서는 사용되지 않는 bit pattern을 `None` 표현에 활용할 수 있다.
+
+하지만
+
+```text
+Option<T>는 항상 T와 같은 크기다
+```
+
+라고 일반화하면 안 된다. 구체적인 layout 보장은 타입과 언어/ABI 규칙에 따라 다르다.
+
+Null 안전성을 이해할 때 우선순위는 다음이다.
+
+1. 부재가 타입에 드러나는가
+2. 부재 상태에서 어떤 연산이 허용되는가
+3. 값을 사용하기 전에 어떤 검사가 필요한가
+4. 런타임 layout 최적화는 그다음 구현 세부다
+
+## 한눈에 정리
+
+| 모델 | 핵심 아이디어 | 예 |
 |---|---|---|
-| **C++** | 구분 없는 널 + 조각 해법 | raw `T*`(null 가능), `T&`(약한 non-null), `std::optional<T>`(C++17) |
-| **Java** | 구분 없는 널 | `null`, `Optional<T>`(강제 아님) |
-| **Go** | 구분 없는 널 | `nil`(+ typed-nil 인터페이스 함정) |
-| **Rust** | Option | `Option<T>`, `?`, `match`, null 없음 |
-| **Swift** | Option | `T?`, `if let`/`guard`, `?.` |
-| **Kotlin** | Nullable | `T?`, `?.`, `?:`, `!!` |
+| 암묵적 null/nil 가능 | 같은 타입 사용 안에 부재 상태가 함께 존재 | Java reference, C++ pointer, Go nil 가능 타입 |
+| Option 계열 | 존재/부재를 별도 variant로 표현 | Rust `Option<T>`, C++ `optional<T>` |
+| Nullable type | null 가능성을 타입 표기에 드러냄 | Kotlin `T?`, TypeScript `T | null` |
 
-- **C++**: `optional`로 "없음"을 명시하고, 함수 인자엔 null 불가를 `T&`로 표현하는 습관이 방어의 핵심이다. 다만 강제는 없다. → 값을 다루는 관점은 [값 vs 참조 의미론](/posts/concept/2026-07-12-value-vs-reference-semantics/)과 이어진다.
-- **Go**: `nil`은 언어의 일부다. 없앨 수 없으니 인터페이스 반환·nil 맵/슬라이스의 동작을 정확히 알고 방어해야 한다.
-- **Rust**: null이 없다. "없을 수 있음"은 전부 `Option`이고, 에러는 [`Result`](/posts/concept/2026-07-12-error-handling-models/)다 — 둘 다 합타입이라는 뿌리가 같다.
-
-> C·C++·Java에서 온 사람이 Rust·Kotlin에서 받는 인상은 "null 체크를 강제당한다"는 불편함이다. 하지만 그건 **런타임에 터질 버그를 컴파일 타임으로 당겨온** 것이지 불편이 아니다. Hoare의 10억 달러를 언어가 대신 갚아주는 셈이다.
+이 표는 **부재 표현 방식**의 비교다. 메모리 안전성, 런타임 실패 방식, ABI까지 같은 분류라는 뜻은 아니다.
 
 ## 스스로 점검
 
-**1. null이 "10억 달러 실수"라 불리는 근본 이유는?**
+**1. Null 안전성의 핵심 문제는 무엇인가?**
 
 <details markdown="1">
 <summary>답</summary>
 
-**null 가능성이 타입에 구분되어 있지 않기 때문.** `String`처럼 값이 있다고 보이는 타입이 실제로 null일 수 있고, 안전한 사용 여부가 개발자의 흐름 추적과 방어 검사에 의존합니다. 그 결과가 수십 년치 NPE·segfault·보안 취약점입니다.
+값이 없을 수 있다는 사실을 타입과 제어 흐름에서 얼마나 명확히 표현하고, 없는 값을 잘못 사용하는 것을 얼마나 일찍 막는가다.
 
 </details>
 
-**2. C++ `std::optional<T>`와 Rust `Option<T>`의 결정적 차이는?**
+**2. C++ optional과 Rust Option은 같은가?**
 
 <details markdown="1">
 <summary>답</summary>
 
-**발상은 같고 강제성이 다르다.** 둘 다 "값이거나 없음"을 타입에 담는다. 하지만 C++은 `optional`을 **선택**해서 쓰고 그 옆에 raw null 포인터가 여전히 열려 있다. Rust는 **null을 언어에서 없애** 없음을 표현할 유일한 길을 `Option`으로 만들고, 언랩 없이는 안의 값에 손댈 수 없게 **강제**한다. `unique_ptr`(관례) vs 소유권(강제)과 같은 구도다.
+값의 존재/부재를 명시적으로 표현한다는 추상 모델은 비슷하다. 하지만 C++과 Rust의 reference/null 모델, API, layout과 안전성 보장은 다르므로 언어 전체에서 같은 물건이라고 등치하면 안 된다.
 
 </details>
 
-**3. Go에서 "에러가 없는데 `err != nil`이 참"이 되는 상황은?**
+**3. Option과 Result의 차이는?**
 
 <details markdown="1">
 <summary>답</summary>
 
-**nil 포인터를 인터페이스로 반환**했을 때. Go 인터페이스 값은 `(타입, 값)` 쌍이라, nil 포인터를 넣으면 값은 nil이어도 **타입 칸이 채워져** 인터페이스 자체는 non-nil이 된다. 그래서 `return p`(p는 nil `*MyError`) 뒤 `if err != nil`이 참이 된다. 구체 nil 포인터 대신 **명시적으로 `return nil`**을 반환해야 피한다.
+Option은 값의 존재/부재를 표현하고 Result는 성공/실패와 실패 정보를 표현한다. 부재가 오류인지 여부는 API와 도메인 의미가 결정한다.
 
 </details>
