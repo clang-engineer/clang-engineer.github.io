@@ -805,3 +805,51 @@ LLM에 전달
 즉 일반적인 지식 질문은 모델 Weight에 이미 학습된 지식을 많이 활용하지만, Project 작업은 **현재 Project의 구체적인 Context를 얼마나 정확하게 확보하느냐**가 결과 품질에 크게 영향을 준다.
 
 이 차이를 이해하면 왜 Coding Agent가 단순 Chat UI보다 Repository Search, Tool 호출, File 탐색, Test 실행 같은 기능을 함께 사용하는지도 자연스럽게 이해할 수 있다.
+
+---
+
+## 16. 기억 흐름
+
+긴 설명을 읽고 나면 다시 다음 흐름으로 복원한다.
+
+```text
+사용자 문장
+        ↓
+Tokenization
+        ↓
+Token ID
+        ↓
+Embedding
+        ↓
+Transformer Layer 반복
+        ↓
+Self-Attention으로 Token 간 관계 반영
+        ↓
+문맥화된 Token Vector
+        ↓
+다음 Token 확률분포
+        ↓
+Decoding
+        ↓
+Token 하나 선택
+        ↓
+선택한 Token을 Context에 추가
+        ↓
+다음 Token 생성 반복
+```
+
+같은 흐름을 더 짧게 줄이면 다음과 같다.
+
+```text
+Text
+→ Token
+→ Vector
+→ Context 반영
+→ 다음 Token 확률
+→ Token 선택
+→ Context에 붙이고 반복
+```
+
+가장 중요한 한 문장:
+
+> **LLM은 학습된 Weight를 사용해 현재 Context의 Token들을 문맥화하고, 다음 Token을 하나씩 예측·선택하면서 답변을 만들어 간다.**
