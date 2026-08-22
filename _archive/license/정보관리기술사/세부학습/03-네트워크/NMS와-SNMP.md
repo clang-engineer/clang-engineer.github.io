@@ -32,50 +32,57 @@ Router / Switch / Firewall / Server
        상세 분석 및 조치
 ```
 
-### Mermaid로 보는 운영자 개입 지점
-
-```mermaid
-flowchart TD
-    D[Router / Switch / Firewall / Server] -->|상태 수집| N[NMS]
-    N --> S[(Metric / Event 저장)]
-    S --> R{Rule / 임계치 판단}
-    R -->|정상| N
-    R -->|이상| A[Alert / Web UI]
-    A --> O[운영자]
-    O --> X[SSH / 장비 UI / 상세 분석]
-    X --> C[조치]
-```
-
 예를 들어 NMS가 Memory 90% 초과를 감지하면 운영자는 NMS 그래프에서 추세를 확인하고, 필요하면 Server에 SSH 접속해 `top`, `free`, `jcmd` 같은 도구로 원인을 더 깊게 본다. 즉 **NMS는 자동 관제하고, 사람은 판단과 조치에 개입한다.**
 
-## 기본 구조
+## NMS와 SNMP의 관계
 
 SNMP(Simple Network Management Protocol)는 NMS Manager와 장비의 Agent가 관리 정보를 주고받는 대표 프로토콜이다.
 
-- Manager: 조회·설정·수집·경보 처리를 담당
-- Agent: 장비 내부 상태를 MIB 형태로 제공
-- MIB: 관리 객체의 이름·형식·계층을 정의한 정보 구조
-- OID: MIB 객체를 식별하는 계층형 번호
+여기서 가장 중요한 점은 **NMS와 SNMP가 같은 계층의 개념이 아니라는 것**이다.
 
 ```text
-NMS (Manager)
-      │
-      │ SNMP GET / SET
-      ▼
-    Agent
-      │
-      ▼
-   MIB / OID
+NMS
+├─ 장비 상태 수집
+├─ Metric / Event 저장
+├─ 임계치 판단
+├─ Alert
+├─ 장비·Interface 관리
+└─ 장비와 정보를 주고받는 방법
+    ├─ SNMP
+    ├─ Streaming Telemetry
+    ├─ API
+    └─ 기타 방식
 ```
 
-```mermaid
-flowchart LR
-    M[NMS / Manager] -->|SNMP GET / SET| A[SNMP Agent]
-    A --> O[MIB / OID]
-    O --> A
-    A -->|Response| M
-    A -. Trap / Inform .-> M
+따라서 `NMS = SNMP`도 아니고 `NMS ⊃ SNMP`라는 엄격한 포함관계로 외울 필요도 없다.
+
+> **NMS = Network 장비를 중앙 관리하는 시스템**  
+> **SNMP = NMS가 장비와 관리 정보를 주고받을 때 사용할 수 있는 대표 Protocol**
+
+## Manager · Agent · MIB · OID
+
+SNMP 구조를 이해할 때 네 용어의 역할을 분리한다.
+
+- Manager: 조회·설정·수집·경보 처리를 담당
+- Agent: 장비에서 동작하며 Manager의 요청에 관리 값을 제공
+- MIB: 어떤 관리 객체가 존재하고 어떤 구조·형식으로 표현되는지 정의
+- OID: 각각의 관리 객체를 식별하는 계층형 번호
+
+```text
+NMS / Manager
+     │
+     │ "이 OID의 값을 줘" (SNMP GET)
+     ▼
+SNMP Agent
+     │
+     │ 장비 내부에서 해당 관리 값 확인
+     ▼
+MIB에 정의된 관리 객체 / OID
+     │
+     └──────── Response ────────→ NMS
 ```
+
+여기서 **MIB를 실제 Metric 값이 쌓이는 Database라고 생각하면 안 된다.** MIB는 관리할 객체의 이름·구조·자료형·OID 등을 정의하는 정보 모델에 가깝고, CPU 사용률이나 Interface 상태 같은 실제 현재 값은 장비가 가지고 있으며 Agent가 읽어 응답한다.
 
 Web 서비스에 비유하면 Manager가 상태를 조회하는 Client 역할에 가깝고, 장비의 Agent가 요청에 응답하는 Server 역할에 가깝다. 다만 NMS는 단순 화면이 아니라 수집 일정, 지표 저장, 임계치 판단, 경보와 보고까지 담당하는 관리 시스템이다.
 
@@ -126,13 +133,13 @@ NMS
 
 ### Polling과 Trap을 같이 쓰는 이유
 
-```mermaid
-flowchart TD
-    N[NMS] -->|주기적 GET| A[Agent]
-    A -->|상태 Response| N
-    E{이벤트 발생?} -->|No| A
-    E -->|Yes| T[Trap / Inform]
-    T --> N
+```text
+정상 상태와 추세
+NMS ── 주기적 GET ──→ Agent
+NMS ←── Response ──── Agent
+
+즉시 알려야 할 Event
+NMS ←── Trap / Inform ── Agent
 ```
 
 > **정상 상태와 추세 = Polling(Pull)**  
@@ -210,22 +217,22 @@ Switch-01
 
 NMS는 단순히 `network_bytes`라는 Metric을 보는 것보다 **어느 장비의 어느 Interface·Port인가**라는 관리 객체 관점이 강하다.
 
-### Mermaid로 보는 NMS와 Grafana의 출발점 차이
+```text
+NMS: Device 중심
+Switch / Router
+      ↓ SNMP 등
+     NMS
+      ↓
+Device / Interface / Port 관리
 
-```mermaid
-flowchart LR
-    subgraph NM[NMS: Device 중심]
-        SW[Switch / Router] --> SN[SNMP]
-        SN --> NMS[NMS]
-        NMS --> DEV[Device / Interface / Port 관리]
-    end
-
-    subgraph GR[Grafana: Data 중심]
-        SV[Server / App] --> EX[Exporter / Data Source]
-        EX --> PR[Prometheus / Elasticsearch]
-        PR --> GF[Grafana]
-        GF --> VIS[Metric / Log 시각화]
-    end
+Grafana: Data 중심
+Server / Application
+      ↓ Exporter / Data Source
+Prometheus / Elasticsearch
+      ↓
+   Grafana
+      ↓
+Metric / Log 시각화
 ```
 
 ## NMS와 Grafana 비교
@@ -288,41 +295,38 @@ Cloud에서는 물리 Router·Switch를 CSP가 관리하므로 사용자가 그 
 ```text
 Network Device → SNMP → NMS
 Server Metric  → Exporter → Prometheus → Grafana
-JVM            → JMX / Exporter
-Log            → Elasticsearch → Kibana/Grafana
-Application    → APM / Trace
+Application    → Metric / Log / Trace → Observability Platform
 ```
 
-전통 NMS가 사라졌다기보다 **NMS가 담당하던 Network 관제 위로 Observability 영역이 넓게 확장되었다**고 이해하면 좋다.
+경계는 제품마다 겹친다. 현대 NMS가 Application Metric을 수집하기도 하고 Observability 제품이 Network Telemetry를 다루기도 한다.
 
-## SNMP 운영 고려사항
-
-- 수집 주기와 장비 수에 따른 부하
-- Counter의 누적값·단위·Wraparound 해석
-- 임계치와 오탐·미탐
-- 시간 동기화
-- 접근권한과 암호화
-- SNMPv3의 인증·무결성·기밀성
-- 장애 시 Polling·Trap·Log·Telemetry의 상호 검증
+따라서 제품 이름보다 **무엇을 수집하고, 어떤 단위로 관리하며, 관측만 하는지 제어까지 하는지**를 보는 것이 중요하다.
 
 ## 기억 흐름
 
 ```text
-여러 장비를 사람이 하나씩 확인하기 어렵다
-→ NMS
-
-장비와 표준적으로 정보를 주고받고 싶다
-→ SNMP
-
-정기 상태는 중앙에서 통제해 수집
-→ Polling
-
-장애는 즉시 알고 싶다
-→ Trap·Inform
-
-Grafana도 그래프를 보여준다
-→ 하지만 Grafana는 Data 시각화 중심
-
-장비·Port·Interface 자체를 관리해야 한다
-→ NMS의 강점
+Network 장비가 많아진다
+        ↓
+사람이 장비마다 직접 확인하기 어려움
+        ↓
+NMS로 중앙 관리
+        ↓
+장비와 관리 정보를 주고받을 방법 필요
+        ↓
+SNMP 등 사용
+        ↓
+Manager가 OID를 지정해 Agent에 요청
+        ↓
+Agent가 장비의 실제 값을 읽어 응답
+        ↓
+정상 상태·추세는 Polling
+즉시 Event는 Trap / Inform
+        ↓
+NMS가 저장·판단·Alert
+        ↓
+운영자가 상세 분석·조치
 ```
+
+가장 중요한 한 문장:
+
+> **NMS는 Network 장비를 중앙에서 관리하는 시스템이고, SNMP는 그 NMS가 장비의 Agent와 관리 정보를 주고받을 때 사용할 수 있는 대표 Protocol이다.**
