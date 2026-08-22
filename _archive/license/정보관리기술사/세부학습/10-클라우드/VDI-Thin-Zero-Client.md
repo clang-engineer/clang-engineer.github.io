@@ -64,6 +64,38 @@ VDI(Virtual Desktop Infrastructure)는 사용자 Desktop을 중앙 Data Center�
 
 > **Desktop의 실행 위치 자체를 사용자 PC에서 중앙 Infrastructure로 옮긴다.**
 
+## 사용자별로 VM을 하나씩 제공하는가?
+
+전형적인 VDI를 이해할 때는 **중앙 가상화 Infrastructure에 사용자용 Desktop VM을 만들어 제공한다**고 생각하면 된다.
+
+```text
+Physical Server
+      ↓
+Hypervisor
+      ↓
+VDI Platform
+├─ User A Desktop VM → 사용자 A
+├─ User B Desktop VM → 사용자 B
+└─ User C Desktop VM → 사용자 C
+```
+
+이때 사용자는 자신의 단말에서 VM 자체를 직접 다루는 것이 아니라, Remote Display Protocol을 통해 중앙 Desktop에 접속한다.
+
+다만 `사용자 1명 = 항상 고정된 VM 1개`라고 단정하면 안 된다. VDI의 Desktop 할당 방식은 크게 다음처럼 볼 수 있다.
+
+```text
+Persistent Desktop
+→ 특정 사용자에게 전용 Desktop VM을 지속적으로 할당
+→ 개인 설정과 설치 상태를 유지하기 쉬움
+
+Non-persistent Desktop
+→ 로그인 시 Desktop Pool에서 VM을 할당
+→ 로그아웃 후 회수·초기화할 수 있음
+→ 표준화와 중앙 관리에 유리
+```
+
+따라서 VDI의 핵심은 **사용자마다 영구 VM을 한 대씩 소유하게 하는 것**이 아니라, 중앙의 가상 Desktop 실행환경을 사용자에게 제공하는 것이다.
+
 ---
 
 # 3. VDI와 Server 가상화는 같은가
@@ -373,6 +405,10 @@ VDI = Server 가상화?
 → X
 Server 가상화는 기반 기술이 될 수 있지만 VDI의 목적은 사용자 Desktop 제공이다.
 
+VDI = 사용자마다 항상 고정 VM 1대?
+→ X
+전용 Persistent Desktop도 있고, Pool에서 동적으로 배정하는 Non-persistent Desktop도 있다.
+
 Thin Client = Virtual Desktop?
 → X
 Thin Client는 접속 단말이다.
@@ -402,6 +438,8 @@ VDI를 쓰면 Network가 덜 중요해지는가?
 Desktop 실행환경을 중앙으로 이동
         ↓
 VDI
+        ↓
+사용자용 Desktop VM / Pool 구성
         ↓
 사용자는 Network를 통해 화면과 입력만 주고받음
         ↓
