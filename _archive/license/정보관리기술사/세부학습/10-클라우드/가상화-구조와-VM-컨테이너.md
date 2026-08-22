@@ -268,35 +268,68 @@ Application
 
 이 차이 때문에 컨테이너에는 VM처럼 Guest OS와 Guest Kernel을 부팅하는 과정이 없고, Image가 작고 시작이 빠르며 동일한 Hardware에서 더 많은 실행환경을 운영하기 쉽다.
 
-### 그렇다면 클라우드 컨테이너 아래의 Hypervisor는 무엇인가?
+### 실제 클라우드에서 VM과 Container는 어떻게 사용되는가?
 
-실제 Cloud 환경에서는 컨테이너 아래에 Hypervisor가 보이는 경우가 있다. 예를 들어 VM을 생성한 뒤 그 VM에 Linux와 Docker를 설치하여 컨테이너를 실행할 수 있다.
+일반적인 IaaS 환경에서는 CSP(Cloud Service Provider)가 Hypervisor를 이용해 VM 인스턴스를 제공한다.
+
+사용자는 할당받은 VM을 일반 서버처럼 사용할 수 있다. Guest OS에 Tomcat·DB 같은 애플리케이션을 직접 설치할 수도 있고, 필요하면 Docker나 containerd 같은 Container Runtime을 설치하여 컨테이너를 운영할 수도 있다.
 
 ```text
-Container Application
-        ↓
-Container Runtime
-        ↓
-VM의 Host OS / Kernel
-        ↓
-Virtual Machine
-        ↓
+1. VM만 사용하는 경우
+
+Physical Server
+      ↓
 Hypervisor
-        ↓
-Physical Hardware
+      ↓
+VM Instance
+      ↓
+Guest OS
+      ↓
+Application
+
+
+2. VM에서 Container를 사용하는 경우
+
+Physical Server
+      ↓
+Hypervisor          ← VM 격리
+      ↓
+VM Instance
+      ↓
+Guest OS
+      ↓
+Container Runtime   ← Process·실행환경 격리
+      ↓
+Container
+      ↓
+Application
 ```
 
-이 구조에서 Hypervisor가 존재한다고 해서 **컨테이너가 Hypervisor를 사용하는 것은 아니다.** Hypervisor는 아래쪽의 VM을 만들기 위해 존재하고, 컨테이너는 그 VM의 Kernel을 공유하여 실행된다.
+즉 **컨테이너를 사용하기 때문에 Hypervisor가 필요한 것이 아니다.** 일반적인 IaaS에서는 이미 Hypervisor가 VM을 제공하고 있으며, Container는 사용자가 필요에 따라 그 VM 내부에서 추가로 사용할 수 있는 실행환경이다.
 
-즉 계층을 나누어 봐야 한다.
+따라서 역할을 다음처럼 분리해서 본다.
 
 ```text
-컨테이너 관점 : Container → Host Kernel
-VM 관점       : VM → Hypervisor → Hardware
-전체 구조     : Container → VM의 Kernel → VM → Hypervisor → Hardware
+Hypervisor
+└─ Physical Hardware를 가상화하여 VM 제공
+
+Container Runtime
+└─ OS Kernel을 기반으로 Application 실행환경 격리
 ```
 
-따라서 “컨테이너에는 Hypervisor가 없다”는 말은 **컨테이너 가상화 자체가 Hypervisor를 필요로 하지 않는다**는 의미다. Cloud Infrastructure 전체에 Hypervisor가 존재하지 않는다는 의미는 아니다.
+또한 `IaaS / PaaS / SaaS`와 `VM / Container`는 서로 다른 분류 기준이다.
+
+```text
+IaaS / PaaS / SaaS
+→ 어디까지 서비스를 제공하는가
+→ Cloud Service Model
+
+VM / Container
+→ 실행환경을 어떻게 가상화·격리하는가
+→ 구현 기술
+```
+
+PaaS나 SaaS에서는 하부 Infrastructure가 사용자에게 추상화되므로, 서비스 제공자가 내부적으로 VM·Container 등 여러 기술을 조합하여 구현할 수 있다.
 
 ### 구조로 비교하기
 
