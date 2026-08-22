@@ -21,19 +21,6 @@ IP 주소가 있다
 → 사설 IP로 Internet에는 어떻게 나가나? NAT / PAT
 ```
 
-```mermaid
-flowchart TD
-    A[IP 주소를 사용한다] --> B[같은 Network 범위 판단]
-    B --> C[Subnet / Subnet Mask]
-    C --> D[주소 공간 효율화]
-    D --> E[CIDR / VLSM]
-    E --> F[단말에 설정 자동 할당]
-    F --> G[DHCP]
-    G --> H[사설 IP로 외부 통신]
-    H --> I[NAT / PAT]
-    I --> J[Internet]
-```
-
 > **Subnet은 범위를 정하고 → DHCP는 설정을 주고 → NAT는 Network 경계에서 주소를 바꾼다.**
 
 ## Subnet과 Subnetting
@@ -52,14 +39,7 @@ Subnet Mask 또는 Prefix(`/24`)는 IP 주소에서 **Network 부분과 Host 부
 → Default Gateway로 전달
 ```
 
-```mermaid
-flowchart TD
-    S[송신 단말] --> Q{목적지가 같은 Subnet인가?}
-    Q -->|Yes| L[같은 LAN에서 직접 전달]
-    Q -->|No| G[Default Gateway로 전달]
-    G --> R[Router]
-    R --> N[다른 Network]
-```
+즉 송신 단말은 목적지 IP와 자신의 Subnet Mask를 기준으로 같은 Network인지 판단하고, 다른 Network라면 Router 역할을 하는 Default Gateway에 Packet을 보낸다.
 
 > **Subnet = 나누어진 Network 자체**  
 > **Subnetting = Network를 여러 Subnet으로 나누는 행위**
@@ -89,15 +69,6 @@ VLSM(Variable Length Subnet Mask)은 모든 Subnet을 같은 크기로 자르지
 └─ 장비 10대 구간    → /28
 ```
 
-```mermaid
-flowchart TD
-    A[/24 주소 Block] --> B[/25 - 큰 부서]
-    A --> C[남은 /25]
-    C --> D[/26 - 중간 부서]
-    C --> E[남은 /26]
-    E --> F[/28 - 작은 장비망]
-```
-
 필요 Host 수에 따라 서로 다른 크기의 Subnet을 배정해 주소 낭비를 줄인다.
 
 ### 왜 VLSM을 1차·2차 Subnetting이라고 하나
@@ -116,11 +87,18 @@ VLSM은 이미 나눈 주소 범위를 다시 필요한 크기로 세분화할 �
 
 ### Subnetting / CIDR / VLSM 관계
 
-> **Subnetting = Network를 나누는 상위 행위**  
+가장 먼저 다음 차이를 잡는다.
+
+> **CIDR = 주소 체계를 Class 고정 경계에서 Prefix 기반으로 바꾼 것**  
+> **VLSM = Prefix를 이용해 Subnet마다 필요한 크기를 다르게 설계하는 것**
+
+조금 더 넓게 보면 다음과 같다.
+
+> **Subnetting = Network를 나누는 행위**  
 > **VLSM = 필요한 크기별로 서로 다르게 나누는 설계 방법**  
 > **CIDR = Class 없이 Prefix로 주소 범위를 표현·할당·집약하는 체계**
 
-CIDR과 VLSM 모두 Prefix 표기를 사용하므로 비슷해 보이지만 보는 관점이 다르다.
+CIDR과 VLSM 모두 `/24`, `/26` 같은 Prefix 표기를 사용하므로 비슷해 보이지만 같은 개념은 아니다. CIDR은 **주소 표현과 Classless Routing 체계**, VLSM은 **Subnet 크기를 가변적으로 설계하는 방법**에 초점이 있다.
 
 ## DHCP
 
@@ -128,14 +106,13 @@ DHCP(Dynamic Host Configuration Protocol)는 단말이 접속할 때 Network 설
 
 대표 흐름은 Discover → Offer → Request → Acknowledge이며 DORA라고 부른다. 단말은 아직 자기 주소를 모르므로 초기 메시지에 Broadcast를 사용한다. 다른 Subnet의 DHCP Server를 사용하면 Router의 DHCP Relay가 요청을 전달할 수 있다.
 
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant D as DHCP Server
-    C->>D: Discover
-    D-->>C: Offer
-    C->>D: Request
-    D-->>C: Acknowledge
+```text
+Client                         DHCP Server
+  │                                 │
+  │──── Discover ──────────────────→│
+  │←──── Offer ─────────────────────│
+  │──── Request ───────────────────→│
+  │←── Acknowledge ─────────────────│
 ```
 
 DHCP가 주는 것은 IP 하나만이 아니다.
@@ -201,27 +178,16 @@ DHCP와 NAT는 서로 필수 관계가 아니다. 수동으로 사설 IP를 설�
 답은 NAT 장비가 **IP뿐 아니라 Port까지 포함한 변환 상태를 기억하기 때문**이다.
 
 ```text
-내부
-192.168.0.10:51001
-192.168.0.11:52003
+내부                              외부
 
-        ↓ PAT
+192.168.0.10:51001 ── PAT ──→ 203.0.113.5:40001
+192.168.0.11:52003 ── PAT ──→ 203.0.113.5:40002
 
-외부
-203.0.113.5:40001
-203.0.113.5:40002
-```
+Internet에서 :40001로 응답
+→ 192.168.0.10:51001로 복원
 
-```mermaid
-flowchart LR
-    A[192.168.0.10:51001] -->|PAT| P[203.0.113.5:40001]
-    B[192.168.0.11:52003] -->|PAT| Q[203.0.113.5:40002]
-    P --> I[Internet]
-    Q --> I
-    I -->|Response :40001| P
-    I -->|Response :40002| Q
-    P --> A
-    Q --> B
+Internet에서 :40002로 응답
+→ 192.168.0.11:52003로 복원
 ```
 
 NAT 장비는 대략 다음 대응 관계를 상태 Table에 유지한다.
@@ -261,11 +227,11 @@ Flow Label 등은 QoS 처리에 활용할 수 있지만 IPv6 자체가 IntServ�
 Network 범위를 나눈다
 → Subnetting
 
-필요한 크기대로 서로 다르게 나눈다
-→ VLSM
-
-Class 없이 Prefix로 주소를 표현·할당·집약한다
+Class 고정 경계를 버리고 Prefix로 주소 범위를 표현·할당·집약한다
 → CIDR
+
+Subnet마다 필요한 크기를 다르게 나눈다
+→ VLSM
 
 단말에 Network 설정을 자동 배정한다
 → DHCP
