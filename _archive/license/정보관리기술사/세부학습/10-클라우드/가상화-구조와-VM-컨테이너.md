@@ -21,22 +21,21 @@
 
 가상화라고 해서 모든 기술에 `Type 1 / Type 2`, `전가상화 / 반가상화`를 적용하는 것은 아니다. 이 용어들은 기본적으로 **Hypervisor를 이용하는 VM 기반 Hardware Virtualization**을 설명하는 분류다.
 
-```mermaid
-graph TB
-    A[가상화] --> B[Hardware 수준 가상화 - VM]
-    A --> C[OS 수준 가상화 - Container]
-
-    B --> D[Hypervisor 배치 위치]
-    D --> D1[Type 1 - Bare-metal]
-    D --> D2[Type 2 - Hosted]
-
-    B --> E[Guest OS와 Hypervisor 상호작용]
-    E --> E1[전가상화 - Full Virtualization]
-    E --> E2[반가상화 - Para Virtualization]
-
-    C --> F[Host Kernel 공유]
-    F --> F1[Namespace - 가시 범위 격리]
-    F --> F2[cgroup - 자원 사용량 제한]
+```text
+가상화
+├─ Hardware 수준 가상화 → VM
+│  ├─ Hypervisor 배치 위치
+│  │  ├─ Type 1 (Bare-metal)
+│  │  └─ Type 2 (Hosted)
+│  │
+│  └─ Guest OS와 Hypervisor의 상호작용
+│     ├─ 전가상화 (Full Virtualization)
+│     └─ 반가상화 (Para Virtualization)
+│
+└─ OS 수준 가상화 → Container
+   └─ Host Kernel 공유
+      ├─ Namespace → 가시 범위 격리
+      └─ cgroup → 자원 사용량 제한
 ```
 
 즉 분류의 대상을 먼저 잡아야 한다.
