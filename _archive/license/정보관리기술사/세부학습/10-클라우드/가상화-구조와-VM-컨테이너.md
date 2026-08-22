@@ -4,7 +4,7 @@
 
 - 가상화는 실제 물리 자원을 복제하는 것인가, 나누어 쓰게 하는 것인가?
 - VM마다 운영체제가 있는데 어떻게 한 물리 서버에서 동시에 실행되는가?
-- Type 1/Type 2가 전가상화/반가상화와 같은 분류인가?
+- Type 1/Type 2와 전가상화/반가상화는 무엇을 분류하는가?
 - 컨테이너에는 왜 Hypervisor가 필요하지 않은가?
 - 컨테이너도 격리되는데 왜 VM보다 가볍고 보안 경계는 다르게 보는가?
 - 서버 가상화와 데스크톱 가상화는 둘 다 VM을 쓰는데 왜 다른 개념인가?
@@ -15,7 +15,55 @@
 
 얻는 효과는 서버 통합, 격리, 신속한 생성, Snapshot·이동, 자원 할당 유연성이다. 대신 가상화 계층의 Overhead, Host 장애 영향 확대, 자원 경합, 운영 복잡성이 생긴다.
 
-가상화가 CPU와 메모리를 새로 만들어내는 것은 아니다. 실제 물리 자원을 Hypervisor가 나누어 보여주고, 각 VM은 자기에게 독립된 자원이 있는 것처럼 사용한다. 여러 VM이 물리 자원을 공유하므로 사용률을 높일 수 있지만, 동시에 많이 사용하면 경합이 생긴다.
+가상화가 CPU와 메모리를 새로 만들어내는 것은 아니다. 실제 물리 자원을 논리적으로 나누어 여러 실행환경이 공유하게 한다. 다만 **VM과 컨테이너는 가상화하는 계층 자체가 다르다.**
+
+### 먼저 전체 분류를 잡기
+
+가상화라고 해서 모든 기술에 `Type 1 / Type 2`, `전가상화 / 반가상화`를 적용하는 것은 아니다. 이 용어들은 기본적으로 **Hypervisor를 이용하는 VM 기반 Hardware Virtualization**을 설명하는 분류다.
+
+```mermaid
+graph TB
+    A[가상화] --> B[Hardware 수준 가상화 - VM]
+    A --> C[OS 수준 가상화 - Container]
+
+    B --> D[Hypervisor 배치 위치]
+    D --> D1[Type 1 - Bare-metal]
+    D --> D2[Type 2 - Hosted]
+
+    B --> E[Guest OS와 Hypervisor 상호작용]
+    E --> E1[전가상화 - Full Virtualization]
+    E --> E2[반가상화 - Para Virtualization]
+
+    C --> F[Host Kernel 공유]
+    F --> F1[Namespace - 가시 범위 격리]
+    F --> F2[cgroup - 자원 사용량 제한]
+```
+
+즉 분류의 대상을 먼저 잡아야 한다.
+
+```text
+VM
+└─ Hypervisor 기반 Hardware Virtualization
+   ├─ Type 1 / Type 2
+   └─ 전가상화 / 반가상화
+
+Container
+└─ Host Kernel 기반 OS-level Virtualization
+   ├─ Namespace
+   └─ cgroup
+```
+
+따라서 다음 질문은 분류축이 맞지 않는다.
+
+> Docker는 Type 1인가 Type 2인가?
+>
+> 컨테이너는 전가상화인가 반가상화인가?
+
+Type 1/2와 전가상화/반가상화는 **VM을 구성하는 Hypervisor와 Guest OS의 구조를 설명하는 용어**이고, 컨테이너는 별도의 Guest OS와 Hypervisor 없이 Host Kernel을 공유하기 때문이다.
+
+## 서버 가상화
+
+Hypervisor가 물리 하드웨어를 여러 VM(Virtual Machine)에 나눈다. 각 VM은 가상 하드웨어와 Guest OS를 가진다.
 
 ```text
 VM 1          VM 2          VM 3
@@ -28,20 +76,16 @@ Guest OS      Guest OS      Guest OS
 
 핵심은 **물리 서버가 세 대로 복제되는 것이 아니라, 한 물리 서버의 자원을 여러 VM에 논리적으로 나누어 제공한다**는 것이다.
 
-## 서버 가상화
+### VM 안에서도 다시 두 개의 분류축이 있다
 
-Hypervisor가 물리 하드웨어를 여러 VM(Virtual Machine)에 나눈다. 각 VM은 가상 하드웨어와 Guest OS를 가진다.
-
-### 먼저 구분해야 할 두 개의 분류축
-
-가상화를 처음 공부할 때 가장 헷갈리기 쉬운 부분이 `Type 1 / Type 2`와 `전가상화 / 반가상화`다. 문서나 교재에서 두 분류가 연이어 등장하기 때문에 다음처럼 잘못 연결하기 쉽다.
+여기서부터의 `Type 1 / Type 2`와 `전가상화 / 반가상화`는 **VM 기반 가상화 안에서의 분류**다. 두 분류가 연이어 등장하기 때문에 다음처럼 잘못 연결하기 쉽다.
 
 > Type 1 = 전가상화, Type 2 = 반가상화?
 
-**아니다. 둘은 서로 다른 질문에 대한 분류다.**
+**아니다. 둘은 VM 가상화 안에서도 서로 다른 질문에 대한 분류다.**
 
 ```text
-가상화
+VM 기반 Hardware Virtualization
 ├─ Hypervisor를 어디에 배치하는가?
 │  ├─ Type 1 (Bare-metal)
 │  └─ Type 2 (Hosted)
@@ -132,12 +176,13 @@ Guest OS / Para-virtualized Driver
 
 ### 한 번에 정리
 
-| 분류축 | 질문 | 종류 |
-|---|---|---|
-| Hypervisor 구조 | Hypervisor가 어디에서 실행되는가? | Type 1 / Type 2 |
-| 가상화 방식 | Guest OS와 Hypervisor가 어떻게 상호작용하는가? | 전가상화 / 반가상화 |
+| 분류축 | 적용 대상 | 질문 | 종류 |
+|---|---|---|---|
+| Hypervisor 구조 | VM 기반 가상화 | Hypervisor가 어디에서 실행되는가? | Type 1 / Type 2 |
+| 가상화 방식 | VM 기반 가상화 | Guest OS와 Hypervisor가 어떻게 상호작용하는가? | 전가상화 / 반가상화 |
+| OS 수준 격리 | Container | Host Kernel 자원을 어떻게 격리하는가? | Namespace / cgroup |
 
-**Type 1 ↔ 전가상화, Type 2 ↔ 반가상화로 연결해서 외우지 않는다.**
+**Type 1 ↔ 전가상화, Type 2 ↔ 반가상화로 연결해서 외우지 않으며, 이 분류를 컨테이너에 적용하지도 않는다.**
 
 ## VM과 컨테이너
 
@@ -303,13 +348,14 @@ Hardware                        Hardware
 
 ## 기억 흐름
 
-물리 자원의 낮은 활용과 강한 결합
-→ Hypervisor와 VM으로 서버 자원 분리
+가상화
+→ Hardware 수준 가상화(VM)와 OS 수준 가상화(Container)를 먼저 구분
+→ VM에서는 Hypervisor가 물리 자원을 가상 Hardware로 제공
 → Hypervisor 위치에 따라 Type 1 / Type 2
 → Guest와 Hypervisor의 상호작용 방식에 따라 전가상화 / 반가상화
-→ 더 가벼운 배포 요구
-→ Hardware 가상화 없이 Host Kernel을 공유하는 컨테이너
-→ 컨테이너는 Namespace로 가시 범위를, cgroup으로 자원 사용량을 격리
+→ 이 두 분류는 컨테이너에는 적용하지 않음
+→ 컨테이너는 Hardware 가상화 없이 Host Kernel을 공유
+→ Namespace로 가시 범위를, cgroup으로 자원 사용량을 격리
 → Cloud에서는 VM 위에 컨테이너가 올라갈 수도 있음
 → 사용자 Desktop까지 중앙화하면 VDI
 → 격리·성능·운영 목적에 따라 선택
