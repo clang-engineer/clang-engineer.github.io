@@ -13,7 +13,7 @@
 ```text
 B-Tree / B+Tree
 → 트리 자료구조의 구성 방식
-→ 검색 결과에 대응하는 '인덱스 항목'을 트리 어디에 두는가
+→ Record Entry를 트리 어디에 두는가
 
 Clustered / Non-clustered
 → 인덱스와 실제 Row 저장구조의 관계
@@ -41,7 +41,7 @@ Leaf     : Search Key + Row Locator
 
 따라서 이해 단계에서는 다음처럼 기억할 수 있다.
 
-> **B/B+ = 인덱스 항목을 트리 어디에 두는가**
+> **B/B+ = Record Entry를 트리 어디에 두는가**
 >
 > **Clustered/Non-clustered = 실제 Row 저장구조와 인덱스가 어떤 관계인가**
 
@@ -71,19 +71,29 @@ CREATE INDEX ... ON student(name)
 30 | 철수 | 25 | 서울
 ```
 
-### 인덱스 항목
+### Record Entry(레코드 엔트리)
 
-검색 Key 하나에 대응해 인덱스에 저장되는 한 항목이라고 이해한다.
+검색 Key 하나에 대응해 인덱스에 저장되는 **검색 결과 단위의 항목**이라고 이해한다.
 
 ```text
 [Search Key | ???]
 ```
 
-`???`가 실제 Row일 수도 있고 Row Locator일 수도 있다.
+이 문서에서 `인덱스 항목`이라고 풀어 쓸 때도 같은 의미다. 이후에는 **Record Entry**를 기본 용어로 사용한다.
+
+`???`가 무엇인지는 인덱스가 실제 Row의 주 저장구조인지, 별도의 검색구조인지에 따라 달라질 수 있다.
+
+```text
+Clustered 쪽의 Record Entry
+→ 실제 Row
+
+Non-clustered 쪽의 Record Entry
+→ Search Key + Row Locator
+```
 
 ### Child Pointer
 
-트리의 내부 노드에서 **다음 하위 노드/Page로 내려가기 위한 길 안내**다.
+트리의 내부 노드에서 **다음 하위 Node/Page로 내려가기 위한 길 안내**다.
 
 ```text
 Internal Node
@@ -131,27 +141,27 @@ Data Page
 
 ### B-Tree
 
-개념적으로 내부 노드에서도 검색 결과에 대응하는 인덱스 항목을 가질 수 있다.
+개념적으로 내부 노드에서도 검색 결과에 대응하는 Record Entry를 가질 수 있다.
 
 ```text
-          [30 | 항목]
-           /       \
-          ↓         ↓
-[10 | 항목]      [50 | 항목]
+          [30 | Record Entry]
+           /              \
+          ↓                ↓
+[10 | Record Entry]  [50 | Record Entry]
 ```
 
 따라서 30을 찾았다면 내부 노드에서 검색 결과를 얻을 수 있다.
 
 ### B+Tree
 
-내부 노드는 탐색용 Key와 Child Pointer 중심이고, 검색 결과에 대응하는 인덱스 항목은 Leaf에 집중된다.
+내부 노드는 탐색용 Key와 Child Pointer 중심이고, 검색 결과에 대응하는 Record Entry는 Leaf에 집중된다.
 
 ```text
               [30 | 50]
               /   |   \
              ↓    ↓    ↓
 
-[10|항목][20|항목] → [30|항목][40|항목] → [50|항목]
+[10|Entry][20|Entry] → [30|Entry][40|Entry] → [50|Entry]
        Leaf                  Leaf               Leaf
 ```
 
@@ -165,9 +175,9 @@ Leaf끼리 Key 순서로 연결되므로 범위 탐색에 유리하다.
 
 따라서 B/B+의 핵심 질문은 다음이다.
 
-> **검색 결과에 대응하는 인덱스 항목을 트리의 어디에 둘 것인가?**
+> **Record Entry를 트리의 어디에 둘 것인가?**
 
-`B+Tree = Leaf에 무조건 실제 Row가 있다`는 뜻은 아니다. Leaf의 인덱스 항목이 **실제 Row인지 Row Locator인지**는 Clustered/Non-clustered 관계에 따라 달라질 수 있다.
+`B+Tree = Leaf에 무조건 실제 Row가 있다`는 뜻은 아니다. Leaf의 Record Entry가 **실제 Row인지 Row Locator를 가진 항목인지**는 Clustered/Non-clustered 관계에 따라 달라질 수 있다.
 
 ---
 
@@ -200,7 +210,7 @@ Leaf Page 도착
 
 즉 SQL Server식 모델에서는:
 
-> **Clustered = 키 순서로 조직된 인덱스 구조가 실제 Row의 주 저장구조다.**
+> **Clustered = Key 순서로 조직된 인덱스 구조가 실제 Row의 주 저장구조다.**
 
 ---
 
@@ -247,7 +257,7 @@ Non-clustered Index는 실제 Row 저장구조와 **분리된 별도의 검색 �
 따라서 Search Key를 찾은 뒤 원본 Row를 찾아갈 정보가 필요하다.
 
 ```text
-Non-clustered Index
+Non-clustered Record Entry
 
 [Search Key | Row Locator]
                 ↓
@@ -382,13 +392,13 @@ Row Locator
 두 분류축을 합치면 개념적으로 다음 네 조합을 생각할 수 있다.
 
 ```text
-                    Clustered              Non-clustered
+                    Clustered                 Non-clustered
 
-B-Tree         인덱스 항목이 실제 Row     인덱스 항목이 Locator
-               내부 노드에도 가능          내부 노드에도 가능
+B-Tree         Record Entry가 실제 Row     Record Entry가 Locator를 가짐
+               내부 노드에도 가능           내부 노드에도 가능
 
-B+Tree         Leaf에 실제 Row            Leaf에 Row Locator
-               내부는 탐색용              내부는 탐색용
+B+Tree         Leaf에 실제 Row             Leaf Entry가 Row Locator를 가짐
+               내부는 탐색용               내부는 탐색용
 ```
 
 ### 개념적인 B-Tree + Clustered
@@ -409,6 +419,8 @@ B+Tree         Leaf에 실제 Row            Leaf에 Row Locator
 [10 | Locator] [50 | Locator]
 ```
 
+B-Tree에서는 Record Entry가 내부 노드에도 존재할 수 있으므로, Non-clustered라면 **원본 Row를 나타내는 각 Record Entry가 Row Locator를 가져야 한다**고 이해할 수 있다.
+
 ### B+Tree + Clustered
 
 ```text
@@ -416,7 +428,7 @@ B+Tree         Leaf에 실제 Row            Leaf에 Row Locator
        /  \
       ↓    ↓
 
-[10|실제 Row] → [30|실제 Row] ← Leaf
+[10|실제 Row] → [30|실제 Row] ← Leaf Record Entry
 ```
 
 ### B+Tree + Non-clustered
@@ -426,12 +438,14 @@ B+Tree         Leaf에 실제 Row            Leaf에 Row Locator
        /  \
       ↓    ↓
 
-[10|Locator] → [30|Locator]   ← Leaf
+[10|Locator] → [30|Locator]   ← Leaf Record Entry
 ```
+
+B+Tree에서는 Record Entry가 Leaf에 집중되므로, Non-clustered라면 **Row Locator도 Leaf의 Record Entry에 위치**한다고 이해하면 된다.
 
 이 그림에서 가장 중요한 문장은 다음이다.
 
-> **B/B+는 인덱스 항목의 트리 내 위치를 구분하고, Clustered/Non-clustered는 실제 Row 저장구조와 인덱스의 관계를 구분한다.**
+> **B/B+는 Record Entry의 트리 내 위치를 구분하고, Clustered/Non-clustered는 실제 Row 저장구조와 인덱스의 관계를 구분한다.**
 
 ---
 
@@ -554,31 +568,4 @@ name Index 탐색
 
 ---
 
-## 14. DBMS별 차이
-
-지금까지의 `Leaf = 실제 Row`, `Heap이면 RID`, `Clustered Table이면 Clustered Key` 설명은 특히 SQL Server 구조를 이해하기 위한 것이다.
-
-### SQL Server
-
-```text
-Table
-├─ Heap
-│   └─ Non-clustered Index → RID → Row
-│
-└─ Clustered Table
-    └─ Non-clustered Index → Clustered Key → Clustered Index → Row
-```
-
-### MySQL InnoDB
-
-Primary Key를 중심으로 테이블 데이터가 Clustered 구조로 조직된다.
-
-```text
-Primary Key B+Tree
-        ↓
-Leaf = Row
-```
-
-Secondary Index는 Primary Key 값을 통해 실제 Row를 찾아가는 구조로 이해할 수 있다.
-
-###
+## 14. DB
