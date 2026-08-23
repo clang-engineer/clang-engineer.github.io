@@ -73,11 +73,13 @@ CREATE INDEX ... ON student(name)
 
 ### Record Entry(레코드 엔트리)
 
-Search Key에 대응해 인덱스에 저장되는 레코드 단위 정보다.
+검색 Key 하나에 대응해 인덱스에 저장되는 **검색 결과 단위의 항목**이라고 이해한다.
 
 ```text
 [Search Key | ???]
 ```
+
+이 문서에서 `인덱스 항목`이라고 풀어 쓸 때도 같은 의미다. 이후에는 **Record Entry**를 기본 용어로 사용한다.
 
 `???`가 무엇인지는 인덱스가 실제 Row의 주 저장구조인지, 별도의 검색구조인지에 따라 달라질 수 있다.
 
@@ -175,7 +177,7 @@ Leaf끼리 Key 순서로 연결되므로 범위 탐색에 유리하다.
 
 > **Record Entry를 트리의 어디에 둘 것인가?**
 
-`B+Tree = Leaf에 무조건 실제 Row가 있다`는 뜻은 아니다. Leaf의 Record Entry가 **실제 Row인지 Row Locator를 가진 구조인지**는 Clustered/Non-clustered 관계에 따라 달라질 수 있다.
+`B+Tree = Leaf에 무조건 실제 Row가 있다`는 뜻은 아니다. Leaf의 Record Entry가 **실제 Row인지 Row Locator를 가진 항목인지**는 Clustered/Non-clustered 관계에 따라 달라질 수 있다.
 
 ---
 
@@ -395,7 +397,7 @@ Row Locator
 B-Tree         Record Entry가 실제 Row     Record Entry가 Locator를 가짐
                내부 노드에도 가능           내부 노드에도 가능
 
-B+Tree         Leaf에 실제 Row             Leaf Record Entry가 Locator를 가짐
+B+Tree         Leaf에 실제 Row             Leaf Entry가 Row Locator를 가짐
                내부는 탐색용               내부는 탐색용
 ```
 
@@ -441,7 +443,7 @@ B-Tree에서는 Record Entry가 내부 노드에도 존재할 수 있으므로, 
 
 B+Tree에서는 Record Entry가 Leaf에 집중되므로, Non-clustered라면 **Row Locator도 Leaf의 Record Entry에 위치**한다고 이해하면 된다.
 
-이 2×2는 두 분류축을 분리하기 위한 **개념 모델**이다. 실제 DBMS가 네 조합을 모두 같은 방식으로 제공한다는 뜻은 아니다.
+이 그림에서 가장 중요한 문장은 다음이다.
 
 > **B/B+는 Record Entry의 트리 내 위치를 구분하고, Clustered/Non-clustered는 실제 Row 저장구조와 인덱스의 관계를 구분한다.**
 
@@ -524,7 +526,13 @@ PK              : student_id
 Clustered Index : created_at
 ```
 
-따라서 PK와 Clustered Index는 역할을 분리해서 기억한다.
+따라서:
+
+```text
+PK ≠ Clustered Key ≠ 임의의 Search Key
+```
+
+역할을 분리해서 기억한다.
 
 ---
 
@@ -560,4 +568,4 @@ name Index 탐색
 
 ---
 
-## 
+## 14. DB
