@@ -271,6 +271,62 @@ Serializable
   결과는 하나씩 실행한 것과 동등
 ```
 
+여기서 중요한 점은 **Serial 실행도 Transaction의 순서에 따라 결과가 달라질 수 있다는 것**이다. Serializable이 모든 실행에서 항상 같은 결과를 만들라는 뜻은 아니다.
+
+예를 들어 초기값이 `A=100`, `B=100`이고 다음 두 Transaction이 있다고 하자.
+
+```text
+T1
+→ A와 B를 각각 ×2
+
+T2
+→ A와 B에 각각 +10
+```
+
+Serial하게 `T1 → T2`로 실행하면:
+
+```text
+A: 100 → 200 → 210
+B: 100 → 200 → 210
+
+결과 = (210, 210)
+```
+
+반대로 `T2 → T1`로 실행하면:
+
+```text
+A: 100 → 110 → 220
+B: 100 → 110 → 220
+
+결과 = (220, 220)
+```
+
+두 결과는 다르지만 **둘 다 정상적인 Serial 실행 결과**다.
+
+문제는 병행 실행 과정에서 Data마다 선후관계가 뒤집히는 경우다.
+
+```text
+A에서는 T1 → T2
+→ A = 210
+
+B에서는 T2 → T1
+→ B = 220
+
+결과 = (210, 220)
+```
+
+이 결과는 `T1 → T2`로 전체를 실행해도, `T2 → T1`로 전체를 실행해도 만들 수 없다.
+
+```text
+T1 → T2  → (210, 210)  정상
+T2 → T1  → (220, 220)  정상
+
+병행 실행 → (210, 220)
+          → 어떤 Serial 순서와도 동등하지 않음
+```
+
+> **Serializability의 핵심은 결과를 항상 하나로 만드는 것이 아니라, 병행 실행 결과가 가능한 Serial 순서 중 하나의 결과와 동등하도록 만드는 것이다.**
+
 Serializable Isolation Level의 이름이 여기서 나온다.
 
 > **Serializability = 안전한 병행 실행을 판단하는 강한 정확성 기준**
@@ -521,215 +577,4 @@ Transaction마다 Data 전체를 별도로 복사하는 것이 아니다.
 
 ```text
         공유된 여러 Version
-        v1   v2   v3
-         ↑    ↑    ↑
-         │    │    │
-A Snapshot ───┘    │
-B Snapshot ─────────┘
-```
-
-즉 각 Transaction에 **논리적인 자기만의 View**를 제공한다고 이해하면 된다.
-
-### Lock과의 핵심 차이
-
-같은 값을 반복해서 읽어야 한다고 하자.
-
-Lock 방식:
-
-```text
-T1: X=100 읽음
-→ 다른 Transaction이 X를 수정하지 못하게 보호
-
-T1: 다시 읽음 → 100
-```
-
-MVCC 방식:
-
-```text
-T1이 보는 Version = 100
-
-T2: X=200 Version 생성
-T2: COMMIT
-
-T1: 다시 읽음
-→ 자기 Snapshot에서 보이는 100 Version 선택
-```
-
-> **Lock = 바꾸지 못하게 해서 같은 값을 보장**
->
-> **MVCC = 바뀌어도 나에게 맞는 Version을 보여줘서 같은 값을 보장**
-
-실제 DBMS는 MVCC를 사용하더라도 Writer 간 충돌 등에서는 Lock을 함께 사용할 수 있다. Lock과 MVCC는 완전한 택1 관계가 아니다.
-
----
-
-## 11. Isolation Level과 MVCC Snapshot
-
-MVCC의 기본 재료는 Version과 Snapshot/Visibility다.
-
-```text
-MVCC
-├─ 여러 Version 유지
-└─ Snapshot/Visibility
-   → 어느 Version을 볼 수 있는가
-```
-
-Isolation Level에 따라 Snapshot을 생성·유지하는 방식이 달라질 수 있다.
-
-### Read Committed의 개념 모델
-
-```text
-T1 첫 SELECT
-→ Snapshot ①
-→ X=100
-
-                T2: X=200
-                T2: COMMIT
-
-T1 두 번째 SELECT
-→ Snapshot ②
-→ X=200
-```
-
-Statement마다 새로운 관점을 볼 수 있으므로 Non-repeatable Read가 가능하다.
-
-### Repeatable Read의 개념 모델
-
-```text
-T1 첫 SELECT
-→ Snapshot ①
-→ X=100
-
-                T2: X=200
-                T2: COMMIT
-
-T1 두 번째 SELECT
-→ 같은 Snapshot ①
-→ X=100
-```
-
-기억법:
-
-```text
-RC
-→ SELECT할 때 세상을 다시 볼 수 있음
-
-RR
-→ Transaction 동안 같은 세상을 봄
-```
-
-구체적인 Snapshot/Visibility 규칙과 Isolation Level의 실제 동작은 DBMS마다 차이가 있을 수 있다.
-
----
-
-## 12. 지금까지 가장 헷갈렸던 경계
-
-### Conflict와 이상 현상은 같은가
-
-아니다.
-
-```text
-Conflict
-→ 순서가 중요한 연산 관계
-
-Dirty / Non-repeatable / Phantom
-→ 잘못된 병행 실행에서 관찰되는 이상 현상
-```
-
-### Isolation Level과 Lock/MVCC는 같은 분류인가
-
-아니다.
-
-```text
-Isolation Level
-→ 보장 수준
-
-Lock / MVCC
-→ 구현 수단
-```
-
-### S/X와 2PL은 같은 층위인가
-
-Lock 내부의 서로 다른 축이다.
-
-```text
-S / X
-→ Lock 종류
-
-2PL
-→ Lock 획득·해제 Protocol
-```
-
-### 2PL을 쓰면 Phantom도 자동으로 막히는가
-
-아니다.
-
-```text
-2PL
-→ 언제 Lock을 잡고 푸는가
-
-Phantom 방지
-→ 새 Row가 들어올 범위까지 보호해야 함
-```
-
-### MVCC를 쓰면 D/N/P가 자동으로 모두 사라지는가
-
-아니다. MVCC는 Version과 Snapshot으로 격리를 구현하는 Mechanism이고, 어느 수준까지 보장할지는 Isolation Level과 DBMS 구현에 따라 달라진다.
-
----
-
-## 13. 기억 흐름
-
-시험이나 복습 시 다음 순서로 복원한다.
-
-```text
-1. 여러 Transaction을 동시에 실행
-        ↓
-2. Conflict 가능
-   같은 Data + 하나 이상 Write
-        ↓
-3. 이상 현상
-   Dirty / Non-repeatable / Phantom
-        ↓
-4. Isolation Level
-   RU → RC → RR → Serializable
-        ↓
-5. 어떻게 구현?
-   Lock / MVCC
-```
-
-Lock 가지:
-
-```text
-Lock
-├─ S / X
-│   → 읽기 공유 / 쓰기 독점
-│
-├─ Row / Range
-│   → 어디까지 보호할 것인가
-│
-└─ 2PL
-    → 언제 잡고 풀 것인가
-    → 잡기 → 풀기
-```
-
-MVCC 가지:
-
-```text
-MVCC
-→ 여러 Version 유지
-→ Snapshot/Visibility로 보이는 Version 선택
-
-RC → 새 관점을 볼 수 있음
-RR → 같은 관점을 유지
-```
-
-Isolation Level 기억법:
-
-```text
-Committed → Repeatable → Serializable
-확정된 것만 → 다시 읽어도 같게 → 직렬 실행처럼
-
-Dirty → Non-repeatable → Phantom
-D → N → P를 하나씩 제거
-```
+        v1  
