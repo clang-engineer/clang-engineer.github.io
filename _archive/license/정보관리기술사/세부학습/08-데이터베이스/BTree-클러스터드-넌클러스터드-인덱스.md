@@ -365,6 +365,18 @@ Row Locator
 └─ Clustered Table → Clustered Key
 ```
 
+**Non-clustered Index의 Row Locator는 고정된 형태가 아니라, 원본 Row가 어떤 저장구조에 있느냐에 따라 달라진다.**
+
+```text
+원본 Row가 Heap에 있음
+→ 원본 Row를 찾아갈 Clustered Index가 없음
+→ Row의 위치인 RID를 Locator로 저장
+
+원본 Row가 Clustered B+Tree의 Leaf에 있음
+→ Clustered Key로 원본 Row를 다시 찾을 수 있음
+→ Clustered Key를 Locator로 저장
+```
+
 Clustered Key를 찾은 뒤 별도의 RID를 다시 얻는 것이 아니다. Clustered B+Tree의 Leaf 자체가 실제 Data Page이기 때문이다.
 
 ---
