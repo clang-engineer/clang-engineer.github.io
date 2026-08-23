@@ -44,6 +44,7 @@ RU → RC → RR → Serializable
 Concurrency Control
 ├─ Lock
 │   ├─ S / X Lock       : Lock 종류
+│   ├─ Compatibility    : 같이 보유 가능한가
 │   ├─ Row / Range      : 어디까지 잠글 것인가
 │   └─ 2PL              : 언제 획득·해제할 것인가
 │
@@ -173,17 +174,7 @@ T2: +20 → 120
 → T1의 +10 유실
 ```
 
-Lost Update는 Dirty / Non-repeatable / Phantom과 달리 **두 Transaction의 Write가 겹치면서 한쪽 변경이 사라지는 동시 Update 문제**다.
-
-```text
-Dirty / Non-repeatable / Phantom
-→ 고전적인 Isolation Level 표에서 비교하는 대표적인 Read 이상 현상
-
-Lost Update
-→ Write 충돌로 한쪽 Update가 유실되는 문제
-```
-
-따라서 고전적인 Isolation Level 표에는 보통 Dirty / Non-repeatable / Phantom 세 현상만 놓고 비교한다. Lost Update의 방지 여부는 DBMS의 Lock·MVCC 및 Update 충돌 처리 방식에 따라 달라질 수 있으므로 `RR이면 무조건 방지`처럼 표에 단순히 한 열을 추가해 대응시키지 않는다.
+고전적인 Isolation Level 표는 주로 Dirty / Non-repeatable / Phantom 세 현상을 비교한다. Lost Update는 별도의 동시 Update 문제로 함께 기억한다.
 
 ---
 
@@ -413,16 +404,36 @@ T2: 같은 X에 S 또는 X Lock 요청
 
 중요한 점은 `X Lock = 읽기/쓰기 불가`가 아니라, **X Lock을 가진 Transaction은 읽기/쓰기가 가능하고 다른 Transaction이 같은 대상에 S/X Lock을 함께 가질 수 없다는 것**이다.
 
-같은 대상에서는 S Lock끼리만 함께 보유할 수 있다.
+### Lock Compatibility
 
 ```text
-S + S → 같이 가능
-S + X → 한쪽 대기
-X + S → 한쪽 대기
-X + X → 한쪽 대기
+같은 Data에 대해
+
+S + S → 같이 보유 가능
+S + X → 불가
+X + S → 불가
+X + X → 불가
 ```
 
-이것은 별도로 외울 새로운 개념이라기보다 `S = Shared`, `X = Exclusive`라는 Lock의 성질에서 자연스럽게 따라온다.
+이 표는 단순히 DBMS가 **현재 Lock 요청을 허용할지 기다리게 할지** 판단하는 Compatibility 규칙이다.
+
+```text
+S = Shared
+→ 읽기끼리 공유
+
+X = Exclusive
+→ 하나라도 X가 있으면 독점
+```
+
+Conflict와 원리가 비슷하지만 같은 개념은 아니다.
+
+```text
+Conflict
+→ 연산의 순서가 중요한가?
+
+Lock Compatibility
+→ 두 Lock을 동시에 허용해도 되는가?
+```
 
 ---
 
@@ -439,7 +450,7 @@ Lock 방식
 
 ### 왜 필요한가
 
-각 순간 S/X Lock의 공유·독점 규칙을 지켜도 Transaction 전체에서 Lock을 마음대로 잡고 풀면 Conflict의 선후관계가 뒤집힐 수 있다.
+각 순간 Lock Compatibility를 지켜도 Transaction 전체에서 Lock을 마음대로 잡고 풀면 Conflict의 선후관계가 뒤집힐 수 있다.
 
 ```text
 A에서는
@@ -591,4 +602,167 @@ T1 두 번째 SELECT
 → X=200
 ```
 
-Statement마다 새로운 관점을 볼 수 있으므로 Non-repeatable Read가 가능하다
+Statement마다 새로운 관점을 볼 수 있으므로 Non-repeatable Read가 가능하다.
+
+### Repeatable Read의 개념 모델
+
+```text
+T1 첫 SELECT
+→ Snapshot ①
+→ X=100
+
+                T2: X=200
+                T2: COMMIT
+
+T1 두 번째 SELECT
+→ 같은 Snapshot ①
+→ X=100
+```
+
+기억법:
+
+```text
+RC
+→ SELECT할 때 세상을 다시 볼 수 있음
+
+RR
+→ Transaction 동안 같은 세상을 봄
+```
+
+구체적인 Snapshot/Visibility 규칙과 Isolation Level의 실제 동작은 DBMS마다 차이가 있을 수 있다.
+
+---
+
+## 12. 지금까지 가장 헷갈렸던 경계
+
+### Conflict와 이상 현상은 같은가
+
+아니다.
+
+```text
+Conflict
+→ 순서가 중요한 연산 관계
+
+Dirty / Non-repeatable / Phantom
+→ 잘못된 병행 실행에서 관찰되는 이상 현상
+```
+
+### Isolation Level과 Lock/MVCC는 같은 분류인가
+
+아니다.
+
+```text
+Isolation Level
+→ 보장 수준
+
+Lock / MVCC
+→ 구현 수단
+```
+
+### S/X와 2PL은 같은 층위인가
+
+Lock 내부의 서로 다른 축이다.
+
+```text
+S / X
+→ Lock 종류
+
+2PL
+→ Lock 획득·해제 Protocol
+```
+
+### 2PL을 쓰면 Phantom도 자동으로 막히는가
+
+아니다.
+
+```text
+2PL
+→ 언제 Lock을 잡고 푸는가
+
+Phantom 방지
+→ 새 Row가 들어올 범위까지 보호해야 함
+```
+
+### MVCC를 쓰면 D/N/P가 자동으로 모두 사라지는가
+
+아니다. MVCC는 Version과 Snapshot으로 격리를 구현하는 Mechanism이고, 어느 수준까지 보장할지는 Isolation Level과 DBMS 구현에 따라 달라진다.
+
+---
+
+## 13. 기억 흐름
+
+시험이나 복습 시 다음 순서로 복원한다.
+
+```text
+1. 여러 Transaction을 동시에 실행
+        ↓
+2. Conflict 가능
+   같은 Data + 하나 이상 Write
+        ↓
+3. 이상 현상
+   Dirty / Non-repeatable / Phantom
+        ↓
+4. Isolation Level
+   RU → RC → RR → Serializable
+        ↓
+5. 어떻게 구현?
+   Lock / MVCC
+```
+
+Lock 가지:
+
+```text
+Lock
+├─ S / X
+│   → 읽기 공유 / 쓰기 독점
+│
+├─ Compatibility
+│   → S-S만 동시 보유
+│
+├─ Row / Range
+│   → 어디까지 보호할 것인가
+│
+└─ 2PL
+    → 언제 잡고 풀 것인가
+    → 잡기 → 풀기
+```
+
+MVCC 가지:
+
+```text
+MVCC
+→ 여러 Version 유지
+→ Snapshot/Visibility로 보이는 Version 선택
+
+RC → 새 관점을 볼 수 있음
+RR → 같은 관점을 유지
+```
+
+Isolation Level 기억법:
+
+```text
+Committed → Repeatable → Serializable
+확정된 것만 → 다시 읽어도 같게 → 직렬 실행처럼
+
+Dirty → Non-repeatable → Phantom
+D → N → P를 하나씩 제거
+```
+
+---
+
+## 14. TODO — 현재 흐름에서 벗어나는 후속 학습
+
+- [ ] Conflict Serializability 판정
+  - Conflict의 순서가 어떤 Serial Schedule과 동등한지 판단하는 방법
+  - Schedule / Serializability 학습과 연결
+
+- [ ] 2PL 변형
+  - Conservative / Strict / Rigorous 2PL
+  - Deadlock, Recoverability와 연결
+
+- [ ] PostgreSQL MVCC와 VACUUM
+  - MVCC에서 오래된 Tuple Version이 남는 이유와 정리 방식
+  - PostgreSQL 구현 학습과 연결
+
+- [ ] DBMS별 Isolation Level / MVCC 차이
+  - PostgreSQL, MySQL InnoDB, SQL Server가 같은 이름의 Isolation Level을 어떻게 구현하는지 비교
