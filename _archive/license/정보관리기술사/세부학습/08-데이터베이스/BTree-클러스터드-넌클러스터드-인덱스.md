@@ -280,7 +280,23 @@ Heap = Index가 없음             X
 Heap = Clustered Index가 없음   O
 ```
 
-Heap의 실제 Row는 특정 Search Key를 기준으로 테이블 전체가 조직되어 있지 않다.
+Heap의 실제 Row는 특정 Search Key를 기준으로 테이블 전체가 조직되어 있지 않다. 실제 Row 자체는 Heap Table의 Data Page에 저장된다.
+
+```text
+Heap Table
+
+Data Page 10
+├─ Row A
+├─ Row C
+└─ Row F
+
+Data Page 27
+├─ Row B
+├─ Row D
+└─ Row E
+```
+
+즉 `Heap`은 Row Locator의 종류를 뜻하는 말이 아니라 **원본 Table의 저장구조**를 뜻한다.
 
 ---
 
@@ -318,8 +334,26 @@ name Index 탐색
  ↓
 File / Page / Slot
  ↓
-Heap Row
+Heap의 Data Page
+ ↓
+실제 Row
 ```
+
+여기서 역할을 분리해서 기억해야 한다.
+
+```text
+실제 Row
+→ Heap Table의 Data Page에 저장
+
+RID
+→ 그 실제 Row가 어디 있는지 나타내는 위치 정보
+
+Row Locator
+→ Non-clustered Index의 Leaf Entry에 저장
+→ 원본 Table이 Heap이면 그 값으로 RID 사용
+```
+
+즉 **Heap Table 자체의 Locator가 RID라는 뜻이 아니라, Heap Table의 Row를 찾아가야 하는 Non-clustered Index가 Row Locator로 RID를 저장한다.**
 
 RID 목록을 Heap이 별도로 가지고 있는 것이 아니라, **그 Row를 참조해야 하는 Non-clustered Index가 Row Locator로 RID를 저장한다.**
 
@@ -368,13 +402,15 @@ Row Locator
 **Non-clustered Index의 Row Locator는 고정된 형태가 아니라, 원본 Row가 어떤 저장구조에 있느냐에 따라 달라진다.**
 
 ```text
-원본 Row가 Heap에 있음
+원본 Table이 Heap 구조
+→ 실제 Row는 Heap의 Data Page에 저장
 → 원본 Row를 찾아갈 Clustered Index가 없음
-→ Row의 위치인 RID를 Locator로 저장
+→ Non-clustered Index가 Row Locator로 RID를 저장
 
-원본 Row가 Clustered B+Tree의 Leaf에 있음
+원본 Table이 Clustered 구조
+→ 실제 Row는 Clustered B+Tree의 Leaf Data Page에 저장
 → Clustered Key로 원본 Row를 다시 찾을 수 있음
-→ Clustered Key를 Locator로 저장
+→ Non-clustered Index가 Row Locator로 Clustered Key를 저장
 ```
 
 Clustered Key를 찾은 뒤 별도의 RID를 다시 얻는 것이 아니다. Clustered B+Tree의 Leaf 자체가 실제 Data Page이기 때문이다.
