@@ -2,7 +2,7 @@
 title       : "셸 로드맵 — 스크립트를 배워 직접 짤 수 있게 되는 순서"
 description : "첫 스크립트를 띄우고(shebang·권한·PATH), 문법 줄기를 한 장으로 잡고, 실전 관용구로 도구를 짜는 데까지 — '셸 스크립트를 배워 직접 짤 수 있게'를 목표로 이 블로그의 셸 글을 큐레이션. 인터랙티브 기본(파이프·리다이렉션)은 전용 글이 없어 정직하게 비워 두고, 환경 관리·일상 속도·세션 지속/원격은 결이 다른 축이라 부록으로 분리."
 date        : 2026-07-03 14:30:00 +0900
-updated     : 2026-07-08 12:00:00 +0900
+updated     : 2026-08-26 08:00:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, shell, zsh, bash]
 pin         : false
@@ -93,13 +93,18 @@ dotfiles의 bootstrap·멱등 링크 헬퍼는 1~2단계에서 배운 스크립�
 
 ## 부록 B — 일상 이동·탐색 속도 (다른 축)
 
-매일 반복하는 이동·탐색의 마찰을 줄이는 도구 축. 스크립트 학습과 무관하게 삶의 질을 올린다.
+매일 반복하는 이동·탐색의 마찰을 줄이는 도구 축. 스크립트 학습과 무관하게 삶의 질을 올린다. 비슷해 보이는 도구라도 역할을 분리하면 겹침이 줄어든다.
 
-| 글 | 핵심 |
+| 도구/글 | 역할 |
 |---|---|
-| [zoxide로 디렉토리 이동 빠르게 — autojump 대체](/posts/shell/2026-07-03-zoxide-directory-jump/) | 방문 기록(frecency)으로 디렉토리 점프. 셸 연동, `z`/`zi`, autojump에서 갈아타기, fzf 연동 |
+| [zoxide로 디렉토리 이동 빠르게 — autojump 대체](/posts/shell/2026-07-03-zoxide-directory-jump/) | **자주 가는 디렉토리 점프.** 방문 기록(frecency)으로 `z`/`zi` 이동. 목적지를 대충 알고 있을 때 가장 빠르다. |
+| [fzf 치트시트](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/fzf.md) | **범용 fuzzy picker.** `Ctrl+R` 히스토리, `Ctrl+T` 경로 삽입, `Alt+C` 디렉토리 선택뿐 아니라 `git branch \| fzf`, `rg ... \| fzf`처럼 어떤 목록에도 붙인다. 파일 관리 앱이라기보다 선택 엔진에 가깝다. |
+| Atuin | **셸 히스토리 전용 검색.** 도입한다면 `Ctrl+R`을 맡기고, fzf는 범용 picker로 남기는 구성이 자연스럽다. 디렉토리·종료 상태·실행 시간·호스트 같은 메타데이터까지 활용할 수 있다. |
+| Yazi | **터미널 파일 탐색/관리.** 파일시스템을 눈으로 돌아다니며 preview·복사·이동·rename을 하고, 종료 시 현재 셸 디렉토리까지 넘겨받는 용도. fzf의 `Ctrl+T`와 달리 picker가 아니라 file manager다. |
 
-> 📎 **치트시트** · [modern-cli](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/modern-cli.md) — bat·eza·fd·zoxide·delta·tldr 빠른 참조 (GitHub)
+역할만 요약하면 **익숙한 경로는 zoxide, 과거 명령은 Atuin, 파일시스템을 둘러볼 때는 Yazi, 임의의 목록에서 하나를 고를 때는 fzf**다. Neovim의 파일/grep picker는 검색 결과를 바로 편집할 때 쓰면 되고, 파일 위치만 확인하려고 에디터를 한 번 거칠 필요는 없다.
+
+> 📎 **치트시트** · [modern-cli](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/modern-cli.md) · [fzf](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/fzf.md) — bat·eza·fd·zoxide·delta·tldr / fzf 셸 단축키·파이프 조합 빠른 참조 (GitHub)
 {: .prompt-tip }
 
 `cat`·`ls`·`find`·`grep`을 대체하는 모던 CLI(bat·eza·fd·ripgrep)까지 한 번에 보고 싶다면 [macOS CLI 개발 도구 모음](/posts/macos/2026-07-03-macos-cli-toolkit-brewfile/)에 Brewfile 기준으로 갈래별 정리해 두었다.
