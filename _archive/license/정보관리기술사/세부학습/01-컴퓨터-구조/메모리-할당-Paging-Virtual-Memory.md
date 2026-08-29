@@ -16,12 +16,16 @@ Process를 Physical Memory에 어떻게 배치할까?
 └─ 가변 분할
    ↓
 문제
-- 연속된 공간이 필요
-- 단편화 발생
+- Process마다 연속된 Physical Memory 공간이 필요
+- 내부/외부 단편화 발생 가능
+   ↓
+"꼭 연속된 공간에 넣어야 할까?"
    ↓
 불연속 메모리 할당
 ├─ Paging
 └─ Segmentation
+   ↓
+흩어진 Physical Memory 공간에도 배치 가능
    ↓
 한 단계 더
 "Process의 모든 내용을 지금 당장 RAM에 둘 필요가 있을까?"
@@ -33,7 +37,7 @@ Virtual Memory
    └─ Page Replacement
 ```
 
-> **연속 할당 → 불연속 할당 → 필요한 부분만 RAM에 적재**라는 문제 해결 흐름으로 기억한다.
+> **연속 공간 요구 제거 → 불연속 배치 → 필요한 부분만 RAM에 적재**라는 문제 해결 흐름으로 기억한다.
 
 ---
 
@@ -67,13 +71,13 @@ Memory
 └─ Partition 4
 ```
 
-Process보다 Partition이 크면 내부에 사용하지 않는 공간이 남을 수 있다.
+Process보다 Partition이 크면 내부에 사용하지 않는 공간이 남을 수 있다. 즉 **내부 단편화(Internal Fragmentation)**가 발생할 수 있다.
 
 ### 가변 분할
 
 Process가 필요한 크기에 맞춰 Partition 크기를 정한다.
 
-고정 분할의 낭비를 줄일 수 있지만 Process의 생성과 종료가 반복되면 사용 가능한 공간이 여기저기 흩어지는 외부 단편화가 발생할 수 있다.
+고정 분할의 낭비를 줄일 수 있지만 Process의 생성과 종료가 반복되면 사용 가능한 공간이 여기저기 흩어지는 **외부 단편화(External Fragmentation)**가 발생할 수 있다.
 
 ```text
 사용 중
@@ -86,9 +90,23 @@ Process가 필요한 크기에 맞춰 Partition 크기를 정한다.
 하지만 30MB의 연속 공간은 없음
 ```
 
+예를 들어 25MB Process가 들어오면 총 빈 공간은 30MB이지만 가장 큰 연속 공간은 20MB이므로 배치할 수 없다.
+
+```text
+빈 공간 총량 = 30MB
+        ↓
+25MB Process를 넣을 용량 자체는 있음
+        ↓
+하지만 25MB 연속 공간이 없음
+        ↓
+할당 불가
+```
+
 여기서 다음 질문이 나온다.
 
 > **Process를 꼭 Physical Memory의 연속된 공간에 넣어야 할까?**
+
+이 질문이 불연속 메모리 할당으로 넘어가는 핵심이다. 단순히 빈 공간의 총량을 늘리는 것이 아니라 **Process마다 큰 연속 공간을 찾아야 한다는 제약을 제거**하려는 것이다.
 
 ---
 
@@ -121,6 +139,75 @@ Page 2 ─────→ Frame 5
 
 즉 Process 전체가 하나의 연속된 Physical Memory 영역을 차지할 필요가 없다.
 
+### 연속 공간 요구를 없애면 무엇이 좋은가
+
+핵심은 **Physical Memory의 빈 공간이 서로 붙어 있지 않아도 사용할 수 있다는 것**이다.
+
+연속 할당에서는 다음처럼 빈 공간이 흩어져 있으면 총량이 충분해도 큰 Process를 배치하지 못할 수 있다.
+
+```text
+[사용][빈 공간][사용][빈 공간][사용]
+```
+
+Paging에서는 Process를 Page로 나누므로 각 Page를 서로 다른 빈 Frame에 배치할 수 있다.
+
+```text
+Process
+├─ Page 0 ─→ Frame 7
+├─ Page 1 ─→ Frame 2
+└─ Page 2 ─→ Frame 9
+```
+
+따라서 흐름은 다음과 같다.
+
+```text
+연속된 큰 공간을 찾아야 함
+        ↓
+외부 단편화로 총 빈 공간을 활용하지 못할 수 있음
+        ↓
+Page / Frame 단위의 불연속 배치
+        ↓
+흩어진 빈 Frame 사용 가능
+        ↓
+연속 공간 요구 제거
+```
+
+### 불연속 할당이면 단편화가 없어지는가
+
+아니다. **불연속 할당이라고 단편화 자체가 모두 사라지는 것은 아니다.** 어떤 방식으로 나누느냐에 따라 단편화의 종류가 달라진다.
+
+```text
+연속 할당
+├─ 고정 분할 → 내부 단편화 발생 가능
+└─ 가변 분할 → 외부 단편화 발생 가능
+
+불연속 할당
+├─ Paging
+│   ├─ 외부 단편화 제거
+│   └─ 내부 단편화 발생 가능
+│
+└─ Segmentation
+    └─ 외부 단편화 발생 가능
+```
+
+Paging은 Page와 Frame의 크기를 동일한 고정 크기로 맞춘다. 따라서 빈 Frame이 어디에 있든 Page 하나를 넣을 수 있어 **큰 연속 공간을 찾지 못해서 생기는 외부 단편화 문제를 제거**한다.
+
+하지만 Process 크기가 Page 크기의 정확한 배수가 아닐 수 있다.
+
+예를 들어 Page 크기가 4KB인데 마지막에 2KB만 필요하다면:
+
+```text
+마지막 Frame 4KB
+┌────────────┐
+│ 사용 2KB   │
+│ 빈 2KB     │ ← 내부 단편화
+└────────────┘
+```
+
+즉 Paging의 의미를 `단편화를 없앤다`라고 기억하면 부정확하다.
+
+> **Paging은 연속 공간 요구를 제거하여 외부 단편화를 없애지만, 마지막 Page 등에서는 내부 단편화가 발생할 수 있다.**
+
 ### Page와 Frame
 
 교과서적으로 구분하면:
@@ -142,6 +229,18 @@ Page Table
     ↓
 Frame Number
 ```
+
+여기서 중요한 변화가 하나 더 생긴다.
+
+```text
+Process가 보는 Page
+        ↓
+Page Table을 통해 매핑
+        ↓
+실제 Physical Frame
+```
+
+즉 Process가 사용하는 논리적 주소와 실제 Physical Memory 위치를 직접 같게 볼 필요가 없어진다. 이 **논리 주소 공간과 물리적 배치의 분리**가 뒤에서 Virtual Memory를 이해하는 중요한 기반이 된다.
 
 > **Paging의 핵심 = Process를 Page로, Physical Memory를 Frame으로 나누어 불연속 배치를 가능하게 한다.**
 
@@ -165,10 +264,12 @@ Process
 Paging
 → 고정 크기
 → 물리적으로 연속 배치할 필요를 제거
+→ 외부 단편화 제거, 내부 단편화 가능
 
 Segmentation
 → 논리적 의미 단위
 → Segment마다 크기가 다를 수 있음
+→ 외부 단편화 가능
 ```
 
 Paging과 Segmentation의 세부 주소 변환이나 혼합 방식은 별도 심화 주제로 둘 수 있다.
@@ -201,6 +302,28 @@ Process의 모든 Page를 RAM에 올려놓고 있음
 ## 6. Virtual Memory — 모든 Page를 RAM에 둘 필요가 없다
 
 Virtual Memory의 핵심은 Process가 Physical Memory의 실제 배치와 분리된 **자신의 논리적 주소 공간**을 사용하게 하는 것이다.
+
+앞에서 Paging을 통해 이미 다음 구조를 만들었다.
+
+```text
+Process가 보는 논리 Page
+        ↓
+Page Table
+        ↓
+실제 Physical Frame
+```
+
+즉 Process가 보는 주소와 실제 RAM의 위치가 분리되어 있다. 그러면 여기서 한 단계 더 확장할 수 있다.
+
+```text
+논리 주소와 Physical Memory 위치가 분리됨
+        ↓
+"모든 논리 Page가 항상 Physical Frame에 있어야 할까?"
+        ↓
+필요한 Page만 RAM에 두기
+        ↓
+Demand Paging 기반 Virtual Memory
+```
 
 Demand Paging을 사용하면 Process의 모든 Page를 처음부터 RAM에 올려놓지 않고 필요한 Page만 적재할 수 있다.
 
@@ -266,11 +389,16 @@ Demand Paging의 효과
 [문제 1]
 Process를 연속된 RAM 공간에 넣어야 함
         ↓
+빈 공간 총량이 충분해도
+큰 연속 공간이 없으면 할당하지 못할 수 있음
+        ↓
 Paging
         ↓
 Page ↔ Frame
         ↓
 RAM에 흩어서 배치 가능
+        ↓
+논리 Page와 Physical Frame을 매핑
 
 [문제 2]
 그래도 Process의 모든 Page를 RAM에 올려야 하나?
@@ -284,7 +412,7 @@ Demand Paging 기반 Virtual Memory
 
 기억 문장:
 
-> **Paging은 '어디에 배치할까'의 문제를 풀고, Demand Paging은 '지금 RAM에 꼭 있어야 하나'까지 확장한다.**
+> **Paging은 'Physical Memory의 어디에 배치할까'의 문제를 풀고, Demand Paging은 '지금 RAM에 꼭 있어야 하나'까지 확장한다.**
 
 ---
 
@@ -338,18 +466,31 @@ B-Tree에서 DB Page가 나오는 이유도 B-Tree의 논리적인 Node를 실�
 ```text
 고정 분할
 → 미리 나눈 연속 공간
+→ 내부 단편화 가능
 
 가변 분할
 → Process 크기에 맞춘 연속 공간
+→ 외부 단편화 가능
         ↓
-연속 공간 요구와 단편화 문제
+빈 공간 총량이 충분해도
+큰 연속 공간이 없으면 할당하지 못할 수 있음
+        ↓
+"꼭 연속해서 넣어야 하나?"
         ↓
 Paging
 → 고정 크기 Page / Frame
 → 불연속 배치
+→ 흩어진 빈 Frame 활용
+→ 외부 단편화 제거
+→ 내부 단편화는 가능
+        ↓
+논리 Page ↔ Physical Frame 매핑
+        ↓
+논리 주소 공간과 Physical Memory 위치 분리
 
 Segmentation
 → 논리적 의미의 가변 크기 Segment
+→ 외부 단편화 가능
 
 Paging에서 한 단계 더
 "모든 Page가 RAM에 있어야 하나?"
