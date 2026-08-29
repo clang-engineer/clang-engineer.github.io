@@ -55,6 +55,8 @@ Harness
 
 엄밀한 표준 수학 관계는 아니지만 이해를 위해 `Agent ⊂ Harness`처럼 생각하면 직관적이다.
 
+다만 이것은 **이해를 위한 모델**이지 표준 규격상 항상 성립하는 포함 관계는 아니다. 어떤 제품은 Agent 내부에 Harness 성격의 기능을 포함하고, 어떤 문맥에서는 전체 Agent Runtime을 Harness라고 부르기도 한다.
+
 ---
 
 ## 3. Harness의 구성 요소를 실제 예제로 이해한다
@@ -111,6 +113,8 @@ git push   : 승인 필요
 위험 명령   : 금지
 ```
 
+즉 `grep을 쓸지`, `fd를 쓸지`, `Web Search를 허용할지`, `git push 전에 승인을 요구할지` 같은 것은 Harness의 Tool·Policy 구성에 해당할 수 있다.
+
 ### Workflow
 
 Agent가 작업할 때 따르게 할 큰 작업 절차를 정의한다.
@@ -125,6 +129,8 @@ Agent가 작업할 때 따르게 할 큰 작업 절차를 정의한다.
 ```
 
 작은 수정에서는 이런 Full Workflow가 오히려 Token과 시간을 낭비할 수 있다. 큰 기능 구현이나 장시간 자율 작업에서는 사람의 개입을 줄이는 데 가치가 생긴다.
+
+Workflow는 단순 Instruction으로 제공할 수도 있고, Hook·Command·Agent 호출 Code로 실제 순서를 강하게 적용할 수도 있다.
 
 ### Agent Orchestration
 
@@ -175,9 +181,50 @@ Context
 → LLM
 ```
 
+따라서 `Harness = Context 덩어리`라고 이해하면 절반은 맞지만, **Context를 언제 주입하고 어떤 자동화 Code를 실행할지까지 포함할 수 있다는 점**을 같이 기억해야 한다.
+
 ---
 
-## 5. OpenCode · Codex · Claude Code와 Harness
+## 5. Agent Runtime과 Harness는 같은가
+
+둘을 완전히 같은 말로 쓰면 혼란이 생긴다.
+
+### Agent Runtime
+
+Agent Loop를 실제로 실행하는 기반이다.
+
+```text
+LLM 호출
+→ Tool Call 해석
+→ Tool 실행
+→ 결과 수집
+→ 다음 LLM 호출
+→ Session / State 유지
+```
+
+즉 실제 Agent를 구동하는 실행 엔진에 가깝다.
+
+### Harness
+
+그 Runtime 위에서 Agent가 **어떤 Context·Rule·Tool·Workflow·정책으로 일할 것인지 구성하고 제어하는 층**을 강조하는 표현이다.
+
+```text
+Agent Runtime
+└─ Agent Loop 실제 실행
+
+Harness
+├─ Rules / Skills
+├─ Hooks
+├─ Tool / Permission 구성
+├─ Workflow
+└─ Orchestration 전략
+```
+
+하지만 현실의 Coding Agent 제품에서는 이 둘이 한 프로그램에 함께 들어가는 경우가 많다. 그래서 `Agent Runtime / Harness`라는 표현이 느슨하게 섞여 쓰이기도 한다.
+
+---
+
+## 6. OpenCode · Codex · Claude Code와 Harness
 
 OpenCode, Codex, Claude Code 같은 Coding Agent 제품은 이미 Agent Loop와 기본 Harness 기능을 함께 가진 완성된 Agent System으로 볼 수 있다.
 
@@ -194,13 +241,14 @@ Coding Agent Product
 따라서 이 제품들을 `Agent인가 Harness인가` 중 하나로만 분류하려 할 필요는 없다.
 
 - 목표를 자율적으로 수행하는 관점에서는 **Agent**
+- 실제 Loop를 구동하는 관점에서는 **Agent Runtime**
 - LLM과 Agent를 어떤 Context·Tool·정책으로 굴리는지 보는 관점에서는 **Harness**
 
-같은 제품이 두 역할을 모두 수행할 수 있다.
+같은 제품이 이 역할들을 함께 수행할 수 있다.
 
 ---
 
-## 6. OMO · LazyCodex 같은 Harness 확장
+## 7. OMO · LazyCodex 같은 Harness 확장
 
 OMO(Oh My OpenAgent), LazyCodex 같은 Project는 기존 Coding Agent Runtime을 새로 만드는 것이라기보다, 기존 Agent 위에 **검증된 작업 방식과 자동화**를 추가하는 확장 계층으로 이해하면 쉽다.
 
@@ -224,9 +272,61 @@ Orchestration
 
 이라고 이해하면 된다.
 
+### Host와 Model은 구분한다
+
+어떤 Harness 확장을 사용할 수 있는지는 단순히 어떤 LLM Model을 쓰느냐보다 **어떤 Agent Host / Runtime 위에서 실행하느냐**가 중요하다.
+
+```text
+OpenCode + GPT
+Codex    + GPT
+```
+
+둘 다 GPT를 사용할 수 있어도 같은 Runtime은 아니다.
+
+예를 들어 다음처럼 이해하면 쉽다.
+
+```text
+OpenCode
+└─ OMO 같은 OpenCode용 확장
+
+Codex
+└─ LazyCodex 같은 Codex용 확장
+```
+
+OpenCode 안에서 GPT Model을 선택했다고 해서 Codex 전용 Harness 확장을 그대로 사용할 수 있는 것은 아니다.
+
 ---
 
-## 7. 왜 이런 Harness를 공유해서 사용하는가
+## 8. Harness Plugin은 설치하면 언제 동작하는가
+
+Harness Plugin을 설치했다고 해서 특정 Keyword를 입력할 때만 모든 기능이 생기는 것은 아니다.
+
+예를 들어 OMO 같은 Plugin형 Harness는 Host가 Plugin을 로드하는 순간 기본 Agent 정의, Hook, Tool, Context 관리 등이 일부 적용될 수 있다.
+
+```text
+순정 OpenCode
+→ OpenCode 기본 Agent / Tool / Context
+
+OpenCode + OMO Plugin
+→ OpenCode 기본 기능
++ OMO의 Agent / Hook / Tool / Context 확장
+```
+
+여기에 `ulw` 같은 명령이나 Keyword가 있다면 이것은 보통 **Plugin 자체의 ON/OFF가 아니라 더 강한 Workflow나 Orchestration을 선택하는 Trigger**로 이해하는 편이 맞다.
+
+```text
+OMO 일반 실행
+        ↓
+     + ulw
+        ↓
+더 적극적인 탐색 / 계획 / 위임 / 검증
+```
+
+따라서 작은 작업에서 정말 순정 Host만 사용하고 싶다면 Plugin 비활성화나 별도 Profile, Host가 제공하는 Pure Mode 같은 실행 방법이 필요할 수 있다. 이 부분은 제품 버전과 구현에 따라 달라질 수 있으므로 특정 명령 자체보다 **Plugin 로딩 여부와 Workflow Trigger를 구분하는 원리**를 기억한다.
+
+---
+
+## 9. 왜 이런 Harness를 공유해서 사용하는가
 
 순정 Agent를 사용할 때 사용자가 반복적으로 다음과 같이 감독할 수 있다.
 
@@ -253,9 +353,20 @@ Harness는 이런 반복적인 운영 노하우를 자동화한다.
 
 Neovim에 개인 설정을 직접 쌓을 수도 있지만 LazyVim 같은 배포판을 사용하는 것과 비슷한 면이 있다.
 
+즉 Harness를 공유한다는 것은 단순히 `Prompt 문장 몇 개`를 공유하는 것보다 다음을 함께 공유하는 데 가깝다.
+
+```text
+개발 원칙
++ 작업 절차
++ 역할별 Skill
++ Hook / 자동화
++ Tool / 권한 구성
++ Agent 운용 전략
+```
+
 ---
 
-## 8. Harness가 항상 좋은 것은 아니다
+## 10. Harness가 항상 좋은 것은 아니다
 
 Harness가 복잡해질수록 다음 비용도 증가할 수 있다.
 
@@ -280,9 +391,39 @@ Harness가 복잡해질수록 다음 비용도 증가할 수 있다.
 
 > **작업 성공률과 사람의 개입 감소가 추가 Token·복잡성 비용보다 큰가?**
 
+Harness가 잘 설계되면 재작업이 줄어 전체 비용이 오히려 감소할 수도 있지만, 작은 작업까지 과도하게 탐색·계획·Review하면 Token 대비 효율이 나빠질 수 있다.
+
 ---
 
-## 9. 좋은 Harness 노하우는 결국 Agent 본체로 흡수될 수 있다
+## 11. 개인 Rule은 Harness를 쓰면 사라지는가
+
+사라질 필요가 없다. 개인 Rule과 Harness Workflow는 역할이 다르다.
+
+```text
+개인 Rule
+→ 어떤 원칙으로 Code를 작성할 것인가
+→ YAGNI / 가독성 / 최소 변경 / 기존 구조 존중
+
+Harness Workflow
+→ 어떤 절차로 작업할 것인가
+→ 탐색 / 계획 / 구현 / Test / Review
+```
+
+따라서 다음처럼 함께 사용할 수 있다.
+
+```text
+개인 Coding Principle
+        +
+Harness의 Workflow / Skill / Hook
+        ↓
+개인화된 Agent 작업 환경
+```
+
+다만 Harness의 Skill이나 Workflow가 개인 Rule과 충돌할 수 있으므로, 어떤 Instruction이 우선하는지는 확인할 필요가 있다.
+
+---
+
+## 12. 좋은 Harness 노하우는 결국 Agent 본체로 흡수될 수 있다
 
 Harness는 새로운 Agent 사용법을 빠르게 실험하기 좋은 계층이다.
 
@@ -308,7 +449,7 @@ Harness는 새로운 Agent 사용법을 빠르게 실험하기 좋은 계층이�
 
 ---
 
-## 10. 기술사 관점의 최종 정리
+## 13. 기술사 관점의 최종 정리
 
 Agent Harness는 아직 전통적인 표준 Architecture Component처럼 경계가 완전히 고정된 용어로 보기 어렵다. 따라서 Agent와 Harness를 물리적으로 분리된 두 Component로 암기하기보다 관점 차이로 이해하는 것이 안전하다.
 
@@ -317,6 +458,10 @@ Agent
 = LLM + Tool + Observation Loop를 통해
   목표를 자율적으로 수행하는 실행 주체
 
+Agent Runtime
+= LLM 호출과 Tool 실행을 연결해
+  Agent Loop를 실제로 구동하는 실행 기반
+
 Harness
 = Agent를 원하는 방식으로 운용하기 위한
   Context + Config + Automation Code의 체계
@@ -324,6 +469,6 @@ Harness
 
 ### 기억 문장
 
-> **Agent는 일을 수행하는 Loop이고, Harness는 그 Agent를 잘 굴리기 위해 축적한 작업 환경과 운용 노하우다.**
+> **Agent는 일을 수행하는 Loop이고, Runtime은 그 Loop를 실제로 돌리며, Harness는 그 Agent를 잘 굴리기 위해 축적한 작업 환경과 운용 노하우다.**
 
-Harness의 대표 요소는 `Context / Rule / Skill / Hook / Tool·Permission 구성 / Workflow / Orchestration`이며, 실제 제품에서는 Agent와 Harness의 기능이 상당 부분 겹칠 수 있다.
+Harness의 대표 요소는 `Context / Rule / Skill / Hook / Tool·Permission 구성 / Workflow / Orchestration`이며, 실제 제품에서는 Agent·Runtime·Harness 기능이 한 프로그램에 통합되어 서로 겹칠 수 있다.
