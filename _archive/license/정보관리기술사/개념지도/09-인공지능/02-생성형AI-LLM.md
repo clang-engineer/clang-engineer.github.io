@@ -1,6 +1,6 @@
 # 인공지능 생성형 AI·LLM 개념지도
 
-이 문서는 `00-전체.md`에서 Foundation Model·생성형 AI·LLM(Large Language Model, 대규모 언어 모델) 가지를 선택했을 때, **LLM 내부와 활용 기술을 주변으로 파고들기 위한 하위 지도**다.
+이 문서는 [[00-전체|인공지능 전체 개념지도]]에서 Foundation Model·생성형 AI·LLM(Large Language Model, 대규모 언어 모델) 가지를 선택했을 때, **LLM 내부와 활용 기술을 주변으로 파고들기 위한 하위 지도**다.
 
 세부 구현과 내부 Algorithm은 `../../세부학습/09-인공지능/`에서 다룬다.
 
@@ -35,7 +35,7 @@ Generative AI
 
 `Foundation Model`, `Generative AI`, `LLM`, `Transformer`, `GAN`, `Diffusion`, `Multimodal`은 같은 계층의 용어가 아니다.
 
-상세: `../../세부학습/09-인공지능/생성형-AI와-멀티모달.md`, `../../세부학습/09-인공지능/Foundation-Model과-AI-활용계층.md`
+세부학습: [[생성형-AI와-멀티모달|생성형 AI와 Multimodal]], [[Foundation-Model과-AI-활용계층|Foundation Model과 AI 활용 계층]]
 
 ---
 
@@ -62,6 +62,8 @@ Prompt · Context · Retrieval · Tool
 ```
 
 Fine-tuning은 Model을 추가 학습하는 쪽이고, Prompt·RAG(Retrieval-Augmented Generation, 검색한 외부 지식을 LLM에 함께 제공하는 방식)·Tool은 주로 이미 만들어진 Model을 활용하는 쪽에서 만난다.
+
+세부학습: [[Foundation-Model과-AI-활용계층|Foundation Model과 AI 활용 계층]], [[Fine-tuning과-PEFT-LoRA|Fine-tuning과 PEFT·LoRA]]
 
 ---
 
@@ -102,6 +104,8 @@ Inference → 학습된 Weight를 사용
 ```
 
 이 구분을 잡아야 Prompt·RAG와 Fine-tuning의 차이가 자연스럽게 연결된다.
+
+세부학습: [[LLM의-동작원리|LLM의 동작 원리]], [[LLM-추론과-Token-생성|LLM 추론과 Token 생성]]
 
 ---
 
@@ -145,7 +149,7 @@ Inference
 └─ GPU(Graphics Processing Unit, 대규모 병렬 연산 장치) Memory / Serving
 ```
 
-상세: `../../세부학습/09-인공지능/LLM의-동작원리.md`, `../../세부학습/09-인공지능/LLM-추론과-Token-생성.md`, `../../세부학습/09-인공지능/LLM-내부운영과-GPU-메모리.md`
+세부학습: [[LLM의-동작원리|LLM의 동작 원리]], [[LLM-추론과-Token-생성|LLM 추론과 Token 생성]], [[LLM-내부운영과-GPU-메모리|LLM 내부 운영과 GPU Memory]]
 
 ---
 
@@ -172,6 +176,8 @@ MCP(Model Context Protocol, AI Client가 외부 Tool·Resource를 발견하고 �
 
 Prompt·RAG·Fine-tuning·Agent는 같은 문제를 해결하는 단순 대체재가 아니다.
 
+세부학습: [[LLM-프롬프트와-Context-제어|LLM Prompt와 Context 제어]], [[임베딩-벡터검색-RAG|Embedding·Vector Search·RAG]], [[Fine-tuning과-PEFT-LoRA|Fine-tuning과 PEFT·LoRA]], [[에이전트와-MCP|Agent와 MCP]]
+
 ---
 
 ## 6. Prompt · Few-shot · RAG · Tool 결과는 Context에서 만난다
@@ -197,7 +203,7 @@ User Prompt        → 현재 사용자 요청
 
 Prompt·Few-shot·RAG는 기본 Model Weight를 바꾸지 않는다.
 
-상세: `../../세부학습/09-인공지능/LLM-프롬프트와-Context-제어.md`
+세부학습: [[LLM-프롬프트와-Context-제어|LLM Prompt와 Context 제어]]
 
 ---
 
@@ -265,7 +271,7 @@ Retrieval
 └─ Re-ranking
 ```
 
-상세: `../../세부학습/09-인공지능/임베딩-벡터검색-RAG.md`
+세부학습: [[임베딩-벡터검색-RAG|Embedding·Vector Search·RAG]]
 
 ---
 
@@ -294,7 +300,7 @@ Fine-tuning
 → Weight 또는 추가 학습 Parameter 변경
 ```
 
-상세: `../../세부학습/09-인공지능/Fine-tuning과-PEFT-LoRA.md`
+세부학습: [[Fine-tuning과-PEFT-LoRA|Fine-tuning과 PEFT·LoRA]]
 
 ---
 
@@ -339,7 +345,7 @@ Agent
     └─ Orchestration
 ```
 
-상세: `../../세부학습/09-인공지능/Agent-Harness.md`
+세부학습: [[Agent-Harness|Agent Harness]], [[에이전트와-MCP|Agent와 MCP]]
 
 ---
 
@@ -376,7 +382,7 @@ Harness
 = Agent를 둘러싼 운영·통제 체계
 ```
 
-상세: `../../세부학습/09-인공지능/에이전트와-MCP.md`, `../../세부학습/09-인공지능/Agent-Harness.md`
+세부학습: [[에이전트와-MCP|Agent와 MCP]], [[Agent-Harness|Agent Harness]]
 
 ---
 
@@ -437,7 +443,7 @@ Text2SQL
 
 Text2SQL은 Task이고, LLM은 이를 구현하는 방법 중 하나다. RAG·Agent는 LLM 기반 Text2SQL을 구성할 때 조합할 수 있다.
 
-상세: `../../세부학습/09-인공지능/Text2SQL과-스키마-링킹.md`
+세부학습: [[Text2SQL과-스키마-링킹|Text2SQL과 Schema Linking]]
 
 ---
 
