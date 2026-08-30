@@ -1,6 +1,6 @@
 # 인공지능 생성형 AI·LLM 개념지도
 
-이 문서는 `00-전체.md`에서 Foundation Model·생성형 AI·LLM 가지를 선택했을 때, **LLM 내부와 활용 기술을 주변으로 파고들기 위한 하위 지도**다.
+이 문서는 `00-전체.md`에서 Foundation Model·생성형 AI·LLM(Large Language Model, 대규모 언어 모델) 가지를 선택했을 때, **LLM 내부와 활용 기술을 주변으로 파고들기 위한 하위 지도**다.
 
 세부 구현과 내부 Algorithm은 `../../세부학습/09-인공지능/`에서 다룬다.
 
@@ -27,7 +27,7 @@ Generative AI
 │   └─ LLM
 │       └─ Autoregressive Token 생성
 ├─ Image
-│   ├─ GAN
+│   ├─ GAN(Generative Adversarial Network, 생성자와 판별자가 경쟁하며 학습)
 │   └─ Diffusion
 ├─ Audio / Video
 └─ Multimodal
@@ -61,7 +61,7 @@ Prompt · Context · Retrieval · Tool
 업무 Service
 ```
 
-Fine-tuning은 Model을 추가 학습하는 쪽이고, Prompt·RAG·Tool은 주로 이미 만들어진 Model을 활용하는 쪽에서 만난다.
+Fine-tuning은 Model을 추가 학습하는 쪽이고, Prompt·RAG(Retrieval-Augmented Generation, 검색한 외부 지식을 LLM에 함께 제공하는 방식)·Tool은 주로 이미 만들어진 Model을 활용하는 쪽에서 만난다.
 
 ---
 
@@ -141,8 +141,8 @@ Inference
 ├─ Context Window
 ├─ Autoregressive Generation
 ├─ Decoding
-├─ KV Cache
-└─ GPU Memory / Serving
+├─ KV Cache(Key-Value Cache, 이전 Attention 계산 결과를 재사용하는 Cache)
+└─ GPU(Graphics Processing Unit, 대규모 병렬 연산 장치) Memory / Serving
 ```
 
 상세: `../../세부학습/09-인공지능/LLM의-동작원리.md`, `../../세부학습/09-인공지능/LLM-추론과-Token-생성.md`, `../../세부학습/09-인공지능/LLM-내부운영과-GPU-메모리.md`
@@ -167,6 +167,8 @@ Prompt / Few-shot         RAG          Tool Calling
 Model 행동 자체를 반복적으로 조정
 → Fine-tuning
 ```
+
+MCP(Model Context Protocol, AI Client가 외부 Tool·Resource를 발견하고 호출하는 공통 Protocol)는 Agent가 외부 기능과 연결되는 지점에서 만난다.
 
 Prompt·RAG·Fine-tuning·Agent는 같은 문제를 해결하는 단순 대체재가 아니다.
 
@@ -233,12 +235,12 @@ RAG
 │   └─ Vector DB
 │
 └─ Retrieval
-    ├─ Keyword / BM25
+    ├─ Keyword / BM25(Best Matching 25, 단어 빈도 기반 대표 검색 점수)
     ├─ Vector Search
     │   ├─ Exact Search
-    │   └─ ANN
-    │       ├─ HNSW
-    │       └─ IVF / IVFFlat
+    │   └─ ANN(Approximate Nearest Neighbor, 근사 최근접 이웃 검색)
+    │       ├─ HNSW(Hierarchical Navigable Small World, 그래프 기반 ANN)
+    │       └─ IVF(Inverted File, 벡터 공간을 구역으로 나눠 탐색하는 ANN 계열)
     ├─ Hybrid Search
     └─ Re-ranking
         ↓
@@ -272,12 +274,11 @@ Retrieval
 ```text
 Fine-tuning
 ├─ [학습 신호 관점]
-│   └─ SFT
-│       └─ 입력-정답 Pair
+│   └─ SFT(Supervised Fine-Tuning, 입력-정답 Pair로 지도학습)
 └─ [Parameter 효율 관점]
     ├─ Full Fine-tuning
-    └─ PEFT
-        └─ LoRA
+    └─ PEFT(Parameter-Efficient Fine-Tuning, 일부 Parameter만 효율적으로 학습)
+        └─ LoRA(Low-Rank Adaptation, 저차원 행렬을 추가 학습하는 PEFT 기법)
 
 SFT + LoRA
 → 함께 사용 가능
@@ -354,7 +355,9 @@ MCP
  ↓
 MCP Server
  ↓
-API / DB / File / 외부 System
+API(Application Programming Interface, 프로그램 간 기능을 호출하는 인터페이스)
+DB(Database, 데이터 저장·조회 시스템)
+File / 외부 System
 ```
 
 MCP가 없어도 Agent가 Tool을 직접 호출할 수 있다. MCP는 Agent 자체나 Tool 자체가 아니라 외부 기능을 발견·호출하는 공통 Protocol이다.
@@ -424,7 +427,7 @@ Text2SQL 예:
 ```text
 Text2SQL
 ├─ Rule / Template
-├─ 전용 ML / Seq2Seq
+├─ 전용 ML / Seq2Seq(Sequence-to-Sequence, 입력 Sequence를 출력 Sequence로 변환)
 └─ LLM 기반
     ├─ Metadata / Schema Retrieval
     ├─ Schema Linking
