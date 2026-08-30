@@ -46,7 +46,7 @@ hidden      : false
 | 글 | 핵심 |
 |---|---|
 | [프로세스 찾고 종료하기: pgrep, pkill, pidof, lsof, kill](/posts/linux/2026-06-16-process-find-and-kill/) | `ps aux \| grep` 대신 쓰는 표준 도구 — 이름·포트·시그널로 프로세스를 정확히 다루는 법. 운영에서 가장 자주 치는 명령들 |
-| [실시간 시스템 모니터링: top, htop, btop, glances](/posts/linux/2026-06-16-system-monitoring-top-htop-btop/) | CPU·메모리·프로세스를 실시간으로 보는 TUI 4종 비교 — 상황별로 뭘 쓰나 |
+| [top, htop, btop으로 Linux CPU·메모리·프로세스 확인하기](/posts/linux/2026-08-26-top-htop-btop-system-monitoring/) | load average·CPU 상태·VIRT/RES 해석부터 장애 대응 순서까지 |
 | [디스크 꽉 찼을 때: df, du, lsof로 범인 찾기 + mount·fstab](/posts/linux/2026-07-11-filesystem-disk-management/) | `df`로 어느 파티션이 찼는지 → `du`로 범인 디렉토리 → 삭제해도 안 줄면 `lsof`로 열린 파일. inode 고갈·`mount`/`fstab`(UUID)·부팅 실패 방지까지 |
 
 관측으로 "누가·무엇이" 돌아가는지 보이면, 다음은 "누가 무엇을 할 수 있는가" — 계정과 권한이다.
