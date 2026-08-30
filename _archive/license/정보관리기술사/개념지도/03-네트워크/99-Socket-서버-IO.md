@@ -331,7 +331,125 @@ Event Loop
 
 따라서 `epoll = Event Loop`가 아니다. Event Loop가 OS의 I/O Multiplexing Mechanism을 이용할 수 있는 관계다.
 
-## 10. 처음부터 다시 연결하면
+## 10. Socket 위에서는 어떤 규약으로 Byte를 주고받을까?
+
+Socket은 통신할 Byte를 전달하지만 **그 Byte가 HTTP 요청인지, WebSocket Message인지, 직접 만든 Protocol인지 스스로 해석하지 않는다.** 그 의미와 형식은 Application 쪽 Protocol이 정한다.
+
+대표적인 TCP 기반 구조를 단순화하면 다음과 같다.
+
+```text
+Application
+├─ HTTP/1.1 · HTTP/2
+├─ WebSocket
+├─ RPC용 Protocol
+└─ 직접 만든 Application Protocol
+        ↓
+       TCP
+        ↓
+    Socket API
+        ↓
+Kernel Network Stack
+```
+
+따라서 표현의 방향을 구분한다.
+
+```text
+Socket이 내부적으로 HTTP를 사용한다   X
+
+HTTP가 아래의 통신 기반으로
+TCP Socket을 사용할 수 있다           O
+```
+
+Server 입장에서는 Socket으로 받은 Byte를 위쪽 Protocol 규칙에 따라 해석한다.
+
+```text
+Connected Socket
+      ↓ read()
+Byte Stream
+      ↓
+Application Protocol이 해석
+      ↓
+예: HTTP Request
+GET /users HTTP/1.1 ...
+```
+
+단, `HTTP = 항상 TCP`는 아니다. 대표적으로 HTTP/3은 QUIC을 사용하고 QUIC은 UDP 위에서 동작한다.
+
+```text
+HTTP/1.1 · HTTP/2 → TCP → Socket
+
+HTTP/3 → QUIC → UDP → Socket
+```
+
+## 11. Socket과 WebSocket은 같은 것인가?
+
+이름은 비슷하지만 같은 계층의 개념이 아니다.
+
+```text
+Socket
+= Application이 OS의 Network 통신 기능을 다루는 Interface/추상화
+
+WebSocket
+= Web 환경에서 지속적인 양방향 Message 통신을 제공하는 Application Protocol
+```
+
+대표적인 WebSocket 통신의 위치를 보면 다음과 같다.
+
+```text
+Browser / Application
+        ↓
+    WebSocket
+        ↓
+       TCP
+        ↓
+    Socket API
+        ↓
+Kernel Network Stack
+```
+
+즉 **WebSocket도 아래에서 일반적인 TCP Socket을 사용할 수 있다.** `WebSocket`이라는 이름의 `Socket`이 OS Socket을 의미하는 것은 아니다.
+
+WebSocket은 연결을 시작할 때 HTTP와도 관계가 있다.
+
+```text
+Client
+  ↓
+HTTP 요청으로 WebSocket 전환 요청
+  ↓
+Server
+  ↓
+HTTP 101 Switching Protocols
+  ↓
+WebSocket Protocol로 전환
+  ↓
+지속적인 양방향 Message 송수신
+```
+
+일반적인 HTTP 요청/응답과 WebSocket의 통신 형태를 단순 비교하면 다음과 같다.
+
+```text
+HTTP
+Client ── Request ──→ Server
+Client ←─ Response ── Server
+
+WebSocket 연결 수립 후
+Client ←────────────→ Server
+       양방향 Message
+```
+
+핵심 경계는 다음과 같다.
+
+```text
+Socket ≠ WebSocket
+
+Socket
+= 아래쪽 Network I/O를 Application에 제공
+
+HTTP / WebSocket
+= 그 통신 위에서 어떤 형식과 의미로 Message를 주고받을지 정의
+```
+
+## 12. 처음부터 다시 연결하면
 
 ```text
 Application이 Network 통신을 하고 싶다
@@ -345,7 +463,10 @@ Client connect()
         ↓
 Server accept()
         ↓
-Connected Socket으로 데이터 송수신
+Connected Socket으로 Byte 송수신
+        ↓
+위쪽에서는 Byte의 의미를 Protocol이 정의
+HTTP · WebSocket · RPC용 Protocol · 기타
         ↓
 그런데 연결이나 데이터가 아직 없다면?
         ↓
@@ -370,9 +491,9 @@ select / poll / epoll
 Event Loop
 ```
 
-이 흐름의 핵심은 `Blocking → Non-blocking → epoll`이 단순한 기술 발전 순서라는 뜻이 아니다. **Server가 I/O를 기다리고 많은 연결을 관리하는 문제를 이해하기 위한 관계**다.
+이 흐름은 기술의 발전 순서를 뜻하는 것이 아니라 **Socket 통신의 계층과 Server가 I/O를 처리하는 관계를 한 번에 연결하기 위한 것**이다.
 
-## 11. HTTP / RPC Server는 어디에 놓일까?
+## 13. HTTP / RPC Server는 어디에 놓일까?
 
 Socket과 I/O 처리는 여러 Application Server의 아래쪽 기반이 된다.
 
@@ -394,7 +515,7 @@ HTTP와 RPC의 차이를 이 문서에서 깊게 다루지는 않는다. 여기�
 
 RPC와 gRPC 자체의 의미와 Stub/Proxy, 원격 호출 모델은 세부학습의 `IPC-RPC-gRPC-원격호출`에서 본다.
 
-## 12. 네트워크와 운영체제의 경계
+## 14. 네트워크와 운영체제의 경계
 
 ```text
 [네트워크에서 보는 것]
@@ -416,7 +537,7 @@ Socket은 이 두 영역을 실제 Application 관점에서 연결해준다.
 
 > **Network에서 Packet이 어디로 전달되는지만 보는 것과, Application이 그 통신을 어떻게 기다리고 처리하는지를 보는 것은 다른 층의 이야기다. Socket을 중심에 놓으면 두 관점이 연결된다.**
 
-## 13. 복습할 때 이 질문만 다시 연결한다
+## 15. 복습할 때 이 질문만 다시 연결한다
 
 ```text
 Application은 OS의 Network 기능을 어떻게 사용하는가?
@@ -427,6 +548,15 @@ TCP Client와 Server는 어떻게 연결되는가?
 
 Listening Socket과 Connected Socket은 왜 다른가?
 → 새 연결 수신 ↔ 특정 Client와 데이터 통신
+
+Socket과 HTTP의 관계는?
+→ Socket이 HTTP를 쓰는 것이 아니라 HTTP가 아래의 통신 기반으로 Socket을 사용할 수 있음
+
+Socket과 WebSocket은 같은가?
+→ 아니다. Socket은 OS/Application 경계, WebSocket은 Application Protocol
+
+WebSocket은 HTTP와 어떤 관계인가?
+→ 대표적으로 HTTP Upgrade로 시작한 뒤 WebSocket Protocol로 전환
 
 accept/read할 것이 아직 없다면?
 → I/O 대기 문제가 생김
