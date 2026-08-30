@@ -1,15 +1,15 @@
 # 인공지능 ML·DL 개념지도
 
-이 문서는 `09-인공지능.md`에서 Machine Learning 가지를 선택했을 때, **학습 방식 → 고전 ML → 신경망·Deep Learning → 평가**의 주변 개념을 파고들기 위한 하위 지도다.
+이 문서는 `00-전체.md`에서 ML(Machine Learning, 데이터에서 패턴을 학습하는 기계학습) 가지를 선택했을 때, **학습 방식 → 고전 ML → 신경망·DL(Deep Learning, 다층 신경망 기반 학습) → 평가**의 주변 개념을 파고들기 위한 하위 지도다.
 
-세부 Algorithm의 내부 동작·수식·Parameter는 `../세부학습/09-인공지능/`에서 다룬다.
+세부 Algorithm의 내부 동작·수식·Parameter는 `../../세부학습/09-인공지능/`에서 다룬다.
 
 ---
 
 ## 1. Machine Learning 전체 좌표
 
 ```text
-Machine Learning
+ML
 │
 ├─ 학습 신호 기준
 │   ├─ 지도학습
@@ -19,11 +19,15 @@ Machine Learning
 │   │   ├─ 군집
 │   │   └─ 차원축소
 │   └─ 강화학습
-│       └─ MDP → Q-Learning → DQN
+│       └─ MDP(Markov Decision Process, 상태·행동·보상으로 순차 의사결정을 표현)
+│           ↓
+│         Q-Learning(행동가치 Q를 학습)
+│           ↓
+│         DQN(Deep Q-Network, Q-Learning에 신경망을 결합)
 │
 ├─ Model / Algorithm 계열
 │   ├─ 고전 ML
-│   └─ Neural Network / Deep Learning
+│   └─ Neural Network / DL
 │
 └─ 평가·검증
     ├─ Train / Validation / Test
@@ -31,7 +35,7 @@ Machine Learning
     └─ 평가 지표
 ```
 
-학습 방식과 Algorithm 계열은 같은 분류축이 아니다. 예를 들어 지도학습 문제를 Logistic Regression, SVM, Decision Tree, Neural Network 등 여러 방법으로 풀 수 있다.
+학습 방식과 Algorithm 계열은 같은 분류축이 아니다. 예를 들어 지도학습 문제를 Logistic Regression, SVM(Support Vector Machine, 분류 경계를 최대화하는 학습 기법), Decision Tree, Neural Network 등 여러 방법으로 풀 수 있다.
 
 ---
 
@@ -61,7 +65,7 @@ Machine Learning
 
 `지도 → 비지도 → 강화`는 발전 순서가 아니라 학습 신호에 따른 병렬 패러다임이다.
 
-강화학습 주변에는 HMM·MCTS 같은 순차·탐색 관련 꼭지가 있지만 `MDP → Q-Learning → DQN`의 직접 하위 단계로 보지는 않는다.
+강화학습 주변에는 HMM(Hidden Markov Model, 관측되지 않는 상태의 전이를 확률적으로 모델링)·MCTS(Monte Carlo Tree Search, 시뮬레이션으로 유망한 탐색 경로를 찾는 방법) 같은 순차·탐색 관련 꼭지가 있지만 `MDP → Q-Learning → DQN`의 직접 하위 단계로 보지는 않는다.
 
 ---
 
@@ -71,7 +75,7 @@ Machine Learning
 지도학습
 ├─ 분류
 │   ├─ Logistic Regression
-│   ├─ KNN
+│   ├─ KNN(K-Nearest Neighbors, 가까운 이웃을 이용해 예측)
 │   ├─ Decision Tree
 │   │   └─ Ensemble
 │   │       ├─ Bagging
@@ -134,22 +138,13 @@ Tree를 공부하면 `과적합`, `Ensemble`, `Bagging`, `Boosting`, `Random For
 ```text
 비지도학습
 ├─ 군집
-│   ├─ K-Means
-│   └─ DBSCAN
+│   ├─ K-Means       → 중심점 기반
+│   └─ DBSCAN(Density-Based Spatial Clustering of Applications with Noise,
+│             밀도 기반 군집화)
 │
 └─ 차원축소 / 특징 추출
-    ├─ PCA
-    └─ ICA
-```
-
-```text
-군집
-├─ K-Means  → 중심점 기반
-└─ DBSCAN   → 밀도 기반
-
-차원축소
-├─ PCA      → 주성분
-└─ ICA      → 독립 성분
+    ├─ PCA(Principal Component Analysis, 분산이 큰 주성분으로 차원축소)
+    └─ ICA(Independent Component Analysis, 독립 성분을 분리)
 ```
 
 이들은 같은 목적 안에서 비교하며 파고드는 인접 개념이다.
@@ -180,7 +175,7 @@ Neural Network
  ↓
 Perceptron / Activation Function
  ↓
-MLP / DNN
+MLP(Multi-Layer Perceptron, 다층 완전연결 신경망)
  ↓
 Forward Propagation
  ↓
@@ -212,17 +207,18 @@ Training
 ## 9. Deep Learning Architecture
 
 ```text
-Deep Learning
+DL
 ├─ 일반적인 다층 표현
-│   └─ MLP / DNN
+│   └─ MLP / DNN(Deep Neural Network, 여러 층으로 구성한 신경망)
 │
 ├─ 공간적 특징
-│   └─ CNN
+│   └─ CNN(Convolutional Neural Network, 공간적 특징 추출에 강한 신경망)
 │
 ├─ 순서·시계열
-│   └─ RNN
+│   └─ RNN(Recurrent Neural Network, 순서 정보를 반복 구조로 처리하는 신경망)
 │       └─ 장기 의존성 문제
-│           └─ LSTM / GRU
+│           ├─ LSTM(Long Short-Term Memory, 장기 의존성을 보완한 RNN)
+│           └─ GRU(Gated Recurrent Unit, Gate 구조를 단순화한 RNN)
 │
 └─ 요소 사이 관계를 직접 다룸
     └─ Attention
@@ -233,9 +229,9 @@ CNN·RNN·Transformer는 단순한 발전 순서가 아니다. Data 구조와 �
 
 Transformer는 생성형 AI·LLM 쪽으로 이어지는 중요한 연결점이다.
 
-→ `09-인공지능-생성형AI-LLM.md`
+→ `02-생성형AI-LLM.md`
 
-상세: `../세부학습/09-인공지능/딥러닝-대표구조-CNN-RNN-Transformer-GAN.md`
+상세: `../../세부학습/09-인공지능/딥러닝-대표구조-CNN-RNN-Transformer-GAN.md`
 
 ---
 
