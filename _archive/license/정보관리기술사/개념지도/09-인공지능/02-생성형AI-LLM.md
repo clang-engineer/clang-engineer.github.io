@@ -1,8 +1,8 @@
 # 인공지능 생성형 AI·LLM 개념지도
 
-이 문서는 `09-인공지능.md`에서 Foundation Model·생성형 AI·LLM 가지를 선택했을 때, **LLM 내부와 활용 기술을 주변으로 파고들기 위한 하위 지도**다.
+이 문서는 `00-전체.md`에서 Foundation Model·생성형 AI·LLM 가지를 선택했을 때, **LLM 내부와 활용 기술을 주변으로 파고들기 위한 하위 지도**다.
 
-세부 구현과 내부 Algorithm은 `../세부학습/09-인공지능/`에서 다룬다.
+세부 구현과 내부 Algorithm은 `../../세부학습/09-인공지능/`에서 다룬다.
 
 ---
 
@@ -35,7 +35,7 @@ Generative AI
 
 `Foundation Model`, `Generative AI`, `LLM`, `Transformer`, `GAN`, `Diffusion`, `Multimodal`은 같은 계층의 용어가 아니다.
 
-상세: `../세부학습/09-인공지능/생성형-AI와-멀티모달.md`, `../세부학습/09-인공지능/Foundation-Model과-AI-활용계층.md`
+상세: `../../세부학습/09-인공지능/생성형-AI와-멀티모달.md`, `../../세부학습/09-인공지능/Foundation-Model과-AI-활용계층.md`
 
 ---
 
@@ -65,7 +65,47 @@ Fine-tuning은 Model을 추가 학습하는 쪽이고, Prompt·RAG·Tool은 주�
 
 ---
 
-## 3. LLM 내부: Token에서 다음 Token까지
+## 3. Training과 Inference를 먼저 구분한다
+
+```text
+Training
+Text
+ ↓
+다음 Token 예측
+ ↓
+정답 Token과 비교
+ ↓
+Loss
+ ↓
+Backpropagation
+ ↓
+Model Weight 수정
+```
+
+```text
+Inference
+사용자 Context
+ ↓
+학습된 Weight 사용
+ ↓
+다음 Token 생성
+ ↓
+Context에 추가
+ └──────── 반복
+```
+
+핵심 구분은 다음과 같다.
+
+```text
+Training  → Weight를 학습·수정
+Inference → 학습된 Weight를 사용
+```
+
+이 구분을 잡아야 Prompt·RAG와 Fine-tuning의 차이가 자연스럽게 연결된다.
+
+---
+
+## 4. LLM 내부: Token에서 다음 Token까지
 
 ```text
 Text
@@ -105,11 +145,11 @@ Inference
 └─ GPU Memory / Serving
 ```
 
-상세: `../세부학습/09-인공지능/LLM의-동작원리.md`, `../세부학습/09-인공지능/LLM-추론과-Token-생성.md`, `../세부학습/09-인공지능/LLM-내부운영과-GPU-메모리.md`
+상세: `../../세부학습/09-인공지능/LLM의-동작원리.md`, `../../세부학습/09-인공지능/LLM-추론과-Token-생성.md`, `../../세부학습/09-인공지능/LLM-내부운영과-GPU-메모리.md`
 
 ---
 
-## 4. LLM 활용: 무엇이 부족한가에 따라 갈라진다
+## 5. LLM 활용: 무엇이 부족한가에 따라 갈라진다
 
 ```text
                          LLM
@@ -128,37 +168,62 @@ Model 행동 자체를 반복적으로 조정
 → Fine-tuning
 ```
 
-```text
-규칙·역할            → System Prompt
-몇 개 예제           → Few-shot
-최신·사내 지식       → RAG
-반복 행동 조정        → Fine-tuning
-외부 세계에서 행동    → Tool / Agent
-```
-
 Prompt·RAG·Fine-tuning·Agent는 같은 문제를 해결하는 단순 대체재가 아니다.
 
 ---
 
-## 5. Prompt와 Context
+## 6. Prompt · Few-shot · RAG · Tool 결과는 Context에서 만난다
 
 ```text
-LLM Context
-├─ System Prompt
-├─ User Prompt
-├─ Few-shot Example
-├─ Retrieved Context
-├─ Tool Result / Observation
-└─ 이전 대화
+System Prompt ───────────┐
+User Prompt ─────────────┤
+Few-shot Example ────────┤
+Retrieved Context ───────┼→ Context Window → LLM Inference
+Tool Result / Observation┤
+이전 대화 ───────────────┘
 ```
 
-Prompt·Few-shot·RAG는 기본 Model Weight를 바꾸지 않고 Inference 시점에 들어가는 Context를 구성한다.
+LLM 입장에서는 모두 현재 Inference에 들어온 Context다. 차이는 **무엇을 넣느냐**다.
 
-상세: `../세부학습/09-인공지능/LLM-프롬프트와-Context-제어.md`
+```text
+System Prompt      → 역할·규칙
+Few-shot           → 입력·출력 예제
+RAG                → 검색한 외부 지식
+Tool Result        → 실제 외부 실행·조회 결과
+User Prompt        → 현재 사용자 요청
+```
+
+Prompt·Few-shot·RAG는 기본 Model Weight를 바꾸지 않는다.
+
+상세: `../../세부학습/09-인공지능/LLM-프롬프트와-Context-제어.md`
 
 ---
 
-## 6. RAG: 외부 지식 가지를 따라간다
+## 7. 어떤 방법을 선택할 것인가
+
+```text
+무엇을 해결하려는가?
+ ↓
+최신·사내 지식이 필요한가?
+├─ 예 → RAG
+└─ 아니오
+    ↓
+몇 개 예제로 Pattern을 보여주면 되는가?
+├─ 예 → Few-shot
+└─ 아니오
+    ↓
+반복적인 Model 행동 자체를 조정해야 하는가?
+├─ 예 → Fine-tuning 검토
+└─ 아니오 → System Prompt / Prompt 설계
+```
+
+외부 세계에서 실제 조회·실행까지 필요하면 별도의 축으로 `Tool / Agent`를 검토한다.
+
+이 선택지는 배타적이지 않다. 실제 시스템에서는 `Prompt + RAG + Fine-tuning + Agent`를 조합할 수 있다.
+
+---
+
+## 8. RAG: 외부 지식 가지를 따라간다
 
 ```text
 RAG
@@ -198,11 +263,11 @@ Retrieval
 └─ Re-ranking
 ```
 
-상세: `../세부학습/09-인공지능/임베딩-벡터검색-RAG.md`
+상세: `../../세부학습/09-인공지능/임베딩-벡터검색-RAG.md`
 
 ---
 
-## 7. Fine-tuning
+## 9. Fine-tuning
 
 ```text
 Fine-tuning
@@ -220,7 +285,7 @@ SFT + LoRA
 
 ```text
 Prompt / Few-shot / RAG
-→ 주로 Inference Context 변경
+→ Inference Context 변경
 → 기본 Model Weight 변경 없음
 
 Fine-tuning
@@ -228,11 +293,11 @@ Fine-tuning
 → Weight 또는 추가 학습 Parameter 변경
 ```
 
-상세: `../세부학습/09-인공지능/Fine-tuning과-PEFT-LoRA.md`
+상세: `../../세부학습/09-인공지능/Fine-tuning과-PEFT-LoRA.md`
 
 ---
 
-## 8. Agent: 판단에서 행동으로
+## 10. Agent: 판단에서 행동으로
 
 ```text
 사용자 목표
@@ -273,11 +338,11 @@ Agent
     └─ Orchestration
 ```
 
-상세: `../세부학습/09-인공지능/Agent-Harness.md`
+상세: `../../세부학습/09-인공지능/Agent-Harness.md`
 
 ---
 
-## 9. MCP: 외부 기능 연결 규격
+## 11. MCP: 외부 기능 연결 규격
 
 ```text
 Agent / AI Client
@@ -308,11 +373,40 @@ Harness
 = Agent를 둘러싼 운영·통제 체계
 ```
 
-상세: `../세부학습/09-인공지능/에이전트와-MCP.md`, `../세부학습/09-인공지능/Agent-Harness.md`
+상세: `../../세부학습/09-인공지능/에이전트와-MCP.md`, `../../세부학습/09-인공지능/Agent-Harness.md`
 
 ---
 
-## 10. LLM 기반 응용으로 내려간다
+## 12. RAG와 MCP는 실제로 함께 쓸 수 있다
+
+```text
+Agent
+ ↓
+MCP
+ ↓
+search_metadata Tool
+ ↓
+Embedding / Retrieval
+ ↓
+Vector DB
+ ↓
+관련 Metadata 반환
+ ↓
+Agent
+```
+
+이 구조에서는 계층이 다르다.
+
+```text
+바깥 Interface / 연결 규격 → MCP
+Tool 내부 검색 방식       → RAG
+```
+
+따라서 `RAG vs MCP`가 아니라 **MCP로 제공되는 Tool 내부에서 RAG를 사용할 수 있다**고 이해하는 편이 정확하다.
+
+---
+
+## 13. LLM 기반 응용으로 내려간다
 
 ```text
 LLM
@@ -329,19 +423,22 @@ Text2SQL 예:
 
 ```text
 Text2SQL
-├─ Metadata / Schema Retrieval
-├─ Schema Linking
-├─ SQL Generation
-└─ Validation
+├─ Rule / Template
+├─ 전용 ML / Seq2Seq
+└─ LLM 기반
+    ├─ Metadata / Schema Retrieval
+    ├─ Schema Linking
+    ├─ SQL Generation
+    └─ Validation
 ```
 
-Text2SQL은 Task이고, RAG·LLM·Agent는 이를 구현할 때 조합할 수 있는 기술이다.
+Text2SQL은 Task이고, LLM은 이를 구현하는 방법 중 하나다. RAG·Agent는 LLM 기반 Text2SQL을 구성할 때 조합할 수 있다.
 
-상세: `../세부학습/09-인공지능/Text2SQL과-스키마-링킹.md`
+상세: `../../세부학습/09-인공지능/Text2SQL과-스키마-링킹.md`
 
 ---
 
-## 11. 횡단 통제
+## 14. 횡단 통제
 
 생성형 AI·LLM도 AI 전체의 통제 축을 그대로 받는다.
 
