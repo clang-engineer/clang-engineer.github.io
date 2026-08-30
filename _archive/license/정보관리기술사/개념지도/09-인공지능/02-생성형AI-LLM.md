@@ -277,18 +277,29 @@ Retrieval
 
 ## 9. Fine-tuning
 
+Fine-tuning은 이미 학습된 Model을 목적에 맞게 추가 학습하는 상위 개념이다. 여기서 `무엇을 학습 신호로 쓰는가`와 `어떤 Parameter를 갱신하는가`는 서로 다른 분류축이다.
+
 ```text
 Fine-tuning
 ├─ [학습 신호 관점]
-│   └─ SFT(Supervised Fine-Tuning, 입력-정답 Pair로 지도학습)
-└─ [Parameter 효율 관점]
+│   ├─ SFT(Supervised Fine-Tuning, 입력-정답 Pair로 지도학습)
+│   └─ Preference / RL 계열
+│       └─ 선호·보상 신호를 이용
+└─ [Parameter 업데이트 관점]
     ├─ Full Fine-tuning
-    └─ PEFT(Parameter-Efficient Fine-Tuning, 일부 Parameter만 효율적으로 학습)
-        └─ LoRA(Low-Rank Adaptation, 저차원 행렬을 추가 학습하는 PEFT 기법)
-
-SFT + LoRA
-→ 함께 사용 가능
+    └─ PEFT(Parameter-Efficient Fine-Tuning, 적은 학습 Parameter로 효율적으로 조정)
+        └─ LoRA(Low-Rank Adaptation, 기존 Weight를 고정하고 저랭크 행렬을 추가 학습하는 대표 PEFT 기법)
 ```
+
+두 축은 독립적이므로 다음 조합이 가능하다.
+
+```text
+SFT + Full Fine-tuning
+SFT + LoRA
+Preference / RL 계열 + PEFT
+```
+
+> **SFT와 LoRA는 대체 관계가 아니다. SFT는 학습 신호의 관점이고, LoRA는 Parameter를 효율적으로 조정하는 방법이므로 함께 사용할 수 있다.**
 
 ```text
 Prompt / Few-shot / RAG
