@@ -1,8 +1,8 @@
 ---
 title       : "systemd 서비스 관리: systemctl, 유닛 파일, 부팅 등록과 타이머"
-description : "프로세스를 systemd 서비스로 관리하는 흐름을 start/enable, unit dependency, ExecStart, journalctl, timer 기준으로 정리한다. network.target과 network-online.target의 경계도 구분한다."
+description : "프로세스를 systemd 서비스로 관리하는 흐름을 system·user manager, start/enable, unit dependency, ExecStart, journalctl, timer 기준으로 정리한다."
 date        : 2026-07-11 20:00:00 +0900
-updated     : 2026-08-22 18:00:00 +0900
+updated     : 2026-08-30 19:00:00 +0900
 categories  : [linux, "시스템 관리"]
 tags        : [systemd, systemctl, journalctl, timer, service]
 pin         : false
@@ -82,6 +82,105 @@ WantedBy=multi-user.target
 
 [Install]
 → enable할 때 어느 target 등에 연결되는가
+```
+
+## system service와 user service
+
+systemd에는 서버 전체를 관리하는 **system manager**와 사용자별로 실행되는 **user manager**가 있다.
+
+```text
+systemd PID 1
+└─ system service 관리
+
+사용자의 systemd --user
+└─ 해당 사용자의 user service 관리
+```
+
+| 구분 | system service | user service |
+|---|---|---|
+| 관리 명령 | `systemctl ...` | `systemctl --user ...` |
+| 대표 unit 위치 | `/etc/systemd/system/` | `~/.config/systemd/user/` |
+| 실행 권한 | `User=`로 지정 가능 | user manager를 소유한 사용자 |
+| 관리 권한 | 보통 root·sudo 필요 | 해당 사용자가 직접 관리 |
+| 부팅·로그아웃 후 유지 | 시스템 부팅과 함께 관리 | linger 등 사용자 manager 유지 조건 필요 |
+
+system service는 서버 daemon에 일반적이고, user service는 사용자가 sudo 없이 자기 프로세스의 수명 주기를 관리할 때 유용하다. user service도 systemd의 정식 기능이며 단순히 shell에서 백그라운드로 실행한 프로세스와 다르다.
+
+사용자 unit 예:
+
+```ini
+# ~/.config/systemd/user/myapp.service
+[Unit]
+Description=My User App
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/myapp
+ExecStart=/usr/bin/java -jar /opt/myapp/current/app.jar
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
+```
+
+이미 해당 사용자의 manager가 실행하므로 user unit에는 일반적으로 `User=`를 다시 지정하지 않는다.
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable --now myapp.service
+systemctl --user status myapp.service
+```
+
+사용자가 로그아웃한 뒤에도 user manager와 서비스를 유지하려면 관리자가 linger를 활성화할 수 있다.
+
+```bash
+sudo loginctl enable-linger appsvc
+loginctl show-user appsvc -p Linger
+```
+
+## user manager와 D-Bus 연결
+
+`systemctl --user`는 서비스를 직접 제어하지 않고, 해당 사용자의 user manager에 D-Bus로 요청한다. systemd 기반 환경에서는 보통 다음 경로를 사용한다.
+
+```text
+/run/user/<UID>/
+└─ bus    # 사용자 D-Bus Unix domain socket
+```
+
+정상적인 SSH·PAM 로그인에서는 운영체제가 다음 사용자 세션 정보를 대체로 자동 설정한다.
+
+```bash
+XDG_RUNTIME_DIR=/run/user/<UID>
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/<UID>/bus
+```
+
+`root → su - appsvc`처럼 계정만 전환하면 user manager가 실행 중이어도 이 환경이 전달되지 않을 수 있다. 이때 `systemctl --user`는 관리자의 접속 주소를 찾지 못해 다음 오류를 낼 수 있다.
+
+```text
+Failed to connect to bus: No medium found
+```
+
+현재 계정의 UID와 실제 bus를 확인한 뒤, 현재 shell에 접속 정보를 복원할 수 있다.
+
+```bash
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
+
+ls -l "$XDG_RUNTIME_DIR/bus"
+systemctl --user status myapp.service
+```
+
+이 두 값은 애플리케이션 설정이 아니라 `systemctl --user`가 user manager를 찾아가기 위한 표준 사용자 세션 정보다. 직접 로그인했는데도 항상 수동 설정이 필요하다면 로그인·PAM·linger 구성을 점검한다.
+
+user journal 조회는 시스템의 journal 권한 정책에 따라 제한될 수 있다.
+
+```bash
+# 해당 사용자 세션에서 조회 가능한 경우
+journalctl --user -u myapp.service -f
+
+# root에서 user unit 필드로 조회
+sudo journalctl _SYSTEMD_USER_UNIT=myapp.service -f
 ```
 
 ## `After=`는 의존성 자체가 아니다
@@ -279,10 +378,12 @@ enable ≠ start
 After ≠ Requires
 network.target ≠ network-online.target
 manager daemon-reload ≠ service reload
+system service ≠ user service
+su 계정 전환 ≠ 완전한 사용자 로그인 세션
 systemd 실행 환경 ≠ interactive shell 환경
 ```
 
-이 다섯 경계를 잡으면 systemd 초반 혼동이 크게 줄어든다.
+이 경계를 잡으면 systemd 초반 혼동이 크게 줄어든다.
 
 ## Reference
 
