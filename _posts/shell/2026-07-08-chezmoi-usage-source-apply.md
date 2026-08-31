@@ -1,39 +1,51 @@
 ---
 title       : "chezmoi 사용법 — 소스 표현과 apply 흐름"
-description : "chezmoi가 dotfiles를 어떻게 표현하고 적용하는지: 소스 디렉토리(git repo), 파일명에 인코딩된 메타(dot_·private_·encrypted_·.tmpl), 템플릿으로 머신 분기(.chezmoi.hostname·[data]), init→apply와 edit·update 일상 명령, encrypted_·패스워드 매니저로 시크릿, run_ 스크립트로 apply 시 부트스트랩까지 한 장으로."
+description : "chezmoi의 source state, target state, destination 관계를 이해하고, 원본 편집부터 diff와 apply를 거쳐 새 머신에 재현하는 흐름을 하나의 예제로 설명한다."
 date        : 2026-07-08 11:00:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-08-31 12:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [dotfiles, chezmoi, template, guide]
 pin         : false
 hidden      : false
 ---
 
-chezmoi를 쓰기로 했다면(그 선택 기준은 [chezmoi vs 심링크](/posts/shell/2026-07-08-chezmoi-vs-symlink-dotfiles/) 참고), 실제로 알아야 할 건 두 가지다 — **dotfiles를 어떻게 표현하나**(소스), 그리고 **어떻게 적용하나**(apply). 이 글은 그 메커니즘과 명령 흐름을 정리한다.
+chezmoi를 처음 쓰면 `~/.zshrc`를 고쳤는데 왜 원본이 바뀌지 않는지, 반대로 저장소의 파일을 고쳤는데 왜 홈에는 바로 반영되지 않는지 헷갈리기 쉽다. chezmoi는 파일을 양방향으로 동기화하는 도구가 아니다. **원본으로부터 이 머신의 결과를 계산하고, 그 결과를 홈에 적용하는 도구**다.
+
+> 명령·파일명 규칙·템플릿 함수의 전체 목록은 [devkit chezmoi Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/chezmoi.md)에서 계속 관리한다. 이 글은 목록 대신 source에서 destination으로 가는 흐름과 그 이유에 집중한다.
+
+선택 기준이 먼저 필요하다면 [chezmoi vs 심링크](/posts/shell/2026-07-08-chezmoi-vs-symlink-dotfiles/)를 참고하자.
 
 ## 소스 표현 — 파일이 어디에, 어떤 이름으로 사는가
 
-chezmoi의 모든 것은 하나의 **소스 디렉토리**에서 시작한다.
+chezmoi를 이해할 때는 파일 하나를 세 상태로 나눠 보면 된다.
 
-- 소스 디렉토리: `~/.local/share/chezmoi` — 그냥 git 저장소다. 여기 있는 파일들이 홈 디렉토리로 렌더된다.
-- 파일명이 **메타데이터를 인코딩**한다. 홈에 그대로 두면 숨김 파일이라 다루기 불편한 것들을, 소스에서는 접두어로 표현한다:
-  - `dot_zshrc` → `~/.zshrc` (`dot_`이 앞의 `.`을 대신)
-  - `private_` / `executable_` / `readonly_` → 렌더된 파일의 퍼미션
-  - `.tmpl` 확장자 → 이 파일은 템플릿이니 렌더가 필요하다는 표시
-{% raw %}
-- 템플릿 데이터: `.tmpl` 파일 안에서 `{{ .chezmoi.hostname }}`, `{{ .chezmoi.os }}`, `{{ .chezmoi.arch }}` 같은 내장 변수를 쓸 수 있고, `chezmoi.toml`에 커스텀 값을 정의해 끌어 쓸 수도 있다.
-{% endraw %}
+```text
+source state                  target state                 destination state
+git으로 추적하는 원본   →    이 머신용으로 계산한 결과   →    홈에 실제로 존재하는 파일
+dot_gitconfig.tmpl            렌더된 .gitconfig            ~/.gitconfig
+                              chezmoi diff로 비교           chezmoi apply로 반영
+```
 
-즉 `~/.local/share/chezmoi/dot_zshrc.tmpl`은 "머신별로 렌더될 `~/.zshrc`의 원본"이라는 뜻을 파일명만으로 담는다.
+**source state**는 사람이 관리하고 git으로 공유하는 원본이다. 기본 소스 디렉토리는 `~/.local/share/chezmoi`이며, 실제 위치가 설정에 따라 달라질 수 있어도 역할은 같다. `dot_gitconfig.tmpl`에서 `dot_`은 destination 이름의 선행 `.`을, `.tmpl`은 렌더가 필요한 템플릿임을 나타낸다.
+
+**target state**는 source에 현재 머신의 데이터를 넣어 계산한 결과다. 별도로 손으로 관리할 두 번째 원본이 아니라, "이 머신의 홈은 이렇게 되어야 한다"는 chezmoi의 계산 결과다.
+
+**destination state**는 `~/.gitconfig`처럼 프로그램이 실제로 읽는 홈의 파일이다. `chezmoi apply`는 target을 destination에 쓰는 단방향 작업이다. 따라서 destination을 직접 고친 내용은 source로 자동 역전파되지 않는다.
+
+이 구분만 잡으면 편집 원칙도 자연스럽다.
+
+```text
+source를 편집한다 → target 결과를 확인한다 → destination에 apply한다
+```
 
 ## 템플릿 — 실제로 분기하기
 
-`.tmpl` 파일은 Go 템플릿 문법으로 머신별 분기를 담는다. 개념보다 예시가 빠르다 — 회사·개인 머신에서 git 이메일을 가르는 `dot_gitconfig.tmpl`:
+현실적인 예로 회사 머신과 개인 머신에서 Git email만 다르게 써 보자. 두 개의 완성된 `.gitconfig`를 따로 관리하는 대신 source에는 의도가 담긴 `dot_gitconfig.tmpl` 하나를 둔다.
 
 {% raw %}
-```
+```gotmpl
 [user]
-    name = clang
+    name = Example Developer
 {{- if eq .chezmoi.hostname "work-laptop" }}
     email = developer@work.example.com
 {{- else }}
@@ -42,110 +54,80 @@ chezmoi의 모든 것은 하나의 **소스 디렉토리**에서 시작한다.
 ```
 {% endraw %}
 
-apply 시점에 `.chezmoi.hostname`이 평가돼, 이 머신에 맞는 한 줄만 남은 **평범한 `~/.gitconfig`**로 렌더된다. 파일엔 조건문 흔적이 없다 — 분기는 이미 apply 때 끝났다. (`.gitconfig`는 런타임에 `source`로 분기할 수 없는 대표적 파일이라, 이런 렌더 분기가 chezmoi를 쓰는 이유 중 하나다.)
+회사 머신에서 target을 계산하면 조건문은 사라지고 회사 email만 남는다. 개인 머신에서는 개인 email만 남는다. 어느 쪽이든 destination인 `~/.gitconfig`는 Git이 읽을 수 있는 평범한 파일이다. 런타임에 분기 기능이 없는 설정 파일도 머신별로 만들 수 있는 이유가 여기에 있다.
 
-자주 쓰는 내장 변수:
-
-- `.chezmoi.hostname` — 머신 이름으로 분기 (가장 흔함)
-- `.chezmoi.os` / `.chezmoi.arch` — `darwin`/`linux`, `amd64`/`arm64`로 OS·아키텍처 분기
-- `.chezmoi.username` — 사용자명
-
-{% raw %}
-내장 변수로 안 갈리는 값(회사 프록시 주소 등)은 **직접 정의**한다. `~/.config/chezmoi/chezmoi.toml`의 `[data]`에 넣으면 템플릿에서 `{{ .email }}`로 끌어 쓴다:
-{% endraw %}
-
-```toml
-# chezmoi.toml — 이 머신의 값
-[data]
-    email = "developer@work.example.com"
-```
-
-새 머신에서 클론하는 사람마다 자기 값을 넣게 하려면, 소스에 `.chezmoi.toml.tmpl`을 두고 `promptString`으로 init 때 프롬프트를 띄운다.
+중요한 점은 template 자체가 destination으로 복사되는 게 아니라는 것이다. source는 조건을 보존하고, target은 현재 머신에서 결정된 값만 가지며, destination은 apply 당시의 target을 복사해 가진다.
 
 ## 명령 흐름 — init에서 apply까지
 
-```sh
-chezmoi init                 # 소스 repo 생성
-chezmoi add ~/.zshrc         # 기존 파일을 관리 대상으로 편입 (dot_zshrc로 저장)
-chezmoi chattr +template ~/.zshrc   # 이 파일을 템플릿으로 전환 (.tmpl 부여)
-chezmoi diff                 # apply하면 무엇이 바뀌는지 미리보기
-chezmoi apply                # 템플릿을 렌더해 홈에 실제로 씀
-```
+기존 `~/.gitconfig`를 처음 편입해 두 머신에서 재사용하는 흐름을 끝까지 따라가 보자.
 
-흐름을 말로 풀면 이렇다.
-
-1. `chezmoi init` — 소스 저장소를 만든다. 이후 모든 편집은 이 저장소 안에서 일어난다.
-2. `chezmoi add ~/.zshrc` — 지금 홈에 있는 실파일을 소스로 가져온다. chezmoi가 알아서 `dot_zshrc`라는 이름으로 저장한다.
-{% raw %}
-3. `chezmoi chattr +template ~/.zshrc` — 머신별로 내용이 갈려야 하는 파일을 템플릿으로 승격한다. 이제 그 파일 안에서 `{{ .chezmoi.hostname }}` 같은 분기를 쓸 수 있다.
-{% endraw %}
-4. `chezmoi diff` — apply를 실행하면 홈 파일이 어떻게 바뀌는지 **미리** 보여준다. 복사 방식이라 원본과 어긋날(drift) 수 있는 chezmoi에서, 이 미리보기가 안전장치다.
-5. `chezmoi apply` — 템플릿을 이 머신용으로 렌더해 홈에 실제로 쓴다. 편집→반영이 즉시가 아니라 이 단계를 거친다는 점이 심링크 방식과 결정적으로 다른 지점이다.
-
-초기 셋업이 끝나면 일상은 다른 명령 몇 개로 돈다.
+### 1. 기존 파일을 source로 가져온다
 
 ```sh
-chezmoi edit ~/.zshrc    # 소스 파일을 직접 열어 편집 (dot_zshrc를 찾아줌)
-chezmoi cd               # 소스 저장소로 이동 — git 커밋/푸시는 여기서
-chezmoi apply            # 편집분을 홈에 반영
-chezmoi update           # git pull + apply 한 방 (다른 머신에서 밀어둔 변경 당겨오기)
-chezmoi managed          # chezmoi가 관리 중인 파일 목록
+chezmoi init
+chezmoi add ~/.gitconfig
+chezmoi chattr +template ~/.gitconfig
 ```
 
-`chezmoi edit`은 홈의 실파일이 아니라 **소스**를 연다 — chezmoi에선 항상 소스를 고쳐야 하고, 홈 파일을 직접 고치면 다음 apply에 덮인다(drift). 여러 머신을 쓴다면 한쪽에서 `chezmoi cd && git push`, 다른 쪽에서 `chezmoi update`가 기본 리듬이다.
+`add`는 현재 destination을 source로 가져오는 **한 번의 스냅샷**이다. 이후 두 파일이 자동으로 연결되는 것은 아니다. 템플릿 속성을 붙인 다음에는 `chezmoi edit ~/.gitconfig`으로 source를 열어 위의 분기문을 작성한다.
 
-## 시크릿 — 암호화해서 저장소에 넣기
+### 2. target을 검토하고 destination에 적용한다
 
-심링크 방식은 시크릿을 저장소 *밖*(`~/.secrets` + gitignore)에 두는 게 정석이다. chezmoi는 반대로 **암호화해서 저장소 안에** 넣을 수 있다 — 이게 심링크 대비 실질적 차별점이다.
+source를 바꿨다고 홈 파일이 즉시 바뀌면, 잘못된 템플릿이 셸이나 Git 설정을 바로 망가뜨릴 수 있다. 그래서 먼저 현재 target과 destination의 차이를 확인한다.
 
-- **`encrypted_` 접두어 + age(또는 gpg)** — `encrypted_private_id_rsa`처럼 두면 소스엔 암호문으로 저장되고 apply 때 복호화돼 홈에 쓰인다. 키 하나만 안전하게 옮기면 개인키·토큰도 저장소에 담아 재현할 수 있다.
-{% raw %}
-- **패스워드 매니저 연동** — 템플릿 안에서 `{{ onepasswordRead "op://..." }}`, `{{ (bitwarden "item" "id").login.password }}` 같은 함수로 apply 시점에 값을 끌어온다. 저장소엔 시크릿이 아예 안 들어가고 참조만 남는다.
-{% endraw %}
+```sh
+chezmoi diff ~/.gitconfig
+chezmoi apply ~/.gitconfig
+```
 
-즉 chezmoi에선 시크릿을 "저장소에서 뺄지"가 아니라 "암호화해 넣을지 / 매니저에서 당길지"의 선택이 된다. 여러 머신에 개인키까지 재현하려면 이 기능이 심링크 + `.secrets`보다 편하다.
+`diff`는 "source 파일과 destination의 문자 차이"가 아니라 **렌더를 마친 target과 현재 destination의 차이**를 보여준다. 검토한 결과가 의도와 같을 때만 apply한다. 이 한 단계가 source와 destination이 분리된 구조의 번거로움이자 안전장치다.
 
-## apply에 붙는 자동화 — run_ 스크립트 & .chezmoiignore
+### 3. source를 git으로 공유한다
 
-chezmoi는 apply 때 스크립트를 실행할 수 있다. 파일명 접두어가 실행 시점을 정한다:
+적용 결과가 정상이라면 source 저장소에서 변경을 커밋하고 원격에 push한다. Git 작업 자체는 일반 저장소와 같다.
 
-- `run_` — apply마다 실행
-- `run_once_` — 내용이 바뀔 때 딱 한 번. 부트스트랩용(Homebrew 설치 등)
-- `run_onchange_` — 그 스크립트 내용이 바뀌었을 때만. Brewfile 갱신 시 재설치 같은 데
+```sh
+chezmoi cd
+git add dot_gitconfig.tmpl
+git commit -m "Configure Git identity by machine"
+git push
+exit
+```
 
-`run_once_before_install-packages.sh`에 `brew bundle` 한 줄을 넣어 두면, 새 머신에서 `chezmoi init --apply` 한 방에 **패키지 설치까지** 딸려 온다. [2단계 Brewfile](/posts/shell/2026-07-03-homebrew-brewfile-bundle/)이 여기서 chezmoi 흐름 안으로 들어온다.
+이때 공유하는 것은 회사 머신에서 렌더된 `~/.gitconfig`가 아니라 분기 의도를 보존한 source다. 그래서 같은 커밋으로도 머신마다 다른 destination을 재현할 수 있다.
 
-{% raw %}
-머신마다 있어야/없어야 하는 파일은 `.chezmoiignore`로 가른다 — `.gitignore`와 같은 문법이고 템플릿도 먹어서, `{{ if ne .chezmoi.os "darwin" }}Library/{{ end }}`처럼 OS별로 제외할 수 있다.
-{% endraw %}
+## destination을 직접 고치면 왜 덮이는가
 
-## 지우기 — forget·destroy·purge
+급해서 `~/.gitconfig`를 직접 수정했다고 하자. 당장은 Git이 새 값을 읽으므로 문제가 해결된 것처럼 보인다. 하지만 source와 target은 그대로이고 destination만 달라진 상태다.
 
-라이프사이클의 반대편. 핵심은 **소스에서 파일만 지워도 홈의 실파일은 안 지워진다**(관리만 끊길 뿐)는 것 — 목적별로 명령이 갈린다.
+```text
+source:      기존 email을 만드는 템플릿
+target:      기존 email
+destination: 방금 손으로 바꾼 email
+```
 
-- `chezmoi forget ~/.zshrc` — 소스에서 빼 **관리만 중단**. 홈 파일은 그대로 둔다.
-- `chezmoi destroy ~/.zshrc` — 소스와 **홈 파일까지 삭제**. 되돌릴 수 없으니 `--dry-run`으로 먼저 확인.
-- `chezmoi purge` — 대상 dotfile은 남겨 두고 chezmoi의 설정·상태·소스 디렉터리를 제거. 먼저 `chezmoi source-path`와 원격 push 상태를 확인하고, 소스까지 버릴 의도가 분명할 때만 실행한다. 설정만 일부 지우고 싶다면 `purge` 대신 `chezmoi doctor`로 실제 경로를 확인한 뒤 해당 항목만 명시적으로 처리한다.
+다음 `chezmoi apply`는 source로 target을 다시 계산한 뒤 destination을 target에 맞춘다. destination의 직접 수정분이 덮이는 것은 예외나 충돌이 아니라 apply의 본래 역할이다. chezmoi에는 destination 변경을 source와 자동 병합할 근거가 없다. 템플릿의 어느 조건을 고쳐야 하는지, 단순히 이 머신만의 임시 변경인지 알 수 없기 때문이다.
 
-흔한 오해 하나: 소스에서 파일만 지우고 `apply`하면 홈엔 **고아 파일로 남는다**. chezmoi는 관리하지 않게 된 파일을 임의로 지우지 않기 때문. 홈에서도 없애려면 `destroy`나 `.chezmoiremove`를 써야 한다.
+직접 수정한 내용을 살려야 한다면 우선 변경분을 따로 확인한 뒤 source에 의도적으로 반영한다. 템플릿 파일이라면 destination을 통째로 다시 가져오기보다 `chezmoi edit ~/.gitconfig`으로 조건과 원본 구조를 고치는 편이 안전하다. 렌더된 결과를 source에 덮어쓰면 머신 분기 자체를 잃을 수 있다.
 
 ## 핵심 한 방 — init --apply
 
-chezmoi를 쓰는 진짜 이유에 가장 가까운 명령은 이것 하나다.
+두 번째 머신에서는 저장소를 내려받고 그 머신의 target을 계산한 뒤 destination에 적용한다.
 
 ```sh
-chezmoi init --apply <repo>  # 클론 + 렌더 + 적용을 한 번에
+chezmoi init --apply <repo>
 ```
 
-새 머신에서 이 한 줄이면 저장소를 클론하고, 이 머신용으로 템플릿을 렌더하고, 홈에 적용하는 것까지 끝난다. "남이 클론해 자기 머신에서 그대로 돌리게" 하는 공유 경험 — 심링크 방식으로는 주기 어려운 이 지점이 chezmoi의 대표 기능이다.
+첫 머신에서 source에 `work-laptop` 조건을 넣었더라도, 새 머신의 hostname이 다르면 개인 email이 들어간 target이 만들어진다. apply가 그 결과를 `~/.gitconfig`에 쓴다. 저장소의 동일한 source가 각 머신의 destination으로 변환되는 전체 흐름이 여기서 닫힌다.
+
+이미 사용 중인 홈 파일을 바꿀 수 있으므로, 낯선 저장소라면 바로 `--apply`하지 말고 source를 먼저 검토해야 한다. 자신의 저장소이고 적용 결과를 알고 있을 때 초기 설정을 한 번에 줄여 주는 명령으로 보는 편이 정확하다.
 
 ## 정리
 
-- 소스는 `~/.local/share/chezmoi`(git repo) 하나. 파일명 접두어(`dot_`·`private_`·`executable_`·`encrypted_`)와 `.tmpl`이 메타를 담는다.
-- 머신 분기는 `.tmpl` 안에서 `.chezmoi.hostname`·`.os`나 `[data]` 커스텀 값으로. 편집은 소스에서 하고 `chezmoi apply`로 렌더해 홈에 반영한다 — `diff`로 먼저 확인하는 습관이 drift를 막는다.
-- 일상 리듬은 `edit`(소스 편집) → `cd && git push` → 다른 머신에서 `update`.
-- 시크릿은 `encrypted_`나 패스워드 매니저 함수로 저장소 안에서 다룬다.
-- 지울 땐 `forget`(관리만 중단) / `destroy`(홈 파일까지) / `purge`(chezmoi째)를 목적에 맞게. 소스가 저장소 하위면 `purge`가 저장소를 지우니 주의.
-- 공유의 핵심은 `chezmoi init --apply <repo>` — 클론·렌더·(`run_once_` 스크립트로) 설치까지 한 방.
+- source state는 git으로 추적하는 원본이고, target state는 source에서 계산한 이 머신의 기대 상태이며, destination state는 홈에 실제로 놓인 파일이다.
+- 평소 흐름은 **source 편집 → `diff`로 target과 destination 비교 → `apply`로 destination 갱신**이다.
+- destination 직접 편집은 source를 바꾸지 않는다. 다음 apply가 덮는 것은 단방향 상태 적용 모델의 의도된 결과다.
+- 템플릿을 source에 보존하면 같은 저장소로 머신마다 다른 destination을 재현할 수 있다.
 
-chezmoi를 아직 쓸지 말지 고민 중이라면, 심링크와의 선택 기준은 [chezmoi vs 심링크 dotfiles](/posts/shell/2026-07-08-chezmoi-vs-symlink-dotfiles/)에 정리해 두었다.
+전체 명령과 속성, 시크릿, 자동화 스크립트, 삭제 절차가 필요할 때는 [devkit chezmoi Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/chezmoi.md)를 기준으로 확인하자.

@@ -105,6 +105,7 @@ title: 치트시트
 | [terminal-tooling.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/terminal-tooling.md) | 터미널 도구 역할 분담과 선택 가이드 |
 | [mise.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/mise.md) | mise — 다언어 런타임 버전 관리 (rbenv/jenv/pyenv/nvm 통합, config+activate) |
 | [curl.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/curl.md) | curl HTTP 요청 |
+| [taskwarrior.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/taskwarrior.md) | Taskwarrior 3.5 — 태스크 관리, 필터, 날짜, JSON export, TaskChampion 동기화 |
 | [claude-code.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/claude-code.md) | Claude Code CLI |
 | [ccusage.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/ccusage.md) | ccusage 사용량 집계와 임계치 경보 |
 | [opencode.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/opencode.md) | opencode — provider-agnostic 터미널 AI 코딩 에이전트 (인증·모델 선택) |
