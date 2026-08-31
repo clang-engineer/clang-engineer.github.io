@@ -2,7 +2,7 @@
 title       : "Harlequin용 Vertica ODBC 어댑터를 만들어 PyPI에 배포하기"
 description : "Vertica ODBC에서 비어 있던 Data Catalog와 HYC00 컬럼 조회 오류를 얇은 Harlequin 어댑터로 해결하고, Python entry point·wheel·PyPI 배포까지 연결한 과정"
 date        : 2026-08-31 11:11:11 +0900
-updated     : 2026-08-31 11:11:11 +0900
+updated     : 2026-08-31 14:02:25 +0900
 categories  : [opensource, "개발·배포"]
 tags        : [harlequin, vertica, odbc, pypi, python, adapter, guide]
 pin         : false
@@ -281,6 +281,16 @@ harlequin --version
 | 남은 테스트 제한 | 실제 Vertica ODBC 연결을 사용하는 자동 통합 테스트가 없어 드라이버·플랫폼별 메타데이터 동작은 수동 확인 필요 |
 
 PyPI에 한 번 사용된 배포 파일명은 파일을 삭제해도 다시 사용할 수 없다. 누락된 다른 형식의 파일은 기존 릴리스에 추가할 수 있지만, 이미 올라간 wheel 자체와 그 안의 메타데이터는 교체할 수 없다. 기존 산출물을 고치려면 버전을 올려 새 릴리스로 배포해야 한다. 이 불변성 때문에 publish 전에 **메타데이터 → 두 산출물 → 격리 설치 → 실제 연결** 순서로 확인하는 게 중요하다.
+
+## 공식 문서와 후속 TODO
+
+Harlequin 공식 문서는 community adapter를 `tconbeer/harlequin-web`에 PR로 등록하도록 안내한다. 현재 단계에서는 공식 문서와 PyPI·GitHub·이 글까지만 공개하고, 추가 홍보는 TODO로 보관한다.
+
+- [x] [Vertica community adapter 문서 PR #163](https://github.com/tconbeer/harlequin-web/pull/163) 제출
+- [ ] upstream review 요청에 대응하고 merge 결과 확인
+- [ ] 실제 Vertica ODBC 연결을 사용하는 자동 통합 테스트 추가
+- [ ] 통합 테스트 후 Harlequin core extra 등록 여부 검토
+- [ ] driver·platform feedback이 생기면 Discussions와 외부 community 공유 검토
 
 ## 정리
 

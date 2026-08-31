@@ -2,7 +2,7 @@
 title       : "Harlequin용 H2 JDBC 어댑터를 만들어 PyPI에 배포하기"
 description : "H2 파일·메모리·TCP 연결을 Harlequin에서 직접 사용하고, JPype thread 경계와 Python 3.14 JVM 종료 충돌을 해결해 PyPI에 배포한 과정"
 date        : 2026-08-31 12:47:29 +0900
-updated     : 2026-08-31 12:54:49 +0900
+updated     : 2026-08-31 14:02:25 +0900
 categories  : [opensource, "개발·배포"]
 tags        : [harlequin, h2, jdbc, jpype, pypi, python, adapter, guide]
 pin         : false
@@ -336,6 +336,16 @@ def password_option() -> TextOption:
 ```
 
 Harlequin 2.10 이상에서는 password masking을 유지하고, 2.9에서는 환경변수를 참조하는 profile 사용을 권장한다. 수정 후 Homebrew Harlequin 2.9의 plugin discovery와 실제 H2 query를 다시 확인하고 지원 하한을 2.9로 낮췄다.
+
+## 공식 문서와 후속 TODO
+
+Harlequin 공식 문서는 community adapter를 `tconbeer/harlequin-web`에 PR로 등록하도록 안내한다. 현재 단계에서는 공식 문서와 PyPI·GitHub·이 글까지만 공개하고, 추가 홍보는 TODO로 보관한다.
+
+- [x] [H2 community adapter 문서 PR #162](https://github.com/tconbeer/harlequin-web/pull/162) 제출
+- [ ] upstream review 요청에 대응하고 merge 결과 확인
+- [ ] 실제 사용자 feedback이 생기면 Harlequin GitHub Discussions에 소개
+- [ ] 설치 단순화가 필요하면 `uv tool install 'harlequin[h2]'` 형태의 core extra 제안
+- [ ] 외부 Python·terminal community 공유는 필요성이 확인될 때 진행
 
 ## 정리
 
