@@ -1,17 +1,17 @@
 ---
 title       : "프로세스 찾고 종료하기: pgrep, pkill, pidof, lsof, kill"
-description : "ps aux | grep 대신 쓰는 표준 도구들 — 이름·포트·시그널로 프로세스를 정확히 다루는 법"
+description : "ps aux | grep의 한계를 이해하고 이름·포트·열린 파일로 대상을 확인한 뒤 안전하게 종료하는 흐름"
 date        : 2026-06-16 14:00:00 +0900
-updated     : 2026-06-16 14:00:00 +0900
+updated     : 2026-08-31 14:00:00 +0900
 categories  : [linux, "시스템 관리"]
 tags        : [process, pgrep, pkill, lsof]
 pin         : false
 hidden      : false
 ---
 
-서버가 떠 있는지, 어떤 프로세스가 포트를 잡고 있는지, 좀비처럼 남은 잡을 어떻게 죽이는지 — 매일 마주치는 질문입니다. 대부분의 한국어 자료가 `ps aux | grep` 한 줄로 시작하지만, 그건 자기 자신(`grep` 프로세스)도 매칭되는 함정이 있고, 매번 PID를 손으로 옮겨 적게 됩니다.
+서버를 다시 띄우려는데 포트가 이미 사용 중이거나, 오래전에 실행한 작업이 남아 있는 일은 흔합니다. 이때 중요한 것은 명령어를 많이 아는 게 아니라 **무엇을 종료할지 먼저 확인하고, 정상 종료를 요청한 뒤, 결과를 검증하는 순서**입니다.
 
-이 글은 그걸 대체하는 표준 도구들 — `pgrep` / `pkill` / `pidof` / `killall` / `lsof` / `fuser` / `kill` — 의 역할과 차이를 정리합니다.
+이 글은 그 판단과 작업 흐름에 집중합니다. 명령·옵션·시그널의 전체 목록이 필요하다면 [devkit Linux Process Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/linux-process.md)를 참고하세요.
 
 ---
 
@@ -19,164 +19,128 @@ hidden      : false
 
 ```bash
 $ ps aux | grep jekyll
-zero  36785  ... bundle exec jekyll s
-zero  41210  ... grep jekyll          ← grep 자신이 잡힘
+deploy  36785  ... bundle exec jekyll s
+deploy  41210  ... grep jekyll          ← grep 자신이 잡힘
 ```
 
 - `grep` 프로세스 자신이 결과에 섞임
-- PID를 시각적으로 골라내야 함 (스크립트로 쓰기 불편)
-- 컬럼이 많아서 빠른 확인엔 과함
+- 사용자명, 인자, 환경별 출력처럼 의도하지 않은 문자열까지 함께 매칭될 수 있음
+- PID를 사람이 골라 다시 입력하므로 확인과 종료가 분리됨
 
-전통적 회피책으로 `grep [j]ekyll` 트릭(`[j]`는 정규식 문자 클래스라 `[j]ekyll`이라는 문자열은 `grep` 명령 자체에 안 나옴)이 있지만 가독성이 떨어집니다. `pgrep`이 정답.
+`ps`는 프로세스 상태를 넓게 살펴보는 도구이고, `grep`은 그 출력 문자열을 거릅니다. 즉 "프로세스 이름으로 찾는다"기보다 **우연히 그 문자열이 들어간 행을 찾는 방식**입니다. 검색 결과가 하나 보였다는 사실만으로 종료 대상을 확정하면 위험한 이유입니다.
+
+전통적인 `grep [j]ekyll` 트릭도 있습니다. `[j]`가 정규식 문자 클래스라 `grep` 명령 자체에는 검색 문자열이 그대로 나타나지 않는 점을 이용합니다. 역사적으로 유용한 요령이지만, 자기 자신만 숨길 뿐 매칭 범위와 종료 대상이 모호한 문제는 해결하지 못합니다.
+
+먼저 질문을 바꾸는 편이 낫습니다.
+
+- 실행 이름이나 커맨드라인을 알고 있는가? → `pgrep`
+- 충돌한 포트를 알고 있는가? → `lsof`
+- 삭제·마운트 해제를 막는 파일을 알고 있는가? → `lsof` 또는 `fuser`
 
 ---
 
 ## `pgrep` — 이름·커맨드라인으로 PID 찾기
 
+이름을 알고 있다면 `pgrep`으로 프로세스 목록 자체를 검색합니다. 단순한 이름과 전체 커맨드라인은 구분해야 합니다.
+
 ```bash
-pgrep nginx              # 이름에 nginx 포함된 프로세스의 PID
-pgrep -fl jekyll         # -f 전체 커맨드라인 매칭, -l PID와 함께 출력
-pgrep -u zero            # 특정 유저 소유 프로세스
-pgrep -P 1234            # PID 1234의 자식 프로세스
-pgrep -n nginx           # 가장 최근에 시작된 것 (newest)
-pgrep -o nginx           # 가장 오래된 것 (oldest)
+pgrep -x nginx                 # 실행 이름이 정확히 nginx인 PID
+pgrep -fl "jekyll s"           # 전체 커맨드라인에서 찾아 PID와 이름 확인
 ```
 
-**핵심 옵션:**
-
-| 옵션 | 의미 |
-|---|---|
-| `-f` | 실행파일 이름만이 아니라 **전체 커맨드라인**까지 매칭. `sudo ./tools/run.sh`처럼 인자 안의 문자열도 매칭하려면 필수 |
-| `-l` | PID 옆에 커맨드라인 함께 출력 (없으면 PID만) |
-| `-a` | macOS/BSD에서 전체 커맨드라인 표시. 리눅스의 `-a`와 의미가 살짝 다름 |
-| `-u USER` | 소유자 필터 |
-| `-x` | 정확히 일치(exact match)만 |
-
-`-f`가 없으면 `pgrep run.sh`가 `sudo ./tools/run.sh`를 못 찾습니다 — 실행파일 이름이 `sudo`이기 때문입니다. **인자에 든 문자열로 찾을 때는 항상 `-f`**.
+`-f`는 실행 이름이 아니라 전체 커맨드라인을 매칭합니다. `sudo ./tools/run.sh`처럼 찾으려는 문자열이 인자에 들어 있다면 필요하지만, 그만큼 다른 프로세스까지 잡을 가능성도 커집니다. `-f` 패턴은 짧게 만들기보다 서비스를 구별할 만큼 구체적으로 만들고, 종료 전에 같은 패턴의 조회 결과를 눈으로 확인하는 편이 안전합니다.
 
 ---
 
 ## `pkill` — 같은 매칭 문법으로 종료
 
-`pgrep`의 모든 옵션을 그대로 받아서 시그널만 추가로 보냅니다.
+`pkill`은 `pgrep`과 같은 기준으로 대상을 골라 시그널을 보냅니다. 그래서 편리한 만큼 패턴이 넓으면 여러 프로세스를 한꺼번에 종료할 수 있습니다.
 
 ```bash
-pkill -f "jekyll s"          # SIGTERM (기본)
-pkill -9 -f "jekyll s"       # SIGKILL — 진짜 안 죽을 때만
-pkill -HUP nginx             # 설정 리로드 시그널 (nginx 관행)
-pkill -u zero -f "node "     # zero 유저의 node 프로세스만
+pgrep -fl "jekyll s"           # 먼저 같은 패턴의 대상 확인
+pkill -TERM -f "jekyll s"      # 확인한 대상에 정상 종료 요청
 ```
 
-`pkill` 쓰기 전에 **같은 패턴으로 `pgrep -fl` 먼저 돌려서 무엇이 잡히는지 확인**하는 습관이 좋습니다. 광범위한 패턴(`pkill -f bash`)은 본인의 셸까지 죽일 수 있습니다.
+`pkill -f bash`처럼 광범위한 패턴은 본인의 셸이나 관계없는 작업까지 종료할 수 있습니다. 운영 환경에서는 조회 결과에서 PID와 커맨드라인을 확인한 뒤, 대상이 하나라면 그 PID에 `kill`을 보내는 방식이 의도를 더 분명하게 남깁니다.
 
 ---
 
 ## `pidof` — 정확한 실행파일 이름으로
 
-```bash
-pidof nginx
-# 12345 12346 12347
-```
-
-- `pgrep`과 달리 **정확한 실행파일명**만 매칭 (부분 일치 안 됨)
-- 리눅스 전용 (macOS에는 기본 없음 — `brew install pidof` 필요)
-- 출력이 공백 구분 한 줄이라 `kill $(pidof nginx)` 같은 스크립트 친화적
-
-`pgrep`이 더 유연하지만, "프로세스 이름 그대로 PID 뽑기"가 목적이면 더 간결합니다.
+`pidof nginx`는 정확한 실행파일 이름으로 PID를 찾는 간결한 리눅스 명령입니다. 다만 macOS에는 기본으로 없고, 결과를 곧바로 `kill $(pidof nginx)`에 넘기면 여러 PID를 검토하지 않은 채 종료하게 됩니다. 대화형 작업에서는 `pgrep -x`로 확인 단계를 드러내는 편이 낫습니다.
 
 ---
 
 ## `killall` — 이름으로 일괄 종료 (주의)
 
-```bash
-killall nginx                # 이름이 nginx인 모든 프로세스에 SIGTERM
-killall -9 chrome            # SIGKILL
-killall -u zero node         # zero 유저의 node 전부
-```
-
-**주의:** Solaris의 `killall`은 **모든 프로세스를 죽이는** 시스템 셧다운용 명령입니다. 리눅스/BSD/macOS와는 의미가 완전히 다릅니다. 낯선 시스템에서 함부로 치지 말 것.
-
-리눅스(`psmisc` 패키지)와 macOS의 `killall`은 BSD 의미("이름으로 골라 죽임")로 동일하지만, 그래도 `pkill`이 더 명시적이고 옵션 일관성이 좋아서 `killall`보다 `pkill`을 추천합니다.
+`killall`은 이름으로 여러 프로세스를 종료하는 명령이지만, 오래된 운영체제 차이를 알고 있어야 합니다. 리눅스·BSD·macOS에서는 이름이 일치하는 프로세스를 종료하지만, Solaris의 `killall`은 시스템 종료 과정에서 모든 프로세스에 시그널을 보내는 명령입니다. 이 역사적 차이 때문에 낯선 시스템에서는 피하고, 조회와 종료의 매칭 기준이 이어지는 `pgrep`·`pkill`을 쓰는 편이 명확합니다.
 
 ---
 
 ## `lsof` — 포트·파일로 역추적
 
-"어떤 프로세스가 4000 포트를 잡고 있지?" 같은 질문은 이름이 아니라 자원으로 거꾸로 찾는 게 빠릅니다.
+"어떤 프로세스가 4000 포트를 잡고 있지?"라는 상황에서는 이름을 추측하지 말고 충돌한 자원에서 역추적해야 합니다. 재실행된 서비스나 이름이 비슷한 프로세스가 여럿 있어도 실제 포트를 연 주체를 바로 좁힐 수 있습니다.
 
 ```bash
-lsof -iTCP:4000 -sTCP:LISTEN     # 4000 포트 LISTEN 중인 프로세스
-lsof -iTCP -sTCP:LISTEN          # 모든 TCP LISTEN 프로세스
-lsof -i :4000                    # TCP/UDP 모두
-lsof -p 36785                    # 특정 PID가 연 파일/소켓 전부
-lsof /var/log/syslog             # 특정 파일을 열고 있는 프로세스
+lsof -iTCP:4000 -sTCP:LISTEN     # TCP 4000 포트를 연 서버 프로세스
+lsof /var/log/syslog             # 이 파일을 열고 있는 프로세스
 ```
 
-`-sTCP:LISTEN`을 빼면 ESTABLISHED 같은 활성 연결까지 다 나와서 시끄럽습니다. **"포트 누가 잡았어?"는 거의 항상 `-sTCP:LISTEN`**.
+포트 충돌을 찾을 때 `-sTCP:LISTEN`을 빼면 클라이언트의 연결까지 결과에 섞일 수 있습니다. PID를 얻은 뒤에는 `ps -p <PID> -o pid=,ppid=,user=,etime=,command=`처럼 소유자, 실행 시간, 전체 명령을 다시 확인합니다. 포트를 열었다는 사실은 강한 단서지만, 곧바로 종료해도 된다는 허가는 아니기 때문입니다.
 
 ---
 
 ## `fuser` — 더 가벼운 포트 점유자 찾기 (리눅스)
 
 ```bash
-fuser 4000/tcp                   # 4000 포트 점유 PID
-fuser -k 4000/tcp                # 점유한 프로세스를 한 번에 종료
-fuser /var/log/syslog            # 파일을 연 프로세스
+fuser 4000/tcp                   # 4000 포트를 사용하는 PID
+fuser /var/log/syslog            # 파일을 사용하는 PID
 ```
 
-`lsof`보다 가볍지만 출력이 빈약합니다. macOS는 기본 없음. 빠른 한 줄 확인용.
+`fuser`는 리눅스에서 빠르게 PID만 확인할 때 유용하지만 `lsof`보다 문맥이 적고 macOS에는 기본으로 없습니다. `fuser -k`로 조회와 종료를 합칠 수도 있지만, 이 글의 흐름에서는 일부러 분리합니다. 무엇을 찾았는지 확인할 기회를 없애면서 아끼는 한 줄은 안전상의 이득이 없습니다.
 
 ---
 
 ## `kill` — 시그널 선택의 의미
 
 ```bash
-kill <PID>             # 기본 SIGTERM (15) — "정상 종료해줘"
-kill -TERM <PID>       # 위와 동일
-kill -KILL <PID>       # SIGKILL (9) — 커널이 강제 종료, 핸들러 못 잡음
-kill -HUP <PID>        # SIGHUP (1) — "설정 리로드"의 관행적 신호
-kill -INT <PID>        # SIGINT (2) — Ctrl+C와 동일
-kill -l                # 시그널 목록 전체
+kill -TERM <PID>                 # 정리할 기회를 주는 정상 종료 요청
+kill -KILL <PID>                 # 응답하지 않을 때만 강제 종료
 ```
 
-**관행:** 먼저 `TERM`으로 보내고, 일정 시간(보통 5–10초) 기다린 뒤에도 안 죽으면 `KILL`. 처음부터 `-9`로 가면 프로세스가 임시 파일 정리·DB 커넥션 종료 등을 못 합니다.
-
-```bash
-pkill -TERM -f "jekyll s"
-sleep 5
-pkill -KILL -f "jekyll s"        # 그래도 살아 있으면
-```
+기본 `kill <PID>`도 `TERM`을 보냅니다. 프로세스는 이 시그널을 처리하면서 요청을 마무리하고 임시 파일이나 DB 연결을 정리할 수 있습니다. 반면 `KILL`은 프로세스가 처리하거나 무시할 수 없으므로 그런 정리 기회를 주지 않습니다. 처음부터 `-9`를 쓰지 않는 이유입니다.
 
 ---
 
 ## 실전 흐름
 
-서버를 다시 띄우려는데 포트가 잡혀 있다면:
+안전한 흐름은 **식별(identify) → TERM → 검증(verify) → KILL**입니다. 서버를 다시 띄우려는데 4000 포트가 잡혀 있고, 조회 결과의 PID가 `36785`라면 다음처럼 진행합니다.
 
 ```bash
-# 1) 포트 점유자 확인
+# 1) 자원에서 종료 후보를 식별
 lsof -iTCP:4000 -sTCP:LISTEN
 
-# 2) 어떤 명령으로 떴는지 확인
-pgrep -fl jekyll
+# 2) PID의 소유자와 실제 커맨드라인 확인
+ps -p 36785 -o pid=,ppid=,user=,etime=,command=
 
 # 3) 정상 종료 시도
-pkill -f "jekyll s"
+kill -TERM 36785
 
-# 4) 5초 후 잔여 확인
-pgrep -fl jekyll
+# 4) 기다린 뒤 PID와 포트가 사라졌는지 모두 검증
+sleep 5
+ps -p 36785 -o pid=,ppid=,user=,etime=,command=
+lsof -iTCP:4000 -sTCP:LISTEN
 
-# 5) 안 죽었으면 KILL
-pkill -9 -f "jekyll s"
+# 5) 같은 프로세스가 여전히 남아 있을 때만 강제 종료
+kill -KILL 36785
 ```
+
+검증은 단순히 "PID가 아직 있는가"만 보는 단계가 아닙니다. 프로세스가 재시작되었거나 드물게 PID가 재사용될 수도 있으므로, `KILL` 전에는 커맨드라인과 소유자가 처음 확인한 대상과 같은지 다시 봅니다. 서비스 관리자(systemd 등)가 프로세스를 되살린 상황이라면 개별 PID를 반복해서 죽이기보다 해당 서비스 관리자에서 중지해야 합니다.
 
 ---
 
 ## 대중성·대안
 
-- `pgrep`/`pkill`/`kill`/`lsof` — **매우 주류**. macOS·리눅스·BSD 기본 포함. 1999년 Solaris에서 시작해 표준화됨.
-- `pidof` — 리눅스 표준, macOS는 별도 설치. `pgrep -x`로 거의 대체 가능.
-- `killall` — 의미가 OS마다 달라서 추천도가 살짝 떨어짐.
-- **Rust 대체제 `procs`** — `ps` 대안. 컬러·트리·필터 좋지만 `pgrep` 영역을 직접 대체하진 않음. 시각적 탐색용.
+`ps`와 `procs` 같은 도구는 전체 상태를 둘러보거나 트리와 사용량을 탐색할 때 여전히 유용합니다. 다만 종료할 대상을 고르는 질문에는 이름을 아는지, 포트를 아는지, 열린 파일을 아는지에 따라 `pgrep`·`lsof`·`fuser`로 범위를 먼저 좁히는 편이 낫습니다.
 
-결론: 셸에서 프로세스를 다루는 일이라면 `pgrep -fl` / `pkill -f` / `lsof -iTCP:<port> -sTCP:LISTEN` / `kill -TERM` 네 가지면 사실상 끝납니다.
+결론은 특정 명령 네 개를 외우는 것이 아닙니다. **근거가 있는 기준으로 대상을 식별하고, `TERM`으로 정리할 시간을 주고, 같은 대상이 남았는지 검증한 뒤에만 `KILL`을 사용한다.** 이 순서를 지키면 명령 한 줄을 줄이는 것보다 훨씬 큰 실수를 막을 수 있습니다. 세부 옵션과 시그널이 필요할 때는 앞서 링크한 devkit Cheatsheet에서 확인하면 됩니다.
