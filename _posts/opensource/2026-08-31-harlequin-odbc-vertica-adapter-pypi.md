@@ -14,7 +14,7 @@ hidden      : false
 - Data Catalog에 데이터베이스·스키마·테이블이 표시되지 않았다.
 - 테이블을 펼쳐 컬럼을 조회하면 ODBC 오류 `HYC00`이 발생했다.
 
-쿼리 실행 자체는 되는데 메타데이터 탐색만 실패했다. 원인은 Harlequin이 아니라 **범용 ODBC 어댑터가 기대하는 메타데이터 형태와 Vertica ODBC 드라이버의 동작 차이**였다. Vertica별 메타데이터 로직을 두 메서드에 한정한 어댑터를 별도 Python 패키지로 만들고 [PyPI의 `harlequin-odbc-vertica`](https://pypi.org/project/harlequin-odbc-vertica/)로 배포했다.
+쿼리 실행 자체는 되는데 메타데이터 탐색만 실패했다. 원인은 Harlequin이 아니라 **범용 ODBC 어댑터가 기대하는 메타데이터 형태와 Vertica ODBC 드라이버의 동작 차이**였다. Vertica별 메타데이터 로직을 두 메서드에 한정한 어댑터를 별도 Python 패키지로 만들었다. 첫 릴리스는 `0.1.0`이었고, 패키징과 배포 절차를 보완한 `0.1.1`을 현재 [PyPI의 `harlequin-odbc-vertica`](https://pypi.org/project/harlequin-odbc-vertica/)에 배포했다.
 
 > 아래 동작은 당시 macOS에서 사용한 Vertica ODBC 드라이버로 관찰한 결과다. 첫 릴리스에서 드라이버 버전을 기록하지 못했으므로 다른 버전·플랫폼에서도 같은지 먼저 재현해야 한다.
 
@@ -151,6 +151,8 @@ dependencies = [
 odbc-vertica = "harlequin_odbc_vertica:HarlequinOdbcVerticaAdapter"
 ```
 
+위 `pyproject.toml` 예시는 첫 릴리스인 `0.1.0` 당시의 설정이다. 현재 공개 버전은 `0.1.1`이며 author는 `clang-engineer`, 프로젝트 링크는 [Repository](https://github.com/clang-engineer/harlequin-odbc-vertica)와 [Issues](https://github.com/clang-engineer/harlequin-odbc-vertica/issues)로 바로잡았다.
+
 `dependencies`에는 상속하는 `harlequin-odbc`뿐 아니라 플러그인을 로드할 Harlequin도 선언했다. 다만 `<3`처럼 넓은 범위를 선언하면 이후 Harlequin 2.x의 내부 API 변화도 호환한다고 약속하는 셈이다.
 
 더 직접적인 위험은 `harlequin-odbc>=0.4.0`에 상한이 없다는 점이다. 이 어댑터는 부모 클래스의 underscore 메서드인 `_list_tables`, `_list_columns_in_relation`을 override한다. Python은 underscore를 접근 금지로 강제하지 않지만 공개 API가 아니라는 관례이므로, 부모 패키지가 catalog 검색 경로를 추가하거나 메서드 계약을 바꾸면 기존 두 override만으로 부족할 수 있다. 다음 릴리스에서는 다음 중 하나가 필요하다.
@@ -177,14 +179,14 @@ uv build --no-sources
 
 ```text
 dist/
-├── harlequin_odbc_vertica-0.1.0-py3-none-any.whl
-└── harlequin_odbc_vertica-0.1.0.tar.gz
+├── harlequin_odbc_vertica-0.1.1-py3-none-any.whl
+└── harlequin_odbc_vertica-0.1.1.tar.gz
 ```
 
 - wheel은 설치 가능한 빌드 산출물이다. 이 패키지 자체는 순수 Python이므로 `py3-none-any` wheel 하나로 여러 플랫폼에 설치할 수 있다. 실제 연결에는 플랫폼별 `pyodbc`, ODBC driver manager, Vertica ODBC 드라이버가 별도로 필요하다.
 - sdist(source distribution)는 소스와 빌드 메타데이터를 담는다. wheel을 사용할 수 없는 환경에서는 sdist에서 wheel을 다시 빌드할 수 있다.
 
-PyPA는 일반적으로 sdist와 지원 플랫폼용 wheel을 함께 배포하길 권장한다. 그런데 `0.1.0`에서는 `uv publish`에 wheel 파일 하나만 지정해 **PyPI에도 wheel만 올라갔다.** 파일명이 다른 sdist를 같은 릴리스에 추가하는 것은 가능하지만, 기존 wheel은 교체할 수 없고 파일마다 포함된 메타데이터가 달라질 수도 있다. 이번에는 다음 버전에서 두 산출물을 함께 올리는 편을 택했다.
+PyPA는 일반적으로 sdist와 지원 플랫폼용 wheel을 함께 배포하길 권장한다. 그런데 `0.1.0`에서는 `uv publish`에 wheel 파일 하나만 지정해 **PyPI에도 wheel만 올라갔다.** 파일명이 다른 sdist를 같은 릴리스에 추가하는 것은 가능하지만, 기존 wheel은 교체할 수 없고 파일마다 포함된 메타데이터가 달라질 수도 있다. 그래서 `0.1.1`에서 두 산출물을 함께 올렸다.
 
 ## 설치 검증 — Homebrew Cellar에 직접 넣지 않는다
 
@@ -204,7 +206,7 @@ harlequin --version
 정상이라면 설치된 어댑터 목록에 다음 항목이 보인다.
 
 ```text
-odbc-vertica, version 0.1.0
+odbc-vertica, version 0.1.1
 ```
 
 배포 전에는 PyPI 이름 대신 로컬 wheel 경로를 `--with`에 넣어 같은 방법으로 확인할 수 있다. 핵심은 로컬 소스 import가 우연히 성공한 것이 아니라 **빌드된 산출물이 깨끗한 환경에서 설치되고 entry point까지 발견되는지** 보는 것이다.
@@ -244,6 +246,8 @@ GitHub Actions
 
 Trusted Publishing을 쓰면 장기 API 토큰을 GitHub에 저장하지 않아도 된다. publish job에만 `id-token: write` 권한을 주고, build와 publish job을 분리하며, GitHub Environment 승인 규칙을 두는 편이 안전하다.
 
+`0.1.1`은 이 방식으로 배포했다. 첫 OIDC 실행은 PyPI의 `invalid-publisher` 오류로 실패했다. PyPI의 **Collaborators** 권한과 **Manage > Publishing**의 Trusted Publisher 설정은 서로 별개인데, collaborator 등록만으로 publishing 설정도 끝났다고 잘못 판단한 것이 원인이었다. Publishing 설정을 GitHub owner `clang-engineer`, repository `harlequin-odbc-vertica`, workflow filename `publish.yml`, environment `pypi`와 정확히 일치시킨 뒤 재실행했고 [publish run](https://github.com/clang-engineer/harlequin-odbc-vertica/actions/runs/33355809779)이 성공했다. 장기 토큰 없이 OIDC Trusted Publishing으로 wheel과 sdist가 모두 올라갔다.
+
 ## 배포 후에는 공개본을 다시 설치한다
 
 업로드 성공 메시지가 끝이 아니다. PyPI 메타데이터와 공개 파일을 확인한다.
@@ -262,18 +266,19 @@ harlequin --version
 
 이 단계에서 로컬 경로의 `direct_url.json`이 남아 있거나 이미 설치된 파일이 덮어쓰기를 막으면 PyPI 패키지가 아니라 개발 사본을 계속 실행할 수 있다. **배포 검증의 기준은 "내 컴퓨터에서 된다"가 아니라 "공개 저장소에서 받은 산출물이 새 환경에서 된다"다.**
 
-## 첫 릴리스에서 놓친 것
+## `0.1.1`에서 완료한 것과 남은 제한
 
-`0.1.0`은 실제 문제를 해결하고 PyPI 설치까지 가능하지만, 릴리스 과정은 완성형이 아니었다.
+`0.1.0`은 실제 문제를 해결하고 PyPI 설치까지 가능했지만 wheel만 올라갔고 릴리스 자동화와 메타데이터가 미완성이었다. `0.1.1`에서 다음과 같이 보완했다.
 
-| 놓친 것 | 영향 | 다음 릴리스에서 할 일 |
-| --- | --- | --- |
-| wheel만 업로드 | sdist가 없는 불완전한 파일 구성 | `uv build --no-sources` 후 `uv publish`로 전체 업로드 |
-| Homebrew 환경에 직접 설치 | upgrade 시 소실, 설치 출처 혼동 | `uv tool` 격리 환경에서 설치 |
-| CLI 인자에 API 토큰 사용 | 히스토리·로그 노출 가능 | 토큰 폐기 후 Trusted Publishing 사용 |
-| 자동 테스트 없음 | Harlequin·`harlequin-odbc` 내부 API 변화 감지 불가 | 지원 버전별 import·entry point·catalog 검색 테스트 추가 |
-| Git tag·GitHub Release 없음 | 코드와 PyPI 버전의 대응이 약함 | `v0.1.1` tag와 release 생성 |
-| 프로젝트 URL 불일치 | PyPI에서 잘못된 저장소로 연결 | 다음 버전 메타데이터에서 실제 URL로 수정 |
+| 항목 | `0.1.1` 결과 |
+| --- | --- |
+| 패키지 메타데이터 | author를 `clang-engineer`로 기록하고 Repository·Issues URL을 실제 저장소로 수정 |
+| 배포 파일 | `py3-none-any` wheel과 sdist를 함께 PyPI에 게시 |
+| 패키징 CI | Python 3.10~3.14에서 패키징 검증 |
+| 공개 릴리스 | [`v0.1.1` GitHub Release](https://github.com/clang-engineer/harlequin-odbc-vertica/releases/tag/v0.1.1) 생성 |
+| PyPI 배포 | [OIDC publish run](https://github.com/clang-engineer/harlequin-odbc-vertica/actions/runs/33355809779) 성공, 장기 API 토큰 없이 Trusted Publishing 완료 |
+| 공개 결과 | [PyPI `0.1.1`](https://pypi.org/project/harlequin-odbc-vertica/)에서 두 산출물과 수정된 메타데이터 확인 |
+| 남은 테스트 제한 | 실제 Vertica ODBC 연결을 사용하는 자동 통합 테스트가 없어 드라이버·플랫폼별 메타데이터 동작은 수동 확인 필요 |
 
 PyPI에 한 번 사용된 배포 파일명은 파일을 삭제해도 다시 사용할 수 없다. 누락된 다른 형식의 파일은 기존 릴리스에 추가할 수 있지만, 이미 올라간 wheel 자체와 그 안의 메타데이터는 교체할 수 없다. 기존 산출물을 고치려면 버전을 올려 새 릴리스로 배포해야 한다. 이 불변성 때문에 publish 전에 **메타데이터 → 두 산출물 → 격리 설치 → 실제 연결** 순서로 확인하는 게 중요하다.
 
@@ -295,6 +300,7 @@ PyPI에 한 번 사용된 배포 파일명은 파일을 삭제해도 다시 사�
 - [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/) — 같은 Vertica 메타데이터 문제를 Neovim 플러그인 생태계에서 푼 사례
 - [jvm-env.nvim 발행 회고](/posts/neovim/2026-06-17-jvm-env-nvim-publication-retrospective/) — 첫 OSS 플러그인의 tag·release·CI 보강 사이클
 - [Harlequin Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/harlequin.md) — Harlequin 프로필·키맵·기본 사용법
+- [Python PyPI Publishing Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/python-pypi-publishing.md) — 이후 PyPI 배포 절차의 canonical reference
 
 ## 참고
 
