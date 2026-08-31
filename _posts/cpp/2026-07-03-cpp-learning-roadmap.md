@@ -42,7 +42,7 @@ C++는 배울 주제가 넓은 데다 서로 얽혀 있어서, 문법을 목차 
 
 **①~⑧의 [필수]만 세로로 따라가면 하나의 완결된 경로**입니다. 부록은 학습 단계가 아니라 필요할 때 직행하는 다른 축입니다. 아래는 각 단계를 왜 그 순서·우선순위로 두는지 풀어 쓴 것입니다.
 
-> 📎 **치트시트** · [c-cpp](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/c-cpp.md) — C/C++ 문법·스니펫·Google 스타일·GDB 빠른 참조. 전 단계에서 곁에 두기 (GitHub)
+> 📎 **치트시트** · [gdb](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/gdb.md) — 중단점·스택·변수·메모리 조사 빠른 참조 (GitHub)
 {: .prompt-tip }
 
 ## ① 초급 — C++로 사고하기

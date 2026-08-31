@@ -15,6 +15,7 @@ title: 치트시트
 | [lazyvim.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazyvim.md) | LazyVim 키맵 |
 | [lazygit.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazygit.md) | LazyGit TUI 단축키 |
 | [tmux.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/tmux.md) | Tmux 세션/윈도우/패널 |
+| [smug.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/smug.md) | smug — 선언형 YAML로 tmux 세션 부팅 |
 | [ghostty.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/ghostty.md) | Ghostty 터미널 탭/분할/키맵 |
 
 ## 모던 CLI 도구 (grep/find/cat/ls 대체)
@@ -52,7 +53,7 @@ title: 치트시트
 | [systemd.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/systemd.md) | systemd 서비스 관리 + journalctl 로그 |
 | [nginx.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/nginx.md) | Nginx 설정/명령어 |
 | [openssl.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/openssl.md) | 인증서/암호화 |
-| [rocky-linux.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/rocky-linux.md) | Rocky Linux (firewalld, SELinux, certbot) |
+| [rocky-linux.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/rocky-linux.md) | Rocky Linux / RHEL 계열 (dnf, firewalld, SELinux) |
 
 ## macOS
 
@@ -66,7 +67,9 @@ title: 치트시트
 
 | 파일 | 설명 |
 |------|------|
+| [harlequin.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/harlequin.md) | Harlequin 기본 사용법 (`--config-path`, `--profile`) |
 | [sql-snippets.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/sql-snippets.md) | PostgreSQL 운영 패턴 (`information_schema` ALTER 자동 생성 등) |
+| [vertica.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/vertica.md) | Vertica — 계정 만료 해제(chage) + v_catalog/v_monitor 용량·이력 조회 |
 | [elasticsearch.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/elasticsearch.md) | Elasticsearch 쿼리/관리 |
 | [kibana.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/kibana.md) | KQL, Dev Tools, Discover, 운영 진단 |
 
@@ -85,18 +88,24 @@ title: 치트시트
 | [git.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/git.md) | Git 명령어 (브랜치, stash, rebase, tag 등) |
 | [gh.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/gh.md) | GitHub CLI — PR/이슈/Actions/API |
 | [code-review-glossary.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/code-review-glossary.md) | 리뷰 약어/용어 (LGTM, PTAL, nit:, Draft PR 등) |
+| [chezmoi.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/chezmoi.md) | chezmoi — dotfiles 관리 (source/target 모델, 네이밍 규칙, 템플릿) |
 
 > `delta`(git diff 페이저)는 [modern-cli.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/modern-cli.md)에 통합.
+
+## 설정 파일 형식
+
+| 파일 | 설명 |
+|------|------|
+| [toml.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/toml.md) | TOML 문법 — 값, 배열, 테이블 `[ ]`, 테이블 배열 `[[ ]]` |
 
 ## 개발 도구
 
 | 파일 | 설명 |
 |------|------|
+| [terminal-tooling.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/terminal-tooling.md) | 터미널 도구 역할 분담과 선택 가이드 |
+| [mise.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/mise.md) | mise — 다언어 런타임 버전 관리 (rbenv/jenv/pyenv/nvm 통합, config+activate) |
 | [curl.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/curl.md) | curl HTTP 요청 |
 | [claude-code.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/claude-code.md) | Claude Code CLI |
-
-## 언어
-
-| 파일 | 설명 |
-|------|------|
-| [c-cpp.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/c-cpp.md) | C/C++ 스니펫 + Google C++ Style + GDB 디버거 |
+| [ccusage.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/ccusage.md) | ccusage 사용량 집계와 임계치 경보 |
+| [opencode.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/opencode.md) | opencode — provider-agnostic 터미널 AI 코딩 에이전트 (인증·모델 선택) |
+| [gdb.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/gdb.md) | GDB — GNU 디버거 (중단점·스택·변수·메모리 조사) |
