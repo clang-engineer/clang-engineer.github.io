@@ -54,31 +54,38 @@ Application Thread
 
 > `connect()`, `accept()`, `read()`, `write()`가 Network 반대편 함수를 직접 호출하는 것이 아니다. **각 Application Thread가 자기 PC의 OS를 호출한다.**
 
-## 2. Socket과 Thread는 다른 자원이다
+## 2. Socket API와 Socket, Thread를 분리한다
 
 ```text
+Socket API
+= Application이 OS의 Socket 자원을 다루기 위한 호출 집합
+= socket / bind / listen / connect / accept / read / write / send / recv 등
+
 Socket
 = 통신 자원
-= 어떤 Network endpoint / 연결을 다루는가
+= Socket API가 다루는 Network endpoint / 연결
 
 Thread
 = 실행 자원
-= 누가 Application Code를 실행하는가
+= Socket API를 호출하며 Application Code를 실행하는 주체
 ```
 
-둘이 만나는 지점은 단순하다.
+따라서 관계는 다음과 같다.
 
 ```text
 Application Thread
         ↓
-accept() / read() / write()
-        ↓
-      Socket
+Socket API 호출
+├─ accept(Listening Socket)
+├─ read(Connected Socket)
+└─ write/send(Connected Socket)
         ↓
       OS Kernel
 ```
 
-따라서 `Socket 수 = Thread 수`가 아니다.
+즉 **Socket이 `accept()`나 `read()`를 호출하는 것이 아니다. Application Thread가 Socket API를 호출하고, 해당 API의 대상 자원으로 Socket을 지정한다.**
+
+따라서 `Socket 수 = Thread 수`도 아니다.
 
 ## 3. TCP Client / Server의 전체 순서
 
@@ -99,7 +106,7 @@ listen()
                   Client OS ↔ Network ↔ Server OS
                          TCP 연결 수립
                                            ↓
-accept()
+accept(Listening Socket)
    ↓
 Connected Socket
    │
@@ -107,18 +114,18 @@ Connected Socket
    │                                          ↓
                   Client OS → Network → Server OS
                                            ↓
-read()
+read(Connected Socket)
    ↓
 요청 처리
    ↓
-send()
+send(Connected Socket)
    ↓
                   Server OS → Network → Client OS
                                            ↓
                                          read()
 ```
 
-이 흐름에서 Application 함수는 모두 **자기 OS에 대한 호출**이다.
+이 흐름에서 Application 함수는 모두 **자기 OS에 대한 Socket API 호출**이다.
 
 ## 4. Port → Listening Socket → Connected Socket
 
@@ -153,78 +160,129 @@ bind(:8080)
 listen()
 = "이 Socket을 새 TCP 연결을 받을 입구로 만들어줘"
         ↓
-Listening Socket :8080
+Server OS에 Listening Socket :8080 준비
 ```
 
 `listen()`은 Client가 올 때까지 Application Thread가 함수 안에서 기다린다는 뜻이 아니다. **OS에 새 연결을 받을 상태를 설정하고 반환한다.**
 
-Listening Socket과 Connected Socket의 역할도 다르다.
+여기서 중요한 질문이 남는다.
+
+> **OS가 연결을 받을 준비를 했는데, Server Application은 실제 Client와 통신할 Connected Socket을 어떻게 얻는가?**
+
+그래서 Server Application Thread가 `accept(Listening Socket)`을 호출한다.
+
+```text
+Server Application Thread
+        ↓ listen()
+Server OS
+        ↓
+Listening Socket 준비
+        ↓
+listen() 반환
+        ↓
+Server Application Thread
+        ↓
+"실제 Client와 통신할 연결 하나가 필요하다"
+        ↓
+accept(Listening Socket)
+        ↓
+Server OS
+```
+
+Listening Socket과 Connected Socket의 역할은 다르다.
 
 ```text
 Listening Socket
-= 새 연결을 받는 입구
+= OS가 새 TCP 연결을 받는 입구
 = 계속 존재
-
-        ↓ accept()
 
 Connected Socket
 = 특정 Client와 실제 데이터를 주고받는 통신 endpoint
 ```
 
-```text
-                Listening Socket :8080
-                        │
-             ┌──────────┼──────────┐
-          accept()    accept()    accept()
-             ↓           ↓           ↓
-         Socket A     Socket B     Socket C
-             ↕           ↕           ↕
-         Client A     Client B     Client C
-```
-
-## 5. `accept()`는 OS가 준비한 연결을 가져온다
-
-여기가 Socket Server를 이해하는 핵심이다.
+`accept()`의 호출 관계까지 포함하면 다음과 같다.
 
 ```text
-Client Application Thread
-        ↓ connect()
-Client OS
-        ↓
-      Network
-        ↓
+Server Application Thread
+        ↓ accept(Listening Socket)
 Server OS
         ↓
-TCP 연결 처리·상태 관리
+Listening Socket에 대응하는 완료된 연결 하나 선택
         ↓
-완료된 연결 준비
-        ↑
+Connected Socket 반환
+```
+
+Client가 여러 개라면 이 과정이 반복된다.
+
+```text
 Server Application Thread
-        ↓ accept()
-Connected Socket을 넘겨받음
+        │
+        ├─ accept(Listening Socket) → Socket A ↔ Client A
+        ├─ accept(Listening Socket) → Socket B ↔ Client B
+        └─ accept(Listening Socket) → Socket C ↔ Client C
+
+Listening Socket :8080은 계속 존재
+```
+
+## 5. `accept()`는 언제, 왜 호출하는가
+
+`listen()`은 OS에게 **앞으로 이 Listening Socket으로 새 연결을 받아둘 수 있게 준비하라**는 호출이다. 하지만 Server Application이 실제 Client와 `read/write`하려면 그 Client에 대응하는 Connected Socket이 필요하다.
+
+그래서 일반적인 Blocking Server는 `listen()`으로 준비를 끝낸 뒤 `accept(Listening Socket)`을 호출해 **Application이 사용할 연결 하나를 요청한다.**
+
+```text
+listen()
+   ↓
+OS가 Listening Socket 준비
+   ↓
+listen() 반환
+   ↓
+Server Application Thread
+   ↓
+accept(Listening Socket)
+= "이 입구로 들어온 완료된 연결 하나 줘"
+```
+
+`accept()`를 호출하는 시점에 완료된 연결이 이미 있을 필요는 없다.
+
+```text
+Server Application Thread
+        ↓ accept(Listening Socket)
+Server OS
+        ↓
+완료된 연결 있음?
+├─ 있음
+│   ↓
+│ Connected Socket 즉시 반환
+│
+└─ 없음
+    ↓
+  Blocking 방식이면
+  호출한 Application Thread 대기
+    ↓
+  Client connect()
+    ↓
+  양쪽 OS가 TCP 연결 처리
+    ↓
+  완료된 연결 준비
+    ↓
+  OS가 기다리던 Thread를 다시 실행 가능하게 함
+    ↓
+  accept()가 Connected Socket 반환
 ```
 
 즉:
 
 ```text
-accept()
-호출 주체 : Server Application Thread
-호출 대상 : Server OS
-의미       : "완료된 연결 하나 줘"
-결과       : Connected Socket
+listen()
+= OS에 "새 연결을 받을 준비를 해둬"
+
+accept(Listening Socket)
+= Application Thread가 OS에
+  "그렇게 준비된 연결 중 하나를 나한테 줘"
 ```
 
 `accept()`가 TCP 연결을 처음부터 직접 만드는 것이 아니다. **양쪽 OS가 TCP 연결을 처리하고, Server Application은 `accept()`로 완료된 연결을 넘겨받는다.**
-
-그리고 `accept()`를 호출한 시점에 완료된 연결이 이미 있을 수도, 아직 없을 수도 있다.
-
-```text
-accept()
-   ↓
-Server OS에 완료된 연결 있음?
-├─ 있음 → 즉시 Connected Socket 반환
-└─ 없음 → Blocking이면 기다림
-```
 
 ## 6. `read()`도 같은 구조다
 
@@ -242,14 +300,14 @@ Server OS
 Connected Socket의 수신 Buffer에 Byte 저장
         ↑
 Server Application Thread
-        ↓ read()
+        ↓ read(Connected Socket)
 Byte를 가져감
 ```
 
 즉:
 
 ```text
-read()
+read(Connected Socket)
 호출 주체 : Application Thread
 호출 대상 : 자기 OS
 의미       : "이 Socket에 받아둔 Byte 줘"
@@ -259,7 +317,7 @@ read()
 송신도 대칭적이다.
 
 ```text
-send() / write()
+write/send(Connected Socket)
 호출 주체 : Application Thread
 호출 대상 : 자기 OS
 의미       : "이 Socket으로 이 Byte를 보내줘"
@@ -272,13 +330,13 @@ OS의 송신 Buffer → TCP/IP Stack → Network
 세 호출을 한 번에 묶으면:
 
 ```text
-accept()
+accept(Listening Socket)
 = OS가 관리하는 완료된 연결을 가져옴
 
-read()
+read(Connected Socket)
 = OS가 관리하는 수신 데이터를 가져옴
 
-send()
+send(Connected Socket)
 = 보낼 데이터를 자기 OS에 넘김
 ```
 
@@ -289,7 +347,9 @@ send()
 ```text
 Application Thread
         ↓
-accept() / read()
+Socket API 호출
+├─ accept(Listening Socket)
+└─ read(Connected Socket)
         ↓
        OS
         ↓
@@ -481,44 +541,44 @@ Application이 Network 자원을 직접 관리하지 않는다
         ↓
 OS가 TCP 연결 · Socket · Buffer · 실제 송수신 관리
         ↓
-Application Thread는 Socket API로 자기 OS에 요청
+Application Thread가 Socket API로 자기 OS에 요청
         ↓
 
-Server
-socket → bind → listen
-                 ↓
-          Listening Socket
-                 ↓
-Client connect → 양쪽 OS가 TCP 연결 처리
-                 ↓
-              accept
-                 ↓
-          Connected Socket
-                 ↓
-         read / send
-                 ↓
+Server Application Thread
+        ↓ socket() → bind() → listen()
+Server OS
+        ↓
+Listening Socket 준비
+        ↓
+Server Application Thread
+        ↓ accept(Listening Socket)
+        ↓
+OS가 완료된 연결을 Connected Socket으로 반환
+        ↓
+read(Connected Socket) / send(Connected Socket)
+        ↓
 
 accept = 완료된 연결을 OS에서 가져옴
 read   = 수신 데이터를 OS에서 가져옴
 send   = 보낼 데이터를 자기 OS에 넘김
-                 ↓
+        ↓
 
 결과가 아직 없으면?
 ├─ Blocking     → 호출한 Thread 대기
 └─ Non-blocking → 즉시 반환
-                 ↓
+        ↓
 
 Socket이 많으면?
 Thread-per-connection은 Thread가 많이 필요할 수 있음
-                 ↓
+        ↓
 Non-blocking만으로 직접 확인하면 Busy Polling 가능
-                 ↓
+        ↓
 I/O Multiplexing
 select / poll / epoll
-                 ↓
+        ↓
 준비된 Socket만 처리
-                 ↓
+        ↓
 Event Loop
 ```
 
-> **Socket은 통신 자원이고 Thread는 실행 자원이다. Application Thread가 자기 OS에 Socket API를 호출하고, OS가 실제 Network 자원을 관리한다. 이 경계를 잡으면 `accept → read → Blocking/Non-blocking → I/O Multiplexing`이 하나의 흐름으로 연결된다.**
+> **Socket은 통신 자원이고 Thread는 실행 자원이다. Application Thread가 자기 OS에 Socket API를 호출하고, OS가 실제 Network 자원을 관리한다. `accept(Listening Socket)`과 `read(Connected Socket)`처럼 호출 주체와 대상 자원을 분리해서 보면 `Blocking/Non-blocking → I/O Multiplexing`까지 하나의 흐름으로 연결된다.**
