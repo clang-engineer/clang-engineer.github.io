@@ -27,14 +27,19 @@ Server Application
 ```
 
 ```text
+Application / Runtime
+= Server 구조와 정책을 결정
+= Thread 수 · Thread Pool · accept 처리 구조 등을 결정
+
 Application Thread
 = Application Code의 실행 주체
 = Socket API를 호출
 
 OS Kernel
-= Network 자원의 관리 주체
+= Network 자원의 실제 관리 주체
 ├─ TCP 연결 상태
 ├─ Listening / Connected Socket
+├─ 연결 대기열
 ├─ 송·수신 Buffer
 ├─ 실제 Packet 송수신
 └─ Blocking I/O를 호출한 Thread의 대기·깨움
@@ -84,6 +89,19 @@ Socket API 호출
 ```
 
 즉 **Socket이 `accept()`나 `read()`를 호출하는 것이 아니다. Application Thread가 Socket API를 호출하고, 해당 API의 대상 자원으로 Socket을 지정한다.**
+
+또 하나 구분한다.
+
+```text
+Application / Runtime
+= "Thread를 몇 개 둘 것인가" 같은 정책 결정
+
+Application Thread
+= 결정된 구조 안에서 실제 accept/read/write 등을 호출
+
+OS
+= 만들어진 Thread의 실제 실행·대기·Scheduling 관리
+```
 
 따라서 `Socket 수 = Thread 수`도 아니다.
 
@@ -194,10 +212,11 @@ Listening Socket과 Connected Socket의 역할은 다르다.
 ```text
 Listening Socket
 = OS가 새 TCP 연결을 받는 입구
-= 계속 존재
+= Server가 운영되는 동안 계속 유지할 수 있음
 
 Connected Socket
 = 특정 Client와 실제 데이터를 주고받는 통신 endpoint
+= 연결마다 생기고 통신이 끝나면 close
 ```
 
 `accept()`의 호출 관계까지 포함하면 다음과 같다.
@@ -215,13 +234,11 @@ Connected Socket 반환
 Client가 여러 개라면 이 과정이 반복된다.
 
 ```text
-Server Application Thread
-        │
-        ├─ accept(Listening Socket) → Socket A ↔ Client A
-        ├─ accept(Listening Socket) → Socket B ↔ Client B
-        └─ accept(Listening Socket) → Socket C ↔ Client C
+Listening Socket :8080 ─────────────────────── 서버 운영 동안 유지
 
-Listening Socket :8080은 계속 존재
+Connected Socket A       ├──── 통신 ────┤ close
+Connected Socket B             ├──── 통신 ──────┤ close
+Connected Socket C                    ├── 통신 ──┤ close
 ```
 
 ## 5. `accept()`는 언제, 왜 호출하는가
@@ -271,6 +288,31 @@ Server OS
   accept()가 Connected Socket 반환
 ```
 
+여기서 **Blocking `accept()` 하나가 기다린다고 Connected Socket이 계속 생기는 것은 아니다.** Client가 없다면 Listening Socket은 그대로 있고, `accept()`를 호출한 Application Thread 하나가 대기할 뿐이다.
+
+```text
+Client 없음 + Blocking accept() 대기 중
+
+Listening Socket        : 존재
+Connected Socket        : 0개
+accept() 대기 Thread    : Application / Runtime이 구성한 만큼
+```
+
+`accept()`에서 몇 개의 Application Thread를 대기시킬지는 OS가 자동으로 연결 수에 맞춰 정하는 것이 아니라 **Application / Server Runtime의 구조와 정책이 결정한다.** OS는 그렇게 만들어진 Thread의 실제 대기·깨움·Scheduling을 담당한다.
+
+```text
+Application / Runtime
+├─ accept 담당 Thread를 몇 개 둘지
+├─ Worker Thread를 몇 개 둘지
+└─ Thread Pool을 어떻게 구성할지 결정
+
+OS
+├─ Thread 실행 / 대기 / 깨움
+├─ Listening Socket
+├─ 아직 Application이 가져가지 않은 연결의 대기 상태
+└─ Connected Socket 관리
+```
+
 즉:
 
 ```text
@@ -284,7 +326,51 @@ accept(Listening Socket)
 
 `accept()`가 TCP 연결을 처음부터 직접 만드는 것이 아니다. **양쪽 OS가 TCP 연결을 처리하고, Server Application은 `accept()`로 완료된 연결을 넘겨받는다.**
 
-## 6. `read()`도 같은 구조다
+## 6. Application이 아직 `accept()`하지 못한 연결은?
+
+Application Thread가 다른 Client를 처리 중이거나 아직 다음 `accept()`를 호출하지 못해도 Server OS는 Network 연결을 처리할 수 있다.
+
+단순화하면:
+
+```text
+Client A ─ connect ─┐
+Client B ─ connect ─┼→ Server OS
+Client C ─ connect ─┘
+                       ↓
+               연결들을 OS가 관리
+                       ↓
+Server Application Thread
+        ↓ accept(Listening Socket)
+        ↓
+완료된 연결 하나를 가져감
+```
+
+Application이 아직 가져가지 않은 연결을 OS가 기다리게 하는 규모에는 `listen()`의 **backlog**와 OS의 구현·한도가 관계된다.
+
+```text
+backlog
+= Application이 미처 accept하지 못한 연결을
+  OS가 대기시키는 규모와 관련된 설정
+```
+
+세부적으로 OS는 연결 수립 단계별 Queue를 별도로 관리할 수 있으므로 `backlog = 정확히 완료 연결 N개짜리 배열`로 이해하지는 않는다.
+
+구분하면:
+
+```text
+accept() 대기 Thread 수
+= Application / Runtime 정책
+
+아직 accept되지 않은 연결 대기 상태
+= OS가 관리
+= backlog / OS 한도와 관련
+
+Connected Socket
+= accept() 성공 후 특정 Client와 통신
+= 통신 종료 시 close
+```
+
+## 7. `read()`도 같은 구조다
 
 Client가 보낸 데이터도 Server Application으로 바로 들어오는 것이 아니다.
 
@@ -340,7 +426,7 @@ send(Connected Socket)
 = 보낼 데이터를 자기 OS에 넘김
 ```
 
-## 7. 그래서 Blocking / Non-blocking이 나온다
+## 8. 그래서 Blocking / Non-blocking이 나온다
 
 `accept()`와 `read()`의 공통 문제는 **OS에 지금 반환할 결과가 없을 수도 있다는 것**이다.
 
@@ -394,7 +480,7 @@ Busy Polling
 = Application이 CPU를 사용해 준비 여부를 계속 반복 확인
 ```
 
-## 8. Socket이 많아지면 Thread가 문제가 된다
+## 9. Socket이 많아지면 Thread가 문제가 된다
 
 가장 단순한 Server 구조에서는 연결마다 Thread가 Blocking `read()`를 수행할 수 있다.
 
@@ -436,7 +522,7 @@ No
 
 > **적은 수의 Thread로 많은 Socket을 어떻게 기다리고 처리할까?**
 
-## 9. Non-blocking → I/O Multiplexing
+## 10. Non-blocking → I/O Multiplexing
 
 Non-blocking에서는 결과가 없으면 바로 돌아오므로 Thread가 다른 일을 할 수 있다.
 
@@ -472,7 +558,7 @@ Application이 B, D만 처리
 
 > **Socket을 기다리기 위해 Socket마다 Thread를 붙여둘 필요가 줄어드는 것**이다.
 
-## 10. Event Loop
+## 11. Event Loop
 
 I/O Multiplexing의 결과를 반복 처리하면 Event Loop 구조로 이어진다.
 
@@ -498,7 +584,7 @@ Event Loop
 
 따라서 `epoll = Event Loop`는 아니다.
 
-## 11. Socket 위에는 무엇이 올라가는가
+## 12. Socket 위에는 무엇이 올라가는가
 
 Socket은 Byte를 전달할 뿐 그 Byte의 Application 의미까지 알지는 못한다.
 
@@ -512,73 +598,3 @@ RPC용 Protocol
         ↓
     Socket API
         ↓
-     OS Kernel
-```
-
-따라서:
-
-```text
-Socket이 HTTP를 사용한다   X
-HTTP가 TCP Socket을 사용할 수 있다   O
-```
-
-`WebSocket`도 OS의 `Socket`과 같은 개념이 아니다.
-
-```text
-Socket
-= Application ↔ OS의 Network 통신 접점
-
-WebSocket
-= 지속적인 양방향 Message 통신을 위한 Application Protocol
-```
-
-HTTP/3은 대표적으로 `HTTP/3 → QUIC → UDP → Socket` 구조를 사용하므로 `HTTP = 항상 TCP`도 아니다.
-
-## 12. 한 번에 다시 떠올리기
-
-```text
-Application이 Network 자원을 직접 관리하지 않는다
-        ↓
-OS가 TCP 연결 · Socket · Buffer · 실제 송수신 관리
-        ↓
-Application Thread가 Socket API로 자기 OS에 요청
-        ↓
-
-Server Application Thread
-        ↓ socket() → bind() → listen()
-Server OS
-        ↓
-Listening Socket 준비
-        ↓
-Server Application Thread
-        ↓ accept(Listening Socket)
-        ↓
-OS가 완료된 연결을 Connected Socket으로 반환
-        ↓
-read(Connected Socket) / send(Connected Socket)
-        ↓
-
-accept = 완료된 연결을 OS에서 가져옴
-read   = 수신 데이터를 OS에서 가져옴
-send   = 보낼 데이터를 자기 OS에 넘김
-        ↓
-
-결과가 아직 없으면?
-├─ Blocking     → 호출한 Thread 대기
-└─ Non-blocking → 즉시 반환
-        ↓
-
-Socket이 많으면?
-Thread-per-connection은 Thread가 많이 필요할 수 있음
-        ↓
-Non-blocking만으로 직접 확인하면 Busy Polling 가능
-        ↓
-I/O Multiplexing
-select / poll / epoll
-        ↓
-준비된 Socket만 처리
-        ↓
-Event Loop
-```
-
-> **Socket은 통신 자원이고 Thread는 실행 자원이다. Application Thread가 자기 OS에 Socket API를 호출하고, OS가 실제 Network 자원을 관리한다. `accept(Listening Socket)`과 `read(Connected Socket)`처럼 호출 주체와 대상 자원을 분리해서 보면 `Blocking/Non-blocking → I/O Multiplexing`까지 하나의 흐름으로 연결된다.**
