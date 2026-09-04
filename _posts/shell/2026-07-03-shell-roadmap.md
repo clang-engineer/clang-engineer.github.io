@@ -100,7 +100,7 @@ dotfiles의 bootstrap·멱등 링크 헬퍼는 1~2단계에서 배운 스크립�
 | [zoxide로 디렉토리 이동 빠르게 — autojump 대체](/posts/shell/2026-07-03-zoxide-directory-jump/) | **자주 가는 디렉토리 점프.** 방문 기록(frecency)으로 `z`/`zi` 이동. 목적지를 대충 알고 있을 때 가장 빠르다. |
 | [fzf 치트시트](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/fzf.md) | **범용 fuzzy picker.** `Ctrl+R` 히스토리, `Ctrl+T` 경로 삽입, `Alt+C` 디렉토리 선택뿐 아니라 `git branch \| fzf`, `rg ... \| fzf`처럼 어떤 목록에도 붙인다. 파일 관리 앱이라기보다 선택 엔진에 가깝다. |
 | Atuin | **셸 히스토리 전용 검색.** 도입한다면 `Ctrl+R`을 맡기고, fzf는 범용 picker로 남기는 구성이 자연스럽다. 디렉토리·종료 상태·실행 시간·호스트 같은 메타데이터까지 활용할 수 있다. |
-| Yazi | **터미널 파일 탐색/관리.** 파일시스템을 눈으로 돌아다니며 preview·복사·이동·rename을 하고, 종료 시 현재 셸 디렉토리까지 넘겨받는 용도. fzf의 `Ctrl+T`와 달리 picker가 아니라 file manager다. |
+| [Yazi는 단순한 파일 탐색기가 아니다: 터미널 파일 관리와 확장 구조](/posts/shell/2026-09-04-yazi-terminal-file-manager/) | **터미널 파일 탐색/관리.** 파일시스템을 눈으로 돌아다니며 preview·복사·이동·rename을 하고, 종료 시 현재 셸 디렉토리까지 넘겨받는 용도. fzf의 `Ctrl+T`와 달리 picker가 아니라 file manager다. |
 
 역할만 요약하면 **익숙한 경로는 zoxide, 과거 명령은 Atuin, 파일시스템을 둘러볼 때는 Yazi, 임의의 목록에서 하나를 고를 때는 fzf**다. Neovim의 파일/grep picker는 검색 결과를 바로 편집할 때 쓰면 되고, 파일 위치만 확인하려고 에디터를 한 번 거칠 필요는 없다.
 
