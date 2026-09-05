@@ -2,7 +2,7 @@
 title       : "AI 코딩 도구 지형도 — Claude Code·OpenCode·Cursor·Codex·Aider 어떻게 다른가"
 description : "AI 코딩 도구를 사용 환경(터미널·에디터·플러그인·클라우드), 모델 종속성, 과금 방식, 오픈소스 여부 네 축으로 비교한다. 같은 Codex 모델도 OpenCode와 공식 CLI에서 결과가 달라지는 이유까지 정리한다."
 date        : 2026-07-03 21:35:00 +0900
-updated     : 2026-09-05 21:48:00 +0900
+updated     : 2026-09-05 21:53:00 +0900
 categories  : [ai, "Claude Code"]
 tags        : [claude-code, opencode, cursor, github-copilot, codex, aider, comparison]
 pin         : false
@@ -48,6 +48,29 @@ Claude Code가 Claude 전용인 것은 제약이자 강점이다. 모델과 도�
 - **구독 중심**: Claude Code, Codex, Copilot, Cursor. 정액 구독 안에서 일정 사용량을 제공하되 제품에 따라 추가 사용량이나 크레딧 정책이 붙는다.
 - **API 종량 중심**: Aider와 Claude Code·Codex의 API 키 사용 경로. 사용량이 적으면 비용을 세밀하게 통제할 수 있지만 사용량이 많으면 비용 변동이 커질 수 있다.
 - **연결한 제공자를 따름**: OpenCode. 공식 지원 구독, 모델 API 키, OpenRouter, 로컬 모델 등 어떤 제공자를 연결했는지에 따라 과금과 한도가 결정된다.
+
+### OpenCode에서는 provider와 model을 분리해서 본다
+
+OpenCode에서 **provider**는 모델을 실제 API나 로컬 런타임으로 제공하는 연결 경로이고, **model**은 그 경로를 통해 실행할 언어 모델이다. 따라서 "OpenCode에서 무엇을 쓸까"라는 질문은 먼저 provider를 정하고, 그다음 그 provider가 제공하는 model을 고르는 순서로 보는 편이 정확하다.
+
+```text
+OpenCode
+└─ provider
+   └─ model
+
+예: OpenCode → OpenRouter → 현재 선택한 모델
+```
+
+OpenRouter는 여러 모델을 하나의 provider 연결로 바꿔 쓸 수 있다는 점이 장점이다. OpenCode에서는 `/connect`로 OpenRouter 자격 증명을 연결하고 `/models`에서 사용할 모델을 고를 수 있다.
+
+무료 모델을 사용할 때는 **특정 모델명을 장기적인 정답으로 기록하지 않는다.** 무료 제공 여부, 모델 버전, 제공자 상태와 성능은 자주 바뀌기 때문이다. 대신 다음 원칙을 정본으로 둔다.
+
+- 특정 무료 모델을 직접 선택하려면 현재 OpenRouter의 무료 모델 목록에서 코딩·도구 호출 지원 여부를 확인한다.
+- 모델 선택 자체가 중요하지 않고 무료 사용이 우선이면 `openrouter/free` 같은 무료 모델 라우터를 고려한다.
+- `openrouter/free`는 하나의 고정 모델이 아니라 요청 조건을 만족하는 현재 무료 모델 중에서 라우팅하는 방식이므로 결과 품질과 모델은 달라질 수 있다.
+- "현재 무료 코딩 모델 1순위" 같은 평가는 시점성 정보로 보고, 필요할 때 다시 확인한다.
+
+즉 정본에 남길 것은 **모델 순위가 아니라 provider/model 선택 구조와 갱신 원칙**이다.
 
 ## 축 4 — 오픈 vs 클로즈드
 
