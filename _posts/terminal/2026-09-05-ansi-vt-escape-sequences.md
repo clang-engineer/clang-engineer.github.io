@@ -1,8 +1,8 @@
 ---
-title       : "ANSI/VT Escape Sequence — stdout으로 커서를 움직이고 화면을 그리는 법"
-description : "TUI 앱이 픽셀 대신 stdout의 escape sequence로 커서 이동·화면 지우기·색상·alternate screen을 제어하는 원리를 직접 printf로 실험하며 정리한다."
+title       : "ANSI/VT Escape Sequence — 표준 출력으로 커서를 움직이고 화면을 그리는 법"
+description : "TUI 앱이 픽셀 대신 표준 출력의 escape sequence로 커서 이동·화면 지우기·색상·alternate screen을 제어하는 원리를 직접 printf로 실험하며 정리한다."
 date        : 2026-09-05 13:30:00 +0900
-updated     : 2026-09-05 13:30:00 +0900
+updated     : 2026-09-05 17:57:00 +0900
 categories  : [terminal]
 tags        : [terminal, ansi, vt100, escape-sequence, csi, sgr, tui]
 pin         : false
@@ -15,21 +15,21 @@ hidden      : false
 
 TUI 프로그램은 대체 어떻게 화면을 그릴까?
 
-Neovim, `fzf`, `btop` 같은 프로그램이 GPU API로 픽셀을 직접 그리는 것은 아니다. 기본적으로는 **터미널에 텍스트와 제어용 byte sequence를 출력**한다.
+Neovim, `fzf`, `btop` 같은 프로그램이 GPU API로 픽셀을 직접 그리는 것은 아니다. 기본적으로는 **터미널에 텍스트와 제어용 바이트 시퀀스를 출력**한다.
 
 ```text
-Application
-   ↓ write()/stdout
+애플리케이션
+   ↓ write() / 표준 출력(stdout)
 PTY slave
    ↓
 PTY master
    ↓
-Terminal Emulator
+터미널 에뮬레이터
    ↓ escape sequence 해석
 화면
 ```
 
-즉 TUI 렌더링의 가장 아래에는 의외로 `stdout`이 있다.
+즉 TUI 렌더링의 가장 아래에는 의외로 표준 출력이 있다.
 
 ## 가장 단순한 출력
 
@@ -37,13 +37,13 @@ Terminal Emulator
 printf 'hello\n'
 ```
 
-이 명령은 문자 `hello`와 newline을 stdout으로 보낸다.
+이 명령은 문자 `hello`와 newline을 표준 출력으로 보낸다.
 
-터미널 에뮬레이터는 일반 문자면 글리프를 화면에 표시하고, 특별한 control sequence면 **명령으로 해석**한다.
+터미널 에뮬레이터는 일반 문자면 글리프를 화면에 표시하고, 특별한 제어 시퀀스(Control Sequence)면 **명령으로 해석**한다.
 
-그 대표적인 시작 byte가 `ESC`다.
+그 대표적인 시작 바이트가 `ESC`다.
 
-ASCII에서 ESC는 0x1b다.
+ASCII에서 ESC는 `0x1b`다.
 
 셸에서는 흔히 다음처럼 표현한다.
 
@@ -66,7 +66,7 @@ printf '\e[31mRED\e[0m\n'
 
 터미널과 애플리케이션 사이에는 단순한 문자 스트림만 있는 것이 아니다.
 
-같은 byte stream 안에:
+같은 바이트 스트림 안에:
 
 ```text
 일반 문자
@@ -80,9 +80,9 @@ escape sequence
 H e l l o ESC [ 3 1 m W o r l d ESC [ 0 m
 ```
 
-터미널 emulator는 이 스트림을 parser로 읽으면서 일반 문자는 출력하고 escape sequence는 상태 변경 명령으로 처리한다.
+터미널 에뮬레이터는 이 스트림을 파서(Parser)로 읽으면서 일반 문자는 출력하고 escape sequence는 상태 변경 명령으로 처리한다.
 
-그래서 터미널을 일종의 **stateful text protocol renderer**로 볼 수도 있다.
+그래서 터미널을 **상태를 가진 텍스트 프로토콜 렌더러(Stateful Text Protocol Renderer)**로 볼 수도 있다.
 
 ## CSI — 가장 자주 보는 형태
 
@@ -92,12 +92,12 @@ H e l l o ESC [ 3 1 m W o r l d ESC [ 0 m
 ESC [ ...
 ```
 
-이를 CSI(Control Sequence Introducer) 계열이라고 부른다.
+이를 CSI(Control Sequence Introducer, 제어 시퀀스 시작 표기) 계열이라고 부른다.
 
 형태를 단순화하면:
 
 ```text
-ESC [ parameters final-byte
+ESC [ 매개변수 final-byte
 ```
 
 예를 들어:
@@ -134,10 +134,10 @@ printf '\e[2J\e[H'
 
 ```text
 ESC [ 2 J  → 화면 지우기
-ESC [ H    → cursor home
+ESC [ H    → 커서를 홈 위치로 이동
 ```
 
-다.
+한다.
 
 `clear` 명령도 결과적으로 터미널 capability를 확인한 뒤 이런 종류의 제어 문자열을 출력하는 도구라고 볼 수 있다.
 
@@ -171,14 +171,14 @@ printf '\e[10C'
 
 ## 직접 실험 3 — 색상과 스타일
 
-색상과 굵기 같은 그래픽 속성에는 SGR(Select Graphic Rendition) 계열을 사용한다.
+색상과 굵기 같은 그래픽 속성에는 SGR(Select Graphic Rendition, 문자 표시 속성을 선택하는 제어 계열)을 사용한다.
 
 ```bash
 printf '\e[31mRED\e[0m\n'
 printf '\e[1mBOLD\e[0m\n'
 ```
 
-대표적인 기본 색상 번호는:
+대표적인 기본 색상 번호는 다음과 같다.
 
 ```text
 30 black
@@ -195,7 +195,7 @@ printf '\e[1mBOLD\e[0m\n'
 
 그리고 `0m`으로 속성을 reset한다.
 
-중요한 것은 **색상 자체가 stdout의 별도 채널이 아니라 같은 byte stream에 섞여 있다는 것**이다.
+중요한 것은 **색상 자체가 표준 출력의 별도 채널이 아니라 같은 바이트 스트림에 섞여 있다는 것**이다.
 
 ## 터미널에는 화면 상태가 있다
 
@@ -204,11 +204,11 @@ printf '\e[1mBOLD\e[0m\n'
 내부적으로 최소한 다음과 같은 상태를 가진다.
 
 ```text
-cursor position
-current text attributes
-screen cells
-scroll region
-modes
+커서 위치(Cursor Position)
+현재 문자 속성(Text Attributes)
+화면 셀(Screen Cells)
+스크롤 영역(Scroll Region)
+동작 모드(Modes)
 ```
 
 escape sequence는 이 상태를 변경한다.
@@ -216,11 +216,11 @@ escape sequence는 이 상태를 변경한다.
 그래서 다음 출력이 어디에 그려질지는 이전에 보낸 sequence의 영향을 받는다.
 
 ```text
-App output
+애플리케이션 출력
   ↓
-Terminal parser
+터미널 파서
   ↓
-Terminal state 변경
+터미널 상태 변경
   ↓
 화면 갱신
 ```
@@ -236,13 +236,13 @@ Terminal state 변경
 더 나은 방식은:
 
 ```text
-이전 화면 state
-       ↓ compare
-새 화면 state
+이전 화면 상태
+       ↓ 비교
+새 화면 상태
        ↓
 변경된 위치 계산
        ↓
-cursor 이동 + 변경 문자만 출력
+커서 이동 + 변경 문자만 출력
 ```
 
 하는 것이다.
@@ -254,7 +254,7 @@ X
 
 처럼 바뀐 위치로 커서를 이동한 뒤 필요한 문자만 덮을 수 있다.
 
-이 아이디어가 뒤에서 **virtual screen / diff renderer**와 연결된다.
+이 아이디어가 뒤에서 **가상 화면(Virtual Screen) / 차이 렌더러(Diff Renderer)**와 연결된다.
 
 curses, Ratatui, OpenTUI 같은 계층이 대신해주는 중요한 작업 중 하나다.
 
@@ -263,7 +263,7 @@ curses, Ratatui, OpenTUI 같은 계층이 대신해주는 중요한 작업 중 �
 단순 구현은 매 frame마다:
 
 ```text
-clear screen
+화면 전체 지우기
 → 처음부터 전부 출력
 ```
 
@@ -271,7 +271,7 @@ clear screen
 
 하지만 이 방식은 느리고 깜빡임이 생기기 쉽다.
 
-성숙한 TUI renderer는 보통:
+성숙한 TUI 렌더러는 보통:
 
 - 이전 frame을 기억하고
 - 새 frame과 비교하고
@@ -284,59 +284,59 @@ clear screen
 
 ## Alternate Screen — Neovim을 나가면 원래 화면이 돌아오는 이유
 
-Neovim, `less`, `htop` 같은 full-screen 프로그램을 실행했다가 종료하면 그전에 보던 shell 화면이 다시 나타나는 경우가 많다.
+Neovim, `less`, `htop` 같은 전체 화면 프로그램을 실행했다가 종료하면 그전에 보던 셸 화면이 다시 나타나는 경우가 많다.
 
-이것은 흔히 **alternate screen buffer**를 사용하기 때문이다.
+이것은 흔히 **대체 화면 버퍼(Alternate Screen Buffer)**를 사용하기 때문이다.
 
 개념은 단순하다.
 
 ```text
-Primary Screen
-(shell history가 보이는 화면)
+기본 화면(Primary Screen)
+셸 기록이 보이는 화면
 
-      ↕ mode switch
+      ↕ 모드 전환
 
-Alternate Screen
-(Neovim, less 등 full-screen UI)
+대체 화면(Alternate Screen)
+Neovim, less 같은 전체 화면 UI
 ```
 
-TUI 앱이 시작할 때 alternate screen으로 전환하고 종료하면서 primary screen으로 돌아온다.
+TUI 앱이 시작할 때 대체 화면으로 전환하고 종료하면서 기본 화면으로 돌아온다.
 
-이 덕분에 전체 화면 TUI가 shell의 기존 출력 내용을 마구 덮어쓰지 않고 별도 화면처럼 동작할 수 있다.
+이 덕분에 전체 화면 TUI가 셸의 기존 출력 내용을 마구 덮어쓰지 않고 별도 화면처럼 동작할 수 있다.
 
 터미널마다 세부 sequence와 지원 방식은 capability에 따라 다를 수 있기 때문에 실제 프로그램은 무조건 문자열을 하드코딩하기보다 terminfo 같은 계층을 이용하기도 한다.
 
-## Cursor를 숨기는 이유
+## 커서를 숨기는 이유
 
-TUI가 화면을 그리는 동안 실제 terminal cursor가 계속 보이면 눈에 거슬리거나 이상한 위치에서 깜빡일 수 있다.
+TUI가 화면을 그리는 동안 실제 터미널 커서가 계속 보이면 눈에 거슬리거나 이상한 위치에서 깜빡일 수 있다.
 
-그래서 많은 TUI 앱은 렌더링 동안 cursor를 숨겼다가 필요한 입력창에서만 표시하거나 종료할 때 복구한다.
+그래서 많은 TUI 앱은 렌더링 동안 커서를 숨겼다가 필요한 입력창에서만 표시하거나 종료할 때 복구한다.
 
 개념적으로:
 
 ```text
 앱 시작
   ↓
-alternate screen
-cursor hide
+대체 화면 전환
+커서 숨김
   ↓
-render loop
+렌더링 루프
   ↓
-cursor restore
-primary screen
+커서 복구
+기본 화면 복귀
   ↓
 앱 종료
 ```
 
-termios와 마찬가지로 이 state도 비정상 종료 시 제대로 복구되지 않으면 터미널이 이상해 보일 수 있다.
+termios와 마찬가지로 이 상태도 비정상 종료 시 제대로 복구되지 않으면 터미널이 이상해 보일 수 있다.
 
 ## 방향키 입력도 escape sequence였다
 
 재미있는 점은 escape sequence가 출력에만 쓰이지 않는다는 것이다.
 
-터미널 에뮬레이터는 특수키 입력을 애플리케이션에 보낼 때도 byte sequence를 사용한다.
+터미널 에뮬레이터는 특수키 입력을 애플리케이션에 보낼 때도 바이트 시퀀스를 사용한다.
 
-예를 들어 방향키 Up은 흔히 다음과 비슷한 sequence로 전달된다.
+예를 들어 위쪽 방향키는 흔히 다음과 비슷한 sequence로 전달된다.
 
 ```text
 ESC [ A
@@ -345,16 +345,16 @@ ESC [ A
 따라서 같은 터미널 세션에서:
 
 ```text
-Application → Terminal
+애플리케이션 → 터미널
     화면 제어 escape sequence
 
-Terminal → Application
+터미널 → 애플리케이션
     특수키 입력 escape sequence
 ```
 
 가 양방향으로 오간다.
 
-이것이 raw mode에서 TUI 앱이 byte stream을 parsing해야 하는 이유다.
+이것이 raw mode에서 TUI 앱이 바이트 스트림을 파싱해야 하는 이유다.
 
 ## ANSI와 VT라는 이름은 왜 같이 나오는가
 
@@ -386,8 +386,8 @@ printf '\e[2J\e[H'
 하지만 실제 애플리케이션이라면 질문이 늘어난다.
 
 - 이 터미널이 해당 기능을 지원하는가?
-- cursor 이동 sequence가 같은가?
-- alternate screen을 지원하는가?
+- 커서 이동 sequence가 같은가?
+- 대체 화면을 지원하는가?
 - color capability는 몇 개인가?
 - 어떤 key sequence를 보내는가?
 
@@ -396,15 +396,15 @@ printf '\e[2J\e[H'
 그래서 프로그램 코드에 터미널별 분기를 가득 넣는 대신 **터미널 capability를 데이터베이스로 분리**하는 아이디어가 등장했다.
 
 ```text
-Application
+애플리케이션
    ↓
-terminal capability lookup
+터미널 capability 조회
    ↓
 termcap / terminfo
    ↓
-적절한 control sequence
+적절한 제어 시퀀스
    ↓
-Terminal
+터미널
 ```
 
 ## 지금까지 연결
@@ -412,34 +412,34 @@ Terminal
 입력과 출력을 합치면 구조가 이렇게 된다.
 
 ```text
-                 INPUT
-Keyboard
+                 입력(Input)
+키보드
    ↓
-Terminal Emulator
+터미널 에뮬레이터
    ↓
 PTY master
    ↓
 PTY slave + termios
    ↓
-Application
+애플리케이션
    │
-   │ event/state/render
+   │ 이벤트 / 상태 / 렌더링
    ↓
-stdout / escape sequence
+표준 출력 / escape sequence
    ↓
 PTY
    ↓
-Terminal Emulator
+터미널 에뮬레이터
    ↓
-Screen
-                 OUTPUT
+화면
+                 출력(Output)
 ```
 
 여기까지 이해하면 TUI는 더 이상 마법처럼 보이지 않는다.
 
 가장 아래에서는:
 
-> 키 입력 byte stream을 받고, 화면 변경용 byte stream을 다시 보낸다.
+> 키 입력 바이트 스트림을 받고, 화면 변경용 바이트 스트림을 다시 보낸다.
 
 그 위에 수많은 추상화가 올라가 있을 뿐이다.
 
