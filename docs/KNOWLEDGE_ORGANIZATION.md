@@ -122,7 +122,7 @@ How-to / Troubleshooting / Tool / Record / 실무 분석
 - Knowledge 영역의 Concept과 실질적으로 같은 설명을 하는 Blog 문서는 별도 가치가 없다면 통합·삭제를 검토한다.
 - Blog의 How-to나 Troubleshooting에서 개념 설명이 필요하면 필요한 만큼만 설명하고, 상세 Concept은 Knowledge 영역을 참조할 수 있다.
 
-현재 `_archive/license/정보관리기술사/`는 시험 학습 자료인 동시에 이러한 **정보공학 Knowledge Base로 발전시키는 중심 작업 영역**이다. 장기적으로 공개 위치나 이름이 바뀌더라도, 개념 지식은 체계적인 Knowledge 영역에서 탐색하고 실전 기록은 Blog 영역에서 다룬다는 역할 구분은 유지할 수 있다.
+현재 `_archive/정보관리기술사/`는 시험 학습 자료인 동시에 이러한 **정보공학 Knowledge Base로 발전시키는 중심 작업 영역**이다. 장기적으로 공개 위치나 이름이 바뀌더라도, 개념 지식은 체계적인 Knowledge 영역에서 탐색하고 실전 기록은 Blog 영역에서 다룬다는 역할 구분은 유지할 수 있다.
 
 ## 7. 상세화하면서 상위 구조도 다시 보정한다
 
