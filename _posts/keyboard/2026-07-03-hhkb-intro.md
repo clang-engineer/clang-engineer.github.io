@@ -2,14 +2,14 @@
 title       : "HHKB 입문 — 미니멀 배열의 철학과 프로그래머가 사랑하는 이유"
 description : "HHKB(Happy Hacking Keyboard)의 설계 철학, 60% 미니멀 배열의 특징(Ctrl 위치·Fn 방향키·삭제키), Topre 스위치, 라인업, 그리고 왜 프로그래머·유닉스 사용자에게 인기인지 정리합니다."
 date        : 2026-07-03 14:00:00 +0900
-updated     : 2026-07-03 14:00:00 +0900
-categories  : [etc, "keyboard"]
+updated     : 2026-09-05 21:12:00 +0900
+categories  : [keyboard, "하드웨어·배열"]
 tags        : [keyboard, hhkb, guide]
 pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](/posts/etc/2026-07-03-keyboard-roadmap/) · [세벌식 390 입문](/posts/etc/2026-07-03-sebeolsik-390-intro/) · [ZMK 키맵 설계기](/posts/etc/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)
+> 관련 시리즈: [키보드 로드맵](/posts/keyboard/2026-07-03-keyboard-roadmap/) · [세벌식 390 입문](/posts/keyboard/2026-07-03-sebeolsik-390-intro/) · [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)
 
 **HHKB(Happy Hacking Keyboard)**는 프로그래머와 유닉스 사용자 사이에서 오랜 팬층을 가진 미니멀 키보드다. 작은 크기에 비해 비싸고, 방향키도 없는데 왜 인기일까? 이 글은 HHKB의 설계 철학과 배열 특징, 그리고 그게 왜 코딩·터미널 작업과 잘 맞는지를 정리한 입문 글이다.
 
@@ -52,7 +52,7 @@ HHKB는 **60% 폼팩터**다. 키 개수를 약 60개로 줄였지만 키 자체
 1. **Ctrl 위치.** vi/Emacs와 유닉스 셸은 `Ctrl` 조합 단축키를 압도적으로 많이 쓴다. HHKB처럼 Ctrl이 Caps Lock 자리(홈 포지션 바로 옆)에 있으면, 새끼손가락을 구석까지 뻗지 않아도 돼 부담이 크게 줄어든다. 사실 이 배치는 옛 IBM 키보드에서 Ctrl이 있던 "원래 자리"로 되돌린 것이기도 하다.
 2. **홈 포지션 중심 + Fn 레이어.** 방향키·펑션키가 Fn 레이어에 있어 손이 문자 영역을 크게 벗어나지 않는다. 텍스트를 계속 치고 편집하는 코딩·터미널 작업에 잘 맞는다. HHKB는 설계 목표부터 "유닉스 환경 최적화"를 명시했다.
 
-실제로 HHKB를 오래 쓰다 보면 몸에 배는 대표적 습관이 **좌 Ctrl(Caps 자리)**, **Fn+방향키**, 그리고 **손 가까운 삭제키 위치**다. 이 습관들은 커스텀 키보드로 넘어가도 그대로 재현하고 싶어지는데, 그 이야기는 [ZMK 키맵 설계기](/posts/etc/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)에서 이어진다.
+실제로 HHKB를 오래 쓰다 보면 몸에 배는 대표적 습관이 **좌 Ctrl(Caps 자리)**, **Fn+방향키**, 그리고 **손 가까운 삭제키 위치**다. 이 습관들은 커스텀 키보드로 넘어가도 그대로 재현하고 싶어지는데, 그 이야기는 [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)에서 이어진다.
 
 ## 정리
 
