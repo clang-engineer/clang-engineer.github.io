@@ -1,70 +1,135 @@
 ---
-title       : LazyVim Diagnostics 로그/메시지 확인법
-description : Diagnostics 팝업, Trouble 리스트, LSP 로그, :messages 사용법 정리
+title       : LazyVim에서 Diagnostics·LSP 로그·메시지 확인하기
+description : "LazyVim/Neovim에서 코드 진단, LSP 통신 로그, Neovim 메시지 기록을 목적별로 구분하고 각각 어디서 확인하는지 정리한다."
 date        : 2026-02-04 10:00:00 +0900
-updated     : 2026-07-24 15:00:00 +0900
-categories  : [lazyvim, "LSP·Treesitter"]
-tags        : [neovim, diagnostics, lsp, trouble, troubleshooting]
+updated     : 2026-09-05 19:10:00 +0900
+categories  : [neovim, "LSP·Treesitter"]
+tags        : [neovim, lazyvim, diagnostics, lsp, trouble, how-to]
 pin         : false
 hidden      : false
 ---
 
-## LazyVim(Neovim)에서 Diagnostics 로그/메시지 확인 방법
+LazyVim에서 "에러 로그를 보고 싶다"고 할 때 실제로 찾는 대상은 서로 다를 수 있다. 먼저 **코드 진단(Diagnostics), LSP 통신 로그, Neovim 메시지 기록**을 구분하면 필요한 화면으로 바로 갈 수 있다.
 
-목적별로 3가지를 구분하면 편합니다: (1) 진단 메시지, (2) LSP 통신 로그, (3) Neovim 메시지 히스토리.
+```text
+코드의 Error/Warning을 보고 싶다
+→ Diagnostics / Trouble
 
----
+LSP 서버와 무슨 통신을 했는지 보고 싶다
+→ LSP Log
 
-## 빠른 키/명령 요약
+Neovim이 방금 출력한 메시지를 다시 보고 싶다
+→ :messages
+```
 
-- `<leader>cd` — 커서 줄 diagnostic 팝업
-- `]d` / `[d` — 다음/이전 diagnostic 이동
-- `:Trouble diagnostics` — 프로젝트/버퍼 diagnostics 리스트 보기
-- `:LspLog` — LSP 통신 로그 파일 열기
-- `:messages` — Neovim 메시지 히스토리 보기
+## 빠른 선택
 
----
+| 목적 | 확인 방법 |
+|---|---|
+| 현재 위치의 진단 내용 | `<leader>cd` |
+| 다음/이전 진단으로 이동 | `]d` / `[d` |
+| 진단 목록 전체 보기 | `:Trouble diagnostics` |
+| LSP 통신 로그 보기 | `:LspLog` |
+| 최근 Neovim 메시지 다시 보기 | `:messages` |
 
-## 1) 진단 메시지를 창으로 보기 (가장 흔함)
+## 1. 코드 진단을 확인한다
 
-- `<leader>cd`: 커서 줄의 diagnostic message를 floating window로 확인
-- `]d` / `[d`: 다음/이전 diagnostic로 점프
-- `:Trouble diagnostics`: 프로젝트/버퍼 전체 diagnostics를 트리/리스트로 확인
-- LazyVim 기본 번들에 Trouble이 포함된 경우가 많아, 이 조합이 가장 편리합니다.
+LSP나 다른 진단 소스가 만든 Error/Warning을 확인하려는 경우다.
 
-## 2) LSP 로그 파일 열기 (통신 로그)
+현재 커서 위치의 diagnostic은:
+
+```text
+<leader>cd
+```
+
+로 확인할 수 있고 다음·이전 diagnostic으로 이동하려면:
+
+```text
+]d
+[d
+```
+
+를 사용한다.
+
+프로젝트나 버퍼의 진단을 목록으로 보고 싶다면:
+
+```vim
+:Trouble diagnostics
+```
+
+를 사용한다.
+
+즉 **코드에 붙은 문제 자체를 보고 싶다면 Diagnostics/Trouble 계층**을 보면 된다.
+
+## 2. LSP 통신 로그를 확인한다
+
+Diagnostic 결과가 이상하거나 LSP 서버 자체의 요청·응답을 확인해야 한다면 UI에 표시된 진단보다 한 단계 아래인 LSP 로그를 본다.
 
 ```vim
 :LspLog
 ```
 
-- 기본 로그 파일: `~/.local/state/nvim/lsp.log`
-- 로그가 비어 있다면 LSP 로그 레벨이 낮을 수 있습니다(필요 시 설정에서 log_level을 올리세요).
+일반적인 로그 위치는 다음과 같다.
 
-## 3) 메시지 히스토리 보기 (Neovim 메시지 로그)
+```text
+~/.local/state/nvim/lsp.log
+```
+
+로그 내용이 충분하지 않다면 현재 LSP 로그 레벨 설정도 함께 확인한다.
+
+```text
+LSP Server
+   ↕
+Neovim LSP Client
+   ↓
+LSP Log
+```
+
+즉 `:LspLog`는 "현재 코드의 에러 목록"을 보여주는 명령이 아니라 **LSP client/server 통신을 진단하기 위한 로그**다.
+
+## 3. Neovim 메시지 기록을 확인한다
+
+플러그인이나 명령 실행 중 잠깐 나타났다가 사라진 메시지를 다시 보고 싶다면:
 
 ```vim
 :messages
 ```
 
-- 명령 실행 중 출력된 메시지/에러를 순서대로 다시 확인할 때 사용합니다.
+를 사용한다.
 
----
+이건 Diagnostics나 LSP 전용 기능이 아니라 **Neovim의 메시지 히스토리**다.
 
-## 추천 선택 기준
+```text
+명령 / 플러그인 실행
+       ↓
+Neovim 메시지 출력
+       ↓
+:messages
+```
 
-1) 에러/워닝 목록을 보고 싶다 → `:Trouble diagnostics` (+ `]d`/`[d`, `<leader>cd`)
-2) LSP 서버 통신 로그를 보고 싶다 → `:LspLog` (경로: `~/.local/state/nvim/lsp.log`)
-3) 최근 명령 출력/에러를 다시 보고 싶다 → `:messages`
+따라서 "방금 화면 아래에 에러가 떴는데 사라졌다"면 가장 먼저 확인하기 좋다.
 
----
+## 어떤 것을 먼저 볼까
 
-## 추가 팁
+```text
+코드 줄에 Error/Warning 표시가 있다
+→ <leader>cd / Trouble
 
-- Trouble 창에서 `?`로 키 바인딩을 바로 확인할 수 있습니다.
-- `]d`/`[d` 이동 후 `<leader>cd`를 눌러 현재 줄 메시지를 곧바로 확인하면 편합니다.
-- 로그를 별도 보관하려면 `:LspLog`로 연 뒤 `:w lsp-debug.log`처럼 다른 이름으로 저장하세요.
+LSP가 이상하게 동작한다
+→ :LspLog
 
----
+명령 실행 직후 메시지가 사라졌다
+→ :messages
+```
 
-> `:Trouble diagnostics`와 현행 Diagnostics·Quickfix·Location List·LSP 키맵은 [LazyVim Trouble — 코드 문제와 목록 탐색](/posts/lazyvim/2026-05-04-lazyvim-leader-x-trouble/)에 정리했습니다. 이 글은 로그/메시지 **확인 방법**, 저 글은 Trouble **키맵·개념 레퍼런스**입니다.
+문제의 위치가 불분명하다면 `:messages` → Diagnostics → LSP Log 순으로 범위를 좁혀도 된다.
+
+## 확인 후 로그를 보관하고 싶다면
+
+`:LspLog`로 연 로그를 별도 파일로 저장할 수 있다.
+
+```vim
+:w lsp-debug.log
+```
+
+Trouble의 키맵과 Diagnostics·Quickfix·Location List의 관계는 [LazyVim Trouble — 코드 문제와 목록 탐색](/posts/lazyvim/2026-05-04-lazyvim-leader-x-trouble/)에서 별도로 다룬다. 이 글의 목적은 **문제가 있을 때 어떤 정보원을 어디서 확인할지 빠르게 선택하는 것**이다.
