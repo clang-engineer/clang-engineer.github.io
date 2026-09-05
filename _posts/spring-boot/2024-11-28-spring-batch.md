@@ -1,119 +1,395 @@
 ---
-title       : Spring Batch
-description : "Job·Step·Tasklet·Chunk 같은 구성요소가 실제로 어떻게 맞물려 도는지, 그리고 BATCH_JOB_INSTANCE 등 메타 테이블이 재시작·중복 실행 방지를 어떻게 보장하는지."
+title       : "Spring Batch — Job·Step·Chunk와 재시작 메타데이터 구조"
+description : "Spring Batch를 실행 모델 관점에서 Job→Step→Tasklet/Chunk로 보고, JobInstance·JobExecution·ExecutionContext 메타데이터가 중복 실행 방지와 재시작을 어떻게 가능하게 하는지 정리한다."
 date        : 2024-11-28 09:00:45 +0900
-updated     : 2024-11-28 09:01:11 +0900
+updated     : 2026-09-05 21:40:00 +0900
 categories  : [spring-boot, "배치·스케줄링"]
 tags        : [batch, job, tasklet, chunk]
 pin         : false
 hidden      : false
 ---
 
-## Spring Batch가 필요한 경우
-- 작업이 여러 단계로 구성된 복잡한 흐름을 가질 때 (예: 읽기 -> 처리 -> 쓰기).
-- 작업이 대량 데이터를 트랜잭션 관리와 함께 처리해야 할 때.
-- 실패 재시도(retry), 재시작(resume) 등의 기능이 필요한 경우.
-- 작업 실행 이력을 저장하고 이를 기반으로 분석이나 관리가 필요할 때.
+Spring Batch를 이해할 때 클래스 이름부터 외우면 `Job`, `Step`, `JobExecution`, `ExecutionContext`가 서로 어떻게 연결되는지 헷갈리기 쉽다. 먼저 전체 실행 구조를 잡으면 나머지는 자연스럽게 따라온다.
 
-## 구성요소
-- Job: 배치 작업의 실행 단위. 여러 Step으로 구성됨.
-- Step: 배치 작업의 단계. ItemReader, ItemProcessor, ItemWriter로 구성됨.
-- JobRepository: Job과 Step의 실행 상태를 관리하는 저장소.
-- JobLauncher: Job을 실행하는 인터페이스.
-- JobInstance: Job의 실행 단위. JobParameters로 구분됨. (JobParameter가 동일하면 같은 JobInstance로 간주)
-- JobExecution: Job의 실행 상태. JobInstance와 JobParameters를 가짐. (각 실행마다 새로운 JobExecution이 생성됨) 
-- Tasklet: Step의 실행 단위. Step의 실행을 담당하는 인터페이스. 
-> Tasklet vs Chunk
-> Tasklet은 데이터 처리 과정이 단일 작업으로 이루어질 때 사용하며, Chunk는 데이터 처리 과정이 여러 작업으로 이루어질 때 사용한다.
-> Tasklet은 Step의 실행을 담당하는 인터페이스이며, Chunk는 Tasklet을 구현한 것으로, Chunk는 Tasklet을 상속받아 구현된 것이다.
+```text
+Scheduler / API
+      ↓
+JobLauncher
+      ↓
+Job
+      ↓
+Step
+      ↓
+Tasklet
+또는
+Chunk
+  ├─ ItemReader
+  ├─ ItemProcessor
+  └─ ItemWriter
+```
 
-- ItemReader: Step에서 사용되는 Item을 읽어오는 인터페이스.
-- ItemProcessor: Step에서 사용되는 Item을 가공하는 인터페이스.
-- ItemWriter: Step에서 사용되는 Item을 저장하는 인터페이스.
+그리고 이 실행 흐름의 옆에는 **메타데이터 저장소(JobRepository)** 가 붙어 있다.
 
-### Job 관련 인터페이스
-- JobParameters: Job을 실행할 때 전달되는 파라미터를 저장하는 객체.
-- JobRegistry: Job을 등록하고 관리하는 인터페이스. (Job을 등록하고, Job을 실행할 때 사용)
-- JobExplorer: JobExecution과 JobInstance를 조회하는 인터페이스.
+```text
+실행 흐름
+Job → Step → Chunk
 
+상태 기록
+JobInstance
+  ↓
+JobExecution
+  ↓
+StepExecution
+  ↓
+ExecutionContext
+```
 
-## 배치 생성 절차
-1. Job을 생성한다.
-2. Job에 Step을 추가한다.
-3. Step에 ItemReader, ItemProcessor, ItemWriter를 설정한다.
-4. Job을 실행한다.
+Spring Batch의 핵심 가치는 단순히 대량 데이터를 나눠 처리하는 데 있지 않다. **실행 단위를 명확히 나누고, 그 실행 상태를 저장해 중복 실행 방지와 재시작을 가능하게 하는 것**이 본체다.
 
+## 언제 Spring Batch가 필요한가
 
-## Batch Meta Tables
-![Spring Batch Meta Tables](https://docs.spring.io/spring-batch/reference/_images/meta-data-erd.png)
+Spring Batch가 잘 맞는 경우는 다음과 같다.
 
-1.  BATCH_JOB_INSTANCE
-- JobInstance의 정보를 저장하는 테이블.
-- 배치가 수행되면 Job이 생성이 되고, 해당 잡 인스턴스에 대해서 관련된 모든 정보를 가진 최상위 테이블.
-- JobInstance는 JobParameters를 가지고 있으며, JobParameters가 동일하면 같은 JobInstance로 간주한다.
-- JobInstance가 한번 실행되고 완료되면, 기존의 JobInstance를 다시 실행할 수 없다. (중복 실행 방지)
+- 대량 데이터를 일정 단위로 읽고·가공하고·저장해야 함
+- 여러 단계가 순서대로 이어지는 Job Flow가 필요함
+- 실패한 작업을 처음부터 다시 하지 않고 재시작해야 함
+- 실행 이력과 상태를 DB에 남겨 운영에서 추적해야 함
+- Retry / Skip / Transaction 경계를 체계적으로 관리해야 함
 
-2. BATCH_JOB_EXECUTION
-- JobExecution의 정보를 저장하는 테이블.
-- Job이 매번 실행될때, JobExecution이라는 새로운 객체가 생성되고, 해당 객체에 대한 정보를 저장하는 테이블.
+반대로 단순한 주기성 메서드 한 번 실행 정도라면 `@Scheduled`만으로 충분할 수 있다. Spring Batch는 **배치 실행 상태 자체가 관리 대상일 때** 가치가 크다.
 
-3. BATCH_JOB_EXECUTION_PARAMS
-- JobParameters의 정보를 저장하는 테이블.
-- JobParameters는 Job을 실행할 때 전달되는 파라미터를 저장하는 객체.
+## 1. 실행 구조 — Job과 Step
 
-4. BATCH_JOB_EXECUTION_CONTEXT
-- JobExecutionContext의 정보를 저장하는 테이블.
-- JobExecutionContext는 Job이 실행될 때, JobExecution과 함께 생성되는 객체로, 해당 객체에 대한 정보를 저장하는 테이블.
-- 실패 후 중단된 부분부터 시작될 수 있도록 실패후 검색해야하는 상태를 나타낸다.
+### Job
 
-5. BATCH_STEP_EXECUTION
-- StepExecution의 정보를 저장하는 테이블.
-- Step이 실행될 때, StepExecution이라는 새로운 객체가 생성되고, 해당 객체에 대한 정보를 저장하는 테이블.
+하나의 배치 업무 단위다.
 
-6. BATCH_STEP_EXECUTION_CONTEXT
-- StepExecutionContext의 정보를 저장하는 테이블.
-- StepExecutionContext는 Step이 실행될 때, StepExecution과 함께 생성되는 객체로, 해당 객체에 대한 정보를 저장하는 테이블.
-- 실패 후 중단된 부분부터 시작될 수 있도록 실패후 검색해야하는 상태를 나타낸다.
+예를 들어 "일일 정산"이라는 Job은 다음 Step들로 구성될 수 있다.
 
+```text
+DailySettlementJob
+├─ Step 1: 대상 주문 추출
+├─ Step 2: 정산 계산
+└─ Step 3: 결과 저장
+```
 
-## 재시작·중복 실행 방지 메커니즘
+### Step
 
-메타 테이블을 나열하는 것만으로는 "이게 왜 필요한가"가 안 잡힌다. 핵심은 **JobParameters가 JobInstance의 신원(identity)을 결정**한다는 것이다.
+Job 안에서 독립적으로 실행·상태 관리되는 단계다. 한 Step은 Tasklet 방식 또는 Chunk 방식으로 동작할 수 있다.
 
-### 중복 실행 방지
+```text
+Job
+└─ Step
+   ├─ Tasklet
+   └─ Chunk
+```
 
-- 같은 Job을 **같은 JobParameters**로 다시 실행하면, Spring Batch는 `BATCH_JOB_INSTANCE`에서 동일 인스턴스를 찾는다.
-- 그 인스턴스가 이미 `COMPLETED`면 재실행을 거부한다:
+Tasklet과 Chunk는 같은 축의 선택지다.
 
-  ```
-  JobInstanceAlreadyCompleteException:
-  A job instance already exists and is complete for parameters={date=2024-11-28}
-  ```
-- 그래서 **매일 도는 배치는 날짜 같은 유니크 파라미터**를 넣어 매번 새 JobInstance를 만든다. 파라미터가 늘 같으면 두 번째 실행부터 막힌다.
-- 스케줄러로 계속 돌려야 하는데 마땅한 유니크 값이 없으면 `RunIdIncrementer`를 써서 `run.id`를 자동 증가시킨다.
+## 2. Tasklet vs Chunk
 
-> Spring Batch 4+는 파라미터를 **identifying / non-identifying**으로 구분한다. non-identifying(`identifying=false`) 파라미터는 JobInstance 신원 계산에서 빠지므로, 신원에 영향 없이 실행별 값(예: 로그용 타임스탬프)을 넘길 수 있다.
+### Tasklet
 
-### 재시작(resume)
+한 Step에서 하나의 작업을 수행하는 모델이다.
 
-- `FAILED`나 `STOPPED`로 끝난 JobExecution은 **같은 파라미터로 다시 실행하면 이어서** 돈다(중복 방지 규칙의 예외).
-- 어디서부터 이어갈지는 `BATCH_STEP_EXECUTION_CONTEXT` / `BATCH_JOB_EXECUTION_CONTEXT`에 저장된 상태로 결정된다. Chunk 모델이면 커밋된 지점까지의 read/write count가 여기 남아, **이미 처리한 청크는 건너뛰고** 실패 지점부터 재개한다.
-- 완료된 Step은 기본적으로 재실행 시 건너뛴다(`allowStartIfComplete(true)`로 강제 가능).
-- 재시작을 원치 않는 Job은 `preventRestart()`로 막을 수 있다.
+예:
 
-## Spring Batch의 실행 흐름
-![Spring Batch Flow](https://terasoluna-batch.github.io/guideline/5.0.0.RELEASE/en/images/ch02/SpringBatchArchitecture/Ch02_SpringBatchArchitecture_Architecture_ProcessFlow.png)
+- 파일 이동
+- 임시 테이블 정리
+- 외부 API 한 번 호출
+- 단일 SQL 실행
 
-### 처리흐름 관점
-1. JobScheduler 가 배치를 트리거링 하면 JobLauncher 를 실행한다.
-2. JobLauncher 는 Job을 실행한다. 이때 JobExecution 을 수행하고, Execution Context 정보를 이용한다.
-3. Job은 자신에게 정으된 Step을 실행한다. 이때 StepExecution을 수행하고, Execution Context 정보가 전달되어 수행된다.
-4. Step은 Tasklet과 Chunk모델을 가지고 있으며 위 그림에서는 Chunk 모델로 수행되게 된다.
-5. Chunk 모델은 ItemReader를 통해서 소스 데이터를 읽어 들인다.
-6. ItemProcessor를 통해서 읽어들인 청크단위 데이터를 처리한다. 처리는 데이터를 변환하거나 가공하는 역할을 하게 된다.
-7. ItemWriter는 처리된 청크 데이터를 쓰기작업한다. 다양한 Writer를 통해 데이터베이스에 저장하거나, 파일로 쓰는 역할을 하게 된다.
+```text
+Step
+ ↓
+Tasklet.execute()
+ ↓
+완료
+```
 
-> 출처 & 참고
-> - [https://terasoluna-batch.github.io/guideline/5.0.0.RELEASE/en/Ch02_SpringBatchArchitecture.html](https://terasoluna-batch.github.io/guideline/5.0.0.RELEASE/en/Ch02_SpringBatchArchitecture.html)
-> - [https://devocean.sk.com/blog/techBoardDetail.do?ID=166690&boardType=techBlog&searchData=&searchDataMain=&page=&subIndex=&searchText=%EB%B0%B0%EC%B9%98&techType=&searchDataSub=&comment=](https://devocean.sk.com/blog/techBoardDetail.do?ID=166690&boardType=techBlog&searchData=&searchDataMain=&page=&subIndex=&searchText=%EB%B0%B0%EC%B9%98&techType=&searchDataSub=&comment=)
- 
+### Chunk
+
+대량 데이터를 일정 묶음으로 읽고 처리하고 쓰는 반복 모델이다.
+
+```text
+read N개
+  ↓
+process
+  ↓
+write
+  ↓
+commit
+  ↓
+다음 N개
+```
+
+Chunk는 내부적으로 Tasklet 기반 Step 구현을 사용하지만, 사용자 관점에서는 **대량 데이터 처리 모델**로 이해하는 것이 더 중요하다.
+
+구성요소는 다음과 같다.
+
+- `ItemReader`: 입력을 읽는다.
+- `ItemProcessor`: 값을 변환·검증한다.
+- `ItemWriter`: 결과를 저장한다.
+
+예를 들어 Chunk Size가 100이면 보통 100개를 읽고 처리한 뒤 한 번의 Transaction으로 Writer를 실행하고 Commit한다.
+
+## 3. Chunk가 재시작 가능한 이유
+
+Chunk 기반 처리의 장점은 단순 분할이 아니라 **Commit 단위가 생긴다는 것**이다.
+
+```text
+1~100   → commit
+101~200 → commit
+201~300 → 실패
+```
+
+실패 후 다시 시작할 때 이미 Commit된 1~200을 다시 처리하지 않고, 저장된 상태를 기준으로 이후 지점부터 이어갈 수 있다.
+
+이를 가능하게 하는 것이 `ExecutionContext`와 Batch Metadata다.
+
+## 4. JobInstance와 JobExecution을 구분한다
+
+가장 자주 헷갈리는 부분이다.
+
+```text
+Job + identifying JobParameters
+        ↓
+JobInstance
+        ↓ 실행할 때마다
+JobExecution
+```
+
+### JobInstance
+
+논리적으로 "같은 배치 대상"을 나타낸다.
+
+```text
+jobName = dailySettlement
+businessDate = 2026-09-05
+```
+
+같은 Job 이름과 같은 identifying Parameter 조합이면 같은 JobInstance다.
+
+### JobExecution
+
+그 JobInstance를 실제로 한 번 실행한 기록이다.
+
+```text
+같은 JobInstance
+├─ JobExecution #1 → FAILED
+└─ JobExecution #2 → COMPLETED
+```
+
+즉 재시작은 새 JobInstance를 만드는 것이 아니라 **같은 JobInstance에 새로운 JobExecution을 추가하는 것**이다.
+
+## 5. 중복 실행 방지는 어떻게 되는가
+
+같은 Job + 같은 identifying JobParameters 조합이 이미 `COMPLETED` 상태라면 Spring Batch는 같은 JobInstance를 다시 실행하지 않는다.
+
+예:
+
+```text
+DailyJob + date=2026-09-05
+        ↓
+COMPLETED
+        ↓
+같은 Parameter로 재실행
+        ↓
+거부
+```
+
+매일 다른 업무 대상을 처리한다면 날짜 같은 값을 identifying Parameter로 둔다.
+
+```text
+2026-09-05 → JobInstance A
+2026-09-06 → JobInstance B
+```
+
+반대로 로그용 Timestamp처럼 JobInstance 신원을 바꾸면 안 되는 값은 non-identifying Parameter로 관리할 수 있다.
+
+## 6. 재시작은 무엇을 보고 이어가는가
+
+실패한 JobExecution은 같은 JobInstance로 다시 실행할 수 있다.
+
+```text
+JobInstance
+├─ Execution #1 FAILED
+└─ Execution #2 RESTART
+```
+
+Spring Batch는 Step 실행 상태와 `ExecutionContext`를 저장해 이전 실행 정보를 복원한다.
+
+대표적으로 다음 정보가 메타데이터에 남는다.
+
+- Job 실행 상태
+- Step 실행 상태
+- Read / Write Count
+- 마지막 처리 위치를 복원하기 위한 Reader 상태
+- 사용자 정의 Context 값
+
+Reader가 Restart를 지원하고 필요한 상태를 `ExecutionContext`에 저장한다면 실패 지점 이후부터 이어갈 수 있다.
+
+중요한 점은 **모든 Reader가 자동으로 임의 지점에서 재개되는 것은 아니라는 것**이다. 재시작 가능성은 ItemReader 구현과 상태 저장 방식에 따라 달라진다.
+
+## 7. Batch Metadata Table은 실행 객체를 저장한다
+
+메타 테이블을 이름으로 외우기보다 실행 객체와 대응시키면 쉽다.
+
+```text
+JobInstance
+→ BATCH_JOB_INSTANCE
+
+JobExecution
+→ BATCH_JOB_EXECUTION
+→ BATCH_JOB_EXECUTION_PARAMS
+→ BATCH_JOB_EXECUTION_CONTEXT
+
+StepExecution
+→ BATCH_STEP_EXECUTION
+→ BATCH_STEP_EXECUTION_CONTEXT
+```
+
+### BATCH_JOB_INSTANCE
+
+JobInstance의 신원을 저장한다.
+
+### BATCH_JOB_EXECUTION
+
+실제 Job 실행 1회의 상태를 저장한다.
+
+예:
+
+- STARTED
+- FAILED
+- COMPLETED
+
+### BATCH_JOB_EXECUTION_PARAMS
+
+해당 JobExecution에 전달된 JobParameters를 기록한다.
+
+### BATCH_JOB_EXECUTION_CONTEXT
+
+Job 범위에서 재시작에 필요한 상태를 저장한다.
+
+### BATCH_STEP_EXECUTION
+
+각 Step 실행의 상태와 Read/Write Count 등을 저장한다.
+
+### BATCH_STEP_EXECUTION_CONTEXT
+
+Step 범위의 재시작 상태를 저장한다.
+
+즉 메타 테이블은 별도의 부가 기능이 아니라 **Spring Batch 실행 모델을 영속화한 형태**다.
+
+## 8. 실제 실행 흐름
+
+전체 흐름을 다시 연결하면 다음과 같다.
+
+```text
+Scheduler / API
+      ↓
+JobLauncher.run(job, parameters)
+      ↓
+JobRepository에서 JobInstance 확인
+      ↓
+새 JobExecution 생성
+      ↓
+Step 실행
+      ↓
+StepExecution 생성
+      ↓
+Tasklet 또는 Chunk 수행
+      ↓
+상태 / ExecutionContext 저장
+      ↓
+다음 Step 또는 Job 종료
+```
+
+Chunk Step이면 내부는 다음처럼 반복된다.
+
+```text
+ItemReader
+   ↓
+ItemProcessor
+   ↓
+ItemWriter
+   ↓
+Commit
+   ↓
+ExecutionContext 갱신
+   ↓
+다음 Chunk
+```
+
+## 9. 운영에서 중요한 경계
+
+### JobParameters를 아무 값이나 유니크하게 만들지 않는다
+
+매 실행마다 무조건 현재 Timestamp를 identifying Parameter로 넣으면 모든 실행이 새로운 JobInstance가 되어 **재시작 의미가 사라질 수 있다**.
+
+```text
+잘못된 방향
+실행마다 random timestamp
+→ 항상 새 JobInstance
+→ FAILED 실행을 같은 Instance로 재시작하기 어려움
+```
+
+업무 대상의 Identity와 단순 실행 정보는 분리한다.
+
+### Chunk Size는 성능과 재처리 범위를 동시에 결정한다
+
+큰 Chunk:
+
+- Commit 횟수 감소
+- Throughput에 유리할 수 있음
+- 실패 시 다시 처리할 단위가 커짐
+
+작은 Chunk:
+
+- Commit 비용 증가
+- 실패 시 재처리 범위가 작음
+
+따라서 Chunk Size는 단순 성능 Parameter가 아니라 **Transaction Boundary**다.
+
+### 완료된 Step의 재실행 정책을 명시한다
+
+기본적으로 이미 완료된 Step은 Restart 시 다시 실행하지 않는다. 필요하면 `allowStartIfComplete(true)` 같은 정책을 별도로 적용한다.
+
+## 정리
+
+Spring Batch의 전체 구조는 두 축으로 보면 된다.
+
+```text
+[실행 구조]
+Job
+ ↓
+Step
+ ↓
+Tasklet / Chunk
+
+[상태 구조]
+JobInstance
+ ↓
+JobExecution
+ ↓
+StepExecution
+ ↓
+ExecutionContext
+```
+
+그리고 두 축을 연결하는 것이 `JobRepository`다.
+
+이 구조를 잡고 나면 Spring Batch의 핵심 기능도 한 줄로 정리된다.
+
+```text
+JobParameters로 실행 대상을 식별하고
+→ Execution 상태를 저장하고
+→ Commit 단위로 처리하며
+→ 실패하면 저장된 상태를 이용해 다시 이어간다
+```
+
+그래서 Spring Batch는 단순 Scheduler가 아니라 **재실행 가능한 Batch Execution Framework**다.
+
+## 참고
+
+- [Spring Batch Reference](https://docs.spring.io/spring-batch/reference/)
