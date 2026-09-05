@@ -1,97 +1,181 @@
 ---
-title       : Spring Boot에서 로그 레벨
-description : "Spring Boot 기본 로깅(Logback)의 로그 레벨 TRACE·DEBUG·INFO·WARN·ERROR와 임계값 동작 방식, application.yml에서 루트·패키지별 레벨을 설정했을 때 어떤 메시지가 걸러지고 통과하는지."
+title       : "Spring Boot 로그 레벨 — Logger 계층과 Threshold로 이해하기"
+description : "Spring Boot 기본 Logback 환경에서 Logger 이름 계층과 TRACE·DEBUG·INFO·WARN·ERROR 임계값이 어떻게 결합되는지, root와 패키지별 override가 실제 로그 필터링으로 이어지는 구조를 정리한다."
 date        : 2025-10-22 10:58:33 +0900
-updated     : 2026-07-03
+updated     : 2026-09-05 21:45:00 +0900
 categories  : [spring-boot, "모니터링·로깅"]
-tags        : [logging, log4j, monitoring]
+tags        : [logging, logback, slf4j, monitoring]
 pin         : false
 hidden      : false
 ---
 
-## 1. 로그 레벨(Log Level)이란?
+Spring Boot의 로그 설정을 이해할 때 `TRACE`, `DEBUG`, `INFO` 같은 이름부터 외우면 패키지별 설정이 왜 먹고 안 먹는지 헷갈리기 쉽다. 먼저 두 축을 잡는 편이 낫다.
 
-**로그 레벨(Log Level)**은 로그 메시지의 **중요도**를 나타내는 지표이다.
-로깅 시스템은 이 레벨을 기준으로 로그를 **기록할지 여부를 결정**하며,
-프로그램의 상태를 추적하고 문제를 분석하는 데 사용된다.
+```text
+Logger 이름 계층
+root
+└─ com
+   └─ example
+      └─ myapp
+         └─ payment
 
-Spring Boot는 별도 설정이 없으면 **Logback(SLF4J 구현체)**을 기본 로깅으로 사용한다.
-따라서 이 글에서 다루는 레벨과 동작은 Spring Boot 기본 환경, 즉 Logback 기준이다.
+각 Logger에 적용되는 Threshold
+TRACE < DEBUG < INFO < WARN < ERROR
+```
 
-## 2. 로그 레벨 종류
+실제 로그 출력 여부는 **어떤 Logger에서 메시지가 발생했는가**와 **그 Logger에 최종적으로 적용된 Threshold가 무엇인가**의 조합으로 결정된다.
 
-Logback(및 SLF4J)이 정의하는 표준 로그 레벨은 아래 5가지이며, 낮은 쪽에서 높은 쪽 순서다.
-여기에 로그를 아예 끄는 `OFF`가 임계값으로 추가된다.
+Spring Boot 기본 스타터 환경에서는 SLF4J API와 Logback 구현체 조합을 사용한다. 이 글은 그 기본 구성을 기준으로 한다.
 
-### TRACE
+## 먼저 Logger 이름과 레벨을 분리해서 본다
 
-* **가장 상세한 로그 레벨**
-* 애플리케이션의 **실행 흐름과 디버깅 정보**를 세밀하게 기록한다.
-* 깊은 디버깅이 필요할 때만 켠다.
+코드가 다음과 같다고 하자.
 
-### DEBUG
+```java
+private static final Logger log =
+    LoggerFactory.getLogger(PaymentService.class);
+```
 
-* **디버깅 목적**으로 사용된다.
-* 개발 단계에서 애플리케이션의 **내부 동작을 분석**할 때 유용하다.
-* 예: 변수 값, 함수 호출 순서 등 상세한 정보 출력.
+이 Logger의 이름은 보통 클래스의 FQCN인 다음 값이다.
 
-### INFO
+```text
+com.example.myapp.payment.PaymentService
+```
 
-* **정보성 메시지**를 기록한다. Spring Boot의 기본 루트 레벨이 `INFO`다.
-* 시스템의 **정상적인 동작 흐름**이나 주요 이벤트를 전달한다.
-  예: 서비스 시작, 종료, 주요 프로세스 완료 등.
-
-### WARN
-
-* **경고성 메시지**를 기록한다.
-* 프로그램이 정상 동작 중이지만, **주의가 필요한 잠재적 문제**를 알린다.
-  예: 예상치 못한 입력값, 일시적 네트워크 장애 등.
-
-### ERROR
-
-* **오류 메시지**를 기록한다. Logback에서 가장 높은 심각도 레벨이다.
-* 애플리케이션의 **정상 동작에 영향을 주는 문제**를 나타낸다.
-  예: 예외 발생, 실패한 데이터 처리 등.
-
-> **FATAL은 Logback에 없다.**
-> `FATAL`은 Log4j 1.x 시절의 잔재로, SLF4J/Logback에는 존재하지 않는 레벨이다.
-> Spring Boot 기본 환경에서 코드나 설정에 `FATAL`을 쓰면 Logback은 이를 `ERROR`로 매핑해 처리한다.
-> 그래서 Spring Boot에서 실제로 다루는 레벨은 `TRACE`·`DEBUG`·`INFO`·`WARN`·`ERROR` 5가지로 생각하면 된다.
-{: .prompt-warning }
-
-## 3. 임계값(Threshold) 동작 방식
-
-설정한 로그 레벨은 **임계값**으로 동작한다.
-즉 설정된 레벨보다 **중요도가 같거나 높은 로그만 기록**되고, 낮은 로그는 걸러진다.
-
-> 루트 레벨이 `INFO`로 설정되어 있으면
-> `TRACE`, `DEBUG`는 기록되지 않지만,
-> `INFO`, `WARN`, `ERROR`는 기록된다.
-
-## 4. Spring Boot에서 레벨 설정하기
-
-Spring Boot에서는 `logback-spring.xml` 같은 별도 설정 파일 없이
-`application.yml`(또는 `application.properties`)만으로 로그 레벨을 제어할 수 있다.
-핵심은 두 가지 프로퍼티다.
-
-* `logging.level.root` — 전체 기본(루트) 레벨
-* `logging.level.<패키지 또는 로거 이름>` — 특정 패키지·클래스에만 적용하는 레벨
-
-패키지별 설정은 루트 설정을 덮어쓴다. 따라서 전체는 조용히(`INFO`) 두고
-내가 파고들 패키지만 `DEBUG`로 여는 식으로 쓰는 게 실무 패턴이다.
-
-### application.yml 예시
+설정은 이 이름의 상위 계층에 걸 수 있다.
 
 ```yaml
 logging:
   level:
-    root: INFO                        # 전체 기본 레벨
-    org.springframework.web: DEBUG    # 스프링 웹 관련만 상세히
-    org.hibernate.SQL: DEBUG          # 실행되는 SQL 확인
-    com.example.myapp.payment: TRACE  # 내가 디버깅 중인 결제 모듈만 최상세
+    root: INFO
+    com.example.myapp: DEBUG
+    com.example.myapp.payment: TRACE
 ```
 
-### application.properties로 쓰면
+따라서 실제 적용은 대략 다음처럼 내려간다.
+
+```text
+root = INFO
+  ↓
+com.example.myapp = DEBUG
+  ↓
+com.example.myapp.payment = TRACE
+```
+
+더 구체적인 Logger 설정이 상위 설정을 override한다.
+
+## Threshold는 최소 출력 레벨이다
+
+로그 레벨은 중요도 순서를 가진다.
+
+```text
+TRACE < DEBUG < INFO < WARN < ERROR
+```
+
+설정한 레벨은 **최소 통과 기준(Threshold)** 으로 동작한다.
+
+예를 들어:
+
+```text
+Logger Threshold = INFO
+```
+
+라면:
+
+```text
+TRACE  → drop
+DEBUG  → drop
+INFO   → output
+WARN   → output
+ERROR  → output
+```
+
+즉 `INFO`는 "INFO만 출력"이 아니라 **INFO 이상을 출력**한다는 뜻이다.
+
+## 레벨별 의미는 운영 판단을 위한 약속이다
+
+레벨의 기술적 차이는 순서뿐이지만, 의미를 일관되게 써야 운영 시 필터링이 유용해진다.
+
+| 레벨 | 주 용도 |
+|---|---|
+| `TRACE` | 매우 세밀한 실행 흐름·반복 내부 상태 |
+| `DEBUG` | 개발·문제 분석용 내부 상태 |
+| `INFO` | 정상 운영에서 남길 주요 상태 변화 |
+| `WARN` | 처리는 계속되지만 확인이 필요한 이상 신호 |
+| `ERROR` | 요청·작업 실패 등 실제 오류 |
+
+예를 들어 재시도 가능한 일시적 네트워크 실패를 무조건 `ERROR`로 찍으면 장애가 아닌 상황에서도 Error 로그가 넘친다. 반대로 실제 데이터 저장 실패를 `INFO`로 남기면 운영 Alert 기준을 잡기 어렵다.
+
+따라서 로그 레벨은 단순 중요도 숫자가 아니라 **운영자가 무엇을 필터링하고 Alert로 연결할지에 대한 계약**에 가깝다.
+
+## root와 패키지별 설정은 이렇게 결합된다
+
+운영에서는 전체 애플리케이션을 `DEBUG`로 여는 대신 root를 비교적 조용하게 두고 필요한 영역만 낮은 Threshold로 연다.
+
+```yaml
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    com.example.myapp.payment: TRACE
+```
+
+이 설정을 계층으로 보면:
+
+```text
+전체
+→ INFO 이상
+
+org.springframework.web
+→ DEBUG 이상
+
+org.hibernate.SQL
+→ DEBUG 이상
+
+com.example.myapp.payment
+→ TRACE 이상
+```
+
+즉 특정 패키지 설정은 root를 삭제하는 것이 아니라 **그 하위 Logger의 Threshold를 더 구체적으로 override**한다.
+
+## 실제 로그 호출과 통과 여부
+
+```java
+log.trace("payment flow entered");
+log.debug("request={}", request);
+log.info("payment completed id={}", paymentId);
+log.warn("gateway response delayed");
+log.error("payment failed", exception);
+```
+
+`payment` Logger가 `TRACE`라면 전부 출력된다.
+
+반대로 `INFO`라면:
+
+```text
+trace → 제외
+debug → 제외
+info  → 출력
+warn  → 출력
+error → 출력
+```
+
+이 원리 하나로 대부분의 로그 레벨 동작을 설명할 수 있다.
+
+## OFF와 FATAL의 위치
+
+Logback에는 일반 애플리케이션 로그 레벨로 다음 다섯 단계가 있다.
+
+```text
+TRACE / DEBUG / INFO / WARN / ERROR
+```
+
+`OFF`는 Logger 출력을 끄기 위한 특수 레벨이다.
+
+SLF4J의 표준 Logger API에는 `fatal()` 메서드가 없고 Logback도 별도 `FATAL` 레벨을 제공하지 않는다. 다른 로깅 생태계에서 `FATAL`이라는 이름을 볼 수 있지만, Spring Boot + SLF4J + Logback 기본 조합에서는 `ERROR`가 가장 높은 일반 로그 레벨이라고 보면 된다.
+
+## application.properties라면 같은 구조다
 
 ```properties
 logging.level.root=INFO
@@ -100,20 +184,53 @@ logging.level.org.hibernate.SQL=DEBUG
 logging.level.com.example.myapp.payment=TRACE
 ```
 
-위 설정에서 `com.example.myapp.payment` 패키지는 `TRACE`까지 모두 남지만,
-그 외 대부분의 코드는 루트 레벨 `INFO`가 적용되어 `DEBUG` 이하가 걸러진다.
+YAML과 표현 방식만 다를 뿐 Logger 계층과 Threshold 원리는 동일하다.
 
-## 5. 요약
+## 운영에서는 어디까지 열까
 
-| 로그 레벨 | 설명              | 사용 시점         |
-| ----- | --------------- | ------------- |
-| TRACE | 가장 상세한 실행 흐름 기록 | 디버깅 심화 단계     |
-| DEBUG | 내부 동작 상세 분석     | 개발 단계         |
-| INFO  | 주요 동작 정보 (기본값)  | 운영 중 정상 흐름 확인 |
-| WARN  | 경고 메시지          | 잠재적 문제 감지     |
-| ERROR | 오류 발생           | 예외 및 장애 처리    |
+기본 원칙은 다음처럼 잡을 수 있다.
 
-* Spring Boot 기본 로깅은 Logback이며, 표준 레벨은 위 5가지다.
-* `FATAL`은 Logback에 없다 — Log4j 1.x 잔재이고 Logback에선 `ERROR`로 매핑된다.
-* 레벨은 임계값으로 동작한다. 설정 레벨보다 같거나 높은 로그만 기록된다.
-* 설정은 `application.yml`의 `logging.level.root`와 `logging.level.<패키지>`로 제어한다.
+```text
+평상시
+root = INFO
+
+문제 분석
+특정 패키지만 DEBUG
+
+아주 세밀한 추적
+아주 좁은 범위만 TRACE
+```
+
+전체 root를 장시간 `DEBUG`나 `TRACE`로 두면 로그 I/O, 저장량, 검색 비용이 크게 늘 수 있고 민감 정보가 로그에 노출될 가능성도 커진다.
+
+따라서 범위를 좁혀 켜고 문제 분석이 끝나면 다시 원래 레벨로 돌리는 편이 좋다.
+
+## 정리
+
+Spring Boot 로그 레벨은 두 축으로 이해하면 된다.
+
+```text
+어디에서 발생했나?
+→ Logger 이름 계층
+
+어느 정도 이상을 남길까?
+→ Threshold
+```
+
+그리고 최종 출력 여부는 다음처럼 결정된다.
+
+```text
+로그 메시지
+   ↓
+Logger 이름 확인
+   ↓
+가장 구체적인 설정 탐색
+   ↓
+최종 Threshold 결정
+   ↓
+메시지 레벨 >= Threshold ?
+├─ yes → 출력
+└─ no  → 제외
+```
+
+이 구조를 이해하면 `root`, 패키지별 로그 레벨, `TRACE~ERROR`를 각각 따로 외울 필요가 없다.
