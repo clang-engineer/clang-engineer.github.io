@@ -1,134 +1,186 @@
 ---
-title       : "셸 로드맵 — 스크립트를 배워 직접 짤 수 있게 되는 순서"
-description : "첫 스크립트를 띄우고(shebang·권한·PATH), 문법 줄기를 한 장으로 잡고, 실전 관용구로 도구를 짜는 데까지 — '셸 스크립트를 배워 직접 짤 수 있게'를 목표로 이 블로그의 셸 글을 큐레이션. 인터랙티브 기본(파이프·리다이렉션)은 전용 글이 없어 정직하게 비워 두고, 환경 관리·일상 속도·세션 지속/원격은 결이 다른 축이라 부록으로 분리."
+title       : "셸 로드맵 — 첫 스크립트부터 환경 관리까지"
+description : "첫 스크립트 실행 → Bash 문법 → CLI 인터페이스 → 환경 관리와 dotfiles → 세션·원격으로 이어지는 현재 셸 문서 지도를 정리한다. 삭제된 레거시 글을 제거하고 실제 남아 있는 문서만 연결한다."
 date        : 2026-07-03 14:30:00 +0900
-updated     : 2026-08-26 08:00:00 +0900
+updated     : 2026-09-05 21:14:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, shell, zsh, bash]
 pin         : false
 hidden      : false
 ---
 
-셸은 매일 쓰지만 대부분 "명령어 몇 개"에서 멈춘다. 이 로드맵의 목표는 딱 하나 — **셸 스크립트를 배워서 직접 짤 수 있게** 되는 것이다. 명령을 파일 하나로 묶어 실행하는 첫걸음(시작)부터, 스크립트 문법(줄기), 실전 관용구로 도구를 짜는 데까지 한 줄기로 묶었다. 본인 위치에서 가까운 단계부터 진입하면 된다.
+이 로드맵은 셸을 **명령어 모음이 아니라 작업 환경과 자동화 도구를 잇는 층**으로 본다.
 
-스크립트 작성과 **결이 다른 축** — 셸 환경을 코드로 관리하기, 일상 이동·탐색 속도, 세션 지속·원격 환경 — 은 아래 **부록**으로 분리했다. 스크립트를 배우는 흐름과 별개로, 필요할 때 찾아 들어오면 된다.
+중심 줄기는 다음과 같다.
 
-> **먼저 — 이 로드맵의 진짜 선행은 "인터랙티브 셸 사용"인데, 그 글이 아직 없다.** 파이프(`\|`)·리다이렉션(`> >> 2>&1`)·명령 치환(`$(...)`)·글로빙(`*`) 같은, 스크립트를 짜기 전에 손에 익어야 할 기본. 이 자리를 다른 글로 억지로 메우지 않고 비워 둔다. 지금은 외부 자료(예: *The Linux Command Line*)로 채우고, 아래 시작 단계로 넘어오면 된다.
-{: .prompt-warning }
+```text
+명령을 파일로 실행
+        ↓
+Bash 문법 이해
+        ↓
+CLI 인터페이스 설계
+        ↓
+환경을 선언적으로 관리
+        ↓
+세션·원격 환경까지 확장
+```
 
-## 한눈에 보기
+파이프·리다이렉션·글로빙·`grep`/`awk` 같은 인터랙티브 셸 기본기는 아직 별도 본문이 충분하지 않다. 없는 글을 억지로 로드맵에 끼워 넣지 않고 빈 영역으로 둔다.
 
-시작에서 첫 스크립트를 띄우고, 1·2단계로 문법과 실전을 얹는 게 "스크립트를 짤 수 있게" 되는 학습 줄기다.
-
-| 구역 | 무엇을 다루나 | 성격 |
-|---|---|---|
-| 시작 | 첫 스크립트 만들고 실행 — shebang·권한·PATH | 줄기 |
-| 1단계 | 스크립트 문법 줄기 — 한 장으로 잡기 | 줄기 |
-| 2단계 | 실전 관용구로 도구 짜기 | 줄기 |
-| 부록 A | 환경 — 초기화 이해·dotfiles·Brewfile·direnv | 다른 축 |
-| 부록 B | 일상 이동·탐색 속도 — zoxide 등 | 다른 축 |
-| 부록 C | 셸 밖 — 세션·프로세스 지속·원격 환경 | 다른 축 |
-
-## 시작 — 첫 스크립트 만들고 실행하기
-
-명령을 한 줄씩 치던 데서, 파일 하나로 묶어 실행하는 문턱을 넘는 단계. 여기가 안 잡히면 문법을 배워도 "만든 스크립트가 왜 실행이 안 되지"에서 막힌다.
+## 1. 시작 — 첫 스크립트를 실행한다
 
 | 글 | 핵심 |
 |---|---|
-| [첫 셸 스크립트 만들고 실행하기 — shebang·실행 권한·PATH](/posts/shell/2026-07-04-first-shell-script/) | shebang이 인터프리터를 고르는 법, `chmod +x` 실행 권한, `./script.sh`의 `./`가 필요한 이유, PATH 등록으로 어디서나 실행, permission denied·command not found·CRLF 함정 |
+| [첫 셸 스크립트 만들고 실행하기](/posts/shell/2026-07-04-first-shell-script/) | shebang, 실행 권한, `./`, PATH, CRLF 같은 첫 실행 단계의 함정 |
 
-실행 골격을 잡았으면, 이제 그 안을 채우는 문법이다.
+여기서 중요한 것은 문법보다 **실행 모델**이다.
 
-## 1단계 — 스크립트 문법 줄기
+```text
+파일 생성
+→ 어떤 인터프리터가 읽는가
+→ 실행 권한이 있는가
+→ 셸이 그 파일을 어디서 찾는가
+```
 
-스크립트를 짤 수 있게 되는 출발점. 문법 줄기를 한 장으로 잡고, 다음 단계의 각론이 여기에 매달린다. 이 글 하나가 로드맵의 줄기다.
+이 바닥이 잡혀야 다음의 문법이 실제 스크립트로 이어진다.
 
-| 글 | 핵심 |
-|---|---|
-| [셸 스크립트 문법 종합 가이드 (bash 기준, zsh 차이 표기)](/posts/shell/2026-07-03-bash-syntax-guide/) | 변수·인용·파라미터 확장·`[[ ]]`·제어 흐름·함수·배열·확장 순서·`set -euo pipefail`을 한 장에. 2단계 각론이 매달리는 줄기 |
-
-> 📎 **치트시트** · [shell](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/shell.md) · [zsh](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/zsh.md) — bash `set` 옵션·`&&`/`||`·잡 관리 / zsh 단축키·glob 빠른 참조 (GitHub)
-{: .prompt-tip }
-
-인용·파라미터 확장·`set -euo pipefail`을 여기서 손에 익히면, 다음 단계의 실전 글이 "왜 이렇게 쓰나"까지 함께 읽힌다.
-
-## 2단계 — 실전 관용구로 도구 짜기
-
-문법 줄기를 잡았으면, 한 번 칠 명령을 여러 번 재현 가능하게, 그리고 남이 쓸 수 있는 도구로 만드는 단계. 실제 스크립트를 짜며 부딪히는 관용구들이다.
+## 2. 문법 — Bash 줄기를 잡는다
 
 | 글 | 핵심 |
 |---|---|
-| [셸로 파일명·문자열 일괄 변경하기](/posts/shell/2021-10-13-shell-script/) | bash 파라미터 확장·sed·brew rename·`find -exec`로 다수 파일의 이름·경로·내용을 한 번에. 문법 가이드의 파라미터 확장이 실전으로 + `-exec` vs `\| xargs` 갈림길(언제 무엇을 쓰나) |
-| [CLI 인자 컨벤션 — positional과 --flag는 왜 섞어 쓰나](/posts/shell/2026-06-10-cli-positional-vs-flag/) | 위치 인자와 옵션 플래그의 역할 분담, bash 파싱 최소 패턴, env var와의 비교. "남이 쓸 도구"로 만드는 인터페이스 설계 |
+| [셸 스크립트 문법 종합 가이드](/posts/shell/2026-07-03-bash-syntax-guide/) | 변수·인용·파라미터 확장·조건·반복·함수·배열·확장 순서·`set -euo pipefail` |
 
-> 📎 **치트시트** · [sed-awk](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/sed-awk.md) — sed 치환·삽입·삭제 / awk 필드·집계 빠른 참조 (GitHub)
+문법을 외우는 게 목적이 아니라 다음 질문에 답할 수 있으면 된다.
+
+```text
+값은 언제 확장되는가
+공백은 언제 인자를 쪼개는가
+조건식은 어떤 셸 문법을 쓰는가
+실패를 어디까지 전파할 것인가
+```
+
+> 📎 **치트시트** · [shell](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/shell.md) · [zsh](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/zsh.md)
 {: .prompt-tip }
 
-여기까지 오면 일회성 명령을 넘어, 인자를 받고 반복을 처리하는 **도구다운 스크립트**를 직접 짤 수 있다.
-
-### 이 줄기가 아직 다루지 않는 것 (이 블로그 기준)
-
-"직접 짤 수 있게"의 경계 밖이거나 아직 전용 글이 없어 여기선 비워 둔 것들. 학습하다 부딪히면 이건 다른 자료로 채워야 한다는 표시다.
-
-- **스크립트 디버깅** — `set -x`(실행 트레이스), `bash -x script.sh`, [shellcheck](https://www.shellcheck.net/) 정적 검사. 문법 가이드의 `set -euo pipefail`은 *견고성* 헤더이지 디버깅 도구가 아니다. 이것도 아직 안 다룬다.
-- **텍스트 처리 본론** — grep·awk·cut·sort 조합. sed만 [파일명·문자열 일괄 변경](/posts/shell/2021-10-13-shell-script/)에 잠깐 나올 뿐, 전용 글이 없다.
-
----
-
-## 부록 A — 환경을 코드로 관리 (다른 축)
-
-여기서부터는 "스크립트를 짜는 법"이 아니라 **셸 환경 자체를 이해하고 코드로 관리**하는 축이다. 학습 줄기와 분리해 둔다. 새 머신을 받았을 때 가장 크게 갈리는 지점이라 별도로 챙길 값어치가 있다. 초기화 파일이 언제 무엇을 읽는지(이해)부터, 그 설정을 코드로 재현하는 법(관리)까지.
+## 3. CLI로 만들기 — 남이 쓸 수 있는 인터페이스
 
 | 글 | 핵심 |
 |---|---|
-| [/etc/profile, /etc/bashrc, ~/.bash_profile, ~/.bashrc](/posts/shell/2022-07-19-bashrc-profile/) | login/non-login × interactive/non-interactive 두 축으로 본 초기화 파일 로딩 순서. zsh 매핑까지. "왜 내 `.bashrc`가 안 먹히지"의 답 — 환경을 코드로 관리하기 전에 잡아야 할 이해 |
-| [direnv 사용법 정리](/posts/shell/2026-02-21-direnv/) | 디렉토리 진입 시 `.envrc`로 환경변수 자동 로드. 셸 레벨 direnv vs 앱 레벨 dotenv의 역할 분담 |
-| [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](/posts/shell/2026-07-03-dotfiles-symlink-management/) | 설정을 git 한곳에 모으고 홈으로 심볼릭 링크. 멱등 링크 헬퍼, bootstrap 구조, GNU stow 대안, 시크릿 분리 |
-| [Homebrew Brewfile로 패키지 선언적으로 관리하기](/posts/shell/2026-07-03-homebrew-brewfile-bundle/) | `dump`로 덤프 → `bundle`로 재설치 → `cleanup`으로 정리 → `check`로 검증. Brewfile 문법과 dotfiles 버전관리 |
+| [CLI 인자 컨벤션 — positional과 --flag는 왜 섞어 쓰나](/posts/shell/2026-06-10-cli-positional-vs-flag/) | 위치 인자·옵션·환경변수의 역할을 나눠 CLI 인터페이스를 설계 |
 
-> **dotfiles를 축으로 깊게 파려면 → [dotfiles 로드맵](/posts/shell/2026-07-08-dotfiles-roadmap/).** 위 심링크·Brewfile을 한곳에 모으기 → 설치도 선언적으로 → 머신 분기(런타임 심링크 vs chezmoi 렌더)의 순서로 묶고, chezmoi 사용법·SSH 계정 분리·새 맥 셋업까지 연결한다. 이 부록은 그 로드맵의 입구다.
-{: .prompt-tip }
+스크립트가 일회성 명령 묶음을 넘어서면 입력 인터페이스가 필요하다.
 
-dotfiles의 bootstrap·멱등 링크 헬퍼는 1~2단계에서 배운 스크립팅이 실제로 쓰이는 지점이기도 하다 — 학습이 끝났다면 스크립트로 자기 환경을 재현하는 첫 실전으로 삼기 좋다. 새 머신 셋업 흐름 전체는 [macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)의 *시스템 운영* 갈래와 함께 보면 된다.
+```text
+필수 대상
+→ positional
 
-## 부록 B — 일상 이동·탐색 속도 (다른 축)
+선택 동작
+→ --flag / --option
 
-매일 반복하는 이동·탐색의 마찰을 줄이는 도구 축. 스크립트 학습과 무관하게 삶의 질을 올린다. 비슷해 보이는 도구라도 역할을 분리하면 겹침이 줄어든다.
+환경별 기본값
+→ environment variable
+```
 
-| 도구/글 | 역할 |
-|---|---|
-| [zoxide로 디렉토리 이동 빠르게 — autojump 대체](/posts/shell/2026-07-03-zoxide-directory-jump/) | **자주 가는 디렉토리 점프.** 방문 기록(frecency)으로 `z`/`zi` 이동. 목적지를 대충 알고 있을 때 가장 빠르다. |
-| [fzf 치트시트](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/fzf.md) | **범용 fuzzy picker.** `Ctrl+R` 히스토리, `Ctrl+T` 경로 삽입, `Alt+C` 디렉토리 선택뿐 아니라 `git branch \| fzf`, `rg ... \| fzf`처럼 어떤 목록에도 붙인다. 파일 관리 앱이라기보다 선택 엔진에 가깝다. |
-| Atuin | **셸 히스토리 전용 검색.** 도입한다면 `Ctrl+R`을 맡기고, fzf는 범용 picker로 남기는 구성이 자연스럽다. 디렉토리·종료 상태·실행 시간·호스트 같은 메타데이터까지 활용할 수 있다. |
-| [Yazi는 단순한 파일 탐색기가 아니다: 터미널 파일 관리와 확장 구조](/posts/shell/2026-09-04-yazi-terminal-file-manager/) | **터미널 파일 탐색/관리.** 파일시스템을 눈으로 돌아다니며 preview·복사·이동·rename을 하고, 종료 시 현재 셸 디렉토리까지 넘겨받는 용도. fzf의 `Ctrl+T`와 달리 picker가 아니라 file manager다. |
+이 단계부터 셸 스크립트는 개인 메모가 아니라 작은 도구가 된다.
 
-역할만 요약하면 **익숙한 경로는 zoxide, 과거 명령은 Atuin, 파일시스템을 둘러볼 때는 Yazi, 임의의 목록에서 하나를 고를 때는 fzf**다. Neovim의 파일/grep picker는 검색 결과를 바로 편집할 때 쓰면 되고, 파일 위치만 확인하려고 에디터를 한 번 거칠 필요는 없다.
+## 4. 환경 — 디렉터리와 패키지를 선언적으로 관리한다
 
-> 📎 **치트시트** · [modern-cli](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/modern-cli.md) · [fzf](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/fzf.md) — bat·eza·fd·zoxide·delta·tldr / fzf 셸 단축키·파이프 조합 빠른 참조 (GitHub)
-{: .prompt-tip }
-
-`cat`·`ls`·`find`·`grep`을 대체하는 모던 CLI(bat·eza·fd·ripgrep)까지 한 번에 보고 싶다면 [macOS CLI 개발 도구 모음](/posts/macos/2026-07-03-macos-cli-toolkit-brewfile/)에 Brewfile 기준으로 갈래별 정리해 두었다.
-
-## 부록 C — 셸 밖, 세션·프로세스 지속과 원격 (다른 축)
-
-셸을 로컬·상시 연결 밖에서 다룰 때 마주치는 벽. 프로세스를 셸 종료 뒤에도 살리고, 끊기는 원격 세션을 붙들고, 망 분리 환경에서 데이터를 옮기는 — 학습 흐름과 분리해, 같은 상황에서 막혔을 때 직행하는 글들.
+스크립팅과는 다른 축이지만 실제 셸 환경을 재현하려면 이 영역이 중요하다.
 
 | 글 | 핵심 |
 |---|---|
-| [셸 백그라운드 잡: &, nohup, disown, tmux의 차이](/posts/shell/2026-06-16-background-jobs-and-session/) | `&`로 띄운 프로세스가 셸 종료 시 같이 죽는지 — zsh와 bash 기본이 다르다. 확실히 살리는 4가지 방법. 창을 닫아도 프로세스를 살려 두려 할 때 |
-| [SSH Broken Pipe Error 해결 방법](/posts/shell/2025-03-21-ssh-broken-pipe-err/) | NAT·방화벽 idle timeout으로 끊기는 원인, `ServerAliveInterval`/`ClientAliveInterval`, TCPKeepAlive·tmux·mosh 비교 |
-| [바이너리 파일을 텍스트로 변환하여 복사 붙여넣기](/posts/shell/2024-11-27-move-binary-file-by-cp/) | 망 분리 환경에서 xxd·base64·certutil로 바이너리를 텍스트화해 옮긴 뒤 복원. split 분할 전송과 해시 무결성 검증 |
+| [direnv 사용법 정리](/posts/shell/2026-02-21-direnv/) | 디렉터리별 환경변수를 `.envrc`로 자동 로드 |
+| [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](/posts/shell/2026-07-03-dotfiles-symlink-management/) | 설정 파일을 한 저장소에서 관리하고 홈 디렉터리로 연결 |
+| [Homebrew Brewfile로 패키지 선언적으로 관리하기](/posts/shell/2026-07-03-homebrew-brewfile-bundle/) | 패키지 목록을 코드처럼 선언하고 재설치·검증 |
+| [chezmoi 사용 — source와 apply](/posts/shell/2026-07-08-chezmoi-usage-source-apply/) | dotfiles를 source state와 실제 홈 디렉터리로 분리해 관리 |
+| [chezmoi 전환 시 함정](/posts/shell/2026-07-08-chezmoi-migration-pitfalls/) | 기존 심볼릭 링크 기반 dotfiles에서 chezmoi로 옮길 때 생기는 문제 |
 
-> 📎 **치트시트** · [ssh](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/ssh.md) · [linux-process](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/linux-process.md) — ~/.ssh/config·keepalive / 프로세스·백그라운드 잡 빠른 참조 (GitHub)
-{: .prompt-tip }
+이 흐름은 다음처럼 볼 수 있다.
 
-프로세스를 셸 밖에서 오래 붙들어 두는 이야기는 자연히 터미널 멀티플렉서로 이어진다 — [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)과 함께 보면 좋다.
+```text
+환경변수
+→ direnv
 
----
+설정 파일
+→ dotfiles
 
-스크립트를 배우려는 사람은 이렇게 읽으면 된다:
+패키지
+→ Brewfile
 
-- **스크립트를 처음 짜본다면** 시작 단계로 실행 골격을 잡고, 1단계 문법 가이드를 줄기로, 2단계 관용구로 실제 도구를 짜 본다.
-- **인자 받고 반복 처리하는 도구까지** 짤 수 있으면 스크립트 학습의 한 바퀴는 끝이다.
+머신별 렌더링·배포
+→ chezmoi
+```
 
-그다음은 취향껏 — 환경을 코드로 재현하고 싶으면 부록 A, 일상 속도를 올리고 싶으면 부록 B, 세션 지속·원격에서 막히면 부록 C로. 터미널 안 공간 관리(세션·창)는 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/), 데스크톱 환경 전반은 [macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)과 함께 보면 개발환경을 한 번에 다룰 수 있다.
+단순 심볼릭 링크 방식과 chezmoi는 경쟁 관계라기보다 **복잡도 단계**가 다르다. 머신 분기가 거의 없으면 심볼릭 링크가 단순하고, 템플릿·머신별 차이가 커지면 chezmoi의 가치가 커진다.
+
+## 5. 일상 탐색 속도
+
+| 글 | 핵심 |
+|---|---|
+| [zoxide로 디렉토리 이동 빠르게](/posts/shell/2026-07-03-zoxide-directory-jump/) | 방문 기록의 frecency로 자주 가는 디렉터리 점프 |
+
+`zoxide`는 셸 문법이 아니라 **반복 이동의 마찰을 줄이는 도구**다.
+
+```text
+정확한 경로를 안다
+→ cd
+
+자주 갔던 목적지를 대충 기억한다
+→ zoxide
+
+목록에서 fuzzy 선택이 필요하다
+→ fzf 계열 도구
+```
+
+## 6. 프로세스와 세션 — 셸을 닫아도 작업을 남긴다
+
+| 글 | 핵심 |
+|---|---|
+| [백그라운드 작업과 세션 지속](/posts/shell/2026-06-16-background-jobs-and-session/) | `&`, job control, `nohup`, 세션 종료와 프로세스 생존, tmux와의 경계 |
+
+여기서는 명령 실행 자체보다 **프로세스가 어떤 세션에 묶여 있는가**가 핵심이다.
+
+```text
+현재 셸 안에서 잠깐 백그라운드
+→ & / jobs / fg / bg
+
+로그아웃 후에도 프로세스만 유지
+→ nohup 등
+
+작업 화면과 셸 상태까지 유지
+→ tmux
+```
+
+터미널 세션 자체를 더 깊게 보려면 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)으로 이어진다.
+
+## 아직 비어 있는 영역
+
+현재 문서셋 기준으로 다음은 아직 전용 글이 부족하다.
+
+- 파이프와 리다이렉션
+- `grep`·`awk`·`cut`·`sort` 중심 텍스트 처리
+- login / interactive shell 초기화 파일 전체 모델
+- `set -x`, ShellCheck 중심 디버깅
+- POSIX `sh`와 Bash/Zsh의 경계
+
+예전의 짧은 메모를 억지로 남겨 이 빈칸을 채우지 않는다. 필요성이 생기면 새 글을 현재 원칙에 맞춰 작성한다.
+
+## 어디서 시작할까
+
+```text
+셸 스크립트를 처음 만든다
+→ 첫 셸 스크립트
+→ Bash 문법 가이드
+→ CLI 인자 설계
+
+새 Mac에서 환경을 재현하고 싶다
+→ dotfiles
+→ Brewfile
+→ 필요하면 chezmoi
+
+명령을 오래 돌려야 한다
+→ background jobs
+→ tmux
+```
+
+이 로드맵은 **현재 실제로 남아 있는 문서만** 연결한다. 삭제된 단편 메모를 다시 링크해 지식 구조를 흐리지 않는다.
