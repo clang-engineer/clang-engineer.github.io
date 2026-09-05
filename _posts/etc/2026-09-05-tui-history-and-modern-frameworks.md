@@ -2,9 +2,9 @@
 title       : "TUI의 역사와 현대 프레임워크 — ncurses에서 OpenTUI까지"
 description : "터미널 UI(TUI)의 역사와 CLI와의 차이, ncurses에서 Bubble Tea·Ratatui·Textual·OpenTUI로 이어지는 현대 TUI 프레임워크의 흐름을 정리합니다."
 date        : 2026-09-05 11:50:00 +0900
-updated     : 2026-09-05 11:50:00 +0900
+updated     : 2026-09-05 11:58:00 +0900
 categories  : [etc, "terminal"]
-tags        : [tui, terminal, cli, ncurses, opentui, bubble-tea, ratatui, textual]
+tags        : [tui, terminal, cli, ncurses, opentui, bubble-tea, ratatui, textual, neovim]
 pin         : false
 hidden      : false
 ---
@@ -200,6 +200,50 @@ function App() {
 
 여기서 중요한 것은 "TUI에는 어떤 언어를 써야 한다"가 아니라 **각 언어마다 성숙한 TUI 생태계가 생겼다는 점**이다.
 
+## TUI가 다시 플랫폼이 되는 경우 — Neovim
+
+모든 TUI 프로그램이 Bubble Tea나 Ratatui 같은 범용 프레임워크를 사용하는 것은 아니다. `fzf`나 Neovim처럼 터미널 렌더링을 자체적으로 구현한 프로그램도 있다. 특히 Neovim은 여기서 한 단계 더 나아가, **자체 TUI 위에 다시 UI 생태계가 만들어진 사례**다.
+
+Neovim은 기본 실행 시 내장 terminal UI(TUI)를 사용하지만, Editor Core와 UI를 분리한 구조를 갖는다. UI는 `nvim_ui_attach()`로 연결할 수 있고, 같은 UI Protocol을 구현한 GUI Client도 Neovim에 붙을 수 있다.
+
+```text
+Terminal
+   ↑
+Neovim builtin TUI
+   ↑
+Neovim UI / Window / Buffer API
+   ↑
+vim.ui / nui.nvim / Snacks 등
+   ↑
+Plugin
+   ↑
+LazyVim 같은 배포판·구성
+```
+
+플러그인 개발자는 ANSI Escape Sequence나 터미널 좌표를 직접 다루지 않아도 `nvim_open_win()` 같은 Neovim API를 통해 Window, Buffer, Floating Window를 만들 수 있다. 그 위에서는 `nui.nvim` 같은 UI Library가 Popup, Layout, Menu, Input 같은 컴포넌트를 더 높은 수준으로 추상화한다.
+
+`vim.ui.select()`와 `vim.ui.input()`은 또 다른 형태의 추상화다. 플러그인은 "선택 UI가 필요하다"고만 요청하고, 실제 표현 방식은 사용자가 설치한 UI 구현체가 맡을 수 있다. `Snacks`, Telescope, Noice 같은 플러그인도 이런 Neovim UI 기반 위에서 더 높은 수준의 인터랙션을 제공한다.
+
+LazyVim은 이보다 한 단계 더 위에 있다. LazyVim 자체가 터미널을 그리는 TUI Framework는 아니며, **Neovim과 여러 Plugin을 조합해 완성된 개발 환경을 구성하는 배포판**에 가깝다. 그래서 LazyVim의 화면이 화려해 보여도 실제 렌더링의 바닥에는 Neovim의 내장 TUI가 있다.
+
+이 구조는 TUI 추상화가 한 방향으로만 끝나지 않는다는 점을 보여준다.
+
+```text
+Terminal 제어
+    ↓
+TUI Renderer
+    ↓
+Application UI API
+    ↓
+UI Library
+    ↓
+Plugin 생태계
+    ↓
+완성된 배포판
+```
+
+즉 Neovim은 단순한 TUI Application이면서 동시에 **다른 UI와 Plugin이 올라갈 수 있는 TUI Platform** 역할도 한다.
+
 ## 과거와 현재의 가장 큰 차이
 
 TUI의 변화는 다음처럼 정리할 수 있다.
@@ -254,6 +298,7 @@ C++        → FTXUI
 - GUI와 웹 시대에도 서버와 Unix 개발 도구 영역에서 계속 사용됐다.
 - 최근에는 `lazygit`, `k9s`, `btop`, `yazi` 같은 개발자 도구를 중심으로 Modern TUI가 다시 크게 성장했다.
 - 현재는 Go의 Bubble Tea, Rust의 Ratatui, Python의 Textual, TypeScript의 OpenTUI처럼 **언어별 대표 프레임워크가 존재한다.**
+- Neovim처럼 자체 TUI 위에 UI API와 Plugin 생태계가 다시 올라가면서 **TUI 자체가 하나의 Application Platform이 되는 경우**도 있다.
 - 특히 OpenTUI는 React/Solid와 컴포넌트 기반 UI 개념을 터미널로 가져오면서 TUI 개발 방식이 얼마나 현대화됐는지를 잘 보여준다.
 
 TUI는 오래된 기술이 다시 유행하는 것이 아니라, **오래된 인터페이스가 현대적인 UI 설계 방식과 만나 새로운 개발 플랫폼으로 진화하고 있는 것**에 가깝다.
@@ -265,4 +310,6 @@ TUI는 오래된 기술이 다시 유행하는 것이 아니라, **오래된 인
 - [Ratatui 공식 사이트](https://ratatui.rs/)
 - [Bubble Tea GitHub](https://github.com/charmbracelet/bubbletea)
 - [Textual 공식 문서](https://textual.textualize.io/)
+- [Neovim TUI](https://neovim.io/doc/user/tui/)
+- [Neovim UI Protocol](https://neovim.io/doc/user/api-ui-events/)
 - [ncurses](https://invisible-island.net/ncurses/)
