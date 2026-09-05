@@ -2,7 +2,7 @@
 title       : "터미널 로드맵 — TTY·PTY에서 현대 TUI까지"
 description : "터미널을 단순한 명령창이 아니라 하나의 입출력·렌더링 스택으로 이해하기 위한 학습 지도. TTY/PTY, termios, ANSI/VT, terminfo, curses를 거쳐 현대 TUI 프레임워크와 실제 애플리케이션 구조까지 바닥부터 올라간다."
 date        : 2026-09-05 12:30:00 +0900
-updated     : 2026-09-05 12:30:00 +0900
+updated     : 2026-09-05 12:55:00 +0900
 categories  : [terminal]
 tags        : [roadmap, terminal, tty, pty, termios, ansi, vt, terminfo, ncurses, tui]
 pin         : false
@@ -50,6 +50,8 @@ Terminal Emulator
 ```
 
 이 구조를 이해하면 `ssh`, `tmux`, 컨테이너의 `-t`, 터미널 resize 같은 현상이 한 계통으로 연결되기 시작한다.
+
+첫 글: [터미널은 무엇인가 — TTY에서 PTY까지](/posts/terminal/2026-09-05-terminal-tty-pty/)
 
 ## 3. stdin/stdout과 termios — 키 입력은 어떻게 앱까지 오는가
 
