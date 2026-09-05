@@ -1,7 +1,7 @@
 ---
 title       : Tailwind CSS + SCSS Modules 스타일링 기준
 description : Tailwind CSS를 기본 스타일링 수단으로 사용하고, 복잡한 CSS는 SCSS Modules로 보완하는 실무 기준
- date        : 2026-09-05 21:34:00 +0900
+date        : 2026-09-05 21:34:00 +0900
 updated     : 2026-09-05 21:34:00 +0900
 categories  : [javascript, "UI·스타일링"]
 tags        : [tailwindcss, scss, css-modules, styling]
