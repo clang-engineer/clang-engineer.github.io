@@ -1,97 +1,315 @@
 ---
-title       : Windows에서 Ubuntu 개발 환경 구축하기
-description : "wsl --install로 WSL2와 Ubuntu를 한 번에 올리고, Python·Node.js(nvm)·Docker 개발 환경을 세팅하는 절차. WSL1/2 차이와 apt Node를 피하는 이유까지."
+title       : "Windows에서 WSL 2 + Ubuntu 개발 환경 구축하기"
+description : "Windows에 wsl --install로 WSL 2와 Ubuntu를 설치하고 Linux 파일시스템에 프로젝트를 두는 이유, Python·Node.js·Docker 개발 환경을 구성할 때의 선택 기준을 단계별로 정리한다."
 date        : 2025-01-25 16:55:20 +0900
-updated     : 2026-07-03
+updated     : 2026-09-05 20:10:00 +0900
 categories  : [linux, "배포판·환경"]
-tags        : [ubuntu, windows]
+tags        : [ubuntu, windows, wsl, wsl2, how-to]
 pin         : false
 hidden      : false
 ---
 
-## 절차 
-1. WSL(Windows Subsystem for Linux) 활성화
-2. Ubuntu 설치
-3. 개발 환경 구축 (Python, Node.js, Docker, etc.)
+Windows에서 Linux 개발 환경이 필요할 때 WSL(Windows Subsystem for Linux)을 사용하면 별도 Linux PC 없이 Ubuntu 같은 배포판을 Windows와 함께 사용할 수 있다.
 
-## WSL(Windows Subsystem for Linux) 설치
-- Windows 10 이상에서는 WSL을 사용할 수 있습니다.
-- PowerShell을 관리자 권한으로 실행 후 아래 한 줄이면 WSL과 기본 배포판(Ubuntu)까지 한 번에 설치됩니다.
+현재 일반적인 개발 환경의 기본 선택은 **WSL 2**다.
 
-```sh
-wsl --install  # WSL을 설치하고 Ubuntu를 자동 설치합니다.
+```text
+Windows
+  ↓
+WSL 2 VM / Linux Kernel
+  ↓
+Ubuntu Userland
+  ↓
+Git / Python / Node / Docker CLI 등
 ```
 
-- 설치가 끝나면 재부팅한 뒤, 처음 Ubuntu를 실행할 때 사용자 이름과 비밀번호를 설정합니다.
+이 글의 목표는 WSL 자체를 설치하는 것에서 끝나지 않고 **프로젝트 파일 위치와 Runtime 설치 방식까지 일관된 개발 환경으로 잡는 것**이다.
 
-### WSL1 vs WSL2 — 지금은 WSL2가 기본
-- 요즘 `wsl --install`로 설치하면 배포판은 **WSL2**로 올라갑니다. 예전 방식(아래)은 WSL1 기능만 켜는 것이라 굳이 쓸 이유가 없습니다.
-- WSL1은 Linux 시스템 콜을 Windows 콜로 번역하는 방식이고, WSL2는 경량 VM 위에서 **진짜 Linux 커널**을 돌립니다. 그래서 Docker 같은 커널 기능에 의존하는 도구가 WSL2에서 제대로 동작합니다. 시스템 콜 호환성과 전반적인 성능도 WSL2가 낫습니다.
-- 다만 파일 I/O는 위치에 따라 다릅니다. WSL2는 리눅스 파일시스템(`~` 아래) 접근이 빠르고, Windows 쪽 경로(`/mnt/c/...`)를 오가는 접근은 오히려 느립니다. **프로젝트 파일은 `/mnt/c` 대신 리눅스 홈(`~`) 안에 두는 것이 성능상 유리합니다.**
+## 1. WSL 설치
 
-```sh
-# 설치된 배포판과 각 배포판의 WSL 버전 확인
-wsl -l -v
+Microsoft의 현재 설치 경로에서는 지원되는 Windows 10/11에서 관리자 PowerShell을 열고 다음 명령으로 시작할 수 있다.
 
-# 배포판을 WSL2로 바꾸거나, 기본 버전을 2로 지정
+```powershell
+wsl --install
+```
+
+기본적으로 WSL과 Ubuntu 배포판을 설치한다. 설치 후 재부팅이 필요한 경우 재부팅하고, 처음 Ubuntu를 실행하면 Linux 사용자 이름과 비밀번호를 만든다.
+
+다른 배포판을 선택하고 싶다면 먼저 목록을 확인한다.
+
+```powershell
+wsl --list --online
+```
+
+그다음:
+
+```powershell
+wsl --install -d <DistroName>
+```
+
+으로 설치한다.
+
+## 2. 실제로 WSL 2인지 확인
+
+```powershell
+wsl --list --verbose
+```
+
+예:
+
+```text
+  NAME      STATE           VERSION
+* Ubuntu    Running         2
+```
+
+새 설치는 WSL 2가 기본이지만 기존 배포판이 WSL 1이라면:
+
+```powershell
 wsl --set-version Ubuntu 2
+```
+
+으로 전환할 수 있다.
+
+앞으로 새 배포판의 기본 버전을 2로 두려면:
+
+```powershell
 wsl --set-default-version 2
 ```
 
-| 명령어 | 기능 | 비고 |
-| --- | --- | --- |
-| `wsl --install` | WSL을 설치하고 기본 배포판(Ubuntu)까지 WSL2로 자동 설치 | 현재 권장 방식 |
-| `Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux` | WSL1 기능만 활성화 | 배포판 미설치, WSL2 설정 별도 필요 — 특별한 이유 없으면 불필요 |
+을 사용한다.
 
+## 3. WSL 1과 WSL 2의 차이를 큰 그림으로 보기
 
-### Ubuntu 별도 설치가 필요한 경우
-- Microsoft Store에서 Ubuntu를 설치합니다.
+```text
+WSL 1
+Linux System Call
+   ↓ 변환
+Windows Kernel
 
-> [Microsoft Store - Ubuntu](https://apps.microsoft.com/search?query=ubunto+20.04&hl=ko-kr&gl=KR) <br>
-> [Microsoft Store - Windows Terminal Preview](https://apps.microsoft.com/detail/9n8g5rfz9xk3?hl=en-US&gl=KR)
+WSL 2
+Linux Application
+   ↓
+실제 Linux Kernel
+   ↓ 가상화 계층
+Windows
+```
 
-## 개발 환경 구축
-- Ubuntu에서 필요한 개발 환경을 구축합니다.
-- 먼저 패키지 목록을 최신화합니다.
+WSL 2는 실제 Linux kernel을 사용하기 때문에 Linux kernel 기능에 의존하는 개발 도구와의 호환성이 높다.
 
-```sh
+WSL 1이 완전히 쓸모없는 것은 아니지만 일반적인 최신 Linux 개발환경에서는 특별한 이유가 없다면 WSL 2부터 선택하면 된다.
+
+## 4. 프로젝트 파일은 Linux Filesystem에 둔다
+
+WSL 2에서 개발할 때 중요한 선택 중 하나다.
+
+```text
+권장
+~/workspace/project
+→ Linux Filesystem 안
+
+가능하지만 I/O 경계를 많이 넘음
+/mnt/c/Users/.../project
+→ Windows Filesystem 접근
+```
+
+Linux toolchain이 많은 파일을 읽고 쓰는 작업에서는 프로젝트를 Linux home 아래에 두는 편이 성능과 파일 권한 의미론에서 자연스럽다.
+
+```bash
+mkdir -p ~/workspace
+cd ~/workspace
+```
+
+Windows GUI editor를 쓰더라도 WSL remote integration을 지원하는 도구라면 **코드는 Linux 쪽에 두고 UI만 Windows에서 사용하는 방식**을 선택할 수 있다.
+
+## 5. Ubuntu 기본 Package 업데이트
+
+Ubuntu terminal에서:
+
+```bash
 sudo apt update
 sudo apt upgrade
 ```
 
-### Python
-- Python은 배포판 apt로 설치해도 무난합니다. Ubuntu에는 시스템 파이썬이 이미 깔려 있는 경우가 많고, `pip`와 `venv`만 챙기면 됩니다.
+을 실행한다.
 
-```sh
-sudo apt install python3 python3-pip python3-venv
+개발에 자주 필요한 기본 도구도 함께 준비할 수 있다.
+
+```bash
+sudo apt install -y \
+  build-essential \
+  curl \
+  git \
+  ca-certificates
 ```
 
-### Node.js — apt의 `nodejs`는 피하는 게 좋다
-- `sudo apt install nodejs npm`은 **배포판 저장소에 고정된 오래된 Node 버전**을 설치합니다. Ubuntu apt의 Node는 릴리스 시점에 묶여 갱신이 느려서, 최신 LTS보다 몇 버전씩 뒤처지기 일쑤입니다. 요즘 라이브러리들이 요구하는 Node 버전을 못 맞춰 설치가 막히는 일이 자주 생깁니다.
-- 그래서 개발용으로는 **nvm(Node Version Manager)**을 권장합니다. 버전을 여러 개 깔아두고 프로젝트마다 골라 쓸 수 있고, `sudo` 없이 사용자 홈에 설치돼 권한 문제도 없습니다.
+## 6. Python — System Python과 Project Environment를 구분한다
 
-```sh
-# nvm 설치 (설치 스크립트 버전 태그는 공식 저장소에서 최신 값 확인)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-# 셸을 다시 열거나 아래로 즉시 반영
-source ~/.bashrc
+Ubuntu는 시스템 자체가 Python package에 의존할 수 있으므로 system Python을 무작정 교체하기보다 배포판 package는 그대로 두고 프로젝트별 virtual environment를 사용하는 편이 안전하다.
 
-# 최신 LTS 설치 후 기본으로 지정
+```bash
+sudo apt install -y python3 python3-pip python3-venv
+```
+
+프로젝트에서는:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+처럼 격리한다.
+
+```text
+Ubuntu System Python
+→ OS / Distribution Package 영역
+
+Project venv
+→ 내가 설치하는 Python Dependency 영역
+```
+
+이 경계를 지키면 package 충돌을 줄일 수 있다.
+
+## 7. Node.js — 개발용 Version Manager를 우선한다
+
+Node 개발에서는 프로젝트마다 요구 major version이 다를 수 있다.
+
+따라서 단순히:
+
+```bash
+sudo apt install nodejs npm
+```
+
+로 한 버전을 시스템 전체에 고정하기보다 **Node Version Manager**를 사용하는 편이 개발환경에 잘 맞는다.
+
+예를 들어 nvm을 공식 설치 방법으로 준비한 뒤:
+
+```bash
 nvm install --lts
 nvm use --lts
 ```
 
-- 팀 표준을 시스템 전역에 하나로 고정하고 싶다면 **NodeSource** 저장소를 추가하는 방법도 있습니다. 원하는 메이저 버전을 명시해 설치할 수 있습니다.
+로 LTS를 사용할 수 있다.
 
-```sh
-# 예: Node 20.x 계열을 시스템에 설치
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
+프로젝트에 `.nvmrc`가 있다면:
+
+```bash
+nvm use
 ```
 
-### Docker
-- 간단히는 `sudo apt install docker.io`로도 되지만, WSL2 환경에서는 Windows용 **Docker Desktop**을 설치하고 WSL 통합을 켜는 방식이 흔합니다. 이 경우 Windows 쪽 Docker 엔진을 Ubuntu에서 그대로 쓸 수 있습니다.
+로 해당 버전을 선택한다.
 
-```sh
-sudo apt install docker.io
+```text
+System Package Manager
+→ OS 단위 Package 관리
+
+Node Version Manager
+→ 사용자/Project 단위 Runtime 버전 관리
 ```
+
+이라는 역할 차이로 이해하면 된다.
+
+팀에서 특정 Node major version을 시스템 package로 표준화하는 환경이라면 NodeSource 같은 별도 repository 정책을 사용할 수도 있지만, 개인 개발 WSL에서는 version manager가 더 유연하다.
+
+## 8. Docker — 두 방식을 섞지 않는다
+
+WSL 2에서 Docker를 사용할 때는 크게 두 접근이 있다.
+
+```text
+A. Docker Desktop for Windows + WSL Integration
+B. WSL Ubuntu 안에 Docker Engine 직접 설치
+```
+
+둘을 동시에 설치하면 어떤 daemon/socket을 사용하는지 헷갈릴 수 있으므로 **주 경로 하나를 선택**한다.
+
+### Docker Desktop + WSL Integration
+
+Windows에서 Docker Desktop을 사용한다면 WSL 2 backend와 Ubuntu distribution integration을 활성화한다.
+
+구조는:
+
+```text
+Ubuntu의 docker CLI
+        ↓
+Docker Desktop WSL Integration
+        ↓
+Docker Engine
+```
+
+이다.
+
+Docker 공식 문서도 이 방식을 사용할 때 WSL distribution 안에 별도의 Docker Engine/CLI 설치가 충돌을 만들 수 있으므로 기존 직접 설치본을 정리하라고 안내한다.
+
+### WSL 안에 Docker Engine 직접 설치
+
+Docker Desktop을 사용하지 않는 정책이라면 Ubuntu용 Docker Engine 설치 절차를 별도로 따른다.
+
+이 경우 단순 `docker.io` package 한 줄을 Docker Desktop 방식과 섞어 쓰지 않고 **Docker Engine 자체를 WSL Linux 서비스로 운영하는 구조**를 이해하고 구성한다.
+
+## 9. 상태 확인
+
+WSL 정보:
+
+```powershell
+wsl --status
+wsl --list --verbose
+```
+
+Ubuntu 안에서:
+
+```bash
+uname -a
+git --version
+python3 --version
+node --version
+```
+
+Docker를 구성했다면:
+
+```bash
+docker version
+```
+
+까지 정상인지 확인한다.
+
+## 10. 기본 개발 경로
+
+최종적으로 다음처럼 잡으면 단순하다.
+
+```text
+Windows
+├─ Browser / GUI Editor / Docker Desktop(선택)
+│
+└─ WSL 2
+    └─ Ubuntu
+        ├─ ~/workspace        ← Project 파일
+        ├─ Git
+        ├─ Python + venv
+        ├─ nvm + Node.js
+        └─ docker CLI         ← Docker Desktop 방식이면 Integration
+```
+
+Windows와 Linux가 서로 파일을 볼 수 있다는 이유로 모든 것을 섞기보다 **실제 개발 Runtime과 Source는 WSL Linux 쪽에 두고 Windows는 Host UI 역할로 사용하는 것**이 관리하기 쉽다.
+
+## 정리
+
+```text
+wsl --install
+   ↓
+WSL 2 / Ubuntu 확인
+   ↓
+Project는 Linux Filesystem에 배치
+   ↓
+System Package와 Project Runtime 역할 분리
+   ↓
+Python은 venv
+Node는 Version Manager
+Docker는 Desktop Integration 또는 Linux Engine 중 하나 선택
+```
+
+WSL 개발 환경의 핵심은 설치 명령 자체보다 **Windows와 Linux 사이의 경계를 어디에 둘지 일관되게 정하는 것**이다.
+
+## 참고
+
+- [Microsoft Learn — Install WSL](https://learn.microsoft.com/windows/wsl/install)
+- [Microsoft Learn — Basic commands for WSL](https://learn.microsoft.com/windows/wsl/basic-commands)
+- [Docker Docs — Docker Desktop WSL 2 backend](https://docs.docker.com/desktop/features/wsl/)
