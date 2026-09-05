@@ -1,127 +1,395 @@
 ---
-title       : RDB에서 조인(Join) 방식 총정리
-description : "Nested Loop·Hash·Sort-Merge JOIN의 원리와 시간 복잡도, 메모리 사용 패턴, 옵티마이저가 테이블 크기·인덱스·정렬 상태를 보고 어떤 전략을 고르는지."
+title       : "RDB JOIN 실행 전략 — Nested Loop·Hash·Merge를 언제 고르는가"
+description : "SQL JOIN이라는 논리 연산을 DB가 어떤 물리 알고리즘으로 실행하는지, Nested Loop·Hash·Merge Join의 입력 조건과 비용 특성, 그리고 Optimizer가 통계·인덱스·정렬·메모리를 보고 전략을 선택하는 흐름을 정리한다."
 date        : 2026-01-04 19:42:22 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-09-05 21:30:00 +0900
 categories  : [db, "RDB·트랜잭션"]
 tags        : [join]
 pin         : false
 hidden      : false
 ---
 
-조인 성능을 이해하려면 옵티마이저가 고를 수 있는 조인 방식부터 알아야 한다. 같은 `JOIN` 구문이라도 테이블 크기·인덱스·정렬 상태에 따라 전혀 다른 알고리즘으로 실행되고, 그 선택이 응답 시간을 좌우한다.
-
-## 1. Nested Loop Join (중첩 반복 조인)
-
-### 원리
-- 테이블 A의 각 행을 순회하면서, 테이블 B에서 조건에 맞는 행을 찾아 결합
-- 작은 테이블 A를 외부 루프, 큰 테이블 B를 내부 루프로 두는 것이 유리
-- 조인 키에 인덱스가 있으면 내부 루프 검색 비용이 급감 → Index Nested Loop Join
-- 인덱스가 왜/언제 타는지는 [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) 글에서 다룬다
-
-```sql
-SELECT *
-FROM A
-JOIN B ON A.id = B.a_id;
-```
-
-- **시간 복잡도**: 일반 O(N × M), 인덱스 사용 시 O(N × log M)
-- **메모리**: 작은 테이블만 메모리에 두고 큰 테이블은 순차 읽기 → 부담이 작음
-- **특징**: 구현이 단순하고 인덱스가 있으면 빠르지만, 큰 테이블끼리 조인하면 비효율적
-
-## 2. Hash Join
-
-### 원리
-- 작은 테이블로 해시 테이블을 만든 뒤, 큰 테이블을 순회하며 키를 매칭
+SQL에서 `JOIN`은 "두 Relation의 조건이 맞는 Row를 결합한다"는 **논리 연산**이다. 하지만 DB Engine은 이 논리 연산을 그대로 실행하지 않는다. 실제로는 두 입력에서 일치하는 Row를 **어떤 방식으로 찾을지** 결정해야 한다.
 
 ```text
-hash_table = {key: row for row in small_table}
-for row in large_table:
-    if row.key in hash_table:
-        output(row, hash_table[row.key])
+SQL JOIN
+  ↓
+"두 입력에서 일치하는 Row를 어떻게 찾을까?"
+  ↓
+Physical Join Algorithm
+├─ Nested Loop
+├─ Hash Join
+└─ Merge Join
+  ↓
+Cost-Based Optimizer가 입력 특성에 따라 선택
 ```
 
-- **시간 복잡도**: 해시 생성 O(N) + 순회 O(M) = O(N + M) — Nested Loop보다 훨씬 빠름
-- **메모리**: 작은 테이블 전체를 메모리에 올려야 함. 부족하면 데이터를 파티션으로 나눠 디스크를 쓰는 Grace/Partitioned Hash Join으로 전환
-- **특징**: 큰 테이블 조인에 강하지만 메모리가 부족하면 디스크 I/O가 발생
+따라서 JOIN 성능을 볼 때 핵심은 "어떤 JOIN 문법을 썼는가"가 아니라 **Optimizer가 어떤 물리 전략을 골랐고, 그 선택이 현재 입력 특성에 맞는가**다.
 
-## 3. Sort-Merge Join (정렬-병합 조인)
+## 먼저 세 알고리즘의 차이를 한 축에 놓는다
 
-### 원리
-- 두 테이블을 조인 키로 정렬한 뒤, 정렬된 상태에서 순차적으로 병합
+| 전략 | 핵심 아이디어 | 유리한 조건 | 주요 비용 |
+|---|---|---|---|
+| Nested Loop | 한쪽 Row마다 다른 쪽에서 매칭 Row 탐색 | 바깥쪽 입력이 작고 안쪽 탐색이 빠름 | 반복 탐색 비용 |
+| Hash Join | 한쪽으로 Hash Table을 만들고 다른 쪽을 Probe | Equality Join, 충분한 Memory | Hash Build·Memory·Spill |
+| Merge Join | 두 입력을 Join Key 순서로 맞춰 동시에 순회 | 입력이 정렬되어 있거나 정렬 비용이 감당됨 | Sort 비용 |
+
+세 전략은 서로의 "상위/하위"가 아니다. **같은 논리 JOIN을 실행하는 대안**이다.
+
+## 1. Nested Loop — 바깥쪽마다 안쪽을 찾는다
+
+가장 직관적인 방식이다.
+
+```text
+Outer Row 1
+  → Inner에서 매칭 찾기
+Outer Row 2
+  → Inner에서 매칭 찾기
+Outer Row 3
+  → Inner에서 매칭 찾기
+...
+```
+
+단순 형태는 다음과 같다.
+
+```text
+for outer_row in outer:
+    for inner_row in inner:
+        if join_condition:
+            emit(outer_row, inner_row)
+```
+
+두 입력을 매번 전부 비교한다면 비용은 대략 `O(N × M)`이다. 하지만 실제 RDBMS에서 Nested Loop가 강력한 이유는 **Inner 쪽을 매번 Full Scan하지 않을 수 있기 때문**이다.
+
+### Index Nested Loop
+
+Outer에서 한 Row를 읽고, Join Key로 Inner Index를 탐색한다.
+
+```text
+작은 Outer
+   ↓ 한 Row
+Join Key
+   ↓
+Inner Index Lookup
+   ↓
+매칭 Row
+```
+
+그래서 다음 조건에서 특히 강하다.
+
+- Outer 입력이 작다.
+- WHERE 조건으로 Outer가 크게 줄어든다.
+- Inner의 Join Key에 Selective한 Index가 있다.
+- 결과를 일부만 빨리 가져오면 된다.
+
+반대로 Outer가 커지고 Inner 탐색도 비싸면 같은 탐색을 반복하는 비용이 폭증한다.
+
+> Nested Loop의 핵심은 "작은 Table에 쓰는 방식"이 아니라 **Outer Row 수 × Inner Lookup 비용**이다.
+
+인덱스가 언제 유효한지는 [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/)에서 별도로 다룬다.
+
+## 2. Hash Join — 한쪽을 Hash Table로 만든다
+
+Equality Join에서는 반복 탐색 대신 한 입력을 Hash Table로 만들어 둘 수 있다.
+
+```text
+Build Input
+   ↓
+Hash Table 생성
+   ↓
+Probe Input 순회
+   ↓
+Join Key로 Hash Lookup
+   ↓
+매칭 Row 출력
+```
+
+개념적으로는 다음과 같다.
+
+```text
+hash_table = build(smaller_input)
+
+for row in probe_input:
+    match = hash_table[row.key]
+    if match:
+        emit(row, match)
+```
+
+평균적인 Hash Lookup이 상수 시간에 가깝다면 Build + Probe는 대략 `O(N + M)`으로 볼 수 있다.
+
+### 언제 강한가
+
+- Equality Join이다.
+- 양쪽 입력이 어느 정도 크다.
+- 유효한 Index Lookup으로 반복 탐색하는 것보다 한 번 Scan하는 편이 낫다.
+- Build Side가 Memory에 들어갈 수 있다.
+
+### Memory가 부족하면
+
+Hash Table이 Memory를 넘으면 DB는 Partition을 나누고 Temporary Disk를 사용할 수 있다.
+
+```text
+Memory 충분
+→ In-Memory Hash Join
+
+Memory 부족
+→ Partition
+→ Disk Spill
+→ 추가 I/O
+```
+
+그래서 Hash Join이 선택됐다는 사실만으로 빠르다고 판단하면 안 된다. `EXPLAIN ANALYZE`에서 실제 Row 수와 Spill 여부를 같이 본다.
+
+## 3. Merge Join — 두 정렬된 입력을 함께 전진한다
+
+두 입력이 Join Key 순서로 정렬되어 있다면 앞에서부터 동시에 읽으며 매칭할 수 있다.
+
+```text
+A: 1 2 4 7 9
+B: 1 3 4 4 8
+   ↑ ↑
+
+두 Cursor를 Join Key 비교 결과에 따라 전진
+```
+
+핵심은 "정렬된 상태"다.
+
+```text
+입력 A 정렬
+      +
+입력 B 정렬
+      ↓
+Merge
+```
+
+정렬이 이미 보장되어 있다면 Merge 자체는 선형적으로 진행할 수 있다. 하지만 정렬이 없다면 먼저 Sort 비용이 든다.
+
+```text
+Sort 비용
+O(N log N + M log M)
+        +
+Merge 비용
+O(N + M)
+```
+
+따라서 다음 경우에 후보가 되기 쉽다.
+
+- 입력이 Join Key 순서로 이미 정렬돼 있다.
+- Index Scan이 필요한 순서를 제공할 수 있다.
+- 큰 입력을 순차적으로 처리하는 편이 유리하다.
+- Equality뿐 아니라 일부 Range 성격의 조건에서도 정렬 관계를 활용할 수 있다.
+
+## 같은 데이터라도 전략이 달라지는 이유
+
+예를 들어 다음 JOIN이 있다고 하자.
 
 ```sql
 SELECT *
-FROM A JOIN B ON A.key = B.key
-ORDER BY A.key, B.key;
+FROM orders o
+JOIN customers c ON c.id = o.customer_id;
 ```
 
-- **시간 복잡도**: 정렬 O(N log N + M log M) + 병합 O(N + M)
-- **메모리**: 버퍼 단위로 처리. 부족하면 외부 정렬(External Sort) 후 디스크 사용
-- **특징**: 이미 정렬된(또는 인덱스로 정렬 순서가 보장된) 테이블이면 매우 빠르고, 병합 단계는 순차 I/O라 안정적
+SQL은 같아도 입력 조건에 따라 실행 전략은 달라질 수 있다.
 
-## 4. 분산/분할 조인
+### Case A — 최근 주문 10건만
 
-분산 환경에서는 네트워크 전송량이 병목이라 다음 전략으로 I/O를 줄인다.
+```text
+orders 10 Row
++ customers.id Index
+→ Nested Loop + Index Lookup이 자연스러움
+```
 
-- **Broadcast Join**: 작은 테이블을 모든 노드에 복제해 각 노드의 로컬 큰 테이블과 조인
-- **Semi-Join / Bloom Filter Join**: 큰 테이블에서 매칭되지 않을 행을 미리 걸러 네트워크 전송량을 최소화
+### Case B — 전체 주문 수천만 건 집계
 
-## 5. 시간/공간 복잡도 요약
+```text
+orders 대량
++ customers 전체와 Equality Join
+→ 반복 Index Lookup보다 Hash Join 후보가 강해짐
+```
 
-| 조인 방식 | 시간 복잡도 | 메모리 | 특징 |
-| --- | --- | --- | --- |
-| Nested Loop | O(N×M) | 작은 테이블 | 인덱스 있으면 개선 |
-| Hash Join | O(N+M) | 작은 테이블 | 큰 테이블 효율적, 메모리 초과 시 파티션 |
-| Sort-Merge Join | O(N log N + M log M) | 버퍼 단위 | 이미 정렬된 경우 강력 |
-| Broadcast Join | O(N + M/P) | 작은 테이블 | 분산 환경 최적화 |
-| Semi/Bloom Filter Join | O(N + M) | 작은 테이블 + 필터 | 네트워크 최적화 |
+### Case C — 두 입력이 Join Key 순으로 이미 정렬
 
-## 6. 메모리 최적화 원리
+```text
+추가 Sort 비용이 거의 없음
+→ Merge Join 후보가 올라옴
+```
 
-1. 작은 테이블은 메모리에, 큰 테이블은 순차 스캔
-2. 조인 키 기준 **파티셔닝**으로 메모리 부담 분산
-3. 결과를 버퍼 단위로 순차 반환하는 **스트리밍 처리**
-4. 메모리 초과 시 **임시 디스크** 파티션 활용
+즉 "큰 Table이면 Hash Join"처럼 외우기보다 **입력 크기·접근 방식·정렬 상태·메모리**를 같이 본다.
 
-> 핵심: "한 번에 다 올리지 않고, 필요한 부분만 메모리에 올리고 나머지는 디스크/스트리밍으로 처리"
+## Optimizer가 무엇을 보고 고르나
 
-## 7. 옵티마이저는 조인 전략을 어떻게 고르나
+Cost-Based Optimizer(CBO)는 후보 실행계획의 예상 비용을 비교한다.
 
-현대 RDBMS는 쿼리 실행 전에 Cost-Based Optimizer(CBO)로 후보 조인 방식들의 예상 비용을 계산해 최소 비용 전략을 고른다. 조인 관점에서 그 선택을 가르는 요소만 추리면 다음과 같다.
+```text
+SQL
+ ↓
+통계 기반 Row 수 추정
+ ↓
+Access Path 후보
+ ↓
+Join Order 후보
+ ↓
+Join Algorithm 후보
+ ↓
+예상 Cost 비교
+ ↓
+Execution Plan 선택
+```
 
-- **테이블 크기**: 작은 테이블끼리면 Nested Loop, 큰 테이블이 끼면 Hash / Merge Join 쪽으로 기운다.
-- **인덱스 존재**: 조인 키에 인덱스가 있으면 Index Nested Loop가 후보로 올라온다.
-- **메모리 용량**: Hash Join은 작은 테이블 전체를 올려야 하므로 가용 메모리가 선택을 좌우한다.
-- **정렬 여부**: 입력이 이미 조인 키로 정렬돼 있으면 Merge Join의 정렬 비용이 사라진다.
-- **필터 조건**: WHERE/JOIN 조건으로 한쪽 스캔 범위가 크게 줄면 Nested Loop가 유리해진다.
+Join 전략에 직접 영향을 주는 대표 요소는 다음과 같다.
 
-옵티마이저가 이 비용을 어떻게 계산하는지 — 통계 수집, 카디널리티 추정, 비용 모델, 그리고 `EXPLAIN`으로 실행계획을 읽는 법 — 은 조인만의 주제가 아니라서 [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/) 글에서 따로 다룬다.
+### Cardinality
 
-### DB 엔진별 특징
+각 입력에서 실제로 몇 Row가 나올지 추정한다. Outer가 10 Row인지 100만 Row인지에 따라 Nested Loop 비용이 완전히 달라진다.
 
-| DB | 주요 조인 전략 | 특화 기능 |
-| --- | --- | --- |
-| Oracle | Nested Loop, Hash, Sort-Merge | Bitmap Join Index, Star Join, Bloom Filter Join, Adaptive Join |
-| PostgreSQL | Nested Loop, Hash, Merge | Hash Aggregation + Join, 자동 선택 |
-| SQL Server | Nested Loop, Hash, Merge | Adaptive Join(실행 중 최적화), 병렬 처리 연계 |
+### Index
 
-## 8. 실무 팁
+Inner Join Key를 빠르게 Lookup할 수 있으면 Nested Loop의 비용이 크게 내려간다.
 
-- `EXPLAIN` / `EXPLAIN ANALYZE`로 **실제 선택된 조인 전략**을 확인한다
-- 필터링 + 필요한 컬럼만 조회해 불필요한 데이터 로딩을 막는다
-- 옵티마이저가 잘못 고르면 힌트로 강제: `/*+ USE_HASH */`(Oracle), `OPTION (HASH JOIN)`(SQL Server)
-- 분산 환경에서는 Bloom Filter / Partitioned Join을 활용한다
-- 데이터 서버가 분리돼 있으면 ETL/앱 레벨 조인이 현실적
+### 정렬 상태
 
-> 정리: RDBMS는 **테이블 크기·인덱스·통계·메모리·정렬·필터·분산 환경**을 종합해 Nested Loop / Hash / Merge 중 비용 최소 전략을 자동으로 고른다. 성능 문제를 풀 땐 `EXPLAIN`으로 선택된 전략을 먼저 확인하는 것이 출발점이다.
+이미 원하는 순서가 있다면 Merge Join의 Sort 비용이 사라질 수 있다.
+
+### Memory
+
+Hash Build가 Memory를 넘을 가능성이 높으면 Hash Join 비용이 올라간다.
+
+### Filter Selectivity
+
+WHERE 조건이 한쪽 입력을 크게 줄이면 전체 Table 크기와 관계없이 Nested Loop가 유리해질 수 있다.
+
+Optimizer의 Cardinality 추정과 Cost 계산, `EXPLAIN`을 읽는 법은 [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/)에서 이어서 다룬다.
+
+## 실행계획에서 무엇을 확인하나
+
+성능 문제가 생기면 알고리즘 이름만 보지 않는다.
+
+```text
+실제 Join Strategy
+        ↓
+Estimated Rows vs Actual Rows
+        ↓
+각 입력의 Access Path
+        ↓
+Loop 횟수
+        ↓
+Sort / Hash Spill
+        ↓
+Filter로 버려진 Row
+```
+
+예를 들어 Nested Loop가 느리다면 "Nested Loop라서"가 아니라:
+
+```text
+Outer Row를 100개 예상
+        ↓
+실제 100만 개
+        ↓
+Inner Index Lookup 100만 번
+        ↓
+폭발
+```
+
+처럼 **Cardinality 추정 오류가 원인**일 수 있다.
+
+Hash Join도 마찬가지다.
+
+```text
+작은 Build Side 예상
+        ↓
+실제 훨씬 큼
+        ↓
+Memory 초과
+        ↓
+Disk Spill
+```
+
+따라서 Join Tuning은 알고리즘을 강제로 바꾸기 전에 **왜 Optimizer가 그 선택을 했는지**를 이해하는 작업이다.
+
+## 분산 환경에서는 Network가 새 비용 축이 된다
+
+단일 DB 안의 Join에서는 CPU·Memory·I/O가 주요 비용이지만, 분산 SQL·MPP 환경에서는 **Data Movement**가 추가된다.
+
+```text
+Node A Data
+Node B Data
+   ↓
+같은 Join Key끼리 같은 Node로 이동해야 함
+   ↓
+Network Shuffle
+```
+
+그래서 다음 전략이 등장한다.
+
+### Broadcast Join
+
+작은 입력을 모든 Worker에 복제해 큰 입력의 이동을 피한다.
+
+```text
+Small Table
+ ├→ Node 1
+ ├→ Node 2
+ └→ Node 3
+```
+
+### Repartition / Shuffle Join
+
+두 입력을 Join Key 기준으로 재분배한다. 입력이 크면 Network 비용이 매우 커질 수 있다.
+
+### Bloom Filter / Semi-Join Reduction
+
+실제 Join 전에 매칭 가능성이 없는 Row를 걸러 Data Movement를 줄인다.
+
+이 축은 Nested Loop/Hash/Merge와 별개다. **로컬 Join 알고리즘과 분산 Data Movement 전략은 서로 다른 분류축**이고 실제 시스템에서 조합된다.
+
+## 실무 판단 흐름
+
+```text
+JOIN이 느리다
+   ↓
+EXPLAIN ANALYZE
+   ↓
+어떤 Join Strategy인가?
+   ↓
+Estimated vs Actual Row가 맞나?
+   ↓
+각 입력은 어떻게 읽나?
+   ↓
+Nested Loop라면 Loop × Lookup 비용
+Hash라면 Build Size / Spill
+Merge라면 Sort 비용
+   ↓
+Index·통계·Filter·Query 구조를 조정
+```
+
+Hint로 특정 알고리즘을 강제할 수 있는 DB도 있지만, 강제는 마지막 수단에 가깝다. Data Distribution이 변하면 과거에 유리했던 강제 Plan이 오히려 장애 원인이 될 수 있다.
+
+## 정리
+
+RDB의 JOIN은 하나의 기능이지만 실행 방법은 여러 개다.
+
+```text
+Logical JOIN
+   ↓
+Physical Strategy
+├─ Nested Loop: 반복 Lookup
+├─ Hash: Build + Probe
+└─ Merge: 정렬된 입력 동시 순회
+```
+
+선택 기준을 한 문장으로 줄이면 다음과 같다.
+
+- **Nested Loop**: Outer가 작고 Inner Lookup이 싸다.
+- **Hash Join**: Equality Join에서 큰 입력을 한 번씩 훑는 편이 낫다.
+- **Merge Join**: 정렬된 입력을 활용할 수 있다.
+
+그리고 최종 선택은 Optimizer가 **Cardinality·Index·정렬·Memory·Filter**를 Cost로 계산해 결정한다. JOIN 성능을 이해하는 출발점은 알고리즘 이름을 외우는 것이 아니라, **현재 입력에서 왜 그 전략의 비용이 낮다고 판단됐는지 보는 것**이다.
 
 ## 관련 글
 
 | 글 | 다루는 것 |
-| --- | --- |
-| **RDB에서 조인(Join) 방식 총정리 (현재 글)** | 조인 알고리즘과 옵티마이저의 전략 선택 |
-| [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) | Index Nested Loop의 전제 — 인덱스가 언제 타나 |
-| [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/) | 옵티마이저가 조인 전략을 고르는 일반 원리와 EXPLAIN |
-| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](/posts/db/2026-04-15-vertica-or-join-kills-performance/) | OR 조건이 Join Filter로 빠지는 문제와 의미를 보존한 매칭 쌍 분리 해법 |
-| [RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선](/posts/db/2026-06-09-preload-record-id-to-level-table/) | INSERT 시점에 컬럼을 옮겨 조회 JOIN 자체를 제거 |
+|---|---|
+| [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) | Index Nested Loop의 전제와 Access Path |
+| [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/) | Cardinality·Cost·EXPLAIN |
+| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](/posts/db/2026-04-15-vertica-or-join-kills-performance/) | Join 조건이 물리 실행에 미치는 실제 사례 |
+| [RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선](/posts/db/2026-06-09-preload-record-id-to-level-table/) | 조회 시 JOIN 자체를 제거한 설계 사례 |
