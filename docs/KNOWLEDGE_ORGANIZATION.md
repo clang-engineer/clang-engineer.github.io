@@ -144,6 +144,34 @@ How-to / Troubleshooting / Tool / Record / 실무 분석
 
 지식 구조는 상세화할수록 고정되는 것이 아니라 **더 정확한 관계를 반영하며 정교해진다.**
 
-## 8. 한 문장 원칙
+## 8. 지식 원본과 공개·열람 계층을 분리해서 본다
 
-> **개념 지식은 관계를 따라 탐색할 수 있는 Knowledge 영역에서 체계적으로 관리하고, Blog는 실전 맥락과 경험을 중심으로 유지하되, 어느 쪽도 주제명이나 분량 때문에 지식을 기계적으로 쪼개지 않는다.**
+Markdown 파일과 Git 저장소를 **지식의 원본(Source of Truth)** 으로 두고, Jekyll·Quartz·Obsidian 같은 도구는 원본을 작성하거나 보여 주는 계층으로 본다.
+
+```text
+Markdown + GitHub
+지식 원본 / 이력 관리
+        ↓
+작성·탐색 도구
+Obsidian 등
+        ↓
+공개·열람 도구
+Jekyll / Quartz / GitHub Pages 등
+```
+
+도구를 바꾸기 위해 지식 원본의 구조를 불필요하게 종속시키지 않는다.
+
+- 현재 `clang-engineer.github.io`의 Jekyll/Chirpy는 **Blog / Practice 공개 계층**으로 유지한다.
+- 모바일에서 기존 Markdown을 읽는 목적만으로 별도 동기화 체계를 추가하지 않는다. 현재 GitHub Pages로 충분하면 그대로 사용한다.
+- Knowledge 영역에서 `[[Wiki Link]]`, Backlink, Graph, 연관 문서 탐색처럼 **지식망 자체를 탐색하는 경험**이 중요해질 때 Quartz 같은 Knowledge 전용 공개 계층을 검토한다.
+- Quartz는 Jekyll의 플러그인이나 상위 개념이 아니라 별도의 Static Site Generator다. 도입한다면 기존 Blog를 교체하기보다 역할을 먼저 구분한다.
+- Blog와 Knowledge 공개 계층을 동시에 운영해야 한다면 하나의 빌드 파이프라인에 억지로 결합하기보다, 필요할 때 별도 Repository와 배포 파이프라인으로 분리하는 방향을 우선한다.
+- 따라서 Quartz는 현재 필수 구성요소가 아니라 **Knowledge 탐색 요구가 커졌을 때 선택하는 표현 계층**으로 취급한다.
+
+핵심은 다음과 같다.
+
+> **Markdown과 Git을 정본으로 유지하고, Jekyll·Quartz·Obsidian은 목적에 따라 교체 가능한 작성·탐색·공개 도구로 둔다.**
+
+## 9. 한 문장 원칙
+
+> **개념 지식은 관계를 따라 탐색할 수 있는 Knowledge 영역에서 체계적으로 관리하고, Blog는 실전 맥락과 경험을 중심으로 유지하되, Markdown과 Git을 정본으로 삼고 공개·열람 도구는 목적에 따라 분리한다.**
