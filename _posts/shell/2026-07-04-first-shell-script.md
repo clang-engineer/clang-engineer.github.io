@@ -2,7 +2,7 @@
 title       : "첫 셸 스크립트 만들고 실행하기 — shebang·실행 권한·PATH"
 description : "터미널에 치던 명령을 파일 하나로 묶어 실행하기까지. shebang이 하는 일, `chmod +x` 실행 권한, `./script.sh`에서 `./`가 왜 필요한지, PATH에 등록해 어디서나 부르는 법, 그리고 permission denied·command not found·CRLF 같은 첫날 함정까지."
 date        : 2026-07-04 09:00:00 +0900
-updated     : 2026-07-04 09:00:00 +0900
+updated     : 2026-09-05 21:18:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [bash, zsh, shell, scripting, shebang]
 pin         : false
@@ -39,7 +39,7 @@ hello             # (3) PATH에 등록해 어디서나
 > `env bash`는 PATH에서 `bash`를 찾아 실행한다. bash 위치가 시스템마다 다를 때(예: Homebrew로 설치한 최신 bash는 `/opt/homebrew/bin/bash`, 시스템 bash는 `/bin/bash`) `env`가 알아서 골라준다. 반면 `#!/bin/bash`는 경로를 못 박아, 그 위치에 없으면 깨진다. **이식성이 필요하면 `env`, 위치를 확정하고 싶으면 절대경로** — 요즘 관행은 `env` 쪽이다.
 {: .prompt-tip }
 
-macOS에서 특히 주의할 점: mac 기본 셸은 **zsh**지만, 시스템에 딸려 오는 `/bin/bash`는 2007년에 멈춘 **3.2 버전**이다. 스크립트에 bash 4+ 문법(연관 배열 `declare -A` 등)을 쓴다면 Homebrew bash를 깔고 shebang을 `#!/usr/bin/env bash`로 두어 최신 bash가 잡히게 해야 한다.
+macOS에서 특히 주의할 점: mac 기본 셸은 **zsh**지만, 시스템에 딸려 오는 `/bin/bash`는 오래된 3.2 계열이다. 스크립트에 bash 4+ 문법(연관 배열 `declare -A` 등)을 쓴다면 Homebrew bash를 설치하고 shebang을 `#!/usr/bin/env bash`로 두어 PATH의 bash가 잡히게 할 수 있다.
 
 ## `chmod +x` — 실행 권한
 
@@ -77,7 +77,7 @@ $ ./hello.sh
 hello, user
 ```
 
-이유는 **PATH**다. 셸은 명령 이름을 받으면 PATH에 나열된 디렉토리들만 뒤져 실행 파일을 찾는다. 현재 디렉토리(`.`)는 보안상 PATH에 없다 — 만약 있었다면, 어떤 폴더에 들어가서 `ls`를 쳤을 때 그 폴더에 숨겨둔 악성 `ls`가 실행될 수 있다.
+이유는 **PATH**다. 셸은 명령 이름을 받으면 PATH에 나열된 디렉토리들만 뒤져 실행 파일을 찾는다. 현재 디렉토리(`.`)는 보통 PATH에 넣지 않는다. 현재 디렉토리를 무조건 탐색하게 하면 이름이 같은 실행 파일을 의도치 않게 실행할 위험이 있기 때문이다.
 
 그래서 "지금 이 폴더에 있는 이 파일을 실행하라"를 명시적으로 말해야 하고, 그게 `./`다. `.`은 현재 디렉토리, `./hello.sh`는 "현재 디렉토리의 hello.sh".
 
@@ -87,19 +87,19 @@ hello, user
 
 ```bash
 mkdir -p ~/.local/bin
-mv hello.sh ~/.local/bin/hello     # 확장자 떼는 게 관례 (아래 참고)
+mv hello.sh ~/.local/bin/hello
 ```
 
-그리고 이 디렉토리를 PATH에 추가한다. 셸 설정 파일에 한 줄 넣으면 된다 — 어느 파일에 넣어야 하는지는 [초기화 파일 로딩 순서](/posts/shell/2022-07-19-bashrc-profile/) 글을 참고.
+그리고 이 디렉토리를 PATH에 추가한다.
 
 ```bash
 # ~/.zshrc (zsh) 또는 ~/.bashrc (bash)
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-새 터미널을 열거나 `source ~/.zshrc`로 반영하면, 이제 어느 폴더에서든 `hello`로 실행된다.
+새 셸을 열거나 현재 셸의 초기화 파일을 다시 읽으면, 이제 어느 폴더에서든 `hello`로 실행된다.
 
-> `.sh` 확장자는 **필수가 아니다.** 셸은 파일 내용(shebang)으로 실행 방법을 정하지 확장자를 보지 않는다. 그래서 PATH에 넣는 "명령"은 `git`·`ls`처럼 확장자 없이 두는 게 관례다. 반대로 다른 스크립트가 `source`로 읽어 들이는 라이브러리성 파일은 `.sh`를 붙여 구분한다.
+> `.sh` 확장자는 **필수가 아니다.** 셸은 확장자보다 실행 권한과 shebang을 본다. PATH에 넣는 "명령"은 `git`·`ls`처럼 확장자 없이 두는 경우가 많고, 다른 스크립트가 `source`로 읽는 라이브러리성 파일은 `.sh`를 붙여 구분하기도 한다.
 {: .prompt-info }
 
 ## 첫날 흔한 함정
@@ -108,13 +108,12 @@ export PATH="$HOME/.local/bin:$PATH"
 |---|---|---|
 | `permission denied` | 실행 권한 없음 | `chmod +x script.sh` |
 | `command not found` | PATH에 없는데 이름만 부름 | `./script.sh` 또는 PATH 등록 |
-| `bad interpreter: ... ^M` | Windows에서 만든 파일의 CRLF 줄바꿈 | `sed -i '' 's/\r$//' script.sh` (또는 에디터에서 LF로 저장) |
-| shebang 무시됨 | `#!`가 첫 줄 첫 칸이 아님 / 앞에 공백·빈 줄 | shebang을 **파일 맨 첫 줄**로 |
-| 문법은 맞는데 이상 동작 | `sh script.sh`로 돌려 bash 확장 문법이 안 먹힘 | `bash script.sh` 또는 `./`로 shebang 태우기 |
+| `bad interpreter: ... ^M` | Windows에서 만든 파일의 CRLF 줄바꿈 | 에디터에서 LF로 저장하거나 줄바꿈 변환 |
+| shebang 무시됨 | `#!`가 첫 줄 첫 칸이 아님 | shebang을 파일 맨 첫 줄로 |
+| 문법은 맞는데 이상 동작 | `sh script.sh`로 bash 확장 문법 실행 | `bash script.sh` 또는 `./`로 shebang 사용 |
 
-특히 `bad interpreter: ...^M`은 Windows·웹에서 복사해 온 스크립트에서 자주 나온다. CRLF 줄바꿈의 `\r`이 shebang 경로 끝에 붙어 `/usr/bin/env bash\r`라는 없는 인터프리터를 찾게 되는 것. 눈에 안 보여서 처음엔 당황스럽다 — [줄바꿈·인코딩을 다루는 셸 기법](/posts/shell/2024-11-27-move-binary-file-by-cp/)과 같은 결의 문제다.
+특히 `bad interpreter: ...^M`은 Windows나 웹에서 복사해 온 스크립트에서 자주 나온다. CRLF 줄바꿈의 `\r`이 shebang 경로 끝에 붙어 `/usr/bin/env bash\r`라는 없는 인터프리터를 찾는 문제다. 이 경우 파일의 줄바꿈을 LF로 바꾸면 된다.
 
 ## 여기까지 오면
 
 명령을 파일로 묶고, 실행 권한을 주고, `./`나 PATH로 실행하는 — 스크립트의 **실행 골격**이 잡혔다. 이제 그 안을 채우는 문법(변수·조건·반복·함수)이 필요하다. [셸 스크립트 문법 종합 가이드](/posts/shell/2026-07-03-bash-syntax-guide/)로 이어서, `set -euo pipefail`로 견고하게 만드는 데까지가 [셸 로드맵](/posts/shell/2026-07-03-shell-roadmap/)의 다음 걸음이다.
-</content>
