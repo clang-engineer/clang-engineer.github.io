@@ -2,14 +2,14 @@
 title       : "termcap과 terminfo — 터미널마다 다른 제어 코드를 어떻게 숨겼나"
 description : "TERM, termcap, terminfo, tput의 관계를 통해 터미널 capability database가 왜 필요했고 curses와 현대 TUI의 호환성 계층에 어떻게 연결되는지 정리한다."
 date        : 2026-09-05 13:50:00 +0900
-updated     : 2026-09-05 13:50:00 +0900
+updated     : 2026-09-05 17:57:00 +0900
 categories  : [terminal]
 tags        : [terminal, termcap, terminfo, tput, term, ncurses, capability]
 pin         : false
 hidden      : false
 ---
 
-앞에서는 TUI 앱이 stdout으로 `ESC [ ...` 형태의 control sequence를 보내 커서를 움직이고 화면을 지울 수 있다는 것을 봤다.
+앞에서는 TUI 앱이 표준 출력으로 `ESC [ ...` 형태의 control sequence를 보내 커서를 움직이고 화면을 지울 수 있다는 것을 봤다.
 
 그런데 여기서 역사적으로 큰 문제가 생긴다.
 
@@ -42,24 +42,24 @@ if (terminal == VT100) {
 화면 전체를 지우는 문자열은 무엇인가?
 색상을 지원하는가?
 몇 개의 색상을 지원하는가?
-alternate screen에 들어가는 sequence는 무엇인가?
-F1 키는 어떤 byte sequence로 들어오는가?
+대체 화면(Alternate Screen)에 들어가는 sequence는 무엇인가?
+F1 키는 어떤 바이트 시퀀스로 들어오는가?
 ```
 
-이런 기능을 **terminal capability**라고 부른다.
+이런 기능을 **터미널 capability**라고 부른다.
 
 그러면 구조를 이렇게 바꿀 수 있다.
 
 ```text
-Application
+애플리케이션
     ↓
 "cursor_address 기능 필요"
     ↓
 Capability Database
     ↓
-현재 터미널에 맞는 control sequence
+현재 터미널에 맞는 제어 시퀀스
     ↓
-Terminal
+터미널
 ```
 
 애플리케이션은 하드코딩된 모델별 문자열 대신 capability 이름을 요청한다.
@@ -80,7 +80,7 @@ screen-256color
 tmux-256color
 ```
 
-`TERM`은 단순한 브랜드 이름이 아니라 **어떤 terminal capability description을 사용할지 선택하는 키**에 가깝다.
+`TERM`은 단순한 브랜드 이름이 아니라 **어떤 터미널 capability description을 사용할지 선택하는 키**에 가깝다.
 
 ```text
 $TERM=tmux-256color
@@ -101,11 +101,11 @@ terminfo에서 해당 entry 검색
 핵심 아이디어는 단순하다.
 
 ```text
-terminal name
+터미널 이름
   +
 capability 이름
   +
-그 capability의 값
+capability 값
 ```
 
 을 텍스트 데이터베이스로 관리한다.
@@ -121,7 +121,7 @@ vt100:
 
 같은 정보가 들어 있다고 이해하면 된다.
 
-프로그램은 현재 terminal entry를 읽고 필요한 capability를 가져간다.
+프로그램은 현재 터미널 entry를 읽고 필요한 capability를 가져간다.
 
 이것만으로도 터미널별 제어 코드가 애플리케이션 코드에서 상당 부분 분리된다.
 
@@ -135,7 +135,7 @@ terminfo entry의 capability는 크게 세 종류다.
 |---|---|---|
 | Boolean | 기능 존재 여부 | 자동 margin 여부 등 |
 | Numeric | 숫자 값 | color 수 등 |
-| String | 제어 문자열 | cursor 이동, 화면 지우기 |
+| String | 제어 문자열 | 커서 이동, 화면 지우기 |
 
 즉 terminfo는 단순 escape code 사전이 아니라:
 
@@ -182,16 +182,16 @@ rmcup
 |---|---|
 | `colors` | 지원 색상 수 |
 | `clear` | 화면 지우기 |
-| `cup` | cursor position |
-| `bold` | bold mode |
-| `setaf` | foreground color 설정 |
-| `setab` | background color 설정 |
-| `smcup` | alternate screen 계열 진입 |
-| `rmcup` | alternate screen 계열 종료 |
+| `cup` | 커서 위치 지정 |
+| `bold` | 굵은 글씨 모드 |
+| `setaf` | 전경색 설정 |
+| `setab` | 배경색 설정 |
+| `smcup` | 대체 화면 계열 진입 |
+| `rmcup` | 대체 화면 계열 종료 |
 
 즉 이전 글에서 직접 `ESC[2J`를 하드코딩했던 것을 capability 이름으로 찾을 수 있다.
 
-## tput — shell에서 terminfo를 쉽게 사용하기
+## tput — 셸에서 terminfo를 쉽게 사용하기
 
 셸에서 terminfo capability를 사용해보는 가장 쉬운 도구가 `tput`이다.
 
@@ -239,18 +239,18 @@ tput clear
 구조는 다음과 같다.
 
 ```text
-Shell script
+셸 스크립트
    ↓ tput clear
-terminfo lookup
+terminfo 조회
    ↓
 현재 TERM에 맞는 sequence
    ↓
-Terminal
+터미널
 ```
 
 ## clear 명령도 같은 세계에 있다
 
-`clear`를 단순히 `printf '\e[2J'`의 별칭으로 생각하기 쉽지만, 전통적인 Unix 터미널 생태계에서는 현재 terminal capability를 고려해 적절한 동작을 선택하는 쪽에 가깝다.
+`clear`를 단순히 `printf '\e[2J'`의 별칭으로 생각하기 쉽지만, 전통적인 Unix 터미널 생태계에서는 현재 터미널 capability를 고려해 적절한 동작을 선택하는 쪽에 가깝다.
 
 즉 이런 도구들이 모두 같은 계층을 공유한다.
 
@@ -261,7 +261,7 @@ clear
   ↓
 terminfo
   ↓
-Terminal capabilities
+터미널 capability
 ```
 
 ## 왜 escape sequence 표준이 있는데 terminfo가 필요한가
@@ -277,7 +277,7 @@ Terminal capabilities
 - 지원하는 기능의 범위
 - 색상 capability
 - function key sequence
-- alternate screen 동작
+- 대체 화면 동작
 - private extension
 - 오래된 호환성 차이
 
@@ -295,13 +295,13 @@ terminfo는 그 계약을 데이터로 표현한다.
 
 ```text
 Ghostty
-  ↑ 실제 terminal capability
+  ↑ 실제 터미널 capability
  tmux
-  ↑ tmux가 클라이언트에게 제공하는 가상 terminal capability
+  ↑ tmux가 클라이언트에게 제공하는 가상 터미널 capability
 Neovim
 ```
 
-Neovim은 Ghostty와 직접 대화하는 것이 아니다. tmux 안에서 실행되면 Neovim이 보는 상대는 **tmux가 제공하는 terminal interface**다.
+Neovim은 Ghostty와 직접 대화하는 것이 아니다. tmux 안에서 실행되면 Neovim이 보는 상대는 **tmux가 제공하는 터미널 인터페이스**다.
 
 그래서 내부에서 `$TERM`이 `tmux-256color`나 `screen-256color`처럼 바뀔 수 있다.
 
@@ -317,31 +317,31 @@ tmux가 해석하고 다시 표현
 
 ## SSH에서도 TERM이 전달되는 이유
 
-SSH 접속에서 PTY를 할당하면 원격 shell/TUI도 어떤 terminal capability를 기대해야 하는지 알아야 한다.
+SSH 접속에서 PTY를 할당하면 원격 셸/TUI도 어떤 터미널 capability를 기대해야 하는지 알아야 한다.
 
 그래서 로컬 terminal type 정보가 원격 세션의 `TERM`과 연결된다.
 
 개념적으로:
 
 ```text
-Local Terminal Emulator
+로컬 터미널 에뮬레이터
         ↓
-SSH client
-        ↓ TERM + terminal byte stream
-SSH server
+SSH 클라이언트
+        ↓ TERM + 터미널 바이트 스트림
+SSH 서버
         ↓
-Remote PTY
+원격 PTY
         ↓
-Remote Application
+원격 애플리케이션
 ```
 
-원격 애플리케이션은 로컬 GPU나 terminal emulator 구현을 직접 아는 것이 아니라, **PTY와 TERM이라는 Unix 터미널 계약**을 통해 동작한다.
+원격 애플리케이션은 로컬 GPU나 터미널 에뮬레이터 구현을 직접 아는 것이 아니라, **PTY와 TERM이라는 Unix 터미널 계약**을 통해 동작한다.
 
 이게 SSH에서도 Neovim/TUI가 그대로 동작할 수 있는 중요한 이유 중 하나다.
 
 ## terminfo가 모르면 생기는 문제
 
-새로운 terminal emulator를 쓰거나 terminfo entry가 없는 오래된 서버에 SSH하면 다음과 같은 문제가 생길 수 있다.
+새로운 터미널 에뮬레이터를 쓰거나 terminfo entry가 없는 오래된 서버에 SSH하면 다음과 같은 문제가 생길 수 있다.
 
 ```text
 unknown terminal type
@@ -367,24 +367,24 @@ TERM=xterm-256color
 
 ```text
 1. Escape sequence 직접 사용
-Application → ESC[...] → Terminal
+애플리케이션 → ESC[...] → 터미널
 
 2. Capability database
-Application → termcap/terminfo → Terminal-specific sequence
+애플리케이션 → termcap/terminfo → 터미널별 sequence
 
-3. Screen abstraction
-Application → curses → terminfo → Terminal
+3. 화면 추상화
+애플리케이션 → curses → terminfo → 터미널
 ```
 
 terminfo는 아직 UI 프레임워크가 아니다.
 
 "화면에 버튼을 하나 만들어줘" 같은 추상화를 제공하는 것이 아니라:
 
-> 이 터미널에서 cursor를 움직이려면 어떤 문자열을 써야 하는가?
+> 이 터미널에서 커서를 움직이려면 어떤 문자열을 써야 하는가?
 
 를 알려주는 **터미널 capability 추상화 계층**이다.
 
-다음 단계인 curses가 이 정보 위에서 화면과 window라는 더 높은 추상화를 만든다.
+다음 단계인 curses가 이 정보 위에서 화면과 창(Window)이라는 더 높은 추상화를 만든다.
 
 ## 다음 단계 — curses/ncurses
 
@@ -392,7 +392,7 @@ terminfo는 아직 UI 프레임워크가 아니다.
 
 ```text
 (10, 20)에 "hello"를 그려라.
-이 window를 갱신해라.
+이 창(Window)을 갱신해라.
 키 하나를 읽어라.
 ```
 
@@ -401,12 +401,12 @@ terminfo는 아직 UI 프레임워크가 아니다.
 즉 추상화가:
 
 ```text
-Terminal capability
+터미널 capability
         ↓
-Screen / Window abstraction
+화면(Screen) / 창(Window) 추상화
 ```
 
-으로 한 단계 더 올라간다.
+로 한 단계 더 올라간다.
 
 ## 참고
 
