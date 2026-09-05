@@ -2,7 +2,7 @@
 title       : "터미널 로드맵 — TTY·PTY에서 현대 TUI까지"
 description : "터미널을 단순한 명령창이 아니라 하나의 입출력·렌더링 스택으로 이해하기 위한 학습 지도. TTY/PTY, termios, ANSI/VT, terminfo, curses를 거쳐 현대 TUI 프레임워크와 실제 애플리케이션 구조까지 바닥부터 올라간다."
 date        : 2026-09-05 12:30:00 +0900
-updated     : 2026-09-05 14:35:00 +0900
+updated     : 2026-09-05 15:55:00 +0900
 categories  : [terminal]
 tags        : [roadmap, terminal, tty, pty, termios, ansi, vt, terminfo, ncurses, tui]
 pin         : false
@@ -134,19 +134,22 @@ Terminal
 | Python | Textual | Widget, event, CSS형 layout/style |
 | TypeScript | OpenTUI | component, layout, native renderer, React/Solid bindings |
 
-기존 글: [TUI의 역사와 현대 프레임워크 — ncurses에서 OpenTUI까지](/posts/terminal/2026-09-05-tui-history-and-modern-frameworks/)
+글: [현대 TUI 프레임워크 비교 — 무엇을 얼마나 추상화하는가](/posts/terminal/2026-09-05-modern-tui-frameworks-abstraction/)
+
+배경 글: [TUI의 역사와 현대 프레임워크 — ncurses에서 OpenTUI까지](/posts/terminal/2026-09-05-tui-history-and-modern-frameworks/)
 
 ## 9. 실제 애플리케이션을 추상화 계층에 꽂아보기
 
 프레임워크 이름을 외우는 대신 실제 사용하는 도구가 어느 계층을 선택했는지 본다.
 
 - `fzf`, `btop`, Neovim처럼 자체 TUI 처리 계층을 가진 프로그램
-- Bubble Tea 계열의 Go 애플리케이션
-- Rust TUI 생태계와 `yazi`
+- 중간 수준 TUI layer를 사용하는 lazygit/Yazi
 - Textual 기반 Harlequin
 - OpenTUI 기반 OpenCode
 
 같은 "TUI"라도 어떤 앱은 터미널에 가까이 내려가고, 어떤 앱은 고수준 프레임워크 위에서 만들어진다.
+
+글: [실제 TUI 앱은 어느 추상화 계층에 서 있나 — fzf부터 OpenCode까지](/posts/terminal/2026-09-05-tui-app-abstraction-map/)
 
 ## 10. Neovim — TUI가 다시 플랫폼이 되는 사례
 
@@ -168,6 +171,8 @@ LazyVim
 
 자체 TUI가 다시 플러그인용 UI 플랫폼의 바닥이 되고, 그 위에 UI 라이브러리와 배포판 생태계가 올라간다. **추상화가 한 번만 일어나는 것이 아니라 반복해서 층을 만든다**는 좋은 사례다.
 
+글: [Neovim은 왜 TUI 앱이면서 UI 플랫폼인가](/posts/terminal/2026-09-05-neovim-as-tui-platform/)
+
 ## 11. tmux·SSH까지 전체 스택 연결하기
 
 마지막에는 개별 개념을 한 그림으로 연결한다.
@@ -187,6 +192,8 @@ Neovim / fzf / shell
 ```
 
 SSH가 들어오면 어느 쪽에서 PTY가 생기는지, `TERM`은 어디서 전달되는지, resize와 signal은 어떻게 흘러가는지를 추적한다.
+
+글: [tmux와 SSH까지 연결한 터미널 전체 스택](/posts/terminal/2026-09-05-tmux-ssh-terminal-stack/)
 
 ## 다른 로드맵과의 경계
 
