@@ -1,147 +1,372 @@
 ---
-title       : Spring Quartz
-description : "JobDetail·Trigger·Scheduler를 Cron으로 묶는 기본 사용법과, Job 정지 vs Trigger 정지의 차이, JDBCJobStore와 RAMJobStore 선택 기준."
+title       : "Quartz Scheduler — Job·Trigger·State·Cluster 구조 이해하기"
+description : "Quartz를 Job 실행 로직, Trigger 실행 시점, JobStore 상태 보존, Cluster 조율의 네 축으로 나눠 보고 Cron, Misfire, JDBCJobStore, @DisallowConcurrentExecution까지 연결해 이해한다."
 date        : 2025-03-06 09:00:45 +0900
-updated     : 2025-03-06 09:01:11 +0900
+updated     : 2026-09-05 21:40:00 +0900
 categories  : [spring-boot, "배치·스케줄링"]
 tags        : [quartz, scheduler, cron, job]
 pin         : false
 hidden      : false
 ---
 
-Quartz Scheduler는 유연하고 확장 가능한 Job 스케줄링을 위한 라이브러리로, Java 기반의 오픈소스 라이브러리이다. 
-Job과 Trigger를 등록하고 실행하는 기능을 제공하며, Job이 실행되는 시점을 Cron 표현식을 통해 정의할 수 있다.
+Quartz를 처음 보면 `Job`, `JobDetail`, `Trigger`, `Scheduler`, `JobStore`가 한꺼번에 등장해 역할이 섞이기 쉽다. 큰 그림은 네 층으로 나누면 단순하다.
 
-## 구성요소
-- Scheduler: Job과 Trigger를 등록하고 작업을 실행하는 주체
-- JobDetail: Job을 실행하기 위한 정보를 가지고 있는 객체
-- Trigger: Job 실행 조건 및 시점을 정의하는 객체
-- Job: 작업의 실제 실행 로직. Job 인터페이스를 구현하여 작성
-- JobDataMap: JobDetail과 Trigger에 데이터를 전달하기 위한 객체
+```text
+무엇을 실행할까?
+→ Job / JobDetail
 
-## 사용 방법
-1. Job 정의: Job 인터페이스를 구현하여 Job을 정의
-2. JobDetail 생성: Job을 실행하기 위한 정보를 가지고 있는 JobDetail 객체 생성
-3. Trigger 생성: Job을 실행할 시점을 정의하는 Trigger 객체 생성
-4. Scheduler에 등록: JobDetail과 Trigger를 Scheduler에 등록
+언제 실행할까?
+→ Trigger / Cron
+
+실행 상태를 어디에 보존할까?
+→ RAMJobStore / JDBCJobStore
+
+여러 Scheduler가 어떻게 한 번만 실행하게 할까?
+→ Cluster / Lock
+```
+
+즉 Quartz의 본질은 **실행 로직과 실행 시점을 분리하고, 필요하면 그 스케줄 상태를 영속화·공유하는 Scheduler**다.
+
+## 전체 실행 흐름
+
+```text
+Job
+└─ 실제 실행 코드
+
+JobDetail
+└─ Job의 식별자·설정·JobDataMap
+
+Trigger
+└─ 언제 Job을 fire할지 결정
+
+Scheduler
+└─ JobDetail + Trigger 등록·실행 관리
+
+JobStore
+└─ Job·Trigger·실행 상태 저장
+```
+
+실행 시점에는 다음처럼 이어진다.
+
+```text
+Trigger fire 시각 도달
+        ↓
+Scheduler가 실행 가능 여부 판단
+        ↓
+JobDetail에서 Job 정보 조회
+        ↓
+Job 인스턴스 실행
+        ↓
+실행 상태 갱신
+```
+
+## 1. Job과 Trigger를 분리해서 본다
+
+`Job`은 **무엇을 할지**, `Trigger`는 **언제 할지**를 담당한다.
 
 ```java
- // 1. Job 정의
 public class QueryJob implements Job {
-  @Override
-  public void execute(JobExecutionContext context) throws JobExecutionException {
-    String query = context.getMergedJobDataMap().getString("query");
-    System.out.println("Executing query: " + query);
-    // 여기에 쿼리 실행 로직 추가
-  }
+    @Override
+    public void execute(JobExecutionContext context)
+            throws JobExecutionException {
+        String query = context.getMergedJobDataMap().getString("query");
+        System.out.println("Executing query: " + query);
+    }
 }
+```
 
-// 2. JobDetail 생성
+`JobDetail`은 Job Class 자체가 아니라 Quartz가 관리할 실행 정의다.
+
+```java
 JobDetail jobDetail = JobBuilder.newJob(QueryJob.class)
-  .withIdentity("myJob", "group1")
-  .usingJobData("query", "SELECT * FROM users")
-  .build();
+    .withIdentity("myJob", "group1")
+    .usingJobData("query", "SELECT * FROM users")
+    .build();
+```
 
-// 3. Trigger 생성
+`Trigger`는 이 Job이 fire될 시간을 정의한다.
+
+```java
 Trigger trigger = TriggerBuilder.newTrigger()
-  .forJob(jobDetail)
-  .withIdentity("myTrigger", "group1")
-  .withSchedule(CronScheduleBuilder.cronSchedule("0 0/5 * * * ?"))
-  .build();
+    .forJob(jobDetail)
+    .withIdentity("myTrigger", "group1")
+    .withSchedule(
+        CronScheduleBuilder.cronSchedule("0 0/5 * * * ?")
+    )
+    .build();
+```
 
- // 4. Scheduler 등록
-SchedulerFactory schedulerFactory = new StdSchedulerFactory();
-Scheduler scheduler = schedulerFactory.getScheduler();
+마지막으로 Scheduler가 둘을 등록한다.
+
+```java
+Scheduler scheduler = new StdSchedulerFactory().getScheduler();
 scheduler.start();
 scheduler.scheduleJob(jobDetail, trigger);
 ```
 
+한 Job에 여러 Trigger를 연결할 수 있으므로 실행 로직을 복제하지 않고 "평일 오전 9시"와 "월말 23시"처럼 여러 스케줄을 붙일 수 있다.
 
-## Job과 Trigger 관계
-- Job과 Trigger는 1:1 또는 1:N 관계로 연결 가능 (하나의 Job에 여러 Trigger를 연결할 수 있으나, 하나의 Trigger는 하나의 Job에만 연결 가능)
-- Job이 삭제 될 때 Trigger도 함께 삭제됨
- 
+```text
+Job A
+├─ Trigger 1
+├─ Trigger 2
+└─ Trigger 3
+```
 
-## Job 정지 vs Trigger 정지
+## 2. Job을 멈추는 것과 Trigger를 멈추는 것은 다르다
 
-| 구분 | Job 정지 | Trigger 정지 |
-|---|---|---|
-| 대상 | Job 자체 | 특정 Trigger |
-| 영향 범위 | Job과 연결된 모든 Trigger가 멈춤 | 선택한 Trigger만 멈춤 |
-| Job 상태 | Job은 여전히 등록되어 있지만 실행되지 않음 | Job은 활성 상태로 유지되며 다른 Trigger에 의해 실행될 수 있음 |
-| 제어 수준 | Job 단위의 전역적인 제어 가능 | Trigger 단위로 세밀한 제어 가능 |
-| 사용 사례 | Job 전체를 멈추거나 모든 트리거를 한꺼번에 멈추고 싶을 때 | 특정 Trigger만 멈추고 나머지는 동작하도록 유지하고 싶을 때 |
+Quartz 운영에서 중요한 경계다.
 
+| 제어 대상 | 의미 |
+|---|---|
+| Trigger Pause | 특정 실행 시점만 멈춤 |
+| Job Pause | 해당 Job에 연결된 Trigger 전체 실행을 멈춤 |
+| Trigger Delete | 특정 스케줄 정의 제거 |
+| Job Delete | Job 정의와 연결 Trigger 제거 |
 
-## JDBCJobStore vs RAMJobStore
-- JDBCJobStore: Job, Trigger, JobDataMap 등의 정보를 DB에 저장
-- RAMJobStore: Job, Trigger, JobDataMap 등의 정보를 메모리에 저장
-- JDBCJobStore는 Quartz Scheduler가 종료되어도 정보가 유지되지만, RAMJobStore는 종료 시 정보가 사라짐
-- JDBCJobStore는 Quartz Scheduler를 여러 대의 서버에서 공유할 때 사용
+따라서 "오전 배치만 잠시 막고 저녁 배치는 살린다"면 Trigger 단위 제어가 맞고, 해당 업무 전체를 중지하려면 Job 단위 제어가 맞다.
 
-## 클러스터링 — 스케줄러를 여러 대에 띄울 때
+## 3. RAMJobStore와 JDBCJobStore — 상태를 어디에 둘까
 
-인스턴스를 2대 이상 띄우면 **같은 Job이 양쪽에서 동시에 실행**되는 문제가 생긴다. 클러스터링은 이걸 막고, 한 노드가 죽어도 다른 노드가 이어받게(fail-over) 한다. 전제는 **JDBCJobStore(공유 DB)** — RAMJobStore로는 불가능하다.
+Quartz는 Job과 Trigger 상태를 어디에 저장할지 선택할 수 있다.
+
+```text
+RAMJobStore
+→ Memory
+→ 프로세스 종료 시 상태 소실
+→ 단일 인스턴스·개발 환경
+
+JDBCJobStore
+→ Database
+→ 재시작 후에도 상태 유지
+→ 운영·Cluster
+```
+
+### RAMJobStore
+
+- 설정이 단순하고 빠르다.
+- Scheduler가 재시작되면 Job·Trigger 등록 상태가 사라진다.
+- 여러 노드가 상태를 공유할 수 없다.
+
+### JDBCJobStore
+
+- Job·Trigger·실행 상태를 DB에 저장한다.
+- 재시작 후 스케줄을 이어갈 수 있다.
+- 여러 Scheduler 인스턴스가 같은 DB를 보며 Cluster를 구성할 수 있다.
+
+즉 Cluster가 필요하면 JDBCJobStore가 전제다.
+
+## 4. 여러 노드에서는 누가 실행할지 조율해야 한다
+
+Application을 두 대 띄우고 두 인스턴스 모두 Quartz Scheduler를 실행하면, 아무 조율이 없을 경우 같은 스케줄을 두 노드가 각각 실행할 수 있다.
+
+Quartz Cluster는 공유 JDBCJobStore를 사용해 **특정 Trigger를 어느 한 Scheduler만 획득하도록 조율**한다.
+
+```text
+Node A ─┐
+        ├─ Shared Quartz DB
+Node B ─┘
+          ↓
+     Trigger 획득 경쟁
+          ↓
+      한 노드만 실행
+```
+
+대표 설정은 다음과 같다.
 
 ```properties
 org.quartz.jobStore.isClustered=true
-org.quartz.scheduler.instanceId=AUTO          # 노드마다 고유 ID 자동 부여
+org.quartz.scheduler.instanceId=AUTO
 org.quartz.jobStore.clusterCheckinInterval=15000
 ```
 
-- 조율은 애플리케이션이 아니라 **DB의 `qrtz_locks` 행 락**으로 이뤄진다. 트리거를 획득할 때 노드들이 이 락을 놓고 경쟁해, 한 번의 실행은 한 노드만 가져간다.
-- `instanceId`는 **노드마다 반드시 달라야** 한다. `AUTO`가 호스트명+타임스탬프로 생성해주니 직접 지정하지 않는다. 같은 ID를 두 노드에 주면 서로를 죽은 노드로 오인한다.
-- 모든 노드의 **시계(NTP)를 맞춰야** 한다. clock skew가 크면 checkin·트리거 시점 판정이 어긋난다.
-- Job이 **한 노드에서만 돌면 충분**할 때(중복 실행 절대 금지)는 `@DisallowConcurrentExecution`을 함께 건다.
+핵심은 다음 세 가지다.
 
-## Misfire — 놓친 실행 처리
+- 모든 노드가 **같은 Quartz DB**를 본다.
+- `instanceId`는 노드마다 고유해야 한다.
+- 시스템 시계가 크게 어긋나지 않도록 NTP 등으로 맞춘다.
 
-스케줄된 시각에 트리거를 못 쏜 경우(=misfire)를 어떻게 만회할지의 정책이다. **misfire는 생각보다 자주 난다** — 서버 다운타임, 스레드 풀 고갈, DB 지연, `@DisallowConcurrentExecution`으로 이전 실행이 안 끝난 경우 등. `org.quartz.jobStore.misfireThreshold`(기본 60초)를 넘겨 지각하면 misfire로 판정된다.
+Quartz는 `QRTZ_LOCKS`, Trigger 상태, Scheduler Check-in 정보를 이용해 실행권을 조율한다.
 
-정책을 지정하지 않으면 기본값은 **smart policy**인데, 트리거 종류에 따라 동작이 갈려 헷갈린다. Cron 트리거의 대표 선택지:
+## 5. 중복 실행 방지와 Cluster는 같은 문제가 아니다
+
+Cluster는 한 Trigger Fire를 여러 노드가 동시에 가져가지 않도록 조율한다. 하지만 **같은 Job의 이전 실행이 아직 끝나지 않았는데 다음 Trigger가 fire되는 문제**는 별도다.
+
+예를 들어 5분마다 실행되는 Job이 10분 걸리면:
+
+```text
+10:00 실행 시작
+10:05 다음 Trigger 도착
+10:10 또 다음 Trigger 도착
+```
+
+이때 같은 `JobDetail`의 동시 실행을 막고 싶다면 Job Class에 `@DisallowConcurrentExecution`을 사용할 수 있다.
+
+```java
+@DisallowConcurrentExecution
+public class SettlementJob implements Job {
+    // ...
+}
+```
+
+```text
+Cluster
+→ 여러 Scheduler 중 누가 Trigger를 실행할지
+
+@DisallowConcurrentExecution
+→ 같은 JobDetail 실행끼리 겹쳐도 되는지
+```
+
+둘은 다른 축이다.
+
+## 6. Misfire — 실행 시각을 놓쳤을 때 무엇을 할까
+
+Trigger가 예정 시각에 실행되지 못할 수 있다.
+
+원인은 다양하다.
+
+- 서버가 내려가 있었음
+- Scheduler Thread Pool이 포화됨
+- DB 응답이 늦음
+- 이전 Job이 길게 실행 중
+- `@DisallowConcurrentExecution`으로 다음 실행이 대기함
+
+Quartz는 일정 임계시간 이상 늦어진 Trigger를 Misfire로 판단하고, **놓친 실행을 어떻게 처리할지 정책**을 적용한다.
+
+Cron Trigger에서 자주 쓰는 선택은 다음과 같다.
 
 | 정책 | 동작 |
 |---|---|
-| `withMisfireHandlingInstructionFireAndProceed` | 놓친 것 중 **1회만 즉시 실행**하고 이후 정상 스케줄 복귀 (기본, 대개 이걸 원함) |
-| `withMisfireHandlingInstructionDoNothing` | 놓친 건 **버리고** 다음 정상 시각을 기다림 |
-| `withMisfireHandlingInstructionIgnoreMisfires` | 놓친 모든 실행을 **몰아서 실행**(catch-up) |
+| FireAndProceed | 놓친 실행을 1회 즉시 수행 후 정상 스케줄 복귀 |
+| DoNothing | 놓친 실행은 버리고 다음 정상 시각 대기 |
+| IgnoreMisfires | 가능한 놓친 실행을 따라잡도록 처리 |
 
 ```java
 CronScheduleBuilder.cronSchedule("0 0/5 * * * ?")
     .withMisfireHandlingInstructionFireAndProceed();
 ```
 
-> 흔한 오해: "5분마다"인데 서버가 1시간 죽었다 살아나면, 기본 정책은 밀린 12번을 다 돌리지 **않는다.** 밀린 실행을 반드시 채워야 하는 정산·집계라면 `Ignore`를, 중복이 해로우면 `DoNothing`을 명시적으로 골라야 한다.
+어떤 정책을 택할지는 업무 의미로 결정한다.
 
-## Quartz Database Schema
+```text
+정산·회계 집계
+→ 놓친 실행을 반드시 채워야 하나?
 
-Quartz 2.x의 표준 스키마는 **11개 테이블**이다(접두어 `QRTZ_`는 `org.quartz.jobStore.tablePrefix`로 변경 가능). 배포판 `docs/dbTables`의 `tables_*.sql`에 DB별 DDL이 있다. (Quartz 1.x의 리스너 테이블·`qrtz_job_trigger_rel` 등은 2.x에 존재하지 않는다.)
+알림·주기적 Polling
+→ 과거 실행을 몰아서 해도 의미가 있나?
+```
 
-| Table Name | Description |
-|------------|-------------|
-| qrtz_job_details | JobDetail 정보를 저장 |
-| qrtz_triggers | Trigger 정보(Job 연결·상태 포함)를 저장 |
-| qrtz_cron_triggers | Cron Trigger의 표현식을 저장 |
-| qrtz_simple_triggers | Simple Trigger(반복 횟수·간격)를 저장 |
-| qrtz_simprop_triggers | CalendarInterval 등 프로퍼티 기반 Trigger를 저장 |
-| qrtz_blob_triggers | 커스텀 Trigger를 직렬화(Blob)해 저장 |
-| qrtz_calendars | 실행 제외일 등 Calendar 객체를 직렬화해 저장 |
-| qrtz_paused_trigger_grps | Pause된 Trigger 그룹을 저장 |
-| qrtz_fired_triggers | 현재 실행(fire) 중인 Trigger의 상태를 저장 |
-| qrtz_scheduler_state | 클러스터 노드별 인스턴스 상태(heartbeat)를 저장 |
-| qrtz_locks | 클러스터 동시성 제어용 비관적 락 행 |
+즉 Misfire는 기술 설정이 아니라 **놓친 시간을 업무적으로 어떻게 해석할지**의 문제다.
 
+## 7. Quartz DB 테이블은 네 그룹으로 보면 된다
 
-## Quartz Trigger State
+JDBCJobStore의 표준 테이블을 이름 그대로 외울 필요는 없다. 역할별로 묶으면 이해하기 쉽다.
 
-| Trigger State | Description |
-|--------------|-------------|
-| Normal | Trigger가 실행될 준비가 되어 있으며, 스케줄에 따라 실행됨 |
-| Paused | Trigger가 일시 중지되어 있으며, 실행되지 않음 |
-| Complete | Trigger가 더 이상 실행되지 않으며, 실행할 "fire times"가 없음 |
-| Error | Trigger가 오류가 발생하여 더 이상 실행되지 않음 |
-| Blocked | Trigger가 @DisallowConcurrentExecution이 설정된 Job과 연결되어 있어 대기 중인 상태 |
-| None | Trigger가 존재하지 않음 |
-| Waiting | Trigger가 대기 중인 상태로, Job이 실행될 준비가 되어 있음 |
+### Job 정의
 
+- `QRTZ_JOB_DETAILS`
 
+### Trigger 정의
+
+- `QRTZ_TRIGGERS`
+- `QRTZ_CRON_TRIGGERS`
+- `QRTZ_SIMPLE_TRIGGERS`
+- `QRTZ_SIMPROP_TRIGGERS`
+- `QRTZ_BLOB_TRIGGERS`
+- `QRTZ_CALENDARS`
+
+### 실행 상태
+
+- `QRTZ_FIRED_TRIGGERS`
+- `QRTZ_PAUSED_TRIGGER_GRPS`
+
+### Cluster 조율
+
+- `QRTZ_SCHEDULER_STATE`
+- `QRTZ_LOCKS`
+
+이렇게 보면 DB Schema가 Quartz 내부 구조를 그대로 반영한다.
+
+```text
+Job / Trigger 정의
+        ↓
+실행 상태
+        ↓
+Cluster Coordination
+```
+
+## 8. Trigger State는 내부 실행 상태다
+
+Quartz API에서 Trigger 상태를 조회하면 `NORMAL`, `PAUSED`, `BLOCKED`, `COMPLETE`, `ERROR`, `NONE` 같은 상태를 볼 수 있다.
+
+특히 `BLOCKED`는 `@DisallowConcurrentExecution`이 걸린 Job의 다른 실행이 진행 중이라 기다리는 상황에서 나타날 수 있다.
+
+```text
+NORMAL
+→ 실행 가능
+
+PAUSED
+→ 운영자가 일시 중지
+
+BLOCKED
+→ 동시 실행 제한 때문에 대기
+
+COMPLETE
+→ 더 이상 Fire Time이 없음
+
+ERROR
+→ Trigger 처리 오류
+```
+
+이 상태는 업무 Job 자체의 성공/실패 상태와 동일한 개념은 아니다. **Scheduler가 Trigger를 현재 어떻게 다루고 있는지**를 나타낸다.
+
+## Quartz와 Spring Batch의 경계
+
+둘은 자주 같이 언급되지만 역할이 다르다.
+
+```text
+Quartz
+→ 언제 실행할까?
+→ Scheduler
+
+Spring Batch
+→ 대량 작업을 어떻게 단계·상태·재시작 단위로 처리할까?
+→ Batch Processing Framework
+```
+
+따라서 복잡한 대량 정산 Job은 Spring Batch로 구현하고, 실행 시점은 Quartz가 Trigger하는 조합도 가능하다.
+
+반대로 단순히 "5분마다 API 호출" 정도라면 Spring Batch 없이 Quartz나 Spring Scheduling만으로 충분할 수 있다.
+
+## 정리
+
+Quartz를 구성요소 이름으로 외우지 말고 네 질문으로 보면 된다.
+
+```text
+무엇을 실행?
+→ Job / JobDetail
+
+언제 실행?
+→ Trigger
+
+상태를 어디에 보존?
+→ JobStore
+
+여러 노드는 어떻게 조율?
+→ JDBCJobStore + Cluster
+```
+
+그 위에 운영 정책이 얹힌다.
+
+```text
+실행이 겹쳐도 되나?
+→ @DisallowConcurrentExecution
+
+놓친 실행을 어떻게 할까?
+→ Misfire Policy
+
+특정 스케줄만 멈출까?
+→ Trigger 제어
+```
+
+이 구조를 잡으면 Quartz의 Cron, DB Schema, Cluster 설정은 서로 떨어진 기능이 아니라 하나의 Scheduler 상태 모델로 연결된다.
