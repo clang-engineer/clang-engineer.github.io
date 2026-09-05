@@ -1,195 +1,265 @@
 ---
-title       : Git Partial Merge 시 develop 변경이 삭제되는 문제 정리
-description : "git merge --no-commit으로 일부만 가져오면 merge commit에 나머지 변경이 거부됨으로 기록돼, 이후 develop 머지에서 그 변경이 사라진다."
+title       : Git에서 일부 변경만 Merge한 뒤 나머지 변경이 다시 안 보이는 이유
+description : "develop을 merge한 뒤 일부 내용만 남긴 merge commit을 만들면 이후 merge-base가 이미 병합된 것으로 계산되어 기대한 변경이 다시 나타나지 않을 수 있다. 원인과 안전한 대안을 정리한다."
 date        : 2025-11-20 09:35:56 +0900
-updated     : 2025-11-20 10:24:10 +0900
+updated     : 2026-09-05 19:25:00 +0900
 categories  : [git, "저장소·운영"]
-tags        : [merge, troubleshooting]
+tags        : [merge, troubleshooting, merge-base]
 pin         : false
 hidden      : false
 ---
 
-## Git Partial Merge 시 발생하는 develop 삭제 문제 — 전체 정리
+`main`에서 `develop`의 변경 중 일부만 가져오고 싶어서 전체 merge를 시작한 뒤 원하지 않는 파일이나 코드를 되돌리고 그대로 merge commit을 만들 수 있다.
 
-## 1) 문제의 시작
-
-너는 `main` 브랜치에서 `develop`의 **일부 변경만** 가져오고 싶어서 다음 명령을 사용했다:
-
-```
-git merge develop --no-ff --no-commit
-# 이후 원하지 않는 변경 제거
-git commit -m "partial merge" --no-verify
-```
-
-겉으로는 잘 된 것처럼 보였지만, 이후 문제 발생:
-
-* develop → main merge 시
-* develop 변경이 diff로 잡히지 않음
-* 일부 변경이 **삭제된 것처럼 취급됨**
-* 심하면 develop 코드가 사라져버림
-
----
-
-## 2) 원인
-
-문제의 핵심은 다음 한 줄이다:
-
-> **merge commit(부모가 2개인 commit)이 생성되면 Git은
-> develop의 나머지 변경을 “삭제된 변경”으로 기록한다.**
-
-즉,
-
-```
-git merge develop --no-commit
-git commit
-```
-
-이 조합은 반드시 **merge commit**을 만든다.
-
-이 merge commit은:
-
-* main이 develop의 일부 변경을 **삭제했다(거부했다)**
-* 나머지 develop 변경은 main에서는 필요 없다고 판단했다
-
-라고 Git에게 기록된다.
-
-그 결과:
-
-* 이후 develop → main merge 시 Git은 나머지 변경을 스킵함
-* diff가 나오지 않거나
-* develop 코드가 삭제된 상태가 유지됨
-* Git이 “네가 예전에 그 코드 삭제했잖아?”라고 판단하는 것
-
----
-
-## 3) 중요한 사실
-
-### ❗ merge commit을 만들면 —no-verify를 써도 의미가 없다
-
-`--no-verify`는 pre-commit hook 우회 옵션일 뿐,
-merge commit 구조 자체를 변경하지 않는다.
-
-삭제 기록이 남는 이유는:
-
-* hook 때문이 아니라
-* **merge commit 자체 때문**
-
-따라서:
-
-```
-git commit -m … --no-verify
-```
-
-은 삭제 문제의 원인과 무관하다.
-
----
-
-## 4) 부분 병합을 하면서 삭제 기록을 남기지 않는 단 한 가지 원칙
-
-## 👉 **merge commit을 만들지 말아야 한다.**
-
-이 원칙만 지키면 partial merge는 100% 안전하게 된다.
-
----
-
-## 5) 삭제 기록 없이 Partial Merge를 수행하는 정석 절차
-
-### 🔥 정답 절차
-
-```
+```bash
+git switch main
 git merge develop --no-commit --no-ff
-git reset HEAD          # ✨ merge-parent 정보 제거
-# 필요한 코드만 직접 수정/정리
-git add .
-git commit -m "partial merge (manual)" --no-verify
+# 일부 변경을 되돌림
+git commit -m "partial merge"
 ```
 
-### 이 절차의 핵심:
+그 순간 원하는 코드만 들어간 것처럼 보이지만, 이후 다시 `develop → main`을 merge했을 때 **전에 제외했던 변경이 예상대로 다시 나타나지 않는 문제**가 생길 수 있다.
 
-* `git merge`는 staging까지는 쓸 수 있다
-* 하지만 commit 단계에서 merge-parent를 반드시 제거해야 한다
-* 그래서 **git reset HEAD** 가 결정적으로 중요
+이 문제는 "Git이 거부한 코드를 삭제 기록으로 저장해서"라기보다 **merge commit의 그래프 의미와 merge-base 계산** 때문에 생긴다.
 
-### 결과:
+## 1. 증상
 
-* 이 commit은 merge commit이 아닌 **일반 commit**
-* Git은 이것을 “코드 변경”으로만 인식
-* develop의 나머지 변경을 삭제했다는 기록이 없음
-* 향후 develop → main merge도 정상 diff가 뜬다
+처음 상태를 단순화하면:
 
----
-
-## 6) 이미 잘못된 partial merge commit이 있다면?
-
-### 1) 되돌리기(안전)
-
-```
-git revert <partial-merge-commit>
+```text
+main    A
+         \
+develop   B ─ C ─ D
 ```
 
-### 2) 히스토리 삭제(혼자 작업할 때)
+`B~D`의 변경 중 일부만 `main`에 반영하고 싶어서 `develop` 전체를 merge 대상으로 선택한 뒤 일부 내용을 제거한 merge commit `M`을 만든다고 하자.
 
+```text
+main    A ───── M
+         \     /
+develop   B ─ C ─ D
 ```
-git reset --hard <문제 커밋 이전 SHA>
+
+`M`의 최종 파일 내용에는 `develop` 변경 일부가 빠져 있을 수 있다. 하지만 **Commit Graph에서는 M이 develop의 D를 부모로 가진 merge commit**이다.
+
+이후 develop에 추가 변경 `E`가 생기면:
+
+```text
+main    A ───── M
+         \     /
+develop   B ─ C ─ D ─ E
 ```
 
-이후 올바른 방식으로 partial merge를 다시 진행하면 됨.
+다음 merge에서는 Git이 `D` 이전의 History를 이미 merge한 것으로 본다. 그래서 과거 `B~D`에서 의도적으로 제외했던 내용을 "이번에 처음 들어오는 변경"처럼 다시 제시하지 않는다.
 
----
+## 2. 원인 — Merge 결과와 Merge History는 별개다
 
-## 7) 디렉터리/파일을 특정할 수 없을 때?
+핵심은 merge commit이 두 가지 정보를 동시에 가진다는 점이다.
 
-코드 조각을 직접 보고 판단해야 하는 상황이라면:
-
-* merge staging 활용
-* merge-parent 제거
-* 일반 commit 생성
-
-이 방식이 가장 현실적이다.
-
+```text
+Merge Commit M
+├─ 결과 Tree
+│   → 실제 파일 내용
+└─ Parent 2개
+    ├─ main의 이전 Commit
+    └─ develop의 당시 Commit
 ```
+
+일부 코드를 되돌린 뒤 commit해도 **두 번째 부모가 develop의 D라는 사실은 그대로**다.
+
+따라서 Git History 관점에서는:
+
+> main은 develop의 D까지 한 번 merge했다.
+
+라는 관계가 만들어진다.
+
+반면 최종 Tree에서는 일부 develop 변경을 제거했을 수 있다.
+
+```text
+Graph 의미
+develop D까지 병합됨
+
+Tree 내용
+D의 변경 일부는 없음
+```
+
+이 둘의 차이가 이후 merge에서 혼란을 만든다.
+
+## 3. `--no-verify`는 원인과 관계없다
+
+```bash
+git commit --no-verify
+```
+
+의 `--no-verify`는 commit hook을 건너뛰는 옵션이다.
+
+```text
+--no-verify
+→ Hook 실행 여부
+
+Merge Parent
+→ Commit Graph 구조
+```
+
+이므로 이 문제의 원인이나 해결과는 관계가 없다.
+
+## 4. 먼저 결정해야 할 것 — 정말 "Merge"가 필요한가
+
+일부 변경만 가져오는 목적이라면 먼저 질문을 바꿔야 한다.
+
+```text
+develop라는 Branch 전체를 병합하려는가?
+        │
+        ├─ Yes → 정상 Merge
+        │
+        └─ No
+            ↓
+특정 Commit / 파일 / Hunk만 가져오려는가?
+            ↓
+Cherry-pick / restore / patch 사용
+```
+
+**전체 Branch를 merge하지 않을 것이라면 merge commit을 만들지 않는 편이 History 의미와 실제 의도가 일치한다.**
+
+## 5. 특정 Commit만 필요하면 Cherry-pick
+
+필요한 변경이 commit 단위로 구분된다면 가장 명확하다.
+
+```bash
+git switch main
+git cherry-pick <commit-sha>
+```
+
+여러 commit이라면 필요한 것만 선택한다.
+
+```text
+develop
+B ─ C ─ D
+    ↑   ↑
+    필요한 Commit만
+        ↓
+main에 Cherry-pick
+```
+
+이 경우 main은 `develop 전체를 merge했다`는 관계를 만들지 않는다.
+
+## 6. 특정 파일만 필요하면 restore
+
+특정 파일의 현재 버전만 가져오고 싶다면:
+
+```bash
+git restore --source=develop -- path/to/file
+
+git add path/to/file
+git commit -m "bring selected file from develop"
+```
+
+이것도 일반 commit이므로 branch 전체를 merge했다는 그래프 관계가 생기지 않는다.
+
+## 7. 일부 Hunk만 필요하면 Patch 또는 Interactive 선택
+
+파일 안에서도 일부 변경만 가져오고 싶다면 patch 단위로 선택할 수 있다.
+
+예를 들어:
+
+```bash
+git restore -p --source=develop -- .
+```
+
+또는 diff를 patch로 만들어 필요한 부분만 적용할 수 있다.
+
+```bash
+git diff main...develop > changes.patch
+git apply --index changes.patch
+```
+
+실제로는 전체 patch를 그대로 적용하기보다 필요한 hunk만 선택·편집하는 편이 목적에 맞다.
+
+핵심은 결과 commit이:
+
+```text
+Parent 1개
+→ 일반 Commit
+```
+
+으로 남게 하는 것이다.
+
+## 8. Merge를 미리 펼쳐 보고 일부만 가져오는 방법
+
+전체 merge 결과를 작업 트리에서 한번 보고 필요한 부분만 일반 commit으로 만들고 싶다면, merge를 **최종 History로 기록하지 않고 작업 재료로만 사용**해야 한다.
+
+예를 들어 merge를 시작한 뒤 최종 merge 상태를 취소하고 working tree의 필요한 변경을 다시 선택하는 방법을 사용할 수 있다. 다만 `git reset`·`git merge --abort`의 동작은 현재 index/working tree 상태에 영향을 주므로, 이것을 일반적인 "부분 merge 공식"처럼 외우는 것보다 `cherry-pick`, `restore -p`, patch처럼 의도가 명확한 방법을 우선하는 편이 안전하다.
+
+즉 과거에 사용했던:
+
+```bash
 git merge develop --no-commit
 git reset HEAD
-# 코드 보고 필요한 부분만 반영
-git add .
-git commit -m "partial merge" --no-verify
 ```
 
-폴더를 지정할 필요 없음.
+패턴은 상황에 따라 작업 트리를 남기는 데 활용할 수 있지만, **부분 변경을 가져오는 기본 해법으로 권장하지 않는다.**
 
----
+## 9. 이미 문제가 되는 Merge Commit을 만들었다면
 
-## 8) diff 기반 partial merge
+먼저 해당 merge commit이 이미 공유됐는지 확인한다.
 
-경로를 특정하기 어렵지만 전체 diff에서 특정 부분만 가져오고 싶다면:
+### 아직 Push하지 않았거나 History 재작성 가능
 
-```
-git diff main..develop > partial.patch
-git apply partial.patch
-git commit -am "partial merge (patch)" --no-verify
-```
+merge 전 상태로 돌아가 올바른 방식으로 다시 적용할 수 있다.
 
-이것도 안전하다.
-
----
-
-## 최종 결론 (정리의 정리)
-
-## ❌ 잘못된 partial merge
-
-```
-git merge develop --no-commit
-git commit     # merge commit → 삭제 기록 생성
+```bash
+git reset --hard <merge-before-sha>
 ```
 
-## ✔ 올바른 partial merge
+단, 현재 작업을 반드시 먼저 보호한다.
 
-```
-git merge develop --no-commit
-git reset HEAD
-(코드 정리)
-git add .
-git commit --no-verify   # 일반 commit
+### 이미 공유된 History
+
+공유 branch의 merge commit을 단순 삭제하기보다 팀의 History 정책에 맞게 revert 또는 후속 수정 commit을 선택해야 한다.
+
+Merge commit을 revert하려면 mainline parent를 지정해야 할 수 있다.
+
+```bash
+git revert -m 1 <merge-commit-sha>
 ```
 
-> **핵심은 merge commit을 만들지 않는 것이다.**
+여기서 `-m 1`은 첫 번째 parent를 mainline으로 선택한다는 뜻이므로 실제 parent 관계를 확인한 뒤 사용한다.
+
+그리고 나중에 같은 branch를 다시 merge하려면 **merge revert의 그래프 의미**까지 고려해야 하므로 단순한 일반 commit revert보다 주의가 필요하다.
+
+## 10. 기억할 핵심
+
+잘못 이해하기 쉬운 표현은:
+
+> Merge commit이 제외한 변경을 "삭제 기록"으로 저장한다.
+
+가 아니다.
+
+더 정확한 그림은:
+
+```text
+일부 내용만 남긴 Merge Commit
+          ↓
+Tree에는 일부 변경이 없음
+          +
+Graph에는 develop을 Parent로 기록
+          ↓
+Git은 해당 develop History를 이미 Merge한 것으로 판단
+          ↓
+다음 Merge에서 과거 변경이 새 Diff로 다시 등장하지 않음
+```
+
+이다.
+
+## 정리
+
+**Branch 전체를 병합할 의도가 없다면 Branch 전체를 merge한 History를 만들지 않는다.**
+
+```text
+특정 Commit → cherry-pick
+특정 File   → git restore --source
+특정 Hunk   → git restore -p / patch
+Branch 전체 → git merge
+```
+
+부분 반영 문제는 "merge 명령을 어떻게 꼼수로 사용할까"보다 **내가 History에 어떤 관계를 기록하려는가**부터 결정하면 훨씬 단순해진다.
