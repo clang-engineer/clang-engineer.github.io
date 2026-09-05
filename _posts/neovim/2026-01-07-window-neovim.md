@@ -1,211 +1,178 @@
 ---
-title       : Windows에서 Dotfiles의 Neovim 설정 연결하기
-description : "Windows의 %LOCALAPPDATA%\\nvim 경로에 dotfiles의 nvim-lazy 설정을 Junction(mklink /J)으로 연결해 관리자 권한 없이 공유하는 방법."
+title       : Windows에서 Dotfiles의 Neovim 설정을 Junction으로 연결하기
+description : "Windows의 %LOCALAPPDATA%\\nvim과 dotfiles의 Neovim 설정 디렉터리를 Junction으로 연결하고 연결 여부와 제거 방법까지 확인한다."
 date        : 2026-01-07 09:29:54 +0900
-updated     : 2026-01-07 09:30:51 +0900
+updated     : 2026-09-05 19:10:00 +0900
 categories  : [neovim, "구조·설정"]
-tags        : [windows, dotfiles, mklink]
+tags        : [windows, dotfiles, junction, how-to]
 redirect_from:
   - /posts/lazyvim/2026-01-07-window-neovim/
 pin         : false
 hidden      : false
 ---
 
+Windows에서도 dotfiles 저장소의 Neovim 설정을 `%LOCALAPPDATA%\nvim`에 복사하지 않고 그대로 사용할 수 있다. 이 글의 목표는 **dotfiles의 설정 디렉터리와 Windows Neovim 설정 경로를 Junction으로 연결하는 것**이다.
 
-## 문제 상황
+```text
+Dotfiles
+C:\Users\...\dotfiles\configs\nvim-lazy
+              ↓ Junction
+%LOCALAPPDATA%\nvim
+              ↓
+           Neovim
+```
 
-Windows 환경에서 Scoop을 이용해 Neovim을 설치했고, 기존 dotfiles 저장소에 있는 Neovim 설정(nvim-lazy)을 PowerShell과 Neovim에서 동일하게 사용하고 싶었습니다.
+Junction을 사용하면 디렉터리의 실제 파일은 dotfiles에 두면서 Neovim에는 정상적인 Windows 설정 경로처럼 보이게 할 수 있다.
 
-## 환경
+## 전제조건
 
-- OS: Windows 11
-- Neovim 설치: Scoop으로 설치
-- Dotfiles 구조:
-  ```
-  C:\Users\myuser\dotfiles\
-  ├── configs\
-  │   ├── nvim-lazy\      # LazyVim 기반 설정
-  │   └── nvim-classic\   # 클래식 Vim 설정
-  └── scripts\
-  ```
+예시는 다음 환경을 기준으로 한다.
 
-## Windows Neovim 설정 경로
+```text
+Windows 11
+Neovim
+PowerShell
+```
 
-Windows에서 Neovim은 다음 경로에서 설정을 찾습니다:
-- `%LOCALAPPDATA%\nvim` (일반적으로 `C:\Users\{사용자명}\AppData\Local\nvim`)
+Dotfiles의 설정 위치는 환경에 맞게 바꾼다.
 
-Linux/macOS의 `~/.config/nvim`과는 다른 경로를 사용합니다.
+```text
+C:\Users\myuser\dotfiles\configs\nvim-lazy
+```
 
-## 해결 방법
+Windows에서 Neovim의 기본 사용자 설정 경로는 일반적으로:
 
-Dotfiles의 Neovim 설정을 Windows 설정 경로로 연결하여 하나의 설정을 공유합니다.
+```text
+%LOCALAPPDATA%\nvim
+```
 
-### Junction vs Symbolic Link
+이다.
 
-Windows에서는 두 가지 방법으로 디렉토리를 연결할 수 있습니다:
+## 왜 Junction을 사용하나
 
-1. **Symbolic Link**: Unix 스타일의 심볼릭 링크
-   - 장점: Linux/macOS와 동일한 방식
-   - 단점: 관리자 권한 또는 개발자 모드 활성화 필요
+Windows에서 디렉터리를 다른 위치에 연결할 때 Symbolic Link와 Junction을 사용할 수 있다.
 
-2. **Junction**: Windows의 디렉토리 연결 포인트
-   - 장점: 관리자 권한 불필요
-   - 단점: 디렉토리에만 사용 가능 (파일 불가)
+| 방식 | 특징 |
+|---|---|
+| Symbolic Link | 파일·디렉터리를 가리킬 수 있지만 환경에 따라 개발자 모드나 권한 조건을 확인해야 함 |
+| Junction | 디렉터리 연결에 적합하고 로컬 디렉터리 연결 용도로 간단하게 사용할 수 있음 |
 
-이 가이드에서는 **Junction**을 사용합니다.
+여기서는 Neovim 설정 **디렉터리 하나를 로컬 dotfiles 디렉터리에 연결**하는 목적이므로 Junction을 사용한다.
 
-## 설정 단계
+## 1. 기존 Neovim 설정을 확인하고 백업한다
 
-### 1. 기존 설정 백업 (있는 경우)
+이미 `%LOCALAPPDATA%\nvim`이 일반 디렉터리로 존재한다면 먼저 백업한다.
 
 ```powershell
-# 기존 nvim 설정이 있다면 백업
 $NvimConfig = "$env:LOCALAPPDATA\nvim"
+
 if (Test-Path $NvimConfig) {
     $BackupPath = "$NvimConfig.backup.$(Get-Date -Format 'yyyyMMdd_HHmmss')"
     Move-Item $NvimConfig $BackupPath
-    Write-Host "기존 설정을 $BackupPath 로 백업했습니다"
 }
 ```
 
-### 2. Junction 생성
+기존 설정이 필요 없다면 직접 제거할 수도 있지만, 설정 전환 작업에서는 백업 후 진행하는 편이 안전하다.
+
+## 2. Junction을 만든다
+
+Dotfiles의 실제 Neovim 설정과 Windows 설정 경로를 지정한다.
 
 ```powershell
-# Dotfiles 경로 설정
 $SourceConfig = "C:\Users\myuser\dotfiles\configs\nvim-lazy"
 $NvimConfigPath = "$env:LOCALAPPDATA\nvim"
 
-# Junction 생성
 cmd /c mklink /J "$NvimConfigPath" "$SourceConfig"
 ```
 
-### 3. 연결 확인
+관계는 다음과 같다.
+
+```text
+실제 파일
+$SourceConfig
+     ↑
+ Junction
+     ↓
+$NvimConfigPath
+     ↓
+Neovim이 읽음
+```
+
+## 3. 연결을 확인한다
+
+PowerShell에서 LinkType과 Target을 확인한다.
 
 ```powershell
-# Junction 확인
-Get-Item $env:LOCALAPPDATA\nvim | Select-Object FullName, LinkType, Target
+Get-Item $env:LOCALAPPDATA\nvim |
+    Select-Object FullName, LinkType, Target
+```
 
-# init.lua 파일 접근 가능 여부 확인
+`init.lua`가 정상적으로 보이는지도 확인할 수 있다.
+
+```powershell
 Test-Path $env:LOCALAPPDATA\nvim\init.lua
 ```
 
-예상 출력:
-```
-FullName                           LinkType Target
---------                           -------- ------
-C:\Users\myuser\AppData\Local\nvim Junction {C:\Users\myuser\dotfiles\configs\nvim-lazy}
+정상이라면 `LinkType`이 `Junction`으로 표시되고 Target이 dotfiles의 실제 설정 디렉터리를 가리킨다.
 
-True
-```
-
-## 전체 스크립트
-
-한 번에 실행할 수 있는 PowerShell 스크립트:
+마지막으로 Neovim을 실행한다.
 
 ```powershell
-# Windows Neovim 설정 연결 스크립트
-# Usage: 이 스크립트를 PowerShell에서 실행
+nvim
+```
 
-$SourceConfig = "C:\Users\$env:USERNAME\dotfiles\configs\nvim-lazy"
-$NvimConfigPath = Join-Path $env:LOCALAPPDATA "nvim"
+설정과 플러그인이 정상적으로 로드되면 연결은 끝난다.
 
-Write-Host "Source: $SourceConfig" -ForegroundColor Cyan
-Write-Host "Target: $NvimConfigPath" -ForegroundColor Cyan
-Write-Host ""
+## 기존 링크가 있을 때 다시 연결하기
 
-# 소스 설정 존재 확인
-if (-not (Test-Path $SourceConfig)) {
-    Write-Error "Neovim 설정을 찾을 수 없습니다: $SourceConfig"
-    exit 1
-}
+이미 Junction 또는 Symbolic Link가 있다면 실제 대상 디렉터리를 지우지 않고 링크만 제거한 뒤 다시 만들 수 있다.
 
-# 기존 설정 처리
-if (Test-Path $NvimConfigPath) {
-    $Item = Get-Item $NvimConfigPath
+```powershell
+$NvimConfigPath = "$env:LOCALAPPDATA\nvim"
+$Item = Get-Item $NvimConfigPath
 
-    # 이미 Junction이나 Symlink인 경우
-    if ($Item.LinkType -eq "Junction" -or $Item.LinkType -eq "SymbolicLink") {
-        Write-Host "기존 링크를 제거합니다..." -ForegroundColor Yellow
-        Remove-Item $NvimConfigPath -Force
-    }
-    # 일반 디렉토리인 경우 백업
-    else {
-        $BackupPath = "$NvimConfigPath.backup.$(Get-Date -Format 'yyyyMMdd_HHmmss')"
-        Write-Host "기존 설정을 백업합니다: $BackupPath" -ForegroundColor Yellow
-        Move-Item $NvimConfigPath $BackupPath -Force
-    }
-}
-
-# Junction 생성
-Write-Host "Junction을 생성합니다..." -ForegroundColor Green
-$result = cmd /c mklink /J "$NvimConfigPath" "$SourceConfig" 2>&1
-
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "성공적으로 Neovim 설정을 연결했습니다!" -ForegroundColor Green
-    Write-Host ""
-
-    # 연결 확인
-    Get-Item $NvimConfigPath | Select-Object FullName, LinkType, Target
-} else {
-    Write-Error "Junction 생성 실패: $result"
-    exit 1
+if ($Item.LinkType -eq "Junction" -or $Item.LinkType -eq "SymbolicLink") {
+    Remove-Item $NvimConfigPath -Force
 }
 ```
 
-## 사용 방법
+그다음 `mklink /J`를 다시 실행한다.
 
-1. 스크립트를 `setup-nvim-windows.ps1` 파일로 저장
-2. PowerShell에서 실행:
-   ```powershell
-   .\setup-nvim-windows.ps1
-   ```
+## Symbolic Link를 사용하려면
 
-3. Neovim 실행:
-   ```powershell
-   nvim
-   ```
-
-처음 실행 시 Lazy.nvim이 자동으로 플러그인을 설치합니다.
-
-## 주의사항
-
-1. **경로 수정**: 스크립트의 `$SourceConfig` 경로를 본인의 dotfiles 경로에 맞게 수정하세요.
-
-2. **설정 변경**: 향후 Neovim 설정을 변경할 때는 `C:\Users\{사용자명}\dotfiles\configs\nvim-lazy\` 디렉토리의 파일을 수정하면 됩니다.
-
-3. **Git 관리**: Dotfiles를 Git으로 관리하면 Windows와 Linux/macOS 간 설정을 쉽게 동기화할 수 있습니다.
-
-## 장점
-
-- 하나의 Neovim 설정을 Windows, Linux, macOS에서 공유
-- Dotfiles로 버전 관리 가능
-- 설정 변경 시 한 곳만 수정하면 됨
-- 관리자 권한 불필요 (Junction 사용)
-
-## 문제 해결
-
-### Junction이 아닌 Symbolic Link를 사용하고 싶다면
-
-개발자 모드를 활성화하거나 관리자 권한으로 PowerShell을 실행:
+Junction 대신 Symbolic Link를 선택할 수도 있다.
 
 ```powershell
-# 관리자 PowerShell에서 실행
-New-Item -ItemType SymbolicLink -Path "$env:LOCALAPPDATA\nvim" -Target "C:\Users\$env:USERNAME\dotfiles\configs\nvim-lazy"
+New-Item \
+  -ItemType SymbolicLink \
+  -Path "$env:LOCALAPPDATA\nvim" \
+  -Target "C:\Users\$env:USERNAME\dotfiles\configs\nvim-lazy"
 ```
 
-### Junction 삭제 방법
+사용 중인 Windows 설정에 따라 Symbolic Link 생성 권한 조건을 확인한다.
+
+## Junction 제거
+
+Junction 자체만 제거하려면:
 
 ```powershell
-# Junction 삭제 (설정 파일은 삭제되지 않음)
 Remove-Item $env:LOCALAPPDATA\nvim
 ```
 
-## 참고 자료
+Junction의 대상인 dotfiles 디렉터리는 별도 위치에 있으므로, 제거 전에 `Get-Item`으로 현재 경로가 실제 일반 디렉터리가 아니라 링크인지 확인하는 습관이 안전하다.
 
-- [Neovim Documentation](https://neovim.io/doc/)
-- [LazyVim](https://www.lazyvim.org/)
-- [Windows Junction Points](https://docs.microsoft.com/en-us/windows/win32/fileio/junction-points)
+## 정리
 
-## 결론
+이 작업의 핵심은 설정 파일을 여러 곳에 복제하는 것이 아니다.
 
-Windows에서도 Unix 스타일의 dotfiles 관리가 가능하며, Junction을 활용하면 권한 문제 없이 설정을 깔끔하게 관리할 수 있습니다.
+```text
+하나의 실제 Neovim 설정
+        ↓
+      Dotfiles
+        ↓
+Windows에서는 Junction으로 노출
+        ↓
+%LOCALAPPDATA%\nvim
+```
+
+이렇게 두면 실제 설정의 원본은 dotfiles 한곳에 유지하면서 Windows가 기대하는 Neovim 설정 경로를 그대로 제공할 수 있다.
