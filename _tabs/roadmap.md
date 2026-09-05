@@ -11,13 +11,14 @@ title: 로드맵
 
 | 로드맵 | 줄기 · 부록 |
 |------|------|
+| [Terminal](/posts/terminal/2026-09-05-terminal-roadmap/) | 터미널의 정체 → TTY/PTY → termios·raw mode → ANSI/VT → terminfo → curses → 현대 TUI → 실제 앱 구조까지, 도구들이 공통으로 기대는 터미널 바닥을 따라가는 줄기 |
 | [Neovim](/posts/neovim/2026-06-16-neovim-roadmap/) | 편집 기본기 → 언어(Lua·Vimscript) → LazyVim 구조까지가 "잘 쓰는" 줄기. 플러그인 개발은 만들 사람만 타는 선택 갈림길 |
 | [tmux](/posts/tmux/2026-06-16-tmux-roadmap/) | 구조·설치 → 옵션 → 플러그인 → 세션 부트스트랩까지 세션 관리 줄기. 트러블슈팅은 부록 |
 | [셸](/posts/shell/2026-07-03-shell-roadmap/) | 동작 원리 → 문법 → 실전 관용구로 스크립트 직접 짜기까지 줄기. 환경 관리·일상 속도·원격은 부록 |
 | [dotfiles](/posts/shell/2026-07-08-dotfiles-roadmap/) | git+심링크로 모으기 → 설치도 선언적으로(Brewfile) → 머신 분기(심링크 vs chezmoi)까지 "설정을 코드로 재현" 줄기. 초기화·SSH·새 맥 셋업은 부록 |
 | [macOS](/posts/macos/2026-07-03-macos-roadmap/) | 시스템 운영(새 맥·Brewfile) → 런처(Raycast) → 창 관리(AeroSpace·Hammerspoon)까지 macOS를 개발환경으로 다듬는 인덱스 |
 | [Linux](/posts/linux/2026-07-11-linux-roadmap/) | 접속(배포판·SSH) → 관측(프로세스·모니터링·디스크) → 계정·권한(사용자·sudo·특수 비트·PAM) → 서비스(systemd) → 로그(수집·감사·회전)까지 서버를 운영하는 줄기. 네트워크·방화벽·폐쇄망은 부록 |
-| [키보드](/posts/etc/2026-07-03-keyboard-roadmap/) | 세벌식·HHKB 배경 → 펌웨어 지형도 → ZMK로 내 키맵 직접 짜기까지 줄기. QMK·VIA/VIAL·Karabiner는 부록 |
+| [키보드](/posts/keyboard/2026-07-03-keyboard-roadmap/) | 세벌식·HHKB 배경 → 펌웨어 지형도 → ZMK로 내 키맵 직접 짜기까지 줄기. QMK·VIA/VIAL·Karabiner는 부록 |
 
 ## 🤖 AI
 
