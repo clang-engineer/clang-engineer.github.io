@@ -1,53 +1,252 @@
 ---
-title       : "브랜치 통합 함정 — 로컬 ref ≠ 원격 ref, orphan main과 non-ff"
-description : "로컬 ref만 보고 ff로 판단했다가 원격에서 non-fast-forward로 거부되는 orphan 브랜치 함정과 해법."
+title       : "Git Branch 통합에서 non-fast-forward가 날 때 — local과 origin의 History부터 비교하기"
+description : "main·master 정리 과정에서 local branch만 보고 fast-forward 가능하다고 판단했다가 origin에서 non-fast-forward가 발생하는 원인을 fetch·merge-base·remote ref 기준으로 진단한다."
 date        : 2026-07-08 11:00:00 +0900
-updated     : 2026-07-08 11:00:00 +0900
-categories  : [git]
-tags        : [branch, fast-forward, merge-base, orphan-branch, non-fast-forward, default-branch]
+updated     : 2026-09-05 19:50:00 +0900
+categories  : [git, "저장소·운영"]
+tags        : [branch, fast-forward, merge-base, unrelated-history, non-fast-forward, troubleshooting]
 pin         : false
 hidden      : false
 ---
 
-`main`·`master`가 뒤섞인 repo를 하나로 정리할 때, **로컬 ref만 보고 "선형이니 ff로 끝"이라 판단하면 원격에서 non-fast-forward로 거부**될 수 있다. 로컬 `main`과 `origin/main`이 같은 이름·같은 커밋 메시지여도 실체(히스토리)가 다를 수 있기 때문. 파괴적 작업 전엔 반드시 `git fetch` 후 **원격 ref 기준**으로 `merge-base`를 확인한다.
+`main`과 `master`를 하나로 정리하는 작업에서 local graph만 보고 "선형이니 fast-forward면 끝"이라고 판단했는데 push가 `non-fast-forward`로 거부될 수 있다.
 
-## 선형성/무관성 검증 순서
+이때 가장 먼저 확인할 것은 **local `main`과 remote의 `origin/main`이 정말 같은 History인가**다.
 
-```sh
-git fetch origin
-# A에 있고 B에 없는 커밋
-git log --oneline B..origin/A
-# 공통 조상 — 비어 있으면 "완전 무관한 히스토리"(unrelated)
-git merge-base origin/A B
+```text
+Local Branch 이름
+≠
+Remote Tracking Ref의 실제 Commit Graph
 ```
 
-- `merge-base`가 **비어 있음** → 두 브랜치는 공통 뿌리가 없는 **orphan/unrelated** 관계. ff 불가, merge도 `--allow-unrelated-histories` 필요.
-- `merge-base == 한쪽 tip` → 그쪽이 다른쪽의 **순수 조상** → ff 가능(충돌·머지커밋 0).
+브랜치 이름이 같아도 서로 전혀 다른 commit을 가리킬 수 있다.
 
-## 실제로 밟은 함정
+## 증상
 
-- GitHub repo에 **버려진 초기 `main`**(자동 생성된 `Initial commit` 3개짜리)이 진짜 작업 라인(`master` 계열 450커밋)과 **뿌리부터 무관**하게 존재.
-- 로컬 `main`(진짜 라인의 조상)을 작업본으로 ff → `git push origin main`이 **non-fast-forward로 거부**. 원인은 origin/main이 그 고아 브랜치였기 때문.
-- 무관한 두 히스토리는 ff가 원천적으로 불가 → 교체하려면 원격을 `--force` 하거나 **삭제 후 재push**.
+local에서 branch 정리를 끝낸 뒤:
 
-```sh
-# 고아 원격 브랜치를 실제 작업본으로 교체 (force 대신 삭제+push가 의도 명확)
-git push origin --delete main
-git push origin main            # 로컬 main(진짜 작업본)으로 새로 생성
+```bash
+git push origin main
 ```
 
-## default 브랜치 삭제 순서
+했는데 다음처럼 거부된다.
 
-원격 **기본 브랜치(default branch)는 삭제 불가**. `master`→`main` 전환 시 순서를 지켜야 한다:
-
-```sh
-git push origin main                     # 1. 새 default 후보를 먼저 push
-gh repo edit --default-branch main       # 2. GitHub default 전환
-git push origin --delete master          # 3. 그 다음에야 구 default 삭제
+```text
+! [rejected] main -> main (non-fast-forward)
 ```
 
-## 교훈
+local graph만 보면 `main`이 원하는 작업 line을 정상적으로 가리키고 있어 원인이 잘 보이지 않을 수 있다.
 
-- 로컬 브랜치 그래프(`git log --all --graph`)는 **원격 실체를 반영 안 할 수 있다**. 통합·삭제 전 `git fetch` 필수.
-- `non-fast-forward` 거부는 대개 "원격이 앞서 있다"지만, **공통 조상이 아예 없는 orphan**일 때도 뜬다 — `merge-base`로 구분.
-- 파괴적 push 실패는 **오히려 안전장치**다. 강제로 밀지 말고 원격 상태부터 조사.
+## 1. 먼저 Remote 상태를 최신으로 만든다
+
+파괴적인 작업 전에 항상 fetch한다.
+
+```bash
+git fetch origin --prune
+```
+
+이제 비교 대상은 local branch 이름이 아니라:
+
+```text
+main
+origin/main
+master
+origin/master
+```
+
+각 ref가 실제로 가리키는 commit이다.
+
+## 2. `merge-base`로 두 History의 관계를 확인한다
+
+예를 들어 현재 local `main`과 remote `origin/main`의 공통 조상을 확인한다.
+
+```bash
+git merge-base main origin/main
+```
+
+### 공통 조상이 없다
+
+출력이 없고 종료 상태가 실패라면 두 ref는 unrelated history일 수 있다.
+
+```text
+History A
+A1 -- A2 -- A3
+
+History B
+B1 -- B2
+
+공통 조상 없음
+```
+
+이 경우 fast-forward는 불가능하다.
+
+### 한쪽 Tip이 Merge Base다
+
+예를 들어:
+
+```bash
+git merge-base --is-ancestor origin/main main
+```
+
+이 성공한다면 remote tip이 local main의 조상이다.
+
+```text
+origin/main
+    A -- B
+         \
+          C -- D  main
+```
+
+이 관계라면 일반적인 fast-forward push가 가능하다.
+
+반대로 local이 remote의 조상이면 remote가 더 앞서 있으므로 먼저 remote 변경을 어떻게 처리할지 결정해야 한다.
+
+## 3. Commit 차이를 직접 본다
+
+양쪽에만 존재하는 commit을 확인한다.
+
+```bash
+git log --oneline --left-right main...origin/main
+```
+
+또는 각각:
+
+```bash
+git log --oneline origin/main..main
+git log --oneline main..origin/main
+```
+
+이 단계에서 "원격이 단순히 몇 commit 앞선 것"인지 "애초에 뿌리가 다른 branch"인지 구분한다.
+
+## 실제로 발생한 구조
+
+문제 상황은 대략 다음과 같았다.
+
+```text
+실제 작업 History
+A -- B -- C -- ... -- Z
+                    ↑
+                  local main
+
+GitHub에 남아 있던 초기 main
+X -- Y -- Q
+     ↑
+ origin/main
+```
+
+`main`이라는 이름은 같지만 두 branch는 공통 조상이 없었다.
+
+그래서 local에서 원하는 작업 line을 `main`으로 정리한 것만으로는 `origin/main`을 fast-forward할 수 없었다.
+
+## 4. 해결은 "원격 History를 보존할 것인가"부터 결정한다
+
+여기서 바로 force push하지 않는다.
+
+먼저 remote `main`의 기존 history가 정말 버려도 되는 초기/실수 branch인지 확인한다.
+
+```text
+origin/main History가 필요하다
+→ merge/rebase 또는 별도 보존 방법 검토
+
+origin/main History가 명확히 폐기 대상이다
+→ remote main을 새 History로 교체 가능
+```
+
+폐기 전에 backup branch를 remote나 local에 남기는 것도 안전하다.
+
+```bash
+git branch backup/origin-main origin/main
+```
+
+## 5. Remote Branch를 교체해야 한다면
+
+기존 remote history를 의도적으로 새 history로 바꾸는 작업은 **history replacement**다.
+
+보호 정책이 허용되고 영향 범위를 확인했다면:
+
+```bash
+git push --force-with-lease origin main
+```
+
+을 고려할 수 있다.
+
+`--force-with-lease`는 단순 `--force`보다 현재 알고 있는 remote ref가 예상과 다르게 바뀌었는지 확인하는 안전장치를 제공한다.
+
+```text
+내가 마지막 fetch에서 본 origin/main
+        ↓
+현재 Remote와 같은가?
+├─ Yes → 교체 진행 가능
+└─ No  → 중단하고 다시 확인
+```
+
+Remote branch를 삭제한 뒤 다시 push하는 방법도 가능하지만, **삭제 자체가 더 안전한 방식은 아니다.** 둘 다 기존 remote history를 교체하는 파괴적 작업이므로 의도와 보호 절차가 중요하다.
+
+## 6. Default Branch 이름까지 바꾸는 경우
+
+예를 들어 `master → main`으로 전환하면서 기존 `master`를 삭제한다면 새 branch를 먼저 remote에 만든다.
+
+```bash
+git push -u origin main
+```
+
+그다음 GitHub default branch를 `main`으로 전환한다.
+
+```bash
+gh repo edit --default-branch main
+```
+
+마지막으로 더 이상 필요 없는 remote `master`를 삭제한다.
+
+```bash
+git push origin --delete master
+```
+
+핵심 순서는:
+
+```text
+새 Branch Push
+   ↓
+Default Branch 전환
+   ↓
+구 Branch 삭제
+```
+
+이다.
+
+## 7. `non-fast-forward`는 원인이 아니라 안전장치다
+
+`non-fast-forward`는 단순히 "remote가 더 최신이다"라는 하나의 원인만 뜻하지 않는다.
+
+다음 경우 모두 나타날 수 있다.
+
+```text
+Remote에 Local이 모르는 Commit 존재
+Local/Remote가 Diverged
+History가 완전히 Unrelated
+```
+
+공통점은 **현재 push가 remote history를 단순 확장하는 fast-forward가 아니라는 것**이다.
+
+따라서 오류를 없애기 위해 즉시 force하는 것이 아니라 graph 관계부터 확인해야 한다.
+
+## 정리
+
+```text
+Push가 non-fast-forward로 거부
+   ↓
+git fetch origin --prune
+   ↓
+Local ref vs origin/* 비교
+   ↓
+merge-base / left-right log 확인
+   ↓
+관계 판정
+├─ Remote가 조상 → 일반 Fast-forward
+├─ Diverged → Merge/Rebase 정책 결정
+└─ Unrelated → History 보존/교체 여부 결정
+                    ↓
+              필요할 때만 강제 교체
+```
+
+**브랜치 이름이 아니라 Commit Graph를 비교하고, force push는 진단 결과가 아니라 마지막 정책 선택으로 둔다**는 것이 핵심이다.
