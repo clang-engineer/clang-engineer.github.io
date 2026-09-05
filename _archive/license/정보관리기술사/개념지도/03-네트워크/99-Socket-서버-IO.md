@@ -393,7 +393,37 @@ read()는 아직 호출하지 않음
 → 그때 read(B)
 ```
 
-즉 I/O Multiplexing은 OS가 대신 `read()`하는 것이 아니다.
+### Non-blocking과 Busy Polling은 같은 말이 아니다
+
+Non-blocking은 `read()` 시 데이터가 없으면 **즉시 반환하는 동작 방식**일 뿐이다. Application이 그 `read()`를 어떻게 다시 시도할지는 별개의 문제다.
+
+예를 들어 Application Thread가 쉬지 않고 직접 재시도하면 Busy Polling이 될 수 있다.
+
+```text
+Application Thread
+        ↓ read(Socket A)
+OS: A의 수신 Buffer 비어 있음 → 즉시 반환
+        ↓ read(Socket B)
+OS: B의 수신 Buffer 비어 있음 → 즉시 반환
+        ↓ read(Socket C)
+OS: C의 수신 Buffer 비어 있음 → 즉시 반환
+        ↓
+다시 read(Socket A) → read(Socket B) → read(Socket C) → ...
+```
+
+```text
+Non-blocking
+= 데이터가 없으면 read()가 즉시 반환
+
+Busy Polling
+= 데이터가 없는 상태에서도 Application Thread가
+  non-blocking read()를 쉬지 않고 반복 호출하여
+  CPU를 사용하며 준비 여부를 계속 확인
+```
+
+즉 **`Non-blocking ≠ Busy Polling`**이며, Non-blocking I/O를 즉시 반복 재시도하는 구현이 Busy Polling이 될 수 있다.
+
+반면 I/O Multiplexing은 Application이 Socket별 `read()`를 계속 호출해 확인하지 않는다.
 
 ```text
 Application Thread
@@ -407,7 +437,7 @@ B의 수신 Buffer에 데이터 도착
 "B가 read-ready"
         ↓
 Application Thread
-        ↓ read(B)
+        ↓ read(Socket B)
 OS
         ↓
 실제 Byte 반환
@@ -529,60 +559,3 @@ epoll
 ## 12. Event Loop는 이 과정을 반복하는 Application 구조다
 
 Event Loop는 Non-blocking `read()`를 무작정 반복 호출하는 Busy Polling과 다르다.
-
-```text
-Busy Polling
-read(A) → 없음
-read(B) → 없음
-read(C) → 없음
-다시 read(A) → ...
-```
-
-전형적인 Event Loop는 I/O Multiplexing 등을 이용해:
-
-```text
-준비된 I/O Event 기다림
-        ↓
-OS가 준비된 Socket 반환
-        ↓
-Application이 해당 Socket read / 처리
-        ↓
-다시 I/O Event 기다림
-        ↺
-```
-
-을 반복한다.
-
-```text
-epoll
-= I/O Multiplexing Mechanism/API
-
-Event Loop
-= 준비 대기 → 처리 → 다시 대기를 반복하는 Application 실행 구조
-```
-
-따라서 `epoll = Event Loop`는 아니다.
-
-## 13. Socket 위에는 Application Protocol이 올라간다
-
-Socket은 Byte를 전달할 뿐 그 의미까지 해석하지 않는다.
-
-```text
-HTTP/1.1 · HTTP/2
-WebSocket
-RPC용 Protocol
-직접 만든 Protocol
-        ↓
-       TCP
-        ↓
-    Socket API
-        ↓
-     OS Kernel
-```
-
-```text
-Socket이 HTTP를 사용한다            X
-HTTP가 TCP Socket을 사용할 수 있다  O
-```
-
-HTTP/3은 대표적으로 `HTTP
