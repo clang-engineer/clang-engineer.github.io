@@ -1,135 +1,268 @@
 ---
-title       : macOS 생산성 런처 비교와 생산성 앱 큰 그림 (Spotlight · Alfred · Raycast)
-description : "macOS 런처 Spotlight·Alfred·Raycast를 가격·확장성·클립보드·동기화·개발자 친화성으로 비교해 유형별로 추천하고, 런처 너머 창 관리(Rectangle)·입력 자동화(BTT)까지 생산성 앱 전반의 큰 그림을 한 장으로 정리한다."
+title       : "macOS Launcher 비교 — Spotlight vs Alfred vs Raycast"
+description : "macOS 26의 Spotlight, Alfred, Raycast를 검색·동작 실행·확장 모델·클립보드·동기화·비용이라는 같은 비교축에 놓고 어떤 사용자에게 맞는지 정리한다."
 date        : 2025-10-31 09:20:19 +0900
-updated     : 2026-07-09 09:00:00 +0900
+updated     : 2026-09-05 20:25:00 +0900
 categories  : [macos, "런처·생산성"]
 redirect_from:
   - /posts/etc/2025-10-31-productivity-launchers/
   - /posts/macos/2025-12-29-mac-productivity-tool/
   - /posts/etc/2025-12-29-mac-productivity-tool/
-tags        : [macos, productivity, raycast]
+tags        : [macos, spotlight, alfred, raycast, comparison]
 pin         : false
 hidden      : false
 ---
 
-## 🌟 Spotlight (기본 내장)
+macOS에서 Spotlight, Alfred, Raycast는 모두 키보드로 앱과 정보를 빠르게 찾는 Launcher지만 **현재는 단순 검색 속도만으로 비교하기 어렵다.**
 
-**설명:**  
-macOS에 기본 내장된 검색 런처로, 앱 실행・파일 검색・웹 검색 등을 지원합니다.
+특히 macOS 26의 Spotlight는 앱·파일 검색을 넘어 Action 실행, Shortcut 호출, Clipboard History까지 제공하면서 예전보다 훨씬 높은 계층으로 올라왔다.
 
-**장점:**
-- 기본 제공, 추가 설치 불필요  
-- 시스템 자원 소모 적음  
-- 단순한 사용 경험  
+따라서 비교축을 먼저 잡는다.
 
-**단점:**
-- 확장성 부족 (커스터마이징 불가)  
-- 자동화/워크플로 기능 없음  
-
----
-
-## ⚡ Alfred
-
-**설명:**  
-Spotlight를 대체하는 고급 런처.  
-앱 실행, 파일 검색, 클립보드 히스토리, 자동화 워크플로 등 강력한 기능을 제공합니다.
-
-**설치:**  
-```bash
-brew install --cask alfred
-````
-
-**주요 특징:**
-
-* **Powerpack (유료)**: 워크플로, 클립보드 매니저, 스니펫 등 고급 기능 활성화
-* **로컬 중심 동작**: 프라이버시 보장
-* **스크립트 기반 자동화**: AppleScript, Bash, Python 등과 연동 가능
-
-**추천 사용자:**
-
-* 맥 파워유저
-* 복잡한 자동화를 선호하는 개발자
-* 로컬 환경 제어를 선호하는 사용자
-
----
-
-## 🚀 Raycast
-
-**설명:**
-모던한 UI와 풍부한 확장 기능을 제공하는 차세대 런처.
-개발자 친화적인 확장 API를 갖추고 있으며 대부분의 기능이 무료입니다.
-
-**설치:**
-
-```bash
-brew install --cask raycast
+```text
+기본 검색·앱 실행
+        ↓
+Action / Automation
+        ↓
+Extension 생태계
+        ↓
+Clipboard / Snippet
+        ↓
+Sync / Team 기능
+        ↓
+비용과 관리 복잡도
 ```
 
-**주요 특징:**
+## 1. 세 도구의 위치
 
-* **무료로 워크플로 지원** (Extension Store 내장)
-* GitHub, VSCode, Notion, ChatGPT 등과 쉽게 연동
-* JavaScript/TypeScript 기반의 확장 개발 가능
-* 클라우드 동기화, 설정 자동 백업
+```text
+macOS 기본 기능
+└─ Spotlight
 
-**추천 사용자:**
+독립 Launcher + Workflow 중심
+└─ Alfred
 
-* 개발자 및 팀 단위 사용자
-* 현대적 UI, 쉬운 설정 선호자
-* 무료 + 자동화 둘 다 원하는 사람
+독립 Productivity Platform + Extension 중심
+└─ Raycast
+```
 
----
+셋 모두 "검색창"처럼 보이지만 확장 방식과 제품 철학이 다르다.
 
-## ⚔️ 간단 비교표
+## 2. 한눈에 비교
 
-| 항목            | Spotlight | Alfred               | Raycast        |
-| ------------- | --------- | -------------------- | -------------- |
-| 💰 가격         | 무료        | 기본 무료 / Powerpack 유료 | 완전 무료          |
-| ⚡ 속도          | 빠름        | 매우 빠름                | 매우 빠름          |
-| 🧩 확장성        | 없음        | 워크플로 (스크립트 기반)       | 확장 스토어 (JS 기반) |
-| 💾 클립보드 / 스니펫 | 없음        | Powerpack 필요         | 기본 제공          |
-| ☁️ 동기화        | macOS 연동  | iCloud/Dropbox 수동    | 자동             |
-| 👨‍💻 개발자 친화성 | 낮음        | 중간                   | 매우 높음          |
-| 🎨 UI         | 기본적       | 클래식                  | 현대적            |
+| 비교축 | Spotlight | Alfred | Raycast |
+|---|---|---|---|
+| 기본 제공 | macOS 내장 | 별도 설치 | 별도 설치 |
+| 앱·파일 검색 | 강함 | 강함 | 강함 |
+| Action 실행 | macOS 26에서 크게 강화 | Workflow/Universal Actions | Commands/Extensions 중심 |
+| Shortcut 연동 | macOS Shortcuts와 직접 통합 | Workflow에서 연동 가능 | Extension/Command 조합 |
+| Clipboard History | macOS 26에서 제공 | Powerpack | Free plan 포함, 보관 기간 제한 |
+| 확장 모델 | Apple의 System Action/Shortcut | Alfred Workflow | Extension Store + Custom Extension |
+| 사용자 확장 개발 | Shortcuts/시스템 범위 | Script·Workflow | TypeScript/React 기반 Extension |
+| Cloud Sync | Apple 생태계 기능에 따름 | 원하는 Sync Storage로 설정 | Pro 기능 |
+| 비용 | macOS에 포함 | 기본 무료 + Powerpack 유료 | Free + Pro 구독 |
 
----
+중요한 변화는 **Spotlight를 더 이상 "검색만 되는 기본 런처"로 보면 안 된다는 것**이다.
 
-## 💡 결론
+## 3. Spotlight — 운영체제에 가장 가까운 Launcher
 
-| 사용자 유형              | 추천            |
-| ------------------- | ------------- |
-| 기본 검색만 필요           | **Spotlight** |
-| 세밀한 자동화, 스크립트 제어 선호 | **Alfred**    |
-| 현대적 UI, 개발자 확장성, 무료 | **Raycast**   |
+Spotlight의 가장 큰 장점은 설치가 필요 없고 macOS 자체 데이터와 기능을 직접 알고 있다는 점이다.
 
----
+현재 macOS 26에서는:
 
-## 🧩 런처 너머 — 생산성 앱 큰 그림
+```text
+App 검색
+File 검색
+Clipboard 탐색
+System / App Action 실행
+Shortcut 실행
+빠른 키(Quick Keys)
+```
 
-런처는 "무엇을 빠르게 호출하나"의 한 축일 뿐이다. macOS 생산성 앱은 크게 **검색·호출(런처) · 창 관리 · 입력 자동화** 세 갈래로 나뉜다. 대표 앱을 한 장으로 보면 이렇다.
+까지 지원한다.
 
-| 구분    | Raycast   | Rectangle | BetterTouchTool |
-| ----- | --------- | --------- | --------------- |
-| 주요 역할 | 런처·생산성 허브 | 창 관리      | 입력·자동화          |
-| 난이도   | 낮음        | 매우 낮음     | 높음              |
-| 무료 사용 | 가능        | 가능        | 체험만 가능          |
-| 추천 대상 | 모든 사용자    | 창 정리 위주   | 파워 유저           |
+즉 구조적으로:
 
-- **Rectangle** — 창 분할 표준. 코드 없이 단축키·드래그 스냅으로 창을 배치한다. → [Rectangle.app 기본](/posts/macos/2026-07-03-rectangle-app-basics/)
-- **BetterTouchTool(BTT)** — 트랙패드·마우스·키보드 제스처, 앱별 단축키, 매크로·워크플로 자동화까지 잡는 입력 커스터마이즈 도구. 45일 체험 후 유료. 파워 유저용.
+```text
+macOS System / Apps
+       ↓
+   Spotlight Index
+       +
+   System Actions
+       +
+    Shortcuts
+       ↓
+    Spotlight UI
+```
 
-**대표 조합**: `Raycast + Rectangle`(가장 대중적, 생산성+창 관리 균형) · `Raycast + BTT`(키보드·제스처 중심) · 셋 다(개발자 풀세트).
+에 가깝다.
 
-그 밖에 자주 쓰이는 유틸: [**AltTab**](/posts/macos/2026-07-03-alttab-window-switcher/)(Windows식 창 전환) · CleanShot X(스크린샷) · Keyboard Maestro(매크로) · Maccy(클립보드).
+### Spotlight가 잘 맞는 경우
 
-> Raycast에도 창 관리 기능이 있어 Rectangle 같은 도구와 역할이 겹칠 수 있다. "무엇을 끄고 어디까지만 맡기느냐"는 [Raycast를 검색 계층으로 한정하기](/posts/macos/2026-07-03-raycast-search-layer-role/)에서 정리한다.
-{: .prompt-tip }
+```text
+추가 앱을 최소화하고 싶다
+macOS 기본 기능과 Shortcut을 많이 쓴다
+검색 + 일반적인 Action이면 충분하다
+```
 
----
+예전처럼 "자동화 기능이 없다"고 보는 것은 현재 macOS에서는 맞지 않는다.
 
-## 🔗 참고 링크
+## 4. Alfred — Workflow를 직접 조립하는 Launcher
 
-* [Alfred 공식 사이트](https://www.alfredapp.com/)
-* [Raycast 공식 사이트](https://www.raycast.com/)
-* [Homebrew 공식 사이트](https://brew.sh/)
+Alfred의 강점은 오랫동안 쌓인 **Workflow 기반 사용자 자동화**다.
+
+기본 앱은 무료로 사용할 수 있지만 Workflow, Clipboard History, Snippets 같은 핵심 고급 기능은 Powerpack에서 제공된다.
+
+```text
+Keyword / Hotkey
+      ↓
+Alfred Workflow
+├─ Script Filter
+├─ Action
+├─ File / URL 처리
+└─ 외부 API / Script
+```
+
+Workflow를 블록처럼 연결하거나 Bash, Python, AppleScript 등 외부 script를 넣을 수 있어 **내가 원하는 자동화 흐름을 세밀하게 소유하고 싶은 사용자**에게 잘 맞는다.
+
+### Alfred가 잘 맞는 경우
+
+```text
+기존 Alfred Workflow 자산이 많다
+Script 기반 자동화를 세밀하게 구성하고 싶다
+Subscription보다 일회성 License를 선호한다
+설정 Sync 위치도 직접 통제하고 싶다
+```
+
+현재 Alfred 5 Powerpack은 별도 유료 license이며 lifetime upgrade가 포함된 상위 license도 따로 있다. 가격은 변할 수 있으므로 구매 시 공식 페이지를 확인한다.
+
+## 5. Raycast — Extension 생태계를 중심으로 한 Productivity Platform
+
+Raycast는 Launcher 위에 많은 productivity 기능을 하나의 Command/Extension 모델로 통합한다.
+
+```text
+Raycast
+├─ Built-in Commands
+├─ Clipboard History
+├─ Snippets
+├─ Window Management
+├─ Quicklinks
+├─ Extension Store
+└─ Custom Extensions
+```
+
+Extension 개발은 TypeScript/React 생태계를 사용하므로 웹 프론트엔드 경험을 재사용하기 좋다.
+
+### Free와 Pro를 구분해야 한다
+
+Raycast의 개인 Free plan에도 상당한 핵심 기능이 포함된다.
+
+```text
+Clipboard History
+Window Management
+Snippets
+Public Extensions
+Custom Extensions / Developer Tooling
+```
+
+하지만 현재 기준으로 Cloud Sync, AI, Dictation, Custom Themes 등은 Pro에 포함된다. Free plan의 Clipboard History도 보관 기간 등에서 Pro와 차이가 있다.
+
+따라서:
+
+```text
+Raycast = 완전 무료
+```
+
+라고 단정하기보다 **강한 Free tier + 선택적 Pro subscription**으로 이해하는 편이 정확하다.
+
+### Raycast가 잘 맞는 경우
+
+```text
+Extension Store에서 기능을 빠르게 추가하고 싶다
+TypeScript 기반 확장을 직접 만들고 싶다
+Launcher에 Clipboard·Window·Snippet 등을 함께 묶고 싶다
+필요하면 Cloud Sync·AI까지 한 제품에서 사용하고 싶다
+```
+
+## 6. 세 도구의 가장 큰 차이는 확장 모델이다
+
+검색 성능보다 이 축이 장기 사용 경험을 더 크게 가른다.
+
+```text
+Spotlight
+→ OS가 제공하는 Action + Shortcuts
+
+Alfred
+→ 사용자가 조립하는 Workflow
+
+Raycast
+→ Command / Extension Platform
+```
+
+따라서 "어떤 게 제일 강력한가"보다 **내 자동화가 어느 모델과 잘 맞는가**가 더 좋은 질문이다.
+
+## 7. 선택 기준
+
+### 기본 기능으로 최대한 해결
+
+```text
+Spotlight
+```
+
+macOS 26의 Action과 Clipboard 기능까지 먼저 사용해보고 부족한 지점을 확인한다.
+
+### 자동화 흐름을 직접 설계
+
+```text
+Alfred + Powerpack
+```
+
+오랫동안 사용할 개인 Workflow와 Script를 세밀하게 구성하고 싶을 때 적합하다.
+
+### Extension 중심의 통합 Productivity Layer
+
+```text
+Raycast
+```
+
+다양한 app integration을 쉽게 붙이고 TypeScript 기반 확장을 활용하고 싶다면 유리하다.
+
+## 8. Launcher와 다른 Productivity Tool을 같은 축에 놓지 않는다
+
+Rectangle, AeroSpace, BetterTouchTool 같은 앱은 Launcher와 일부 기능이 겹칠 수 있지만 주 역할은 다르다.
+
+```text
+검색·Command 호출
+→ Spotlight / Alfred / Raycast
+
+Window Layout / Tiling
+→ Rectangle / AeroSpace
+
+입력 Device·Gesture·Macro 자동화
+→ BetterTouchTool / Hammerspoon 등
+```
+
+Raycast가 Window Management를 제공한다고 해서 전문 Window Manager와 같은 제품군이 되는 것은 아니다.
+
+이 경계는 [Raycast를 검색 계층으로 한정하기](/posts/macos/2026-07-03-raycast-search-layer-role/)에서 더 구체적으로 다룬다.
+
+## 정리
+
+```text
+Spotlight
+→ OS 통합이 가장 깊은 기본 Launcher
+
+Alfred
+→ Workflow를 직접 설계하는 성숙한 Automation Launcher
+
+Raycast
+→ Extension 생태계를 중심으로 기능을 통합한 Productivity Platform
+```
+
+현재 macOS에서는 Spotlight 자체가 크게 강해졌기 때문에 **기본 기능으로 해결되는 범위를 먼저 확인한 뒤, 부족한 확장 모델에 따라 Alfred나 Raycast를 선택하는 것**이 가장 합리적이다.
+
+## 참고
+
+- [Apple — macOS 26 Spotlight](https://support.apple.com/guide/mac-help/mchl4953dfeb/mac)
+- [Alfred Powerpack](https://www.alfredapp.com/powerpack/)
+- [Raycast Pricing](https://www.raycast.com/pricing)
