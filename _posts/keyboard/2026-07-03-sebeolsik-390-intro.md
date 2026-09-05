@@ -2,14 +2,14 @@
 title       : "세벌식 390 입문 — 왜 세벌식인가, 그리고 숫자 넘패드까지 딸려오는 자판"
 description : "두벌식과 다른 세벌식의 원리, 도깨비불 현상이 사라지는 이유, 세벌식 390과 최종(391)의 차이, 그리고 숫자를 넘패드처럼 치는 390만의 기능까지 정리합니다."
 date        : 2026-07-03 13:00:00 +0900
-updated     : 2026-07-03 13:00:00 +0900
-categories  : [etc, "keyboard"]
+updated     : 2026-09-05 21:14:00 +0900
+categories  : [keyboard, "자판·배열"]
 tags        : [keyboard, hangul, sebeolsik, guide]
 pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](/posts/etc/2026-07-03-keyboard-roadmap/) · [HHKB 입문](/posts/etc/2026-07-03-hhkb-intro/) · [ZMK 키맵 설계기](/posts/etc/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)
+> 관련 시리즈: [키보드 로드맵](/posts/keyboard/2026-07-03-keyboard-roadmap/) · [HHKB 입문](/posts/keyboard/2026-07-03-hhkb-intro/) · [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)
 
 한국에서 대부분이 쓰는 한글 자판은 **두벌식**이다. 그런데 두벌식 말고 **세벌식**이라는 오래된 대안이 있고, 한 번 익히면 두벌식으로 돌아가기 어렵다는 사람도 많다. 이 글은 세벌식이 두벌식과 무엇이 다른지, 그 안에서도 **세벌식 390**이 어떤 자판인지, 그리고 390이 가진 재밌는 기능("숫자를 넘패드처럼 친다")까지 정리한 입문 글이다.
 
@@ -94,7 +94,7 @@ Apple 공식 설명에 따르면 macOS의 세벌식 390은 특수문자를 영�
 - **390은 숫자를 넘패드처럼** 칠 수 있는 게 특징이다.
 - macOS는 세벌식 390을 기본 지원하므로 입문 장벽이 낮다.
 
-세벌식 390을 40% 커스텀 키보드 키맵에 어떻게 녹였는지는 [ZMK 키맵 설계기](/posts/etc/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)에서 이어진다.
+세벌식 390을 40% 커스텀 키보드 키맵에 어떻게 녹였는지는 [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)에서 이어진다.
 
 ## 참고
 
