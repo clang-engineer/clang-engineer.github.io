@@ -372,44 +372,159 @@ Thread 수
 
 > **`read()` 하나를 먼저 호출해서 기다리지 말고, 여러 Socket 중 실제로 `read()`할 수 있는 Socket을 먼저 알 수는 없을까?**
 
-## 10. I/O Multiplexing은 `read()` 전에 준비된 Socket을 찾는다
+## 10. I/O Multiplexing은 여러 Socket의 대기를 하나로 모은다
 
-이 지점이 Blocking / Non-blocking과 I/O Multiplexing의 가장 중요한 차이다.
+### 10.1 왜 필요한가
+
+Blocking `read()`는 하나의 Socket을 기다린다.
+
+```text
+Thread A → read(Socket A) → A가 준비되기를 기다림
+Thread B → read(Socket B) → B가 준비되기를 기다림
+Thread C → read(Socket C) → C가 준비되기를 기다림
+```
+
+Socket이 많아질수록 이런 식으로 **Socket별 대기 Thread가 많이 필요할 수 있다.**
+
+Non-blocking `read()`를 사용하면 Thread가 Socket 하나에 묶이는 것은 피할 수 있다.
+
+```text
+read(Socket A) → 데이터 없음 → 즉시 반환
+read(Socket B) → 데이터 없음 → 즉시 반환
+read(Socket C) → 데이터 없음 → 즉시 반환
+```
+
+하지만 Application Thread가 이것을 쉬지 않고 반복하면 Busy Polling이 된다.
+
+```text
+read(Socket A) → 없음
+read(Socket B) → 없음
+read(Socket C) → 없음
+read(Socket A) → 없음
+              ...
+```
+
+여기서 발상을 바꾼다.
+
+> **어느 Socket의 수신 Buffer에 데이터가 준비됐는지는 OS가 이미 알고 있다. 그렇다면 Application이 Socket마다 `read()`해서 확인하지 말고, OS에게 준비된 Socket만 물어보면 된다.**
+
+### 10.2 N개의 개별 대기를 하나의 대기로 모은다
+
+```text
+기존 Blocking 구조
+
+Socket A ← read() ← Thread A 대기
+Socket B ← read() ← Thread B 대기
+Socket C ← read() ← Thread C 대기
+
+                ↓
+        I/O Multiplexing
+                ↓
+
+Socket A ─┐
+Socket B ─┼→ 하나의 I/O 대기 지점 ← Application Thread
+Socket C ─┘
+```
+
+즉 `Multiplexing`의 핵심은 **여러 Socket의 준비 상태를 하나의 대기 지점에서 함께 기다리는 것**이다.
+
+Application Thread는 아직 Socket별 `read()`를 호출하지 않는다.
+
+```text
+Application Thread
+        ↓
+"A / B / C 중 read 가능한 Socket이 생기면 알려줘"
+        ↓
+OS
+```
+
+아무 Socket도 준비되지 않았다면 이 Multiplexing 호출에서 **Thread 하나가 대기할 수 있다.**
+
+```text
+OS
+├─ Socket A 수신 Buffer : 비어 있음
+├─ Socket B 수신 Buffer : 비어 있음
+└─ Socket C 수신 Buffer : 비어 있음
+
+Application Thread
+= A / B / C 중 하나라도 준비되기를 대기
+```
+
+그러다 B에 데이터가 도착하면:
+
+```text
+Network
+   ↓
+Server OS
+   ↓
+Socket B 수신 Buffer에 DATA 저장
+   ↓
+"Socket B가 read-ready"
+   ↓
+Multiplexing 호출 반환
+   ↓
+Application Thread
+   ↓ read(Socket B)
+Server OS
+   ↓
+실제 DATA 반환
+```
+
+### 10.3 OS가 대신 `read()`하는 것은 아니다
+
+```text
+OS
+= "Socket B가 read 가능한 상태"라고 알려줌
+
+Application Thread
+= 실제 read(Socket B)를 호출
+```
+
+즉 OS가 반환하는 것은 데이터 자체가 아니라 **readiness**다.
+
+```text
+read-ready
+= "이 Socket은 지금 read()하면 데이터가 있어 기다리지 않을 상태"
+```
+
+따라서 `read()` 타이밍을 기준으로 비교하면:
 
 ```text
 Blocking
 read(A) 먼저
-→ 데이터 없으면 read() 안에서 대기
+→ 없으면 read() 안에서 A를 기다림
 
 Non-blocking
 read(A) 먼저
-→ 데이터 없으면 즉시 반환
-→ 나중에 다시 시도
+→ 없으면 즉시 반환
+→ 필요하면 다시 read(A)
 
 I/O Multiplexing
-read()는 아직 호출하지 않음
-→ A / B / C 중 read 가능한 Socket을 먼저 기다림
-→ OS: "B 준비됨"
+read()는 아직 하지 않음
+→ A / B / C 중 준비된 Socket을 기다림
+→ OS: "B read-ready"
 → 그때 read(B)
 ```
 
-### Non-blocking과 Busy Polling은 같은 말이 아니다
+> **Blocking / Non-blocking은 `read()`를 먼저 호출한다. I/O Multiplexing은 `read()`하기 전에 어느 Socket을 읽을 수 있는지 먼저 기다린다.**
 
-Non-blocking은 `read()` 시 데이터가 없으면 **즉시 반환하는 동작 방식**일 뿐이다. Application이 그 `read()`를 어떻게 다시 시도할지는 별개의 문제다.
+### 10.4 Multiplexing도 Blocking될 수 있다
 
-예를 들어 Application Thread가 쉬지 않고 직접 재시도하면 Busy Polling이 될 수 있다.
+I/O Multiplexing의 목적은 Thread가 절대 기다리지 않게 만드는 것이 아니다.
 
 ```text
-Application Thread
-        ↓ read(Socket A)
-OS: A의 수신 Buffer 비어 있음 → 즉시 반환
-        ↓ read(Socket B)
-OS: B의 수신 Buffer 비어 있음 → 즉시 반환
-        ↓ read(Socket C)
-OS: C의 수신 Buffer 비어 있음 → 즉시 반환
-        ↓
-다시 read(Socket A) → read(Socket B) → read(Socket C) → ...
+Blocking read
+= Thread 하나가 Socket A 하나의 데이터를 기다림
+
+I/O Multiplexing
+= Thread 하나가 A / B / C 중 하나라도 준비되기를 기다림
 ```
+
+즉 핵심은:
+
+> **N개의 Socket마다 따로 기다리는 구조를, 하나의 I/O 대기 지점에서 N개의 Socket을 함께 기다리는 구조로 바꾸는 것**이다.
+
+### 10.5 Non-blocking과 Busy Polling은 같은 말이 아니다
 
 ```text
 Non-blocking
@@ -421,141 +536,8 @@ Busy Polling
   CPU를 사용하며 준비 여부를 계속 확인
 ```
 
-즉 **`Non-blocking ≠ Busy Polling`**이며, Non-blocking I/O를 즉시 반복 재시도하는 구현이 Busy Polling이 될 수 있다.
-
-반면 I/O Multiplexing은 Application이 Socket별 `read()`를 계속 호출해 확인하지 않는다.
-
-```text
-Application Thread
-        ↓
-"A / B / C 중 read 가능한 Socket 알려줘"
-        ↓
-OS
-        ↓
-B의 수신 Buffer에 데이터 도착
-        ↓
-"B가 read-ready"
-        ↓
-Application Thread
-        ↓ read(Socket B)
-OS
-        ↓
-실제 Byte 반환
-```
-
-OS가 알려주는 것은 **데이터 자체가 아니라 readiness**, 즉 "이 Socket은 지금 `read()`하면 기다리지 않을 상태"라는 정보다.
-
-또한 I/O Multiplexing 호출 자체는 Blocking될 수 있다.
-
-```text
-Blocking read
-= Thread 하나가 Socket A의 데이터를 기다림
-
-I/O Multiplexing
-= Thread 하나가 A / B / C 중 하나라도 준비되기를 기다림
-```
-
-따라서 I/O Multiplexing의 핵심은 **Blocking 자체를 없애는 것**이 아니라 **한 Thread의 기다림으로 여러 Socket의 준비 상태를 함께 기다릴 수 있다는 것**이다.
+따라서 **`Non-blocking ≠ Busy Polling`**이다. Non-blocking I/O를 즉시 반복 재시도하는 구현이 Busy Polling이 될 수 있다.
 
 ## 11. `select` / `poll` / `epoll`
 
-셋 모두 I/O Multiplexing API 계열이며 공통 목적은 같다.
-
-```text
-여러 Socket
-    ↓
-"이 중 read 가능한 Socket 알려줘"
-    ↓
-select / poll / epoll
-    ↓
-준비된 Socket 확인
-    ↓
-Application Thread가 해당 Socket read()
-```
-
-### select / poll
-
-둘은 개념적으로 매우 비슷하다.
-
-```text
-select(A, B, C)
-또는 poll([A, B, C])
-        ↓
-준비된 Socket 없음
-        ↓
-호출한 Thread 대기 가능
-        ↓
-B 준비
-        ↓
-호출 반환
-        ↓
-read(B)
-```
-
-한 번 `select()` / `poll()`이 반환하면 그 호출은 끝난다. 계속 감시하려면 Application이 다시 호출한다.
-
-```text
-감시 목록 전달
-    ↓
-select / poll
-    ↓
-준비된 Socket 처리
-    ↓
-다시 감시 목록 전달
-    ↓
-select / poll
-    ↓
-...
-```
-
-차이는 주로 감시 대상을 표현하는 API 구조다.
-
-```text
-select
-= fd_set 기반
-= 전통적으로 FD_SETSIZE 제약과 연관
-
-poll
-= pollfd 목록/배열 기반
-= select의 고정 비트셋 방식 제약을 피함
-```
-
-### epoll
-
-`epoll`은 **왜 매번 전체 관심 Socket 목록을 다시 넘겨야 하는가?**라는 문제를 개선한 Linux 방식으로 이해한다.
-
-```text
-최초 / 변경 시
-Application
-    ↓
-관심 Socket을 Kernel에 등록
-A / B / C
-
-반복 처리
-Application Thread
-    ↓ epoll_wait()
-OS
-    ↓
-"B 준비됨"
-    ↓
-Application Thread
-    ↓ read(B)
-    ↓
-epoll_wait() 다시 호출
-```
-
-즉:
-
-```text
-select / poll
-= 감시할 목록을 매 호출마다 전달
-= 호출이 반환되면 다시 호출
-
-epoll
-= 관심 Socket 목록을 Kernel에 등록·유지
-= epoll_wait()를 반복하여 준비된 Event를 받음
-```
-
-## 12. Event Loop는 이 과정을 반복하는 Application 구조다
-
-Event Loop는 Non-blocking `read()`를 무작정 반복 호출하는 Busy Polling과 다르다.
+셋 모두 위의 **"여러 Socket 중 준비된 Socket을 알려줘"**를 구현하는 I/O Multip
