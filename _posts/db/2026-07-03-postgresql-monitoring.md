@@ -1,32 +1,63 @@
 ---
-title       : "PostgreSQL 모니터링 — pg_stat 뷰와 슬로우 쿼리 추적"
-description : "pg_stat_activity·pg_stat_user_tables·pg_stat_statements로 느린 쿼리·안 쓰는 인덱스·dead tuple·복제 지연을 찾아내고, log_min_duration_statement로 슬로우 쿼리를 잡는 법."
+title       : "PostgreSQL 모니터링 — 증상에서 pg_stat으로 원인 좁히기"
+description : "PostgreSQL 장애를 현재 세션·누적 쿼리 부하·테이블 상태·운영 상태로 나눈 뒤 pg_stat_activity, pg_stat_statements, pg_stat_user_tables, pg_stat_replication과 로그를 이용해 원인을 좁히는 흐름을 정리한다."
 date        : 2026-07-03 17:10:00 +0900
-updated     : 2026-07-03 17:10:00 +0900
+updated     : 2026-09-05 21:20:00 +0900
 categories  : [db, "PostgreSQL·운영"]
 tags        : [postgresql, monitoring, pg-stat, performance]
 pin         : false
 hidden      : false
 ---
 
-DB가 느려졌다는 알림이 왔다. 어디를 봐야 하나. PostgreSQL은 내부 통계를 `pg_stat_*` 계열 뷰로 전부 노출한다. 지금 무슨 쿼리가 돌고 있는지, 어떤 테이블이 seq scan에 시달리는지, 어떤 인덱스가 한 번도 안 쓰였는지 전부 SQL 한 줄로 조회된다. 별도 APM 없이도 여기서 대부분의 문제를 잡을 수 있다. 이 글은 무엇을 보고 어떻게 원인을 좁히는지 정리한다. (기준: PostgreSQL 16/17)
+"DB가 느리다"는 증상만으로는 볼 곳이 너무 많다. PostgreSQL 모니터링의 핵심은 `pg_stat_*` View를 많이 외우는 것이 아니라, **문제를 몇 개의 관측 축으로 나눈 뒤 해당 통계로 내려가는 것**이다.
 
-## 1. 무엇을 모니터링하나
+```text
+DB가 느리다 / 멈춘다 / 밀린다
+        ↓
+지금 이 순간의 문제인가?
+├─ Session / Connection
+├─ Lock / Wait
+└─ Long Transaction
+        ↓
+시간이 누적되어 나타난 부하인가?
+├─ Query
+├─ Table / Index
+└─ Cache / I/O
+        ↓
+운영 상태가 뒤처진 것인가?
+├─ VACUUM
+└─ Replication
+```
 
-운영 중 봐야 할 지표는 크게 여섯 가지다.
+이 글은 이 진단 순서에 맞춰 PostgreSQL의 관측 지점을 연결한다. 세부 설정값을 외우기보다 **증상 → 관측 대상 → 다음 판단**을 찾는 것이 목적이다.
 
-| 지표 | 왜 보나 | 어디서 |
-| --- | --- | --- |
-| 느린 쿼리 | 응답 지연·CPU 소모의 주범 | `pg_stat_statements`, 로그 |
-| 커넥션 수 | 소진되면 신규 연결 거부 | `pg_stat_activity` |
-| 캐시 적중률 | 낮으면 디스크 I/O 폭증 | `pg_statio_*`, `pg_stat_database` |
-| dead tuple / bloat | 쌓이면 테이블 팽창·성능 저하 | `pg_stat_user_tables` |
-| 복제 지연 | 스탠바이가 뒤처지면 데이터 유실 위험 | `pg_stat_replication` |
-| 락 대기 | 쿼리가 서로 물려 멈춤 | `pg_locks`, `pg_stat_activity` |
+## 먼저 문제 공간을 나눈다
 
-## 2. pg_stat_activity — 지금 이 순간
+| 질문 | 먼저 볼 곳 | 확인하려는 것 |
+|---|---|---|
+| 지금 누가 DB를 붙잡고 있나 | `pg_stat_activity` | Active Query, Connection, Long Transaction |
+| 누가 누구를 막고 있나 | `pg_blocking_pids()`, `pg_locks` | Lock Wait |
+| 평소 어떤 Query가 부하를 만드나 | `pg_stat_statements` | 호출 횟수·누적 시간·평균 시간 |
+| Table과 Index 상태는 어떤가 | `pg_stat_user_tables`, `pg_stat_user_indexes` | Seq Scan, Dead Tuple, Index 사용량 |
+| Memory와 Disk 사이에서 얼마나 읽나 | `pg_stat_database`, `pg_statio_*` | Buffer Hit / Read |
+| Standby가 따라오고 있나 | `pg_stat_replication` | WAL 전송·재생 지연 |
+| 특정 실행이 왜 느렸나 | Slow Query Log, `auto_explain` | 실제 Query와 Execution Plan |
 
-현재 서버에 붙은 모든 백엔드 프로세스를 한 행씩 보여준다. "지금 뭐가 돌고 있나"의 시작점이다.
+중요한 것은 **현재 상태와 누적 통계를 섞지 않는 것**이다.
+
+```text
+pg_stat_activity
+→ 지금 무슨 일이 일어나는가
+
+pg_stat_statements
+→ 지금까지 어떤 Query가 부하를 만들었는가
+```
+
+둘은 서로 대체하지 않는다.
+
+## 1. 현재 문제 — Session과 실행 중 Query
+
+`pg_stat_activity`는 현재 PostgreSQL Backend Session을 한 행씩 보여준다. 장애 순간에 가장 먼저 보기 좋은 관측점이다.
 
 ```sql
 SELECT pid, usename, state, wait_event_type, wait_event,
@@ -36,21 +67,94 @@ WHERE state <> 'idle'
 ORDER BY duration DESC;
 ```
 
-핵심 컬럼:
+여기서는 Query Text보다 먼저 다음을 본다.
 
-| 컬럼 | 의미 |
-| --- | --- |
-| `state` | `active`, `idle`, `idle in transaction` 등 |
-| `wait_event_type` / `wait_event` | 무엇을 기다리는가 (`Lock`, `IO`, `Client` …) |
-| `query_start` / `xact_start` | 쿼리·트랜잭션 시작 시각 (경과 시간 계산용) |
-| `query` | 가장 최근 실행 쿼리 텍스트 |
-| `backend_type` | `client backend`, `autovacuum worker` 등 |
+- `state`: 실제 실행 중인지, `idle in transaction`인지
+- `wait_event_type` / `wait_event`: 무엇인가를 기다리는지
+- `query_start` / `xact_start`: Query와 Transaction이 얼마나 오래 열려 있는지
 
-`idle in transaction` 상태가 오래 유지되는 연결은 위험 신호다. 트랜잭션을 열어둔 채 놀고 있어 락과 dead tuple 정리를 동시에 막는다. 오래 걸리는 세션은 `pg_terminate_backend(pid)`로 끊을 수 있다.
+오래된 `idle in transaction`은 단순히 놀고 있는 Connection이 아니다. Transaction과 Lock을 오래 유지하고 VACUUM이 정리할 수 있는 범위에도 영향을 줄 수 있다.
 
-## 3. pg_stat_user_tables — 테이블 건강검진
+Connection 자체가 문제인지 보려면 상태별로 묶는다.
 
-테이블별 접근 패턴과 vacuum 상태를 누적한다.
+```sql
+SELECT state, count(*)
+FROM pg_stat_activity
+GROUP BY state
+ORDER BY count(*) DESC;
+```
+
+`max_connections`에 가까워지는 상황이라면 Query Tuning보다 먼저 Connection Pool과 누수 여부를 본다.
+
+## 2. 현재 문제 — Lock과 Wait
+
+Query가 오래 걸린다고 해서 항상 Query 자체가 느린 것은 아니다. 다른 Session을 기다리는 중일 수 있다.
+
+```sql
+SELECT blocked.pid AS blocked_pid,
+       blocked.query AS blocked_query,
+       blocking.pid AS blocking_pid,
+       blocking.query AS blocking_query
+FROM pg_stat_activity blocked
+JOIN pg_stat_activity blocking
+  ON blocking.pid = ANY(pg_blocking_pids(blocked.pid))
+WHERE cardinality(pg_blocking_pids(blocked.pid)) > 0;
+```
+
+```text
+오래 실행 중
+├─ Wait 없음
+│   → Query 자체의 Execution Plan·I/O 확인
+└─ Lock Wait
+    → Blocking Session과 Transaction 확인
+```
+
+`pg_locks`는 Lock 자체의 상세 상태가 필요할 때 한 단계 더 내려가서 본다. 처음부터 Lock 목록 전체를 읽기보다 Blocking 관계를 먼저 잡는 편이 이해하기 쉽다.
+
+## 3. 누적 부하 — 어떤 Query가 전체 시간을 쓰나
+
+현재 순간만 보면 간헐적으로 반복되는 무거운 Query를 놓칠 수 있다. 이때 `pg_stat_statements`가 같은 형태의 Query를 묶어 누적 통계를 제공한다.
+
+사용하려면 Extension을 활성화한다.
+
+```conf
+shared_preload_libraries = 'pg_stat_statements'
+compute_query_id = on
+```
+
+```sql
+CREATE EXTENSION pg_stat_statements;
+```
+
+```sql
+SELECT queryid,
+       calls,
+       round(total_exec_time::numeric, 1) AS total_ms,
+       round(mean_exec_time::numeric, 2) AS mean_ms,
+       rows,
+       query
+FROM pg_stat_statements
+ORDER BY total_exec_time DESC
+LIMIT 20;
+```
+
+`mean_exec_time`과 `total_exec_time`은 다른 질문에 답한다.
+
+```text
+mean_exec_time 높음
+→ 한 번 실행할 때 무겁다
+→ Execution Plan 우선
+
+total_exec_time 높음
+→ 전체 기간에 많은 시간을 소비했다
+→ 실행 시간 × 호출 빈도 관점
+```
+
+느린 Query 한 번과 자주 호출되는 Query를 같은 방식으로 튜닝하지 않는다.
+
+## 4. 누적 부하 — Table과 Index 접근 패턴
+
+### Table
 
 ```sql
 SELECT relname, seq_scan, idx_scan,
@@ -60,45 +164,71 @@ FROM pg_stat_user_tables
 ORDER BY n_dead_tup DESC;
 ```
 
-- `seq_scan` vs `idx_scan` — seq scan 비율이 높은데 테이블이 크면 인덱스가 없거나 안 먹는다는 뜻이다.
-- `n_dead_tup` — dead tuple 누적량. `n_live_tup` 대비 비율이 높으면 bloat와 autovacuum 지연을 의심한다.
-- `last_autovacuum` / `last_autoanalyze` — autovacuum이 마지막으로 돈 시각. dead tuple은 쌓이는데 이 값이 오래됐으면 autovacuum이 못 따라잡고 있는 것이다.
+- 큰 Table에서 `seq_scan`이 계속 증가한다 → Index 부재나 Query 조건을 확인
+- `n_dead_tup`이 많이 쌓인다 → VACUUM이 따라오는지 확인
+- `last_autovacuum`이 오래됐다 → autovacuum 동작 조건과 부하를 확인
 
-> dead tuple이 많고 `last_autovacuum`이 한참 전이면, autovacuum 튜닝(`autovacuum_vacuum_scale_factor` 등)이나 수동 `VACUUM`이 필요하다. MVCC와 vacuum의 원리는 관련 글 참고.
+단순히 `seq_scan`이 많다는 이유만으로 Index를 추가하지 않는다. 작은 Table이나 대부분의 Row를 읽는 Query에서는 Sequential Scan이 적절할 수 있다.
 
-## 4. pg_stat_user_indexes — 안 쓰는 인덱스 찾기
-
-인덱스별 사용 횟수를 센다. `idx_scan`이 오랫동안 0이면 그 인덱스는 쓰이지 않는다.
+### Index
 
 ```sql
-SELECT s.relname AS table, s.indexrelname AS index,
+SELECT s.relname AS table_name,
+       s.indexrelname AS index_name,
        s.idx_scan,
        pg_size_pretty(pg_relation_size(s.indexrelid)) AS size
 FROM pg_stat_user_indexes s
 JOIN pg_index i ON i.indexrelid = s.indexrelid
 WHERE s.idx_scan = 0
-  AND NOT i.indisunique          -- UNIQUE/PK 제약은 제외
+  AND NOT i.indisunique
 ORDER BY pg_relation_size(s.indexrelid) DESC;
 ```
 
-안 쓰는 인덱스는 순수 비용이다. 디스크를 먹고, INSERT/UPDATE마다 갱신 부담을 준다. 다만 `idx_scan`은 통계 리셋 이후 누적값이므로, "충분히 오래 관측한 뒤" 판단해야 한다. 리셋 시각은 `pg_stat_reset()` 호출 이력이나 별도 스냅샷으로 관리한다. UNIQUE·기본키 인덱스는 스캔이 0이어도 제약 유지에 필요하니 지우면 안 된다.
+`idx_scan = 0`은 **삭제 명령이 아니라 조사 시작점**이다. 통계가 언제부터 누적됐는지, 특정 Batch에서만 쓰는 Index인지, Constraint 유지에 필요한지 확인한 뒤 판단한다.
 
-## 5. pg_statio_* — 캐시 적중률
-
-`pg_statio_user_tables`는 힙 블록을 셰어드 버퍼에서 읽었는지(`heap_blks_hit`) 디스크에서 읽었는지(`heap_blks_read`) 구분한다. 전체 적중률은 `pg_stat_database`로 본다.
+## 5. 누적 부하 — Buffer와 I/O
 
 ```sql
 SELECT datname,
-       round(100.0 * blks_hit / nullif(blks_hit + blks_read, 0), 2) AS cache_hit_ratio
+       round(100.0 * blks_hit
+             / nullif(blks_hit + blks_read, 0), 2) AS cache_hit_ratio
 FROM pg_stat_database
 WHERE datname = current_database();
 ```
 
-OLTP 워크로드라면 99% 이상이 정상이다. 이 값이 뚝 떨어지면 워킹셋이 `shared_buffers`를 넘었거나, 큰 seq scan이 버퍼를 밀어내고 있다는 신호다.
+Hit Ratio 하나에 고정 임계값을 두고 정상/비정상을 판정하지 않는다. Workload 특성, Table 크기, Sequential Scan, OS Page Cache까지 함께 봐야 한다.
 
-## 6. pg_stat_replication — 복제 지연
+이 수치는 다음 질문으로 연결하는 신호에 가깝다.
 
-프라이머리에서 각 스탠바이의 상태와 지연을 본다.
+```text
+Read 증가
+  ↓
+어떤 Query가 읽는가?
+  ↓
+어떤 Table을 읽는가?
+  ↓
+Sequential Scan인가?
+  ↓
+Execution Plan과 Working Set 확인
+```
+
+## 6. 운영 상태 — VACUUM이 따라오는가
+
+MVCC를 사용하는 PostgreSQL에서는 UPDATE/DELETE 뒤의 오래된 Tuple을 정리하는 VACUUM이 운영 상태의 일부다.
+
+```text
+Dead Tuple 증가
+        +
+Autovacuum이 오래 실행되지 않음
+        ↓
+VACUUM이 Workload를 따라오지 못하는지 확인
+```
+
+여기서 바로 수동 `VACUUM`이나 Parameter 변경으로 뛰어들기보다 Transaction이 지나치게 오래 열려 있지 않은지, Autovacuum Worker가 실제로 동작하는지, Table별 설정이 어떻게 되어 있는지 확인한다.
+
+MVCC와 VACUUM의 내부 원리는 [MVCC와 VACUUM](/posts/db/2026-07-03-mvcc-vacuum/)에서 별도로 다룬다.
+
+## 7. 운영 상태 — Replication이 따라오는가
 
 ```sql
 SELECT application_name, state,
@@ -107,125 +237,78 @@ SELECT application_name, state,
 FROM pg_stat_replication;
 ```
 
-- `write_lag` / `flush_lag` / `replay_lag` — WAL을 로컬에 flush한 뒤 스탠바이가 각각 write/flush/apply할 때까지 걸린 시간(`interval`).
-- `sent_lsn` vs `replay_lsn` — 보낸 WAL 위치와 스탠바이가 실제 반영한 위치의 차이. 바이트 격차가 계속 벌어지면 스탠바이가 못 따라오는 것이다.
+하나의 `lag` 숫자보다 **WAL이 어느 단계에서 밀리는지**를 본다.
 
-`replay_lag`이 커지면 동기 복제라면 커밋이 느려지고, 비동기라면 페일오버 시 데이터 유실 폭이 커진다.
-
-## 7. pg_locks — 락 대기
-
-락을 서로 기다리며 멈춘 상황은 `pg_locks`와 `pg_stat_activity`를 조인해 찾는다. `granted = false`인 행이 대기 중인 락이다.
-
-```sql
-SELECT blocked.pid   AS blocked_pid,
-       blocked.query AS blocked_query,
-       blocking.pid  AS blocking_pid,
-       blocking.query AS blocking_query
-FROM pg_stat_activity blocked
-JOIN pg_stat_activity blocking
-  ON blocking.pid = ANY(pg_blocking_pids(blocked.pid))
-WHERE cardinality(pg_blocking_pids(blocked.pid)) > 0;
+```text
+Primary WAL
+   ↓ sent
+Standby write
+   ↓ flush
+Disk 반영
+   ↓ replay
+DB 상태 반영
 ```
 
-`pg_blocking_pids(pid)`는 해당 세션을 막고 있는 세션 PID 배열을 돌려준다. 누가 누구를 막는지 한눈에 나온다.
+`sent_lsn`과 `replay_lsn` 차이가 계속 커지면 Standby가 생성되는 WAL을 따라오지 못하고 있다는 뜻이다. 동기/비동기 복제 여부에 따라 영향은 다르므로 Replication 구성과 함께 판단한다.
 
-## 8. pg_stat_statements — 진짜 무거운 쿼리 랭킹
+## 8. 특정 실행을 잡아야 할 때 — Log와 auto_explain
 
-`pg_stat_activity`는 "지금 이 순간"만 본다. 누적 통계로 무거운 쿼리를 랭킹하려면 `pg_stat_statements` 확장이 필요하다. 쿼리를 정규화(리터럴을 파라미터로 치환)해 같은 형태끼리 묶고, 호출 횟수·총 시간·평균 시간을 누적한다.
-
-설치는 `shared_preload_libraries`에 추가하고 재시작한 뒤 확장을 만든다.
+`pg_stat_statements`는 누적 통계에는 강하지만 특정 실행의 Parameter와 그 순간의 Execution Plan을 그대로 보존하는 도구는 아니다.
 
 ```conf
-# postgresql.conf
-shared_preload_libraries = 'pg_stat_statements'
-compute_query_id = on
+log_min_duration_statement = 1000
 ```
 
-```sql
-CREATE EXTENSION pg_stat_statements;
-```
-
-총 실행 시간이 큰 순서로 뽑으면 튜닝 우선순위가 나온다.
-
-```sql
-SELECT queryid,
-       calls,
-       round(total_exec_time::numeric, 1) AS total_ms,
-       round(mean_exec_time::numeric, 2)  AS mean_ms,
-       rows,
-       round(100.0 * shared_blks_hit
-             / nullif(shared_blks_hit + shared_blks_read, 0), 1) AS hit_pct,
-       query
-FROM pg_stat_statements
-ORDER BY total_exec_time DESC
-LIMIT 20;
-```
-
-| 컬럼 | 의미 |
-| --- | --- |
-| `calls` | 호출 횟수 |
-| `total_exec_time` | 누적 실행 시간(ms) — 총 부하 |
-| `mean_exec_time` | 평균 실행 시간(ms) — 건당 무게 |
-| `rows` | 누적 반환/처리 행 수 |
-| `shared_blks_hit` / `shared_blks_read` | 버퍼 적중 / 디스크 읽기 블록 수 |
-
-> `mean_exec_time`이 높은 쿼리는 "한 방이 무거운" 쿼리, `calls × mean`이 커서 `total_exec_time` 상위인 쿼리는 "자주 불려 누적 부하가 큰" 쿼리다. 둘은 튜닝 접근이 다르다. 전자는 실행계획을, 후자는 캐싱·호출 빈도를 본다.
-
-컬럼명은 버전에 민감하다. `total_time`은 PostgreSQL 13부터 `total_exec_time`으로 바뀌었다(플래닝 시간이 `total_plan_time`으로 분리됨). 16/17에서는 위 이름을 쓴다. 통계를 리셋하려면 `pg_stat_statements_reset()`을 호출한다.
-
-## 9. 슬로우 쿼리 로깅
-
-랭킹만으로 부족하면 개별 실행을 로그로 남긴다. `log_min_duration_statement`는 지정 시간(ms)을 초과한 쿼리를 실제 파라미터 값과 함께 로그에 기록한다.
-
-```conf
-# postgresql.conf
-log_min_duration_statement = 1000   # 1초 이상 걸린 쿼리 기록, -1이면 비활성
-```
-
-전역 대신 특정 DB·유저에만 걸 수도 있다.
-
-```sql
-ALTER DATABASE app SET log_min_duration_statement = 500;
-```
-
-### auto_explain
-
-느린 쿼리의 실행계획까지 자동으로 로그에 남기려면 `auto_explain` 모듈을 쓴다. 임계 시간을 넘는 쿼리의 `EXPLAIN` 결과를 로그에 찍어, 재현 없이도 왜 느렸는지 본다.
+특정 실행의 Plan까지 자동으로 남기려면 `auto_explain`을 검토한다.
 
 ```conf
 shared_preload_libraries = 'pg_stat_statements,auto_explain'
-auto_explain.log_min_duration = 1000   # ms
-auto_explain.log_analyze = on          # 실제 실행 시간까지 (오버헤드 주의)
+auto_explain.log_min_duration = 1000
+auto_explain.log_analyze = on
 ```
 
-`log_analyze`는 실측을 위해 계측 오버헤드가 생기므로 운영에서는 신중히 켠다.
+`auto_explain.log_analyze`는 실제 실행 계측을 추가하므로 운영에서는 Overhead를 고려해 사용한다.
 
-## 10. 실무 시나리오 — 어느 뷰를 보나
+## 장애 상황에서의 최소 진단 순서
 
-| 증상 | 보는 곳 | 판단 |
-| --- | --- | --- |
-| 안 쓰는 인덱스 정리 | `pg_stat_user_indexes` | `idx_scan = 0`을 충분히 관측 후 UNIQUE/PK 제외하고 DROP |
-| seq scan 폭증 테이블 | `pg_stat_user_tables` | `seq_scan`↑ + 큰 테이블 → 인덱스 추가·통계 갱신 검토 |
-| 커넥션 소진 | `pg_stat_activity` | `state`별 집계, `idle in transaction` 누수 세션 색출 |
-| 응답 전반 저하 | `pg_stat_statements` | `total_exec_time` 상위 쿼리부터 튜닝 |
-| 특정 쿼리만 가끔 느림 | 로그 + `auto_explain` | 실제 실행계획 확인 |
-| 쿼리가 멈춤 | `pg_locks` + `pg_blocking_pids` | 블로킹 세션 추적·종료 |
+```text
+1. pg_stat_activity
+   └─ 지금 오래 도는 Query / Transaction / Wait가 있는가?
 
-커넥션 상태별 집계는 이 한 줄이면 된다.
+2. pg_blocking_pids()
+   └─ 다른 Session에 막혀 있는가?
 
-```sql
-SELECT state, count(*) FROM pg_stat_activity GROUP BY state;
+3. pg_stat_statements
+   └─ 누적 부하 상위 Query는 무엇인가?
+
+4. pg_stat_user_tables / indexes
+   └─ 특정 Table·Index에 이상 신호가 있는가?
+
+5. pg_stat_database / pg_statio_*
+   └─ Read 패턴이 변했는가?
+
+6. VACUUM / Replication
+   └─ 운영 유지 작업이 Workload를 따라오는가?
+
+7. Log / auto_explain
+   └─ 특정 실행을 더 깊게 분석해야 하는가?
 ```
 
-## 11. 외부 스택 — Prometheus + Grafana
+이 순서가 항상 정답은 아니다. 중요한 것은 **관측 도구 이름이 아니라 어느 질문에 답하기 위해 그 도구를 보는지**다.
 
-뷰를 매번 손으로 조회하는 대신 시계열로 쌓아 대시보드·알림을 걸려면 **postgres_exporter**를 붙인다. exporter가 위 `pg_stat_*` 뷰를 주기적으로 조회해 Prometheus 메트릭으로 노출하고, Prometheus가 수집, Grafana가 시각화한다. 커넥션 수·캐시 적중률·복제 지연·dead tuple을 그래프로 보고, 임계치 초과 시 Alertmanager로 알림을 받는 구성이 사실상 표준이다. 커스텀 지표는 exporter 설정에 SQL을 등록해 추가한다.
+## 정리
 
-> 결국 데이터 출처는 이 글의 `pg_stat_*` 뷰다. 외부 스택은 그것을 시계열로 쌓고 알림을 거는 껍데기일 뿐, 무엇을 봐야 하는지 아는 것이 먼저다.
+PostgreSQL 모니터링을 View 목록으로 외우면 장애 때 다시 길을 잃는다. 대신 세 층으로 나눈다.
 
-## 관련 글
+```text
+현재 상태
+→ Session / Wait / Transaction
 
-| 글 | 관계 |
-| --- | --- |
-| [MVCC와 VACUUM](/posts/db/2026-07-03-mvcc-vacuum/) | pg_stat로 보는 dead tuple·autovacuum |
-| [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/) | 슬로우 쿼리를 EXPLAIN으로 파고들기 |
+누적 부하
+→ Query / Table / Index / I/O
+
+운영 상태
+→ VACUUM / Replication
+```
+
+그다음 각 질문에 맞춰 `pg_stat_activity`, `pg_stat_statements`, `pg_stat_user_tables`, `pg_stat_replication`으로 Zoom-in 한다. **모니터링은 통계를 보는 작업이 아니라 문제 공간을 좁히는 작업**이다.
