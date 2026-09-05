@@ -2,14 +2,14 @@
 title       : "키맵 용어집 — combo·hold-tap·momentary, 레이어 키매핑 용어 정리"
 description : "커스텀 키보드 키맵을 짤 때 쏟아지는 용어 — layer, momentary/toggle, layer-tap, mod-tap, hold-tap, tap-dance, combo, one-shot, macro — 를 QMK·ZMK 표기와 함께 한 번에 정리합니다."
 date        : 2026-07-03 16:20:00 +0900
-updated     : 2026-07-03 16:20:00 +0900
-categories  : [etc, "keyboard"]
+updated     : 2026-09-05 21:15:00 +0900
+categories  : [keyboard, "키맵·펌웨어"]
 tags        : [keyboard, keymap, qmk, zmk, glossary]
 pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](/posts/etc/2026-07-03-keyboard-roadmap/) · [키보드 펌웨어 지형도](/posts/etc/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/) · [ZMK 키맵 설계기](/posts/etc/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)
+> 관련 시리즈: [키보드 로드맵](/posts/keyboard/2026-07-03-keyboard-roadmap/) · [키보드 펌웨어 지형도](/posts/keyboard/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/) · [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)
 
 40% 키보드 키맵 문서를 처음 보면 `momentary`, `layer-tap`, `hold-tap`, `combo` 같은 용어가 쏟아진다. 겁먹을 것 없다. 대부분 **"물리 키가 부족하니 한 키에 여러 역할을 태우는"** 방법들이고, 뿌리는 몇 개 안 된다. QMK와 ZMK 표기를 나란히 정리했다. 표기는 펌웨어마다 조금 달라도 **개념은 같다.**
 
@@ -78,10 +78,9 @@ mod-tap의 대표 응용. 홈 포지션(`ASDF` / `JKL;`)에 모디파이어를 m
 | one-shot | 다음 한 키에만 붙는 모디파이어 |
 | macro | 키 하나 = 입력 시퀀스 |
 
-용어가 손에 잡히면 [ZMK 키맵 설계기](/posts/etc/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)의 hold-tap·레이어 설계가 훨씬 쉽게 읽힌다.
+용어가 손에 잡히면 [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)의 hold-tap·레이어 설계가 훨씬 쉽게 읽힌다.
 
 ## 참고
 
 - [Keymaps & Behaviors — ZMK Firmware](https://zmk.dev/docs/keymaps)
 - [Keycodes — QMK Firmware](https://docs.qmk.fm/keycodes)
-</content>
