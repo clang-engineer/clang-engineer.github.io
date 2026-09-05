@@ -2,7 +2,7 @@
 title       : "터미널 로드맵 — TTY·PTY에서 현대 TUI까지"
 description : "터미널을 단순한 명령창이 아니라 하나의 입출력·렌더링 스택으로 이해하기 위한 학습 지도. TTY/PTY, termios, ANSI/VT, terminfo, curses를 거쳐 현대 TUI 프레임워크와 실제 애플리케이션 구조까지 바닥부터 올라간다."
 date        : 2026-09-05 12:30:00 +0900
-updated     : 2026-09-05 12:55:00 +0900
+updated     : 2026-09-05 14:35:00 +0900
 categories  : [terminal]
 tags        : [roadmap, terminal, tty, pty, termios, ansi, vt, terminfo, ncurses, tui]
 pin         : false
@@ -51,7 +51,7 @@ Terminal Emulator
 
 이 구조를 이해하면 `ssh`, `tmux`, 컨테이너의 `-t`, 터미널 resize 같은 현상이 한 계통으로 연결되기 시작한다.
 
-첫 글: [터미널은 무엇인가 — TTY에서 PTY까지](/posts/terminal/2026-09-05-terminal-tty-pty/)
+글: [터미널은 무엇인가 — TTY에서 PTY까지](/posts/terminal/2026-09-05-terminal-tty-pty/)
 
 ## 3. stdin/stdout과 termios — 키 입력은 어떻게 앱까지 오는가
 
@@ -65,17 +65,23 @@ Terminal Emulator
 
 여기서는 `termios`를 직접 바꿔보며 입력 경로를 확인한다.
 
+글: [termios와 raw mode — Ctrl-C는 언제 문자가 아니라 signal이 되는가](/posts/terminal/2026-09-05-termios-canonical-raw-mode/)
+
 ## 4. ANSI/VT Escape Sequence — 텍스트로 화면을 그리는 법
 
 TUI 앱이 보통 픽셀을 직접 그리는 것은 아니다. stdout에 일반 문자와 함께 escape sequence를 출력하고 terminal emulator가 이를 커서 이동·색상·화면 지우기 명령으로 해석한다.
 
 직접 `printf`로 커서를 움직이고 화면을 지우는 실험을 해본다.
 
+글: [ANSI/VT Escape Sequence — stdout으로 커서를 움직이고 화면을 그리는 법](/posts/terminal/2026-09-05-ansi-vt-escape-sequences/)
+
 ## 5. termcap과 terminfo — 서로 다른 터미널을 다루는 법
 
 과거 터미널마다 지원 기능과 제어 문자열이 달랐다. 이를 데이터로 기술하고 애플리케이션이 조회할 수 있게 한 계층이 `termcap`과 `terminfo`다.
 
 여기서 `TERM`, capability database, `tput`이 연결된다.
+
+글: [termcap과 terminfo — 터미널마다 다른 제어 코드를 어떻게 숨겼나](/posts/terminal/2026-09-05-termcap-terminfo-tput/)
 
 ## 6. curses/ncurses — Screen과 Window의 등장
 
@@ -92,6 +98,8 @@ Terminal
 ```
 
 `vi` 같은 초기 애플리케이션과 이후 curses 계열 프로그램을 비교하며 추상화 수준이 어떻게 올라갔는지 본다.
+
+글: [curses와 ncurses — 터미널 제어가 Screen·Window 추상화로 올라온 순간](/posts/terminal/2026-09-05-curses-ncurses-screen-window/)
 
 ## 7. TUI Engine — Event Loop와 Renderer
 
@@ -112,6 +120,8 @@ Terminal
 ```
 
 핵심은 전체 화면을 무작정 출력하는 것이 아니라 **현재 UI 상태와 터미널 셀의 차이를 계산해 필요한 부분을 갱신하는 방식**이다.
+
+글: [TUI Engine의 공통 구조 — Event Loop, State, Layout, Renderer](/posts/terminal/2026-09-05-tui-event-loop-state-renderer/)
 
 ## 8. 현대 TUI Framework
 
