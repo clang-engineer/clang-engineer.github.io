@@ -1,63 +1,203 @@
 ---
-title       : "GitHub에서 내 활동 몰아보기 + Watch vs Star 알림 정리"
-description : "내가 단 댓글·연 PR·리뷰 요청받은 것을 한 번에 보는 검색 필터(involves:/author:/review-requested:)와 UI 탭 위치, 그리고 쓸데없는 릴리스 알림의 정체(Star가 아니라 Watch)를 정리한다."
+title       : "GitHub에서 내가 관여한 Issue·PR 찾기 — involves, commenter, review 검색"
+description : "GitHub에서 내가 작성·댓글·리뷰·멘션으로 관여한 Issue와 Pull Request를 검색 qualifier로 다시 찾는 방법을 목적별로 정리한다."
 date        : 2026-07-12 18:20:00 +0900
-updated     : 2026-07-12 18:20:00 +0900
+updated     : 2026-09-05 19:55:00 +0900
 categories  : [git, "GitHub·플랫폼"]
-tags        : [github, search, notifications, watch, star]
+tags        : [github, search, issue, pull-request, review, how-to]
 pin         : false
 hidden      : false
 ---
 
-내가 참여한 이슈·PR을 몰아보고 싶은데 GitHub UI만으론 잘 안 잡힌다. 검색 필터와 UI 탭을 나눠 정리하고, 겸사겸사 "Star 해둔 레포에서 알림이 계속 온다"는 흔한 오해도 짚는다.
+GitHub에서 "내가 관여했던 Issue나 PR을 다시 찾고 싶다"는 목적과 "Repository 알림을 줄이고 싶다"는 목적은 서로 다른 문제다.
 
-## 검색 필터로 몰아보기
+이 글은 전자만 다룬다.
 
-검색창에 아래 쿼리를 넣으면 된다.
+```text
+내 활동 다시 찾기
+→ Issue / PR Search Qualifier
 
-**내가 관여한 것**
+Repository 알림 관리
+→ Watch / Subscription 설정
+```
 
-- `involves:내아이디` — 작성·할당·멘션·댓글 등 내가 **관여한 모든 것** (가장 광범위)
-- `commenter:내아이디` — 내가 **댓글 단** 모든 이슈/PR
+알림과 Star/Watch 차이는 [GitHub Star vs Watch — 북마크와 알림 구독의 차이](/posts/git/2026-07-12-github-watch-vs-star-notifications/)에서 별도로 정리한다.
 
-**내가 연 PR**
+## 1. 가장 넓게 찾기 — `involves:`
 
-- `author:내아이디 type:pr` — 내가 만든 PR
-- `is:open author:내아이디 type:pr` — 그중 열려 있는 것
+내가 어떤 방식으로든 관여한 Issue·PR을 넓게 찾으려면 `involves:`부터 시작한다.
 
-**리뷰 관련**
+```text
+involves:<username>
+```
 
-- `review-requested:내아이디 type:pr` — 내가 리뷰 요청받은 PR
-- `reviewed-by:내아이디 type:pr` — 내가 리뷰한 PR
+예:
 
-댓글까지 한 번에 훑기엔 `involves:내아이디 sort:updated-desc`가 제일 편하다.
+```text
+involves:octocat sort:updated-desc
+```
 
-## UI로 보기
+`involves:`는 작성, 할당, 멘션, 댓글 등 여러 참여 관계를 넓게 포함한다.
 
-로그인 상태에서 우측 상단 메뉴에 이미 탭이 있다.
+따라서 "분명 예전에 내가 뭔가 했는데 정확히 무엇이었는지 기억나지 않는다"는 상황에 가장 좋은 출발점이다.
 
-- **Issues** 메뉴 → Created / Assigned / Mentioned 탭
-- **Pull requests** 메뉴(`/pulls`) → Created / Assigned / Review requests / Mentioned 탭
+## 2. 내가 작성한 Issue·PR — `author:`
 
-PR·이슈 몰아보기는 이 두 메뉴가 제일 낫다. 다만 **"내가 댓글 단 것 전부"를 보여주는 전용 UI는 없다** — Mentioned 탭이 가깝지만 정확히 일치하진 않으니, 그건 검색 `commenter:`가 사실상 유일하다.
+내가 직접 만든 항목만 보고 싶다면:
 
-> 프로필(`github.com/내아이디`) 아래 contribution activity를 펼치면 월별로 "Opened N PRs / Created N commits" 식으로 접혀 나온다. 몰아보기용은 아니고 회고용에 가깝다.
-{: .prompt-tip }
+```text
+author:<username>
+```
 
-## 쓸데없는 알림의 정체 — Star가 아니라 Watch
+PR로 한정:
 
-"Star 해둔 레포에서 릴리스 알림이 계속 뜬다"는 흔한 착각이다. **Star는 알림을 만들지 않는다.** 즐겨찾기(북마크)일 뿐이다. 알림을 만드는 건 **Watch**다.
+```text
+is:pr author:<username>
+```
 
-| | Star | Watch |
-|---|---|---|
-| 역할 | 북마크·좋아요 표시 | 활동 구독 |
-| 알림 | ❌ 없음 | ✅ 이슈/PR/릴리스 등 |
-| 목록 | `/내아이디?tab=stars` | `/watching` |
+열린 PR만:
 
-대개 **예전에 fork하거나 기여할 때 자동으로 Watch가 걸린** 경우다. 정리는 이렇게.
+```text
+is:open is:pr author:<username>
+```
 
-- **개별 레포**: 상단 **Watch 버튼(눈 모양)** → `Participating and @mentions` 또는 `Ignore`. Custom으로 Releases만 빼는 것도 가능.
-- **한꺼번에**: [github.com/watching](https://github.com/watching)에서 Watch 중인 레포 전체를 훑고 불필요한 걸 Unwatch.
-- **알림 종류 자체**: [github.com/settings/notifications](https://github.com/settings/notifications)에서 이메일/웹 토글 조정.
+Issue라면:
 
-가장 깔끔한 건 `/watching`을 한 번 훑어 청소하는 것이다. Star 목록을 아무리 정리해도 알림은 안 줄어든다 — 애초에 Star는 알림과 무관하니까.
+```text
+is:issue author:<username>
+```
+
+처럼 대상 유형을 명시할 수 있다.
+
+## 3. 내가 댓글을 남긴 항목 — `commenter:`
+
+내가 작성자는 아니지만 댓글을 남긴 Issue·PR을 찾으려면:
+
+```text
+commenter:<username>
+```
+
+을 사용한다.
+
+이 qualifier는 "내가 참여한 모든 것"보다 범위를 좁혀 **실제로 댓글로 대화에 참여한 항목**을 찾을 때 유용하다.
+
+## 4. Review 요청받은 PR — `review-requested:`
+
+특정 사용자가 reviewer로 요청된 PR을 찾으려면:
+
+```text
+is:pr review-requested:<username>
+```
+
+내 계정 기준으로 직접 리뷰 요청된 열린 PR을 찾는 UI/검색에서는 `user-review-requested:@me` 같은 qualifier도 사용할 수 있다.
+
+```text
+is:open is:pr user-review-requested:@me
+```
+
+팀 단위 요청은 별도 `team-review-requested:` qualifier가 있다.
+
+## 5. 내가 Review한 PR — `reviewed-by:`
+
+내가 이미 review한 PR을 찾고 싶다면:
+
+```text
+is:pr reviewed-by:<username>
+```
+
+을 사용한다.
+
+즉 review 관련 상태도 둘로 나뉜다.
+
+```text
+review-requested
+→ 나에게 Review 요청이 들어온 것
+
+reviewed-by
+→ 내가 이미 Review한 것
+```
+
+## 6. 목적별로 Query를 조합한다
+
+### 최근 내가 관여한 항목
+
+```text
+involves:<username> sort:updated-desc
+```
+
+### 내가 연 Open PR
+
+```text
+is:open is:pr author:<username> sort:updated-desc
+```
+
+### 댓글을 남긴 Open Issue
+
+```text
+is:open is:issue commenter:<username> sort:updated-desc
+```
+
+### 아직 Review해야 할 PR
+
+```text
+is:open is:pr review-requested:<username>
+```
+
+검색 qualifier는 여러 조건을 조합해 **내가 지금 다시 찾으려는 활동의 역할**을 좁히는 방식으로 쓰면 된다.
+
+## 7. UI와 Search의 역할을 구분한다
+
+GitHub의 Issues / Pull requests 화면에는 내가 만든 것, 할당된 것, review 요청된 것 등을 보는 기본 filter가 있다.
+
+하지만 "내가 댓글을 남긴 모든 항목"이나 여러 참여 관계를 한 번에 찾는 작업은 Search qualifier가 더 직접적이다.
+
+```text
+UI
+→ 자주 쓰는 대표 상태를 빠르게 탐색
+
+Search
+→ 참여 관계와 상태를 원하는 조건으로 조합
+```
+
+따라서 UI에서 찾기 어렵다고 해서 Activity가 사라진 것이 아니라, 검색축이 UI 기본 filter와 다를 수 있다.
+
+## 8. CLI에서도 같은 Search 개념을 사용할 수 있다
+
+GitHub CLI에서는 `gh issue list`나 `gh pr list`에 search query를 넘길 수 있다.
+
+```bash
+gh pr list --search 'review-requested:@me is:open'
+```
+
+또는:
+
+```bash
+gh issue list --search 'involves:@me sort:updated-desc'
+```
+
+사용 가능한 qualifier와 실제 지원 범위는 GitHub Issue/PR Search 문서를 기준으로 확인한다.
+
+## 정리
+
+```text
+내가 넓게 관여한 것
+→ involves:
+
+내가 만든 것
+→ author:
+
+내가 댓글 단 것
+→ commenter:
+
+Review 요청받은 것
+→ review-requested:
+
+내가 Review한 것
+→ reviewed-by:
+```
+
+핵심은 GitHub Activity를 한 화면에서 찾으려 하기보다 **작성자·댓글·리뷰 같은 관계 축을 qualifier로 표현하는 것**이다.
+
+## 참고
+
+- [GitHub Docs — Filtering and searching issues and pull requests](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/filtering-and-searching-issues-and-pull-requests)
