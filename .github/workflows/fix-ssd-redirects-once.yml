@@ -1,0 +1,46 @@
+name: Fix SSD redirects once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-ssd-redirects-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+      - name: Merge duplicate redirect_from keys
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('_posts/2025-12-27-ssd-form-factor-interface-protocol-nand.md')
+          t = p.read_text()
+          old = '''redirect_from:\n  - /posts/etc/2025-12-27-ssd/\ntags        : [ssd, nand-flash, nvme, pcie, sata, storage, concept]\nredirect_from:\n  - /posts/ssd/\n'''
+          new = '''redirect_from:\n  - /posts/etc/2025-12-27-ssd/\n  - /posts/ssd/\ntags        : [ssd, nand-flash, nvme, pcie, sata, storage, concept]\n'''
+          if old not in t:
+              raise SystemExit('expected duplicate redirect block not found')
+          p.write_text(t.replace(old, new, 1))
+          PY
+          bundle exec jekyll build
+      - name: Commit fix
+        run: |
+          git config user.name 'clang.engineer'
+          git config user.email 'clang.engineer@gmail.com'
+          git add -A
+          git commit -m 'fix: preserve both SSD redirects after rename'
+          git push
+      - name: Remove one-time workflow
+        run: |
+          git rm .github/workflows/fix-ssd-redirects-once.yml
+          git commit -m 'chore: remove one-time SSD redirect workflow'
+          git push
