@@ -1,0 +1,98 @@
+name: Refine cs and fitness posts once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/refine-cs-fitness-posts-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+
+      - name: Refine physical post placement and filenames
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          posts = Path('_posts')
+
+          moves = {
+              posts / 'cs' / '2025-04-11-software-license.md': posts / '2025-04-11-software-license.md',
+              posts / 'cs' / '2025-12-27-ssd.md': posts / '2025-12-27-ssd-form-factor-interface-protocol-nand.md',
+              posts / 'fitness' / '2026-09-06-dips-beginner.md': posts / 'fitness' / '2026-09-06-fitness-dips-beginner.md',
+              posts / 'fitness' / '2026-09-06-pull-up-beginner.md': posts / 'fitness' / '2026-09-06-fitness-pull-up-beginner.md',
+          }
+
+          for src, dst in moves.items():
+              if not src.exists():
+                  raise SystemExit(f'missing source: {src}')
+              if dst.exists():
+                  raise SystemExit(f'destination exists: {dst}')
+              dst.parent.mkdir(parents=True, exist_ok=True)
+              src.rename(dst)
+
+          cs = posts / 'cs'
+          if cs.exists() and not any(cs.iterdir()):
+              cs.rmdir()
+
+          redirects = {
+              posts / '2025-12-27-ssd-form-factor-interface-protocol-nand.md': '/posts/ssd/',
+              posts / 'fitness' / '2026-09-06-fitness-dips-beginner.md': '/posts/dips-beginner/',
+              posts / 'fitness' / '2026-09-06-fitness-pull-up-beginner.md': '/posts/pull-up-beginner/',
+          }
+
+          for path, old_url in redirects.items():
+              text = path.read_text()
+              if old_url in text:
+                  continue
+              marker = 'pin         : false\n'
+              if marker not in text:
+                  raise SystemExit(f'front matter marker missing: {path}')
+              text = text.replace(marker, f'redirect_from:\n  - {old_url}\n' + marker, 1)
+              path.write_text(text)
+
+          # Update any source-relative references if they exist.
+          replacements = {
+              'cs/2025-04-11-software-license.md': '2025-04-11-software-license.md',
+              'cs/2025-12-27-ssd.md': '2025-12-27-ssd-form-factor-interface-protocol-nand.md',
+              'fitness/2026-09-06-dips-beginner.md': 'fitness/2026-09-06-fitness-dips-beginner.md',
+              'fitness/2026-09-06-pull-up-beginner.md': 'fitness/2026-09-06-fitness-pull-up-beginner.md',
+          }
+          for path in posts.rglob('*.md'):
+              text = path.read_text()
+              updated = text
+              for old, new in replacements.items():
+                  updated = updated.replace(old, new)
+              if updated != text:
+                  path.write_text(updated)
+          PY
+
+      - name: Validate Jekyll build
+        run: bundle exec jekyll build
+
+      - name: Commit refinement
+        run: |
+          git config user.name 'clang.engineer'
+          git config user.email 'clang.engineer@gmail.com'
+          git add -A
+          git commit -m 'docs: simplify cs placement and strengthen fitness filenames'
+          git push
+
+      - name: Remove one-time workflow
+        run: |
+          git rm .github/workflows/refine-cs-fitness-posts-once.yml
+          git commit -m 'chore: remove one-time cs fitness refinement workflow'
+          git push
