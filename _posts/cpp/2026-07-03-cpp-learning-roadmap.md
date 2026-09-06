@@ -1,190 +1,209 @@
 ---
-title       : 모던 C++ 학습 로드맵 — 무엇을 먼저, 무엇을 나중에
-description : "C++ 입문부터 모던 C++까지의 학습 순서를 초급·중급·고급으로 묶고, 각 주제를 필수·나중·선택으로 표시한 로드맵. 순서의 근거·선행 지식·자주 막히는 지점을 함께 정리하고, 언어 학습과 결이 다른 코드 스타일 도구는 부록으로 분리한다."
+title       : "모던 C++ 학습 로드맵 — 객체 수명에서 모던 C++까지"
+description : "C++ 학습을 컴파일·링크 모델, 참조·객체 수명, RAII, 이동·스마트 포인터, STL·람다, 템플릿, 모던 언어 기능으로 연결하고 동시성·CMake·스타일은 필요에 따라 분기한 학습 지도."
 date        : 2026-07-03 10:00:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-09-06 13:05:00 +0900
 categories  : [cpp]
 tags        : [roadmap, modern-cpp]
 pin         : false
 hidden      : false
 ---
 
-## 이 로드맵을 만든 이유
+C++는 문법 목록보다 **객체의 수명과 번역 단위가 어떻게 프로그램으로 연결되는지**를 먼저 잡아야 이후 기능이 제자리를 찾는다.
 
-C++는 배울 주제가 넓은 데다 서로 얽혀 있어서, 문법을 목차 순서대로 하나씩 훑으면 조각들이 연결되지 않습니다. 참조자를 모르면 복사 생성자가 안 잡히고, 이동 시맨틱을 모르면 스마트 포인터가 왜 그렇게 생겼는지 감이 안 옵니다.
+이 Roadmap은 다음 두 축을 구분한다.
 
-그래서 "무슨 주제가 있나"를 나열하는 대신, **무엇을 먼저 배우고 무엇을 나중으로 미뤄도 되는지**에 대한 판단을 담았습니다. 각 주제에는 세 가지 표시를 붙였습니다.
+```text
+[언어 의미론]
+참조·객체 수명
+   ↓
+class·RAII
+   ↓
+move·ownership 표현
+   ↓
+STL·lambda
+   ↓
+template·modern language
 
-- **[필수]** — 이걸 건너뛰면 다음 단계가 막힙니다. 순서대로 확실히 잡고 갑니다.
-- **[나중]** — 중요하지만 급하지 않습니다. 실무나 다음 단계에서 필요해질 때 돌아와도 됩니다.
-- **[선택]** — 특정 상황(라이브러리 저자, 고성능 코드)에서만 필요합니다. 개념만 알고 넘어가도 무방합니다.
+[프로그램 구성]
+source / header
+   ↓
+compile / link
+   ↓
+여러 target을 project로 build
+→ CMake
+```
 
-세부 문법은 각 단계 끝의 레퍼런스로 연결합니다. 이 글의 목적은 개별 설명이 아니라 **전체 지도와 우선순위**입니다.
-
-언어 학습 줄기와 **결이 다른 축** — 코드 스타일을 도구로 강제하는 일(cpplint·clang-format) — 은 단계에서 빼 아래 **부록**으로 내렸습니다. 학습 순서와 무관하게, 팀 컨벤션을 잡을 때 찾아 들어오면 됩니다.
+컴파일·링킹은 마지막에 배우는 부록이 아니라 **처음부터 C++ 프로그램 구조를 이해하는 바닥**이다. 다만 CMake의 세부 사용은 여러 파일·target을 실제로 다룰 때 Zoom-in한다.
 
 ## 한눈에 보기
 
-| 단계 | 상세 글 | 우선순위 |
+| 구역 | 핵심 질문 | 우선순위 |
 |---|---|---|
-| 초급 | [① 참조자와 동적 할당](./2026-07-03-cpp-reference-and-dynamic-allocation.md) | 필수 |
-| 중급 | [② 클래스와 자원 관리 (RAII)](./2026-07-03-cpp-class-and-resource-management.md) | 필수 |
-| 중급+ | [예외 처리 — try/catch와 예외 안전](./2026-07-13-cpp-exception-handling.md) (②의 짝) | 나중 |
-| 고급 | [③ 값과 소유권 — 이동·스마트 포인터](./2026-07-03-cpp-move-and-smart-pointers.md) | 필수 · **뼈대** |
-| 고급+ | [람다와 클로저 — 캡처·std::function](./2026-07-13-cpp-lambda-and-closures.md) (③의 짝) | 나중 |
-| 고급 | [④ STL — 컨테이너·알고리즘](./2026-07-03-cpp-stl-containers-and-algorithms.md) | 필수 |
-| 고급 | [⑤ 템플릿](./2026-07-03-cpp-templates.md) | 필수 |
-| 고급 | [⑥ 모던 문법·표준 라이브러리](./2026-07-03-cpp-modern-syntax.md) | 필수 |
-| 고급 | [⑦ 동시성 — 스레드·비동기](./2026-07-03-cpp-concurrency.md) | 나중 |
-| 마지막 | [⑧ 빌드 — 컴파일·링킹·CMake](./2026-07-03-cpp-build-compile-link-cmake.md) | 필수 |
-| 부록 | [코드 스타일 — cpplint·clang-format](./2024-10-22-cpplint-clangformat.md) | 다른 축 |
+| 0. 프로그램 모델 | source·header·object·link는 어떻게 연결되나 | 필수 기반 |
+| 1. 참조·객체 | 값·참조·동적 객체의 수명은 어떻게 다르나 | 필수 |
+| 2. class·RAII | 객체 수명에 자원 정리를 어떻게 묶나 | 필수 |
+| 3. move·소유 표현 | 복사 대신 자원 이전을 어떻게 표현하나 | 필수 · 핵심 |
+| 4. STL·lambda | 표준 컨테이너·알고리즘을 함수 객체와 어떻게 조합하나 | 필수 |
+| 5. template | 타입을 매개변수화해 어떻게 재사용하나 | 필수 |
+| 6. modern language | `auto`·`constexpr` 등 이후 표준 기능을 어떻게 읽나 | 필수 |
+| Branch A | 예외와 예외 안전은 RAII와 어떻게 연결되나 | 필요할 때 |
+| Branch B | 멀티스레드 상태를 어떻게 조율하나 | 필요할 때 |
+| Branch C | 실제 Project Build를 어떻게 자동화하나 | 필요할 때 |
+| Appendix | Style·Debug Tool | 다른 축 |
 
-**①~⑧의 [필수]만 세로로 따라가면 하나의 완결된 경로**입니다. 부록은 학습 단계가 아니라 필요할 때 직행하는 다른 축입니다. 아래는 각 단계를 왜 그 순서·우선순위로 두는지 풀어 쓴 것입니다.
+## 0. 프로그램 모델 — 컴파일과 링크를 먼저 좌표로 잡는다
 
-> 📎 **치트시트** · [gdb](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/gdb.md) — 중단점·스택·변수·메모리 조사 빠른 참조 (GitHub)
-{: .prompt-tip }
-
-## ① 초급 — C++로 사고하기
-
-> 📖 상세 글: [C++로 사고하기 ① 참조자와 동적 할당](./2026-07-03-cpp-reference-and-dynamic-allocation.md)
-
-C를 알면 문법 상당수는 익숙합니다. 이 단계의 목표는 암기가 아니라 **C와 다른 C++의 사고방식**입니다.
-
-- **[필수] 참조자(reference)** — 포인터와 다른 별칭 개념. 이후 거의 모든 주제(복사·이동·연산자 오버로딩)의 기반이라 여기서 확실히 잡습니다.
-- **[필수] 동적 할당 `new`/`delete`** — C의 `malloc`/`free`와 무엇이 다른지, 왜 생성자·소멸자와 묶이는지.
-
-**자주 막히는 지점:** 참조자를 "포인터의 다른 문법"으로 오해하는 것. 참조자는 재바인딩이 안 되고 널이 될 수 없다는 점이 다릅니다.
-
-> **통과 기준:** 참조자와 포인터의 차이를 한 문장으로 말할 수 있으면 다음 단계로.
-
-## ② 중급 — 객체지향
-
-> 📖 상세 글: [객체지향 ② 클래스와 자원 관리](./2026-07-03-cpp-class-and-resource-management.md)
-
-C++의 핵심 정체성인 클래스입니다. 가장 길고, 이후 모든 고급 주제의 토대가 됩니다.
-
-- **[필수] 클래스 기초** — 함수 오버로딩, 생성자, `this`
-- **[필수] 자원 관리 3종** — 복사 생성자·소멸자·대입 연산자가 왜 함께 등장하는지(얕은 복사 문제). RAII의 씨앗이 여기서 심어집니다.
-- **[필수] `const`와 `static`** — 멤버 함수·변수에 붙는 의미 구분
-- **[필수] 상속과 다형성** — 가상 함수, 오버라이딩, 가상 소멸자가 왜 필요한지
-- **[나중] 예외 처리** — RAII가 "예외가 나도 소멸자가 정리한다"를 전제하는데, 그 예외를 직접 던지고 잡는 법·예외 안전 3등급·`noexcept`. RAII를 익힌 직후 짝으로 보면 좋다. → [예외 처리 — try/catch와 예외 안전](./2026-07-13-cpp-exception-handling.md)
-- **[나중] 연산자 오버로딩** — 내 타입을 내장 타입처럼. 개념은 초반에, 첨자·타입변환·증감 같은 세부는 필요할 때.
-- **[나중] 입출력** — `iostream`, 파일(`fstream`), 문자열 스트림(`stringstream`)
-
-**자주 막히는 지점:** 얕은 복사로 인한 이중 해제, 그리고 기반 클래스에 가상 소멸자를 안 붙여서 생기는 자원 누수.
-
-> **통과 기준:** 복사 생성자·소멸자·연산자 오버로딩을 갖춘 커스텀 `String` 클래스를 직접 구현할 수 있으면 통과.
-
-## 고급 — 모던 C++
-
-C++11 이후의 본체입니다. 실무의 어려움 대부분이 이 구간에 몰려 있습니다. 성격별로 묶었고, **묶음마다 우선순위가 다릅니다.**
-
-### ③ 값과 소유권 (가장 먼저)
-
-> 📖 상세 글: [값과 소유권 ③ 이동 시맨틱과 스마트 포인터](./2026-07-03-cpp-move-and-smart-pointers.md)
-
-모던 C++의 뼈대입니다. 고급 단계에서 **이 묶음을 최우선**으로 두길 권합니다. 순서대로 배우면 자연스럽게 이어집니다.
-
-1. **[필수] 우측값 레퍼런스(rvalue reference)** — 임시 객체를 가리키는 참조
-2. **[필수] 이동 시맨틱(`std::move`, 완벽한 전달)** — 복사 대신 자원을 넘기기. 성능과 직결
-3. **[필수] 스마트 포인터** — `unique_ptr`(유일 소유), `shared_ptr`/`weak_ptr`(공유 소유). `new`/`delete`를 직접 안 쓰게 되는 이유
-4. **[나중] 함수를 객체로** — 람다, `std::function`, `std::bind`. → [람다와 클로저 — 캡처·std::function·제네릭 람다](./2026-07-13-cpp-lambda-and-closures.md)
-
-**자주 막히는 지점:** `std::move`가 "옮긴다"고 오해하는 것. 실제로는 이동 가능하다고 *표시*만 하고, 실제 이동은 이동 생성자가 합니다.
-
-### ④ STL
-
-> 📖 상세 글: [STL ④ 컨테이너와 알고리즘](./2026-07-03-cpp-stl-containers-and-algorithms.md)
-
-- **[필수] 컨테이너** — `vector`, `map`, `unordered_map`을 먼저. `list`/`deque`는 필요할 때.
-- **[필수] 알고리즘** — `sort`, `find`, `accumulate` 등 반복문을 대체하는 표준 함수
-- **[나중] 문자열** — `string`, 그리고 복사 없는 뷰 `string_view`
-
-### ⑤ 제네릭 프로그래밍
-
-> 📖 상세 글: [제네릭 ⑤ 템플릿](./2026-07-03-cpp-templates.md)
-
-- **[필수] 템플릿** — 타입을 인자로 받는 함수·클래스
-- **[나중] 가변 길이 템플릿(variadic template)**
-- **[선택] 템플릿 메타 프로그래밍(TMP)** — 라이브러리를 직접 만들 게 아니면 개념만 알고 넘어가도 됩니다.
-
-### ⑥ 모던 문법과 표준 라이브러리
-
-> 📖 상세 글: [모던 문법 ⑥ auto·constexpr와 표준 라이브러리](./2026-07-03-cpp-modern-syntax.md)
-
-`auto`·`constexpr`·유니폼 초기화는 아래 동시성 코드를 포함해 이후 코드 전반에 깔리므로, 동시성보다 먼저 잡습니다.
-
-- **[필수] 유니폼 초기화**, **`constexpr`**, **`auto`/`decltype`**
-- **[선택] 메타프로그래밍 도구** — `type_traits`, SFINAE, `enable_if`. 라이브러리 저자용.
-- **[나중] 표준 라이브러리** — `chrono`(시간), `optional`/`variant`/`tuple`, `filesystem`, `regex`. 필요할 때 사전처럼 찾아 씀.
-
-### ⑦ 동시성 (필요해질 때)
-
-> 📖 상세 글: [동시성 ⑦ 스레드와 비동기](./2026-07-03-cpp-concurrency.md)
-
-멀티스레드 프로그램을 짤 일이 생기기 전엔 통째로 미뤄도 됩니다. [필수] 고급 주제 중 유일하게 [나중]이라, ⑧ 빌드로 넘어가기 전 곁길에 둡니다.
-
-- **[나중] 스레드 기초** `std::thread`, **동기화** 뮤텍스·조건 변수
-- **[나중] 비동기** `future`, `promise`, `async`
-- **[선택] 저수준** `atomic`과 메모리 순서, 스레드풀 직접 구현
-
-## ⑧ 마지막 — 코드에서 실행 파일까지
-
-> 📖 상세 글: [빌드 ⑧ 컴파일·링킹과 CMake](./2026-07-03-cpp-build-compile-link-cmake.md)
-
-문법을 넘어 **프로젝트를 빌드하는** 관점입니다. 규모가 커지면 반드시 마주칩니다.
-
-- **[필수] 컴파일과 링킹** — 소스가 실행 파일이 되기까지. 링커 에러를 이해하는 열쇠입니다.
-- **[필수] 빌드 시스템(Make & CMake)** — 여러 파일로 나뉜 프로젝트 빌드
-- **[선택] 실무 스타일** — 표준 라이브러리의 디자인 패턴, 대규모 팀의 C++ 사용 관례
-
-> 📎 **치트시트** · [make](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/make.md) — Makefile 자동변수·패턴 룰·`.PHONY`·함수 빠른 참조 (GitHub)
-{: .prompt-tip }
-
-여기까지가 언어를 배우는 학습 줄기입니다.
-
----
-
-## 부록 — 코드 스타일 자동화 (다른 축)
-
-여기서부터는 "언어를 배우는 법"이 아니라 **작성한 코드의 스타일을 도구로 강제**하는 축입니다. 학습 줄기와 분리해 둡니다. 문법을 아는 것과 무관하게, 여럿이 함께 코드를 짤 때 마찰을 줄여 주므로 팀 컨벤션을 잡는 시점에 챙기면 됩니다.
-
-| 글 | 핵심 |
+| 글 | 역할 |
 |---|---|
-| [Cpplint와 ClangFormat으로 Google 스타일 코드 작성](./2024-10-22-cpplint-clangformat.md) | cpplint로 Google 스타일 위반을 **검사**(lint)하고, clang-format·`.clang-format` 파일로 **일괄 자동 포맷**, 저장 시 자동 정리까지. 스타일을 사람의 의지가 아니라 도구로 고정하는 법 |
+| [컴파일·링킹과 CMake](./2026-07-03-cpp-build-compile-link-cmake.md) | 처음에는 compile/link·translation unit·symbol만 보고, 여러 target이 생기면 CMake Section으로 다시 돌아오는 Zoom-in |
 
-⑧에서 빌드 시스템을 잡았다면, 같은 프로젝트에 이 도구들을 붙여 CI에서 스타일 위반을 차단하고 포맷을 자동화하는 실전으로 이어집니다.
+```text
+.cpp
+→ compile
+→ object file
+→ link
+→ executable / library
+```
 
-## 부록 — 표준(-std) 트러블슈팅 (막힐 때)
+이 모델이 있어야 “컴파일 오류”와 “링커 오류”, header 선언과 구현 분리, ODR 문제를 서로 다른 계층으로 볼 수 있다.
 
-학습 단계가 아니라, 어느 단계에서든 **`auto`·범위 기반 for·`constexpr` 같은 기능이 "extension" 경고/에러로 막힐 때** 찾아오는 트러블슈팅입니다. 원인은 대부분 컴파일러가 옛 표준(`-std=gnu++98` 등)으로 도는 것입니다.
+## 1. 참조와 객체 수명
 
-| 글 | 핵심 |
+| 글 | 역할 |
 |---|---|
+| [참조자와 동적 할당](./2026-07-03-cpp-reference-and-dynamic-allocation.md) | reference·pointer·dynamic lifetime의 C++ 고유 규칙을 잡는 입문 Concept |
 
-⑧의 CMake 설정(`CMAKE_CXX_STANDARD`, `CMAKE_CXX_EXTENSIONS OFF`)과 직접 이어집니다. 모던 문법이 갑자기 안 먹히면 문법이 아니라 표준 옵션을 먼저 의심하세요.
+여기서 목표는 `new`를 많이 쓰는 법이 아니라 **객체가 어디까지 살아 있고 누가 그 수명을 책임지는지** 질문하는 습관을 만드는 것이다.
 
-## 이 로드맵이 다루지 않는 것 (경계)
+## 2. class와 RAII — 수명에 정리를 묶는다
 
-학습 동선을 흐리지 않으려고 의도적으로 뺀 주제입니다. 필요해질 때 밖에서 따로 챙기세요.
+| 글 | 역할 |
+|---|---|
+| [클래스와 자원 관리](./2026-07-03-cpp-class-and-resource-management.md) | constructor/destructor·copy·RAII를 객체 수명과 연결 |
 
-- **C++20 이후 대형 기능** — 모듈(modules), 범위(ranges), 코루틴(coroutines)은 이 로드맵의 [필수] 경로 밖입니다. 컴파일러·빌드 지원이 아직 고르지 않아, 위 경로를 한 바퀴 돈 뒤 필요에 따라 접근하는 편이 낫습니다.
-- **디버깅·테스트 도구** — `gdb`/`lldb`, 새니타이저(ASan·UBSan), 단위 테스트(GoogleTest)는 언어 문법이 아닌 실무 도구라 빼 두었습니다.
+```text
+resource 획득
+→ object lifetime에 묶음
+→ scope 종료 / stack unwinding
+→ destructor에서 정리
+```
 
----
+이 단계가 잡혀야 move와 smart pointer를 단순 문법이 아니라 **소유 관계를 표현하는 도구**로 이해할 수 있다.
 
-## 이 로드맵을 쓰는 법
+## Branch A — 예외와 RAII의 경계
 
-- **[나중]·[선택]은 미뤄도 완결됩니다** — 실무에서 필요해질 때 돌아오세요.
-- 진도는 "봤다"가 아니라 각 단계의 **통과 기준을 직접 구현할 수 있는지**로 판단합니다.
-- 고급 단계에서 순서가 헷갈리면, **값과 소유권 → STL → 나머지**로 잡으면 무난합니다.
-- 언어 학습이 한 바퀴 돌았다면, 부록의 코드 스타일 도구로 팀 협업 마찰을 줄이세요.
+| 글 | 역할 |
+|---|---|
+| [예외 처리 — try/catch와 예외 안전](./2026-07-13-cpp-exception-handling.md) | stack unwinding·RAII·basic/strong/nothrow guarantee를 연결 |
 
-## Reference
+예외는 class 뒤의 필수 번호가 아니라, **실패 경로에서도 수명 규칙이 유지되는지** 볼 때 들어오는 Branch다.
 
-주제별 상세 설명은 아래에서. 하나에 얽매이지 말고 교차로 보는 걸 권합니다.
+## 3. move와 smart pointer — 소유 관계를 코드에 드러낸다
 
-- [씹어먹는 C++ 강좌 (modoocode)](https://modoocode.com/category/C++) — 한글로 된 가장 촘촘한 강좌. 초급~고급 전 구간.
-- [cppreference](https://en.cppreference.com/) — 표준 라이브러리·문법의 1차 레퍼런스. 정확하지만 건조함.
-- [learncpp.com](https://www.learncpp.com/) — 영어권의 대표 입문 강좌. 예제 중심.
-- *Effective Modern C++* (Scott Meyers) — 값과 소유권·모던 문법 구간을 깊게 이해하고 싶을 때.
+| 글 | 역할 |
+|---|---|
+| [이동 시맨틱과 스마트 포인터](./2026-07-03-cpp-move-and-smart-pointers.md) | value category·`std::move`·move ctor와 `unique_ptr`/`shared_ptr`/`weak_ptr`의 역할 구분 |
+
+핵심 경계는 다음이다.
+
+```text
+std::move
+→ 이동 자체가 아니라 rvalue 취급을 허용하는 cast
+
+실제 move
+→ 선택된 move constructor / assignment가 수행
+
+smart pointer
+→ pointer 문법이 아니라 ownership policy를 타입으로 표현
+```
+
+## 4. STL과 lambda — 데이터 구조와 동작을 조합한다
+
+| 글 | 역할 |
+|---|---|
+| [STL 컨테이너와 알고리즘](./2026-07-03-cpp-stl-containers-and-algorithms.md) | container·iterator·algorithm의 역할 관계 |
+| [람다와 클로저](./2026-07-13-cpp-lambda-and-closures.md) | capture·closure object·`std::function`·generic lambda를 C++ 의미론으로 설명 |
+
+Lambda는 별개의 고급 장식이 아니라 algorithm·callback을 실제로 사용할 때 자연스럽게 만난다.
+
+```text
+container
+→ iterator/range로 요소 범위 표현
+→ algorithm에 전달
+→ 동작은 lambda/function object로 주입
+```
+
+## 5. template — 타입을 매개변수화한다
+
+| 글 | 역할 |
+|---|---|
+| [C++ 템플릿](./2026-07-03-cpp-templates.md) | function/class template에서 specialization·constraint 계열로 Zoom-in |
+
+Template은 일반적인 “다형성”을 다시 설명하는 문서가 아니라 **C++이 compile time에 타입을 매개변수화하는 구체 의미론**에 집중한다.
+
+## 6. modern language와 표준 라이브러리
+
+| 글 | 역할 |
+|---|---|
+| [모던 문법 — auto·constexpr와 표준 라이브러리](./2026-07-03-cpp-modern-syntax.md) | `auto`·`decltype`·`constexpr`·uniform initialization 등 현대 C++ 코드를 읽는 공통 문법 |
+
+표준 버전별 기능을 연대기처럼 외우기보다 **현재 코드에서 타입 추론·compile-time 계산·초기화가 어떤 의미를 가지는지** 중심으로 본다.
+
+## Branch B — 동시성
+
+| 글 | 역할 |
+|---|---|
+| [C++ 동시성 — thread와 async](./2026-07-03-cpp-concurrency.md) | `thread`·mutex·condition variable·future·atomic을 실행/공유상태/조율 축으로 구분 |
+
+동시성은 모든 C++ 코드의 다음 단계가 아니다. 실제로 여러 실행 흐름을 다룰 때 들어간다. 일반 동시성 원리는 Knowledge 영역을 참조하고 이 글은 C++ 표준 라이브러리 의미론에 집중한다.
+
+## Branch C — Project Build
+
+0단계에서 compile/link 모델을 잡았다면, 여러 파일·library·target을 실제 Project로 구성할 때 같은 문서의 CMake 부분으로 다시 들어간다.
+
+- [컴파일·링킹과 CMake](./2026-07-03-cpp-build-compile-link-cmake.md)
+
+```text
+언어 의미론 학습
+≠
+Build Tool 숙련
+```
+
+둘은 만나지만 같은 학습 사다리는 아니다.
+
+## Appendix — Style과 Debug
+
+| 글/자료 | 역할 |
+|---|---|
+| [cpplint·clang-format](./2024-10-22-cpplint-clangformat.md) | 팀 Style을 Tool로 강제하는 별도 운영 축 |
+| [gdb cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/gdb.md) | Debug 명령 빠른 Reference |
+
+## 일반 Concept과의 경계
+
+메모리 관리·값/참조 의미론·다형성·동시성 같은 **언어 공통 Concept의 정본은 정보관리기술사 Knowledge**에 둔다. Blog C++ 문서는 그 Concept이 C++에서 어떤 문법·규칙·표준 타입으로 나타나는지에 집중한다.
+
+## 어디서 시작할까
+
+```text
+C++ 프로그램이 어떻게 만들어지는지 모르겠다
+→ compile/link 모델
+
+객체 수명·reference가 헷갈린다
+→ 참조와 동적 객체
+→ class·RAII
+
+modern C++의 핵심을 잡고 싶다
+→ move·smart pointer
+→ STL + lambda
+→ template
+→ modern language
+
+멀티스레드가 필요하다
+→ concurrency Branch
+
+Project가 커져 Build 구성이 필요하다
+→ CMake Branch
+```
+
+> **C++의 핵심 줄기는 객체 수명 → RAII → move/ownership 표현 → STL·lambda → template·modern language다. compile/link는 처음부터 깔리는 프로그램 모델이고, CMake·동시성·Style은 필요할 때 들어가는 별도 Branch다.**
