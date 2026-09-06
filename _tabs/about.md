@@ -9,7 +9,7 @@ order: 6
 - 과거 웹크롤러/인사평가/실적관리 프로그램을 개발한 경험이 있고, 현재는 종합병원을 대상으로 데이터를 수집·활용(분석·시각화)하는 프로그램을 개발하고 있습니다.
 - 백엔드가 주이지만 프론트엔드 경험도 많아 양쪽 모두 대응이 가능합니다.
 - 업무에서는 주로 Java(Kotlin), JavaScript(TypeScript)를 사용해 왔습니다.
-- 🔗 [github.com/clang-engineer](https://github.com/clang-engineer) · ✉ clang.engineer@gmail.com
+- 🔗 [github.com/yorez](https://github.com/yorez) · ✉ clang.engineer@gmail.com
 
 ---
 ## 개발 성향 및 철학
