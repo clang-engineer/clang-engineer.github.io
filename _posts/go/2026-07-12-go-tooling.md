@@ -1,89 +1,273 @@
 ---
-title       : 마지막 ⑦ 도구 — build·mod·fmt·vet
-description : "Go는 도구가 언어에 내장돼 있어 CMake 같은 외부 빌드 시스템이 필요 없다. build·run·test 명령 하나씩, 스타일을 언어 표준으로 강제하는 gofmt(논쟁이 사라진다), go.mod 의존성 관리, 그리고 go vet·staticcheck 정적 분석까지. C++의 파편화된 도구 생태계와 비교하며 로드맵을 마무리한다."
+title       : "Go Tooling — build·test·fmt·mod·vet을 언제 쓰나"
+description : "Go 표준 배포판이 제공하는 go command와 gofmt를 build/test, formatting, module dependency, static analysis라는 역할로 나눠 정리한다. go build의 package/command 동작, go fmt와 gofmt 차이, go mod, go vet·staticcheck, cgo 배포 경계를 정확히 구분한다."
 date        : 2026-07-12 10:58:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-09-06 14:05:00 +0900
 categories  : [go]
-tags        : [go]
+tags        : [go, tooling, build, modules]
 pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **⑦ 마지막(도구)** 단계입니다. 앞 글: [⑥ 표준 라이브러리·관용구·testing](./2026-07-12-go-stdlib-idiom-testing.md)
+> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 마지막 단계가 아니라 **처음부터 옆에 두고 사용하는 Cross-cutting Tool 문서**다.
 
-Go는 도구가 **언어에 내장**되어 있습니다. C++이 CMake·Make·패키지 매니저·포매터를 따로 조합하던 것을, Go는 `go` 명령 하나로 통합합니다. 그래서 이 단계는 외울 게 적습니다.
+Go는 언어 specification과 별개로 표준 배포판에 `go` command와 `gofmt`를 함께 제공한다. 일반적인 Go module은 별도 CMake project를 만들지 않고 이 표준 Toolchain만으로 build/test/dependency 작업을 처리할 수 있다.
 
-## build / run / test
+다만 “Go 언어 자체에 Build System이 문법으로 내장됐다”거나 “외부 Build Tool은 절대 필요 없다”는 뜻은 아니다. Code generation, cgo, native dependency, packaging 같은 프로젝트에서는 Make·Task runner·CI script를 추가할 수도 있다.
 
-```bash
-go run main.go        # 컴파일 후 바로 실행 (임시 바이너리)
-go build ./...        # 실행 파일 생성
-go test ./...         # 테스트 실행 (⑥의 _test.go를 찾아서)
-go install            # 빌드 후 $GOBIN에 설치
+## 역할 지도
+
+```text
+빠른 실행
+→ go run
+
+compile / build validation
+→ go build
+
+자동화된 검증
+→ go test
+
+canonical formatting
+→ gofmt / go fmt
+
+module dependency
+→ go mod / go get
+
+의심스러운 코드 패턴 점검
+→ go vet
+→ 필요하면 staticcheck 등 추가
 ```
 
-`go build`는 실행 파일 하나를 만듭니다. **순수 Go 코드**는 흔히 별도 Go 런타임 설치 없이 배포 가능한 self-contained 바이너리가 됩니다. 하지만 cgo, 시스템 resolver, plugin, 외부 링커나 공유 라이브러리를 사용하면 동적 의존성이 생길 수 있습니다. 배포 전에는 Linux의 `ldd`, macOS의 `otool -L` 등으로 실제 링크 결과를 확인해야 합니다.
-
-## gofmt — 스타일 논쟁이 사라진다
-
-Go에서 코드 포맷은 **언어 표준으로 강제**됩니다.
+## 1. `go run` — 임시 Build 후 실행
 
 ```bash
-gofmt -w .        # 현재 디렉터리 이하 전부 표준 포맷으로
-go fmt ./...      # 위의 래퍼
+go run .
 ```
 
-들여쓰기 탭/스페이스, 중괄호 위치, 정렬 — **논쟁거리가 아예 없습니다.** 정답이 하나로 정해져 있고 도구가 강제합니다. C++에서 팀이 `.clang-format`을 합의하느라 쓰던 에너지가 Go엔 통째로 없습니다. 저장 시 자동 포맷을 에디터에 걸어 두면 신경 쓸 일이 사라집니다.
+현재 main package를 build해 임시 executable로 실행한다. 학습·작은 Tool 확인에는 편하지만 배포 artifact를 만드는 명령으로 보지는 않는다.
 
-## go mod — 의존성 관리
-
-①에서 `go mod init`으로 시작한 모듈의 의존성을 다룹니다.
+특정 source file을 직접 넘길 수도 있다.
 
 ```bash
-go mod init example.com/myapp   # 모듈 시작 (go.mod 생성)
-go get github.com/some/pkg      # 의존성 추가
-go mod tidy                     # 안 쓰는 의존성 제거 + 빠진 것 추가
+go run main.go
 ```
 
-`go.mod`가 의존성과 버전을, `go.sum`이 무결성 해시를 기록합니다. 두 파일을 커밋하면 어디서 빌드하든 **같은 버전**이 재현됩니다. `go mod tidy`는 실제 import를 스캔해 `go.mod`를 코드와 일치시키는, 습관적으로 돌리는 명령입니다.
+하지만 실제 module/package 구조를 확인하려면 `go run .`처럼 package 단위로 실행하는 편이 더 자연스럽다.
 
-## go vet / staticcheck — 정적 분석
+## 2. `go build` — Package Graph가 Compile되는지 확인
 
-컴파일은 되지만 의심스러운 코드를 잡습니다.
+현재 package가 command(`package main`)라면 다음 명령은 executable을 현재 directory에 쓸 수 있다.
 
 ```bash
-go vet ./...      # 표준 내장 — Printf 포맷 불일치, 락 복사 등
+go build .
 ```
 
-`go vet`은 표준 내장이고, 더 촘촘한 검사가 필요하면 **staticcheck**(사실상의 커뮤니티 표준 린터)를 추가로 씁니다. ⑤의 `-race`가 런타임 탐지라면, 이쪽은 컴파일 타임 정적 분석입니다.
+출력 이름을 명시하려면:
 
-## C++ 전환으로 정리
+```bash
+go build -o bin/myapp ./cmd/myapp
+```
 
-| C++ | Go | 핵심 차이 |
+반면 다음 명령은 repository의 package graph 전체가 build 가능한지 CI에서 확인하는 용도로 자주 쓴다.
+
+```bash
+go build ./...
+```
+
+`./...`가 여러 package/command를 가리킬 때 이것을 **“실행 파일 하나를 생성하는 명령”이라고 이해하면 안 된다.** 여러 package를 compile/check하는 것이 핵심이고, 배포할 binary는 보통 target command를 명시해 `-o`로 만든다.
+
+## 3. `go test` — Test도 Package 단위
+
+```bash
+go test ./...
+```
+
+`*_test.go`를 찾아 package별 test binary를 만들고 실행한다.
+
+특정 package:
+
+```bash
+go test ./internal/parser
+```
+
+Race detector가 필요한 concurrent code에서는:
+
+```bash
+go test -race ./...
+```
+
+`-race`는 static analysis가 아니라 instrumented binary를 실행하면서 data race를 탐지하는 runtime 도구다.
+
+## 4. `gofmt`와 `go fmt` — Canonical Formatter
+
+Go 생태계는 `gofmt` 결과를 사실상의 canonical source format으로 사용한다. 이는 **compiler가 스타일을 거부한다는 뜻은 아니다.** 표준 Tool이 하나의 일관된 포맷을 제공하고 생태계가 이를 강하게 따르는 것이다.
+
+### 파일을 직접 Format
+
+```bash
+gofmt -w main.go internal/parser.go
+```
+
+`gofmt`에 directory `.` 하나를 넘겨 recursive formatting을 기대하지 않는다. 여러 package를 따라가며 format하려면 `go fmt`의 package pattern이 편하다.
+
+```bash
+go fmt ./...
+```
+
+차이는 대략 다음처럼 잡으면 된다.
+
+```text
+gofmt
+→ source file formatter 자체
+
+go fmt
+→ package를 찾고 그 source에 formatter를 적용하는 go command wrapper
+```
+
+Editor에서는 save 시 `gofmt`/`goimports` 계열을 자동 실행하게 두는 경우가 많다.
+
+## 5. `go mod` — Module Graph 관리
+
+Module 시작:
+
+```bash
+go mod init example.com/myapp
+```
+
+의존성 추가/버전 조정:
+
+```bash
+go get example.com/lib@latest
+```
+
+Source import와 `go.mod`/`go.sum`을 정리:
+
+```bash
+go mod tidy
+```
+
+```text
+go.mod
+→ module path
+→ Go version/toolchain 관련 directive
+→ direct/indirect module requirements
+
+go.sum
+→ download한 module content의 checksum 검증 정보
+```
+
+`go.sum`을 “lock file이라 정확히 한 dependency graph를 고정한다”고 단순화하지 않는다. Go module version selection과 checksum 기록은 일반적인 lockfile 모델과 동일하지 않다.
+
+## 6. Tool 설치 — `go install package@version`
+
+현재 project dependency를 바꾸는 것과 개발 Tool executable을 설치하는 것은 분리한다.
+
+```bash
+go install honnef.co/go/tools/cmd/staticcheck@latest
+```
+
+CI나 재현 가능한 bootstrap에서는 `@latest`보다 프로젝트가 정한 version을 명시하는 편이 좋다.
+
+## 7. `go vet` — Compiler가 허용하지만 수상한 패턴
+
+```bash
+go vet ./...
+```
+
+`go vet`은 모든 bug를 찾는 general-purpose linter가 아니다. Go toolchain이 제공하는 analyzer 집합으로, printf-like call mismatch 등 특정 suspicious construct를 검사한다.
+
+더 넓은 static analysis가 필요하면 project 정책에 따라 `staticcheck` 같은 외부 Tool을 추가할 수 있다.
+
+```text
+go compiler
+→ type/syntax 등 compile 가능성
+
+go vet
+→ 특정 suspicious pattern
+
+staticcheck 등
+→ 더 넓은 analyzer/lint 정책
+```
+
+## 8. 순수 Go Binary와 cgo 경계
+
+많은 pure-Go command는 target OS/architecture용 binary 하나로 배포하기 쉽다.
+
+```bash
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app .
+```
+
+하지만 이를 “Go binary는 항상 완전 static”이라는 규칙으로 외우면 안 된다.
+
+- cgo 사용 여부
+- external linker
+- system library
+- platform resolver·plugin 사용
+- build tags/options
+
+등에 따라 runtime dependency가 달라질 수 있다.
+
+배포 전에 실제 artifact를 확인한다.
+
+```bash
+file ./app
+ldd ./app        # Linux, dynamic binary라면
+```
+
+macOS에서는 `otool -L` 등을 사용할 수 있다.
+
+## 9. 일상 Workflow
+
+```text
+처음 module 생성
+→ go mod init
+
+코드 작성
+→ go fmt ./...
+
+빠른 검증
+→ go test ./...
+→ go vet ./...
+
+전체 build 가능성
+→ go build ./...
+
+배포 binary
+→ go build -o <output> <command-package>
+
+의존성 변경 후
+→ go mod tidy
+```
+
+Tool 명령을 번호 순서대로 한 번씩 배우고 끝내는 것이 아니라 **개발 Loop에 반복해서 배치**한다.
+
+## C++ 경험과의 경계
+
+| 문제 | C++에서 흔한 구성 | Go에서 흔한 기본 경로 |
 |---|---|---|
-| CMake / Make (외부) | `go build` | 빌드 시스템이 언어 내장 |
-| 동적 링킹 / `.so` 배포 | 순수 Go는 흔히 self-contained | cgo·플랫폼 의존성은 별도 확인 |
-| `.clang-format` 팀 합의 | `gofmt` (강제) | 스타일 논쟁 자체가 없음 |
-| Conan / vcpkg | `go mod` | 의존성·버전 재현이 표준 |
-| clang-tidy | `go vet` / staticcheck | 정적 분석도 표준·준표준 |
+| Build | CMake + Ninja/Make/MSBuild 등 | `go build` |
+| Test | Framework/CTest 등 선택 | `go test` |
+| Format | clang-format config | gofmt canonical format |
+| Dependency | vcpkg/Conan/CMake FetchContent 등 | Go modules |
+| Static analysis | compiler + clang-tidy 등 | compiler + `go vet`, 필요 시 외부 analyzer |
 
-## 자주 막히는 지점
-
-- **`GOPATH` 시절 지식** — 옛 자료는 `GOPATH`에 코드를 두라고 하지만, 지금은 **모듈 방식**이 표준입니다. 아무 디렉터리에서나 `go mod init`으로 시작하세요.
-- **포맷을 손으로** — gofmt가 다 하는데 수동으로 맞추려는 것. 에디터 저장 시 자동 포맷을 걸면 끝.
-- **`go get`으로 도구 설치** — 근래엔 도구 설치는 `go install pkg@version`으로 분리됐습니다.
+이 표는 “Go가 모든 외부 Tool을 없앤다”는 우열표가 아니라 **언어 배포판이 기본 Workflow를 얼마나 표준화했는지**를 비교하는 좌표다.
 
 ## 통과 기준
 
-- `go build`로 실행 파일을 만들고, `go mod tidy`로 의존성을 정리할 수 있다.
-- gofmt가 왜 스타일 논쟁을 없애는지, 순수 Go build와 cgo build의 배포 차이를 설명할 수 있다.
+다음을 구분하면 된다.
 
----
+- `go build .`와 `go build ./...`의 목적 차이
+- `gofmt`와 `go fmt`의 역할 차이
+- project dependency 변경과 Tool 설치의 차이
+- `go vet`과 race detector의 차이
+- pure Go와 cgo build의 배포 dependency 차이
 
-여기까지가 **Go를 배우는 학습 줄기 ①~⑦**입니다. 로드맵을 한 바퀴 돌았으니, 이제 [부록 — 제네릭](./2026-07-12-go-roadmap.md#부록--제네릭-go-118)이나 실전 프로젝트로 넘어가면 됩니다. C++ 습관이 튀어나올 때(상속으로 풀거나 예외를 찾을 때)는 로드맵의 대응표로 돌아와 Go식 사고로 교정하세요.
+Roadmap에서는 이 문서를 어느 마지막 단계에 놓지 않고 **필요한 순간마다 참조하는 Tool/Reference**로 사용한다.
 
 ## Reference
 
-- [Go 공식 — Managing dependencies](https://go.dev/doc/modules/managing-dependencies) — 모듈·`go mod`의 정본.
-- [Go Command 문서](https://go.dev/cmd/go/) — 모든 `go` 하위 명령.
-- [staticcheck](https://staticcheck.dev/) — 준표준 린터.
+- [Go command](https://pkg.go.dev/cmd/go)
+- [gofmt](https://pkg.go.dev/cmd/gofmt)
+- [Managing dependencies](https://go.dev/doc/modules/managing-dependencies)
+- [go vet](https://pkg.go.dev/cmd/vet)
