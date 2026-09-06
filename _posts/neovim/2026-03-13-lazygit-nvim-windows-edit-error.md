@@ -2,7 +2,7 @@
 title       : "Windows에서 Neovim 내 Lazygit 'e' 키 에러 해결"
 description : "nvim → lazygit에서 파일 편집 시 '[ is not recognized' 에러 해결 방법"
 date        : 2026-03-13 10:30:00 +0900
-updated     : 2026-07-24 15:00:00 +0900
+updated     : 2026-09-06 19:00:00 +0900
 categories  : [lazyvim, "Lazygit"]
 tags        : [neovim, lazygit, windows, snacks, troubleshooting, oss-contrib]
 pin         : false
@@ -99,4 +99,4 @@ rm ~/AppData/Local/nvim-data/lazygit-theme.yml
 
 ## 2026-06-12 추가
 
-이 버그를 lazygit 본체까지 거슬러 올라가 OSS 이슈로 정리한 기록은 별도 글로 분리했다 → [lazygit nvim-remote preset의 cmd 분기 부재 — 본체로 거슬러 올라가 이슈 제기](../opensource/2026-06-12-lazygit-nvim-remote-cmd-shell-missing.md).
+이 버그를 lazygit 본체까지 거슬러 올라가 OSS 이슈로 정리한 기록은 별도 글로 분리했다 → [lazygit nvim-remote preset의 cmd 분기 부재 — 본체로 거슬러 올라가 이슈 제기](./2026-06-12-lazygit-nvim-remote-cmd-shell-missing.md).
