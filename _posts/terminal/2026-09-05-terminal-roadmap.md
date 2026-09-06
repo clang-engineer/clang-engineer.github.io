@@ -25,9 +25,9 @@ hidden      : false
 | 6. 고전 TUI | escape sequence를 직접 안 쓰고 UI를 어떻게 만들었나? | curses, ncurses, 화면(Screen)·창(Window) 추상화 |
 | 7. TUI 엔진 | 화면 전체를 매번 다시 그리는가? | 이벤트 루프(Event Loop), 상태(State), 레이아웃(Layout), 렌더러(Renderer) |
 | 8. 현대 TUI | 최근 프레임워크는 무엇을 더 추상화하나? | Bubble Tea, Ratatui, Textual, OpenTUI |
-| 9. 실제 앱 해부 | 내가 쓰는 앱은 어느 계층에 서 있나? | fzf, btop, lazygit, Yazi, Harlequin, OpenCode |
-| 10. 플랫폼으로서의 TUI | TUI 위에 다시 UI 생태계가 생길 수 있나? | Neovim 내장 TUI, UI protocol, vim.ui, nui, Snacks, LazyVim |
-| 11. 전체 연결 | tmux와 SSH는 이 스택 어디에 끼나? | 터미널 에뮬레이터 ↔ PTY ↔ 셸/tmux/SSH ↔ 애플리케이션 |
+| Branch A. 실제 앱 | 실제 앱은 어느 추상화 계층을 선택했나? | fzf, btop, lazygit, Yazi, Harlequin, OpenCode |
+| Branch B. TUI 플랫폼 | TUI가 다시 상위 UI 플랫폼이 될 수 있나? | Neovim 내장 TUI, UI protocol, vim.ui, nui, Snacks, LazyVim |
+| Integration. 전체 연결 | tmux와 SSH는 이 스택 어디에 끼나? | 터미널 에뮬레이터 ↔ PTY ↔ 셸/tmux/SSH ↔ 애플리케이션 |
 
 ## 1. 터미널은 무엇인가
 
@@ -138,7 +138,9 @@ terminfo
 
 배경 글: [TUI의 역사와 현대 프레임워크 — ncurses에서 OpenTUI까지](./2026-09-05-tui-history-and-modern-frameworks.md)
 
-## 9. 실제 애플리케이션을 추상화 계층에 꽂아보기
+여기까지가 **터미널 자체를 이해하는 핵심 스택**이다. 아래부터는 이 스택을 실제 앱과 조합에 적용해 보는 선택적 Zoom-in이다.
+
+## Branch A — 실제 애플리케이션을 추상화 계층에 꽂아보기
 
 프레임워크 이름을 외우는 대신 실제 사용하는 도구가 어느 계층을 선택했는지 본다.
 
@@ -151,7 +153,7 @@ terminfo
 
 글: [실제 TUI 앱은 어느 추상화 계층에 서 있나 — fzf부터 OpenCode까지](./2026-09-05-tui-app-abstraction-map.md)
 
-## 10. Neovim — TUI가 다시 플랫폼이 되는 사례
+## Branch B — Neovim: TUI가 다시 플랫폼이 되는 사례
 
 Neovim은 단순한 터미널 애플리케이션에서 끝나지 않는다.
 
@@ -173,7 +175,7 @@ LazyVim
 
 글: [Neovim은 왜 TUI 앱이면서 UI 플랫폼인가](./2026-09-05-neovim-as-tui-platform.md)
 
-## 11. tmux·SSH까지 전체 스택 연결하기
+## Integration — tmux·SSH까지 전체 스택 연결하기
 
 마지막에는 개별 개념을 한 그림으로 연결한다.
 

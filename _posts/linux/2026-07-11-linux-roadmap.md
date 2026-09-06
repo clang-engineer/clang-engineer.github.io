@@ -33,9 +33,9 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [Debian vs Red Hat 계열](./2024-03-23-debian-redhat.md) | apt/dnf, .deb/.rpm, 릴리스 모델과 SELinux·방화벽 기본값까지 — 두 계열의 실질적 차이와 상황별 선택 기준. 이후 모든 글의 "내 배포판은 어느 쪽" 전제 |
-| [Windows에서 Ubuntu 개발 환경 구축하기](./2025-01-25-ubuntu-on-windows.md) | `wsl --install`로 WSL2+Ubuntu, Python·Node(nvm)·Docker 세팅. WSL1/2 차이까지 — 윈도우 사용자의 리눅스 진입로 |
-| [SSH 서버 접속과 하드닝: 키 인증, sshd_config](./2026-07-11-ssh-server-access-hardening.md) | `ssh`·`~/.ssh/config`·키 인증(`ssh-keygen`/`ssh-copy-id`)로 들어가고, `sshd_config`로 root 로그인·비번 인증을 잠근다. 권한 700/600 함정과 잠기지 않고 문 잠그는 순서까지 — 원격 서버를 다루는 문(門) |
+| [Debian vs Red Hat 계열](./2024-03-23-debian-redhat.md) | Debian/Red Hat 계열의 Package·운영 차이를 잡는 진입점 |
+| [Windows에서 Ubuntu 개발 환경 구축하기](./2025-01-25-ubuntu-on-windows.md) | Windows에서 WSL2 기반 Linux 환경을 만드는 진입점 |
+| [SSH 서버 접속과 하드닝: 키 인증, sshd_config](./2026-07-11-ssh-server-access-hardening.md) | SSH 접속과 Key 인증·sshd 기본 보안 경계 |
 
 배포판을 고르고 서버에 접속했으면, 이제 그 위에서 돌아가는 시스템을 들여다볼 차례다.
 
@@ -45,9 +45,9 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [프로세스 찾고 종료하기: pgrep, pkill, pidof, lsof, kill](./2026-06-16-process-find-and-kill.md) | `ps aux \| grep` 대신 쓰는 표준 도구 — 이름·포트·시그널로 프로세스를 정확히 다루는 법. 운영에서 가장 자주 치는 명령들 |
-| [top, htop, btop으로 Linux CPU·메모리·프로세스 확인하기](./2026-08-26-top-htop-btop-system-monitoring.md) | load average·CPU 상태·VIRT/RES 해석부터 장애 대응 순서까지 |
-| [디스크 꽉 찼을 때: df, du, lsof로 범인 찾기 + mount·fstab](./2026-07-11-filesystem-disk-management.md) | `df`로 어느 파티션이 찼는지 → `du`로 범인 디렉토리 → 삭제해도 안 줄면 `lsof`로 열린 파일. inode 고갈·`mount`/`fstab`(UUID)·부팅 실패 방지까지 |
+| [프로세스 찾고 종료하기: pgrep, pkill, pidof, lsof, kill](./2026-06-16-process-find-and-kill.md) | Process를 이름·포트·Signal 기준으로 찾고 다루기 |
+| [top, htop, btop으로 Linux CPU·메모리·프로세스 확인하기](./2026-08-26-top-htop-btop-system-monitoring.md) | CPU·Memory·Load·Process를 실시간으로 관측하기 |
+| [디스크 꽉 찼을 때: df, du, lsof로 범인 찾기 + mount·fstab](./2026-07-11-filesystem-disk-management.md) | Disk 사용량·열린 파일·Mount 문제를 추적하기 |
 
 관측으로 "누가·무엇이" 돌아가는지 보이면, 다음은 "누가 무엇을 할 수 있는가" — 계정과 권한이다.
 
@@ -57,10 +57,10 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [리눅스 사용자·그룹 관리: useradd, usermod, sudo](./2026-07-11-user-account-management.md) | 계정을 만들고(useradd) 고치고(usermod) 지우고(userdel), 그룹·sudo를 붙이는 표준 흐름. `/etc/passwd·shadow·group`이 실제로 무엇을 담는지, `-aG`의 지뢰까지. 이 단계의 줄기 |
-| [su vs sudo, 그리고 wheel 그룹 — 권한 상승 제대로](./2026-07-11-sudo-su-wheel.md) | su와 sudo의 근본 차이(대상 비번 vs 내 비번·감사 로그), `sudo -i`/`-s`, wheel 그룹, sudoers 문법과 `visudo`, `sudo -l`. 권한을 "정확히" 주는 법 |
-| [특수 권한 비트: SUID, SGID, Sticky Bit](./2026-07-11-special-permission-bits-suid-sgid-sticky.md) | passwd가 왜 일반 사용자로도 root 파일을 고치나(SUID), 공유 디렉토리의 그룹 상속(SGID), /tmp의 삭제 보호(sticky). `find -perm`로 SUID 감사까지 |
-| [비밀번호 정책과 PAM: 만료·최소 길이·복잡도·잠금](./2026-07-11-password-policy-pam.md) | "8자 이상·90일마다·5번 틀리면 잠금"을 실제로 강제하기 — login.defs·chage(만료), pam_pwquality(복잡도), pam_faillock(잠금). PAM을 안전하게 건드리는 authselect까지 |
+| [리눅스 사용자·그룹 관리: useradd, usermod, sudo](./2026-07-11-user-account-management.md) | User·Group·sudo의 기본 계정 관리 흐름 |
+| [su vs sudo, 그리고 wheel 그룹 — 권한 상승 제대로](./2026-07-11-sudo-su-wheel.md) | su·sudo·wheel과 권한 상승 경계 |
+| [특수 권한 비트: SUID, SGID, Sticky Bit](./2026-07-11-special-permission-bits-suid-sgid-sticky.md) | SUID·SGID·Sticky Bit의 역할과 보안 의미 |
+| [비밀번호 정책과 PAM: 만료·최소 길이·복잡도·잠금](./2026-07-11-password-policy-pam.md) | 비밀번호 정책과 PAM 인증 흐름의 기본 구조 |
 
 > 계정을 막 만들었는데 `su`가 거부된다면 → [passwd 직후 su 인증 점검 순서](./2026-06-07-rocky-linux-chage-su-authentication-failure.md). PAM 로그에서 시작해 잠금·만료·접근 정책·로그인 셸을 구분한다. (부록 B에도 실어 둠)
 {: .prompt-tip }
@@ -73,7 +73,7 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [systemd 서비스 관리: systemctl, 유닛 파일, 부팅 등록과 타이머](./2026-07-11-systemd-service-management.md) | `systemctl start/enable/status`의 일상 명령과 enable≠start의 차이, 유닛 파일 작성과 `daemon-reload`, `journalctl -u`로 로그 보기, cron 대안인 타이머까지. 앱을 상시 서비스로 올리는 법 |
+| [systemd 서비스 관리: systemctl, 유닛 파일, 부팅 등록과 타이머](./2026-07-11-systemd-service-management.md) | systemd Unit·start/enable·journal·timer의 서비스 운영 흐름 |
 
 서비스를 띄웠으면, 그게 잘 도는지·무슨 일이 있었는지는 로그로 되짚는다.
 
@@ -83,9 +83,9 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [리눅스 로그는 어디에 쌓이나: syslog와 journald](./2026-07-11-syslog-journald-logging.md) | rsyslog와 journald의 공존 구조, `/var/log` 지형(messages vs syslog, secure vs auth.log), facility·priority, `logger`, `journalctl` 실전·영속화. 로그 수집·저장의 줄기 |
-| [로그인 기록 추적하기: who, w, last, lastlog, utmp/wtmp/btmp](./2026-07-11-login-records-utmp-wtmp.md) | 누가 지금/언제 접속했나 — 바이너리 계정 파일 4종과 조회 도구. `lastb`로 무차별 대입 흔적까지. 보안 감사의 각도 |
-| [logrotate 설정](./2025-02-19-logrotate.md) | 로그가 무한히 커지지 않게 회전·압축·보관·삭제. logback과의 분담 기준까지. 로그를 오래 다루는 축 |
+| [리눅스 로그는 어디에 쌓이나: syslog와 journald](./2026-07-11-syslog-journald-logging.md) | journald·syslog daemon·Application log의 수집 경로 구분 |
+| [로그인 기록 추적하기: who, w, last, lastlog, utmp/wtmp/btmp](./2026-07-11-login-records-utmp-wtmp.md) | 현재·과거 로그인 기록을 감사하는 도구와 데이터 |
+| [logrotate 설정](./2025-02-19-logrotate.md) | 로그 회전·압축·보관의 운영 역할 |
 
 여기까지가 서버에 접속하고, 관측하고, 계정·권한을 다루고, 서비스를 띄우고, 로그를 읽는 운영의 한 바퀴다.
 
