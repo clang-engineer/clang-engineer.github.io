@@ -16,6 +16,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+
       - name: Remove migrated concept stubs and consolidate blog posts
         run: |
           python - <<'PY'
@@ -25,7 +31,6 @@ jobs:
           posts = Path('_posts')
           concept = posts / 'concept'
 
-          # Replace links to migrated concept stubs with their Knowledge source target.
           mapping = {}
           if concept.exists():
               for stub in concept.glob('*.md'):
@@ -48,13 +53,11 @@ jobs:
               if text != original:
                   path.write_text(text)
 
-          # Delete only confirmed migrated concept stubs.
           for name in mapping:
               (concept / name).unlink()
           if concept.exists() and not any(concept.iterdir()):
               concept.rmdir()
 
-          # Consolidate small blog-authoring folders without adding directory depth.
           blog = posts / 'blog'
           blog.mkdir(exist_ok=True)
           for folder_name in ('jekyll', 'markdown'):
@@ -69,7 +72,6 @@ jobs:
               if not any(folder.iterdir()):
                   folder.rmdir()
 
-          # Update sibling-folder relative references to moved source files.
           for path in posts.rglob('*.md'):
               text = path.read_text()
               updated = text.replace('../jekyll/', '../blog/').replace('../markdown/', '../blog/')
@@ -77,16 +79,13 @@ jobs:
                   path.write_text(updated)
           PY
 
-          # Fail if stale concept source links remain.
           if grep -R --include='*.md' -nE '(\.\./|\./)concept/' _posts; then
             echo 'stale concept links remain'
             exit 1
           fi
 
       - name: Validate Jekyll build
-        run: |
-          bundle install
-          bundle exec jekyll build
+        run: bundle exec jekyll build
 
       - name: Commit cleanup
         run: |
