@@ -1,114 +1,174 @@
 ---
-title       : "tmux 로드맵 — 세션 관리를 익혀 작업 환경을 자동화하는 순서"
-description : "tmux 구조·설치 → 체감 옵션 → 플러그인 → 세션 부트스트랩 자동화까지, 이 블로그의 tmux 글을 학습 순서대로 큐레이션. 클립보드·자동 attach 트러블슈팅은 부록으로 분리."
+title       : "tmux 로드맵 — 세션 관리의 핵심과 선택 확장"
+description : "tmux의 세션·윈도우·패널 구조에서 시작해 기본 설정, 플러그인 사용, 세션 워크플로까지 핵심 경로를 잡고, 플러그인 제작·AI 에이전트 관제·세션 피커·트러블슈팅은 독립 Branch로 분리한 학습 지도."
 date        : 2026-06-16 15:00:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-09-06 12:35:00 +0900
 categories  : [tmux, "개요·인덱스"]
 tags        : [roadmap, terminal]
 pin         : false
 hidden      : false
 ---
 
-tmux는 한 번 손에 익으면 터미널 작업 방식 자체가 바뀐다. 한국어 자료는 "세션·윈도우·패널 단축키"에서 끝나는 경우가 대부분인데, 매일 쓰는 사람은 그 너머로 들어간다. 이 로드맵은 그 흐름을 학습 줄기로 세운다 — 구조·cheatsheet(입문)에서 시작해 기본값을 다듬고(1단계), 플러그인으로 확장하고(2단계), 세션 부트스트랩으로 자동화(3단계)하는 데까지 한 줄기로 묶었다. 본인 위치에서 가까운 단계부터 진입하면 된다.
+tmux는 **Terminal Session을 오래 유지하고 여러 Shell 작업공간을 구조화하는 도구**다. 이 로드맵의 핵심은 기능을 많이 아는 것이 아니라, 먼저 `session → window → pane` 구조를 잡고 그 위에 필요한 설정과 확장을 올리는 것이다.
 
-학습 흐름과 **결이 다른 축** — 특정 환경에서만 막히는 클립보드 연동·자동 attach 트러블슈팅 — 은 아래 **부록**으로 분리했다. 실력을 쌓는 순서와 별개로, 같은 증상을 만났을 때 직행하면 된다.
+플러그인을 직접 만들거나 AI 에이전트를 관제하는 일은 tmux를 잘 쓰기 위한 필수 다음 단계가 아니다. 따라서 핵심 학습 경로와 선택 Branch를 분리한다.
+
+```text
+[핵심 경로]
+구조·기본 조작
+   ↓
+매일 쓰는 설정
+   ↓
+플러그인 사용
+   ↓
+세션 워크플로 자동화
+
+[선택 Branch]
+├─ Plugin 제작
+├─ AI Agent 관제
+├─ 즉석 Session Picker
+└─ 완성형 배포판 채택
+
+[Troubleshooting]
+└─ Clipboard / attach / True Color / hook / pane 동작
+```
+
+Terminal·PTY 자체의 원리는 [Terminal 로드맵](../terminal/2026-09-05-terminal-roadmap.md), Shell의 Job·Process 생존은 [셸 로드맵](../shell/2026-07-03-shell-roadmap.md)에서 다룬다.
 
 ## 한눈에 보기
 
-| 구역 | 무엇을 다루나 | 성격 |
+| 구역 | 핵심 질문 | 성격 |
 |---|---|---|
-| 입문 | 세션·윈도우·패널 3계층 구조·설치·기본 단축키·타겟 문법 | 학습 전제 |
-| 1단계 | 매일 체감되는 옵션으로 기본값 다듬기 | 줄기 |
-| 2단계 | 플러그인(TPM) — 쓰기 → 만들기 → AI 에이전트 관제 응용 | 쓰기=줄기 · 만들기·응용=선택 |
-| 3단계 | 세션 매니저(선언형)로 부트스트랩 자동화, 셸로 원리 해부 | 줄기 · 선택 |
-| 부록 | 클립보드·자동 attach 트러블슈팅 | 다른 축 |
+| 1. 구조 | session·window·pane은 무엇이고 Process와 어떻게 연결되나 | 필수 |
+| 2. 설정 | 기본값 중 무엇을 바꾸면 일상 사용성이 좋아지나 | 필수 |
+| 3. Plugin 사용 | tmux 자체 기능 밖의 확장을 어떻게 얹나 | 필수에 가까운 선택 |
+| 4. Session workflow | 반복되는 작업공간을 어떻게 재현하고 다시 들어가나 | 필요할 때 |
+| Branch A | Plugin은 내부에서 어떻게 만들어지나 | 제작자용 |
+| Branch B | 여러 AI Agent 상태를 tmux에서 어떻게 관제하나 | 응용 |
+| Branch C | Directory·repo를 즉석 Session으로 어떻게 전환하나 | Tool |
+| Appendix | 특정 증상을 어떻게 해결하나 | Troubleshooting |
 
-## 입문 — 구조와 cheatsheet
+## 1. 구조 — session·window·pane부터
 
-tmux를 처음 만지거나, 단축키가 자꾸 헷갈리는 단계.
+첫 목표는 단축키 암기가 아니라 **tmux가 무엇을 소유하는지** 구분하는 것이다.
 
-| 글 | 핵심 |
+```text
+tmux server
+└─ session
+   └─ window
+      └─ pane
+         └─ shell / process
+```
+
+| 글 | 역할 |
 |---|---|
-| [tmux 정리본 (Cheat Sheet + 사용 가이드)](./2021-11-30-tmux-config.md) | 세션·윈도우·패널 3계층 구조, 설치, `~/.tmux.conf` 기본, 자주 쓰는 단축키·복사 모드·스크롤 한 장 |
+| [tmux 정리본 — Cheat Sheet + 사용 가이드](./2021-11-30-tmux-config.md) | 구조·설치·기본 조작·target 문법을 한 장에서 잡는 입문 Reference |
+| [tmux엔 왜 pane 병합이 없을까](./2026-07-13-tmux-pane-is-a-process-no-merge.md) | pane을 단순 화면 조각이 아니라 Process가 붙은 실행 단위로 보는 정신 모델 |
 
-> 📎 **치트시트** · [tmux](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/tmux.md) — 세션·윈도우·패널·복사 모드 단축키 빠른 참조 (GitHub)
+> 📎 빠른 단축키 참조는 [tmux cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/tmux.md)를 사용한다. Roadmap은 키 목록보다 구조와 이동 경로를 설명한다.
 {: .prompt-tip }
 
-여기까지만 알아도 "터미널이 닫혀도 살아있는 세션"은 누릴 수 있다.
+## 2. 설정 — 매일 체감되는 기본값만
 
-`join-pane`·`swap-pane`에서 **"뭐가 어디로 가는지"** 헷갈린다면, 위 정리본 글의 "윈도우 합치기/분리" 절에 `-s`/`-t`와 `session:window.pane` 타겟 문법을 정리해 뒀다. 그런데 왜 `merge-pane`은 없고 옮기고·떼고·맞바꾸는 동사만 있는지 — pane이 프로세스라서 그렇다는 정신 모델은 [tmux엔 왜 pane 병합이 없을까](./2026-07-13-tmux-pane-is-a-process-no-merge.md)에서 다룬다.
+구조가 잡힌 뒤에는 설정 파일 전체를 외우지 않고 반복적으로 불편한 지점만 고친다.
 
-다만 기본값은 손이 불편한 부분이 많아, 다음 단계에서 다듬는다.
-
-## 1단계 — 설정 다듬기
-
-기본값으로 한 달쯤 쓰면 어떤 옵션을 바꾸고 싶은지 감이 온다. 그 시점에 읽는 글.
-
-| 글 | 핵심 |
+| 글 | 역할 |
 |---|---|
-| [tmux 유용한 설정 정리 (.tmux.conf 기준)](./2026-02-21-tmux-tips.md) | 매일 체감되는 옵션만 추림 — ESC 지연 제거·True Color·마우스·분할 시 경로 유지·vi 복사모드·세션 트리 정렬 |
+| [tmux 유용한 설정 정리](./2026-02-21-tmux-tips.md) | ESC delay·True Color·mouse·path 유지·vi copy mode처럼 체감이 큰 설정 |
 
-> 💡 **완성형 배포판이라는 갈림길.** 기본값을 손수 다듬는 대신, 잘 짜인 `.tmux.conf`를 통째로 상속하는 길도 있다 — [Oh My Tmux!](./2026-07-12-oh-my-tmux.md)(25k⭐, 이 카테고리 독주). 무엇을 바꾸고 어떻게 커스텀하는지는 전용 글에서, 채택 판단은 2단계 [beyond-essentials](./2026-07-11-tmux-plugins-beyond-essentials.md)의 '다른 축' 절에서 다룬다. 이 로드맵은 직접 조립을 택하지만, 반대 노선을 알고 고르는 편이 낫다.
-{: .prompt-tip }
+완성형 설정 배포판을 통째로 채택하고 싶다면 직접 조립과 다른 선택지다.
 
-## 2단계 — 플러그인으로 확장
+- [Oh My Tmux!](./2026-07-12-oh-my-tmux.md) — 잘 정리된 설정 묶음을 상속하는 Tool 선택
 
-tmux 자체로는 안 되는 영역(세션 저장·복원, 테마, Vim 패널 통합 등)이 플러그인으로 해결된다. TPM(Tmux Plugin Manager)이 사실상 표준. 이 단계는 **쓰기 → 만들기 → 응용** 세 갈래를 한 흐름으로 묶었다 — 남의 플러그인을 쓰다 보면 원리가 궁금해지고, 원리를 알면 필요한 걸 직접 만들게 되는 자연스러운 순서다. 뒤 두 갈래는 **심화·선택**이라, 쓰기만으로 충분하면 3단계로 건너뛰어도 된다.
+이 선택은 “더 높은 단계”가 아니라 **직접 구성 ↔ 배포판 상속**의 대안 관계다.
 
-### 쓰기 — 남의 플러그인 설치·설정
+## 3. Plugin 사용 — tmux 밖의 기능을 얹는다
 
-| 글 | 핵심 |
+Plugin을 쓴다는 것은 tmux 학습의 새로운 계층이라기보다 **기본 CLI·option·hook 위에 이미 만들어진 확장을 재사용하는 것**이다.
+
+| 글 | 역할 |
 |---|---|
-| [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md) | TPM 설치·키바인딩, 대표 플러그인(`tmux-sensible`·`tmux-resurrect`·`tmux-continuum`·`vim-tmux-navigator`)을 `.tmux.conf` 예시와 함께 |
-| [필수 그다음 — 요즘 얹는 tmux 플러그인](./2026-07-11-tmux-plugins-beyond-essentials.md) | 위 필수 6종 위에 얹는 층. `catppuccin`으로 상태바 현대화(방치된 themepack 대체)·`tmux-yank`·`extrakto` 추출·퍼지 계열을 별 개수·정착도 실측과 함께 |
+| [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md) | TPM 설치와 대표 Plugin을 사용하는 기본 경로 |
+| [필수 그다음 — 요즘 얹는 tmux 플러그인](./2026-07-11-tmux-plugins-beyond-essentials.md) | 테마·추출·yank 등 추가 Plugin을 목적별로 고르는 Tool/Comparison |
 
-### 만들기 — 직접 플러그인 제작 (심화)
+여기까지만 알아도 대부분의 tmux 사용에는 충분하다. **Plugin 제작은 필수 후속 단계가 아니다.**
 
-플러그인을 쓰다 보면 "이건 왜 이렇게 동작하지"가 궁금해지는 순간이 온다. 그때 읽으면 tmux 플러그인 생태계 전체가 한 번에 풀린다.
+## 4. Session workflow — 작업공간을 다시 만드는 문제
 
-| 글 | 핵심 |
+반복되는 프로젝트 레이아웃을 매번 손으로 만들기 시작했다면 Session Manager가 필요해진다.
+
+```text
+Session을 오래 유지한다
+→ tmux 자체
+
+같은 Layout을 선언해 다시 만든다
+→ smug / tmuxp / tmuxinator
+
+이미 존재하는 Session·Directory를 빠르게 고른다
+→ sesh (Branch C)
+```
+
+| 글 | 역할 |
 |---|---|
-| [tmux 플러그인은 어떻게 만드나 — CLI가 곧 API](./2026-07-09-tmux-plugin-authoring.md) | 런타임·SDK 없이 `.tmux` 셸 스크립트가 tmux CLI를 대신 호출하는 게 전부. 진입 스크립트 구조·설정형/상호작용형·`set-hook`·배포까지 |
+| [tmux 세션 부트스트랩 — 세션 매니저와 그 속살](./2026-02-21-tmux-bootstrap.md) | 선언형 Session Manager가 해결하는 문제와 내부 tmux 명령을 함께 이해 |
+| [smug — 미니멀 tmux 세션 매니저](./2026-07-11-smug-minimal-tmux-session-manager.md) | smug를 선택했을 때의 실제 구성 Tool 문서 |
 
-### 응용 — AI 에이전트 여러 개 관제 (심화)
+이 단계는 모든 사용자의 필수 진도가 아니다. **동일 작업공간을 반복해서 만드는 문제가 생겼을 때** 들어온다.
 
-Claude Code·Codex 같은 AI 코딩 에이전트를 **여러 개 동시에** 굴리기 시작하면, 각 패널이 일하는 중인지·답을 기다리는지·끝났는지를 자동으로 감지하고 싶어진다. 앞의 훅·플러그인 지식을 그대로 얹는 실전 응용이라 여기 이어 붙였다.
+## Branch A — Plugin을 직접 만든다
 
-| 글 | 핵심 |
+Plugin 사용과 제작은 역할이 다르다. 제작이 필요할 때만 Zoom-in한다.
+
+| 글 | 역할 |
 |---|---|
-| [tmux로 AI 에이전트 여러 개 관제하기 — herdr 대신 훅 기반 플러그인](./2026-07-09-tmux-ai-agent-status-detection.md) | 전용 멀티플렉서(herdr)와 훅 기반 tmux 플러그인 비교. running/needs-input/done을 정확히 감지 — 대시보드가 목적이면 `sidebar`, 인라인이면 `indicator`. tmux 단축키는 하나도 안 건드리고 |
-| [tmux 선택을 AI 에이전트 패널로 보내기 — Y 바인딩과 marked pane](./2026-07-11-tmux-send-selection-to-agent-pane.md) | 셸 출력을 에이전트에 복붙하는 마찰을 copy-mode 바인딩 하나로. copy-mode가 nvim은 못 긁는 이유(alternate screen)와 `{marked}` 타깃 해소까지 |
+| [tmux 플러그인은 어떻게 만드나 — CLI가 곧 API](./2026-07-09-tmux-plugin-authoring.md) | TPM·`.tmux` 진입 Script·tmux CLI·hook을 하나의 동작 사슬로 설명하는 제작 가이드 |
 
-## 3단계 — 세션 부트스트랩 자동화
+핵심 모델은 단순하다.
 
-같은 작업 환경을 매번 손으로 세팅하지 않으려면, 세션·윈도우·패널을 한 번에 만드는 부트스트랩이 답이다. 이건 이미 해결된 문제라 **선언형 세션 매니저**(smug·tmuxinator·tmuxp)가 정석 — YAML로 레이아웃만 적으면 띄워 준다. 직접 셸로 짜는 건 재발명이지만, 그 도구가 안에서 부르는 tmux 명령을 셸로 해부하면 원리가 잡힌다. (세션 매니저는 2단계 TPM 플러그인과 달리 tmux *밖*의 외부 CLI다.)
+```text
+TPM
+→ Plugin의 *.tmux 실행
+→ Shell Script
+→ tmux CLI 호출
+→ 실행 중 tmux server 상태 변경
+```
 
-| 글 | 핵심 |
+## Branch B — AI Agent 관제
+
+이 Branch는 tmux 자체를 배우는 것이 아니라 **이미 익숙한 tmux를 AI 작업 환경에 적용하는 사례**다.
+
+| 글 | 역할 |
 |---|---|
-| [tmux 세션 부트스트랩 — 세션 매니저와 그 속살(셸)](./2026-02-21-tmux-bootstrap.md) | 정석은 세션 매니저(smug/tmuxp/tmuxinator, 조건부 순위) — YAML 선언·이미 있으면 attach. 그 도구가 부르는 `tmux` 명령을 셸로 해부해 원리까지 |
-| [smug — 의존성 없는 미니멀 tmux 세션 매니저](./2026-07-11-smug-minimal-tmux-session-manager.md) **(선택)** | 세션 매니저 중 무의존·미니멀(Go 단일 바이너리)을 골랐다면 실전 — 기본 config·**프리셋에 없는 커스텀 레이아웃을 layout 문자열로 고정**·smug의 범위(freeze는 tmuxp) |
-| [sesh — 즉석 tmux 세션 전환 (피커)](./2026-07-12-sesh-tmux-session-picker.md) **(선택 · 다른 축)** | 레이아웃을 *선언*하는 부트스트래퍼와 다른 범주 — fzf·zoxide로 디렉토리·git repo에서 세션을 **즉석 전환**. `prefix+T` 피커·핵심 CLI·부트스트래퍼에서 옮긴 이유 |
+| [tmux로 AI 에이전트 여러 개 관제하기](./2026-07-09-tmux-ai-agent-status-detection.md) | 전용 Multiplexer와 tmux Hook 기반 방식을 비교하고 상태 감지 정확도·UI 충돌을 기준으로 선택 |
+| [tmux 선택을 AI 에이전트 패널로 보내기](./2026-07-11-tmux-send-selection-to-agent-pane.md) | copy-mode 선택을 marked pane으로 전달하는 구체적 Workflow |
 
----
+AI 도구 자체의 사용 흐름은 [AI 로드맵](../ai/2026-07-03-ai-roadmap.md)의 책임이다.
 
-## 부록 — 상황별 트러블슈팅 (다른 축)
+## Branch C — 즉석 Session 전환
 
-여기서부터는 "실력을 쌓는 순서"가 아니라, macOS·리눅스·서버를 오가며 tmux를 쓰다 특정 상황에서만 부딪히는 **트러블슈팅** 축이다. 겪고 있는 증상에 맞는 글로 곧장 들어가면 된다.
-
-| 글 | 핵심 |
+| 글 | 역할 |
 |---|---|
-| [tmux 시스템 클립보드 — OSC52 / pbcopy / 한글](./2026-06-10-tmux-clipboard-osc52-pbcopy-hangul.md) | `set-clipboard on` 한 줄이 사실상 정답. pbcopy 경로의 `LANG` 함정과 tmux server 환경 캡처 메커니즘까지 |
-| [tmux — 터미널 열 때마다 새 세션이 생기는 이유 (attach -t 함정)](./2026-07-03-tmux-auto-attach-new-session-every-time.md) | `attach -t default` 하드코딩 + 정렬용 이름 접두어(`0-default`) 불일치로 매번 `new`로 빠지는 문제. 타깃 없는 `tmux attach` 한 줄로 해결 |
+| [sesh — 즉석 tmux 세션 전환](./2026-07-12-sesh-tmux-session-picker.md) | Layout 선언과 다른 문제인 Directory·repo 기반 즉석 Session 선택 |
 
----
+`sesh`는 smug와 경쟁하는 “다음 버전”이 아니다. **Layout 재현 ↔ 목적지 선택**이라는 다른 축이다.
 
-본인 위치에 따라:
+## Appendix — Troubleshooting
 
-- **tmux를 처음 만진다면** 입문 → 1단계만으로 충분하다.
-- **TPM·플러그인까지 가고 싶다면** 2단계 — 쓰기로 시작해, 궁금해지면 직접 만들기·AI 관제 응용까지 한 흐름으로 이어진다.
-- **여러 프로젝트를 매일 오가며 작업한다면** 3단계 세션 매니저(부트스트랩)가 시간 절약이 큰 영역.
-- **서버나 macOS에서 복사·붙여넣기가 깨진다면** 클립보드 트러블슈팅 글로 직행.
-- **터미널을 열 때마다 빈 세션이 새로 생긴다면** 자동 attach 트러블슈팅 글로.
-- **AI 코딩 에이전트를 여러 개 굴린다면** 2단계 '응용'의 에이전트 관제 글로.
+다음 글은 학습 순서가 아니라 같은 증상을 만났을 때 바로 들어간다.
 
-단축키만 외우려고 시작했다가 결국 부트스트랩 스크립트까지 가는 게 자연스러운 흐름이다. Neovim과의 통합(`vim-tmux-navigator` 류)은 [Neovim 로드맵](../neovim/2026-06-16-neovim-roadmap.md) 쪽도 함께 보면 좋다. 3단계에서 세션 매니저의 속살로 해부하는 셸 스크립트나 부록의 셸 시작 시 자동 attach는 결국 셸 자체를 다뤄야 하는 영역이라, [셸 로드맵](../shell/2026-07-03-shell-roadmap.md)과 함께 보면 앞뒤가 맞는다.
+| 문제 | 글 |
+|---|---|
+| System Clipboard·OSC52·pbcopy·한글 | [tmux 시스템 클립보드](./2026-06-10-tmux-clipboard-osc52-pbcopy-hangul.md) |
+| Terminal을 열 때마다 새 Session 생성 | [auto attach 함정](./2026-07-03-tmux-auto-attach-new-session-every-time.md) |
+| `repeat` key binding이 pane 이동을 삼킴 | [repeat flag 문제](./2026-07-14-tmux-repeat-flag-swallows-pane-nav.md) |
+| True Color 감지·`TERM` 경계 | [True Color 감지](./2026-07-14-tmux-truecolor-detection.md) |
+| Hook·Window ID·kill-pane 동작 | [Hook과 Window ID](./2026-07-11-tmux-hook-window-id-and-kill-pane.md) |
+
+## 다른 Roadmap과의 경계
+
+- **Terminal/PTY/TERM 원리** → [Terminal](../terminal/2026-09-05-terminal-roadmap.md)
+- **Shell Job·`nohup`·Process 생존** → [Shell](../shell/2026-07-03-shell-roadmap.md)
+- **AI Coding Agent 자체의 사용·MCP·API** → [AI](../ai/2026-07-03-ai-roadmap.md)
+- **dotfiles로 `.tmux.conf`를 재현하는 문제** → [dotfiles](../shell/2026-07-08-dotfiles-roadmap.md)
+
+> **tmux의 핵심 경로는 구조 → 설정 → Plugin 사용 → 필요할 때 Session workflow다. 제작·AI 관제·피커는 그 위의 독립 Branch이지 필수 진도가 아니다.**
