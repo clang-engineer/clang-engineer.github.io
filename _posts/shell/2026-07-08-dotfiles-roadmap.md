@@ -1,102 +1,181 @@
 ---
-title       : "dotfiles 로드맵 — 설정을 코드로 재현하는 순서"
-description : "흩어진 설정을 git 한곳에 모으고(심링크), 설치까지 선언적으로(Brewfile) 만든 뒤, 머신마다 갈리는 값을 어떻게 처리하느냐(런타임 분기 vs chezmoi 렌더)에서 방식이 갈린다 — 이 블로그의 dotfiles 글을 그 순서로 큐레이션. init 파일 이해·direnv·SSH 분리·새 맥 셋업은 결이 다른 축이라 부록으로 분리."
+title       : "dotfiles 로드맵 — 설정을 코드로 재현하는 방법"
+description : "dotfiles를 Git에 두는 공통 원칙에서 출발해 홈에 배치하는 방식(심링크·bare git/yadm·chezmoi), 머신별 값과 시크릿 처리, macOS 패키지 재현(Brewfile)을 서로 다른 축으로 구분한 학습 지도."
 date        : 2026-07-08 12:00:00 +0900
-updated     : 2026-07-12 11:00:00 +0900
+updated     : 2026-09-06 12:45:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, dotfiles, chezmoi, symlink]
 pin         : false
 hidden      : false
 ---
 
-새 기기를 받을 때마다 `~/.zshrc`·`~/.gitconfig`·`~/.config/nvim`을 처음부터 다시 만드는 건 낭비다. dotfiles 관리의 목표는 하나 — **설정을 코드로 두고, 어느 머신에서든 재현**하는 것이다. 이 로드맵은 그 목표를 향해 이 블로그의 dotfiles 글을 한 줄기로 묶었다. 설정을 한곳에 모으고(1단계), 설치까지 선언적으로 만든 뒤(2단계), 머신마다 갈리는 값을 어떻게 처리하느냐(3단계)에서 방식이 갈린다.
+dotfiles 관리의 목적은 `~/.zshrc`나 `~/.gitconfig`를 예쁘게 모으는 것이 아니라 **설정의 원본과 변경 이력을 Git에 두고, 새 환경에서 다시 재현할 수 있게 만드는 것**이다.
 
-핵심 갈림길은 **3단계**다. 머신 차이를 셸이 *런타임에* 분기하게 둘 것인가(심링크 + `.secrets`), 아니면 *렌더 시점에* 확정할 것인가(chezmoi). 여기서 도구 선택이 갈리므로, 앞 단계를 지난 뒤 자기 상황에 맞는 갈래로 들어가면 된다.
+여기서 세 문제를 섞지 않는 것이 중요하다.
 
-설정 재현과 **결이 다른 축** — 초기화 파일이 언제 무엇을 읽는지(이해), 디렉토리별 환경변수, SSH 계정 분리, 새 맥 전체 셋업 — 은 아래 **부록**으로 분리했다. 단계가 아니라, 필요할 때 찾아 들어오는 다른 축이다.
+```text
+무엇을 원본으로 관리할까?
+→ Git repository
+
+원본을 Home에 어떻게 배치할까?
+→ symlink / bare worktree(yadm) / render(chezmoi)
+
+Machine마다 다른 값·Secret은 어떻게 처리할까?
+→ runtime 분기 / template·data / 외부 secret
+
+도구 설치까지 어떻게 재현할까?
+→ package manifest (macOS에서는 Brewfile)
+```
+
+따라서 `심링크 → Brewfile → chezmoi`를 하나의 진화 단계로 보지 않는다. **Git 정본은 공통 기반이고, 배치 모델과 패키지 재현은 서로 다른 선택축**이다.
 
 ## 한눈에 보기
 
-1 → 2 → 3단계가 "설정을 코드로 재현"하는 줄기다. 3단계에서 심링크 갈래와 chezmoi 갈래로 나뉜다.
-
-| 구역 | 답하는 질문 | 성격 |
+| 구역 | 핵심 질문 | 관계 |
 |---|---|---|
-| 입문 | dotfiles를 왜·무엇으로 관리하나 | 학습 전제 |
-| 1단계 — 한곳에 모으기 | 흩어진 설정을 git + 심링크로 | 줄기 |
-| 2단계 — 설치도 선언적으로 | 패키지까지 코드로 재현 (Brewfile) | 줄기 |
-| 3단계 — 머신 분기 | 런타임 분기(심링크) vs 렌더(chezmoi) | 줄기 · **갈림길** |
-| 부록 A | 초기화 파일 이해 · direnv | 다른 축 |
-| 부록 B | SSH 계정 분리 · 새 맥 전체 셋업 | 필요할 때 |
+| 1. 정본 | 어떤 설정을 Git에서 관리할까 | 공통 기반 |
+| 2. 배치 모델 | Git의 파일을 Home에 어떻게 나타낼까 | 대안 비교 |
+| 3. Machine 차이 | Host별 값·Secret을 언제/어디서 확정할까 | 설계 선택 |
+| 4. 설치 재현 | 설정이 기대하는 Package도 어떻게 맞출까 | 보완 축 |
+| Branch A | Project Directory별 환경값은 어디에 둘까 | Tool |
+| Branch B | SSH 계정·Credential은 어떻게 분리할까 | 운영 |
+| Runbook | 새 Mac 전체 셋업에서 dotfiles는 어디에 들어가나 | How-to |
 
-## 입문 — dotfiles를 왜, 무엇으로
+## 1. Git을 설정의 정본으로 둔다
 
-설정 파일을 홈에 그대로 두면 새 기기에서 처음부터 다시 만들어야 하고 "어제 뭘 바꿨더라"도 추적이 안 된다. 해법은 **원본을 git 저장소 한곳에 모으는 것**이다. 그 위에 "홈에 어떻게 되돌려 놓을 것인가"(심링크냐 렌더냐)가 얹힌다. 큰 그림 — 새 맥을 받아 시스템 설정부터 dotfiles까지 이어지는 day-1 흐름 — 은 [새 맥 초기 설정](../macos/2022-02-05-new-mac-initial-setup.md)의 런북이 잡아 준다. 이 로드맵은 그중 dotfiles 갈래를 깊게 판다.
+가장 먼저 결정할 것은 Tool이 아니라 **원본의 위치**다.
 
-## 1단계 — 설정을 한곳에 모으기 (심링크)
+```text
+Git repository
+→ 변경 이력
+→ review / rollback
+→ 다른 Machine에서 clone
+```
 
-가장 기본이자 대부분의 상황에서 충분한 방식. 설정 원본을 git 저장소에 모으고, 홈에는 그 원본을 가리키는 **심볼릭 링크**만 둔다. 편집이 즉시 반영되고(같은 inode), 원본과 어긋날 일이 구조적으로 없다.
-
-| 글 | 핵심 |
+| 글 | 역할 |
 |---|---|
-| [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](./2026-07-03-dotfiles-symlink-management.md) | 설정을 git 한곳에 모으고 홈으로 심볼릭 링크. `ln -s` 재실행 문제를 없애는 멱등 링크 헬퍼, 도구별 `setup.sh`를 `bootstrap.sh`로 묶는 구조, GNU stow 대안, 시크릿 분리까지 |
+| [dotfiles를 Git 저장소 + 심볼릭 링크로 관리하기](./2026-07-03-dotfiles-symlink-management.md) | 가장 단순한 구현으로 Git 정본·멱등 bootstrap·Secret 분리를 함께 이해 |
 
-> 이 단계의 멱등 링크 헬퍼·bootstrap은 [셸 로드맵](./2026-07-03-shell-roadmap.md)에서 배운 스크립팅이 실제로 쓰이는 첫 실전이기도 하다. 스크립트를 갓 배웠다면 자기 환경을 재현하는 연습으로 삼기 좋다.
-{: .prompt-tip }
+이 글은 심링크를 사용하지만, 여기서 배워야 할 공통 개념은 **Home의 파일 자체를 원본으로 두지 않는다**는 것이다.
 
-## 2단계 — 설치도 선언적으로 (Brewfile)
+## 2. 배치 모델 — 같은 원본을 Home에 어떻게 보이게 할까
 
-설정 파일만 복원해선 반쪽이다 — 그 설정이 가리키는 **도구 자체**도 새 기기에 깔려 있어야 한다. Homebrew Brewfile로 "무엇을 설치할지"를 코드로 선언해 두면, dotfiles와 함께 설치 상태까지 재현된다.
+배치 방식은 발전 단계가 아니라 대안이다.
 
-| 글 | 핵심 |
+```text
+A. Link
+Git 원본 ← symlink ← Home
+
+B. Worktree
+Git metadata는 별도
+Home 자체가 worktree
+
+C. Render / Apply
+Git source → template/render → Home의 실제 파일
+```
+
+| 모델 | 장점 | 비용 | Zoom-in |
+|---|---|---|---|
+| **symlink** | 단순·즉시 반영·도구 독립적 | Host별 내용 분기가 약함 | [Git + symlink](./2026-07-03-dotfiles-symlink-management.md) |
+| **bare git / yadm** | Link 없이 Home을 그대로 추적 | Git 사용 모델이 특이해짐 | [bare git repo · yadm](./2026-07-08-dotfiles-bare-git-yadm.md) |
+| **chezmoi render** | Template·권한·암호화·Host별 렌더 | `apply` 계층과 도구 학습 비용 | [chezmoi vs 심링크](./2026-07-08-chezmoi-vs-symlink-dotfiles.md) |
+
+`yadm`과 `chezmoi`를 “심링크 다음 고급 단계”로 두지 않는다. **어떤 배치 모델이 문제에 맞는지**로 고른다.
+
+### chezmoi를 선택했다면
+
+| 글 | 역할 |
 |---|---|
-| [Homebrew Brewfile로 패키지 선언적으로 관리하기](./2026-07-03-homebrew-brewfile-bundle.md) | `dump`로 현재 설치를 덤프 → `bundle`로 재설치 → `cleanup`으로 정리 → `check`로 검증. Brewfile 문법과 dotfiles 버전관리에 얹는 법 |
+| [chezmoi 사용법 — source와 apply 흐름](./2026-07-08-chezmoi-usage-source-apply.md) | source state → template/data → apply라는 실제 동작 모델과 일상 명령을 설명 |
 
-## 3단계 — 머신 분기: 런타임이냐 렌더냐
+## 3. Machine별 값과 Secret — 차이는 언제 확정할까
 
-여기가 갈림길이다. 여러 머신을 쓰면 값이 갈린다 — 이메일, 툴셋, 호스트별 경로. 이 차이를 **언제 확정하느냐**로 두 방식이 나뉜다.
+여러 Machine에서 같은 파일을 쓰다 보면 경로·Email·Tool·Credential이 달라진다. 여기서 중요한 비교축은 **차이를 확정하는 시점**이다.
 
-- **런타임 분기 (심링크 + `.secrets`)** — 홈의 링크는 원본 그대로 두고, 머신별 값은 `~/.secrets` 같은 파일에 두어 셸이 실행 시점에 `source`로 분기한다. 1단계 심링크 방식의 자연스러운 연장이다. 시크릿을 저장소에서 빼는 방법이 여기 포함된다 ([1단계 글](./2026-07-03-dotfiles-symlink-management.md)의 시크릿 분리 절).
-- **렌더 (chezmoi)** — 템플릿을 `apply` 시점에 그 머신용 실파일로 렌더해 분기를 미리 확정한다. `.gitconfig`·JSON처럼 런타임 `source`가 안 되는 파일, 또는 남이 클론해 바로 돌리게 하고 싶을 때 값을 한다.
+```text
+실행 시점
+→ shell이 env / 별도 파일을 source
+→ symlink 모델과 잘 맞음
 
-| 글 | 핵심 |
+배치 시점
+→ template + host data를 render
+→ chezmoi와 잘 맞음
+
+저장소 밖
+→ password manager / keychain / local secret file
+→ 어떤 모델에서도 가능
+```
+
+Secret을 Git에 넣지 않는다는 원칙과, Host별 일반 설정을 분기하는 방법은 구분한다. 암호화 기능이 있다는 이유만으로 모든 Secret을 dotfiles Tool 안에 넣을 필요도 없다.
+
+## 4. Package 설치 재현 — 설정 파일과 별개의 보완 축
+
+설정이 복원돼도 `nvim`, `tmux`, `fzf` 자체가 없으면 환경은 재현되지 않는다. 이 문제는 **dotfile 배치 모델과 별개**다.
+
+현재 블로그의 구현은 macOS/Homebrew 중심이다.
+
+| 글 | 역할 |
 |---|---|
-| [chezmoi vs 심링크 dotfiles — 근본 차이와 언제 무엇을 쓸까](./2026-07-08-chezmoi-vs-symlink-dotfiles.md) | 머신 분기를 런타임에서 apply타임으로 옮기는 게 핵심. 차이를 표로 정리하고 chezmoi가 실제 이득인 세 경우와 심링크가 더 나은 경우를 가른다. stow와의 위치까지 |
-| [chezmoi 사용법 — 소스 표현과 apply 흐름](./2026-07-08-chezmoi-usage-source-apply.md) | 파일명 메타 인코딩(`dot_`·`private_`·`encrypted_`·`.tmpl`), 템플릿으로 머신 분기(`.chezmoi.hostname`·`[data]`), `edit`·`update` 일상 명령, 시크릿 암호화(`encrypted_`·패스워드 매니저), `run_` 스크립트로 apply 시 부트스트랩. 공유의 핵심 `init --apply` |
+| [Homebrew Brewfile로 패키지 선언적으로 관리하기](./2026-07-03-homebrew-brewfile-bundle.md) | `brew bundle`로 macOS Package 집합을 선언·검증·복원하는 How-to |
 
-> **대부분은 심링크로 충분하다.** 개인 1머신이거나 머신 차이가 경로 수준(환경변수로 처리 가능)에 그친다면, chezmoi는 일상 편집에 `apply` 한 단계를 얹어 무겁게만 만든다. chezmoi가 값을 하는 건 (1) 남이 클론해 바로 돌리게, (2) config *내용*이 머신마다 갈릴 때, (3) 비셸 config에 머신별 값이 필요할 때 — 이 세 경우다.
-{: .prompt-info }
+따라서 Brewfile은 모든 dotfiles 사용자의 2단계가 아니라 **macOS에서 설치 상태까지 재현하려는 경우의 보완 축**이다. Linux라면 다른 Package Manager/Bootstrap 방식이 이 자리를 대신할 수 있다.
 
-> **제3의 배치 모델 — bare git repo · yadm.** 줄기는 "홈에 어떻게 되돌리나"를 링크(심링크)와 렌더(chezmoi)로 갈랐지만, 링크도 복사도 없이 **홈 디렉터리 자체를 git 워크트리로 삼는** bare git 방식이 하나 더 있다. 매니저 없이 git만으로 가장 가볍게 가고 싶을 때의 선택지이고, 여기에 템플릿·암호화를 얹은 매니저가 yadm이다 → [bare git repo · yadm로 dotfiles 관리하기](./2026-07-08-dotfiles-bare-git-yadm.md).
-{: .prompt-info }
+## Branch A — Directory별 개발환경은 dotfiles와 분리한다
 
-> 💡 **chezmoi의 숨은 축 — `.chezmoiexternal`로 남의 설정을 통째로 추적.** 위 갈림길이 "내 설정"을 다뤘다면, 남이 만든 **설정 프레임워크**(Oh My Tmux!·oh-my-zsh 류)를 통째로 쓰되 upstream을 추적하고 싶을 때가 있다. chezmoi는 `.chezmoiexternal`로 외부 파일·repo를 `apply` 시점에 가져온다 — **특정 커밋에 고정**하면 재현성과 예고 없는 변경 차단까지 얻고, 내 커스텀은 배포판이 정해 둔 override 파일(예: `.tmux.conf.local`) 하나로 격리한다. "완성형 배포판 상속"의 약점을 규율로 상쇄하는 패턴이다 → [요즘 얹는 tmux 플러그인](../tmux/2026-07-11-tmux-plugins-beyond-essentials.md)의 Oh My Tmux! 절에 tmux 실사례.
-{: .prompt-info }
-
----
-
-## 부록 A — 초기화 파일 이해 · direnv (다른 축)
-
-dotfiles를 "코드로 관리"하기 전에 잡아 두면 좋은 이해, 그리고 저장소 밖에서 환경을 다루는 축.
-
-| 글 | 핵심 |
+| 글 | 역할 |
 |---|---|
-| [direnv 사용법 정리](./2026-02-21-direnv.md) | 디렉토리 진입 시 `.envrc`로 환경변수 자동 로드. 저장소별로 갈리는 값을 dotfiles 밖에서 다루는 축. 셸 레벨 direnv vs 앱 레벨 dotenv의 역할 분담 |
+| [direnv 사용법 정리](./2026-02-21-direnv.md) | Directory 진입을 Context로 `.envrc`를 적용하는 Tool |
 
-## 부록 B — SSH 계정 분리 · 새 맥 전체 셋업 (필요할 때)
+```text
+사용자·Machine 전역 설정
+→ dotfiles
 
-특정 상황에서 찾아 들어오는 글들.
+Repository / Directory별 환경
+→ direnv
 
-| 글 | 핵심 |
+Application이 직접 읽는 환경 파일
+→ dotenv 계열
+```
+
+셋은 저장 위치가 비슷해 보여도 Scope가 다르다.
+
+## Branch B — SSH 계정과 Credential
+
+| 글 | 역할 |
 |---|---|
-| [GitHub 다중 계정 관리 (SSH config)](../git/2025-10-03-git-multiple-config.md) | 회사·개인 계정을 `~/.ssh/config`의 Host 별칭으로 분리. dotfiles의 시크릿 분리(개인키는 저장소에서 제외)와 이어지는 지점 |
-| [새 맥 초기 설정 — 셋업 순서](../macos/2022-02-05-new-mac-initial-setup.md) | 시스템 설정 → Homebrew → dotfiles → Git 계정으로 이어지는 day-1 런북. dotfiles가 전체 셋업의 어디에 놓이는지 |
+| [GitHub 다중 계정 관리](../git/2025-10-03-git-multiple-config.md) | `~/.ssh/config` Host alias로 개인/회사 계정을 분리하고 Key는 저장소 밖에 두는 운영 패턴 |
 
----
+SSH config 자체는 dotfiles로 관리할 수 있지만 **Private Key와 Credential은 별도 보안 자산**이다.
 
-본인 위치에 따라:
+## Runbook — 새 Mac 전체 셋업
 
-- **dotfiles를 처음 관리한다면** 1단계 심링크로 설정을 한곳에 모으는 것부터. 대부분 여기 + 시크릿 분리(3단계 런타임 갈래)면 충분하다.
-- **새 기기 재현을 완성하고 싶다면** 2단계 Brewfile로 설치까지 코드로.
-- **여러 머신에서 config 내용이 갈린다면** 3단계에서 chezmoi 갈래를 검토. 그렇지 않으면 심링크 + `.secrets`로 남는다.
+| 글 | 역할 |
+|---|---|
+| [새 맥 초기 설정](../macos/2022-02-05-new-mac-initial-setup.md) | System → Package → dotfiles → Credential → 검증을 실제 순서로 수행하는 How-to |
 
-그다음은 상황껏 — 초기화 파일 로딩이 헷갈리면 부록 A, SSH 계정을 나누거나 새 맥을 처음부터 세우면 부록 B로. 이 로드맵은 [셸 로드맵](./2026-07-03-shell-roadmap.md)의 *환경을 코드로 관리* 갈래를 dotfiles 축으로 확장한 것이고, 데스크톱 환경 전반은 [macOS 로드맵](../macos/2026-07-03-macos-roadmap.md)과 함께 보면 된다.
+이 Runbook의 작업 순서와 dotfiles의 개념 관계를 혼동하지 않는다. 새 Mac에서는 Brewfile이 dotfiles보다 먼저 실행될 수 있지만, 그것이 “Brewfile이 dotfiles 개념의 상위 단계”라는 뜻은 아니다.
+
+## 다른 Roadmap과의 경계
+
+- Shell 문법·실행·Process → [Shell](./2026-07-03-shell-roadmap.md)
+- macOS System 설정과 Day-1 작업 → [macOS](../macos/2026-07-03-macos-roadmap.md)
+- tmux 자체 설정·Plugin·Session workflow → [tmux](../tmux/2026-06-16-tmux-roadmap.md)
+- Neovim 자체 설정 구조 → [Neovim](../neovim/2026-06-16-neovim-roadmap.md)
+
+## 선택 기준
+
+```text
+한두 Machine, 설정 내용도 거의 같다
+→ Git + symlink
+
+Home을 별도 Link 없이 그대로 추적하고 싶다
+→ bare git / yadm
+
+Host별로 파일 내용 자체가 많이 달라진다
+→ chezmoi template/render
+
+macOS Package까지 같은 상태로 만들고 싶다
+→ 위 선택과 별개로 Brewfile 추가
+```
+
+> **dotfiles의 공통 기반은 Git 정본이다. symlink·bare/yadm·chezmoi는 Home에 배치하는 대안이고, Brewfile은 Package 설치를 재현하는 별도 축이다.**
