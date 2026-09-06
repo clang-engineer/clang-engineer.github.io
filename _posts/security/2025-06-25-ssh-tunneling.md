@@ -1,101 +1,317 @@
 ---
-title       : SSH Tunneling
-description : "ssh -L/-R/-D를 이용한 로컬·원격·동적 포트 포워딩 사용법과 bastion 경유 폐쇄망 접근, GatewayPorts 설정, 자주 쓰는 옵션과 보안 고려사항을 정리한다."
+title       : "SSH Tunneling — -L·-R·-D를 연결의 출발점과 목적지로 이해하기"
+description : "SSH 포트 포워딩을 Local·Remote·Dynamic 세 종류의 암기 대신 어디에서 Listen하고 SSH 서버 쪽에서 어디로 연결하는지라는 공통 모델로 설명한다."
 date        : 2025-06-25 11:44:14 +0900
-updated     : 2025-06-25 11:44:14 +0900
+updated     : 2026-09-06 10:40:00 +0900
 categories  : [security, "SSH·인증"]
-tags        : [ssh]
+tags        : [ssh, tunneling, port-forwarding]
 pin         : false
 hidden      : false
 ---
 
-## SSH Tunneling
-SSH Tunneling은 SSH 프로토콜을 사용하여 네트워크 트래픽을 암호화하고 안전하게 전달하는 방법. 이를 통해 원격 서버에 대한 안전한 연결을 설정하거나 방화벽 뒤에 있는 서비스에 접근할 수 있다.
+SSH Tunneling은 단순히 "포트를 우회한다"는 기능이 아니다. **SSH 연결을 하나 만든 뒤 그 암호화된 연결 안으로 다른 TCP 연결을 전달하는 기능**이다.
 
-## 1. 로컬 포트 포워딩
-로컬 포트 포워딩은 로컬 머신의 특정 포트를 원격 서버의 포트로 전달하는 방법이다. 예를 들어, 로컬 머신의 8080 포트를 원격 서버의 80 포트로 포워딩하려면 다음 명령을 사용한다.
+세 옵션을 외우기 전에 두 질문을 잡으면 된다.
 
-```sh
-# ssh -L [로컬 포트]:[원격 호스트]:[원격 포트] [사용자]@[원격 서버]
-ssh -L 8080:10.10.10.10:80 user@remote-server 
-```
-이 명령을 실행하면 로컬 머신의 8080 포트로 들어오는 트래픽이 원격 서버의 80 포트로 전달된다. 이제 로컬 브라우저에서 `http://localhost:8080`에 접속하면 원격 서버의 웹 페이지를 볼 수 있다.
-
-### bastion 서버를 통한 폐쇄망 접근
-터널링 + bastion 서버를 통해 폐쇄망에 있는 서비스에 접근할 수 있다. 예를 들어, 폐쇄망에 있는 데이터베이스 서버에 접근하려면 다음과 같이 명령을 실행한다.
-> bastion 서버: 외부망과 폐쇄망을 연결하는 중간 서버
-
-```sh
-ssh -L 35432:db-server:5432 user@bastion-server # telnet localhost 35432등을 통해서 db-server:5432에 접근 가능
+```text
+어느 쪽에서 Listen할까?
+        ↓
+그 연결을 어느 Host:Port로 보낼까?
 ```
 
-## 2. 원격 포트 포워딩
-원격 포트 포워딩은 원격 서버의 특정 포트를 로컬 머신의 포트로 전달하는 방법이다. 예를 들어, 원격 서버의 8080 포트를 로컬 머신의 80 포트로 포워딩하려면 다음 명령을 사용한다.
+이 기준으로 보면:
 
-```sh
-# ssh -R [원격 포트]:[로컬 호스트]:[로컬 포트] [사용자]@[원격 서버]
-ssh -R 8080:localhost:80 user@remote-server
+```text
+-L
+→ 내 PC에서 Listen
+→ SSH Server 쪽에서 Target으로 연결
+
+-R
+→ SSH Server 쪽에서 Listen
+→ 내 PC 쪽에서 Target으로 연결
+
+-D
+→ 내 PC에서 SOCKS Proxy로 Listen
+→ Application이 요청한 목적지로 SSH Server 쪽에서 연결
 ```
-이 명령을 실행하면 원격 서버의 8080 포트로 들어오는 트래픽이 로컬 머신의 80 포트로 전달된다. 이제 원격 서버에서 `http://localhost:8080`에 접속하면 로컬 머신의 웹 페이지를 볼 수 있다.
 
-### Gateway Port 설정을 통한 원격 포트 포워딩
-원격 포트 포워딩을 사용할 때, 원격 서버의 SSH 설정 파일(`/etc/ssh/sshd_config`)에서 `GatewayPorts` 옵션을 `yes`로 설정하면, 원격 포트가 외부에서 접근 가능하도록 할 수 있다. 이 설정을 적용한 후 SSH 서버를 재시작해야 한다.
+이다.
 
-```sh
-# /etc/ssh/sshd_config 파일 수정
+## 기본 구조 — SSH 연결이 전달 경로가 된다
+
+예를 들어 Bastion을 통해 내부 DB에 접근한다고 하자.
+
+```text
+내 PC
+  ↓ SSH
+Bastion
+  ↓ TCP
+내부 DB:5432
+```
+
+SSH는 인증·암호화된 Channel을 제공하고, Port Forwarding은 그 Channel을 이용해 추가 TCP Stream을 전달한다.
+
+따라서 터널을 이해할 때는 "포트가 어디로 순간 이동한다"보다 **Listen Socket과 최종 Connection을 누가 여는지**를 본다.
+
+## 1. Local Forwarding `-L` — 내 PC에 입구를 만든다
+
+형식:
+
+```bash
+ssh -L [local-bind-address:]local-port:target-host:target-port user@ssh-server
+```
+
+예:
+
+```bash
+ssh -N -L 35432:db.internal:5432 user@bastion
+```
+
+흐름은:
+
+```text
+Application
+  ↓ localhost:35432
+내 PC의 SSH Client가 Listen
+  ↓ SSH Tunnel
+Bastion의 SSH Server
+  ↓ db.internal:5432로 TCP 연결
+Internal DB
+```
+
+이제 로컬 Application은:
+
+```text
+localhost:35432
+```
+
+만 바라보면 된다.
+
+여기서 `db.internal`은 기본적으로 **SSH Server가 있는 쪽에서 해석·접근 가능한 주소**다. 내 PC에서 직접 접근 가능한지와는 별개의 문제다.
+
+### Bastion을 통한 폐쇄망 접근
+
+```bash
+ssh -N -L 15432:10.10.20.15:5432 ops@bastion.example.com
+```
+
+이 구조는 DB Port를 Public Network에 직접 열지 않고 Bastion의 SSH 접근 권한 안에서 관리할 수 있다는 장점이 있다.
+
+단, SSH Tunnel을 쓴다고 DB 인증 자체가 없어지는 것은 아니다.
+
+```text
+SSH 인증
+→ Tunnel 사용 권한
+
+DB 인증
+→ DB 접근 권한
+```
+
+두 보안 경계는 별개다.
+
+## 2. Remote Forwarding `-R` — SSH Server 쪽에 입구를 만든다
+
+형식:
+
+```bash
+ssh -R [remote-bind-address:]remote-port:target-host:target-port user@ssh-server
+```
+
+예:
+
+```bash
+ssh -N -R 8080:localhost:3000 user@remote-server
+```
+
+흐름은 반대다.
+
+```text
+remote-server:8080
+  ↓ SSH Server가 Listen
+SSH Tunnel
+  ↓
+내 PC의 SSH Client
+  ↓ localhost:3000으로 연결
+Local Application
+```
+
+즉 외부 Remote Server 쪽에서 내 로컬 개발 서버에 접근해야 하는 경우 같은 상황에 사용할 수 있다.
+
+### 중요한 경계 — 기본 Bind Address
+
+Remote Forward의 Listen Socket이 다른 Host에도 공개되는지는 SSH Server 설정과 요청한 Bind Address에 따라 달라진다.
+
+OpenSSH Server의 `GatewayPorts`가 관련된다.
+
+```text
+GatewayPorts no
+→ 일반적으로 Loopback에 제한
+
+GatewayPorts clientspecified
+→ Client가 Bind Address를 지정할 수 있게 허용
+
 GatewayPorts yes
+→ Remote Forward를 non-loopback 주소에도 bind하도록 허용
 ```
-이 설정을 통해 원격 서버의 포트가 외부에서 접근 가능해지며, 다른 사용자나 시스템이 해당 포트를 통해 로컬 머신의 서비스에 접근할 수 있다.
-> 원격 포트 포워딩은 보안상 주의가 필요하다. 
 
-## 3. 동적 포트 포워딩
-동적 포트 포워딩은 SOCKS 프록시를 사용하여 트래픽을 전달하는 방법이다. 이 방법은 여러 포트를 동시에 포워딩할 수 있으며, 특정 포트에 대한 트래픽을 필터링할 수 있다. 동적 포트 포워딩을 사용하려면 다음 명령을 실행한다.
+외부에 공개해야 한다면 무조건 `GatewayPorts yes`로 바꾸기보다 **어떤 Interface에 누구에게 노출할 것인지** 먼저 정한다.
 
-```sh
-# ssh -D [로컬 포트] [사용자]@[원격 서버]
-ssh -D 1080 user@remote-server
+예를 들어 Server 설정이 허용하는 환경에서:
+
+```bash
+ssh -N -R 0.0.0.0:8080:localhost:3000 user@remote-server
 ```
-이 명령을 실행하면 로컬 머신의 1080 포트에서 SOCKS 프록시가 실행된다. 이제 로컬 머신의 애플리케이션에서 SOCKS 프록시를 사용하도록 설정하면 원격 서버를 통해 트래픽을 전달할 수 있다.
 
-ssh -D는 내 PC에 SOCKS5 프록시를 만들어줌
-애플리케이션을 이 프록시로 연결하면 모든 트래픽이 SSH 터널로 암호화되어 원격 서버를 거침
-네트워크 제한 우회, 보안 접속, IP 우회에 효과적
+처럼 요청할 수 있다.
 
-## 4. SSH Tunneling을 위한 추가 옵션
-SSH Tunneling을 사용할 때 유용한 몇 가지 추가 옵션이 있다.
-- `-L`: 로컬 포트 포워딩을 설정한다.
-- `-N`: 원격 명령을 실행하지 않고 포트 포워딩만 수행한다.
-- `-f`: 백그라운드에서 실행한다.
-- `-C`: 데이터 압축을 활성화한다.
-- `-v`: 디버깅 정보를 출력한다.
+이 순간 Remote Forward는 단순 개인용 Tunnel이 아니라 외부 접근 가능한 Service Entry Point가 될 수 있으므로 Firewall과 SSH 접근 정책까지 같이 본다.
 
-## 5. SSH Tunneling의 보안 고려사항
-SSH Tunneling은 보안에 유리하지만, 몇 가지 주의사항이 있다
-- **강력한 인증**: SSH 키를 사용하여 강력한 인증을 설정한다. (`~/.ssh/authorized_keys` 파일에 공개 키 추가)
-- **방화벽 설정**: SSH 포트(기본적으로 22번 포트)를 방화벽에서 허용한다.
-- **접근 제어**: SSH 서버의 접근 제어를 설정하여 신뢰할 수 있는 IP 주소만 허용한다.
-- **로그 모니터링**: SSH 로그를 모니터링하여 비정상적인 접근을 감지한다.
+## 3. Dynamic Forwarding `-D` — 목적지를 Application이 고르는 SOCKS Proxy
 
-## 6. SSH Tunneling을 위한 도구
-SSH Tunneling을 쉽게 관리할 수 있는 도구들이 있다.
-- **PuTTY**: Windows에서 SSH Tunneling을 설정할 수 있는 GUI 도구.
-- **OpenSSH**: Linux 및 macOS에서 기본적으로 제공되는 SSH 클라이언트로, 명령줄에서 SSH Tunneling을 설정할 수 있다.
-- **SSH Config 파일**: `~/.ssh/config` 파일을 사용하여 SSH Tunneling 설정을 저장하고 관리할 수 있다.
+형식:
 
-```sh
-# ~/.ssh/config 예시
-Host remote-server
-    HostName remote-server.com
-    User user
-    LocalForward 8080 localhost:80
-    RemoteForward 8080 localhost:80
-    DynamicForward 1080
+```bash
+ssh -D [bind-address:]local-port user@ssh-server
 ```
-이 설정을 사용하면 `ssh remote-server` 명령으로 SSH Tunneling을 쉽게 설정할 수 있다. 각 포워딩 옵션을 필요에 따라 조정할 수 있다.
 
-## 7. SSH Tunneling의 활용 사례
-SSH Tunneling은 다양한 상황에서 유용하게 사용될 수 있다.
-- **원격 서버 관리**: 원격 서버에 안전하게 접속하여 관리 작업을 수행할 수 있다.
-- **보안된 데이터 전송**: 민감한 데이터를 전송할 때 SSH Tunneling을 사용하여 암호화된 연결을 유지할 수 있다.
-- **방화벽 우회**: 방화벽 뒤에 있는 서비스에 접근할 수 있다.
-- **개발 환경 설정**: 로컬 개발 환경에서 원격 서버의 서비스에 접근하여 개발 작업을 수행할 수 있다.
+예:
+
+```bash
+ssh -N -D 1080 user@remote-server
+```
+
+이 경우 `localhost:1080`에 SOCKS Proxy가 생긴다.
+
+```text
+SOCKS 지원 Application
+  ↓ localhost:1080
+SSH Client
+  ↓ SSH Tunnel
+SSH Server
+  ↓ Application이 요청한 목적지로 연결
+Target
+```
+
+`-L`이 하나의 고정된 `target-host:target-port`를 지정한다면 `-D`는 SOCKS 요청마다 Target이 달라질 수 있다.
+
+중요한 점은 **PC의 모든 Network Traffic이 자동으로 Tunnel을 타는 것이 아니라는 것**이다. Browser나 CLI 등 Application이 해당 SOCKS Proxy를 사용하도록 설정해야 한다.
+
+DNS Resolution을 어느 쪽에서 할지도 Client 설정에 따라 달라질 수 있다. 예를 들어 `curl`에서는 SOCKS5 hostname resolution을 Proxy 쪽에 맡기려면 `socks5h` 형태를 사용할 수 있다.
+
+```bash
+curl --proxy socks5h://127.0.0.1:1080 https://example.com
+```
+
+## 세 옵션을 같은 표로 비교한다
+
+| 옵션 | Listen 위치 | 최종 Target 연결이 나가는 쪽 | 대표 용도 |
+|---|---|---|---|
+| `-L` | Local | SSH Server 쪽 | Bastion 뒤 DB·Web 접근 |
+| `-R` | Remote | SSH Client 쪽 | Local Service를 Remote 쪽에 노출 |
+| `-D` | Local SOCKS | SSH Server 쪽 | 여러 목적지를 Proxy 방식으로 접근 |
+
+핵심 차이는 "Forward 방향"이라는 추상적인 이름보다 **입구가 어디 있고 출구가 어디인가**다.
+
+## Tunnel 전용 연결에 자주 쓰는 옵션
+
+```bash
+ssh -N \
+  -o ExitOnForwardFailure=yes \
+  -L 15432:db.internal:5432 \
+  user@bastion
+```
+
+- `-N` — Remote Command를 실행하지 않고 Forwarding 용도로만 연결
+- `ExitOnForwardFailure=yes` — 요청한 Forwarding을 만들지 못하면 연결 자체를 실패 처리
+- `-v` / `-vv` / `-vvv` — SSH 연결과 Forwarding 문제 진단
+- `-f` — 인증 후 Background로 전환하는 전통적인 방식
+
+자동 운영에서는 단순 `-f`보다 systemd 같은 Process Supervisor나 환경에 맞는 관리 방식을 사용하는 편이 상태 확인과 재시작에 유리할 수 있다.
+
+## `~/.ssh/config`로 이름 붙이기
+
+반복해서 사용할 Tunnel은 명령 전체를 기억하지 않고 Host 설정으로 관리할 수 있다.
+
+```sshconfig
+Host project-bastion
+    HostName bastion.example.com
+    User ops
+    LocalForward 15432 db.internal:5432
+    ExitOnForwardFailure yes
+```
+
+이후:
+
+```bash
+ssh -N project-bastion
+```
+
+으로 실행한다.
+
+한 Host Entry에 Local/Remote/Dynamic Forward를 모두 넣을 수도 있지만, 목적이 다른 Tunnel은 Host Alias를 분리하면 운영 의도가 더 명확하다.
+
+## 보안 경계
+
+SSH Tunnel은 암호화된 전송 경로를 제공하지만 **접근 제어를 자동으로 해결하지 않는다.**
+
+```text
+누가 SSH Server에 로그인 가능한가
+→ SSH 인증 / AuthorizedKeys / MFA / 접근 정책
+
+어떤 Forward를 만들 수 있는가
+→ sshd AllowTcpForwarding 등 정책
+
+어디에 Listen하는가
+→ Loopback vs External Interface
+
+최종 Service에 누가 접근 가능한가
+→ DB/Web 자체 인증·인가
+```
+
+특히 Remote Forward를 `0.0.0.0`에 공개하거나 Local Forward를 Localhost가 아닌 Interface에 bind하면 예상보다 넓은 사용자가 Tunnel을 사용할 수 있다.
+
+필요 이상으로 넓은 Bind Address를 사용하지 않고, Firewall과 SSH Server 정책을 함께 관리한다.
+
+## 진단 순서
+
+Tunnel이 동작하지 않으면 다음처럼 층을 나눈다.
+
+```text
+1. SSH 로그인 자체가 되는가?
+2. Forward Listen Socket이 실제로 열렸는가?
+3. SSH Server/Client 쪽에서 Target Host를 해석할 수 있는가?
+4. Target Port까지 TCP 연결 가능한가?
+5. Service 자체 인증·Protocol은 정상인가?
+```
+
+Verbose Log:
+
+```bash
+ssh -vvv -N -L 15432:db.internal:5432 user@bastion
+```
+
+Local Listen 확인:
+
+```bash
+ss -lnt
+# 또는 macOS: lsof -nP -iTCP:15432 -sTCP:LISTEN
+```
+
+이렇게 보면 "SSH가 안 된다"와 "SSH는 되지만 Target에 못 간다"를 분리할 수 있다.
+
+## 정리
+
+SSH Tunneling의 세 옵션은 하나의 모델로 정리된다.
+
+```text
+-L
+Local Listen → SSH → Remote-side Target
+
+-R
+Remote Listen → SSH → Local-side Target
+
+-D
+Local SOCKS Listen → SSH → 요청별 Remote-side Target
+```
+
+**어느 쪽에서 Listen하고, 최종 Target Connection을 어느 쪽에서 만드는지**만 그리면 `-L`, `-R`, `-D`를 외우지 않아도 방향을 다시 복원할 수 있다.
