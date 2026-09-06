@@ -30,9 +30,6 @@ order: 6
 
 | 기간 | 프로젝트 | 고객사 | 스택 |
 | --- | --- | --- | --- |
-| 2026/08 ~ 2026/09 | Harlequin H2 JDBC Community Adapter 개발·PyPI 배포·공식 문서 등록 | Harlequin OSS | Python, JDBC, JPype |
-| 2026/06 | jvm-env.nvim 개발·awesome-neovim 등록 | Neovim OSS | Lua, Neovim, JDK |
-| 2026/06 | dadbod-vertica.nvim 개발·awesome-neovim 등록 | Neovim OSS | Vimscript, Lua, Vertica |
 | 2026/03 ~ 현재 | 서울대병원 연구검색 재정비 (스누허브 연동·서식지 적재·REX) | 서울대학교병원 | Logstash, Elasticsearch |
 | 2026/02 ~ 현재 | 사내 공통 라이브러리 구축 (JVM·JS 중복 기능 공통화) | Planit Square | Kotlin, TypeScript |
 | 2025/11 ~ 2026/06 | 순천향대학교병원 CDW 구축 (EMR 뷰어·인증 연동·가명화 다기관) | 순천향대학교병원 | JHipster, Spring Boot |
@@ -57,8 +54,9 @@ order: 6
 
 ---
 ## 주요 저장소
-- [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) — Neovim 플러그인 · jdtls용 JVM(JAVA_HOME) 환경 선택
-- [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) — Neovim 플러그인 · vim-dadbod에 Vertica 어댑터 + dadbod-ui schema-tree 통합
+- [harlequin-h2](https://github.com/clang-engineer/harlequin-h2) — Harlequin용 H2 JDBC community adapter · PyPI 배포 · 공식 Harlequin 문서 등록
+- [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) — Neovim 플러그인 · jdtls/Gradle JDK 환경 분리 · awesome-neovim 등록
+- [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) — vim-dadbod Vertica 어댑터 + dadbod-ui schema-tree 통합 · awesome-neovim 등록
 - [dotfiles](https://github.com/clang-engineer/dotfiles) — Neovim·zsh·tmux 등 개발환경 설정
 - [devkit](https://github.com/clang-engineer/devkit) — cheatsheets·templates 모음
 
