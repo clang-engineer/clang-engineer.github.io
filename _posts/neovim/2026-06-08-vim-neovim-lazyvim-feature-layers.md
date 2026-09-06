@@ -1,8 +1,8 @@
 ---
-title       : "Vim vs Neovim vs 배포판 — 각 계층이 제공하는 기능 정리"
-description : "Vim 내장, Neovim 추가, 배포판 계층별로 어떤 기능을 제공하는지 구분 정리"
+title       : "Vim vs Neovim vs 배포판 — 기능은 어느 계층에서 오는가"
+description : "Vim의 편집 모델, Neovim의 확장 API와 IDE 기반, LazyVim 같은 배포판의 조립·기본값 계층을 구분해 기능의 실제 소유 위치를 한눈에 잡는다."
 date        : 2026-06-08 10:00:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-09-06
 categories  : [neovim, "개요·인덱스"]
 tags        : [vim, lsp, treesitter, lazyvim]
 redirect_from:
@@ -11,138 +11,178 @@ pin         : false
 hidden      : false
 ---
 
-Vim의 기본 기능, Neovim이 추가한 기능, 배포판(LazyVim·NvChad·AstroNvim 등)이 올린 계층을 구분해서 정리한다.
-"이 기능이 어디서 온 건지" 헷갈릴 때 참고용. 3계층은 배포판 중 LazyVim을 예시로 든다.
+> [Neovim 로드맵](./2026-06-16-neovim-roadmap.md)의 **0단계 — 계층 지도**다. 어디에서 시작할지 고르는 문제는 [Vanilla / kickstart.nvim / LazyVim 비교](./2026-06-16-neovim-starting-point-comparison.md)에서 따로 본다.
 
-> 어디서 출발할지 고민이라면 [Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교](./2026-06-16-neovim-starting-point-comparison.md) 글 참고.
+Neovim을 쓰다 보면 "이 기능이 Neovim 자체 기능인가, Plugin인가, LazyVim이 만든 기능인가"가 자주 헷갈린다. 이 글의 목적은 기능 목록을 외우는 것이 아니라 **Vim → Neovim → 배포판이라는 세 계층의 책임을 구분하는 것**이다.
 
-## Vim — 기본 제공
+```text
+Vim
+→ 편집 모델과 오래된 Editor 기본 기능
 
-1991년 Bram Moolenaar가 vi의 개선판("Vi IMproved")으로 발표.
-이후 30년 넘게 Bram이 사실상 단일 메인테이너로 유지했고, 2023년 8월 그의 사망 이후 커뮤니티가 이어받고 있다.
-에디터의 근간 — 모션, 오퍼레이터, 레지스터 등 시간이 지나도 변하지 않는 것들.
+Neovim
+→ Vim 모델 위에 확장 API·비동기·LSP·Treesitter 같은 기반 추가
 
-| 기능 | 설명 | 명령/키 |
-|------|------|---------|
-| Quickfix | 에러/검색 결과 목록, 순차 이동 | `:copen`, `:cn`, `:cp`, `:cdo` |
-| Location list | 윈도우별 quickfix | `:lopen`, `:ln`, `:lp` |
-| Marks | 파일 내/전역 점프 포인트 | `ma` (설정), `` `a `` (이동), `:marks` |
-| Registers | 이름 붙은 클립보드, 매크로 저장소 | `"ay` (복사), `"ap` (붙여넣기), `:reg` |
-| Macros | 키 입력 녹화/재생 | `qa` (녹화), `q` (정지), `@a` (재생) |
-| Text objects | 의미 단위로 조작 | `ciw`, `ca{`, `dip`, `vat` |
-| Tags | LSP 없이 심볼 정의 이동 (ctags) | `Ctrl-]`, `:tag` |
-| `gf` / `gd` | 커서 아래 파일 열기 / 로컬 선언 이동 | `gf`, `gd` |
-| `:g` | 패턴 매치 라인에 Ex 명령 실행 | `:g/pattern/d`, `:g/TODO/t$` |
-| Folding | 코드 접기 | `za` (토글), `zR` (전체 열기), `zM` (전체 접기) |
-| Spell check | 내장 맞춤법 검사 | `:set spell`, `]s`, `z=` |
-| Sessions | 에디터 상태 저장/복원 | `:mksession`, `:source Session.vim` |
-| `=` | 자동 인덴트 | `==` (한 줄), `gg=G` (전체) |
-| `%` | 매칭 괄호/블록 이동 | `%` |
+배포판(LazyVim 등)
+→ Neovim과 Plugin을 조합하고 기본값·Keymap·언어 구성을 제공
+```
 
-## Neovim — Vim 위에 추가된 것
+핵심 질문은 하나다.
 
-2014년 Thiago de Arruda가 Vim에서 fork. 직접적 계기는 그의 대규모 리팩토링 패치를 Bram이 거부한 것이지만, 근본 동기는 1인 메인테이너 의존, 비동기 처리 부재, 모놀리식 C 코드베이스의 확장성 한계였다.
-이후 Lua 임베딩, 비동기 작업, RPC API를 도입했고, 0.5에서 LSP 클라이언트와 Treesitter를 코어에 내장하면서 "플러그인 없이도 IDE 기반이 깔린 에디터"가 됐다.
+> **지금 보고 있는 기능의 실제 소유자는 어느 계층인가?**
 
-### 내장 LSP 클라이언트 (`vim.lsp`)
+## 한눈에 보기
 
-플러그인이 아니라 **Neovim 코어**에 포함된 LSP 프로토콜 구현체.
+| 계층 | 주로 책임지는 것 | 대표 예 |
+|---|---|---|
+| **Vim** | 편집 방식과 Editor 기본 모델 | mode, operator, motion, text object, register, macro, quickfix |
+| **Neovim** | 확장 가능한 Runtime·UI·IDE 기반 | Lua API, `vim.lsp`, `vim.diagnostic`, Treesitter, floating window, async/RPC |
+| **Plugin** | 특정 기능의 구현·확장 | completion, formatter 연동, file picker, Git UI 등 |
+| **Distro** | Plugin 조립과 기본 사용자 경험 | LazyVim의 Plugin spec, extras, 기본 Keymap·설정 |
 
-| 기능 | 설명 | API |
-|------|------|-----|
-| Diagnostics | 에러/경고 인라인 표시 | `vim.diagnostic.open_float()` |
-| Hover | 타입/문서 팝업 | `vim.lsp.buf.hover()` |
-| Definition / References | 정의 이동, 참조 목록 | `vim.lsp.buf.definition()`, `references()` |
-| Rename | 프로젝트 범위 심볼 리네임 | `vim.lsp.buf.rename()` |
-| Code actions | 수정 제안, import, 리팩토링 | `vim.lsp.buf.code_action()` |
-| Formatting | LSP 기반 포맷 | `vim.lsp.buf.format()` |
-| CodeLens | 함수 위 액션 힌트 (참조 수, 테스트 실행 등) | `vim.lsp.codelens.run()` |
-| Document highlight | 커서 위치 심볼과 같은 심볼 강조 | `vim.lsp.buf.document_highlight()` |
-| Inlay hints | 인라인 타입/파라미터 힌트 (0.10+) | `vim.lsp.inlay_hint.enable(true)` |
-| Semantic tokens | LSP 기반 의미론적 구문 강조 | 서버 지원 시 자동 활성화 |
+Plugin은 Neovim과 배포판 사이의 별도 실행 계층이다. 배포판은 기능을 전부 직접 구현하기보다 **Neovim core와 여러 Plugin을 선택·조합·설정**한다.
 
-> CodeLens, inlay hints, document highlight 등은 모두 **Neovim 내장 기능**이다.
-> LazyVim은 키맵(`<leader>cc` 등)만 붙여준 것.
+## 1. Vim — 편집의 바닥
 
-### Treesitter (`vim.treesitter`)
+Vim 계층에서 먼저 잡을 것은 개별 명령 목록이 아니라 **편집 모델**이다.
 
-AST 기반 파서 프레임워크. 정규식이 아닌 구문 트리로 코드를 이해한다.
+```text
+mode
+  ↓
+operator + motion / text object
+  ↓
+register / repeat / macro
+  ↓
+buffer·window·quickfix 같은 Editor 상태
+```
 
-| 기능 | 설명 | API |
-|------|------|-----|
-| Syntax highlighting | AST 기반 정확한 구문 강조 | `:TSInstall <lang>` |
-| Incremental selection | 구문 노드 단위로 선택 확장/축소 | `gnn`, `grn`, `grc` |
-| Folding | 구문 노드 기반 접기 (들여쓰기 아닌) | `foldmethod=expr` + `vim.treesitter.foldexpr()` |
+예를 들어 `ciw`, register, macro, quickfix는 LazyVim이 새로 만든 개념이 아니다. Neovim에서도 이 Vim 계층의 편집 모델이 그대로 바닥에 깔린다.
 
-### 기타 Neovim 전용
+따라서 Distro를 사용하더라도 Vim 기본기를 건너뛰면 Keymap은 외울 수 있어도 **왜 그런 조작 모델이 존재하는지** 이해하기 어렵다.
 
-| 기능 | 설명 | API |
-|------|------|-----|
-| Lua API | Vimscript 대신 Lua로 에디터 스크립팅 | `vim.api`, `vim.fn`, `vim.keymap`, `vim.opt` |
-| Floating windows | 화면 어디든 팝업 윈도우 | `vim.api.nvim_open_win()` |
-| `vim.ui.select/input` | 오버라이드 가능한 UI 프리미티브 | `vim.ui.select(items, opts, cb)` |
-| `vim.notify` | 오버라이드 가능한 알림 시스템 | `vim.notify("msg", vim.log.levels.WARN)` |
-| Async I/O | libuv 기반 비동기 작업 | `vim.uv`, `vim.system()` |
-| Terminal | 버퍼 안에서 터미널 실행 | `:terminal`, `Ctrl-\ Ctrl-n` (나가기) |
-| checkhealth | 내장 상태 진단 | `:checkhealth` |
+편집 명령의 빠른 참조는 별도 cheatsheet를 사용하고, Roadmap에서는 이 계층의 존재와 역할만 잡는다.
 
-## 배포판 — Neovim 위에 올린 것
+## 2. Neovim — 편집기 위에 확장 기반을 올린다
 
-Neovim 0.5에서 LSP·Treesitter가 코어에 들어왔지만, 실제로 IDE처럼 쓰려면 lspconfig·mason·cmp·telescope·gitsigns 같은 플러그인을 직접 조립해야 한다.
-이 조립 비용을 미리 해결해 둔 것이 **배포판(distribution)** 이다 — 플러그인 큐레이션 + 키맵 컨벤션 + 언어 팩을 한 묶음으로 제공한다.
-대표적으로 **LazyVim**, **NvChad**, **AstroNvim** 이 현역 인기 배포판이다(2026-06 기준, GitHub 스타 14k~28k, 모두 활발히 유지보수 중).
-별개로 **kickstart.nvim** 은 "한 파일짜리 출발점"을 복사해서 직접 수정하는 starter 템플릿으로, Neovim 공식 진영(`nvim-lua` org)이 미는 사실상 표준이다 — 배포판은 아니지만 같은 슬롯에서 자주 비교된다.
-한때 인기였던 **LunarVim** 은 2025년 6월 이후 업데이트가 멈춰 현역 추천에서 빠진다.
-각각의 차이는 [Neovim을 어디서 시작할까 — 배포판/프레임워크 카탈로그](./2026-06-16-neovim-starting-point-comparison.md#배포판프레임워크-카탈로그) 참고.
+Neovim은 Vim 편집 모델을 유지하면서 Plugin과 외부 Tool이 붙기 쉬운 Runtime을 확장했다.
 
-이 글에서는 **LazyVim** 을 예시로 본다. 2023년 1월 Folke Lemaitre가 본인이 만든 플러그인 매니저 `lazy.nvim` 위에 출시했고, 기존 distro와 달리 "framework" 컨셉 — 사용자가 LazyVim 설정을 자기 dotfiles처럼 그대로 override·확장할 수 있는 구조를 지향한다.
+대표적인 기반을 역할로 보면 다음과 같다.
 
-### 플러그인 큐레이션 (LazyVim 예시)
+```text
+Editor 제어
+→ Lua / nvim API
 
-Neovim의 LSP/Treesitter 기반 위에 실용적인 플러그인을 미리 조합해 놓은 것.
+언어 기능 Client
+→ vim.lsp / vim.diagnostic
 
-| 플러그인 | 역할 |
-|----------|------|
-| nvim-lspconfig + mason.nvim | 서버별 설정 제공 / 외부 도구 설치 |
-| blink.cmp 또는 nvim-cmp extra | 자동완성 엔진 |
-| conform.nvim | 포맷팅 |
-| nvim-lint | 린팅 |
-| snacks.picker·fzf-lua·telescope 중 선택한 extra | 퍼지 파인더 |
-| snacks explorer·neo-tree 중 선택한 extra | 파일 탐색기 |
-| which-key.nvim | 키맵 디스커버리 |
-| gitsigns.nvim + snacks.lazygit | 버퍼 Git 표시 / 외부 lazygit 실행 |
-| mini.ai + mini.pairs | 텍스트 객체 / 자동 괄호 |
-| snacks.bufdelete | 레이아웃을 보존하는 버퍼 삭제 |
+구문 구조
+→ Treesitter
 
-### Extras 시스템
+UI 확장
+→ floating window / extmark / vim.ui
 
-`:LazyExtras`로 언어·도구 spec 묶음을 선택적으로 활성화한다. 언어 extra는 필요에 따라 LSP·포맷터·린터·DAP 중 일부를 조합하며, 모든 extra가 네 종류를 전부 제공하는 것은 아니다.
+외부 작업·연동
+→ async / vim.system / RPC
+```
 
-LazyVim의 현재 picker·completion·explorer도 같은 선택 계층이다. 새 설치는 각각 snacks picker·blink.cmp·snacks explorer를 fallback 기본값으로 고르지만, `vim.g.lazyvim_picker`/`vim.g.lazyvim_cmp`나 활성화한 extra에 따라 fzf-lua·Telescope·nvim-cmp·neo-tree로 바뀔 수 있다. 따라서 이 도구들을 모두 core 기본 플러그인이라고 보면 안 된다.
+여기서 중요한 경계는 **"Neovim이 기반을 제공한다"와 "사용자에게 완성된 IDE 경험을 제공한다"는 다른 말**이라는 것이다.
 
-### 키맵 레이어
+예를 들어 Neovim에는 LSP Client가 내장돼 있지만 Language Server 설치·서버별 설정·자동완성·Formatting 경험 전체가 하나의 core 기능으로 완성되어 있는 것은 아니다. 그 사이를 Plugin과 설정이 조합한다.
 
-Neovim API 위에 `<leader>` 기반 일관된 키맵을 제공.
+LSP 계층을 더 깊게 볼 때는 [Neovim 0.11+ LSP 3계층](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md)으로 Zoom-in한다.
 
-| 키 | 동작 | 실제 호출 |
-|----|------|-----------|
-| `<leader>cc` | CodeLens 실행 | `vim.lsp.codelens.run()` |
-| `<leader>ca` | Code action | `vim.lsp.buf.code_action()` |
-| `<leader>cr` | Rename | `vim.lsp.buf.rename()` |
-| `<leader>cf` | Format | conform.nvim |
-| `<leader>cd` | 라인 진단 float | `vim.diagnostic.open_float()` |
-| `<leader>ff` | 파일 찾기 | 선택된 LazyVim picker |
-| `<leader>/` | 전체 검색 | 선택된 LazyVim picker |
-| `<leader>gg` | Lazygit | snacks.lazygit |
-| `<leader>e` | 파일 탐색기 | 선택된 LazyVim explorer |
+## 3. Plugin — Core 위에서 구체 기능을 만든다
 
-> `<leader>cc`로 CodeLens를 실행하지만, CodeLens 자체는 Neovim 내장이다.
-> LazyVim은 키맵을 붙여준 것일 뿐.
+Plugin은 Neovim API를 사용해 특정 문제를 해결한다.
 
-## 요약
+```text
+Neovim core capability
+        ↓
+Plugin이 기능으로 조합
+        ↓
+사용자가 직접 설정하거나
+Distro가 대신 조립
+```
 
-| 계층 | 한 줄 요약 |
-|------|-----------|
-| **Vim** | 모션, 오퍼레이터, 레지스터, quickfix, ex 명령 — 에디팅의 근간 |
-| **Neovim** | 내장 LSP, Treesitter, Lua API, floating window — IDE 기반 |
-| **배포판** | 플러그인 큐레이션 + 키맵 컨벤션 + 언어 팩 — 즉시 사용 가능한 IDE (LazyVim·NvChad·AstroNvim 등) |
+예를 들어 다음은 서로 다른 책임이다.
+
+```text
+LSP protocol client
+→ Neovim core
+
+Language Server 설정 보조
+→ Plugin
+
+외부 Language Server 설치 관리
+→ Plugin / Tool
+
+이들을 기본값으로 묶어 제공
+→ LazyVim 같은 Distro
+```
+
+그래서 화면에 같은 결과가 보여도 "어느 계층이 실제 기능을 제공하는가"를 구분해야 문제를 고칠 위치도 찾을 수 있다.
+
+개별 Plugin 지형은 [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md)에서 본다.
+
+## 4. 배포판 — 기능을 새로 만드는 것보다 조립한다
+
+LazyVim·NvChad·AstroNvim 같은 배포판은 Neovim 위에 **선택된 Plugin, 설정, Keymap, 언어별 구성을 일관된 기본값으로 조립**한다.
+
+LazyVim을 예로 들면 큰 구조는 다음처럼 보면 된다.
+
+```text
+Neovim core
+   ↓
+lazy.nvim
+   ↓
+LazyVim core spec
+   ↓
+optional extras
+   ↓
+user spec / override
+   ↓
+최종 Plugin configuration
+```
+
+따라서 LazyVim에서 어떤 Key를 눌러 LSP 기능이 실행된다고 해서 그 LSP 기능 자체가 LazyVim 구현인 것은 아니다. LazyVim은 **Neovim 또는 Plugin의 기능에 일관된 진입점과 기본 구성을 제공**하는 경우가 많다.
+
+LazyVim의 실제 조립 규칙은 다음 문서에서 더 깊게 본다.
+
+- [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md)
+- [lazy.nvim Plugin spec 필드](./2026-06-19-lazy-nvim-plugin-spec-fields.md)
+- [LazyVim spec merge와 의존성 계층](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md)
+
+## 기능이 헷갈릴 때 역으로 추적한다
+
+기능 이름을 외우기보다 아래 순서로 출처를 찾는다.
+
+```text
+지금 쓰는 기능
+   ↓
+Vim/Neovim core에 원래 있는가?
+   ↓ 아니면
+어떤 Plugin이 구현하는가?
+   ↓
+Distro는 그 Plugin을 어떻게 설정·Keymap했는가?
+   ↓
+내 user config가 무엇을 override했는가?
+```
+
+이 순서를 알면 "LazyVim이 이상하다"고 뭉뚱그리지 않고 문제의 실제 계층을 좁힐 수 있다.
+
+## 경계만 기억한다
+
+```text
+Vim
+= 편집 모델의 바닥
+
+Neovim
+= 확장 가능한 Runtime과 IDE 기반
+
+Plugin
+= 구체 기능 구현
+
+Distro
+= Plugin과 기본값을 조립한 사용자 경험
+```
+
+이 지도에서 세부 기능을 전부 펼치지 않는다. **현재 기능이 어느 계층에 있는지 찾은 뒤, 필요한 계층의 문서로 Zoom-in하는 것이 목적**이다.
