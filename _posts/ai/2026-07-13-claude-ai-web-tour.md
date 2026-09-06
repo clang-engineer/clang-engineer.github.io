@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/)의 **claude.ai 웹 지형** 갈래 · 터미널의 CLI는 [Claude Code 정리](/posts/ai/2025-10-24-claude-code/)에서.
+> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **claude.ai 웹 지형** 갈래 · 터미널의 CLI는 [Claude Code 정리](./2025-10-24-claude-code.md)에서.
 
 claude.ai를 열면 대부분 챗 창부터 쓴다. 그런데 왼쪽 사이드바에는 **Projects·Artifacts·Customize·Code·Design**이 늘어서 있고, Code로 들어가면 그 안에 또 **Routines·Dispatch**가 있다. 이 글은 그 메뉴들이 각각 무엇을 하고, **언제 무엇을 쓰면 되는지**를 한 바퀴 돈다.
 
@@ -46,7 +46,7 @@ claude.ai를 열면 대부분 챗 창부터 쓴다. 그런데 왼쪽 사이드�
 - **Files** — PDF·문서·텍스트를 올려두는 지식 베이스. 사양서·API 문서를 넣어두면 대화마다 참조한다.
 - **Memory** — 대화가 몇 번 쌓이면 프로젝트가 스스로 기억을 만든다.
 
-한 줄 요약이 화면에 그대로 쓰여 있다 — **"이 프로젝트에선 매번 같은 지식을 참조한다."** Claude Code를 써 봤다면 `CLAUDE.md`(프로젝트 규칙) + 첨부 파일의 **웹 버전**으로 이해하면 정확하다([메모리 시스템 정리](/posts/ai/2026-03-12-claude-code-memory/) 참고).
+한 줄 요약이 화면에 그대로 쓰여 있다 — **"이 프로젝트에선 매번 같은 지식을 참조한다."** Claude Code를 써 봤다면 `CLAUDE.md`(프로젝트 규칙) + 첨부 파일의 **웹 버전**으로 이해하면 정확하다([메모리 시스템 정리](./2026-03-12-claude-code-memory.md) 참고).
 
 > **언제**: 같은 맥락으로 반복 작업할 때. 특정 코드베이스, 특정 문서 묶음, 특정 톤. 단발 질문이면 그냥 New chat이 낫다.
 
@@ -63,7 +63,7 @@ claude.ai를 열면 대부분 챗 창부터 쓴다. 그런데 왼쪽 사이드�
 설정 허브를 연다. 일반 설정(General·Account·Billing·Usage 등) 밑에 **Customize 3종**이 핵심이다.
 
 - **Skills** — 재사용 가능한 능력 묶음. 특정 작업(예: `skill-creator`)을 스킬로 등록해두면 필요할 때 불러 쓴다.
-- **Connectors** — 외부 서비스 연동. **Gmail·Google Drive·Slack·GitHub·Google Calendar** 등을 붙이면 Claude가 그 데이터를 읽고 쓴다. 내부적으로 [MCP](/posts/ai/2025-10-23-mcp/)로 도는 연결이고, 커스텀 커넥터도 추가할 수 있다.
+- **Connectors** — 외부 서비스 연동. **Gmail·Google Drive·Slack·GitHub·Google Calendar** 등을 붙이면 Claude가 그 데이터를 읽고 쓴다. 내부적으로 [MCP](./2025-10-23-mcp.md)로 도는 연결이고, 커스텀 커넥터도 추가할 수 있다.
 - **Plugins** — "역할 수준의 전문성"을 부여하는 묶음. 스킬·커넥터·명령을 역할 단위로 패키징한 것.
 
 > **언제**: 챗을 내 계정 바깥(메일·드라이브·깃허브)으로 넓히고 싶을 때는 **Connectors**부터. 반복 작업 패턴이 굳으면 **Skills**로.
@@ -78,7 +78,7 @@ claude.ai를 열면 대부분 챗 창부터 쓴다. 그런데 왼쪽 사이드�
 
 ## ② Claude Code 웹 (`/code`)
 
-메인의 **Code**를 누르면 이 표면으로 넘어온다. 터미널 CLI가 아니라 **브라우저에서 레포를 물려 돌리는 Claude Code**다(Research preview). 세션을 만들 때 레포를 고르고, 클라우드에서 작업이 돈다. CLI와 같은 엔진의 웹 버전이라고 보면 된다 — 터미널 쪽 실전 흐름은 [Claude Code 실전 워크플로](/posts/ai/2026-07-03-claude-code-workflow/)에 있다.
+메인의 **Code**를 누르면 이 표면으로 넘어온다. 터미널 CLI가 아니라 **브라우저에서 레포를 물려 돌리는 Claude Code**다(Research preview). 세션을 만들 때 레포를 고르고, 클라우드에서 작업이 돈다. CLI와 같은 엔진의 웹 버전이라고 보면 된다 — 터미널 쪽 실전 흐름은 [Claude Code 실전 워크플로](./2026-07-03-claude-code-workflow.md)에 있다.
 
 사이드바 `More` 안에 두 가지가 숨어 있다.
 
@@ -118,4 +118,4 @@ Gmail·Slack·Linear·PagerDuty·Datadog 같은 커넥터와 엮여 돈다.
 
 챗 창은 입구일 뿐이다. Projects로 맥락을 고정하고, Connectors로 바깥을 붙이고, Routines로 반복을 자동화하는 순간 claude.ai는 "질문하는 곳"에서 **"일을 굴리는 곳"**으로 바뀐다.
 
-터미널 쪽 도구(CLI·MCP·API)까지 한 흐름으로 보려면 [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/)에서 이어가자.
+터미널 쪽 도구(CLI·MCP·API)까지 한 흐름으로 보려면 [AI 로드맵](./2026-07-03-ai-roadmap.md)에서 이어가자.

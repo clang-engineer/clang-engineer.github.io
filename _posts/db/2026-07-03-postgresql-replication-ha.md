@@ -171,5 +171,5 @@ standby는 `primary_slot_name`으로 이 슬롯을 지정해 접속한다. 슬�
 
 | 글 | 관계 |
 | --- | --- |
-| [PostgreSQL PITR와 백업 전략](/posts/db/2026-07-03-postgresql-pitr-backup/) | 같은 WAL을 백업·시점복구에 쓰는 법 |
-| [PostgreSQL 모니터링 — pg_stat 뷰와 슬로우 쿼리 추적](/posts/db/2026-07-03-postgresql-monitoring/) | pg_stat_replication으로 복제 지연 보기 |
+| [PostgreSQL PITR와 백업 전략](./2026-07-03-postgresql-pitr-backup.md) | 같은 WAL을 백업·시점복구에 쓰는 법 |
+| [PostgreSQL 모니터링 — pg_stat 뷰와 슬로우 쿼리 추적](./2026-07-03-postgresql-monitoring.md) | pg_stat_replication으로 복제 지연 보기 |

@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](/posts/rust/2026-07-12-rust-roadmap/)의 **④ 타입** 단계입니다. 앞 글: [③ struct·enum·match](/posts/rust/2026-07-12-rust-struct-enum-match/)
+> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **④ 타입** 단계입니다. 앞 글: [③ struct·enum·match](./2026-07-12-rust-struct-enum-match.md)
 
 Vec·HashMap은 C++ 컨테이너와 거의 1:1이라 금방 익숙해집니다. 이 장의 진짜 주제는 **`String`과 `&str`의 구분** — Rust 입문자를 가장 헷갈리게 하는 지점이자, ②의 소유권이 문자열을 통해 다시 몸에 붙는 곳입니다.
 
@@ -86,7 +86,7 @@ greet("Bob");     // 리터럴도 그대로
 - 함수 인자로 대부분 `&str`을 받는 이유를 말할 수 있다.
 - Vec·HashMap을 소유권을 잃지 않게(`&`로 빌려) 다룰 수 있다.
 
-다음은 [⑤ error 처리 — Result·Option·?](/posts/rust/2026-07-12-rust-error-handling-result-option/)입니다. ③의 enum으로 만들어진 `Option`/`Result`를 실제로 다루는, 예외 없는 Rust의 에러 흐름입니다.
+다음은 [⑤ error 처리 — Result·Option·?](./2026-07-12-rust-error-handling-result-option.md)입니다. ③의 enum으로 만들어진 `Option`/`Result`를 실제로 다루는, 예외 없는 Rust의 에러 흐름입니다.
 
 ## Reference
 

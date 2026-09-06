@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](/posts/go/2026-07-12-go-roadmap/)의 **⑥ 실전** 단계입니다. 앞 글: [⑤ goroutine·channel·context](/posts/go/2026-07-12-go-concurrency-goroutine-channel/)
+> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **⑥ 실전** 단계입니다. 앞 글: [⑤ goroutine·channel·context](./2026-07-12-go-concurrency-goroutine-channel.md)
 
 문법을 뗐으면 이제 실제로 뭔가 만들고, 무엇보다 **Go답게** 쓰는 단계입니다. 문법이 맞아도 관용구를 모르면 "Go 문법으로 쓴 C++/Java" 코드가 나옵니다.
 
@@ -103,7 +103,7 @@ func TestAbs(t *testing.T) {
 - 테이블 주도 테스트를 작성하고 `go test`로 돌릴 수 있다.
 - "accept interfaces, return structs"를 자기 코드에 적용할 수 있다.
 
-다음은 [⑦ 도구 — build·mod·fmt·vet](/posts/go/2026-07-12-go-tooling/)입니다. 언어에 내장된 도구 체계로 로드맵의 마지막 단계입니다.
+다음은 [⑦ 도구 — build·mod·fmt·vet](./2026-07-12-go-tooling.md)입니다. 언어에 내장된 도구 체계로 로드맵의 마지막 단계입니다.
 
 ## Reference
 

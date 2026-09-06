@@ -36,9 +36,9 @@ Vim/Neovim/배포판이 헷갈린다면, 먼저 셋의 관계부터 잡자.
 
 | 글 | 핵심 |
 |---|---|
-| [Vim vs Neovim vs 배포판 — 각 계층이 제공하는 기능](/posts/neovim/2026-06-08-vim-neovim-lazyvim-feature-layers/) | "이 기능이 어디서 온 건지" 정리. 가장 먼저 읽기 좋은 한 장 |
-| [Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교](/posts/neovim/2026-06-16-neovim-starting-point-comparison/) | 세 시작점의 학습 곡선·추천 맥락 + LazyVim·NvChad·AstroNvim distro 카탈로그. "어디서 출발할지" 결정용 |
-| [Vim & Neovim 작동 원리 정리](/posts/neovim/2025-10-04-vim-core-engine/) | 모드·버퍼·윈도우·탭, 명령 파이프라인 — 모든 글의 전제 |
+| [Vim vs Neovim vs 배포판 — 각 계층이 제공하는 기능](./2026-06-08-vim-neovim-lazyvim-feature-layers.md) | "이 기능이 어디서 온 건지" 정리. 가장 먼저 읽기 좋은 한 장 |
+| [Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교](./2026-06-16-neovim-starting-point-comparison.md) | 세 시작점의 학습 곡선·추천 맥락 + LazyVim·NvChad·AstroNvim distro 카탈로그. "어디서 출발할지" 결정용 |
+| [Vim & Neovim 작동 원리 정리](./2025-10-04-vim-core-engine.md) | 모드·버퍼·윈도우·탭, 명령 파이프라인 — 모든 글의 전제 |
 
 ## 1단계 — 편집 기본기
 
@@ -46,7 +46,7 @@ Vim의 진짜 심장은 모션·오퍼레이터·텍스트오브젝트로 편집
 
 | 글 | 핵심 |
 |---|---|
-| [Vim/Neovim 레지스터 정리](/posts/neovim/2025-09-24-vim-register/) | `y`/`d`/`c`/`p`가 거치는 저장소들. 명명·익명·블랙홀 레지스터 |
+| [Vim/Neovim 레지스터 정리](./2025-09-24-vim-register.md) | `y`/`d`/`c`/`p`가 거치는 저장소들. 명명·익명·블랙홀 레지스터 |
 
 > 📎 **치트시트** · [vim](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/vim.md) — 모드별 명령어·모션·오퍼레이터 빠른 참조 (GitHub)
 {: .prompt-tip }
@@ -56,20 +56,20 @@ Vim의 진짜 심장은 모션·오퍼레이터·텍스트오브젝트로 편집
 
 ## 2단계 — 언어 (Lua와 Vimscript)
 
-Neovim 설정·플러그인을 "고칠 수 있는" 수준이 되려면 Lua는 피할 수 없다. 시리즈 4부작 + 성능 1편으로 구성했다. [Lua 종합 가이드](/posts/neovim/2026-06-15-lua-syntax-guide/)가 hub고, 거기서 심화 3편으로 분기한다. (Vimscript 갈래를 택할 거라면 아래 두 글을 함께.)
+Neovim 설정·플러그인을 "고칠 수 있는" 수준이 되려면 Lua는 피할 수 없다. 시리즈 4부작 + 성능 1편으로 구성했다. [Lua 종합 가이드](./2026-06-15-lua-syntax-guide.md)가 hub고, 거기서 심화 3편으로 분기한다. (Vimscript 갈래를 택할 거라면 아래 두 글을 함께.)
 
 > **설정만 할 거면 여기서 깊이 들어가지 않아도 된다.** LazyVim을 고치는 데 필요한 Lua는 **테이블·`require` 수준**이면 충분하다. 문법 가이드와 모듈까지만 훑고 바로 3단계로 가도 된다. 메타테이블·에러 처리는 플러그인을 직접 짤 때(4단계) 다시 와서 떼면 늦지 않다.
 {: .prompt-info }
 
 | 글 | 핵심 |
 |---|---|
-| [Lua 종합 가이드 (Neovim 컨텍스트)](/posts/neovim/2026-06-15-lua-syntax-guide/) | LuaJIT(5.1) 기준 문법 한 번에 정리. 타입·스코프·테이블·문자열 패턴·`vim.*` 헬퍼 |
-| [Lua 모듈](/posts/neovim/2026-06-15-lua-modules/) | `require`/`package.path`, `local M = {} return M` 패턴, Neovim `lua/` 자동 등록과의 연결 |
-| [Lua 메타테이블](/posts/neovim/2026-06-15-lua-metatables/) | `__index`/`__newindex`/`__call`, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
-| [Lua 에러 처리](/posts/neovim/2026-06-15-lua-error-handling/) | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. Neovim 플러그인의 에러 관행 |
-| [Lua vs Vimscript 성능](/posts/neovim/2026-06-12-neovim-lua-vs-vimscript-performance/) | 정량 차이와 실제 체감되는 영역. "그냥 Lua가 빠르다"보다 한 단계 깊은 이해 |
-| [Vimscript 종합 가이드 (legacy)](/posts/neovim/2026-06-15-vimscript-syntax-guide/) | Vim 8 legacy 기준 문법 — 타입·스코프 prefix·비교 함정·함수/람다·List/Dict. Vimscript 플러그인·기존 코드를 읽어야 할 때 |
-| [Learn Vimscript the Hard Way 핵심 정리](/posts/neovim/2024-09-15-learn-vimscript-the-hard-way/) | Steve Losh 책 55챕터에서 실전에 남는 핵심만. 한 장짜리 reference |
+| [Lua 종합 가이드 (Neovim 컨텍스트)](./2026-06-15-lua-syntax-guide.md) | LuaJIT(5.1) 기준 문법 한 번에 정리. 타입·스코프·테이블·문자열 패턴·`vim.*` 헬퍼 |
+| [Lua 모듈](./2026-06-15-lua-modules.md) | `require`/`package.path`, `local M = {} return M` 패턴, Neovim `lua/` 자동 등록과의 연결 |
+| [Lua 메타테이블](./2026-06-15-lua-metatables.md) | `__index`/`__newindex`/`__call`, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
+| [Lua 에러 처리](./2026-06-15-lua-error-handling.md) | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. Neovim 플러그인의 에러 관행 |
+| [Lua vs Vimscript 성능](./2026-06-12-neovim-lua-vs-vimscript-performance.md) | 정량 차이와 실제 체감되는 영역. "그냥 Lua가 빠르다"보다 한 단계 깊은 이해 |
+| [Vimscript 종합 가이드 (legacy)](./2026-06-15-vimscript-syntax-guide.md) | Vim 8 legacy 기준 문법 — 타입·스코프 prefix·비교 함정·함수/람다·List/Dict. Vimscript 플러그인·기존 코드를 읽어야 할 때 |
+| [Learn Vimscript the Hard Way 핵심 정리](./2024-09-15-learn-vimscript-the-hard-way.md) | Steve Losh 책 55챕터에서 실전에 남는 핵심만. 한 장짜리 reference |
 
 ## 3단계 — LazyVim 구조 이해
 
@@ -89,7 +89,7 @@ LazyVim을 "그냥 쓰는" 단계에서 "어떻게 동작하는지 알고 고치
 > 📎 **치트시트** · [lazyvim](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazyvim.md) · [lazygit](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazygit.md) — LazyVim 키맵 / lazygit TUI 단축키 (GitHub)
 {: .prompt-tip }
 
-> **경계 — IDE 기능 레이어는 이 줄기가 직접 가르치지 않는다.** LSP 설정 기초·자동완성/스니펫·DAP(디버깅)·Treesitter는 학습 단계로 두지 않았다. LazyVim이 core와 선택 extra로 이 기능을 조립하므로, [기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 "어떤 플러그인이 담당하나"를 확인하고 실제 사용은 선택한 기본값에 맡기는 구성이다. 다만 그 LSP 레이어가 실제로 **어떻게 물려 도는지**를 한 장으로 잡아 두면, 설정을 직접 안 만지더라도 "LSP가 안 될 때 어느 층 문제인지"를 짚을 수 있다 → [Neovim 0.11+ LSP 3계층 — mason·lspconfig·vim.lsp의 역할](/posts/neovim/2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp/). 밑바닥부터 직접 구성하는 사람은 이 글을 3단계 보강으로 읽으면 된다.
+> **경계 — IDE 기능 레이어는 이 줄기가 직접 가르치지 않는다.** LSP 설정 기초·자동완성/스니펫·DAP(디버깅)·Treesitter는 학습 단계로 두지 않았다. LazyVim이 core와 선택 extra로 이 기능을 조립하므로, [기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 "어떤 플러그인이 담당하나"를 확인하고 실제 사용은 선택한 기본값에 맡기는 구성이다. 다만 그 LSP 레이어가 실제로 **어떻게 물려 도는지**를 한 장으로 잡아 두면, 설정을 직접 안 만지더라도 "LSP가 안 될 때 어느 층 문제인지"를 짚을 수 있다 → [Neovim 0.11+ LSP 3계층 — mason·lspconfig·vim.lsp의 역할](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md). 밑바닥부터 직접 구성하는 사람은 이 글을 3단계 보강으로 읽으면 된다.
 {: .prompt-info }
 
 ## 4단계 — 플러그인 개발 (만들 사람만)
@@ -102,16 +102,16 @@ LazyVim을 "그냥 쓰는" 단계에서 "어떻게 동작하는지 알고 고치
 
 | 글 | 핵심 |
 |---|---|
-| [vim 전역 API 지도 — vim.api vs vim.fn](/posts/neovim/2026-06-19-neovim-vim-global-api-map/) | 플러그인 코드의 `vim.*` 전체 지도. 옵션 범위·동작 호출·유틸의 갈래 |
-| [버퍼·윈도우·extmark 조작](/posts/neovim/2026-06-19-neovim-buffer-window-extmark/) | scratch 버퍼·floating window·virtual text. 화면에 그리는 거의 모든 것 |
-| [autocommand·이벤트 심화](/posts/neovim/2026-06-19-neovim-autocommand-events/) | augroup 중복 방지·이벤트 종류·User 공개 이벤트. 플러그인의 이벤트 구동 |
-| [비동기 — vim.uv / vim.system](/posts/neovim/2026-06-19-neovim-async-vim-uv-system/) | 외부 프로세스를 UI 멈춤 없이. `vim.schedule`로 메인 루프 복귀 |
+| [vim 전역 API 지도 — vim.api vs vim.fn](./2026-06-19-neovim-vim-global-api-map.md) | 플러그인 코드의 `vim.*` 전체 지도. 옵션 범위·동작 호출·유틸의 갈래 |
+| [버퍼·윈도우·extmark 조작](./2026-06-19-neovim-buffer-window-extmark.md) | scratch 버퍼·floating window·virtual text. 화면에 그리는 거의 모든 것 |
+| [autocommand·이벤트 심화](./2026-06-19-neovim-autocommand-events.md) | augroup 중복 방지·이벤트 종류·User 공개 이벤트. 플러그인의 이벤트 구동 |
+| [비동기 — vim.uv / vim.system](./2026-06-19-neovim-async-vim-uv-system.md) | 외부 프로세스를 UI 멈춤 없이. `vim.schedule`로 메인 루프 복귀 |
 
 `vim.*`를 손에 익혔다면 한 층 더 내려가 볼 수 있다 — 이 헬퍼들이 실제로 무엇을 호출하는지.
 
 | 글 | 핵심 |
 |---|---|
-| [vim.api 아래층 — nvim_* API·MessagePack-RPC·LuaJIT](/posts/neovim/2026-07-03-neovim-api-rpc-luajit/) | `vim.api`는 통로일 뿐. 진짜 API인 언어중립 `nvim_*` 집합, 그 아래 **MessagePack-RPC** 계층과 C 코어, Neovim이 Lua를 돌리는 **LuaJIT**의 정체까지. 원격 플러그인·RPC 클라이언트를 이해하는 토대 |
+| [vim.api 아래층 — nvim_* API·MessagePack-RPC·LuaJIT](./2026-07-03-neovim-api-rpc-luajit.md) | `vim.api`는 통로일 뿐. 진짜 API인 언어중립 `nvim_*` 집합, 그 아래 **MessagePack-RPC** 계층과 C 코어, Neovim이 Lua를 돌리는 **LuaJIT**의 정체까지. 원격 플러그인·RPC 클라이언트를 이해하는 토대 |
 
 ### 구조·발행
 
@@ -121,7 +121,7 @@ LazyVim을 "그냥 쓰는" 단계에서 "어떻게 동작하는지 알고 고치
 2. **골격 잡기** — runtimepath 관례대로 `plugin/` vs `lua/` 배치
 3. **구현** — 필요하면 Lua·Vimscript 혼용 경계 최소화
 4. **테스트** — plenary / mini.test / busted 중 택1 (아래 테스트 파트)
-5. **문서화** — `panvimdoc`로 README를 `:help`로 변환 → [vimdoc 작성](/posts/neovim/2026-06-19-neovim-plugin-vimdoc-panvimdoc/) (awesome-neovim 등록 요건)
+5. **문서화** — `panvimdoc`로 README를 `:help`로 변환 → [vimdoc 작성](./2026-06-19-neovim-plugin-vimdoc-panvimdoc.md) (awesome-neovim 등록 요건)
 6. **노출 채널 결정** — awesome-neovim · Dotfyle · VimAwesome · GitHub Topics
 7. **awesome-neovim 등록** — gh CLI로 PR
 

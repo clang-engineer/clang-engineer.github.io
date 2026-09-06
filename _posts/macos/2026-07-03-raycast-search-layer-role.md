@@ -9,8 +9,8 @@ pin         : false
 hidden      : false
 ---
 
-> **[macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)** — 창 관리 시리즈에 이어 **런처·생산성** 갈래의 첫 글입니다.
-> 런처 자체를 고르는 문제(Spotlight·Alfred·Raycast 비교)는 [macOS 생산성 런처 비교](/posts/macos/2025-10-31-productivity-launchers/)를 먼저 보세요. 이 글은 **이미 Raycast를 쓰기로 정한 뒤**, 창 관리 도구와 어떻게 안 겹치게 배치하느냐를 다룹니다.
+> **[macOS 로드맵](./2026-07-03-macos-roadmap.md)** — 창 관리 시리즈에 이어 **런처·생산성** 갈래의 첫 글입니다.
+> 런처 자체를 고르는 문제(Spotlight·Alfred·Raycast 비교)는 [macOS 생산성 런처 비교](./2025-10-31-productivity-launchers.md)를 먼저 보세요. 이 글은 **이미 Raycast를 쓰기로 정한 뒤**, 창 관리 도구와 어떻게 안 겹치게 배치하느냐를 다룹니다.
 {: .prompt-info }
 
 Raycast를 설치하고 나면 흔히 부딪히는 문제가 있다. **이미 창 관리 도구를 쓰고 있는데 Raycast도 창 관리 기능을 갖고 있어서 서로 싸운다**는 것이다. 여기에 Hammerspoon 같은 자동화 런타임까지 있으면, 세 도구가 전부 "단축키를 누르면 뭔가 한다"는 점에서 역할이 뭉개진다.
@@ -48,7 +48,7 @@ Raycast를 설치하고 나면 흔히 부딪히는 문제가 있다. **이미 �
 > 왜 배치를 Hammerspoon에 몰아주는가? 창 배치는 "이전 프레임을 기억했다가 토글", "특정 앱만 예외 처리" 같은 **상태와 조건이 붙는 로직**이 금방 필요해진다. Raycast의 내장 창 관리는 이런 커스텀이 막혀 있고, 스크립트로 확장하려면 결국 Hammerspoon 같은 런타임이 필요하다. 배치 로직을 한 곳(Hammerspoon)에 두면 규칙이 분산되지 않는다.
 {: .prompt-tip }
 
-AeroSpace·Hammerspoon 두 축을 실제로 엮는 방법은 이 블로그의 [창 관리 시리즈](/posts/macos/2026-07-03-aerospace-hammerspoon-window-reflow/)에서 다뤘다. 이 글은 세 번째 축인 **Raycast = 검색 계층**에 집중한다.
+AeroSpace·Hammerspoon 두 축을 실제로 엮는 방법은 이 블로그의 [창 관리 시리즈](./2026-07-03-aerospace-hammerspoon-window-reflow.md)에서 다뤘다. 이 글은 세 번째 축인 **Raycast = 검색 계층**에 집중한다.
 
 ## 1단계: Raycast의 창 관리 기능을 끈다
 
@@ -122,6 +122,6 @@ Raycast를 "또 하나의 단축키 도구"로 쓰면 Hammerspoon과 싸우기�
 ---
 
 > **관련 글**
-> - 런처 자체 선택·생산성 앱 전반: [macOS 생산성 런처 비교와 생산성 앱 큰 그림 (Spotlight·Alfred·Raycast·Rectangle·BTT)](/posts/macos/2025-10-31-productivity-launchers/)
-> - 창 관리 축 실전: [AeroSpace + Hammerspoon 창 재정렬](/posts/macos/2026-07-03-aerospace-hammerspoon-window-reflow/), [Rectangle 대체 화면 분할](/posts/macos/2026-07-03-hammerspoon-window-tiling-rectangle/)
+> - 런처 자체 선택·생산성 앱 전반: [macOS 생산성 런처 비교와 생산성 앱 큰 그림 (Spotlight·Alfred·Raycast·Rectangle·BTT)](./2025-10-31-productivity-launchers.md)
+> - 창 관리 축 실전: [AeroSpace + Hammerspoon 창 재정렬](./2026-07-03-aerospace-hammerspoon-window-reflow.md), [Rectangle 대체 화면 분할](./2026-07-03-hammerspoon-window-tiling-rectangle.md)
 {: .prompt-info }

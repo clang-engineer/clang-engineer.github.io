@@ -307,8 +307,8 @@ Harlequin 공식 문서는 community adapter를 `tconbeer/harlequin-web`에 PR�
 
 ## 관련 글
 
-- [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/) — 같은 Vertica 메타데이터 문제를 Neovim 플러그인 생태계에서 푼 사례
-- [jvm-env.nvim 발행 회고](/posts/neovim/2026-06-17-jvm-env-nvim-publication-retrospective/) — 첫 OSS 플러그인의 tag·release·CI 보강 사이클
+- [vim-dadbod 어댑터 플러그인 만들기](../neovim/2026-06-12-vim-dadbod-adapter-plugin-build.md) — 같은 Vertica 메타데이터 문제를 Neovim 플러그인 생태계에서 푼 사례
+- [jvm-env.nvim 발행 회고](../neovim/2026-06-17-jvm-env-nvim-publication-retrospective.md) — 첫 OSS 플러그인의 tag·release·CI 보강 사이클
 - [Harlequin Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/harlequin.md) — Harlequin 프로필·키맵·기본 사용법
 - [Python PyPI Publishing Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/python-pypi-publishing.md) — 이후 PyPI 배포 절차의 canonical reference
 

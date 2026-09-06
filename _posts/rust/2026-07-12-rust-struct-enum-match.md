@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](/posts/rust/2026-07-12-rust-roadmap/)의 **③ 타입** 단계입니다. 앞 글: [② 소유권·빌림·수명](/posts/rust/2026-07-12-rust-ownership-borrow-lifetime/)
+> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **③ 타입** 단계입니다. 앞 글: [② 소유권·빌림·수명](./2026-07-12-rust-ownership-borrow-lifetime.md)
 
 Rust의 타입 시스템은 C++보다 강력하고, 특히 **enum이 차원이 다릅니다**. 이 장에서 배우는 enum + 패턴 매칭이 다음 단계인 에러 처리(⑤)의 `Option`/`Result`를 떠받칩니다.
 
@@ -96,7 +96,7 @@ if let Shape::Circle(r) = s {   // Circle일 때만
 - `match`의 완전성 검사가 왜 리팩터링을 안전하게 하는지 설명할 수 있다.
 - `if let`과 `match`를 상황에 맞게 고를 수 있다.
 
-다음은 [④ 컬렉션·String vs &str](/posts/rust/2026-07-12-rust-collections-string-str/)입니다. Vec·HashMap과, Rust 입문자를 가장 헷갈리게 하는 `String`/`&str` 구분으로 ②의 소유권이 다시 몸에 붙는 단계입니다.
+다음은 [④ 컬렉션·String vs &str](./2026-07-12-rust-collections-string-str.md)입니다. Vec·HashMap과, Rust 입문자를 가장 헷갈리게 하는 `String`/`&str` 구분으로 ②의 소유권이 다시 몸에 붙는 단계입니다.
 
 ## Reference
 

@@ -119,7 +119,7 @@ last -n 5 -F
 > **`last`가 텅 비어 있다면** wtmp가 아직 회전(rotate)돼서 옛 기록이 `wtmp.1`로 넘어갔거나 — 뒤에서 다룰 — **최신 배포판이라 wtmp를 아예 안 쓰는** 경우입니다. 회전된 백업까지 보려면 `last -f /var/log/wtmp.1`처럼 파일을 직접 지정합니다.
 {: .prompt-tip }
 
-로그가 언제·어떻게 회전·보관되는지는 [logrotate 정리](/posts/linux/2025-02-19-logrotate/)에서 다뤘습니다. wtmp도 logrotate 대상이라 오래된 기록은 백업본으로 밀려납니다.
+로그가 언제·어떻게 회전·보관되는지는 [logrotate 정리](./2025-02-19-logrotate.md)에서 다뤘습니다. wtmp도 logrotate 대상이라 오래된 기록은 백업본으로 밀려납니다.
 
 ---
 
@@ -160,7 +160,7 @@ lastlog -u zero
 # zero       pts/0  10.0.0.5    Sat Jul 11 13:02:11 +0900 2026
 ```
 
-`lastlog -b 30`은 **오래 안 쓰는 계정 정리**에 딱 맞습니다 — `**Never logged in**`으로 표시되는 계정이나 몇 달째 잠잠한 계정을 골라내 잠글 수 있습니다. 계정을 잠그거나 지우는 실제 방법은 [사용자·그룹 관리](/posts/linux/2026-07-11-user-account-management/)를 보세요.
+`lastlog -b 30`은 **오래 안 쓰는 계정 정리**에 딱 맞습니다 — `**Never logged in**`으로 표시되는 계정이나 몇 달째 잠잠한 계정을 골라내 잠글 수 있습니다. 계정을 잠그거나 지우는 실제 방법은 [사용자·그룹 관리](./2026-07-11-user-account-management.md)를 보세요.
 
 ---
 
@@ -190,7 +190,7 @@ journalctl _COMM=sshd | grep "Failed"     # 실패한 시도 (lastb 대체)
 
 새 `lastlog2`(wtmpdb, SQLite 기반)는 폐지된 `lastlog`를 대체하는 도구로, 데이터를 텍스트 회계 파일 대신 DB에 담습니다.
 
-`journalctl` 자체의 필터·시간 범위·영속화 설정 등 로그 수집 시스템 전반은 [syslog·journald 로깅](/posts/linux/2026-07-11-syslog-journald-logging/)에서 따로 정리했습니다.
+`journalctl` 자체의 필터·시간 범위·영속화 설정 등 로그 수집 시스템 전반은 [syslog·journald 로깅](./2026-07-11-syslog-journald-logging.md)에서 따로 정리했습니다.
 
 ---
 

@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/)의 **Claude Code** 갈래 1단계 · 도구 선택은 [AI 코딩 도구 지형도](/posts/ai/2026-07-03-ai-coding-tools-landscape/)
+> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **Claude Code** 갈래 1단계 · 도구 선택은 [AI 코딩 도구 지형도](./2026-07-03-ai-coding-tools-landscape.md)
 
 ## 📌 Claude Code란?
 
@@ -122,7 +122,7 @@ claude update                # 최신 버전으로 자체 업데이트
 claude --safe-mode           # 모든 커스터마이즈(훅·플러그인 등) 끄고 시작 — 문제 격리용
 ```
 
-슬래시 명령 전체 목록(기본/설정/Git/계정/통합 + 커스텀 커맨드)은 [Claude Code 슬래시 명령어 사전](/posts/ai/2025-10-24-claude-code-slash-commands/)에 따로 정리했다.
+슬래시 명령 전체 목록(기본/설정/Git/계정/통합 + 커스텀 커맨드)은 [Claude Code 슬래시 명령어 사전](./2025-10-24-claude-code-slash-commands.md)에 따로 정리했다.
 
 ---
 
@@ -146,7 +146,7 @@ Claude Code는 편집할 때마다 코드 상태를 자동으로 스냅샷(체�
 
 ## 🔌 MCP (Model Context Protocol)
 
-MCP로 Claude Code를 외부 데이터소스·도구와 연결한다. 프로토콜 자체의 개념은 [MCP 개념 정리](/posts/ai/2025-10-23-mcp/), 여러 서버를 붙이는 실전은 [MCP 서버 더 붙이기](/posts/ai/2026-07-03-mcp-servers-catalog/)에서 이어진다.
+MCP로 Claude Code를 외부 데이터소스·도구와 연결한다. 프로토콜 자체의 개념은 [MCP 개념 정리](./2025-10-23-mcp.md), 여러 서버를 붙이는 실전은 [MCP 서버 더 붙이기](./2026-07-03-mcp-servers-catalog.md)에서 이어진다.
 
 ```bash
 claude mcp add <name> -- <command...>   # 서버 추가 (stdio)
@@ -173,7 +173,7 @@ claude --debug                          # MCP 포함 디버그 로그
 ## 📋 베스트 프랙티스
 
 ### CLAUDE.md 로 프로젝트 컨텍스트 제공
-프로젝트 루트의 `CLAUDE.md` 는 매 세션 자동으로 읽힌다. 기술 스택·코딩 규칙·디렉토리 구조를 적어 두면 매번 설명할 필요가 없다. 계층·import·`.claude/rules`·Auto Memory까지 깊게는 [Claude Code 메모리 시스템 정리](/posts/ai/2026-03-12-claude-code-memory/)에서 다룬다.
+프로젝트 루트의 `CLAUDE.md` 는 매 세션 자동으로 읽힌다. 기술 스택·코딩 규칙·디렉토리 구조를 적어 두면 매번 설명할 필요가 없다. 계층·import·`.claude/rules`·Auto Memory까지 깊게는 [Claude Code 메모리 시스템 정리](./2026-03-12-claude-code-memory.md)에서 다룬다.
 
 ```markdown
 # 프로젝트 개요

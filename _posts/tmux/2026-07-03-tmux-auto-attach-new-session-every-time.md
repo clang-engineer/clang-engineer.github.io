@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 이 글은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 **트러블슈팅** 편이다. 입문·설정·플러그인·부트스트랩까지 전체 경로는 로드맵에서.
+> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **트러블슈팅** 편이다. 입문·설정·플러그인·부트스트랩까지 전체 경로는 로드맵에서.
 {: .prompt-tip }
 
 ## 증상
@@ -137,6 +137,6 @@ tmux new-session -A -s default
 - 고정 세션 하나만 원하면 `tmux new-session -A -s <이름>` 한 줄이 더 명확하다.
 
 > **관련 글**
-> - 세션·윈도우·패널 기본기와 attach 명령들: [tmux 정리본 (Cheat Sheet + 사용 가이드)](/posts/tmux/2021-11-30-tmux-config/)
-> - 여러 세션을 한 번에 세팅하기: [tmux 세션 부트스트랩 — 세션 매니저와 그 속살(셸)](/posts/tmux/2026-02-21-tmux-bootstrap/)
+> - 세션·윈도우·패널 기본기와 attach 명령들: [tmux 정리본 (Cheat Sheet + 사용 가이드)](./2021-11-30-tmux-config.md)
+> - 여러 세션을 한 번에 세팅하기: [tmux 세션 부트스트랩 — 세션 매니저와 그 속살(셸)](./2026-02-21-tmux-bootstrap.md)
 {: .prompt-info }

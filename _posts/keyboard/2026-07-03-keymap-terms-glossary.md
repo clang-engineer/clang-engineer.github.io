@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](/posts/keyboard/2026-07-03-keyboard-roadmap/) · [키보드 펌웨어 지형도](/posts/keyboard/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/) · [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)
 
 40% 키보드 키맵 문서를 처음 보면 `momentary`, `layer-tap`, `hold-tap`, `combo` 같은 용어가 쏟아진다. 겁먹을 것 없다. 대부분 **"물리 키가 부족하니 한 키에 여러 역할을 태우는"** 방법들이고, 뿌리는 몇 개 안 된다. QMK와 ZMK 표기를 나란히 정리했다. 표기는 펌웨어마다 조금 달라도 **개념은 같다.**
 
@@ -78,7 +78,7 @@ mod-tap의 대표 응용. 홈 포지션(`ASDF` / `JKL;`)에 모디파이어를 m
 | one-shot | 다음 한 키에만 붙는 모디파이어 |
 | macro | 키 하나 = 입력 시퀀스 |
 
-용어가 손에 잡히면 [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)의 hold-tap·레이어 설계가 훨씬 쉽게 읽힌다.
+용어가 손에 잡히면 [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)의 hold-tap·레이어 설계가 훨씬 쉽게 읽힌다.
 
 ## 참고
 

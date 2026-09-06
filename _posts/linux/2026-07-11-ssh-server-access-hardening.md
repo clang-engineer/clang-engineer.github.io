@@ -114,7 +114,7 @@ AllowUsers zero deploy      # 접속 허용 사용자를 화이트리스트로 �
 
 | 지시어 | 값 | 효과 |
 |---|---|---|
-| `PermitRootLogin` | `no` | root로 직접 못 들어옴. 일반 계정 접속 후 [sudo](/posts/linux/2026-07-11-sudo-su-wheel/)로 승격 |
+| `PermitRootLogin` | `no` | root로 직접 못 들어옴. 일반 계정 접속 후 [sudo](./2026-07-11-sudo-su-wheel.md)로 승격 |
 | `PasswordAuthentication` | `no` | 비밀번호 인증 자체를 끔 → 무차별 대입 무력화 |
 | `PubkeyAuthentication` | `yes` | 키 인증 사용 (기본값이지만 명시) |
 | `Port` | `2222` 등 | 포트 변경. 보안이라기보단 자동 스캔 소음 감소 |
@@ -174,7 +174,7 @@ sudo firewall-cmd --permanent --add-port=2222/tcp && sudo firewall-cmd --reload
 sudo ufw allow 2222/tcp
 ```
 
-방화벽 규칙을 새 포트로 옮기고 나서 **옛 22번을 닫기 전에도** 새 포트 접속이 되는지 먼저 확인하세요(잠금 방지와 같은 원리). 규칙 상세는 [firewalld·ufw 기초](/posts/linux/2026-07-11-firewalld-ufw-basics/)에서 다룹니다.
+방화벽 규칙을 새 포트로 옮기고 나서 **옛 22번을 닫기 전에도** 새 포트 접속이 되는지 먼저 확인하세요(잠금 방지와 같은 원리). 규칙 상세는 [firewalld·ufw 기초](./2026-07-11-firewalld-ufw-basics.md)에서 다룹니다.
 
 ---
 
@@ -188,7 +188,7 @@ sudo grep "Failed password" /var/log/auth.log   # Debian
 sudo journalctl -u sshd | grep -i fail          # RHEL
 ```
 
-`lastb`·`auth.log`가 무엇을 담는지, `last`/`lastlog`와 어떻게 다른지는 [로그인 기록: utmp·wtmp·btmp](/posts/linux/2026-07-11-login-records-utmp-wtmp/)에서 정리했습니다.
+`lastb`·`auth.log`가 무엇을 담는지, `last`/`lastlog`와 어떻게 다른지는 [로그인 기록: utmp·wtmp·btmp](./2026-07-11-login-records-utmp-wtmp.md)에서 정리했습니다.
 
 대응책으로는 **fail2ban**이 사실상 표준입니다 — 로그를 감시하다 특정 횟수 이상 실패한 IP를 방화벽에서 일시 차단합니다. 키 전용(`PasswordAuthentication no`)으로 이미 비밀번호 대입은 무력화되지만, 로그 소음과 연결 부하를 줄이는 데 유용합니다(대안 섹션 참고).
 

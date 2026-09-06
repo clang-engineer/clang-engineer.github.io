@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-[vim 전역 API 지도](/posts/neovim/2026-06-19-neovim-vim-global-api-map/)에서 `vim.api`가 버퍼·윈도우·extmark 조작의 통로라고 짚었다. 이 글은 그 안쪽 — **플러그인이 실제로 화면에 뭔가를 그릴 때 쓰는 API**를 정리한다. 팝업 메뉴, 결과 패널, 인라인 힌트(virtual text), 하이라이트가 전부 이 세 가지 위에 올라간다.
+[vim 전역 API 지도](./2026-06-19-neovim-vim-global-api-map.md)에서 `vim.api`가 버퍼·윈도우·extmark 조작의 통로라고 짚었다. 이 글은 그 안쪽 — **플러그인이 실제로 화면에 뭔가를 그릴 때 쓰는 API**를 정리한다. 팝업 메뉴, 결과 패널, 인라인 힌트(virtual text), 하이라이트가 전부 이 세 가지 위에 올라간다.
 
 ## 결론 먼저
 
@@ -97,7 +97,7 @@ vim.api.nvim_win_close(win, true)  -- force=true
 vim.keymap.set("n", "q", function() vim.api.nvim_win_close(win, true) end, { buffer = buf })
 ```
 
-(오토커맨드 쪽은 [autocommand 심화](/posts/neovim/2026-06-19-neovim-autocommand-events/)에서 다룬다.)
+(오토커맨드 쪽은 [autocommand 심화](./2026-06-19-neovim-autocommand-events.md)에서 다룬다.)
 
 ## extmark — 본문을 안 건드리는 덧입히기
 
@@ -168,9 +168,9 @@ vim.api.nvim_set_hl(0, "MyPluginErr", { link = "DiagnosticError" })  -- 기존 �
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [vim 전역 API 지도](/posts/neovim/2026-06-19-neovim-vim-global-api-map/) | 이 글이 파고든 `vim.api`가 전체 어디에 위치하는지 |
-| [autocommand·이벤트 심화](/posts/neovim/2026-06-19-neovim-autocommand-events/) | 창 닫힘·커서 이동 등 이벤트에 반응해 다시 그리기 |
-| [비동기 — vim.uv / vim.system](/posts/neovim/2026-06-19-neovim-async-vim-uv-system/) | 외부 결과를 받아 버퍼에 채울 때의 스케줄링 |
-| [Neovim 플러그인 작성 규칙](/posts/neovim/2026-06-12-neovim-plugin-conventions/) | 이 코드를 `plugin/`·`lua/` 어디에 둘지 |
+| [vim 전역 API 지도](./2026-06-19-neovim-vim-global-api-map.md) | 이 글이 파고든 `vim.api`가 전체 어디에 위치하는지 |
+| [autocommand·이벤트 심화](./2026-06-19-neovim-autocommand-events.md) | 창 닫힘·커서 이동 등 이벤트에 반응해 다시 그리기 |
+| [비동기 — vim.uv / vim.system](./2026-06-19-neovim-async-vim-uv-system.md) | 외부 결과를 받아 버퍼에 채울 때의 스케줄링 |
+| [Neovim 플러그인 작성 규칙](./2026-06-12-neovim-plugin-conventions.md) | 이 코드를 `plugin/`·`lua/` 어디에 둘지 |
 
 정식 레퍼런스는 `:h nvim_open_win`, `:h nvim_buf_set_extmark`, `:h api-extmark`.

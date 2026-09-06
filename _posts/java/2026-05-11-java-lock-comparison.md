@@ -219,6 +219,6 @@ public class EtlController {
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [Java 동시성 모델](/posts/java/2026-01-04-java-concurrency/) | Thread→Executor→Future→CompletableFuture 흐름과 책임 분리 |
-| [volatile vs static](/posts/java/2026-04-01-java-volatile-vs-static/) | 메모리 가시성 키워드의 의미와 조합 선택 기준 |
+| [Java 동시성 모델](./2026-01-04-java-concurrency.md) | Thread→Executor→Future→CompletableFuture 흐름과 책임 분리 |
+| [volatile vs static](./2026-04-01-java-volatile-vs-static.md) | 메모리 가시성 키워드의 의미와 조합 선택 기준 |
 | **Java Lock 비교 — synchronized · ReentrantLock · ReadWriteLock · StampedLock (현재 글)** | 락 4종의 보장·재진입성·tryLock·낙관적 읽기 |

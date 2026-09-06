@@ -93,4 +93,4 @@ yadm push
 
 - **bare git** — `git init --bare ~/.dotfiles` + `config` 알리아스로 홈을 워크트리 삼아 직접 추적. 링크·복사·도구 없이 가장 가볍다. `showUntrackedFiles no`와 checkout 충돌만 주의하면 된다.
 - **yadm** — 그 모델에 템플릿·암호화·부트스트랩을 얹은 매니저. bare git과 chezmoi의 중간.
-- 링크 층위 대안인 **GNU stow**는 [심링크 관리 글](/posts/shell/2026-07-03-dotfiles-symlink-management/)에서, 렌더 방식 **chezmoi**는 [chezmoi 사용법](/posts/shell/2026-07-08-chezmoi-usage-source-apply/)에서 다룬다. 방식 선택 전체 그림은 [dotfiles 로드맵](/posts/shell/2026-07-08-dotfiles-roadmap/)에 정리해 두었다.
+- 링크 층위 대안인 **GNU stow**는 [심링크 관리 글](./2026-07-03-dotfiles-symlink-management.md)에서, 렌더 방식 **chezmoi**는 [chezmoi 사용법](./2026-07-08-chezmoi-usage-source-apply.md)에서 다룬다. 방식 선택 전체 그림은 [dotfiles 로드맵](./2026-07-08-dotfiles-roadmap.md)에 정리해 두었다.

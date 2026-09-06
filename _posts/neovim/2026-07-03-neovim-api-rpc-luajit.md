@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> `vim.*`의 3분류(상태/동작/유틸)와 `vim.api`(네이티브) vs `vim.fn`(Vim 브리지) 구분, 0-base/1-base와 `1` vs `true` 함정은 [vim 전역 API 지도](/posts/neovim/2026-06-19-neovim-vim-global-api-map/)에서 다뤘다. 이 글은 그 아래 계층 — `nvim_*`의 실체, RPC, LuaJIT — 을 판다.
+> `vim.*`의 3분류(상태/동작/유틸)와 `vim.api`(네이티브) vs `vim.fn`(Vim 브리지) 구분, 0-base/1-base와 `1` vs `true` 함정은 [vim 전역 API 지도](./2026-06-19-neovim-vim-global-api-map.md)에서 다뤘다. 이 글은 그 아래 계층 — `nvim_*`의 실체, RPC, LuaJIT — 을 판다.
 {: .prompt-info }
 
 ## 결론 먼저
@@ -67,6 +67,6 @@ Neovim이 Lua를 실행하는 런타임은 **LuaJIT**이다. `vim` 전역 테이
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [vim 전역 API 지도](/posts/neovim/2026-06-19-neovim-vim-global-api-map/) | `vim.*` 3분류 · `vim.api` vs `vim.fn` · 옵션 범위 · 함정 |
+| [vim 전역 API 지도](./2026-06-19-neovim-vim-global-api-map.md) | `vim.*` 3분류 · `vim.api` vs `vim.fn` · 옵션 범위 · 함정 |
 
 정식 레퍼런스는 nvim 안에서 `:h vim.api`, `:h lua-vim`, `:h lua-stdlib`, `:h api`, `:h rpc`로 바로 볼 수 있다.

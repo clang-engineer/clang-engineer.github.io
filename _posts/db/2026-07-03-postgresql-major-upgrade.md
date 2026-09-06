@@ -148,6 +148,6 @@ sudo dnf remove postgresql14*
 
 | 글 | 관계 |
 | --- | --- |
-| [PostgreSQL 마운트 경로(PGDATA) 변경](/posts/db/2024-10-16-postgresql-change-mount-path/) | 데이터 디렉터리 이동 절차 |
-| [PostgreSQL PITR와 백업 전략](/posts/db/2026-07-03-postgresql-pitr-backup/) | 업그레이드 전 백업 |
-| [PostgreSQL 복제와 고가용성](/posts/db/2026-07-03-postgresql-replication-ha/) | 무중단 업그레이드 대안 |
+| [PostgreSQL 마운트 경로(PGDATA) 변경](./2024-10-16-postgresql-change-mount-path.md) | 데이터 디렉터리 이동 절차 |
+| [PostgreSQL PITR와 백업 전략](./2026-07-03-postgresql-pitr-backup.md) | 업그레이드 전 백업 |
+| [PostgreSQL 복제와 고가용성](./2026-07-03-postgresql-replication-ha.md) | 무중단 업그레이드 대안 |

@@ -9,10 +9,10 @@ pin         : false
 hidden      : false
 ---
 
-> **[macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)** — 창 관리(AeroSpace × Hammerspoon) 갈래
+> **[macOS 로드맵](./2026-07-03-macos-roadmap.md)** — 창 관리(AeroSpace × Hammerspoon) 갈래
 > 1. **연계 & 창 재정렬** (현재 글)
-> 2. [Rectangle 대체 — 화면 내 창 분할](/posts/macos/2026-07-03-hammerspoon-window-tiling-rectangle/)
-> 3. [워크스페이스 정보 오버레이](/posts/macos/2026-07-03-aerospace-workspace-overlay/)
+> 2. [Rectangle 대체 — 화면 내 창 분할](./2026-07-03-hammerspoon-window-tiling-rectangle.md)
+> 3. [워크스페이스 정보 오버레이](./2026-07-03-aerospace-workspace-overlay.md)
 {: .prompt-info }
 
 macOS에서 타일링 윈도우 매니저 [AeroSpace](https://github.com/nikitabobko/AeroSpace)를 쓰다 보면, 앱마다 지정 워크스페이스를 정해두고 자동 배치하게 된다. 그런데 창을 손으로 잘못 옮기면 그 자리에 그대로 남아버린다. 이 글은 **"열린 창 전부를 각자 지정 워크스페이스로 한 번에 재정렬"**하는 단축키를 만들면서, AeroSpace와 Hammerspoon을 어떻게 엮는지 정리한다.

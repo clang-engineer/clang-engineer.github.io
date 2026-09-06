@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 이 글은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 **2단계(플러그인으로 확장) > 쓰기** 연장선이다. tpm 설치와 **필수 6종**(sensible·resurrect·continuum·vim-tmux-navigator)은 [tmux 설정 & 플러그인 설명](/posts/tmux/2025-11-17-tmux-tpm/)에서 이미 다뤘다. 이 글은 그 **필수 그다음 층** — 요즘 실력자들이 얹는 플러그인이다.
+> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **2단계(플러그인으로 확장) > 쓰기** 연장선이다. tpm 설치와 **필수 6종**(sensible·resurrect·continuum·vim-tmux-navigator)은 [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md)에서 이미 다뤘다. 이 글은 그 **필수 그다음 층** — 요즘 실력자들이 얹는 플러그인이다.
 {: .prompt-tip }
 
 필수 6종은 "tmux를 쓸 만하게" 만든다. 그 위에 얹는 층은 취향과 워크플로에 가깝다 — 상태바를 현대적으로 바꾸고, 복사·붙여넣기 마찰을 줄이고, 화면의 텍스트를 퍼지로 집어낸다. [awesome-tmux](https://github.com/rothgar/awesome-tmux) 목록은 방대하지만, 이 글은 **별 개수와 실제 정착도**를 근거로 "지금 얹을 만한 것"만 추렸다.
@@ -30,7 +30,7 @@ hidden      : false
 
 ## 1. 상태바 현대화 — themepack에서 catppuccin으로
 
-가장 갭이 큰 자리다. 기존 [플러그인 글](/posts/tmux/2025-11-17-tmux-tpm/)이 쓰는 `jimeh/tmux-themepack`(1.8k⭐)은 **2019년 이후 방치**됐다. 지금 상태바 테마의 사실상 표준은 **catppuccin/tmux**(3.1k⭐, 활발)다 — Neovim·bat·lazygit 등 앱 전반이 같은 팔레트로 통일되는 흐름의 tmux 쪽 조각이다.
+가장 갭이 큰 자리다. 기존 [플러그인 글](./2025-11-17-tmux-tpm.md)이 쓰는 `jimeh/tmux-themepack`(1.8k⭐)은 **2019년 이후 방치**됐다. 지금 상태바 테마의 사실상 표준은 **catppuccin/tmux**(3.1k⭐, 활발)다 — Neovim·bat·lazygit 등 앱 전반이 같은 팔레트로 통일되는 흐름의 tmux 쪽 조각이다.
 
 ```tmux
 set -g @plugin 'catppuccin/tmux#v2.1.3'   # 태그 고정 권장 (v2는 config API가 바뀜)
@@ -60,7 +60,7 @@ powerline은 별이 제일 높지만, Nerd Font 패칭과 세그먼트 정렬 �
 
 ## 2. 복사·추출 — 선택을 손에 넣기
 
-tmux 안에서 텍스트를 시스템 클립보드로 빼거나, 화면에 뜬 경로·URL을 집어내는 마찰을 줄이는 층이다. 기존 [클립보드 트러블슈팅 글](/posts/tmux/2026-06-10-tmux-clipboard-osc52-pbcopy-hangul/)이 "왜 안 붙나"를 다뤘다면, 여기는 "더 편하게"다.
+tmux 안에서 텍스트를 시스템 클립보드로 빼거나, 화면에 뜬 경로·URL을 집어내는 마찰을 줄이는 층이다. 기존 [클립보드 트러블슈팅 글](./2026-06-10-tmux-clipboard-osc52-pbcopy-hangul.md)이 "왜 안 붙나"를 다뤘다면, 여기는 "더 편하게"다.
 
 ### tmux-yank — 클립보드 브리지의 표준
 
@@ -70,7 +70,7 @@ set -g @plugin 'tmux-plugins/tmux-yank'
 
 복사 모드에서 선택한 텍스트를 **시스템 클립보드**로 바로 보낸다(`y`). macOS `pbcopy`, Linux `xclip`/`xsel`/`wl-copy`를 알아서 감지한다. 3.1k⭐, 커밋은 2023에서 멈췄지만 **기능이 완결돼 손댈 게 없는** 쪽 — 여전히 표준이고 불만도 거의 없다.
 
-> **OSC52를 쓴다면 tmux-yank는 대체로 불필요하다.** 둘은 "선택 → 시스템 클립보드"라는 **같은 목적을 다른 수단**으로 푼다 — tmux-yank는 `pbcopy`/`xclip`를 부르고, OSC52는 터미널 이스케이프 시퀀스로 넘긴다. [클립보드 트러블슈팅 글](/posts/tmux/2026-06-10-tmux-clipboard-osc52-pbcopy-hangul/)의 결론대로 `set -g set-clipboard on` 한 줄이면 플러그인 없이 해결되므로, **OSC52가 되는(대부분의 모던) 터미널이면 yank는 안 넣어도 된다.** 반대로 OSC52를 지원하지 않는 터미널·환경에선 yank의 `pbcopy`/`xclip` 경로가 폴백이 된다. 뒤의 **extrakto**는 목적이 달라(화면 텍스트 추출) 이 중복과 무관하다.
+> **OSC52를 쓴다면 tmux-yank는 대체로 불필요하다.** 둘은 "선택 → 시스템 클립보드"라는 **같은 목적을 다른 수단**으로 푼다 — tmux-yank는 `pbcopy`/`xclip`를 부르고, OSC52는 터미널 이스케이프 시퀀스로 넘긴다. [클립보드 트러블슈팅 글](./2026-06-10-tmux-clipboard-osc52-pbcopy-hangul.md)의 결론대로 `set -g set-clipboard on` 한 줄이면 플러그인 없이 해결되므로, **OSC52가 되는(대부분의 모던) 터미널이면 yank는 안 넣어도 된다.** 반대로 OSC52를 지원하지 않는 터미널·환경에선 yank의 `pbcopy`/`xclip` 경로가 폴백이 된다. 뒤의 **extrakto**는 목적이 달라(화면 텍스트 추출) 이 중복과 무관하다.
 {: .prompt-tip }
 
 ### extrakto — 화면 텍스트 퍼지 추출
@@ -117,7 +117,7 @@ set -g @plugin 'laktak/extrakto'
 
 ## 얹지 *않은* 것 — sesh는 다른 축
 
-인기 급상승 중인 **sesh**(joshmedeski, 2.7k⭐, 활발)를 여기 넣지 않았다. fzf+zoxide로 세션을 온디맨드 전환하는 **모멘텀 툴**이지만, 이건 TPM 플러그인이 아니라 tmux *밖*의 **세션 매니저**다 — resurrect가 *떠 있던* 세션을 저장·복원한다면, sesh는 세션을 처음부터 띄우고 오간다. 그래서 결이 맞는 자리는 이 글이 아니라 [3단계 세션 부트스트랩](/posts/tmux/2026-02-21-tmux-bootstrap/)이다. smug·tmuxp·tmuxinator와 같은 축에서 비교하는 게 맞다.
+인기 급상승 중인 **sesh**(joshmedeski, 2.7k⭐, 활발)를 여기 넣지 않았다. fzf+zoxide로 세션을 온디맨드 전환하는 **모멘텀 툴**이지만, 이건 TPM 플러그인이 아니라 tmux *밖*의 **세션 매니저**다 — resurrect가 *떠 있던* 세션을 저장·복원한다면, sesh는 세션을 처음부터 띄우고 오간다. 그래서 결이 맞는 자리는 이 글이 아니라 [3단계 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md)이다. smug·tmuxp·tmuxinator와 같은 축에서 비교하는 게 맞다.
 
 ---
 
@@ -152,5 +152,5 @@ run '~/.tmux/plugins/tpm/tpm'
 
 `prefix + I`로 설치하면 끝. 상태바가 catppuccin으로 바뀌고, 복사 모드 `y`가 시스템 클립보드로 나가고, `prefix + tab`으로 화면 텍스트를 집어낼 수 있다.
 
-> 📎 **더 찾기** · [awesome-tmux](https://github.com/rothgar/awesome-tmux) — 위 너머의 플러그인·설정·아티클 카테고리별 인덱스. 세션 매니저(sesh 등)를 찾는다면 [부트스트랩 글](/posts/tmux/2026-02-21-tmux-bootstrap/)로.
+> 📎 **더 찾기** · [awesome-tmux](https://github.com/rothgar/awesome-tmux) — 위 너머의 플러그인·설정·아티클 카테고리별 인덱스. 세션 매니저(sesh 등)를 찾는다면 [부트스트랩 글](./2026-02-21-tmux-bootstrap.md)로.
 {: .prompt-tip }

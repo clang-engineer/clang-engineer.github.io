@@ -15,7 +15,7 @@ tmux는 여러 개의 터미널 세션을 생성하고 관리할 수 있게 해�
 구조:
 **세션(Session) > 윈도우(Window) > 패널(Pane)**
 
-> 이 글은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 **입문** 단계다. 설정·플러그인·자동화로 이어지는 전체 학습 경로는 로드맵에서.
+> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **입문** 단계다. 설정·플러그인·자동화로 이어지는 전체 학습 경로는 로드맵에서.
 {: .prompt-tip }
 
 ---
@@ -216,7 +216,7 @@ set -g mouse on
 ## 8. Tmux Plugin Manager (TPM)
 
 플러그인 설치·구성과 대표 플러그인별 설명, 복붙용 `.tmux.conf` 블록은 별도 글에 정리해두었다:
-[Tmux 설정 & 플러그인 설명](/posts/tmux/2025-11-17-tmux-tpm/)
+[Tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md)
 
 ---
 

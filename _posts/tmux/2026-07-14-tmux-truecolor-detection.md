@@ -8,9 +8,9 @@ pin         : false
 hidden      : false
 ---
 
-[Oh My Tmux!](/posts/tmux/2026-07-12-oh-my-tmux/)(OMT, `gpakosz/.tmux`) 설정을 보면 `tmux_conf_24b_colour=auto`라는 한 줄이 주석과 함께 놓여 있다. 트루컬러(24bit) 스위치인데, 기본값 `auto`가 정확히 무엇을 감지하고 무엇을 주입하는지는 잘 안 보인다. 그리고 막상 파보면 **내 환경에선 사실상 아무것도 주입하지 않는데도 트루컬러는 멀쩡히 된다.** 왜 그런지가 이 글의 주제다.
+[Oh My Tmux!](./2026-07-12-oh-my-tmux.md)(OMT, `gpakosz/.tmux`) 설정을 보면 `tmux_conf_24b_colour=auto`라는 한 줄이 주석과 함께 놓여 있다. 트루컬러(24bit) 스위치인데, 기본값 `auto`가 정확히 무엇을 감지하고 무엇을 주입하는지는 잘 안 보인다. 그리고 막상 파보면 **내 환경에선 사실상 아무것도 주입하지 않는데도 트루컬러는 멀쩡히 된다.** 왜 그런지가 이 글의 주제다.
 
-> 이 글은 [OMT 개요글](/posts/tmux/2026-07-12-oh-my-tmux/)이 표 한 줄로 넘긴 `24b_colour` 노브의 딥다이브다. "어떤 노브가 있나"는 개요글, "왜 트루컬러가 이미 되나"는 이 글.
+> 이 글은 [OMT 개요글](./2026-07-12-oh-my-tmux.md)이 표 한 줄로 넘긴 `24b_colour` 노브의 딥다이브다. "어떤 노브가 있나"는 개요글, "왜 트루컬러가 이미 되나"는 이 글.
 
 ## 왜 tmux에 "알려줘야" 하나
 
@@ -111,4 +111,4 @@ curl -s https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-
 - 스킵해도 되는 이유는 현대 `tmux-256color` terminfo가 **정식 `RGB` 능력을 이미 내장**하기 때문. `Tc`는 표준 부재 시절의 레거시.
 - 따라서 트루컬러의 진짜 보장은 "올바른 `TERM` + `RGB` terminfo"이고, `auto`는 그걸 방해하지 않는 안전한 기본값이다.
 
-> 관련: [Oh My Tmux! — 완성형 tmux config 배포판](/posts/tmux/2026-07-12-oh-my-tmux/)의 `tmux_conf_*` 노브 카탈로그.
+> 관련: [Oh My Tmux! — 완성형 tmux config 배포판](./2026-07-12-oh-my-tmux.md)의 `tmux_conf_*` 노브 카탈로그.

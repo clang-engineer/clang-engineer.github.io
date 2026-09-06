@@ -214,4 +214,4 @@ server {
 
 ## 더 깊이
 
-인증서 상속·패스프레이즈·reload vs restart·프로세스 복구 같은 SSL 인증서 운영 자체는 [nginx SSL 인증서 운영 가이드](/posts/nginx/2026-04-22-nginx-ssl-operations/)에서 다룬다.
+인증서 상속·패스프레이즈·reload vs restart·프로세스 복구 같은 SSL 인증서 운영 자체는 [nginx SSL 인증서 운영 가이드](./2026-04-22-nginx-ssl-operations.md)에서 다룬다.

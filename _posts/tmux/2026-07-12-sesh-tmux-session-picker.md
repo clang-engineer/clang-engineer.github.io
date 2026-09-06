@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-`sesh`(session의 축약)는 tmux 세션 매니저지만, [smug](/posts/tmux/2026-07-11-smug-minimal-tmux-session-manager/)·tmuxp 같은 **선언형 부트스트래퍼와는 다른 범주**다. 저들이 "이런 레이아웃의 세션을 *만들어라*"라면, sesh는 "지금 있는(또는 필요한) 세션으로 *빠르게 넘어가라*"다. [fzf](https://github.com/junegunn/fzf)(fuzzy finder)와 [zoxide](https://github.com/ajeetdsouza/zoxide)(자주 가는 디렉토리를 학습해 점프)를 엮어, 디렉토리·git repo에서 세션을 **즉석으로 열고 전환**하는 데 특화돼 있다.
+`sesh`(session의 축약)는 tmux 세션 매니저지만, [smug](./2026-07-11-smug-minimal-tmux-session-manager.md)·tmuxp 같은 **선언형 부트스트래퍼와는 다른 범주**다. 저들이 "이런 레이아웃의 세션을 *만들어라*"라면, sesh는 "지금 있는(또는 필요한) 세션으로 *빠르게 넘어가라*"다. [fzf](https://github.com/junegunn/fzf)(fuzzy finder)와 [zoxide](https://github.com/ajeetdsouza/zoxide)(자주 가는 디렉토리를 학습해 점프)를 엮어, 디렉토리·git repo에서 세션을 **즉석으로 열고 전환**하는 데 특화돼 있다.
 
-> 이 글은 [tmux 세션 부트스트랩](/posts/tmux/2026-02-21-tmux-bootstrap/) 글이 "스코프 밖이지만 방향은 알아둘 것"이라며 예고했던 **온디맨드 세션 스위처**의 본편이다. 고정 레이아웃을 *선언*하는 그 글과 목적이 다르다. 전체 학습 순서는 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/).
+> 이 글은 [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md) 글이 "스코프 밖이지만 방향은 알아둘 것"이라며 예고했던 **온디맨드 세션 스위처**의 본편이다. 고정 레이아웃을 *선언*하는 그 글과 목적이 다르다. 전체 학습 순서는 [tmux 로드맵](./2026-06-16-tmux-roadmap.md).
 {: .prompt-tip }
 
 ## 두 범주 — 부트스트래퍼 vs 피커
@@ -124,5 +124,5 @@ windows:
 - config는 **선택** — 없어도 돌고, 이름 세션·시작 명령·blacklist가 필요해지면 그때 `sesh.toml`을 붙인다.
 - "세션 매니저 뭐 쓰지"보다 **"부트스트랩이 필요한가, 점프가 필요한가"**를 먼저 물어라. 범주가 맞아야 도구 비교가 의미 있다.
 
-> 반대 범주 — 복잡한 다중 패널 **레이아웃을 선언해 재현**하는 쪽은 [smug 심화 글](/posts/tmux/2026-07-11-smug-minimal-tmux-session-manager/)과 [세션 부트스트랩](/posts/tmux/2026-02-21-tmux-bootstrap/)에서. 세 도구(smug·tmuxp·tmuxinator) 비교와 조건부 순위도 그 글에 있다.
+> 반대 범주 — 복잡한 다중 패널 **레이아웃을 선언해 재현**하는 쪽은 [smug 심화 글](./2026-07-11-smug-minimal-tmux-session-manager.md)과 [세션 부트스트랩](./2026-02-21-tmux-bootstrap.md)에서. 세 도구(smug·tmuxp·tmuxinator) 비교와 조건부 순위도 그 글에 있다.
 {: .prompt-tip }

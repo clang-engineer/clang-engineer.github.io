@@ -86,7 +86,7 @@ Inner Index Lookup
 
 > Nested Loop의 핵심은 "작은 Table에 쓰는 방식"이 아니라 **Outer Row 수 × Inner Lookup 비용**이다.
 
-인덱스가 언제 유효한지는 [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/)에서 별도로 다룬다.
+인덱스가 언제 유효한지는 [RDB 인덱스 완전 정리](./2026-07-03-rdb-index.md)에서 별도로 다룬다.
 
 ## 2. Hash Join — 한쪽을 Hash Table로 만든다
 
@@ -258,7 +258,7 @@ Hash Build가 Memory를 넘을 가능성이 높으면 Hash Join 비용이 올라
 
 WHERE 조건이 한쪽 입력을 크게 줄이면 전체 Table 크기와 관계없이 Nested Loop가 유리해질 수 있다.
 
-Optimizer의 Cardinality 추정과 Cost 계산, `EXPLAIN`을 읽는 법은 [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/)에서 이어서 다룬다.
+Optimizer의 Cardinality 추정과 Cost 계산, `EXPLAIN`을 읽는 법은 [쿼리 옵티마이저 작동 원리와 실행계획 읽기](./2026-07-03-query-optimizer-explain.md)에서 이어서 다룬다.
 
 ## 실행계획에서 무엇을 확인하나
 
@@ -389,7 +389,7 @@ Physical Strategy
 
 | 글 | 다루는 것 |
 |---|---|
-| [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) | Index Nested Loop의 전제와 Access Path |
-| [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/) | Cardinality·Cost·EXPLAIN |
-| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](/posts/db/2026-04-15-vertica-or-join-kills-performance/) | Join 조건이 물리 실행에 미치는 실제 사례 |
-| [RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선](/posts/db/2026-06-09-preload-record-id-to-level-table/) | 조회 시 JOIN 자체를 제거한 설계 사례 |
+| [RDB 인덱스 완전 정리](./2026-07-03-rdb-index.md) | Index Nested Loop의 전제와 Access Path |
+| [쿼리 옵티마이저 작동 원리와 실행계획 읽기](./2026-07-03-query-optimizer-explain.md) | Cardinality·Cost·EXPLAIN |
+| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](./2026-04-15-vertica-or-join-kills-performance.md) | Join 조건이 물리 실행에 미치는 실제 사례 |
+| [RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선](./2026-06-09-preload-record-id-to-level-table.md) | 조회 시 JOIN 자체를 제거한 설계 사례 |

@@ -63,5 +63,5 @@ Obsidian은 **로컬 마크다운 파일 기반의 PKM 앱**이다. 핵심은 Ne
 - Obsidian은 **평문 마크다운·로컬 저장**이라 Neovim과 충돌 없이 공존한다 — 편집은 Neovim, 시각화는 Obsidian.
 - PKM이 당긴다면 Emacs로 전면 이주보다 **obsidian.nvim 먼저**가 진입 비용이 훨씬 낮다.
 
-> Emacs 자체에 대한 Neovim 사용자 관점은 [Neovim 사용자가 본 Emacs](/posts/neovim/2026-07-03-neovim-user-view-of-emacs/) 참고.
+> Emacs 자체에 대한 Neovim 사용자 관점은 [Neovim 사용자가 본 Emacs](./2026-07-03-neovim-user-view-of-emacs.md) 참고.
 {: .prompt-info }

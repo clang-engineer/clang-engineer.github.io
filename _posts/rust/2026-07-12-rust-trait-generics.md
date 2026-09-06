@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](/posts/rust/2026-07-12-rust-roadmap/)의 **⑥ 추상화** 단계입니다. 앞 글: [⑤ error 처리 — Result·Option·?](/posts/rust/2026-07-12-rust-error-handling-result-option/)
+> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **⑥ 추상화** 단계입니다. 앞 글: [⑤ error 처리 — Result·Option·?](./2026-07-12-rust-error-handling-result-option.md)
 
-C++의 인터페이스·템플릿·concept에 해당하는 축입니다. Rust는 이 셋을 **trait**과 **제네릭**으로 통합합니다. 제네릭 일반론은 [제네릭과 매개변수 다형성](/posts/concept/2026-07-12-generics-parametric-polymorphism/)에서 다루고, 여기서는 Rust에서 어떻게 생겼는지에 집중합니다.
+C++의 인터페이스·템플릿·concept에 해당하는 축입니다. Rust는 이 셋을 **trait**과 **제네릭**으로 통합합니다. 제네릭 일반론은 [제네릭과 매개변수 다형성](../concept/2026-07-12-generics-parametric-polymorphism.md)에서 다루고, 여기서는 Rust에서 어떻게 생겼는지에 집중합니다.
 
 ## trait — 공유 동작의 정의
 
@@ -91,10 +91,10 @@ for s in &shapes { println!("{}", s.area()); }   // vtable로 동적 디스패�
 - 제네릭(단형화)과 `dyn`(동적 디스패치)의 트레이드오프를 설명할 수 있다.
 - C++ 템플릿과 달리 제약을 미리 선언하는 이점을 말할 수 있다.
 
-다음은 [⑦ 반복자·클로저](/posts/rust/2026-07-12-rust-iterator-closure/)입니다. C++ 대응이 흐릿한, "Rust답게" 쓰는 법의 본체로 건너뛰면 안 되는 단계입니다.
+다음은 [⑦ 반복자·클로저](./2026-07-12-rust-iterator-closure.md)입니다. C++ 대응이 흐릿한, "Rust답게" 쓰는 법의 본체로 건너뛰면 안 되는 단계입니다.
 
 ## Reference
 
 - [The Rust Book Ch.10](https://doc.rust-lang.org/book/ch10-00-generics.html) — 제네릭·trait·수명의 정본.
 - [The Rust Book Ch.18 — Trait Objects](https://doc.rust-lang.org/book/ch18-02-trait-objects.html) — `dyn`의 정본.
-- [제네릭과 매개변수 다형성](/posts/concept/2026-07-12-generics-parametric-polymorphism/) — 언어 무관 제네릭 개념.
+- [제네릭과 매개변수 다형성](../concept/2026-07-12-generics-parametric-polymorphism.md) — 언어 무관 제네릭 개념.

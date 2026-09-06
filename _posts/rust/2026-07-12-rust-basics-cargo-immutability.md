@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](/posts/rust/2026-07-12-rust-roadmap/)의 **① 기초** 단계입니다.
+> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **① 기초** 단계입니다.
 
 이 단계의 목표는 문법 암기가 아니라 **C++과 다른 Rust의 기본 태도**를 잡는 것입니다. 불변이 기본이라는 것, 거의 모든 것이 값을 반환하는 표현식이라는 것 — 이 두 감각이 이후 소유권(②)으로 자연스럽게 이어집니다.
 
@@ -60,7 +60,7 @@ C++에는 없는 개념입니다. "가변으로 만들지 않고도 값을 단�
 
 ## cargo — 하나로 통합된 도구
 
-Rust의 도구 경험은 언어의 강점입니다. C++이 CMake + 패키지 매니저 + 테스트 러너를 조합하던 걸 `cargo` 하나가 다 합니다(자세한 건 [⑩ 도구](/posts/rust/2026-07-12-rust-tooling/)에서).
+Rust의 도구 경험은 언어의 강점입니다. C++이 CMake + 패키지 매니저 + 테스트 러너를 조합하던 걸 `cargo` 하나가 다 합니다(자세한 건 [⑩ 도구](./2026-07-12-rust-tooling.md)에서).
 
 ```bash
 cargo new myapp       # 프로젝트 생성 (Cargo.toml + src/main.rs)
@@ -92,7 +92,7 @@ cargo add rand        # 의존성 추가
 - `cargo new`로 만든 프로젝트를 빌드·실행하고, 불변/가변(`mut`)의 차이를 설명할 수 있다.
 - `if`·블록이 값을 반환하는 표현식임을 이해하고, 세미콜론 유무의 의미를 안다.
 
-다음은 [② 소유권·빌림·수명](/posts/rust/2026-07-12-rust-ownership-borrow-lifetime/)입니다. **Rust의 전부**이자 borrow checker와 싸우는 구간으로, 학습 시간의 절반을 여기 씁니다.
+다음은 [② 소유권·빌림·수명](./2026-07-12-rust-ownership-borrow-lifetime.md)입니다. **Rust의 전부**이자 borrow checker와 싸우는 구간으로, 학습 시간의 절반을 여기 씁니다.
 
 ## Reference
 

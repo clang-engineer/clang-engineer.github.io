@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](/posts/keyboard/2026-07-03-keyboard-roadmap/) · [키맵 용어집](/posts/keyboard/2026-07-03-keymap-terms-glossary/) · [ZMK 키매핑 가이드](/posts/keyboard/2026-07-03-zmk-keymap-editor-build-flash/)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) · [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md)
 
 커스텀 키보드에 발을 들이면 **QMK, ZMK, VIA, VIAL** 같은 이름이 한꺼번에 쏟아진다. 처음엔 다 비슷해 보이는데, **두 층으로 나누면** 깔끔하게 정리된다.
 
@@ -54,10 +54,10 @@ hidden      : false
 
 ## 그래서 뭘 고르나
 
-- **무선 split 자작** → ZMK. 간단한 수정은 ZMK Studio, 세밀한 설계는 `.keymap` 직접 편집([ZMK 키매핑 가이드](/posts/keyboard/2026-07-03-zmk-keymap-editor-build-flash/)).
+- **무선 split 자작** → ZMK. 간단한 수정은 ZMK Studio, 세밀한 설계는 `.keymap` 직접 편집([ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md)).
 - **유선인데 GUI로 편하게** → QMK + VIA/VIAL.
 - **완제품이 VIA를 지원** → 기본 리맵·레이어·매크로 목적이면 VIA부터.
-- **기능을 코드로 직접 제어** → QMK를 직접 빌드([QMK로 키맵 짜기](/posts/keyboard/2026-07-03-qmk-keymap-build/)).
+- **기능을 코드로 직접 제어** → QMK를 직접 빌드([QMK로 키맵 짜기](./2026-07-03-qmk-keymap-build.md)).
 
 ## 정리
 

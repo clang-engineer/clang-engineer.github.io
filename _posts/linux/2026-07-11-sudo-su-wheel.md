@@ -11,7 +11,7 @@ hidden      : false
 
 리눅스에서 관리 작업을 하려면 결국 root 권한이 필요합니다. 그런데 그 권한을 얻는 길이 `su`와 `sudo` 두 갈래로 갈리고, 어느 쪽을 왜 쓰는지, `sudo -i`와 `sudo -s`가 뭐가 다른지, `wheel` 그룹은 왜 하필 "바퀴"인지에서 대부분 흐릿하게 넘어갑니다.
 
-이 글은 계정을 그룹에 넣는 법이 아니라(그건 [사용자·그룹 관리 글](/posts/linux/2026-07-11-user-account-management/)에서 다뤘습니다), **`su`와 `sudo`가 실제로 어떻게 동작하는지** — 무슨 비밀번호를 묻고, 무엇을 로그로 남기고, sudoers 문법이 어떻게 최소 권한을 표현하는지 — 를 정리합니다.
+이 글은 계정을 그룹에 넣는 법이 아니라(그건 [사용자·그룹 관리 글](./2026-07-11-user-account-management.md)에서 다뤘습니다), **`su`와 `sudo`가 실제로 어떻게 동작하는지** — 무슨 비밀번호를 묻고, 무엇을 로그로 남기고, sudoers 문법이 어떻게 최소 권한을 표현하는지 — 를 정리합니다.
 
 ---
 
@@ -52,7 +52,7 @@ echo $PATH            # /usr/sbin, /sbin 포함 — 관리 명령 정상
 > **root로 전환할 땐 거의 항상 `su -`를 쓰세요.** 그냥 `su`는 원래 유저의 `PATH`를 물려받아 `/sbin`·`/usr/sbin`의 관리 명령(`useradd`·`ip`·`shutdown` 등)이 "command not found"로 안 잡히는 함정에 빠집니다. `-`가 있어야 root의 진짜 로그인 환경이 됩니다.
 {: .prompt-warning }
 
-> `passwd` 직후 `su - user`가 "Authentication failure"로 거부된다면 메시지만으로 원인을 단정하지 마세요. [비밀번호 직후 su 인증 실패 글](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/)의 순서대로 PAM 로그, 계정 잠금, 만료, 접근 정책과 로그인 셸을 확인합니다.
+> `passwd` 직후 `su - user`가 "Authentication failure"로 거부된다면 메시지만으로 원인을 단정하지 마세요. [비밀번호 직후 su 인증 실패 글](./2026-06-07-rocky-linux-chage-su-authentication-failure.md)의 순서대로 PAM 로그, 계정 잠금, 만료, 접근 정책과 로그인 셸을 확인합니다.
 {: .prompt-tip }
 
 ---
@@ -139,7 +139,7 @@ RHEL·Rocky·Fedora에서 관리자 그룹은 `wheel`입니다. 이름의 유래
 | RHEL / Rocky / Fedora / CentOS | `wheel` | `%wheel ALL=(ALL) ALL` |
 | Debian / Ubuntu | `sudo` | `%sudo ALL=(ALL:ALL) ALL` |
 
-그래서 [계정 관리 글](/posts/linux/2026-07-11-user-account-management/)에서 sudo를 줄 때 배포판에 따라 `usermod -aG wheel`과 `usermod -aG sudo`로 갈렸던 것입니다.
+그래서 [계정 관리 글](./2026-07-11-user-account-management.md)에서 sudo를 줄 때 배포판에 따라 `usermod -aG wheel`과 `usermod -aG sudo`로 갈렸던 것입니다.
 
 ### `pam_wheel` — `su`를 wheel 멤버만 허용하기
 

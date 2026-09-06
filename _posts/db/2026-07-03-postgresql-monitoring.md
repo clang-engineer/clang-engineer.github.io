@@ -226,7 +226,7 @@ VACUUM이 Workload를 따라오지 못하는지 확인
 
 여기서 바로 수동 `VACUUM`이나 Parameter 변경으로 뛰어들기보다 Transaction이 지나치게 오래 열려 있지 않은지, Autovacuum Worker가 실제로 동작하는지, Table별 설정이 어떻게 되어 있는지 확인한다.
 
-MVCC와 VACUUM의 내부 원리는 [MVCC와 VACUUM](/posts/db/2026-07-03-mvcc-vacuum/)에서 별도로 다룬다.
+MVCC와 VACUUM의 내부 원리는 [MVCC와 VACUUM](./2026-07-03-mvcc-vacuum.md)에서 별도로 다룬다.
 
 ## 7. 운영 상태 — Replication이 따라오는가
 

@@ -19,7 +19,7 @@ hidden      : false
 - 원본이 git에 있으니 변경 이력이 남고, 여러 기기가 같은 저장소를 공유합니다.
 - 홈의 링크는 원본을 가리키므로, 저장소 파일을 고치면 즉시 반영됩니다(복사가 아님).
 
-> 이 글은 dotfiles 관리 구조에 집중합니다. 새 맥 전체 셋업 흐름은 [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/)에서 다룹니다.
+> 이 글은 dotfiles 관리 구조에 집중합니다. 새 맥 전체 셋업 흐름은 [새 맥 초기 설정](../macos/2022-02-05-new-mac-initial-setup.md)에서 다룹니다.
 {: .prompt-info }
 
 ---
@@ -153,7 +153,7 @@ stow zsh    # zsh/ 안의 구조를 그대로 ~/ 아래로 심볼릭 링크
 
 **단순히 파일 링크만** 필요하면 stow가 가볍고 표준적입니다. 링크와 함께 **플러그인 설치·시크릿 처리 같은 절차**를 엮어야 하면 직접 스크립트가 더 유연합니다.
 
-> stow는 이 글과 같은 **심링크 층위**의 대안입니다. 한 층 다른 접근으로, 템플릿을 apply 시점에 머신용 실파일로 **렌더**하는 [chezmoi](/posts/shell/2026-07-08-chezmoi-vs-symlink-dotfiles/)가 있습니다 — 머신마다 config *내용*이 갈리거나 남이 클론해 바로 돌리게 할 때 값을 합니다. 방식 선택 전체 그림은 [dotfiles 로드맵](/posts/shell/2026-07-08-dotfiles-roadmap/)에 정리해 두었습니다.
+> stow는 이 글과 같은 **심링크 층위**의 대안입니다. 한 층 다른 접근으로, 템플릿을 apply 시점에 머신용 실파일로 **렌더**하는 [chezmoi](./2026-07-08-chezmoi-vs-symlink-dotfiles.md)가 있습니다 — 머신마다 config *내용*이 갈리거나 남이 클론해 바로 돌리게 할 때 값을 합니다. 방식 선택 전체 그림은 [dotfiles 로드맵](./2026-07-08-dotfiles-roadmap.md)에 정리해 두었습니다.
 {: .prompt-info }
 
 ---
@@ -191,4 +191,4 @@ known_hosts*
 - 링크만 필요하면 **GNU stow**도 좋은 표준 대안
 - **시크릿은 gitignore + 기기별 파일**로 분리
 
-SSH 설정을 여러 계정으로 나누는 방법은 [GitHub 다중 계정 관리](/posts/git/2025-10-03-git-multiple-config/)에서 이어집니다.
+SSH 설정을 여러 계정으로 나누는 방법은 [GitHub 다중 계정 관리](../git/2025-10-03-git-multiple-config.md)에서 이어집니다.

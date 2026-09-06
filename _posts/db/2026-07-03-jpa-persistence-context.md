@@ -258,5 +258,5 @@ from Order o join o.member m
 
 | 글 | 이 글과의 접점 |
 | --- | --- |
-| [MyBatis 관련 기록](/posts/db/2021-11-22-mybatis/) | SQL 매퍼 방식 — JPA와 대비되는 접근 |
-| [쿼리 튜닝 — 페이지네이션·N+1](/posts/db/2026-07-03-query-tuning-pagination-nplus1/) | N+1의 SQL 일반 관점과 배치 로딩 |
+| [MyBatis 관련 기록](./2021-11-22-mybatis.md) | SQL 매퍼 방식 — JPA와 대비되는 접근 |
+| [쿼리 튜닝 — 페이지네이션·N+1](./2026-07-03-query-tuning-pagination-nplus1.md) | N+1의 SQL 일반 관점과 배치 로딩 |

@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](/posts/go/2026-07-12-go-roadmap/)의 **① 기초** 단계입니다.
+> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **① 기초** 단계입니다.
 
 C를 알면 Go 문법의 절반은 첫날에 읽힙니다. 그래서 이 단계의 목표는 문법 암기가 아니라 **C++과 다른 Go의 뼈대 규칙 몇 개**를 몸에 붙이는 것입니다. 그 규칙들이 이후 모든 단계의 바닥에 깔립니다.
 
@@ -95,7 +95,7 @@ func scale(...) { ... }             // 소문자 → 이 패키지 안에서만
 - `go mod init`으로 만든 모듈에서, 다중 반환 함수를 정의해 **다른 패키지에서 호출**할 수 있다.
 - zero value와 명시적 변환, 대소문자 export를 설명할 수 있다.
 
-다음은 [② struct·method·interface](/posts/go/2026-07-12-go-struct-method-interface/)입니다. 클래스 없이 사고하는 Go 타입 시스템의 뼈대로, C++ 습관과 가장 크게 부딪히는 단계입니다.
+다음은 [② struct·method·interface](./2026-07-12-go-struct-method-interface.md)입니다. 클래스 없이 사고하는 Go 타입 시스템의 뼈대로, C++ 습관과 가장 크게 부딪히는 단계입니다.
 
 ## Reference
 

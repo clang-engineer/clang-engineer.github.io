@@ -64,4 +64,4 @@ Rectangle은 창을 배치하는 방법을 두 가지 제공한다.
 - **Magnet** — 같은 목적의 유료 앱(App Store). Rectangle이 무료·오픈소스라 대개 Rectangle로 충분하다.
 - **Rectangle Pro** — Rectangle의 유료 버전으로 앱별 레이아웃·더 세밀한 제어를 제공한다. 기본 분할만 필요하면 무료 Rectangle로 족하다.
 
-Rectangle에 익숙해진 뒤, **분할 로직을 코드로 직접 관리하고 다른 자동화와 엮고 싶다면** Hammerspoon으로 같은 기능을 재구현할 수 있다. 앱 하나를 덜고 무한 커스터마이즈를 얻는 대신 코드로 관리해야 한다. 그 과정은 [Rectangle.app을 Hammerspoon으로 대체하기](/posts/macos/2026-07-03-hammerspoon-window-tiling-rectangle/)에서 이어진다.
+Rectangle에 익숙해진 뒤, **분할 로직을 코드로 직접 관리하고 다른 자동화와 엮고 싶다면** Hammerspoon으로 같은 기능을 재구현할 수 있다. 앱 하나를 덜고 무한 커스터마이즈를 얻는 대신 코드로 관리해야 한다. 그 과정은 [Rectangle.app을 Hammerspoon으로 대체하기](./2026-07-03-hammerspoon-window-tiling-rectangle.md)에서 이어진다.

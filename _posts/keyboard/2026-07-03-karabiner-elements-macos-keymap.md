@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](/posts/keyboard/2026-07-03-keyboard-roadmap/) · [키보드 펌웨어 지형도](/posts/keyboard/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/) · [키맵 용어집](/posts/keyboard/2026-07-03-keymap-terms-glossary/)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md)
 
 QMK·ZMK는 **키맵을 보드 펌웨어에 굽는다**. 강력하지만 두 가지 한계가 있다 — 맥북 **내장 키보드**엔 못 올리고, 리플래시할 수 없는 **기성 키보드**도 손댈 수 없다. 이 빈틈을 macOS 쪽에서 메우는 게 [Karabiner-Elements](https://karabiner-elements.pqrs.org/)다. 어떤 키보드가 물려 있든 **OS 레벨에서 키 입력을 가로채 재매핑**한다. 펌웨어가 "판때기의 키맵"이라면 Karabiner는 "맥의 키맵"이다.
 
@@ -19,7 +19,7 @@ QMK·ZMK는 **키맵을 보드 펌웨어에 굽는다**. 강력하지만 두 가
 - 여러 키보드를 오가며 **맥에서 항상 동일한 키 동작**을 원할 때.
 - 펌웨어까지 갈 것 없이 `Caps Lock → Ctrl/Esc` 정도만 빠르게 바꾸고 싶을 때.
 
-반대로 **어느 컴퓨터에 꽂아도 같아야 하는** 키맵이면 하드웨어 펌웨어(QMK/ZMK)가 맞다. 판단 기준은 [펌웨어 지형도](/posts/keyboard/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/) 참고. 둘은 배타적이지 않다 — 커스텀 보드엔 펌웨어, 맥북 내장 키보드엔 Karabiner처럼 겹쳐 쓸 수 있다.
+반대로 **어느 컴퓨터에 꽂아도 같아야 하는** 키맵이면 하드웨어 펌웨어(QMK/ZMK)가 맞다. 판단 기준은 [펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) 참고. 둘은 배타적이지 않다 — 커스텀 보드엔 펌웨어, 맥북 내장 키보드엔 Karabiner처럼 겹쳐 쓸 수 있다.
 
 ## 두 층위 — Simple vs Complex Modifications
 
@@ -27,7 +27,7 @@ Karabiner의 리맵은 두 갈래다.
 
 **Simple Modifications**는 키 1:1 치환이다. `Caps Lock → Left Control`처럼 GUI에서 바로 지정한다.
 
-**Complex Modifications**는 JSON 규칙으로 조건과 다중 동작을 표현한다. [키맵 용어집](/posts/keyboard/2026-07-03-keymap-terms-glossary/)의 hold-tap·mod-tap과 같은 문제를 OS 레벨에서 풀 수 있다. 대표 예가 dual-role Caps다.
+**Complex Modifications**는 JSON 규칙으로 조건과 다중 동작을 표현한다. [키맵 용어집](./2026-07-03-keymap-terms-glossary.md)의 hold-tap·mod-tap과 같은 문제를 OS 레벨에서 풀 수 있다. 대표 예가 dual-role Caps다.
 
 ```json
 {
@@ -67,7 +67,7 @@ mv ~/.config/karabiner/karabiner.json ~/dotfiles/karabiner/
 ln -sf ~/dotfiles/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
 ```
 
-심볼릭 링크 기반 dotfiles 관리 구조는 [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](/posts/shell/2026-07-03-dotfiles-symlink-management/)에 정리해 뒀다.
+심볼릭 링크 기반 dotfiles 관리 구조는 [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](../shell/2026-07-03-dotfiles-symlink-management.md)에 정리해 뒀다.
 
 ```text
 보드별 키맵

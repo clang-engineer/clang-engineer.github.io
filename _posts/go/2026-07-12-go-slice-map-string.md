@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](/posts/go/2026-07-12-go-roadmap/)의 **③ 타입** 단계입니다. 앞 글: [② struct·method·interface](/posts/go/2026-07-12-go-struct-method-interface/)
+> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **③ 타입** 단계입니다. 앞 글: [② struct·method·interface](./2026-07-12-go-struct-method-interface.md)
 
 Go의 세 핵심 자료구조입니다. C++ 컨테이너와 **겉은 비슷한데 속이 달라서**, `std::vector`·`unordered_map`·`std::string` 감각으로 그냥 오면 미묘하게 걸립니다. 그 차이가 이 단계의 전부입니다.
 
@@ -84,7 +84,7 @@ for i, r := range s {          // range는 rune 단위로 순회
 - map을 comma-ok로 안전하게 조회하고, nil map 함정을 피할 수 있다.
 - byte, rune, grapheme cluster가 각각 무엇을 세는지 구분할 수 있다.
 
-다음은 [④ error 처리 + defer·panic·recover](/posts/go/2026-07-12-go-error-handling-defer/)입니다. 예외가 없는 Go에서 에러를 값으로 다루는, C++/Java 출신에게 가장 큰 문화 충격의 단계입니다.
+다음은 [④ error 처리 + defer·panic·recover](./2026-07-12-go-error-handling-defer.md)입니다. 예외가 없는 Go에서 에러를 값으로 다루는, C++/Java 출신에게 가장 큰 문화 충격의 단계입니다.
 
 ## Reference
 

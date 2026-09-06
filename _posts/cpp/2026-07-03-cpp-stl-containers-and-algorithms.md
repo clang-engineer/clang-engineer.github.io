@@ -9,11 +9,11 @@ pin         : false
 hidden      : false
 ---
 
-> [모던 C++ 학습 로드맵](/posts/cpp/2026-07-03-cpp-learning-roadmap/)의 **고급(STL)** 단계입니다. 앞 글: [③ 이동 시맨틱과 스마트 포인터](/posts/cpp/2026-07-03-cpp-move-and-smart-pointers/)
+> [모던 C++ 학습 로드맵](./2026-07-03-cpp-learning-roadmap.md)의 **고급(STL)** 단계입니다. 앞 글: [③ 이동 시맨틱과 스마트 포인터](./2026-07-03-cpp-move-and-smart-pointers.md)
 
 앞 단계까지 자원 관리를 직접 익혔습니다. STL은 그 위에서, **검증된 자료구조와 알고리즘을 가져다 쓰게** 해줍니다. 실무 C++의 상당 부분이 "적절한 컨테이너 고르고 + 알고리즘 붙이기"입니다.
 
-> **언어 공통 개념**: `begin/end` 반복자와 `find_if`에 넘기는 람다 — 이 "순회 추상화 + 술어 클로저"는 언어 무관 개념이다. Rust `Iterator` 어댑터 체인(`.filter().map()`)과 지연 평가, C++20 ranges와의 관계는 → [이터레이터와 지연 평가](/posts/concept/2026-07-12-iterators-and-lazy-evaluation/).
+> **언어 공통 개념**: `begin/end` 반복자와 `find_if`에 넘기는 람다 — 이 "순회 추상화 + 술어 클로저"는 언어 무관 개념이다. Rust `Iterator` 어댑터 체인(`.filter().map()`)과 지연 평가, C++20 ranges와의 관계는 → [이터레이터와 지연 평가](../concept/2026-07-12-iterators-and-lazy-evaluation.md).
 
 ## 컨테이너 — 무엇을 언제 쓰나
 

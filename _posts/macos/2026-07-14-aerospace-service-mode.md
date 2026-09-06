@@ -8,7 +8,7 @@ pin         : false
 hidden      : false
 ---
 
-[AeroSpace](https://github.com/nikitabobko/AeroSpace) 기본 키맵을 보면 포커스 이동·창 이동·워크스페이스 전환은 `Alt` 조합 하나로 바로 되는데, **floating↔tiling 토글이나 레이아웃 리셋은 메인 키맵에 아예 없다.** 대신 **서비스 모드(service mode)**라는 별도 모드 안에 숨어 있다. 이 글은 서비스 모드에 무엇이 있고, 왜 이렇게 나눴는지를 설계 관점에서 정리한다. 설치·기본 키맵은 [AeroSpace 기본](/posts/macos/2026-07-03-aerospace-basics/)에서 다뤘다.
+[AeroSpace](https://github.com/nikitabobko/AeroSpace) 기본 키맵을 보면 포커스 이동·창 이동·워크스페이스 전환은 `Alt` 조합 하나로 바로 되는데, **floating↔tiling 토글이나 레이아웃 리셋은 메인 키맵에 아예 없다.** 대신 **서비스 모드(service mode)**라는 별도 모드 안에 숨어 있다. 이 글은 서비스 모드에 무엇이 있고, 왜 이렇게 나눴는지를 설계 관점에서 정리한다. 설치·기본 키맵은 [AeroSpace 기본](./2026-07-03-aerospace-basics.md)에서 다뤘다.
 
 ## 서비스 모드란
 
@@ -97,5 +97,5 @@ floating 토글을 서비스 모드 `f`에 둘지, 아니면 메인으로 끌어
 
 ## 관련 글
 
-- [AeroSpace 기본 — 워크스페이스·단축키·on-window-detected](/posts/macos/2026-07-03-aerospace-basics/)
-- [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](/posts/macos/2026-06-07-aerospace-secure-input-hotkey-blocked/) — 서비스 모드 키가 안 먹힐 때 의심해볼 시스템 레벨 원인
+- [AeroSpace 기본 — 워크스페이스·단축키·on-window-detected](./2026-07-03-aerospace-basics.md)
+- [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](./2026-06-07-aerospace-secure-input-hotkey-blocked.md) — 서비스 모드 키가 안 먹힐 때 의심해볼 시스템 레벨 원인

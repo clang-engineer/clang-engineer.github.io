@@ -11,7 +11,7 @@ hidden      : false
 
 새 맥을 개발 환경으로 만들 때, 도구를 얹기 전에 macOS 자체에서 손봐 두는 설정들이 있다. 한 번 맞춰 두면 이후 작업이 훨씬 매끄러워지는 항목만 모았다.
 
-> 새 맥 셋업의 전체 순서(이 설정 → Homebrew → dotfiles → Git)는 [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/)에서 다룬다. 이 글은 그중 **시스템 설정 단계**를 자세히 푼 것이다.
+> 새 맥 셋업의 전체 순서(이 설정 → Homebrew → dotfiles → Git)는 [새 맥 초기 설정](./2022-02-05-new-mac-initial-setup.md)에서 다룬다. 이 글은 그중 **시스템 설정 단계**를 자세히 푼 것이다.
 {: .prompt-info }
 
 ## 시스템·키보드 설정
@@ -44,7 +44,7 @@ hidden      : false
 - Hammerspoon: Privacy & Security → Accessibility에서 접근 권한 허용
 - AeroSpace 등 단축키 기반 도구도 마찬가지로 Accessibility 권한이 필요하다.
 
-> 단축키가 갑자기 안 먹는다면 권한 문제일 수 있다. [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](/posts/macos/2026-06-07-aerospace-secure-input-hotkey-blocked/)도 함께 참고.
+> 단축키가 갑자기 안 먹는다면 권한 문제일 수 있다. [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](./2026-06-07-aerospace-secure-input-hotkey-blocked.md)도 함께 참고.
 {: .prompt-tip }
 
 ## 터미널에서 vim 스크롤이 안 될 때

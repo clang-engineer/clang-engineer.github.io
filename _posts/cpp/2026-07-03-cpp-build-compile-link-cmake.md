@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [모던 C++ 학습 로드맵](/posts/cpp/2026-07-03-cpp-learning-roadmap/)의 **마지막(빌드)** 단계입니다. 앞 글: [⑦ auto·constexpr와 표준 라이브러리](/posts/cpp/2026-07-03-cpp-modern-syntax/)
+> [모던 C++ 학습 로드맵](./2026-07-03-cpp-learning-roadmap.md)의 **마지막(빌드)** 단계입니다. 앞 글: [⑦ auto·constexpr와 표준 라이브러리](./2026-07-03-cpp-modern-syntax.md)
 
 파일 하나짜리 예제는 `g++ main.cpp`로 끝납니다. 하지만 실제 프로젝트는 파일이 수십 개고, 여기서 **컴파일·링킹**과 **빌드 시스템**을 이해해야 합니다. 링커 에러 앞에서 멈추지 않으려면 이 단계가 필요합니다.
 
@@ -40,7 +40,7 @@ undefined reference to `foo()'
 - 라이브러리를 링크 안 했다
 - 선언과 정의의 시그니처가 미묘하게 다르다
 
-> 앞서 [⑤ 템플릿](/posts/cpp/2026-07-03-cpp-templates/)에서 "템플릿을 `.cpp`에 분리하면 링크 에러"라 한 것도 같은 뿌리입니다.
+> 앞서 [⑤ 템플릿](./2026-07-03-cpp-templates.md)에서 "템플릿을 `.cpp`에 분리하면 링크 에러"라 한 것도 같은 뿌리입니다.
 
 헤더는 **선언**을, `.cpp`는 **정의**를 담습니다. 그리고 한 정의는 프로그램 전체에서 한 번만 존재해야 합니다(ODR, One Definition Rule). 헤더에 함수 정의를 넣고 여러 곳에서 include하면 중복 정의로 터지는 이유입니다.
 
@@ -89,7 +89,7 @@ CMake는 `compile_commands.json`(각 파일을 어떤 옵션으로 컴파일하�
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 ```
 
-이 파일이 있으면 clangd 같은 언어 서버가 프로젝트를 정확히 이해해 자동완성·진단을 제공합니다. 여기에 [cpplint·clang-format](/posts/cpp/2024-10-22-cpplint-clangformat/)까지 붙이면 빌드-린트-포맷이 한 줄로 이어집니다.
+이 파일이 있으면 clangd 같은 언어 서버가 프로젝트를 정확히 이해해 자동완성·진단을 제공합니다. 여기에 [cpplint·clang-format](./2024-10-22-cpplint-clangformat.md)까지 붙이면 빌드-린트-포맷이 한 줄로 이어집니다.
 
 ## 자주 막히는 지점
 
@@ -103,7 +103,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 - `undefined reference`를 보고 어디를 봐야 할지 안다.
 - 여러 파일 프로젝트를 `CMakeLists.txt`로 빌드할 수 있다.
 
-여기까지 왔다면 [로드맵](/posts/cpp/2026-07-03-cpp-learning-roadmap/)의 필수 경로를 완주한 것입니다. 참조자에서 시작해 자원 관리·이동 시맨틱을 지나 프로젝트 빌드까지 — 이제 [나중]·[선택]으로 미뤄둔 주제들을 실무에서 필요할 때 하나씩 채우면 됩니다.
+여기까지 왔다면 [로드맵](./2026-07-03-cpp-learning-roadmap.md)의 필수 경로를 완주한 것입니다. 참조자에서 시작해 자원 관리·이동 시맨틱을 지나 프로젝트 빌드까지 — 이제 [나중]·[선택]으로 미뤄둔 주제들을 실무에서 필요할 때 하나씩 채우면 됩니다.
 
 ## Reference
 

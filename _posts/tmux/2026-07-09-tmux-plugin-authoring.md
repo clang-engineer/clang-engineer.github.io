@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 이 글은 **플러그인을 직접 만드는 법**이다. 기존 플러그인을 *쓰는* 법(TPM으로 sensible·resurrect·themepack 설치·설정)은 [tmux 설정 & 플러그인 설명](/posts/tmux/2025-11-17-tmux-tpm/)에, 입문부터 자동화까지 전체 경로는 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)에 있다.
+> 이 글은 **플러그인을 직접 만드는 법**이다. 기존 플러그인을 *쓰는* 법(TPM으로 sensible·resurrect·themepack 설치·설정)은 [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md)에, 입문부터 자동화까지 전체 경로는 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)에 있다.
 {: .prompt-tip }
 
 ## 핵심 한 줄

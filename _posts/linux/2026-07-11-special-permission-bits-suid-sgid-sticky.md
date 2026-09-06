@@ -62,7 +62,7 @@ ls -l myprogram               # -rwsr-xr-x 확인
 
 실행 권한(`x`)이 없는데 SUID를 걸면 소문자 `s`가 아니라 **대문자 `S`**로 표시됩니다 — "설정은 됐지만 실행 비트가 없어 무의미"하다는 신호입니다.
 
-> **SUID는 가장 흔한 권한 상승(privilege escalation) 통로입니다.** 소유자가 root인 SUID 실행 파일에 버그가 있으면 공격자가 root를 탈취할 수 있습니다. 그래서 **직접 만든 스크립트·바이너리에 SUID를 함부로 걸면 안 됩니다.** 특히 셸 스크립트는 대부분의 리눅스에서 SUID가 아예 무시되니(보안상 의도된 동작), "스크립트에 SUID 걸었는데 왜 안 되지"는 버그가 아니라 설계입니다. 권한이 필요하면 SUID 대신 [sudo](/posts/linux/2026-07-11-sudo-su-wheel/)로 명령 단위 허용을 쓰세요.
+> **SUID는 가장 흔한 권한 상승(privilege escalation) 통로입니다.** 소유자가 root인 SUID 실행 파일에 버그가 있으면 공격자가 root를 탈취할 수 있습니다. 그래서 **직접 만든 스크립트·바이너리에 SUID를 함부로 걸면 안 됩니다.** 특히 셸 스크립트는 대부분의 리눅스에서 SUID가 아예 무시되니(보안상 의도된 동작), "스크립트에 SUID 걸었는데 왜 안 되지"는 버그가 아니라 설계입니다. 권한이 필요하면 SUID 대신 [sudo](./2026-07-11-sudo-su-wheel.md)로 명령 단위 허용을 쓰세요.
 {: .prompt-warning }
 
 ---
@@ -84,7 +84,7 @@ ls -ld /srv/shared
 #      ^ 그룹 실행 자리가 s
 ```
 
-이제 `/srv/shared` 안에서 누가 파일을 만들든 그룹이 자동으로 `developers`가 됩니다. **여러 사람이 공유하는 작업 디렉토리**에서 "내가 만든 파일을 동료가 못 읽는다"는 문제를 근본적으로 없애는 표준 패턴입니다. 그룹 자체를 만들고 사람을 넣는 법은 [사용자·그룹 관리](/posts/linux/2026-07-11-user-account-management/)를 보세요.
+이제 `/srv/shared` 안에서 누가 파일을 만들든 그룹이 자동으로 `developers`가 됩니다. **여러 사람이 공유하는 작업 디렉토리**에서 "내가 만든 파일을 동료가 못 읽는다"는 문제를 근본적으로 없애는 표준 패턴입니다. 그룹 자체를 만들고 사람을 넣는 법은 [사용자·그룹 관리](./2026-07-11-user-account-management.md)를 보세요.
 
 ---
 
@@ -138,7 +138,7 @@ sudo find / -perm -4000 -type f 2>/dev/null > /root/suid-baseline.txt   # 기준
 ## 대중성·대안
 
 - SUID/SGID/sticky bit — POSIX 표준 권한 모델의 일부. 모든 유닉스 계열에 존재하고, 대안이랄 게 없는 기본기입니다.
-- **SUID 대신 고려할 것** — 권한이 필요한 커스텀 작업은 SUID 바이너리를 만드는 대신 거의 항상 [sudo](/posts/linux/2026-07-11-sudo-su-wheel/)로 명령을 한정해 허용하는 게 안전합니다. 리눅스라면 **capabilities**(`setcap cap_net_bind_service=+ep`처럼 "root 전권" 대신 필요한 능력만 부여)가 더 정교한 대안입니다 — 예: 웹서버가 80 포트를 열려고 root로 뜰 필요 없이 그 능력만 받습니다.
+- **SUID 대신 고려할 것** — 권한이 필요한 커스텀 작업은 SUID 바이너리를 만드는 대신 거의 항상 [sudo](./2026-07-11-sudo-su-wheel.md)로 명령을 한정해 허용하는 게 안전합니다. 리눅스라면 **capabilities**(`setcap cap_net_bind_service=+ep`처럼 "root 전권" 대신 필요한 능력만 부여)가 더 정교한 대안입니다 — 예: 웹서버가 80 포트를 열려고 root로 뜰 필요 없이 그 능력만 받습니다.
 - SGID 디렉토리 — 공유 작업 공간의 표준. ACL(`setfacl`)로 더 세밀하게 갈 수도 있지만, "그룹 상속"만 필요하면 SGID가 가장 간단합니다.
 
 결론: `4=SUID / 2=SGID / 1=sticky`를 기본 3자리 앞에 붙인다고 기억하세요. SUID는 소유자 권한을, SGID는 그룹(또는 디렉토리 그룹 상속)을, sticky는 공유 디렉토리의 삭제 보호를 담당합니다. 그리고 직접 만든 것에 SUID를 거는 대신 sudo나 capabilities를 먼저 떠올리세요.

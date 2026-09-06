@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-플러그인은 대부분 **이벤트 구동(event-driven)**이다. "파일 저장 직전에 포맷", "커서가 멈추면 힌트 표시", "LSP가 붙으면 키맵 등록" — 전부 특정 이벤트에 콜백을 거는 일이다. [vim 전역 API 지도](/posts/neovim/2026-06-19-neovim-vim-global-api-map/)에서 스니펫으로만 보여준 autocommand를, 이 글에서 제대로 판다.
+플러그인은 대부분 **이벤트 구동(event-driven)**이다. "파일 저장 직전에 포맷", "커서가 멈추면 힌트 표시", "LSP가 붙으면 키맵 등록" — 전부 특정 이벤트에 콜백을 거는 일이다. [vim 전역 API 지도](./2026-06-19-neovim-vim-global-api-map.md)에서 스니펫으로만 보여준 autocommand를, 이 글에서 제대로 판다.
 
 ## 결론 먼저
 
@@ -133,9 +133,9 @@ vim.api.nvim_clear_autocmds({ buffer = 0 })        -- 조건으로 비우기
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [vim 전역 API 지도](/posts/neovim/2026-06-19-neovim-vim-global-api-map/) | autocommand가 `vim.api` 전체에서 차지하는 위치 |
-| [버퍼·윈도우·extmark 조작](/posts/neovim/2026-06-19-neovim-buffer-window-extmark/) | 이벤트에 반응해 무엇을 그릴지 |
-| [비동기 — vim.uv / vim.system](/posts/neovim/2026-06-19-neovim-async-vim-uv-system/) | fast-event·스케줄링과의 연결 |
-| [Neovim 플러그인 작성 규칙](/posts/neovim/2026-06-12-neovim-plugin-conventions/) | `plugin/`에서의 등록 가드 패턴 |
+| [vim 전역 API 지도](./2026-06-19-neovim-vim-global-api-map.md) | autocommand가 `vim.api` 전체에서 차지하는 위치 |
+| [버퍼·윈도우·extmark 조작](./2026-06-19-neovim-buffer-window-extmark.md) | 이벤트에 반응해 무엇을 그릴지 |
+| [비동기 — vim.uv / vim.system](./2026-06-19-neovim-async-vim-uv-system.md) | fast-event·스케줄링과의 연결 |
+| [Neovim 플러그인 작성 규칙](./2026-06-12-neovim-plugin-conventions.md) | `plugin/`에서의 등록 가드 패턴 |
 
 정식 레퍼런스는 `:h autocmd-events`, `:h nvim_create_autocmd`, `:h User`.

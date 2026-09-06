@@ -51,7 +51,7 @@ hidden      : false
 
 이 구조를 이해하면 `ssh`, `tmux`, 컨테이너의 `-t`, 터미널 크기 변경 같은 현상이 한 계통으로 연결되기 시작한다.
 
-글: [터미널은 무엇인가 — TTY에서 PTY까지](/posts/terminal/2026-09-05-terminal-tty-pty/)
+글: [터미널은 무엇인가 — TTY에서 PTY까지](./2026-09-05-terminal-tty-pty.md)
 
 ## 3. 표준 입출력과 termios — 키 입력은 어떻게 앱까지 오는가
 
@@ -65,7 +65,7 @@ hidden      : false
 
 여기서는 `termios`를 직접 바꿔보며 입력 경로를 확인한다.
 
-글: [termios와 raw mode — Ctrl-C는 언제 문자가 아니라 signal이 되는가](/posts/terminal/2026-09-05-termios-canonical-raw-mode/)
+글: [termios와 raw mode — Ctrl-C는 언제 문자가 아니라 signal이 되는가](./2026-09-05-termios-canonical-raw-mode.md)
 
 ## 4. ANSI/VT Escape Sequence — 텍스트로 화면을 그리는 법
 
@@ -73,7 +73,7 @@ TUI(Terminal User Interface, 터미널 화면에서 상호작용하는 사용자
 
 직접 `printf`로 커서를 움직이고 화면을 지우는 실험을 해본다.
 
-글: [ANSI/VT Escape Sequence — 표준 출력으로 커서를 움직이고 화면을 그리는 법](/posts/terminal/2026-09-05-ansi-vt-escape-sequences/)
+글: [ANSI/VT Escape Sequence — 표준 출력으로 커서를 움직이고 화면을 그리는 법](./2026-09-05-ansi-vt-escape-sequences.md)
 
 ## 5. termcap과 terminfo — 서로 다른 터미널을 다루는 법
 
@@ -81,7 +81,7 @@ TUI(Terminal User Interface, 터미널 화면에서 상호작용하는 사용자
 
 여기서 `TERM`, capability database, `tput`이 연결된다.
 
-글: [termcap과 terminfo — 터미널마다 다른 제어 코드를 어떻게 숨겼나](/posts/terminal/2026-09-05-termcap-terminfo-tput/)
+글: [termcap과 terminfo — 터미널마다 다른 제어 코드를 어떻게 숨겼나](./2026-09-05-termcap-terminfo-tput.md)
 
 ## 6. curses/ncurses — 화면과 창 추상화의 등장
 
@@ -99,7 +99,7 @@ terminfo
 
 `vi` 같은 초기 애플리케이션과 이후 curses 계열 프로그램을 비교하며 추상화 수준이 어떻게 올라갔는지 본다.
 
-글: [curses와 ncurses — 터미널 제어가 Screen·Window 추상화로 올라온 순간](/posts/terminal/2026-09-05-curses-ncurses-screen-window/)
+글: [curses와 ncurses — 터미널 제어가 Screen·Window 추상화로 올라온 순간](./2026-09-05-curses-ncurses-screen-window.md)
 
 ## 7. TUI 엔진 — 이벤트 루프에서 렌더링까지
 
@@ -121,7 +121,7 @@ terminfo
 
 핵심은 전체 화면을 무작정 출력하는 것이 아니라 **현재 UI 상태와 터미널 셀의 차이를 계산해 필요한 부분을 갱신하는 방식**이다.
 
-글: [TUI 엔진의 공통 구조 — 이벤트 루프, 상태, 레이아웃, 렌더러](/posts/terminal/2026-09-05-tui-event-loop-state-renderer/)
+글: [TUI 엔진의 공통 구조 — 이벤트 루프, 상태, 레이아웃, 렌더러](./2026-09-05-tui-event-loop-state-renderer.md)
 
 ## 8. 현대 TUI 프레임워크
 
@@ -134,9 +134,9 @@ terminfo
 | Python | Textual | Widget, event, CSS형 layout/style |
 | TypeScript | OpenTUI | 컴포넌트, 레이아웃, native renderer, React/Solid bindings |
 
-글: [현대 TUI 프레임워크 비교 — 무엇을 얼마나 추상화하는가](/posts/terminal/2026-09-05-modern-tui-frameworks-abstraction/)
+글: [현대 TUI 프레임워크 비교 — 무엇을 얼마나 추상화하는가](./2026-09-05-modern-tui-frameworks-abstraction.md)
 
-배경 글: [TUI의 역사와 현대 프레임워크 — ncurses에서 OpenTUI까지](/posts/terminal/2026-09-05-tui-history-and-modern-frameworks/)
+배경 글: [TUI의 역사와 현대 프레임워크 — ncurses에서 OpenTUI까지](./2026-09-05-tui-history-and-modern-frameworks.md)
 
 ## 9. 실제 애플리케이션을 추상화 계층에 꽂아보기
 
@@ -149,7 +149,7 @@ terminfo
 
 같은 "TUI"라도 어떤 앱은 터미널에 가까이 내려가고, 어떤 앱은 고수준 프레임워크 위에서 만들어진다.
 
-글: [실제 TUI 앱은 어느 추상화 계층에 서 있나 — fzf부터 OpenCode까지](/posts/terminal/2026-09-05-tui-app-abstraction-map/)
+글: [실제 TUI 앱은 어느 추상화 계층에 서 있나 — fzf부터 OpenCode까지](./2026-09-05-tui-app-abstraction-map.md)
 
 ## 10. Neovim — TUI가 다시 플랫폼이 되는 사례
 
@@ -171,7 +171,7 @@ LazyVim
 
 자체 TUI가 다시 플러그인용 UI 플랫폼의 바닥이 되고, 그 위에 UI 라이브러리와 배포판 생태계가 올라간다. **추상화가 한 번만 일어나는 것이 아니라 반복해서 층을 만든다**는 좋은 사례다.
 
-글: [Neovim은 왜 TUI 앱이면서 UI 플랫폼인가](/posts/terminal/2026-09-05-neovim-as-tui-platform/)
+글: [Neovim은 왜 TUI 앱이면서 UI 플랫폼인가](./2026-09-05-neovim-as-tui-platform.md)
 
 ## 11. tmux·SSH까지 전체 스택 연결하기
 
@@ -193,7 +193,7 @@ Neovim / fzf / 셸
 
 SSH가 들어오면 어느 쪽에서 PTY가 생기는지, `TERM`은 어디서 전달되는지, 터미널 크기 변경과 signal은 어떻게 흘러가는지를 추적한다.
 
-글: [tmux와 SSH까지 연결한 터미널 전체 스택](/posts/terminal/2026-09-05-tmux-ssh-terminal-stack/)
+글: [tmux와 SSH까지 연결한 터미널 전체 스택](./2026-09-05-tmux-ssh-terminal-stack.md)
 
 ## 다른 로드맵과의 경계
 

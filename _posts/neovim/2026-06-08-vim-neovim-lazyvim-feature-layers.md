@@ -14,7 +14,7 @@ hidden      : false
 Vim의 기본 기능, Neovim이 추가한 기능, 배포판(LazyVim·NvChad·AstroNvim 등)이 올린 계층을 구분해서 정리한다.
 "이 기능이 어디서 온 건지" 헷갈릴 때 참고용. 3계층은 배포판 중 LazyVim을 예시로 든다.
 
-> 어디서 출발할지 고민이라면 [Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교](/posts/neovim/2026-06-16-neovim-starting-point-comparison/) 글 참고.
+> 어디서 출발할지 고민이라면 [Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교](./2026-06-16-neovim-starting-point-comparison.md) 글 참고.
 
 ## Vim — 기본 제공
 
@@ -93,7 +93,7 @@ Neovim 0.5에서 LSP·Treesitter가 코어에 들어왔지만, 실제로 IDE처�
 대표적으로 **LazyVim**, **NvChad**, **AstroNvim** 이 현역 인기 배포판이다(2026-06 기준, GitHub 스타 14k~28k, 모두 활발히 유지보수 중).
 별개로 **kickstart.nvim** 은 "한 파일짜리 출발점"을 복사해서 직접 수정하는 starter 템플릿으로, Neovim 공식 진영(`nvim-lua` org)이 미는 사실상 표준이다 — 배포판은 아니지만 같은 슬롯에서 자주 비교된다.
 한때 인기였던 **LunarVim** 은 2025년 6월 이후 업데이트가 멈춰 현역 추천에서 빠진다.
-각각의 차이는 [Neovim을 어디서 시작할까 — 배포판/프레임워크 카탈로그](/posts/neovim/2026-06-16-neovim-starting-point-comparison/#배포판프레임워크-카탈로그) 참고.
+각각의 차이는 [Neovim을 어디서 시작할까 — 배포판/프레임워크 카탈로그](./2026-06-16-neovim-starting-point-comparison.md#배포판프레임워크-카탈로그) 참고.
 
 이 글에서는 **LazyVim** 을 예시로 본다. 2023년 1월 Folke Lemaitre가 본인이 만든 플러그인 매니저 `lazy.nvim` 위에 출시했고, 기존 distro와 달리 "framework" 컨셉 — 사용자가 LazyVim 설정을 자기 dotfiles처럼 그대로 override·확장할 수 있는 구조를 지향한다.
 

@@ -31,8 +31,8 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [세벌식 390 입문](/posts/keyboard/2026-07-03-sebeolsik-390-intro/) | 세벌식이 두벌식과 뭐가 다른지(도깨비불 현상), 390 vs 최종, 그리고 **숫자를 넘패드처럼 치는** 390만의 기능. macOS 기본 지원 |
-| [HHKB 입문](/posts/keyboard/2026-07-03-hhkb-intro/) | 미니멀 배열의 철학, **Ctrl이 Caps 자리**·Fn 방향키·삭제키 위치, Topre 스위치, 프로그래머에게 인기인 이유 |
+| [세벌식 390 입문](./2026-07-03-sebeolsik-390-intro.md) | 세벌식이 두벌식과 뭐가 다른지(도깨비불 현상), 390 vs 최종, 그리고 **숫자를 넘패드처럼 치는** 390만의 기능. macOS 기본 지원 |
+| [HHKB 입문](./2026-07-03-hhkb-intro.md) | 미니멀 배열의 철학, **Ctrl이 Caps 자리**·Fn 방향키·삭제키 위치, Topre 스위치, 프로그래머에게 인기인 이유 |
 
 여기까지면 "내 손이 왜 이 배열·이 판때기에 길들었는지"가 잡힌다. 이 손버릇이 곧 실전에서 레이어로 옮길 원본이다.
 
@@ -42,8 +42,8 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [키보드 펌웨어 지형도](/posts/keyboard/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/) | QMK vs ZMK(유선/무선), 그 위에 얹는 **VIA·VIAL·ZMK Studio**가 어디에 끼는지 — "어떤 스택을 고를까" |
-| [키맵 용어집](/posts/keyboard/2026-07-03-keymap-terms-glossary/) | combo·hold-tap·momentary·layer-tap·mod-tap·tap-dance·one-shot… 키매핑 용어를 QMK·ZMK 표기와 함께 정리 |
+| [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) | QMK vs ZMK(유선/무선), 그 위에 얹는 **VIA·VIAL·ZMK Studio**가 어디에 끼는지 — "어떤 스택을 고를까" |
+| [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) | combo·hold-tap·momentary·layer-tap·mod-tap·tap-dance·one-shot… 키매핑 용어를 QMK·ZMK 표기와 함께 정리 |
 
 지형도에서 내 보드에 맞는 경로(무선이면 ZMK, 유선이면 QMK, 컴파일이 싫으면 GUI)를 고르고, 용어집을 옆에 두면 실전 글의 hold-tap·layer 이야기가 낯설지 않다.
 
@@ -53,8 +53,8 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [ZMK 키매핑 가이드](/posts/keyboard/2026-07-03-zmk-keymap-editor-build-flash/) | 판매자 config **포크 → 웹 키맵 에디터 → GitHub Actions 빌드 → 플래싱**. 일단 내 키맵을 보드에 올리는 4단계 |
-| [ZMK 키맵 설계기 — HHKB + 40% + 세벌식 390](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/) | 입력기 특성이 레이어를 강제하는 과정, 손버릇을 레이어로 재현, 위험한 키를 **hold-tap으로 실수 방지**, ZMK 레이어 인덱스 함정. **"40%에서 세벌식 390"은 선례가 드문 조합**. 여기 담긴 설계 원칙(레이어 분리·hold-tap 가드)은 펌웨어와 무관해 아래 QMK에도 그대로 쓴다 |
+| [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md) | 판매자 config **포크 → 웹 키맵 에디터 → GitHub Actions 빌드 → 플래싱**. 일단 내 키맵을 보드에 올리는 4단계 |
+| [ZMK 키맵 설계기 — HHKB + 40% + 세벌식 390](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md) | 입력기 특성이 레이어를 강제하는 과정, 손버릇을 레이어로 재현, 위험한 키를 **hold-tap으로 실수 방지**, ZMK 레이어 인덱스 함정. **"40%에서 세벌식 390"은 선례가 드문 조합**. 여기 담긴 설계 원칙(레이어 분리·hold-tap 가드)은 펌웨어와 무관해 아래 QMK에도 그대로 쓴다 |
 
 여기까지 오면 배경(자판·하드웨어)에서 도구(지형도·용어)를 거쳐, 내 손버릇을 실제로 재현하는 커스텀 키맵을 직접 올리고 설계할 수 있다. 배경 → 실전 한 바퀴는 여기서 끝이다.
 
@@ -64,8 +64,8 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [QMK로 키맵 짜기](/posts/keyboard/2026-07-03-qmk-keymap-build/) | `keymap.c` 레이어 배열, `MO`·`LT`·`MT` 키코드, `qmk compile`/`flash`까지 QMK 쪽 워크플로우. 유선 보드의 경로 |
-| [VIA·VIAL 실전](/posts/keyboard/2026-07-03-via-vial-gui-remap/) | 컴파일 없이 **GUI로 실시간 리맵**. VIA vs VIAL 선택, ZMK는 ZMK Studio. 컴파일이 싫을 때의 경로 |
+| [QMK로 키맵 짜기](./2026-07-03-qmk-keymap-build.md) | `keymap.c` 레이어 배열, `MO`·`LT`·`MT` 키코드, `qmk compile`/`flash`까지 QMK 쪽 워크플로우. 유선 보드의 경로 |
+| [VIA·VIAL 실전](./2026-07-03-via-vial-gui-remap.md) | 컴파일 없이 **GUI로 실시간 리맵**. VIA vs VIAL 선택, ZMK는 ZMK Studio. 컴파일이 싫을 때의 경로 |
 
 ## 펌웨어를 못 건드릴 때 — Karabiner (OS 레벨)
 
@@ -73,7 +73,7 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [Karabiner-Elements — macOS 소프트웨어 키맵](/posts/keyboard/2026-07-03-karabiner-elements-macos-keymap/) | 펌웨어가 아닌 **macOS 레벨** 리맵. 맥북 내장·기성 키보드까지, dual-role·Hyper 키, `karabiner.json`을 dotfiles로 관리 |
+| [Karabiner-Elements — macOS 소프트웨어 키맵](./2026-07-03-karabiner-elements-macos-keymap.md) | 펌웨어가 아닌 **macOS 레벨** 리맵. 맥북 내장·기성 키보드까지, dual-role·Hyper 키, `karabiner.json`을 dotfiles로 관리 |
 
 ---
 

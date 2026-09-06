@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-이 글은 원리 설명이 아니라 **노드·필드를 찾아보는 사전**이다. `EXPLAIN` 출력에 처음 보는 연산자가 우수수 나올 때, "이게 무슨 연산이고, 보이면 무슨 뜻이며, 위험 신호는 무엇인가"를 표에서 빠르게 찾는 용도다. 왜 이 계획이 나오고 어떻게 튜닝하는지 원리·처방은 [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/)로, 조인 알고리즘의 내부 동작은 [RDB에서 조인 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/)로 위임한다. 기준은 PostgreSQL 16/17이다.
+이 글은 원리 설명이 아니라 **노드·필드를 찾아보는 사전**이다. `EXPLAIN` 출력에 처음 보는 연산자가 우수수 나올 때, "이게 무슨 연산이고, 보이면 무슨 뜻이며, 위험 신호는 무엇인가"를 표에서 빠르게 찾는 용도다. 왜 이 계획이 나오고 어떻게 튜닝하는지 원리·처방은 [쿼리 옵티마이저 작동 원리와 실행계획 읽기](./2026-07-03-query-optimizer-explain.md)로, 조인 알고리즘의 내부 동작은 [RDB에서 조인 방식 총정리](./2026-01-04-rdb-join-strategy.md)로 위임한다. 기준은 PostgreSQL 16/17이다.
 
 > 트리 읽는 방향(안쪽·아래부터), `cost`/`rows`/`width`, `actual time`/`rows`/`loops`의 의미와 `loops` 함정은 옵티마이저 글에서 이미 다뤘다. 여기서는 **개별 노드와 라인의 뜻**만 나열한다.
 
@@ -30,11 +30,11 @@ hidden      : false
 | `WorkTable Scan` | **재귀 CTE**(`WITH RECURSIVE`)의 반복 작업 테이블을 읽음 | `Recursive Union` 하위에서 등장 |
 | `Foreign Scan` | 외부 데이터 래퍼(FDW), 외부/원격 테이블 스캔 | 원격에서 필터가 푸시다운됐는지(`Remote SQL`) 확인 |
 
-> `Seq`/`Index`/`Bitmap`의 선택 기준(선택도·클러스터링)은 옵티마이저 글에, 인덱스 구조는 [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/)에 있다. 이 사전에서 새로 기억할 것은 **`Index Only Scan`은 `Heap Fetches`가 커지면 일반 `Index Scan`과 다를 바 없어진다**는 점이다.
+> `Seq`/`Index`/`Bitmap`의 선택 기준(선택도·클러스터링)은 옵티마이저 글에, 인덱스 구조는 [RDB 인덱스 완전 정리](./2026-07-03-rdb-index.md)에 있다. 이 사전에서 새로 기억할 것은 **`Index Only Scan`은 `Heap Fetches`가 커지면 일반 `Index Scan`과 다를 바 없어진다**는 점이다.
 
 ## 2. 조인·결합 노드
 
-세 조인 알고리즘은 한 줄 요약만 둔다. 내부 원리는 [조인 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/)로.
+세 조인 알고리즘은 한 줄 요약만 둔다. 내부 원리는 [조인 방식 총정리](./2026-01-04-rdb-join-strategy.md)로.
 
 | 노드 | 무슨 연산인가 | 보이면 체크할 것 |
 | --- | --- | --- |
@@ -98,14 +98,14 @@ hidden      : false
 
 | 증상 | 의미 | 어디를 볼까 |
 | --- | --- | --- |
-| `Sort Method: external merge Disk` / `temp written` 큼 | `work_mem` 부족으로 디스크 정렬·스필 | [옵티마이저 글](/posts/db/2026-07-03-query-optimizer-explain/)의 튜닝 절, `work_mem` 조정 |
+| `Sort Method: external merge Disk` / `temp written` 큼 | `work_mem` 부족으로 디스크 정렬·스필 | [옵티마이저 글](./2026-07-03-query-optimizer-explain.md)의 튜닝 절, `work_mem` 조정 |
 | `HashAggregate`에 `Disk Usage` | 해시 테이블이 넘쳐 임시파일 사용 | `work_mem`, 그룹 카디널리티 재검토 |
-| `Heap Fetches` 큼 | 가시성맵 미갱신 → Index Only Scan 이점 상실 | [MVCC와 VACUUM](/posts/db/2026-07-03-mvcc-vacuum/), 오토배큠 튜닝 |
-| `Rows Removed by Filter` 큼 | 스캔 후 대량 폐기 → 인덱스로 선별 가능 | [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) |
-| `Rows Removed by Join Filter` 큼 | 조인 조건이 키를 못 타 대량 대조·폐기 | [조인 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/) |
+| `Heap Fetches` 큼 | 가시성맵 미갱신 → Index Only Scan 이점 상실 | [MVCC와 VACUUM](./2026-07-03-mvcc-vacuum.md), 오토배큠 튜닝 |
+| `Rows Removed by Filter` 큼 | 스캔 후 대량 폐기 → 인덱스로 선별 가능 | [RDB 인덱스 완전 정리](./2026-07-03-rdb-index.md) |
+| `Rows Removed by Join Filter` 큼 | 조인 조건이 키를 못 타 대량 대조·폐기 | [조인 방식 총정리](./2026-01-04-rdb-join-strategy.md) |
 | `Recheck Cond` + `lossy` 비트맵 | 메모리 부족으로 페이지 단위 비트맵 | `work_mem`, Bitmap Scan 적정성 |
 | `Workers Launched` < `Workers Planned` | 병렬 워커 슬롯 부족 | `max_parallel_workers(_per_gather)` 확인 |
-| 추정 `rows` ≠ `actual rows` 큰 괴리 | 통계 낡음·상관관계 미반영 | [옵티마이저 글](/posts/db/2026-07-03-query-optimizer-explain/)의 통계 처방(`ANALYZE`·확장통계) |
+| 추정 `rows` ≠ `actual rows` 큰 괴리 | 통계 낡음·상관관계 미반영 | [옵티마이저 글](./2026-07-03-query-optimizer-explain.md)의 통계 처방(`ANALYZE`·확장통계) |
 
 > 대부분의 위험 신호는 이 사전에서 **식별**하고, **처방**은 짝이 되는 옵티마이저 글에서 찾는다.
 
@@ -113,6 +113,6 @@ hidden      : false
 
 | 글 | 무엇을 다루나 |
 | --- | --- |
-| [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/) | 이 사전의 짝 — 왜 이 계획이 나오고 어떻게 튜닝하나 |
-| [RDB에서 조인(Join) 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/) | Nested Loop/Hash/Merge 조인 노드의 알고리즘 원리 |
-| [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) | Index Scan/Index Only Scan이 타는 인덱스 구조 |
+| [쿼리 옵티마이저 작동 원리와 실행계획 읽기](./2026-07-03-query-optimizer-explain.md) | 이 사전의 짝 — 왜 이 계획이 나오고 어떻게 튜닝하나 |
+| [RDB에서 조인(Join) 방식 총정리](./2026-01-04-rdb-join-strategy.md) | Nested Loop/Hash/Merge 조인 노드의 알고리즘 원리 |
+| [RDB 인덱스 완전 정리](./2026-07-03-rdb-index.md) | Index Scan/Index Only Scan이 타는 인덱스 구조 |

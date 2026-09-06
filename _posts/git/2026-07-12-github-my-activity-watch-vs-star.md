@@ -21,7 +21,7 @@ Repository 알림 관리
 → Watch / Subscription 설정
 ```
 
-알림과 Star/Watch 차이는 [GitHub Star vs Watch — 북마크와 알림 구독의 차이](/posts/git/2026-07-12-github-watch-vs-star-notifications/)에서 별도로 정리한다.
+알림과 Star/Watch 차이는 [GitHub Star vs Watch — 북마크와 알림 구독의 차이](./2026-07-12-github-watch-vs-star-notifications.md)에서 별도로 정리한다.
 
 ## 1. 가장 넓게 찾기 — `involves:`
 

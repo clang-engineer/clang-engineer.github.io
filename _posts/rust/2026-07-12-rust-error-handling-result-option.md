@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](/posts/rust/2026-07-12-rust-roadmap/)의 **⑤ 흐름** 단계입니다. 앞 글: [④ 컬렉션·String vs &str](/posts/rust/2026-07-12-rust-collections-string-str/)
+> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **⑤ 흐름** 단계입니다. 앞 글: [④ 컬렉션·String vs &str](./2026-07-12-rust-collections-string-str.md)
 
-C++/Java에서 온 사람에게 문화 충격입니다. **Rust에도 예외가 없습니다.** 대신 ③에서 배운 enum으로 에러를 표현합니다. 파일 하나만 열어도 바로 `Result`를 만나므로, 추상화(trait)보다 먼저 잡습니다(정본 Book도 이 순서). 세 에러 모델의 비교는 [에러 핸들링 모델](/posts/concept/2026-07-12-error-handling-models/)에 있습니다.
+C++/Java에서 온 사람에게 문화 충격입니다. **Rust에도 예외가 없습니다.** 대신 ③에서 배운 enum으로 에러를 표현합니다. 파일 하나만 열어도 바로 `Result`를 만나므로, 추상화(trait)보다 먼저 잡습니다(정본 Book도 이 순서). 세 에러 모델의 비교는 [에러 핸들링 모델](../concept/2026-07-12-error-handling-models.md)에 있습니다.
 
 ## Option — null이 없다
 
@@ -110,10 +110,10 @@ fn run() -> Result<()> {
 - `Option`/`Result`를 `.unwrap()` 없이 제대로 다룰 수 있다.
 - 언제 `thiserror`, 언제 `anyhow`를 쓰는지 구분할 수 있다.
 
-다음은 [⑥ trait·제네릭](/posts/rust/2026-07-12-rust-trait-generics/)입니다. C++의 인터페이스·템플릿·concept에 해당하는 Rust 추상화의 중심입니다.
+다음은 [⑥ trait·제네릭](./2026-07-12-rust-trait-generics.md)입니다. C++의 인터페이스·템플릿·concept에 해당하는 Rust 추상화의 중심입니다.
 
 ## Reference
 
 - [The Rust Book Ch.9](https://doc.rust-lang.org/book/ch09-00-error-handling.html) — 에러 처리의 정본.
 - [thiserror](https://docs.rs/thiserror) · [anyhow](https://docs.rs/anyhow) — 실전 표준 crate.
-- [에러 핸들링 모델](/posts/concept/2026-07-12-error-handling-models/) — 예외·에러 값·Result 세 모델 비교.
+- [에러 핸들링 모델](../concept/2026-07-12-error-handling-models.md) — 예외·에러 값·Result 세 모델 비교.

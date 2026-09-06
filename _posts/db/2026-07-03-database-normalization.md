@@ -206,5 +206,5 @@ ALTER TABLE orders ADD COLUMN tier_discount_rate NUMERIC(3,2);
 
 | 글 | 이 글과의 연결 |
 |----|----------------|
-| [RDB에서 조인(Join) 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/) | 정규화가 늘리는 조인의 실행 원리 |
-| [RECORD_ID를 레벨 테이블에 사전 적재해 조인 제거](/posts/db/2026-06-09-preload-record-id-to-level-table/) | 역정규화(사전 적재)로 조인을 없앤 실제 사례 |
+| [RDB에서 조인(Join) 방식 총정리](./2026-01-04-rdb-join-strategy.md) | 정규화가 늘리는 조인의 실행 원리 |
+| [RECORD_ID를 레벨 테이블에 사전 적재해 조인 제거](./2026-06-09-preload-record-id-to-level-table.md) | 역정규화(사전 적재)로 조인을 없앤 실제 사례 |

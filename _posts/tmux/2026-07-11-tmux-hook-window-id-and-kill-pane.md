@@ -115,4 +115,4 @@ set-hook -ga window-layout-changed 'run-shell "\"#{@agent_sidebar_bin}\" auto-cl
 `window-layout-changed`는 아무도 안 쓰던 이벤트라 `-gu` 후 재등록이 안전하고, 따로 얹은
 사이드바 폭-고정 훅과도 파일 순서상(`-gu` → auto-close 등록 → 폭고정 등록) 공존한다.
 
-플래그·관용구 레퍼런스는 `man tmux`의 hooks 섹션, 플러그인 제작 전반은 [tmux 플러그인은 어떻게 만드나](/posts/tmux/2026-07-09-tmux-plugin-authoring/) 참고.
+플래그·관용구 레퍼런스는 `man tmux`의 hooks 섹션, 플러그인 제작 전반은 [tmux 플러그인은 어떻게 만드나](./2026-07-09-tmux-plugin-authoring.md) 참고.

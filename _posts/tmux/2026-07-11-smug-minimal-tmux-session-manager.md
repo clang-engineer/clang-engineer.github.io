@@ -11,7 +11,7 @@ hidden      : false
 
 세션 매니저를 여러 개 비교한 끝에 **smug**를 골랐다면, 이 글은 그다음 실전이다. smug의 자리는 한마디로 **"무의존·미니멀"** — Ruby(tmuxinator)나 Python(tmuxp) 런타임 없이 도는 **Go 단일 바이너리**다. YAML로 세션·윈도우·패널을 선언하면 그대로 띄워 준다.
 
-> 세션 매니저 3종(smug·tmuxp·tmuxinator)의 **비교·선택**과, 이 도구들이 내부에서 부르는 tmux 명령의 **셸 해부**는 [tmux 세션 부트스트랩](/posts/tmux/2026-02-21-tmux-bootstrap/) 글에 있다. 이 글은 그중 smug를 골랐다는 전제에서 출발한다. 전체 학습 순서는 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/) 3단계.
+> 세션 매니저 3종(smug·tmuxp·tmuxinator)의 **비교·선택**과, 이 도구들이 내부에서 부르는 tmux 명령의 **셸 해부**는 [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md) 글에 있다. 이 글은 그중 smug를 골랐다는 전제에서 출발한다. 전체 학습 순서는 [tmux 로드맵](./2026-06-16-tmux-roadmap.md) 3단계.
 {: .prompt-tip }
 
 ## 설치
@@ -139,5 +139,5 @@ smug list             # config 목록
 
 smug는 **"세션을 선언하고 띄운다"** 한 가지를 의존성 없이 깔끔하게 하는 도구다. 레이아웃은 프리셋으로 대부분 되고, 안 되는 배치는 tmux 레이아웃 문자열을 캡처해 박으면 그만이다. 딱 그 용도라면 최적이고, 파이썬 제어(libtmux)가 필요해지는 날 tmuxp로 옮겨도 늦지 않다.
 
-> 반대로 **레이아웃 선언은 필요 없고 여러 프로젝트를 빠르게 오가는 게 목적**이라면, smug가 아니라 다른 범주 — fzf·zoxide 기반 피커 [sesh](/posts/tmux/2026-07-12-sesh-tmux-session-picker/)가 맞다. 내 config가 실은 부트스트랩이 아니라 세션 점프였음을 깨닫고 옮긴 기록도 그 글에 있다.
+> 반대로 **레이아웃 선언은 필요 없고 여러 프로젝트를 빠르게 오가는 게 목적**이라면, smug가 아니라 다른 범주 — fzf·zoxide 기반 피커 [sesh](./2026-07-12-sesh-tmux-session-picker.md)가 맞다. 내 config가 실은 부트스트랩이 아니라 세션 점프였음을 깨닫고 옮긴 기록도 그 글에 있다.
 {: .prompt-tip }

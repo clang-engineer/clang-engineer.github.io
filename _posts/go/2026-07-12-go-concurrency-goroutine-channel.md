@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](/posts/go/2026-07-12-go-roadmap/)의 **⑤ 동시성** 단계다. 앞 글: [④ error 처리 + defer](/posts/go/2026-07-12-go-error-handling-defer/)
+> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **⑤ 동시성** 단계다. 앞 글: [④ error 처리 + defer](./2026-07-12-go-error-handling-defer.md)
 
 Go의 동시성 모델을 이해하려면 `goroutine`, channel, `sync`, `context`를 한 덩어리로 외우기보다 **실행 단위·통신·동기화·취소 전파**로 역할을 나눠 보는 편이 좋다.
 
@@ -45,7 +45,7 @@ goroutine
 → Go runtime 스케줄링 단위
 ```
 
-코루틴과도 역사적·구현적 공통점이 있지만 일반적인 `async/await` stackless coroutine과 같은 의미론으로 등치하지 않는다. 자세한 경계는 [코루틴이란 무엇인가](/posts/concept/2026-07-12-coroutine/)에서 본다.
+코루틴과도 역사적·구현적 공통점이 있지만 일반적인 `async/await` stackless coroutine과 같은 의미론으로 등치하지 않는다. 자세한 경계는 [코루틴이란 무엇인가](../concept/2026-07-12-coroutine.md)에서 본다.
 
 main goroutine이 종료되면 프로그램 프로세스가 끝나므로 다른 goroutine의 완료를 자동으로 기다려 주지 않는다. 완료를 기다려야 한다면 `WaitGroup`, channel 등으로 수명 관계를 명시한다.
 
@@ -243,7 +243,7 @@ race detector는 실행 중 실제로 관찰된 메모리 접근을 바탕으로
 - context cancel이 강제 종료가 아니라 협력적 취소 신호임을 설명할 수 있다.
 - race detector가 실행 경로 기반 동적 분석임을 안다.
 
-다음은 [⑥ 표준 라이브러리·관용구·testing](/posts/go/2026-07-12-go-stdlib-idiom-testing/)이다.
+다음은 [⑥ 표준 라이브러리·관용구·testing](./2026-07-12-go-stdlib-idiom-testing.md)이다.
 
 ## Reference
 
@@ -251,4 +251,4 @@ race detector는 실행 중 실제로 관찰된 메모리 접근을 바탕으로
 - [Go Blog — Share Memory By Communicating](https://go.dev/blog/codelab-share)
 - [Go Blog — Context](https://go.dev/blog/context)
 - [Data Race Detector](https://go.dev/doc/articles/race_detector)
-- [코루틴이란 무엇인가](/posts/concept/2026-07-12-coroutine/)
+- [코루틴이란 무엇인가](../concept/2026-07-12-coroutine.md)

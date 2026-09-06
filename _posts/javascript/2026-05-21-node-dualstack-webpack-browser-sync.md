@@ -200,4 +200,4 @@ webpack / BrowserSync
 
 **Dual-stack은 원인 후보 중 하나이고, 최종 판단은 실제 Address·Port·Listener 상태로 한다.**
 
-> Proxy의 **Outbound Target** 쪽에서 `ECONNREFUSED`가 나는 경우는 [webpack Proxy ECONNREFUSED — localhost·IPv4·IPv6 경계 진단](/posts/javascript/2025-01-16-node-proxy-err/)에서 이어진다.
+> Proxy의 **Outbound Target** 쪽에서 `ECONNREFUSED`가 나는 경우는 [webpack Proxy ECONNREFUSED — localhost·IPv4·IPv6 경계 진단](./2025-01-16-node-proxy-err.md)에서 이어진다.

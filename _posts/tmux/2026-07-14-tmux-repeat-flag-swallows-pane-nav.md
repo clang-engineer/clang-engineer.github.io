@@ -10,7 +10,7 @@ hidden      : false
 
 ## 증상
 
-[Oh My Tmux!](/posts/tmux/2026-07-12-oh-my-tmux/)와 `vim-tmux-navigator`를 같이 쓰는 흔한 셋업이다. 키 배치는 이렇다.
+[Oh My Tmux!](./2026-07-12-oh-my-tmux.md)와 `vim-tmux-navigator`를 같이 쓰는 흔한 셋업이다. 키 배치는 이렇다.
 
 - `prefix + C-h / C-l` → 이전 / 다음 **창(window)** 이동 (OMT 기본)
 - bare `C-h / C-l` (prefix 없이) → **pane / nvim split** 이동 (vim-tmux-navigator)
@@ -55,7 +55,7 @@ bind-key -r -T prefix C-l  next-window
 
 ## clear-screen 충돌과는 다른 문제다
 
-OMT + vim-tmux-navigator에는 `C-l`을 둘러싼 **또 다른** 함정이 있다. OMT가 루트 테이블에 건 `bind -n C-l`(화면 클리어)과 navigator의 pane 이동이 로드 순서에 따라 한쪽을 먹는 문제인데, 이건 [Oh My Tmux! 글](/posts/tmux/2026-07-12-oh-my-tmux/)에서 다뤘다.
+OMT + vim-tmux-navigator에는 `C-l`을 둘러싼 **또 다른** 함정이 있다. OMT가 루트 테이블에 건 `bind -n C-l`(화면 클리어)과 navigator의 pane 이동이 로드 순서에 따라 한쪽을 먹는 문제인데, 이건 [Oh My Tmux! 글](./2026-07-12-oh-my-tmux.md)에서 다뤘다.
 
 이름이 같은 `C-l`이라 헷갈리기 쉽지만 메커니즘이 다르다.
 
@@ -106,7 +106,7 @@ set -sg repeat-time 250       # 600 → 250
 - 실제로 그 씹힘은 "창 전환 직후 빠르게 pane을 옮길 때"만 나오고, 대부분 한 박자 쉬고 옮기므로 체감 빈도가 낮다. 감수할 만한 수준이었다.
 - 무엇보다 `-r` 반복은 OMT의 **의도된 설계**지 버그가 아니다. 설계 의도를 우회 패치로 덮으면 업그레이드·이식이 취약해진다.
 
-마찰이 있다고 반드시 패치해야 하는 건 아니다. 정공법 후보를 다 따져본 뒤 **"그냥 기본을 감수한다"도 유효한 결론**이고, 패치를 안 쌓은 것 자체가 자산이다. 만약 SSH로 남의 서버를 자주 타서 OMT 키맵 자체가 부담이라면, 애초에 [`tmux_conf_preserve_stock_bindings=true`](/posts/tmux/2026-07-12-oh-my-tmux/)로 stock 키맵을 지키는 편이 더 근본적인 선택이다.
+마찰이 있다고 반드시 패치해야 하는 건 아니다. 정공법 후보를 다 따져본 뒤 **"그냥 기본을 감수한다"도 유효한 결론**이고, 패치를 안 쌓은 것 자체가 자산이다. 만약 SSH로 남의 서버를 자주 타서 OMT 키맵 자체가 부담이라면, 애초에 [`tmux_conf_preserve_stock_bindings=true`](./2026-07-12-oh-my-tmux.md)로 stock 키맵을 지키는 편이 더 근본적인 선택이다.
 
 ## 정리
 

@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](/posts/go/2026-07-12-go-roadmap/)의 **④ 흐름** 단계입니다. 앞 글: [③ slice·map·string](/posts/go/2026-07-12-go-slice-map-string/)
+> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **④ 흐름** 단계입니다. 앞 글: [③ slice·map·string](./2026-07-12-go-slice-map-string.md)
 
-C++/Java에서 온 사람에게 가장 큰 문화 충격입니다. **Go에는 예외(exception)가 없습니다.** `try`/`catch`/`throw`가 없고, 에러는 던지는 게 아니라 **값으로 흐릅니다**. 예외·에러 값·`Result` 세 모델을 비교한 [에러 핸들링 모델](/posts/concept/2026-07-12-error-handling-models/)을 함께 보면 왜 이런 선택이 있는지 잡힙니다.
+C++/Java에서 온 사람에게 가장 큰 문화 충격입니다. **Go에는 예외(exception)가 없습니다.** `try`/`catch`/`throw`가 없고, 에러는 던지는 게 아니라 **값으로 흐릅니다**. 예외·에러 값·`Result` 세 모델을 비교한 [에러 핸들링 모델](../concept/2026-07-12-error-handling-models.md)을 함께 보면 왜 이런 선택이 있는지 잡힙니다.
 
 ## error는 값이다
 
@@ -110,10 +110,10 @@ func safeRun() (err error) {
 - `defer`로 자원 정리를 예약하고, 왜 RAII의 명시적 버전인지 설명할 수 있다.
 - `error`와 `panic`을 언제 각각 쓰는지 구분할 수 있다.
 
-다음은 [⑤ goroutine·channel·context](/posts/go/2026-07-12-go-concurrency-goroutine-channel/)입니다. Go를 Go답게 만드는 킬러 피처, 경량 동시성으로 들어갑니다.
+다음은 [⑤ goroutine·channel·context](./2026-07-12-go-concurrency-goroutine-channel.md)입니다. Go를 Go답게 만드는 킬러 피처, 경량 동시성으로 들어갑니다.
 
 ## Reference
 
 - [Go 블로그 — Error handling and Go](https://go.dev/blog/error-handling-and-go) · [Working with Errors in Go 1.13](https://go.dev/blog/go1.13-errors) — `%w`·`Is`/`As`의 정본.
 - [A Tour of Go — Errors](https://go.dev/tour/methods/19)
-- [에러 핸들링 모델](/posts/concept/2026-07-12-error-handling-models/) — 예외·에러 값·Result 세 모델 비교.
+- [에러 핸들링 모델](../concept/2026-07-12-error-handling-models.md) — 예외·에러 값·Result 세 모델 비교.

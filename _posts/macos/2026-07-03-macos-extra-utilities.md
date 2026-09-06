@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/) · [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/)
+> 관련: [macOS 로드맵](./2026-07-03-macos-roadmap.md) · [새 맥 초기 설정](./2022-02-05-new-mac-initial-setup.md)
 
-큰 축은 이미 각각 글로 다뤘다 — 창 관리는 [AeroSpace + Hammerspoon](/posts/macos/2026-07-03-macos-roadmap/), 키맵은 [Karabiner-Elements](/posts/keyboard/2026-07-03-karabiner-elements-macos-keymap/), 창 전환은 [AltTab](/posts/macos/2026-07-03-alttab-window-switcher/), 검색·런처는 [Raycast](/posts/macos/2026-07-03-raycast-search-layer-role/). 이 글은 그 다음, **"깊게 파진 않지만 깔아두면 삶이 편해지는"** 보조 유틸을 한데 모은 것이다. 각각 무엇을·왜·대안만 짧게.
+큰 축은 이미 각각 글로 다뤘다 — 창 관리는 [AeroSpace + Hammerspoon](./2026-07-03-macos-roadmap.md), 키맵은 [Karabiner-Elements](../keyboard/2026-07-03-karabiner-elements-macos-keymap.md), 창 전환은 [AltTab](./2026-07-03-alttab-window-switcher.md), 검색·런처는 [Raycast](./2026-07-03-raycast-search-layer-role.md). 이 글은 그 다음, **"깊게 파진 않지만 깔아두면 삶이 편해지는"** 보조 유틸을 한데 모은 것이다. 각각 무엇을·왜·대안만 짧게.
 
 공통점 하나 — 아래 다섯 중 넷은 **무료·오픈소스**다. 유료 대안이 더 유명한 자리마저 오픈소스 대체제가 충분히 성숙했다.
 
@@ -53,12 +53,12 @@ macOS 기본 `⌘⇧5`로도 캡처는 되지만, **스크롤 캡처·이미지 
 
 - **왜** — GPU 렌더링으로 빠르고, **기본 설정이 훌륭**해 손댈 게 적다. 네이티브 앱이라 macOS와 잘 붙는다.
 - **대안·대중성** — 오랜 표준은 **iTerm2**(성숙·기능 방대). 그 외 **WezTerm·kitty·Alacritty**가 GPU 터미널 계열. Ghostty는 후발이지만 빠르게 인기를 얻었다.
-- **결론** — [tmux](/posts/tmux/2026-06-16-tmux-roadmap/)를 세션 관리로 쓰면 터미널 앱의 탭·분할 기능이 덜 중요해져, "빠르고 기본값 좋은" Ghostty가 잘 맞는다. iTerm2의 방대한 기능이 필요하면 그대로 두는 것도 정답.
+- **결론** — [tmux](../tmux/2026-06-16-tmux-roadmap.md)를 세션 관리로 쓰면 터미널 앱의 탭·분할 기능이 덜 중요해져, "빠르고 기본값 좋은" Ghostty가 잘 맞는다. iTerm2의 방대한 기능이 필요하면 그대로 두는 것도 정답.
 
 ---
 
 ## 안 넣은 것 — Raycast가 커버
 
-클립보드 히스토리(**Maccy**), 앱 런처(**Alfred**), 창 스냅 일부까지는 **[Raycast](/posts/macos/2026-07-03-raycast-search-layer-role/) 하나로 대부분 커버**된다. 별도 유틸을 겹쳐 깔기 전에 Raycast 확장으로 되는지부터 보는 게 앱 수를 줄이는 길이다.
+클립보드 히스토리(**Maccy**), 앱 런처(**Alfred**), 창 스냅 일부까지는 **[Raycast](./2026-07-03-raycast-search-layer-role.md) 하나로 대부분 커버**된다. 별도 유틸을 겹쳐 깔기 전에 Raycast 확장으로 되는지부터 보는 게 앱 수를 줄이는 길이다.
 
 **정리** — 큰 도구를 잡았다면, 위 다섯은 취향과 환경(외장 모니터 유무, 터미널 습관)에 따라 골라 얹으면 된다. 넷이 오픈소스라 부담 없이 시험해 보고 안 맞으면 지우면 그만이다.

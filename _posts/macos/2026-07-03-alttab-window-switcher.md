@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)의 창 관리 갈래 · [AeroSpace 기본](/posts/macos/2026-07-03-aerospace-basics/)
+> 관련: [macOS 로드맵](./2026-07-03-macos-roadmap.md)의 창 관리 갈래 · [AeroSpace 기본](./2026-07-03-aerospace-basics.md)
 
-[AeroSpace](/posts/macos/2026-07-03-aerospace-basics/)로 창을 공간별로 나누고 `alt-hjkl`로 방향 이동까지 익숙해지면, 딱 하나 불편한 게 남는다 — **"여러 워크스페이스에 흩어진 그 창 하나로 바로 가고 싶다"**. 방향 이동은 지금 워크스페이스 안에서만 편하고, 같은 앱 창이 여러 개면 방향키로 집어내기가 애매하다. [AltTab](https://alt-tab.app/)이 그 빈틈을 메운다. **오픈소스**이고 핵심 기능은 무료이며, Windows·리눅스식 **썸네일 창 전환**을 macOS에 더한다.
+[AeroSpace](./2026-07-03-aerospace-basics.md)로 창을 공간별로 나누고 `alt-hjkl`로 방향 이동까지 익숙해지면, 딱 하나 불편한 게 남는다 — **"여러 워크스페이스에 흩어진 그 창 하나로 바로 가고 싶다"**. 방향 이동은 지금 워크스페이스 안에서만 편하고, 같은 앱 창이 여러 개면 방향키로 집어내기가 애매하다. [AltTab](https://alt-tab.app/)이 그 빈틈을 메운다. **오픈소스**이고 핵심 기능은 무료이며, Windows·리눅스식 **썸네일 창 전환**을 macOS에 더한다.
 
 ## 왜 필요한가 — Cmd+Tab의 한계
 
@@ -46,7 +46,7 @@ AltTab은 다른 앱의 창을 들여다보므로 **두 가지 권한**이 필�
 - **손쉬운 사용(Accessibility)** — 창을 전환·제어하기 위해.
 - **화면 기록(Screen Recording)** — 창 **썸네일**을 그리기 위해. 이게 없으면 목록은 떠도 미리보기가 검게 나온다.
 
-이 앱 권한 승인 흐름은 [macOS 시스템 설정 — 앱 권한](/posts/macos/2026-07-03-macos-system-settings/)과 같은 맥락이다. 썸네일이 안 보이면 십중팔구 **화면 기록** 권한이 빠진 것이다.
+이 앱 권한 승인 흐름은 [macOS 시스템 설정 — 앱 권한](./2026-07-03-macos-system-settings.md)과 같은 맥락이다. 썸네일이 안 보이면 십중팔구 **화면 기록** 권한이 빠진 것이다.
 
 ## 단축키 충돌 — Cmd+Tab을 살릴까 죽일까
 

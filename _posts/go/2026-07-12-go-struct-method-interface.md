@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](/posts/go/2026-07-12-go-roadmap/)의 **② 타입(뼈대)** 단계다. 앞 글: [① 문법·패키지·모듈](/posts/go/2026-07-12-go-basics-package-module/)
+> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **② 타입(뼈대)** 단계다. 앞 글: [① 문법·패키지·모듈](./2026-07-12-go-basics-package-module.md)
 
 Go에는 클래스 상속 계층이 없다. 대신 `struct`, method, interface, embedding을 조합해 타입을 설계한다. C++의 클래스와 비교하면 출발점은 잡기 쉽지만, **상속을 다른 문법으로 옮긴 것**이라고 이해하면 금방 어긋난다.
 
@@ -180,7 +180,7 @@ C++ `std::any`를 떠올리면 "구체 타입을 지운 값 컨테이너"라는 
 - `Rect`와 `*Rect`의 method set 차이를 설명할 수 있다.
 - embedding을 inheritance와 같은 타입 관계라고 오해하지 않는다.
 
-다음은 [③ slice·map·string](/posts/go/2026-07-12-go-slice-map-string/)이다.
+다음은 [③ slice·map·string](./2026-07-12-go-slice-map-string.md)이다.
 
 ## Reference
 

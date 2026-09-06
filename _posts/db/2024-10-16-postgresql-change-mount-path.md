@@ -95,5 +95,5 @@ psql -U postgres -c "SHOW data_directory;"
 
 | 글 | 관계 |
 | --- | --- |
-| [PostgreSQL 메이저 업그레이드 14→17](/posts/db/2026-07-03-postgresql-major-upgrade/) | 데이터 디렉터리·systemd를 똑같이 다루는 업그레이드 |
-| [PostgreSQL PITR와 백업 전략](/posts/db/2026-07-03-postgresql-pitr-backup/) | 경로 이전 전 물리 백업 |
+| [PostgreSQL 메이저 업그레이드 14→17](./2026-07-03-postgresql-major-upgrade.md) | 데이터 디렉터리·systemd를 똑같이 다루는 업그레이드 |
+| [PostgreSQL PITR와 백업 전략](./2026-07-03-postgresql-pitr-backup.md) | 경로 이전 전 물리 백업 |

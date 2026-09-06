@@ -9,15 +9,15 @@ pin         : false
 hidden      : false
 ---
 
-> **[macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)** — 창 관리(AeroSpace × Hammerspoon) 갈래
-> 1. [연계 & 창 재정렬](/posts/macos/2026-07-03-aerospace-hammerspoon-window-reflow/)
-> 2. [Rectangle 대체 — 화면 내 창 분할](/posts/macos/2026-07-03-hammerspoon-window-tiling-rectangle/)
+> **[macOS 로드맵](./2026-07-03-macos-roadmap.md)** — 창 관리(AeroSpace × Hammerspoon) 갈래
+> 1. [연계 & 창 재정렬](./2026-07-03-aerospace-hammerspoon-window-reflow.md)
+> 2. [Rectangle 대체 — 화면 내 창 분할](./2026-07-03-hammerspoon-window-tiling-rectangle.md)
 > 3. **워크스페이스 정보 오버레이** (현재 글)
 {: .prompt-info }
 
 [AeroSpace](https://github.com/nikitabobko/AeroSpace)의 가상 워크스페이스는 macOS 네이티브 Spaces와 달리 전환 애니메이션이 없어 빠르지만, 그만큼 **"지금 몇 번 공간이지? 여기 뭐가 열려 있지?"**가 헷갈릴 수 있다. Hammerspoon으로 전환 순간 화면에 정보 오버레이(HUD)를 띄워 이 문제를 해결한다.
 
-이 글은 [1편](/posts/macos/2026-07-03-aerospace-hammerspoon-window-reflow/)에서 소개한 `open -g hammerspoon://` 연동 seam을 심화한다. 핵심은 **AeroSpace CLI를 비동기로 두 번 연쇄 호출**하는 부분이다.
+이 글은 [1편](./2026-07-03-aerospace-hammerspoon-window-reflow.md)에서 소개한 `open -g hammerspoon://` 연동 seam을 심화한다. 핵심은 **AeroSpace CLI를 비동기로 두 번 연쇄 호출**하는 부분이다.
 
 ## 전체 흐름
 

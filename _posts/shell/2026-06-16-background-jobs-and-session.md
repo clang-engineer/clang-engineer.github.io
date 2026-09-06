@@ -191,4 +191,4 @@ disown              # 셸 종료 시 같이 안 죽도록
 
 결론: **로컬 잠깐 → `&` + 리다이렉트**, **장시간/원격 → `tmux`**, **데몬 비슷하게 분리 → `nohup` 또는 `setsid`**. `disown`은 "아 이거 종료 안 되게 해야지" 싶을 때 사후 처방.
 
-관련 글: [프로세스 찾고 종료하기: pgrep, pkill, pidof, lsof, kill](/posts/linux/2026-06-16-process-find-and-kill/) — 떠 있는 잡을 추적·종료할 때 같이 쓰는 도구들.
+관련 글: [프로세스 찾고 종료하기: pgrep, pkill, pidof, lsof, kill](../linux/2026-06-16-process-find-and-kill.md) — 떠 있는 잡을 추적·종료할 때 같이 쓰는 도구들.

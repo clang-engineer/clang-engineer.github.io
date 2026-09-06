@@ -16,9 +16,9 @@ hidden      : false
 결론부터: 그건 tmux가 빠뜨린 기능이 아니라 **애초에 불가능한 요청**이다.
 이유를 알면 tmux의 pane 관련 명령들이 왜 지금처럼 생겼는지가 한 번에 풀린다.
 
-> 이 글은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 **입문 — 구조** 갈래에
+> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **입문 — 구조** 갈래에
 > 속한다. `join-pane`의 실제 사용법(타겟 문법·옵션)은
-> [tmux 정리본](/posts/tmux/2021-11-30-tmux-config/)의 "윈도우 합치기/분리" 절에서.
+> [tmux 정리본](./2021-11-30-tmux-config.md)의 "윈도우 합치기/분리" 절에서.
 {: .prompt-tip }
 
 ## pane은 화면 조각이 아니라 프로세스다

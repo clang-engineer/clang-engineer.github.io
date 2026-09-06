@@ -348,7 +348,7 @@ Cache-Control
 
 | 글 | 다루는 것 |
 |---|---|
-| [Let's Encrypt + Nginx — 인증서 수명주기](/posts/nginx/2025-04-02-letsencrypt/) | Challenge 선택 → 발급 → Renewal → Reload → 외부 TLS 검증 |
-| [nginx SSL 인증서 운영](/posts/nginx/2026-04-22-nginx-ssl-operations/) | 인증서 배치, reload/restart, process 복구 |
-| [특정 IP에서 HTTPS 강제 우회하기](/posts/nginx/2025-07-21-nginx-skip-https-for-ip/) | 내부 Probe 같은 예외 Routing |
+| [Let's Encrypt + Nginx — 인증서 수명주기](./2025-04-02-letsencrypt.md) | Challenge 선택 → 발급 → Renewal → Reload → 외부 TLS 검증 |
+| [nginx SSL 인증서 운영](./2026-04-22-nginx-ssl-operations.md) | 인증서 배치, reload/restart, process 복구 |
+| [특정 IP에서 HTTPS 강제 우회하기](./2025-07-21-nginx-skip-https-for-ip.md) | 내부 Probe 같은 예외 Routing |
 | **apex/www Origin과 Cache (현재 글)** | Host별 Browser State와 Canonical Redirect |

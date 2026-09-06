@@ -244,7 +244,7 @@ Window Layout / Tiling
 
 Raycast가 Window Management를 제공한다고 해서 전문 Window Manager와 같은 제품군이 되는 것은 아니다.
 
-이 경계는 [Raycast를 검색 계층으로 한정하기](/posts/macos/2026-07-03-raycast-search-layer-role/)에서 더 구체적으로 다룬다.
+이 경계는 [Raycast를 검색 계층으로 한정하기](./2026-07-03-raycast-search-layer-role.md)에서 더 구체적으로 다룬다.
 
 ## 정리
 

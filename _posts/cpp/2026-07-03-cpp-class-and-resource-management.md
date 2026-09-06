@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [모던 C++ 학습 로드맵](/posts/cpp/2026-07-03-cpp-learning-roadmap/)의 **중급(객체지향)** 단계입니다. 앞 글: [① 참조자와 동적 할당](/posts/cpp/2026-07-03-cpp-reference-and-dynamic-allocation/)
+> [모던 C++ 학습 로드맵](./2026-07-03-cpp-learning-roadmap.md)의 **중급(객체지향)** 단계입니다. 앞 글: [① 참조자와 동적 할당](./2026-07-03-cpp-reference-and-dynamic-allocation.md)
 
 앞 글에서 "직접 `delete`하는 건 위험하다"로 끝냈습니다. 그 해법이 클래스입니다. C++의 객체지향은 단순히 "데이터와 함수를 묶는" 것을 넘어, **자원의 수명을 객체의 수명에 묶는** 도구입니다. 이 관점으로 클래스를 보면 이후 모든 게 연결됩니다.
 
@@ -99,7 +99,7 @@ public:
 
 상속으로 코드를 확장하고, 가상 함수로 "기반 클래스 포인터로 파생 클래스의 동작을 부르는" 다형성을 얻습니다.
 
-> **언어 공통 개념**: 이 `virtual`이 하는 일(여러 타입을 하나로 다루고 실제 동작은 런타임에 고르기)은 언어 무관 개념 **서브타입 다형성**입니다. Go `interface`·Rust `trait`가 vtable로 같은 일을 어떻게 하는지, "누가 인터페이스 만족을 선언하나"가 갈리는 지점은 → [서브타입 다형성 — 인터페이스·트레이트·가상 함수](/posts/concept/2026-07-12-subtype-polymorphism-dynamic-dispatch/).
+> **언어 공통 개념**: 이 `virtual`이 하는 일(여러 타입을 하나로 다루고 실제 동작은 런타임에 고르기)은 언어 무관 개념 **서브타입 다형성**입니다. Go `interface`·Rust `trait`가 vtable로 같은 일을 어떻게 하는지, "누가 인터페이스 만족을 선언하나"가 갈리는 지점은 → [서브타입 다형성 — 인터페이스·트레이트·가상 함수](../concept/2026-07-12-subtype-polymorphism-dynamic-dispatch.md).
 
 ```cpp
 class Animal {

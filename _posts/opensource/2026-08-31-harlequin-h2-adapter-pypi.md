@@ -362,7 +362,7 @@ H2 JDBC 연결 자체보다 어려웠던 부분은 각 runtime의 경계를 맞�
 
 ## 관련 글
 
-- [Harlequin용 Vertica ODBC 어댑터를 만들어 PyPI에 배포하기](/posts/opensource/2026-08-31-harlequin-odbc-vertica-adapter-pypi/) - Harlequin entry point, wheel·sdist, 격리 설치와 PyPI 배포의 공통 흐름
+- [Harlequin용 Vertica ODBC 어댑터를 만들어 PyPI에 배포하기](./2026-08-31-harlequin-odbc-vertica-adapter-pypi.md) - Harlequin entry point, wheel·sdist, 격리 설치와 PyPI 배포의 공통 흐름
 - [Harlequin Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/harlequin.md) - profile·keymap·기본 사용법
 - [Python PyPI Publishing Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/python-pypi-publishing.md) - 이후 PyPI 배포 절차의 canonical reference
 - [GitHub: clang-engineer/harlequin-h2](https://github.com/clang-engineer/harlequin-h2)

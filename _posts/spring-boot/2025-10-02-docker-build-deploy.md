@@ -417,7 +417,7 @@ docker compose logs --tail=200 demo-app
 
 그리고 Actuator Health Endpoint를 사용하는 환경이라면 실제 HTTP Health까지 확인한다.
 
-관련 모니터링 구조는 [JHipster 모니터링 — Actuator·Prometheus·Grafana 스택 구성](/posts/spring-boot/2025-10-05-monitoring/)에서 이어진다.
+관련 모니터링 구조는 [JHipster 모니터링 — Actuator·Prometheus·Grafana 스택 구성](./2025-10-05-monitoring.md)에서 이어진다.
 
 ## 정리
 
@@ -439,4 +439,4 @@ CI/CD
 
 이 구분을 잡아두면 Dockerfile 없이 Image를 만드는 문제, 운영 설정을 주입하는 문제, 여러 Container를 실행하는 문제, 배포를 자동화하는 문제를 한 설정 파일에 뒤섞지 않게 된다.
 
-> 관련: [JHipster Docker 개요](/posts/spring-boot/2025-09-23-jhipster-docker-compose-overview/)
+> 관련: [JHipster Docker 개요](./2025-09-23-jhipster-docker-compose-overview.md)

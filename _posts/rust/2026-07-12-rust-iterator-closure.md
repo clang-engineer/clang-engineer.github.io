@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](/posts/rust/2026-07-12-rust-roadmap/)의 **⑦ 관용구(고유)** 단계입니다. 앞 글: [⑥ trait·제네릭](/posts/rust/2026-07-12-rust-trait-generics/)
+> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **⑦ 관용구(고유)** 단계입니다. 앞 글: [⑥ trait·제네릭](./2026-07-12-rust-trait-generics.md)
 
-**C++ 대응이 흐릿한, Rust에서 새로 배우는 축입니다.** 문법만 알고 여길 건너뛰면 "C++을 Rust 문법으로 옮긴" 코드가 나옵니다. Rust 코드가 실제로 어떻게 생겼는지가 여기서 갈립니다. 클로저의 일반 개념은 [클로저란 무엇인가](/posts/concept/2026-07-12-closure/)에서 다룹니다.
+**C++ 대응이 흐릿한, Rust에서 새로 배우는 축입니다.** 문법만 알고 여길 건너뛰면 "C++을 Rust 문법으로 옮긴" 코드가 나옵니다. Rust 코드가 실제로 어떻게 생겼는지가 여기서 갈립니다. 클로저의 일반 개념은 [클로저란 무엇인가](../concept/2026-07-12-closure.md)에서 다룹니다.
 
 ## 클로저 — 캡처가 소유권과 맞물린다
 
@@ -89,10 +89,10 @@ C++의 `<algorithm>` + 범위 for를 하나의 흐르는 체인으로 쓰는 셈
 - `move` 캡처와 `Fn`/`FnMut`/`FnOnce` call trait이 왜 별개인지 설명할 수 있다.
 - 반복자가 왜 lazy하고 zero-cost인지 말할 수 있다.
 
-여기까지 오면 "Rust식 사고"가 붙기 시작한 것입니다. 다음은 [⑧ 스마트 포인터](/posts/rust/2026-07-12-rust-smart-pointers/)로, ②의 소유권 규칙이 빡빡할 때 푸는 도구입니다(C++ 스마트 포인터와 거의 1:1).
+여기까지 오면 "Rust식 사고"가 붙기 시작한 것입니다. 다음은 [⑧ 스마트 포인터](./2026-07-12-rust-smart-pointers.md)로, ②의 소유권 규칙이 빡빡할 때 푸는 도구입니다(C++ 스마트 포인터와 거의 1:1).
 
 ## Reference
 
 - [The Rust Book Ch.13](https://doc.rust-lang.org/book/ch13-00-functional-features.html) — 클로저·반복자의 정본.
 - [rustlings — iterators / closures](https://github.com/rust-lang/rustlings)
-- [클로저란 무엇인가](/posts/concept/2026-07-12-closure/) — 언어 무관 클로저 개념.
+- [클로저란 무엇인가](../concept/2026-07-12-closure.md) — 언어 무관 클로저 개념.

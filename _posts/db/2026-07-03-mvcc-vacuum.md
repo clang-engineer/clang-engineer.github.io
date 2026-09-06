@@ -188,4 +188,4 @@ LIMIT 10;
 | 글 | 왜 |
 | --- | --- |
 | [트랜잭션 동시성 제어 — 격리 수준과 락](/posts/db/2024-05-03-isolation-level/) | MVCC가 구현하는 격리 수준의 이론적 배경 |
-| [PostgreSQL 모니터링 — pg_stat 뷰와 슬로우 쿼리 추적](/posts/db/2026-07-03-postgresql-monitoring/) | dead tuple·autovacuum 상태를 실제로 보는 법 |
+| [PostgreSQL 모니터링 — pg_stat 뷰와 슬로우 쿼리 추적](./2026-07-03-postgresql-monitoring.md) | dead tuple·autovacuum 상태를 실제로 보는 법 |

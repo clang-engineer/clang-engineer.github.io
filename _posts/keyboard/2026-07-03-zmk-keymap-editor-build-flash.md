@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](/posts/keyboard/2026-07-03-keyboard-roadmap/) · [키맵 용어집](/posts/keyboard/2026-07-03-keymap-terms-glossary/) · [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) · [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)
 
-[ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)가 좋은 키맵을 **어떻게 설계할지** 다룬다면, 이 글은 그 앞 단계인 **키맵을 수정해서 실제 보드에 올리는 과정**을 다룬다.
+[ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)가 좋은 키맵을 **어떻게 설계할지** 다룬다면, 이 글은 그 앞 단계인 **키맵을 수정해서 실제 보드에 올리는 과정**을 다룬다.
 
 ZMK 키보드는 보드 제작자나 프로젝트가 `zmk-config` 형태의 저장소를 제공하는 경우가 많다. 실제 구조는 프로젝트마다 다르지만 전체 작업은 다음 네 단계로 볼 수 있다.
 
@@ -57,7 +57,7 @@ hold-tap, macro, custom behavior처럼 설계가 복잡해지면 `.keymap`을 �
 → .keymap 직접 편집
 ```
 
-실제 40% 보드의 레이어와 hold-tap 설계는 [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)에서 이어진다.
+실제 40% 보드의 레이어와 hold-tap 설계는 [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)에서 이어진다.
 
 ## 3. 펌웨어를 빌드한다
 
@@ -108,7 +108,7 @@ ZMK 키맵 설계기
 "무엇을 어떻게 배치할 것인가"
 ```
 
-40% 키보드에서 세벌식 390과 HHKB 손버릇을 레이어로 옮긴 실제 설계는 [ZMK 키맵 설계기](/posts/keyboard/2026-07-03-zmk-keymap-hhkb-sebeolsik-40/)에서 다룬다.
+40% 키보드에서 세벌식 390과 HHKB 손버릇을 레이어로 옮긴 실제 설계는 [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)에서 다룬다.
 
 ## 참고
 

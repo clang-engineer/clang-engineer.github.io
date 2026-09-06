@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-linter를 돌리고, `git`을 부르고, 파일을 읽어 결과를 버퍼에 채우는 플러그인 — 전부 외부 작업을 **UI를 멈추지 않고** 처리해야 한다. Neovim은 단일 스레드 이벤트 루프라, 블로킹 호출 하나가 에디터 전체를 얼린다. [vim 전역 API 지도](/posts/neovim/2026-06-19-neovim-vim-global-api-map/)에서 이름만 짚은 `vim.schedule`·`vim.uv`가 여기서 본론이 된다.
+linter를 돌리고, `git`을 부르고, 파일을 읽어 결과를 버퍼에 채우는 플러그인 — 전부 외부 작업을 **UI를 멈추지 않고** 처리해야 한다. Neovim은 단일 스레드 이벤트 루프라, 블로킹 호출 하나가 에디터 전체를 얼린다. [vim 전역 API 지도](./2026-06-19-neovim-vim-global-api-map.md)에서 이름만 짚은 `vim.schedule`·`vim.uv`가 여기서 본론이 된다.
 
 ## 결론 먼저
 
@@ -116,9 +116,9 @@ end)
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [vim 전역 API 지도](/posts/neovim/2026-06-19-neovim-vim-global-api-map/) | `vim.schedule`·`vim.uv`가 전체에서 차지하는 위치 |
-| [버퍼·윈도우·extmark 조작](/posts/neovim/2026-06-19-neovim-buffer-window-extmark/) | 비동기 결과를 받아 그릴 대상 |
-| [autocommand·이벤트 심화](/posts/neovim/2026-06-19-neovim-autocommand-events/) | fast-event 컨텍스트와 디바운스 |
-| [Lua 에러 처리](/posts/neovim/2026-06-15-lua-error-handling/) | 콜백 안 에러를 `pcall`·`vim.schedule`로 안전하게 다루기 |
+| [vim 전역 API 지도](./2026-06-19-neovim-vim-global-api-map.md) | `vim.schedule`·`vim.uv`가 전체에서 차지하는 위치 |
+| [버퍼·윈도우·extmark 조작](./2026-06-19-neovim-buffer-window-extmark.md) | 비동기 결과를 받아 그릴 대상 |
+| [autocommand·이벤트 심화](./2026-06-19-neovim-autocommand-events.md) | fast-event 컨텍스트와 디바운스 |
+| [Lua 에러 처리](./2026-06-15-lua-error-handling.md) | 콜백 안 에러를 `pcall`·`vim.schedule`로 안전하게 다루기 |
 
 정식 레퍼런스는 `:h vim.system()`, `:h jobstart()`, `:h vim.uv`, `:h vim.schedule()`.

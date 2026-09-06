@@ -214,7 +214,7 @@ geo로 허용 Source 분류
 
 | 글 | 다루는 것 |
 |---|---|
-| [Let's Encrypt + Nginx — 인증서 수명주기](/posts/nginx/2025-04-02-letsencrypt/) | Challenge 선택 → 발급 → Renewal → Reload → 외부 TLS 검증 |
-| [Nginx TLS 운영](/posts/nginx/2026-04-22-nginx-ssl-operations/) | 인증서 배치, Private Key, Reload, Process 복구 |
+| [Let's Encrypt + Nginx — 인증서 수명주기](./2025-04-02-letsencrypt.md) | Challenge 선택 → 발급 → Renewal → Reload → 외부 TLS 검증 |
+| [Nginx TLS 운영](./2026-04-22-nginx-ssl-operations.md) | 인증서 배치, Private Key, Reload, Process 복구 |
 | **특정 Client의 HTTP 예외 (현재 글)** | Source IP 경계와 제한된 예외 Routing |
-| [apex/www Origin과 Cache](/posts/nginx/2026-04-24-nginx-apex-www-redirect/) | Host별 Browser State와 Canonical Redirect |
+| [apex/www Origin과 Cache](./2026-04-24-nginx-apex-www-redirect.md) | Host별 Browser State와 Canonical Redirect |

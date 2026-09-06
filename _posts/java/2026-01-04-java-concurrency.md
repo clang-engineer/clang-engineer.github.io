@@ -191,9 +191,9 @@ Visibility / Atomicity / Ordering 문제
 | `ReentrantLock` | 명시적 Lock, `tryLock`, interruptible lock 등 |
 | `ReadWriteLock` | Read/Write Lock 분리 |
 
-`volatile`은 단순히 "Thread-safe 변수"가 아니며 복합 연산 전체의 원자성을 보장하지 않는다. 자세한 경계는 [volatile vs static](/posts/java/2026-04-01-java-volatile-vs-static/)에서 다룬다.
+`volatile`은 단순히 "Thread-safe 변수"가 아니며 복합 연산 전체의 원자성을 보장하지 않는다. 자세한 경계는 [volatile vs static](./2026-04-01-java-volatile-vs-static.md)에서 다룬다.
 
-Lock 선택은 [Java Lock 비교](/posts/java/2026-05-11-java-lock-comparison/)에서 이어진다.
+Lock 선택은 [Java Lock 비교](./2026-05-11-java-lock-comparison.md)에서 이어진다.
 
 ## 7. 작업 간 Coordination 도구
 

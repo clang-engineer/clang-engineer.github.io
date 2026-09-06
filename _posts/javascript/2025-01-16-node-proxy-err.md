@@ -225,4 +225,4 @@ localhost
 
 **Browser는 되는데 Node Proxy만 `ECONNREFUSED`라면 "localhost가 실제로 어느 주소가 되었고 Backend는 어디에 Listen하는가"를 먼저 확인한다.**
 
-> 같은 Dual-stack 문제를 Dev Server의 **Listen 쪽**에서 만난 사례는 [Node localhost dual-stack — browser-sync listen 함정](/posts/javascript/2026-05-21-node-dualstack-webpack-browser-sync/)에서 이어진다.
+> 같은 Dual-stack 문제를 Dev Server의 **Listen 쪽**에서 만난 사례는 [Node localhost dual-stack — browser-sync listen 함정](./2026-05-21-node-dualstack-webpack-browser-sync.md)에서 이어진다.

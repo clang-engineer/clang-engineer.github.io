@@ -76,7 +76,7 @@ sudo du -h --max-depth=1 /var | sort -rh | head
 sudo du -sh /var/log/* | sort -rh | head
 ```
 
-`/var/log`가 범인인 경우가 압도적으로 많습니다 — 로그 회전이 안 걸려 있거나 특정 서비스가 폭주해서입니다. 로그가 계속 쌓이는 근본 해결은 [logrotate로 로그 회전 관리하기](/posts/linux/2025-02-19-logrotate/)에서 다뤘습니다. 지금 급하면 큰 로그부터 비우고, 재발 방지는 그 글로.
+`/var/log`가 범인인 경우가 압도적으로 많습니다 — 로그 회전이 안 걸려 있거나 특정 서비스가 폭주해서입니다. 로그가 계속 쌓이는 근본 해결은 [logrotate로 로그 회전 관리하기](./2025-02-19-logrotate.md)에서 다뤘습니다. 지금 급하면 큰 로그부터 비우고, 재발 방지는 그 글로.
 
 > **대화형으로 훑고 싶다면 `ncdu`** — `du`를 커서로 탐색하는 TUI입니다. 방향키로 큰 디렉토리를 파고들며 그 자리에서 삭제까지 됩니다. `apt install ncdu` / `dnf install ncdu`. 한 번 크게 훑을 땐 `du | sort`보다 압도적으로 빠릅니다. 다만 서버 자동화·스크립트엔 `du`가 표준.
 {: .prompt-tip }
@@ -115,7 +115,7 @@ sudo truncate -s 0 /proc/1234/fd/5     # 위 lsof의 PID/FD 사용
 
 애초에 로그는 `rm`으로 지우지 말고 `truncate -s 0`으로 비우거나 logrotate에 맡기는 게 맞습니다 — `rm` 후 재시작 전까지 공간이 안 돌아오는 이 함정을 피할 수 있습니다.
 
-> `lsof`로 "무엇이 이 자원을 잡고 있나"를 역추적하는 패턴은 포트·파일 전반에 통합니다. `lsof -p PID`(그 프로세스가 연 것 전부), 프로세스를 실제로 정리하는 `pkill`/`kill`은 [프로세스 찾고 종료하기](/posts/linux/2026-06-16-process-find-and-kill/)에 정리돼 있습니다.
+> `lsof`로 "무엇이 이 자원을 잡고 있나"를 역추적하는 패턴은 포트·파일 전반에 통합니다. `lsof -p PID`(그 프로세스가 연 것 전부), 프로세스를 실제로 정리하는 `pkill`/`kill`은 [프로세스 찾고 종료하기](./2026-06-16-process-find-and-kill.md)에 정리돼 있습니다.
 {: .prompt-tip }
 
 ---

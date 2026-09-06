@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 이 글은 [Neovim 로드맵](/posts/neovim/2026-06-16-neovim-roadmap/)의 **부록 A(비교·생태계)** 다. LazyVim이 *기본으로* 켜는 플러그인의 키맵·역할은 [LazyVim 주요 플러그인 정리](/posts/lazyvim/2026-06-07-lazyvim-plugins-overview/)와 [기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 다뤘다. 이 글은 그 **밖의** 인기 플러그인 — 기본값을 갈아탈 때의 대안과, 기본에 아예 없는 인기템이다.
+> 이 글은 [Neovim 로드맵](./2026-06-16-neovim-roadmap.md)의 **부록 A(비교·생태계)** 다. LazyVim이 *기본으로* 켜는 플러그인의 키맵·역할은 [LazyVim 주요 플러그인 정리](/posts/lazyvim/2026-06-07-lazyvim-plugins-overview/)와 [기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 다뤘다. 이 글은 그 **밖의** 인기 플러그인 — 기본값을 갈아탈 때의 대안과, 기본에 아예 없는 인기템이다.
 {: .prompt-tip }
 
 LazyVim을 쓰면 인기 플러그인 대부분이 이미 깔려 있다 — snacks·blink·neo-tree·gitsigns·flash·conform… 그래서 "인기 Neovim 플러그인" 카탈로그를 또 나열하면 대부분 이미 아는 것이다. 가치 있는 질문은 다르다: **"기본값 대신 뭘 얹나, 그리고 왜 갈아타나."** 이 글은 그 각도로 정리한다. (별 개수는 2026-07 실측, 정착도는 dotfyle의 실 사용 config 수·커뮤니티 반응 기준.)
@@ -39,7 +39,7 @@ LazyVim의 현재 기본은 **snacks.picker**(snacks.nvim 7.8k⭐)다. 갈아탈
 - **fzf-lua**(4.4k⭐) — "정착해서 눌러앉는" 픽. 대형 저장소에서 가장 빠르고 백로그가 작다(open issue 한 자릿수). LazyVim도 14부터 이걸 기본으로 밀었던 흐름.
 - **telescope**(19.6k⭐) — 별은 압도적이지만 사실상 **유지보수 모드**(기능보다 버그 수정). 신규 유입은 줄지만 LSP·git 등 picker 생태계는 여전히 최대.
 
-셋의 구조 차이(OS 전역 fzf vs 에디터 내부 Lua)는 [Telescope vs fzf](/posts/neovim/2026-07-03-telescope-vs-fzf/)에서 따로 팠다. LazyVim에선 `vim.g.lazyvim_picker`로 전환한다.
+셋의 구조 차이(OS 전역 fzf vs 에디터 내부 Lua)는 [Telescope vs fzf](./2026-07-03-telescope-vs-fzf.md)에서 따로 팠다. LazyVim에선 `vim.g.lazyvim_picker`로 전환한다.
 
 ### 자동완성: blink.cmp(기본) ↔ **nvim-cmp**
 
@@ -81,7 +81,7 @@ LazyVim 기본은 **conform.nvim**(5.3k⭐, 포맷) + **nvim-lint**(2.8k⭐)다.
 
 ## C. AI 지형 — 인기와 정착이 가장 어긋나는 곳
 
-별과 실사용이 가장 벌어지는 영역이라 따로 뗐다. 블로그는 지금까지 [CopilotChat 에러](/posts/neovim/2026-06-17-copilotchat-copilot-business-model-not-found/) 정도만 다뤘다.
+별과 실사용이 가장 벌어지는 영역이라 따로 뗐다. 블로그는 지금까지 [CopilotChat 에러](./2026-06-17-copilotchat-copilot-business-model-not-found.md) 정도만 다뤘다.
 
 | 도구 | 별 | 정착 | 평가 |
 |---|---|---|---|

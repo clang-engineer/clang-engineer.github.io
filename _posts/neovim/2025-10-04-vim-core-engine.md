@@ -149,7 +149,7 @@ Neovim Core
 
 터미널에서 `nvim`을 실행할 때 보는 화면은 Neovim 자체와 완전히 동일한 하나의 덩어리가 아니라 **Core의 상태를 표현하는 내장 TUI 클라이언트**로 볼 수 있다.
 
-이 부분은 [Neovim은 왜 TUI 앱이면서 UI 플랫폼인가](/posts/terminal/2026-09-05-neovim-as-tui-platform/)에서 별도로 다룬다.
+이 부분은 [Neovim은 왜 TUI 앱이면서 UI 플랫폼인가](../terminal/2026-09-05-neovim-as-tui-platform.md)에서 별도로 다룬다.
 
 ## 7. 한 번의 동작을 전체 흐름에 놓아보기
 

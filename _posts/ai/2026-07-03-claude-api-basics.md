@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/)의 **저변·원리** 갈래 · [MCP 개념 정리](/posts/ai/2025-10-23-mcp/)
+> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **저변·원리** 갈래 · [MCP 개념 정리](./2025-10-23-mcp.md)
 
 Claude Code·Cursor 같은 도구는 결국 모델 API를 호출해 동작한다. 직접 앱에 Claude를 붙일 때 마주치는 최소 개념 — 모델 선택, 메시지 요청, 스트리밍, 도구 사용, 프롬프트 캐싱 — 을 공식 SDK 기준으로 정리한다. 예제는 Python이지만 TypeScript·Java·Go·Ruby 등 공식 SDK도 같은 API 개념을 사용한다.
 
@@ -120,7 +120,7 @@ tools = [{
 
 응답에 `tool_use` 블록이 오면 애플리케이션이 해당 Tool을 실행하고 결과를 `tool_result`로 돌려준 뒤 대화를 이어간다. SDK의 Tool Runner를 사용하면 이 반복 흐름을 자동화할 수 있다.
 
-외부 Tool·Resource를 여러 AI Client에서 공통 방식으로 발견하고 호출하도록 표준화한 상위 규격이 [MCP](/posts/ai/2025-10-23-mcp/)다.
+외부 Tool·Resource를 여러 AI Client에서 공통 방식으로 발견하고 호출하도록 표준화한 상위 규격이 [MCP](./2025-10-23-mcp.md)다.
 
 ## 프롬프트 캐싱 — 반복되는 Prefix를 아낀다
 
@@ -155,4 +155,4 @@ n = client.messages.count_tokens(
 
 ---
 
-여기까지가 Claude를 코드에 직접 붙일 때 필요한 최소 지형이다. 외부 Tool·Resource 연결을 표준화하는 [MCP 개념](/posts/ai/2025-10-23-mcp/)과 완성된 개발 도구인 [Claude Code](/posts/ai/2025-10-24-claude-code/)를 함께 보면 **API → Protocol → 완성 도구**의 층위가 보인다. 전체 경로는 [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/).
+여기까지가 Claude를 코드에 직접 붙일 때 필요한 최소 지형이다. 외부 Tool·Resource 연결을 표준화하는 [MCP 개념](./2025-10-23-mcp.md)과 완성된 개발 도구인 [Claude Code](./2025-10-24-claude-code.md)를 함께 보면 **API → Protocol → 완성 도구**의 층위가 보인다. 전체 경로는 [AI 로드맵](./2026-07-03-ai-roadmap.md).

@@ -47,7 +47,7 @@ sudo grep zero /etc/shadow
 #          └ $6$ = SHA-512 해시 (비었으면 로그인 불가, ! 나 * 면 잠김)
 ```
 
-`/etc/shadow`의 날짜·주기 컬럼은 비밀번호 변경·만료 정책을 담습니다. 만든 계정의 인증이 거부되면 [passwd 직후 su 인증 점검 순서](/posts/linux/2026-06-07-rocky-linux-chage-su-authentication-failure/)에서 PAM 로그, 잠금, 만료와 접근 정책을 구분해 확인하세요.
+`/etc/shadow`의 날짜·주기 컬럼은 비밀번호 변경·만료 정책을 담습니다. 만든 계정의 인증이 거부되면 [passwd 직후 su 인증 점검 순서](./2026-06-07-rocky-linux-chage-su-authentication-failure.md)에서 PAM 로그, 잠금, 만료와 접근 정책을 구분해 확인하세요.
 
 > **파일을 직접 편집하지 마세요.** `/etc/passwd`·`/etc/shadow`를 `vim`으로 여는 대신 항상 아래 명령을 씁니다. 꼭 손봐야 하면 `vipw`(passwd) / `vipw -s`(shadow) — 편집 중 잠금을 걸고 문법을 검사해 줍니다.
 {: .prompt-warning }
@@ -154,7 +154,7 @@ sudo userdel zero        # 계정만 삭제 (홈·메일은 남김)
 sudo userdel -r zero     # 홈 디렉토리·메일 스풀까지 삭제
 ```
 
-> 지우려는 계정이 돌리던 프로세스가 남아 있으면 `userdel: user zero is currently used by process`로 거부됩니다. 프로세스를 먼저 정리해야 합니다 — [프로세스 찾고 종료하기](/posts/linux/2026-06-16-process-find-and-kill/)의 `pkill -u zero`로 해당 유저 프로세스를 한 번에 끕니다. 또한 이 계정이 소유했던 파일이 시스템 곳곳에 UID만 남아 떠돌 수 있으니(`find / -uid 1000`), 실제 운영에선 삭제보다 **잠금(`usermod -L`)**을 선호하기도 합니다.
+> 지우려는 계정이 돌리던 프로세스가 남아 있으면 `userdel: user zero is currently used by process`로 거부됩니다. 프로세스를 먼저 정리해야 합니다 — [프로세스 찾고 종료하기](./2026-06-16-process-find-and-kill.md)의 `pkill -u zero`로 해당 유저 프로세스를 한 번에 끕니다. 또한 이 계정이 소유했던 파일이 시스템 곳곳에 UID만 남아 떠돌 수 있으니(`find / -uid 1000`), 실제 운영에선 삭제보다 **잠금(`usermod -L`)**을 선호하기도 합니다.
 {: .prompt-tip }
 
 ---
@@ -168,7 +168,7 @@ sudo usermod -aG sudo zero     # Debian/Ubuntu
 sudo usermod -aG wheel zero    # RHEL/Rocky/Fedora
 ```
 
-이러면 사실상 root 전권이 갑니다. 특정 명령만 허용하는 최소 권한 방식(`/etc/sudoers.d/`), `su`와 `sudo`의 차이, `wheel` 그룹이 왜 그 이름인지 등 권한 상승의 원리는 [sudo·su·wheel 권한 다루기](/posts/linux/2026-07-11-sudo-su-wheel/)에서 따로 정리했습니다.
+이러면 사실상 root 전권이 갑니다. 특정 명령만 허용하는 최소 권한 방식(`/etc/sudoers.d/`), `su`와 `sudo`의 차이, `wheel` 그룹이 왜 그 이름인지 등 권한 상승의 원리는 [sudo·su·wheel 권한 다루기](./2026-07-11-sudo-su-wheel.md)에서 따로 정리했습니다.
 
 ---
 

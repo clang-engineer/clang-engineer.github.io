@@ -91,7 +91,7 @@ bind -T copy-mode-vi Y ...                                  # 복사 → 에이�
 - **`y`** = 선택을 시스템 클립보드로 복사 (vim의 yank 습관 그대로)
 - **`Y`** = 선택을 에이전트 패널로 전송
 
-소문자는 기본 동작, 대문자는 확장 동작이라는 대소문자 규약이 살아 있어 외우기 쉽다. `y`가 클립보드까지 가려면 `set -g set-clipboard on`이 전제인데, 이건 [tmux 시스템 클립보드 — OSC52 / pbcopy / 한글](/posts/tmux/2026-06-10-tmux-clipboard-osc52-pbcopy-hangul/)에서 따로 다뤘다.
+소문자는 기본 동작, 대문자는 확장 동작이라는 대소문자 규약이 살아 있어 외우기 쉽다. `y`가 클립보드까지 가려면 `set -g set-clipboard on`이 전제인데, 이건 [tmux 시스템 클립보드 — OSC52 / pbcopy / 한글](./2026-06-10-tmux-clipboard-osc52-pbcopy-hangul.md)에서 따로 다뤘다.
 
 ## 정리
 
@@ -99,4 +99,4 @@ bind -T copy-mode-vi Y ...                                  # 복사 → 에이�
 - 셸 출력은 `Y` 바인딩 한 줄로 "선택 → 키 하나 → 에이전트에 붙고 포커스 이동"까지 줄어든다.
 - 타깃은 `{marked}` 패널로 잡으면 위치·다중 에이전트에 강하다. 마크가 없으면 경고하게 해서 조용한 실패를 막는다.
 
-이 바인딩은 에이전트에게 *내용을 보내는* 쪽이고, 반대로 여러 에이전트의 *상태를 감지*(working/blocked/done)하는 문제는 [tmux로 AI 에이전트 여러 개 관제하기](/posts/tmux/2026-07-09-tmux-ai-agent-status-detection/)에서 다뤘다 — 둘을 같이 쓰면 다중 에이전트 워크플로가 한결 매끄럽다. tmux 학습 전체 흐름은 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)에 정리해 뒀다.
+이 바인딩은 에이전트에게 *내용을 보내는* 쪽이고, 반대로 여러 에이전트의 *상태를 감지*(working/blocked/done)하는 문제는 [tmux로 AI 에이전트 여러 개 관제하기](./2026-07-09-tmux-ai-agent-status-detection.md)에서 다뤘다 — 둘을 같이 쓰면 다중 에이전트 워크플로가 한결 매끄럽다. tmux 학습 전체 흐름은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)에 정리해 뒀다.

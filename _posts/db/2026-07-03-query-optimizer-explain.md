@@ -185,7 +185,7 @@ Nested Loop  (cost=0.29..118.50 rows=10 width=488)
         Index Cond: (customer_id = c.id)
 ```
 
-`Nested Loop`은 바깥 노드의 각 행마다 안쪽 노드를 반복 실행한다(안쪽 `loops`가 바깥 `rows`와 같아진다). `Hash Join`은 안쪽 입력으로 `Hash`를 만들고 바깥을 순회하며 매칭한다. `Merge Join`은 양쪽을 정렬해 병합한다. 어떤 조인이 왜 선택되는지는 [조인 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/)에서 다뤘다.
+`Nested Loop`은 바깥 노드의 각 행마다 안쪽 노드를 반복 실행한다(안쪽 `loops`가 바깥 `rows`와 같아진다). `Hash Join`은 안쪽 입력으로 `Hash`를 만들고 바깥을 순회하며 매칭한다. `Merge Join`은 양쪽을 정렬해 병합한다. 어떤 조인이 왜 선택되는지는 [조인 방식 총정리](./2026-01-04-rdb-join-strategy.md)에서 다뤘다.
 
 ## 6. 추정과 실제의 괴리로 통계 문제 잡기
 
@@ -253,6 +253,6 @@ PostgreSQL이 힌트를 안 넣는 것은 설계 철학이다. "힌트로 계획
 
 | 글 | 무엇을 담았나 |
 | --- | --- |
-| [RDB에서 조인(Join) 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/) | 옵티마이저가 고르는 조인 알고리즘 각각의 원리 |
-| [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) | 옵티마이저가 인덱스를 언제 타고 안 타는지 |
-| [실행계획(EXPLAIN) 노드·필드 사전](/posts/db/2026-07-03-postgresql-explain-node-reference/) | EXPLAIN에 뜨는 모든 노드·계측 라인을 사전처럼 찾아보는 레퍼런스 |
+| [RDB에서 조인(Join) 방식 총정리](./2026-01-04-rdb-join-strategy.md) | 옵티마이저가 고르는 조인 알고리즘 각각의 원리 |
+| [RDB 인덱스 완전 정리](./2026-07-03-rdb-index.md) | 옵티마이저가 인덱스를 언제 타고 안 타는지 |
+| [실행계획(EXPLAIN) 노드·필드 사전](./2026-07-03-postgresql-explain-node-reference.md) | EXPLAIN에 뜨는 모든 노드·계측 라인을 사전처럼 찾아보는 레퍼런스 |

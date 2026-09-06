@@ -408,7 +408,7 @@ lua/config/
 
 그래서 서브파일을 새로 추가하면 `options.lua` 에 `require` 한 줄을 직접 넣어줘야 한다. 깜빡하면 "파일은 만들었는데 옵션이 안 먹는다" 함정에 빠진다. (LazyVim 의 내부 로더는 파일이 존재할 때만 require 하므로, 진입점에서 안 부른 서브파일은 에러도 없이 조용히 무시된다.)
 
-> 같은 메커니즘을 프로젝트별 로컬 설정에 응용하는 법은 [exrc · .nvim.lua 가이드](/posts/neovim/2026-06-15-neovim-exrc-nvim-lua-guide/)에서 — 거기서도 글로벌 dotfiles 의 lua 모듈을 `.nvim.lua` 가 `require` 로 끌어온다.
+> 같은 메커니즘을 프로젝트별 로컬 설정에 응용하는 법은 [exrc · .nvim.lua 가이드](./2026-06-15-neovim-exrc-nvim-lua-guide.md)에서 — 거기서도 글로벌 dotfiles 의 lua 모듈을 `.nvim.lua` 가 `require` 로 끌어온다.
 
 ## 대중성·대안
 
@@ -438,11 +438,11 @@ Neovim 안에서 바로 확인:
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [언어 선택](/posts/neovim/2026-06-12-neovim-plugin-language-choice/) | Lua가 표준이지만 부모 생태계가 Vimscript면 Vimscript가 자연스럽다 |
-| [Lua와 Vimscript 섞기](/posts/neovim/2026-06-12-neovim-plugin-mixing-lua-vimscript/) | 호출 경계 최소화, 흔한 안티패턴, 모범 분담 |
-| [Lua vs Vimscript 성능](/posts/neovim/2026-06-12-neovim-lua-vs-vimscript-performance/) | LuaJIT vs 트리 워킹 인터프리터, 진짜 차이 나는 영역과 측정법 |
+| [언어 선택](./2026-06-12-neovim-plugin-language-choice.md) | Lua가 표준이지만 부모 생태계가 Vimscript면 Vimscript가 자연스럽다 |
+| [Lua와 Vimscript 섞기](./2026-06-12-neovim-plugin-mixing-lua-vimscript.md) | 호출 경계 최소화, 흔한 안티패턴, 모범 분담 |
+| [Lua vs Vimscript 성능](./2026-06-12-neovim-lua-vs-vimscript-performance.md) | LuaJIT vs 트리 워킹 인터프리터, 진짜 차이 나는 영역과 측정법 |
 | **runtimepath 디렉토리 관례 (현재 글)** | `plugin/` vs `lua/`, 헬프·헬스체크·after/ 자동 로드 규칙 |
-| [플러그인 테스트 방법](/posts/neovim/2026-06-18-neovim-plugin-testing-plenary-minitest-busted/) | plenary · mini.test · busted+nlua 비교와 선택 기준 |
-| [4가지 채널로 노출시키기](/posts/neovim/2026-06-12-neovim-plugin-distribution/) | awesome-neovim · Dotfyle · VimAwesome · GitHub Topics |
+| [플러그인 테스트 방법](./2026-06-18-neovim-plugin-testing-plenary-minitest-busted.md) | plenary · mini.test · busted+nlua 비교와 선택 기준 |
+| [4가지 채널로 노출시키기](./2026-06-12-neovim-plugin-distribution.md) | awesome-neovim · Dotfyle · VimAwesome · GitHub Topics |
 
-실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](/posts/neovim/2026-06-12-vim-dadbod-adapter-plugin-build/)에서 위 원칙을 한 번에 적용해본다.
+실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](./2026-06-12-vim-dadbod-adapter-plugin-build.md)에서 위 원칙을 한 번에 적용해본다.

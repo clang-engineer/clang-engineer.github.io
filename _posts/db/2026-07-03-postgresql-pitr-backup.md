@@ -176,5 +176,5 @@ pg_ctl start -D /var/lib/postgresql/data
 
 | 글 | 관계 |
 | --- | --- |
-| [PostgreSQL pg_dump, pg_restore 사용법](/posts/db/2025-01-14-postgresql-pgdump/) | 논리 백업 — 이 글이 넘어서는 출발점 |
-| [PostgreSQL 복제와 고가용성](/posts/db/2026-07-03-postgresql-replication-ha/) | 같은 WAL을 실시간 복제에 쓰는 법 |
+| [PostgreSQL pg_dump, pg_restore 사용법](./2025-01-14-postgresql-pgdump.md) | 논리 백업 — 이 글이 넘어서는 출발점 |
+| [PostgreSQL 복제와 고가용성](./2026-07-03-postgresql-replication-ha.md) | 같은 WAL을 실시간 복제에 쓰는 법 |

@@ -11,7 +11,7 @@ hidden      : false
 
 dotfiles를 관리하는 방식을 고를 때 chezmoi를 만나면 "심링크랑 뭐가 다른데?"에서 멈추기 쉽다. 둘은 같은 문제(여러 머신에서 설정 공유)를 풀지만 **층위가 다르다.** chezmoi는 템플릿을 `apply` 시점에 그 머신용 실파일로 **렌더**하는 dotfile 매니저고, 심링크 방식은 원본을 그대로 홈에 링크한 뒤 머신 차이를 셸이 **런타임에** 분기한다.
 
-이 글은 그 근본 차이를 정리하고, chezmoi가 실제로 값을 하는 경우와 심링크가 더 나은 경우를 가른다. 심링크 방식 자체의 셋업(멱등 링크 헬퍼·bootstrap·시크릿 분리)은 [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](/posts/shell/2026-07-03-dotfiles-symlink-management/)에서 다룬다.
+이 글은 그 근본 차이를 정리하고, chezmoi가 실제로 값을 하는 경우와 심링크가 더 나은 경우를 가른다. 심링크 방식 자체의 셋업(멱등 링크 헬퍼·bootstrap·시크릿 분리)은 [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](./2026-07-03-dotfiles-symlink-management.md)에서 다룬다.
 
 ## 근본 차이 — 머신 분기를 '언제' 확정하나
 
@@ -40,8 +40,8 @@ chezmoi의 이득은 딱 이 세 경우다.
 
 ## 대중성 — 어디쯤 위치한 도구인가
 
-dotfile 매니저 중에서는 1티어다. **GNU stow와 양대 축**을 이루고, 템플릿·시크릿 기능에서는 chezmoi가 우위다. 다만 짚어둘 것: 전체 dotfiles 사용자 인구로 보면 **손수 짠 스크립트나 [bare git 방식](/posts/shell/2026-07-08-dotfiles-bare-git-yadm/)이 다수**다. 매니저를 안 쓴다고 outdated인 것은 아니다 — 도구 없이 링크 스크립트 하나로 충분한 경우가 실제로 많다.
+dotfile 매니저 중에서는 1티어다. **GNU stow와 양대 축**을 이루고, 템플릿·시크릿 기능에서는 chezmoi가 우위다. 다만 짚어둘 것: 전체 dotfiles 사용자 인구로 보면 **손수 짠 스크립트나 [bare git 방식](./2026-07-08-dotfiles-bare-git-yadm.md)이 다수**다. 매니저를 안 쓴다고 outdated인 것은 아니다 — 도구 없이 링크 스크립트 하나로 충분한 경우가 실제로 많다.
 
 정리하면 선택은 매니저냐 아니냐가 아니라 **"내 분기가 런타임으로 충분한가, 렌더가 필요한가"**다. 렌더가 필요한 세 경우면 chezmoi, 아니면 심링크(또는 stow)로 충분하다.
 
-> 관련: chezmoi를 실제로 어떻게 쓰는지(소스 디렉토리·파일명 메타 인코딩·명령 흐름)는 [chezmoi 사용법 — 소스 표현과 apply 흐름](/posts/shell/2026-07-08-chezmoi-usage-source-apply/)에서 이어진다. 심링크 방식의 셋업은 [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](/posts/shell/2026-07-03-dotfiles-symlink-management/)를 참고.
+> 관련: chezmoi를 실제로 어떻게 쓰는지(소스 디렉토리·파일명 메타 인코딩·명령 흐름)는 [chezmoi 사용법 — 소스 표현과 apply 흐름](./2026-07-08-chezmoi-usage-source-apply.md)에서 이어진다. 심링크 방식의 셋업은 [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](./2026-07-03-dotfiles-symlink-management.md)를 참고.

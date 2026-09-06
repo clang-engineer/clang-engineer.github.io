@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-새 맥을 받을 때마다 "그때 뭘 깔았더라"를 반복하지 않으려고, 터미널 개발 도구를 `Brewfile` 하나에 선언해 둔다. 이 글은 그 Brewfile에 실제로 들어 있는 도구를 **왜 쓰는지** 중심으로 갈래별로 정리한 것이다. Brewfile을 만들고 재설치하는 방법 자체는 [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/) 글에서 다룬다.
+새 맥을 받을 때마다 "그때 뭘 깔았더라"를 반복하지 않으려고, 터미널 개발 도구를 `Brewfile` 하나에 선언해 둔다. 이 글은 그 Brewfile에 실제로 들어 있는 도구를 **왜 쓰는지** 중심으로 갈래별로 정리한 것이다. Brewfile을 만들고 재설치하는 방법 자체는 [새 맥 초기 설정](./2022-02-05-new-mac-initial-setup.md) 글에서 다룬다.
 
-여기 있는 건 전부 `brew`(CLI 도구)다. GUI 앱(`cask`)은 [생산성 런처·앱 정리](/posts/macos/2025-10-31-productivity-launchers/) 쪽에서 따로 다룬다.
+여기 있는 건 전부 `brew`(CLI 도구)다. GUI 앱(`cask`)은 [생산성 런처·앱 정리](./2025-10-31-productivity-launchers.md) 쪽에서 따로 다룬다.
 
 ## 전통 도구를 대체하는 모던 CLI
 
@@ -28,7 +28,7 @@ hidden      : false
 
 이 중 몇 개는 다른 도구의 부품으로도 쓰인다. 예를 들어 `bat`은 fzf 미리보기에, `fd`·`ripgrep`은 neovim의 파일·텍스트 검색 백엔드로 물려 있다. 그래서 하나만 깔아도 다른 도구 경험까지 같이 좋아진다.
 
-> zoxide는 손버릇을 바꾸는 폭이 커서 [별도 글](/posts/shell/2026-07-03-zoxide-directory-jump/)로 따로 정리했다. `z 키워드` 한 번이면 자주 가는 디렉터리로 점프한다.
+> zoxide는 손버릇을 바꾸는 폭이 커서 [별도 글](../shell/2026-07-03-zoxide-directory-jump.md)로 따로 정리했다. `z 키워드` 한 번이면 자주 가는 디렉터리로 점프한다.
 {: .prompt-tip }
 
 ## 검색·탐색을 잇는 글루 도구
@@ -72,4 +72,4 @@ hidden      : false
 핵심은 도구 목록 자체가 아니라, **"이 도구를 왜 두는지"를 Brewfile 주석으로 남겨 선언적으로 관리한다**는 점이다. 새 맥에서 `brew bundle` 한 번이면 이 툴킷이 통째로 복원되고, 몇 달 뒤 목록을 다시 봐도 각 줄이 스스로를 설명한다.
 
 - 먼저 손볼 것 하나만 고른다면 **모던 CLI 대체 도구**(bat·eza·fd·ripgrep·zoxide) — 매일 쓰는 명령의 체감이 바로 바뀐다.
-- Brewfile로 이 목록을 만들고 새 맥에 재설치하는 흐름은 [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/)에서.
+- Brewfile로 이 목록을 만들고 새 맥에 재설치하는 흐름은 [새 맥 초기 설정](./2022-02-05-new-mac-initial-setup.md)에서.

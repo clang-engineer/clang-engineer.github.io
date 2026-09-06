@@ -85,5 +85,5 @@ plain 포맷은 `pg_restore`가 아니라 `psql`로 복원한다는 점이 핵�
 
 | 글 | 관계 |
 | --- | --- |
-| [PostgreSQL PITR와 백업 전략](/posts/db/2026-07-03-postgresql-pitr-backup/) | 시점 복구가 필요하면 — WAL 아카이빙·pg_basebackup |
-| [PostgreSQL 복제와 고가용성](/posts/db/2026-07-03-postgresql-replication-ha/) | 같은 데이터를 실시간 이중화 |
+| [PostgreSQL PITR와 백업 전략](./2026-07-03-postgresql-pitr-backup.md) | 시점 복구가 필요하면 — WAL 아카이빙·pg_basebackup |
+| [PostgreSQL 복제와 고가용성](./2026-07-03-postgresql-replication-ha.md) | 같은 데이터를 실시간 이중화 |

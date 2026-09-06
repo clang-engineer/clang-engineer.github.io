@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](/posts/keyboard/2026-07-03-keyboard-roadmap/) · [키맵 용어집](/posts/keyboard/2026-07-03-keymap-terms-glossary/) · [ZMK 키매핑 가이드](/posts/keyboard/2026-07-03-zmk-keymap-editor-build-flash/) · [HHKB 입문](/posts/keyboard/2026-07-03-hhkb-intro/)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) · [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md) · [HHKB 입문](./2026-07-03-hhkb-intro.md)
 
 ZMK로 40% 키보드 키맵을 짜다 보면 결국 "왜 이 키를 여기에 뒀는가"가 전부다. 물리 키가 적으니 레이어와 배치 하나하나가 손버릇·입력기·용도에 맞물린다. 이 글은 **HHKB 손버릇 + 40% 물리 배열 + 세벌식 390 입력**이라는 세 제약을 키맵에 녹인 과정과, 부트로더처럼 눌리면 곤란한 키를 **hold-tap으로 실수 방지**하는 기법을 정리한다.
 
@@ -158,4 +158,4 @@ bindings = <&mo 2>;
 - **드문 동작은 접근성보다 니모닉이 중요하다.**
 - **레이어 순서와 인덱스는 함께 관리한다.**
 
-키맵을 실제 보드에 올리는 포크 → 편집 → 빌드 → 플래싱 과정은 [ZMK 키매핑 가이드](/posts/keyboard/2026-07-03-zmk-keymap-editor-build-flash/)에서 이어진다.
+키맵을 실제 보드에 올리는 포크 → 편집 → 빌드 → 플래싱 과정은 [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md)에서 이어진다.

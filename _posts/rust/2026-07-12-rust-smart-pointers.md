@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](/posts/rust/2026-07-12-rust-roadmap/)의 **⑧ 소유권 심화** 단계입니다. 앞 글: [⑦ 반복자·클로저](/posts/rust/2026-07-12-rust-iterator-closure/)
+> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **⑧ 소유권 심화** 단계입니다. 앞 글: [⑦ 반복자·클로저](./2026-07-12-rust-iterator-closure.md)
 
 ②의 "소유자는 하나, 가변 참조는 동시에 하나" 규칙이 때로 너무 빡빡합니다 — 값을 힙에 두거나, 여러 곳이 공유하거나, 공유하면서 수정해야 할 때. 그걸 푸는 도구가 스마트 포인터입니다. **C++ 스마트 포인터와 거의 1:1로 대응**해서 C++ 배경이 가장 크게 유리한 구간입니다.
 
@@ -96,10 +96,10 @@ println!("{:?}", shared.borrow());       // [1, 2, 3, 4]
 - 내부 가변성(`RefCell`)이 왜 필요하고, 그 대가(런타임 검사)가 무엇인지 설명할 수 있다.
 - `Rc<RefCell<T>>` 관용구가 어떤 문제(공유+가변)를 푸는지 안다.
 
-다음은 [⑨ thread·Send/Sync·async](/posts/rust/2026-07-12-rust-concurrency/)입니다. 소유권 시스템이 데이터 레이스를 컴파일 타임에 막는 "fearless concurrency"로 들어갑니다.
+다음은 [⑨ thread·Send/Sync·async](./2026-07-12-rust-concurrency.md)입니다. 소유권 시스템이 데이터 레이스를 컴파일 타임에 막는 "fearless concurrency"로 들어갑니다.
 
 ## Reference
 
 - [The Rust Book Ch.15](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html) — 스마트 포인터의 정본.
 - [The Rust Book Ch.15.6 — Reference Cycles](https://doc.rust-lang.org/book/ch15-06-reference-cycles.html) — `Weak`으로 순환 끊기.
-- [메모리 관리 모델](/posts/concept/2026-07-12-memory-management-models/) — 소유권·참조 카운트·GC의 위치.
+- [메모리 관리 모델](../concept/2026-07-12-memory-management-models.md) — 소유권·참조 카운트·GC의 위치.

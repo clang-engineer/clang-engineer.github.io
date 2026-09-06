@@ -48,13 +48,13 @@ Go는 C++과 방향이 정반대인 언어입니다. C++이 기능을 계속 쌓
 
 | 단계 | 주제 | 우선순위 | 상태 |
 |---|---|---|---|
-| 기초 | [① 문법·패키지·모듈](/posts/go/2026-07-12-go-basics-package-module/) | 필수 | ✅ |
-| 타입 | [② struct·method·interface (+method set)](/posts/go/2026-07-12-go-struct-method-interface/) | 필수 · **뼈대** | ✅ |
-| 타입 | [③ slice·map·string](/posts/go/2026-07-12-go-slice-map-string/) | 필수 | ✅ |
-| 흐름 | [④ error 처리 + defer·panic·recover](/posts/go/2026-07-12-go-error-handling-defer/) | 필수 | ✅ |
-| 동시성 | [⑤ goroutine·channel·context (+`-race`)](/posts/go/2026-07-12-go-concurrency-goroutine-channel/) | 필수 · Go의 정체성 | ✅ |
-| 실전 | [⑥ 표준 라이브러리·관용구·testing](/posts/go/2026-07-12-go-stdlib-idiom-testing/) | 필수 | ✅ |
-| 마지막 | [⑦ 도구 — go build·mod·fmt·vet](/posts/go/2026-07-12-go-tooling/) | 필수 | ✅ |
+| 기초 | [① 문법·패키지·모듈](./2026-07-12-go-basics-package-module.md) | 필수 | ✅ |
+| 타입 | [② struct·method·interface (+method set)](./2026-07-12-go-struct-method-interface.md) | 필수 · **뼈대** | ✅ |
+| 타입 | [③ slice·map·string](./2026-07-12-go-slice-map-string.md) | 필수 | ✅ |
+| 흐름 | [④ error 처리 + defer·panic·recover](./2026-07-12-go-error-handling-defer.md) | 필수 | ✅ |
+| 동시성 | [⑤ goroutine·channel·context (+`-race`)](./2026-07-12-go-concurrency-goroutine-channel.md) | 필수 · Go의 정체성 | ✅ |
+| 실전 | [⑥ 표준 라이브러리·관용구·testing](./2026-07-12-go-stdlib-idiom-testing.md) | 필수 | ✅ |
+| 마지막 | [⑦ 도구 — go build·mod·fmt·vet](./2026-07-12-go-tooling.md) | 필수 | ✅ |
 | 부록 | 제네릭 (1.18+) | 나중 | ⬜ |
 | 부록 | C++ → Go 개념 대응표 | 참고 | ✅ |
 
@@ -62,7 +62,7 @@ Go는 C++과 방향이 정반대인 언어입니다. C++이 기능을 계속 쌓
 
 ## ① 기초 — 문법·패키지·모듈
 
-> 📖 상세 글: [① 문법·패키지·모듈](/posts/go/2026-07-12-go-basics-package-module/)
+> 📖 상세 글: [① 문법·패키지·모듈](./2026-07-12-go-basics-package-module.md)
 
 C를 알면 문법 절반은 익숙합니다. 이 단계 목표는 암기가 아니라 **C++과 다른 Go의 뼈대 규칙**입니다.
 
@@ -76,12 +76,12 @@ C를 알면 문법 절반은 익숙합니다. 이 단계 목표는 암기가 아
 
 ## ② 타입 — struct·method·interface (뼈대)
 
-> 📖 상세 글: [② struct·method·interface](/posts/go/2026-07-12-go-struct-method-interface/)
+> 📖 상세 글: [② struct·method·interface](./2026-07-12-go-struct-method-interface.md)
 
 Go에는 **클래스가 없습니다.** 이 단계가 C++ 습관과 가장 크게 충돌하는 지점이자 Go 설계의 핵심이라, 뼈대로 둡니다.
 
 - **[필수] struct와 method** — 데이터는 `struct`, 동작은 그 위에 붙는 method. 클래스 하나로 묶지 않고 분리합니다.
-- **[필수] interface (암묵적 구현)** — `implements` 선언이 없습니다. 메서드 시그니처만 맞으면 컴파일 타임에 그 인터페이스를 만족합니다(**구조적 타이핑**). 런타임 duck typing과 겉모습은 비슷하지만 정적으로 검사됩니다. → "누가 인터페이스 만족을 선언하나"는 [서브타입 다형성](/posts/concept/2026-07-12-subtype-polymorphism-dynamic-dispatch/).
+- **[필수] interface (암묵적 구현)** — `implements` 선언이 없습니다. 메서드 시그니처만 맞으면 컴파일 타임에 그 인터페이스를 만족합니다(**구조적 타이핑**). 런타임 duck typing과 겉모습은 비슷하지만 정적으로 검사됩니다. → "누가 인터페이스 만족을 선언하나"는 [서브타입 다형성](../concept/2026-07-12-subtype-polymorphism-dynamic-dispatch.md).
 - **[필수] embedding (상속 대신 컴포지션)** — Go에는 상속이 없습니다. struct 안에 struct를 심어(embed) 기능을 조합합니다.
 - **[필수] method set — 포인터 vs 값 리시버** — method가 원본을 수정하려면 포인터 리시버. 그리고 **어느 쪽 리시버냐가 인터페이스 만족 여부를 가릅니다**(값 타입은 포인터 리시버 메서드를 만족 못 함). C++에 없는 Go 특유의 규칙이라 인터페이스 구현이 "왜 안 되지" 할 때 십중팔구 여기입니다.
 
@@ -91,7 +91,7 @@ Go에는 **클래스가 없습니다.** 이 단계가 C++ 습관과 가장 크�
 
 ## ③ 타입 — slice·map·string
 
-> 📖 상세 글: [③ slice·map·string](/posts/go/2026-07-12-go-slice-map-string/)
+> 📖 상세 글: [③ slice·map·string](./2026-07-12-go-slice-map-string.md)
 
 Go의 핵심 자료구조. C++ 컨테이너와 겉은 비슷하지만 내부가 다릅니다.
 
@@ -103,9 +103,9 @@ Go의 핵심 자료구조. C++ 컨테이너와 겉은 비슷하지만 내부가 
 
 ## ④ 흐름 — error 처리 (예외가 없다)
 
-> 📖 상세 글: [④ error 처리 + defer·panic·recover](/posts/go/2026-07-12-go-error-handling-defer/)
+> 📖 상세 글: [④ error 처리 + defer·panic·recover](./2026-07-12-go-error-handling-defer.md)
 
-C++/Java에서 온 사람에게 가장 큰 문화 충격. **Go에는 예외(exception)가 없습니다.** 예외·에러 값·Result 세 모델의 비교는 [에러 핸들링 모델](/posts/concept/2026-07-12-error-handling-models/) 참고.
+C++/Java에서 온 사람에게 가장 큰 문화 충격. **Go에는 예외(exception)가 없습니다.** 예외·에러 값·Result 세 모델의 비교는 [에러 핸들링 모델](../concept/2026-07-12-error-handling-models.md) 참고.
 
 - **[필수] error 값 반환** — 함수가 `(결과, error)`를 반환하고, `if err != nil`로 매번 확인합니다. `try/catch`가 아니라 값으로 흐릅니다.
 - **[필수] error wrapping** — `fmt.Errorf("...: %w", err)`로 감싸고 `errors.Is`/`errors.As`로 판별.
@@ -118,12 +118,12 @@ C++/Java에서 온 사람에게 가장 큰 문화 충격. **Go에는 예외(exce
 
 ## ⑤ 동시성 — goroutine·channel (Go의 정체성)
 
-> 📖 상세 글: [⑤ goroutine·channel·context](/posts/go/2026-07-12-go-concurrency-goroutine-channel/)
+> 📖 상세 글: [⑤ goroutine·channel·context](./2026-07-12-go-concurrency-goroutine-channel.md)
 
 Go를 Go답게 만드는 킬러 피처. C++의 `std::thread`·뮤텍스 고생과 비교하면 놀랄 만큼 가볍습니다.
 
-- **[필수] goroutine** — `go f()` 한 줄로 경량 스레드 실행. 수천 개를 띄워도 됩니다(OS 스레드가 아님). goroutine이 스레드·코루틴과 뭐가 다른지는 [코루틴이란 무엇인가](/posts/concept/2026-07-12-coroutine/) 참고.
-- **[필수] channel** — goroutine 간 통신. "메모리를 공유해 통신하지 말고, 통신으로 메모리를 공유하라"는 Go 철학. → 공유 상태+뮤텍스 vs 채널(CSP) vs 소유권 비교는 [동시성 조율 모델](/posts/concept/2026-07-12-concurrency-coordination-models/).
+- **[필수] goroutine** — `go f()` 한 줄로 경량 스레드 실행. 수천 개를 띄워도 됩니다(OS 스레드가 아님). goroutine이 스레드·코루틴과 뭐가 다른지는 [코루틴이란 무엇인가](../concept/2026-07-12-coroutine.md) 참고.
+- **[필수] channel** — goroutine 간 통신. "메모리를 공유해 통신하지 말고, 통신으로 메모리를 공유하라"는 Go 철학. → 공유 상태+뮤텍스 vs 채널(CSP) vs 소유권 비교는 [동시성 조율 모델](../concept/2026-07-12-concurrency-coordination-models.md).
 - **[필수] select** — 여러 채널을 동시에 기다리기.
 - **[나중] sync 패키지** — `WaitGroup`, `Mutex`. 채널로 안 풀리는 경우의 전통적 동기화.
 - **[필수] context** — 취소·deadline·request-scoped value 전파를 한 계약으로 묶습니다. C++23의 `std::stop_token`이 취소 측면의 가까운 발판이지만, 세 역할을 합친 단일 표준 대응물은 없습니다. 채널 기본을 잡은 직후 봅니다.
@@ -135,7 +135,7 @@ Go를 Go답게 만드는 킬러 피처. C++의 `std::thread`·뮤텍스 고생�
 
 ## ⑥ 실전 — 표준 라이브러리·관용구·testing
 
-> 📖 상세 글: [⑥ 표준 라이브러리·관용구·testing](/posts/go/2026-07-12-go-stdlib-idiom-testing/)
+> 📖 상세 글: [⑥ 표준 라이브러리·관용구·testing](./2026-07-12-go-stdlib-idiom-testing.md)
 
 문법을 넘어 실제로 뭔가 만들고, **Go답게** 쓰는 단계. 표준 라이브러리도 관용구도 여기서.
 
@@ -148,7 +148,7 @@ Go를 Go답게 만드는 킬러 피처. C++의 `std::thread`·뮤텍스 고생�
 
 ## ⑦ 마지막 — 도구
 
-> 📖 상세 글: [⑦ 도구 — go build·mod·fmt·vet](/posts/go/2026-07-12-go-tooling/)
+> 📖 상세 글: [⑦ 도구 — go build·mod·fmt·vet](./2026-07-12-go-tooling.md)
 
 Go는 도구가 언어에 내장되어 있어서 C++의 CMake 같은 외부 빌드 시스템이 필요 없습니다.
 
@@ -163,7 +163,7 @@ Go는 도구가 언어에 내장되어 있어서 C++의 CMake 같은 외부 빌�
 
 ## 부록 — 제네릭 (Go 1.18+)
 
-Go는 오랫동안 제네릭이 없었고 2022년 1.18에서야 들어왔습니다. **[필수] 경로 밖**입니다 — 인터페이스와 `any`로 대부분 풀리고, 제네릭이 진짜 필요한 순간(자료구조 라이브러리 작성 등)이 오면 그때 봐도 됩니다. → 제네릭(파라미터 다형성)의 언어 공통 개념은 [제네릭 — 파라미터 다형성](/posts/concept/2026-07-12-generics-parametric-polymorphism/).
+Go는 오랫동안 제네릭이 없었고 2022년 1.18에서야 들어왔습니다. **[필수] 경로 밖**입니다 — 인터페이스와 `any`로 대부분 풀리고, 제네릭이 진짜 필요한 순간(자료구조 라이브러리 작성 등)이 오면 그때 봐도 됩니다. → 제네릭(파라미터 다형성)의 언어 공통 개념은 [제네릭 — 파라미터 다형성](../concept/2026-07-12-generics-parametric-polymorphism.md).
 
 > 📖 [A Tour of Go — Generics](https://go.dev/tour/generics/1)
 

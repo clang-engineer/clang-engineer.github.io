@@ -15,7 +15,7 @@ hidden      : false
 `brew bundle`은 설치한 패키지를 **`Brewfile` 한 파일에 선언**해 두고, 그 파일을 기준으로 설치·정리·검증하게 해줍니다.
 `package.json`이나 `requirements.txt`가 프로젝트 의존성을 선언하듯, Brewfile은 **내 맥의 패키지 상태를 선언**합니다.
 
-> 어떤 도구를 담을지(무엇을)는 [macOS CLI 개발 도구 모음](/posts/macos/2026-07-03-macos-cli-toolkit-brewfile/)에서 다룹니다. 이 글은 그 목록을 **어떻게 관리하느냐**에 집중합니다.
+> 어떤 도구를 담을지(무엇을)는 [macOS CLI 개발 도구 모음](../macos/2026-07-03-macos-cli-toolkit-brewfile.md)에서 다룹니다. 이 글은 그 목록을 **어떻게 관리하느냐**에 집중합니다.
 {: .prompt-info }
 
 ---
@@ -151,4 +151,4 @@ brew bundle --global    # ~/.Brewfile 사용
 - `cleanup --force` — Brewfile에 없는 패키지 제거(단일 진실 공급원 유지)
 - `check` — 설치 상태 검증
 
-Brewfile을 dotfiles에 넣어 두면, 새 맥 셋업이 "clone → `brew bundle`" 두 줄로 끝납니다. 이 셋업 전체 흐름은 [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/)에서 다룹니다.
+Brewfile을 dotfiles에 넣어 두면, 새 맥 셋업이 "clone → `brew bundle`" 두 줄로 끝납니다. 이 셋업 전체 흐름은 [새 맥 초기 설정](../macos/2022-02-05-new-mac-initial-setup.md)에서 다룹니다.

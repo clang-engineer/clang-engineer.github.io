@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [모던 C++ 학습 로드맵](/posts/cpp/2026-07-03-cpp-learning-roadmap/)의 **고급(값과 소유권)** 단계다. 앞 글: [② 클래스와 자원 관리](/posts/cpp/2026-07-03-cpp-class-and-resource-management/)
+> [모던 C++ 학습 로드맵](./2026-07-03-cpp-learning-roadmap.md)의 **고급(값과 소유권)** 단계다. 앞 글: [② 클래스와 자원 관리](./2026-07-03-cpp-class-and-resource-management.md)
 
 앞 글의 Rule of Three는 복사를 안전하게 만드는 법을 다뤘다. 이번에는 **복사할 필요가 없는 객체의 자원을 재사용하는 이동 시맨틱**과 그 위에서 소유 관계를 표현하는 스마트 포인터를 본다.
 
@@ -162,7 +162,7 @@ Rust move
 
 C++에서는 moved-from 객체가 여전히 유효한 객체일 수 있고 타입 계약에 따라 사용할 수 있다. Rust에서 non-`Copy` 값이 이동하면 이전 바인딩 사용은 컴파일러가 금지한다.
 
-자세한 비교는 [값 vs 참조 의미론](/posts/concept/2026-07-12-value-vs-reference-semantics/)에서 본다.
+자세한 비교는 [값 vs 참조 의미론](../concept/2026-07-12-value-vs-reference-semantics.md)에서 본다.
 
 ## 자주 막히는 지점
 
@@ -177,7 +177,7 @@ C++에서는 moved-from 객체가 여전히 유효한 객체일 수 있고 타�
 - moved-from 객체에 대해 타입 문서의 postcondition만 신뢰해야 함을 안다.
 - `unique_ptr`, `shared_ptr`, `weak_ptr`의 소유 관계 차이를 설명할 수 있다.
 
-다음은 [STL — 컨테이너와 알고리즘](/posts/cpp/2026-07-03-cpp-stl-containers-and-algorithms/)이다.
+다음은 [STL — 컨테이너와 알고리즘](./2026-07-03-cpp-stl-containers-and-algorithms.md)이다.
 
 ## Reference
 

@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: jenv 자체가 `version not installed`로 실패한다면 [Homebrew 업그레이드 뒤 jenv JDK 경로가 깨지는 문제](/posts/macos/2026-07-08-jenv-homebrew-cellar-path-breakage/)를 먼저 본다. 이 글은 jenv에는 Java 11이 있는데 **Gradle 산출물이 예상보다 높은 class version으로 만들어지는 경우**를 다룬다.
+> 관련: jenv 자체가 `version not installed`로 실패한다면 [Homebrew 업그레이드 뒤 jenv JDK 경로가 깨지는 문제](../macos/2026-07-08-jenv-homebrew-cellar-path-breakage.md)를 먼저 본다. 이 글은 jenv에는 Java 11이 있는데 **Gradle 산출물이 예상보다 높은 class version으로 만들어지는 경우**를 다룬다.
 
 `UnsupportedClassVersionError`가 나면 "서버 Java가 낮다"와 "빌드 Java가 높다"만 보고 끝내기 쉽다. 실제로는 네 층을 구분해야 한다.
 

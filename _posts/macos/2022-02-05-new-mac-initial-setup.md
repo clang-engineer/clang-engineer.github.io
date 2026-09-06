@@ -49,7 +49,7 @@ Hot Corner 등
 
 이 단계는 이후 Window Manager, Launcher, Terminal 같은 앱의 동작에도 영향을 준다.
 
-세부 항목은 [macOS 시스템 설정](/posts/macos/2026-07-03-macos-system-settings/)에서 관리한다.
+세부 항목은 [macOS 시스템 설정](./2026-07-03-macos-system-settings.md)에서 관리한다.
 
 ## 2. Homebrew를 설치한다
 
@@ -112,9 +112,9 @@ brew bundle
 
 을 실행한다.
 
-Brewfile 생성·검증·정리 흐름은 [Homebrew Brewfile로 패키지 선언적으로 관리하기](/posts/shell/2026-07-03-homebrew-brewfile-bundle/)에서 다룬다.
+Brewfile 생성·검증·정리 흐름은 [Homebrew Brewfile로 패키지 선언적으로 관리하기](../shell/2026-07-03-homebrew-brewfile-bundle.md)에서 다룬다.
 
-실제 CLI 도구 선택은 [macOS CLI 개발 도구 모음](/posts/macos/2026-07-03-macos-cli-toolkit-brewfile/)을 참고한다.
+실제 CLI 도구 선택은 [macOS CLI 개발 도구 모음](./2026-07-03-macos-cli-toolkit-brewfile.md)을 참고한다.
 
 ## 4. Dotfiles를 복원한다
 
@@ -134,7 +134,7 @@ Bootstrap / Symlink 관리
 
 예를 들어 별도 dotfiles repository를 clone한 뒤 bootstrap script나 symlink manager를 실행한다.
 
-Dotfiles 구조, 멱등 링크, bootstrap, secret 분리는 [dotfiles를 Git 저장소 + 심볼릭 링크로 관리하기](/posts/shell/2026-07-03-dotfiles-symlink-management/)에서 관리한다.
+Dotfiles 구조, 멱등 링크, bootstrap, secret 분리는 [dotfiles를 Git 저장소 + 심볼릭 링크로 관리하기](../shell/2026-07-03-dotfiles-symlink-management.md)에서 관리한다.
 
 > 새 장비 복원에서는 "어떤 파일을 링크하는가"보다 bootstrap을 여러 번 실행해도 같은 결과가 나오는 **멱등성**이 중요하다.
 
@@ -179,7 +179,7 @@ git config --global --get user.email
 
 개인·회사 계정을 함께 사용한다면 SSH Host alias와 Git `includeIf`를 사용해 인증과 identity를 독립적으로 전환할 수 있다.
 
-관련 글: [GitHub 다중 계정 — SSH 인증과 Commit Identity를 분리해서 관리하기](/posts/git/2025-10-03-git-multiple-config/)
+관련 글: [GitHub 다중 계정 — SSH 인증과 Commit Identity를 분리해서 관리하기](../git/2025-10-03-git-multiple-config.md)
 
 ## 6. 개발 환경이 실제로 복원됐는지 검증한다
 

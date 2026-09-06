@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](/posts/rust/2026-07-12-rust-roadmap/)의 **⑩ 마지막(도구)** 단계입니다. 앞 글: [⑨ thread·Send/Sync·async](/posts/rust/2026-07-12-rust-concurrency/)
+> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **⑩ 마지막(도구)** 단계입니다. 앞 글: [⑨ thread·Send/Sync·async](./2026-07-12-rust-concurrency.md)
 
 Rust는 **도구 경험 자체가 언어의 강점**입니다. C++ 생태계의 파편화된 도구들(CMake·Conan·clang-format·clang-tidy)을 `cargo` 하나로 통합합니다. ①에서 맛본 cargo를 여기서 정리합니다.
 
@@ -87,7 +87,7 @@ cargo clippy           # 린터 — 관용적이지 않은 코드를 짚어줌
 
 ---
 
-여기까지가 **Rust를 배우는 학습 줄기 ①~⑩**입니다. 로드맵을 한 바퀴 돌았습니다. 이제 [부록의 매크로·unsafe·FFI](/posts/rust/2026-07-12-rust-roadmap/)나 실전 프로젝트로 넘어가면 됩니다. borrow checker와 싸우다 막히면 ②로, C++ 습관(수동 메모리 관리·예외·인덱스 루프)이 튀어나오면 로드맵의 대응표·고유 영역으로 돌아와 교정하세요.
+여기까지가 **Rust를 배우는 학습 줄기 ①~⑩**입니다. 로드맵을 한 바퀴 돌았습니다. 이제 [부록의 매크로·unsafe·FFI](./2026-07-12-rust-roadmap.md)나 실전 프로젝트로 넘어가면 됩니다. borrow checker와 싸우다 막히면 ②로, C++ 습관(수동 메모리 관리·예외·인덱스 루프)이 튀어나오면 로드맵의 대응표·고유 영역으로 돌아와 교정하세요.
 
 ## Reference
 

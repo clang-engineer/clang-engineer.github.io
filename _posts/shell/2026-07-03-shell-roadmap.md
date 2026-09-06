@@ -30,7 +30,7 @@ Directory 환경변수 → direnv
 터미널 Session 관리 → tmux 로드맵
 ```
 
-`dotfiles → Brewfile → chezmoi`는 셸을 배우는 다음 단계가 아니라 **환경을 재현하는 별도 문제**다. 따라서 이 로드맵에서는 위치만 연결하고 상세 학습은 [dotfiles 로드맵](/posts/shell/2026-07-08-dotfiles-roadmap/)에 맡긴다.
+`dotfiles → Brewfile → chezmoi`는 셸을 배우는 다음 단계가 아니라 **환경을 재현하는 별도 문제**다. 따라서 이 로드맵에서는 위치만 연결하고 상세 학습은 [dotfiles 로드맵](./2026-07-08-dotfiles-roadmap.md)에 맡긴다.
 
 파이프·리다이렉션·글로빙·`grep`/`awk` 같은 인터랙티브 셸 기본기는 아직 전용 본문이 충분하지 않다. 없는 글을 다른 문서로 억지로 메우지 않고 빈 영역으로 표시한다.
 
@@ -50,7 +50,7 @@ Directory 환경변수 → direnv
 
 | 글 | 핵심 |
 |---|---|
-| [첫 셸 스크립트 만들고 실행하기](/posts/shell/2026-07-04-first-shell-script/) | shebang, 실행 권한, `./`, PATH, CRLF |
+| [첫 셸 스크립트 만들고 실행하기](./2026-07-04-first-shell-script.md) | shebang, 실행 권한, `./`, PATH, CRLF |
 
 문법보다 먼저 실행 계약을 잡는다.
 
@@ -68,7 +68,7 @@ Script File
 
 | 글 | 핵심 |
 |---|---|
-| [셸 스크립트 문법 종합 가이드](/posts/shell/2026-07-03-bash-syntax-guide/) | 변수·인용·Parameter Expansion·조건·반복·함수·배열·확장 순서·`set -euo pipefail` |
+| [셸 스크립트 문법 종합 가이드](./2026-07-03-bash-syntax-guide.md) | 변수·인용·Parameter Expansion·조건·반복·함수·배열·확장 순서·`set -euo pipefail` |
 
 핵심 질문은 문법 Keyword 수가 아니다.
 
@@ -89,7 +89,7 @@ Quote는 어떤 확장을 막거나 보존하는가?
 
 | 글 | 핵심 |
 |---|---|
-| [CLI 인자 컨벤션 — positional과 --flag는 왜 섞어 쓰나](/posts/shell/2026-06-10-cli-positional-vs-flag/) | Positional·Option·Environment Variable의 역할 분리 |
+| [CLI 인자 컨벤션 — positional과 --flag는 왜 섞어 쓰나](./2026-06-10-cli-positional-vs-flag.md) | Positional·Option·Environment Variable의 역할 분리 |
 
 ```text
 핵심 대상
@@ -108,7 +108,7 @@ Quote는 어떤 확장을 막거나 보존하는가?
 
 | 글 | 핵심 |
 |---|---|
-| [백그라운드 작업과 세션 지속](/posts/shell/2026-06-16-background-jobs-and-session/) | `&`, Job Control, `nohup`, Shell 종료와 Process 생존, tmux 경계 |
+| [백그라운드 작업과 세션 지속](./2026-06-16-background-jobs-and-session.md) | `&`, Job Control, `nohup`, Shell 종료와 Process 생존, tmux 경계 |
 
 ```text
 현재 Shell 안에서 Background 전환
@@ -123,13 +123,13 @@ Shell이 끝나도 Process만 계속 실행
 
 `&`, `nohup`, tmux는 같은 기능의 발전 단계가 아니다. **현재 Shell의 Job Control / Process 생존 / Terminal Session 보존**이라는 서로 다른 문제를 해결한다.
 
-Terminal·PTY·Session 자체를 더 깊게 보면 [Terminal 로드맵](/posts/terminal/2026-09-05-terminal-roadmap/), tmux 사용 구조는 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)으로 이어진다.
+Terminal·PTY·Session 자체를 더 깊게 보면 [Terminal 로드맵](../terminal/2026-09-05-terminal-roadmap.md), tmux 사용 구조는 [tmux 로드맵](../tmux/2026-06-16-tmux-roadmap.md)으로 이어진다.
 
 ## Branch A — Directory별 환경변수
 
 | 글 | 핵심 |
 |---|---|
-| [direnv 사용법 정리](/posts/shell/2026-02-21-direnv/) | Directory 진입 시 `.envrc`를 허용한 범위에서 자동 적용 |
+| [direnv 사용법 정리](./2026-02-21-direnv.md) | Directory 진입 시 `.envrc`를 허용한 범위에서 자동 적용 |
 
 `direnv`는 Bash 문법의 다음 단계가 아니라 **Project Directory라는 Context에 환경변수를 묶는 Tool**이다.
 
@@ -148,7 +148,7 @@ Application 내부 .env Loading
 
 | 글 | 핵심 |
 |---|---|
-| [zoxide로 디렉토리 이동 빠르게](/posts/shell/2026-07-03-zoxide-directory-jump/) | 방문 기록의 Frecency로 자주 가는 Directory Jump |
+| [zoxide로 디렉토리 이동 빠르게](./2026-07-03-zoxide-directory-jump.md) | 방문 기록의 Frecency로 자주 가는 Directory Jump |
 
 ```text
 정확한 경로를 안다
@@ -167,7 +167,7 @@ Application 내부 .env Loading
 
 ### 환경을 재현하고 싶다 → dotfiles
 
-설정 파일·Package·Machine 차이를 코드로 재현하는 문제는 [dotfiles 로드맵](/posts/shell/2026-07-08-dotfiles-roadmap/)이 정본이다.
+설정 파일·Package·Machine 차이를 코드로 재현하는 문제는 [dotfiles 로드맵](./2026-07-08-dotfiles-roadmap.md)이 정본이다.
 
 ```text
 dotfiles
@@ -184,7 +184,7 @@ Shell Roadmap에서 이 문서들을 다시 단계별로 중복 큐레이션하�
 
 ### Terminal Session을 관리하고 싶다 → tmux
 
-현재 Process 하나를 Background로 남기는 것과 여러 Pane·Window·Shell State를 Session으로 유지하는 것은 다르다. 후자는 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 책임이다.
+현재 Process 하나를 Background로 남기는 것과 여러 Pane·Window·Shell State를 Session으로 유지하는 것은 다르다. 후자는 [tmux 로드맵](../tmux/2026-06-16-tmux-roadmap.md)의 책임이다.
 
 ## 아직 비어 있는 영역
 

@@ -129,5 +129,5 @@ SELECT * FROM members WHERE id IN (1, 2, 3, /* ... */ 20);
 
 | 글 | 이 글과의 접점 |
 | --- | --- |
-| [RDB 인덱스 완전 정리](/posts/db/2026-07-03-rdb-index/) | keyset 페이지네이션이 타는 인덱스 |
-| [MyBatis 관련 기록](/posts/db/2021-11-22-mybatis/) | ORM/매퍼에서 N+1이 생기는 지점 |
+| [RDB 인덱스 완전 정리](./2026-07-03-rdb-index.md) | keyset 페이지네이션이 타는 인덱스 |
+| [MyBatis 관련 기록](./2021-11-22-mybatis.md) | ORM/매퍼에서 N+1이 생기는 지점 |

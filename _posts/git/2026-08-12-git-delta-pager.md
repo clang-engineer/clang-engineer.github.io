@@ -96,7 +96,7 @@ git --no-pager diff
     diffFilter = delta --color-only
 ```
 
-대화형 filter의 출력은 원본 diff와 행이 일대일로 대응해야 한다. `--color-only`는 행을 추가하거나 레이아웃을 바꾸지 않고 색과 문법 강조만 입혀 이 조건을 지킨다. `git add -p`의 hunk 선택 동작은 그대로 유지된다. hunk와 부분 스테이징 자체는 [Git hunk와 `git add -p`](/posts/git/2026-07-12-git-hunk-and-interactive-staging/)에서 따로 정리했다.
+대화형 filter의 출력은 원본 diff와 행이 일대일로 대응해야 한다. `--color-only`는 행을 추가하거나 레이아웃을 바꾸지 않고 색과 문법 강조만 입혀 이 조건을 지킨다. `git add -p`의 hunk 선택 동작은 그대로 유지된다. hunk와 부분 스테이징 자체는 [Git hunk와 `git add -p`](./2026-07-12-git-hunk-and-interactive-staging.md)에서 따로 정리했다.
 
 ## 자주 쓰는 옵션의 선택 기준
 

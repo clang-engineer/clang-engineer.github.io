@@ -202,7 +202,7 @@ git config --global user.email "your-verified-email@example.com"
 
 여러 GitHub 계정을 쓰는 환경이라면 global identity 하나로 덮기보다 `includeIf`를 사용해 directory별 identity를 분리하는 편이 안전하다.
 
-관련 글: [GitHub 다중 계정 — SSH 인증과 Commit Identity를 분리해서 관리하기](/posts/git/2025-10-03-git-multiple-config/)
+관련 글: [GitHub 다중 계정 — SSH 인증과 Commit Identity를 분리해서 관리하기](./2025-10-03-git-multiple-config.md)
 
 ## 정리
 

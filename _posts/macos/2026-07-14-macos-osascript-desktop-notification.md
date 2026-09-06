@@ -151,5 +151,5 @@ cat "$SPY/osascript.log"
 이 "누가 실행했나로 권한 주체가 갈린다"는 감각은 macOS 권한 모델 전반에 통한다.
 파일 접근 권한(TCC)도 같은 방식으로 **책임 프로세스** 단위로 부여·리셋된다 —
 관련해서
-[macOS가 갑자기 ~/Desktop 접근을 막을 때 — TCC 권한 리셋](/posts/macos/2026-07-08-macos-tcc-desktop-folder-block/)
+[macOS가 갑자기 ~/Desktop 접근을 막을 때 — TCC 권한 리셋](./2026-07-08-macos-tcc-desktop-folder-block.md)
 글도 참고.

@@ -229,7 +229,7 @@ TLS 운영은 인증서 파일 두 개를 적는 문제가 아니라 **설정 �
 
 | 글 | 다루는 것 |
 |---|---|
-| [Let's Encrypt + Nginx — 인증서 수명주기](/posts/nginx/2025-04-02-letsencrypt/) | Challenge 선택 → 발급 → Renewal → Reload → 외부 TLS 검증 |
+| [Let's Encrypt + Nginx — 인증서 수명주기](./2025-04-02-letsencrypt.md) | Challenge 선택 → 발급 → Renewal → Reload → 외부 TLS 검증 |
 | **Nginx TLS 운영 (현재 글)** | 인증서 배치, Private Key, Reload, Process 복구 |
-| [특정 IP에서 HTTPS 강제 우회하기](/posts/nginx/2025-07-21-nginx-skip-https-for-ip/) | 내부 Probe 같은 예외 Routing |
-| [apex/www Origin과 Cache](/posts/nginx/2026-04-24-nginx-apex-www-redirect/) | Host별 Browser State와 Canonical Redirect |
+| [특정 IP에서 HTTPS 강제 우회하기](./2025-07-21-nginx-skip-https-for-ip.md) | 내부 Probe 같은 예외 Routing |
+| [apex/www Origin과 Cache](./2026-04-24-nginx-apex-www-redirect.md) | Host별 Browser State와 Canonical Redirect |

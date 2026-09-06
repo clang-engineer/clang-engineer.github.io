@@ -31,7 +31,7 @@ jenv Version Registry
 → jenv shim
 ```
 
-macOS system discovery 문제는 [brew cleanup 후 java_home이 JDK를 못 찾을 때](/posts/macos/2026-06-07-homebrew-cleanup-java-symlink-broken/)에서 따로 다룬다.
+macOS system discovery 문제는 [brew cleanup 후 java_home이 JDK를 못 찾을 때](./2026-06-07-homebrew-cleanup-java-symlink-broken.md)에서 따로 다룬다.
 
 ## 증상 — jenv Link가 Dangling 상태다
 

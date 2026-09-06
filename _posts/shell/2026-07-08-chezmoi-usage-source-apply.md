@@ -13,7 +13,7 @@ chezmoi를 처음 쓰면 `~/.zshrc`를 고쳤는데 왜 원본이 바뀌지 않�
 
 > 명령·파일명 규칙·템플릿 함수의 전체 목록은 [devkit chezmoi Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/chezmoi.md)에서 계속 관리한다. 이 글은 목록 대신 source에서 destination으로 가는 흐름과 그 이유에 집중한다.
 
-선택 기준이 먼저 필요하다면 [chezmoi vs 심링크](/posts/shell/2026-07-08-chezmoi-vs-symlink-dotfiles/)를 참고하자.
+선택 기준이 먼저 필요하다면 [chezmoi vs 심링크](./2026-07-08-chezmoi-vs-symlink-dotfiles.md)를 참고하자.
 
 ## 소스 표현 — 파일이 어디에, 어떤 이름으로 사는가
 

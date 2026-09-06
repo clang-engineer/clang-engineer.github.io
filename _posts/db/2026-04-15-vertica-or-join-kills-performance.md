@@ -227,7 +227,7 @@ LEFT JOIN 의미·중복 검증
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [RDB JOIN 전략 — Nested Loop·Hash·Merge를 어떻게 선택하나](/posts/db/2026-01-04-rdb-join-strategy/) | 논리 JOIN과 물리 Join Algorithm의 관계 |
-| [쿼리 옵티마이저 작동 원리와 실행계획 읽기](/posts/db/2026-07-03-query-optimizer-explain/) | 실행계획과 추정/실제 Row를 읽는 일반 원리 |
+| [RDB JOIN 전략 — Nested Loop·Hash·Merge를 어떻게 선택하나](./2026-01-04-rdb-join-strategy.md) | 논리 JOIN과 물리 Join Algorithm의 관계 |
+| [쿼리 옵티마이저 작동 원리와 실행계획 읽기](./2026-07-03-query-optimizer-explain.md) | 실행계획과 추정/실제 Row를 읽는 일반 원리 |
 | **Vertica OR JOIN 성능 저하 (현재 글)** | OR 조건이 Join Filter로 빠지는 사례와 의미 보존 재작성 |
-| [RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선](/posts/db/2026-06-09-preload-record-id-to-level-table/) | 조회 시 JOIN 자체를 줄인 설계 사례 |
+| [RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선](./2026-06-09-preload-record-id-to-level-table.md) | 조회 시 JOIN 자체를 줄인 설계 사례 |

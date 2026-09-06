@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-[AeroSpace](https://github.com/nikitabobko/AeroSpace)는 macOS용 타일링 워크스페이스 매니저다. 이 글은 처음 설치해서 손에 익히는 **기본기**를 다룬다. Hammerspoon과의 연동이나 심화 자동화는 [macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)의 창 관리 갈래에서 이어진다.
+[AeroSpace](https://github.com/nikitabobko/AeroSpace)는 macOS용 타일링 워크스페이스 매니저다. 이 글은 처음 설치해서 손에 익히는 **기본기**를 다룬다. Hammerspoon과의 연동이나 심화 자동화는 [macOS 로드맵](./2026-07-03-macos-roadmap.md)의 창 관리 갈래에서 이어진다.
 
 > AeroSpace를 고르는 이유는 **SIP(System Integrity Protection)를 비활성화하지 않는다**는 점이다. 자체 가상 워크스페이스로 macOS 네이티브 Spaces를 우회하므로 OS 업데이트에 강하다. (yabai는 전체 기능에 SIP 비활성화가 필요해 업데이트마다 깨지기 쉽다.)
 {: .prompt-tip }
@@ -100,13 +100,13 @@ aerospace list-apps
 
 위 설정에서 눈에 띄는 건 **대부분의 앱을 `layout floating`으로 둔다**는 점이다. 타일링 WM인데 왜 floating일까?
 
-화면 안에서 창을 반·1/3로 나누는 **정밀한 배치는 Hammerspoon에 맡기고**, AeroSpace는 **워크스페이스(공간) 분리**에 집중시키는 분업이다. 즉 AeroSpace로 "어느 공간에 둘지"를, Hammerspoon으로 "그 공간 안 어디에 둘지"를 정한다. 이 분업의 실제 구현은 [Rectangle.app을 Hammerspoon으로 대체하기](/posts/macos/2026-07-03-hammerspoon-window-tiling-rectangle/)에서 다룬다.
+화면 안에서 창을 반·1/3로 나누는 **정밀한 배치는 Hammerspoon에 맡기고**, AeroSpace는 **워크스페이스(공간) 분리**에 집중시키는 분업이다. 즉 AeroSpace로 "어느 공간에 둘지"를, Hammerspoon으로 "그 공간 안 어디에 둘지"를 정한다. 이 분업의 실제 구현은 [Rectangle.app을 Hammerspoon으로 대체하기](./2026-07-03-hammerspoon-window-tiling-rectangle.md)에서 다룬다.
 
 ## 다음 단계
 
 AeroSpace 기본기가 잡혔다면:
 
-- 서비스 모드의 기능과 설계 철학을 다룬 [AeroSpace 서비스 모드](/posts/macos/2026-07-14-aerospace-service-mode/)
-- 화면 내 정밀 배치와 자동화를 위한 [Hammerspoon 기본](/posts/macos/2026-07-03-hammerspoon-basics/)
-- 두 도구를 잇는 [AeroSpace + Hammerspoon 창 재정렬](/posts/macos/2026-07-03-aerospace-hammerspoon-window-reflow/)
-- 단축키가 갑자기 안 먹을 때 [macOS Secure Input](/posts/macos/2026-06-07-aerospace-secure-input-hotkey-blocked/)
+- 서비스 모드의 기능과 설계 철학을 다룬 [AeroSpace 서비스 모드](./2026-07-14-aerospace-service-mode.md)
+- 화면 내 정밀 배치와 자동화를 위한 [Hammerspoon 기본](./2026-07-03-hammerspoon-basics.md)
+- 두 도구를 잇는 [AeroSpace + Hammerspoon 창 재정렬](./2026-07-03-aerospace-hammerspoon-window-reflow.md)
+- 단축키가 갑자기 안 먹을 때 [macOS Secure Input](./2026-06-07-aerospace-secure-input-hotkey-blocked.md)

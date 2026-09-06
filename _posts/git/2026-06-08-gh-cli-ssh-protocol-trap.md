@@ -98,7 +98,7 @@ Git Remote에 Push할 수 있는가?
 
 SSH가 목적이라면 올바른 key를 생성·등록하고 현재 GitHub host가 그 key를 사용하도록 설정한다.
 
-여러 GitHub 계정을 함께 쓴다면 Host alias를 사용하는 방법은 [GitHub 다중 계정 — SSH 인증과 Commit Identity를 분리해서 관리하기](/posts/git/2025-10-03-git-multiple-config/)에서 다룬다.
+여러 GitHub 계정을 함께 쓴다면 Host alias를 사용하는 방법은 [GitHub 다중 계정 — SSH 인증과 Commit Identity를 분리해서 관리하기](./2025-10-03-git-multiple-config.md)에서 다룬다.
 
 인증 확인:
 

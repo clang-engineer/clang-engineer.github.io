@@ -50,16 +50,16 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 
 | 단계 | 주제 | 우선순위 | 상태 |
 |---|---|---|---|
-| 기초 | [① 문법·불변성·cargo](/posts/rust/2026-07-12-rust-basics-cargo-immutability/) | 필수 | ✅ |
-| 핵심 | [② 소유권·빌림·수명](/posts/rust/2026-07-12-rust-ownership-borrow-lifetime/) | 필수 · **뼈대** | ✅ |
-| 타입 | [③ struct·enum·match](/posts/rust/2026-07-12-rust-struct-enum-match/) | 필수 | ✅ |
-| 타입 | [④ 컬렉션·String vs &str](/posts/rust/2026-07-12-rust-collections-string-str/) | 필수 | ✅ |
-| 흐름 | [⑤ error 처리 — Result·Option·?](/posts/rust/2026-07-12-rust-error-handling-result-option/) | 필수 | ✅ |
-| 추상화 | [⑥ trait·제네릭 (+심화·dyn·orphan)](/posts/rust/2026-07-12-rust-trait-generics/) | 필수 | ✅ |
-| 관용구 | [⑦ 반복자·클로저 (Rust다움의 본체)](/posts/rust/2026-07-12-rust-iterator-closure/) | 필수 · **고유** | ✅ |
-| 소유권 심화 | [⑧ 스마트 포인터 — Box·Rc·RefCell](/posts/rust/2026-07-12-rust-smart-pointers/) | 나중 | ✅ |
-| 동시성 | [⑨ thread·Send/Sync·async](/posts/rust/2026-07-12-rust-concurrency/) | 나중 | ✅ |
-| 마지막 | [⑩ 도구 — cargo·crates·모듈](/posts/rust/2026-07-12-rust-tooling/) | 필수 | ✅ |
+| 기초 | [① 문법·불변성·cargo](./2026-07-12-rust-basics-cargo-immutability.md) | 필수 | ✅ |
+| 핵심 | [② 소유권·빌림·수명](./2026-07-12-rust-ownership-borrow-lifetime.md) | 필수 · **뼈대** | ✅ |
+| 타입 | [③ struct·enum·match](./2026-07-12-rust-struct-enum-match.md) | 필수 | ✅ |
+| 타입 | [④ 컬렉션·String vs &str](./2026-07-12-rust-collections-string-str.md) | 필수 | ✅ |
+| 흐름 | [⑤ error 처리 — Result·Option·?](./2026-07-12-rust-error-handling-result-option.md) | 필수 | ✅ |
+| 추상화 | [⑥ trait·제네릭 (+심화·dyn·orphan)](./2026-07-12-rust-trait-generics.md) | 필수 | ✅ |
+| 관용구 | [⑦ 반복자·클로저 (Rust다움의 본체)](./2026-07-12-rust-iterator-closure.md) | 필수 · **고유** | ✅ |
+| 소유권 심화 | [⑧ 스마트 포인터 — Box·Rc·RefCell](./2026-07-12-rust-smart-pointers.md) | 나중 | ✅ |
+| 동시성 | [⑨ thread·Send/Sync·async](./2026-07-12-rust-concurrency.md) | 나중 | ✅ |
+| 마지막 | [⑩ 도구 — cargo·crates·모듈](./2026-07-12-rust-tooling.md) | 필수 | ✅ |
 | 부록 | 매크로 — macro_rules!·derive | 나중 | ⬜ |
 | 부록 | unsafe·FFI | 선택 | ⬜ |
 | 부록 | C++ → Rust 개념 대응표 | 참고 | ✅ |
@@ -68,7 +68,7 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 
 ## ① 기초 — 문법·불변성·cargo
 
-> 📖 상세 글: [① 문법·불변성·cargo](/posts/rust/2026-07-12-rust-basics-cargo-immutability/)
+> 📖 상세 글: [① 문법·불변성·cargo](./2026-07-12-rust-basics-cargo-immutability.md)
 
 이 단계 목표는 암기가 아니라 **C++과 다른 Rust의 기본 태도**입니다.
 
@@ -82,11 +82,11 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 
 ## ② 핵심 — 소유권·빌림·수명 (뼈대, 최우선)
 
-> 📖 상세 글: [② 소유권·빌림·수명](/posts/rust/2026-07-12-rust-ownership-borrow-lifetime/)
+> 📖 상세 글: [② 소유권·빌림·수명](./2026-07-12-rust-ownership-borrow-lifetime.md)
 
 **Rust의 전부.** 여기에 학습 시간의 절반을 쓸 각오로 들어갑니다. C++의 이동 시맨틱·RAII를 안다면 직관이 크게 도와줍니다.
 
-- **[필수] 소유권(ownership)** — 값에는 소유자가 하나. 소유자가 스코프를 벗어나면 자동 해제(RAII와 동일). 대입/전달이 **이동(move)**이라 원본은 무효화됩니다 — C++의 `std::move`가 기본 동작인 셈. → 언어 공통 개념: [메모리 관리 모델](/posts/concept/2026-07-12-memory-management-models/)(누가 해제하나)·[값 vs 참조 의미론](/posts/concept/2026-07-12-value-vs-reference-semantics/)(대입=이동이라는 기본값)
+- **[필수] 소유권(ownership)** — 값에는 소유자가 하나. 소유자가 스코프를 벗어나면 자동 해제(RAII와 동일). 대입/전달이 **이동(move)**이라 원본은 무효화됩니다 — C++의 `std::move`가 기본 동작인 셈. → 언어 공통 개념: [메모리 관리 모델](../concept/2026-07-12-memory-management-models.md)(누가 해제하나)·[값 vs 참조 의미론](../concept/2026-07-12-value-vs-reference-semantics.md)(대입=이동이라는 기본값)
 - **[필수] 빌림(borrow)** — `&`(shared reference)·`&mut`(exclusive reference). safe Rust에서 aliasing과 변경의 잘못된 조합을 컴파일 타임에 막습니다. 공유 가변 상태에는 `Mutex`·atomic 같은 동기화가 여전히 필요합니다.
 - **[필수] 수명(lifetime)** — 참조가 원본보다 오래 살 수 없음. 댕글링 포인터를 컴파일러가 거절. 처음엔 `'a` 문법이 낯설지만 대부분 자동 추론됩니다.
 
@@ -96,7 +96,7 @@ Rust는 **C++ 배경이 가장 크게 빛나는** 언어입니다. 소유권·�
 
 ## ③ 타입 — struct·enum·match
 
-> 📖 상세 글: [③ struct·enum·match](/posts/rust/2026-07-12-rust-struct-enum-match/)
+> 📖 상세 글: [③ struct·enum·match](./2026-07-12-rust-struct-enum-match.md)
 
 Rust의 타입 시스템은 C++보다 강력하고, 특히 enum이 다릅니다.
 
@@ -108,7 +108,7 @@ Rust의 타입 시스템은 C++보다 강력하고, 특히 enum이 다릅니다.
 
 ## ④ 타입 — 컬렉션·String vs &str
 
-> 📖 상세 글: [④ 컬렉션·String vs &str](/posts/rust/2026-07-12-rust-collections-string-str/)
+> 📖 상세 글: [④ 컬렉션·String vs &str](./2026-07-12-rust-collections-string-str.md)
 
 - **[필수] Vec·HashMap** — `std::vector`·`unordered_map` 대응.
 - **[필수] String vs &str** — Rust 입문자를 가장 헷갈리게 하는 지점. `String`(소유, 힙)과 `&str`(빌린 문자열 슬라이스)의 구분은 **②의 소유권과 직결**됩니다. 여기서 소유권이 다시 몸에 붙습니다.
@@ -117,9 +117,9 @@ Rust의 타입 시스템은 C++보다 강력하고, 특히 enum이 다릅니다.
 
 ## ⑤ 흐름 — error 처리 (Result·Option·?)
 
-> 📖 상세 글: [⑤ error 처리 — Result·Option·?](/posts/rust/2026-07-12-rust-error-handling-result-option/)
+> 📖 상세 글: [⑤ error 처리 — Result·Option·?](./2026-07-12-rust-error-handling-result-option.md)
 
-C++/Java에서 온 사람에게 문화 충격. **Rust에도 예외가 없습니다.** 대신 ③의 enum으로 에러를 표현합니다. 파일 하나만 열어도 바로 `Result`를 만나므로, 추상화(trait)보다 먼저 잡습니다(정본 Book도 이 순서). 예외·에러 값·Result 세 모델의 비교는 → [에러 핸들링 모델](/posts/concept/2026-07-12-error-handling-models/).
+C++/Java에서 온 사람에게 문화 충격. **Rust에도 예외가 없습니다.** 대신 ③의 enum으로 에러를 표현합니다. 파일 하나만 열어도 바로 `Result`를 만나므로, 추상화(trait)보다 먼저 잡습니다(정본 Book도 이 순서). 예외·에러 값·Result 세 모델의 비교는 → [에러 핸들링 모델](../concept/2026-07-12-error-handling-models.md).
 
 - **[필수] Option** — 값이 있을 수도/없을 수도(`Some`/`None`). null이 없는 Rust의 null 대체.
 - **[필수] Result** — 성공/실패(`Ok`/`Err`)를 값으로. `match`나 `?`로 처리.
@@ -133,25 +133,25 @@ C++/Java에서 온 사람에게 문화 충격. **Rust에도 예외가 없습니�
 
 ## ⑥ 추상화 — trait·제네릭
 
-> 📖 상세 글: [⑥ trait·제네릭](/posts/rust/2026-07-12-rust-trait-generics/)
+> 📖 상세 글: [⑥ trait·제네릭](./2026-07-12-rust-trait-generics.md)
 
 C++의 인터페이스·템플릿·concept에 해당하는 축. Rust 추상화의 중심이라 심화까지 여기서 짚습니다.
 
 - **[필수] trait** — 공유 동작의 정의. C++20 concept + 인터페이스에 가깝습니다. `impl Trait for Type`으로 구현.
 - **[필수] 제네릭 + trait bound** — `fn foo<T: Display>`. C++ 템플릿과 달리 제약을 **미리** 선언해서 에러가 훨씬 친절합니다.
-- **[나중] 트레이트 객체(`dyn`) vs 정적 디스패치** — 런타임 다형성(`dyn Trait`, vtable)과 컴파일 타임 단형화(제네릭)의 트레이드오프. C++의 가상 함수 vs 템플릿과 같은 갈림. → [서브타입 다형성·동적 디스패치](/posts/concept/2026-07-12-subtype-polymorphism-dynamic-dispatch/)·[제네릭](/posts/concept/2026-07-12-generics-parametric-polymorphism/)
+- **[나중] 트레이트 객체(`dyn`) vs 정적 디스패치** — 런타임 다형성(`dyn Trait`, vtable)과 컴파일 타임 단형화(제네릭)의 트레이드오프. C++의 가상 함수 vs 템플릿과 같은 갈림. → [서브타입 다형성·동적 디스패치](../concept/2026-07-12-subtype-polymorphism-dynamic-dispatch.md)·[제네릭](../concept/2026-07-12-generics-parametric-polymorphism.md)
 - **[선택] 심화 — associated type·blanket impl·orphan rule** — 라이브러리를 설계할 때 만나는 규칙들. "왜 이 trait을 이 타입에 구현 못 하지"(orphan rule)의 답이 여기.
 
 **자주 막히는 지점:** C++ 템플릿의 "일단 쓰고 안 되면 에러" 습관. Rust는 trait bound를 **미리** 선언해야 하고, 그 덕에 에러가 명확합니다.
 
 ## ⑦ 관용구 — 반복자·클로저 (Rust다움의 본체)
 
-> 📖 상세 글: [⑦ 반복자·클로저](/posts/rust/2026-07-12-rust-iterator-closure/)
+> 📖 상세 글: [⑦ 반복자·클로저](./2026-07-12-rust-iterator-closure.md)
 
 **C++ 대응이 흐릿한, Rust에서 새로 배우는 축.** 문법만 알고 여길 건너뛰면 "C++을 Rust 문법으로 쓴" 코드가 나옵니다. Rust 코드가 실제로 어떻게 생겼는지가 여기서 갈립니다.
 
-- **[필수] 클로저(`Fn`/`FnMut`/`FnOnce`)** — `move`는 캡처 소유 방식을 정하고, call trait은 본문이 캡처 값을 읽는지·바꾸는지·밖으로 이동시키는지로 결정됩니다. → 언어 공통 개념: [클로저란 무엇인가](/posts/concept/2026-07-12-closure/)
-- **[필수] 반복자(iterator)** — `for`문 대신 `iter().map().filter().fold().collect()` 체인. **lazy**하고 **zero-cost**(손 루프만큼 빠름). `Iterator` trait 하나로 굴러갑니다. → [이터레이터와 지연 평가](/posts/concept/2026-07-12-iterators-and-lazy-evaluation/)
+- **[필수] 클로저(`Fn`/`FnMut`/`FnOnce`)** — `move`는 캡처 소유 방식을 정하고, call trait은 본문이 캡처 값을 읽는지·바꾸는지·밖으로 이동시키는지로 결정됩니다. → 언어 공통 개념: [클로저란 무엇인가](../concept/2026-07-12-closure.md)
+- **[필수] 반복자(iterator)** — `for`문 대신 `iter().map().filter().fold().collect()` 체인. **lazy**하고 **zero-cost**(손 루프만큼 빠름). `Iterator` trait 하나로 굴러갑니다. → [이터레이터와 지연 평가](../concept/2026-07-12-iterators-and-lazy-evaluation.md)
 - **[나중] 커스텀 iterator** — 내 타입에 `Iterator`를 구현해 `for`로 돌게 만들기.
 
 **자주 막히는 지점:** C++ 습관으로 인덱스 `for` 루프를 쓰는 것. Rust에서는 대부분 iterator 체인이 더 짧고 안전하고 빠릅니다. `collect()`의 타입 추론(어디로 모을지)도 처음엔 헷갈립니다.
@@ -160,7 +160,7 @@ C++의 인터페이스·템플릿·concept에 해당하는 축. Rust 추상화�
 
 ## ⑧ 소유권 심화 — 스마트 포인터
 
-> 📖 상세 글: [⑧ 스마트 포인터 — Box·Rc·RefCell](/posts/rust/2026-07-12-rust-smart-pointers/)
+> 📖 상세 글: [⑧ 스마트 포인터 — Box·Rc·RefCell](./2026-07-12-rust-smart-pointers.md)
 
 ②의 소유권 규칙이 너무 빡빡할 때 푸는 도구. **C++ 스마트 포인터와 거의 1:1 대응**이라 C++ 배경이 크게 유리한 구간입니다.
 
@@ -171,9 +171,9 @@ C++의 인터페이스·템플릿·concept에 해당하는 축. Rust 추상화�
 
 ## ⑨ 동시성 — thread·Send/Sync·async
 
-> 📖 상세 글: [⑨ thread·Send/Sync·async](/posts/rust/2026-07-12-rust-concurrency/)
+> 📖 상세 글: [⑨ thread·Send/Sync·async](./2026-07-12-rust-concurrency.md)
 
-Rust의 슬로건 "fearless concurrency". safe Rust는 소유권·`Send`/`Sync`와 동기화 타입으로 데이터 레이스 경로를 차단합니다. `unsafe`에서는 작성자가 같은 계약을 직접 지켜야 합니다. → [동시성 조율 모델](/posts/concept/2026-07-12-concurrency-coordination-models/).
+Rust의 슬로건 "fearless concurrency". safe Rust는 소유권·`Send`/`Sync`와 동기화 타입으로 데이터 레이스 경로를 차단합니다. `unsafe`에서는 작성자가 같은 계약을 직접 지켜야 합니다. → [동시성 조율 모델](../concept/2026-07-12-concurrency-coordination-models.md).
 
 - **[나중] thread + 채널** — `std::thread`, `mpsc` 채널. C++보다 안전.
 - **[나중] Send / Sync** — 타입이 스레드 간 이동/공유 가능한지 표시하는 마커 트레이트. Rust 동시성 안전성의 근간.
@@ -181,7 +181,7 @@ Rust의 슬로건 "fearless concurrency". safe Rust는 소유권·`Send`/`Sync`�
 
 ## ⑩ 마지막 — 도구
 
-> 📖 상세 글: [⑩ 도구 — cargo·crates·모듈](/posts/rust/2026-07-12-rust-tooling/)
+> 📖 상세 글: [⑩ 도구 — cargo·crates·모듈](./2026-07-12-rust-tooling.md)
 
 Rust는 도구 경험이 언어의 강점입니다.
 

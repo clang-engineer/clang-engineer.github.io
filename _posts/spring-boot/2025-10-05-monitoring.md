@@ -11,7 +11,7 @@ hidden      : false
 
 JHipster 기준 모니터링 스택은 **Actuator(메트릭 생산) → Prometheus(스크래핑·저장) → Grafana(시각화)** 3단으로 구성된다. 각 구간의 설정 파일과 Docker compose까지 한 번에 본다.
 
-Actuator 쪽 세부 설정(exposure 정책, health probes, 보안)은 [Spring Boot Actuator 상세 설정 분석](/posts/spring-boot/2025-10-05-actuator/) 글에서 별도로 다룬다. 이 글은 Actuator는 "메트릭이 나가는 엔드포인트"로만 다룬다.
+Actuator 쪽 세부 설정(exposure 정책, health probes, 보안)은 [Spring Boot Actuator 상세 설정 분석](./2025-10-05-actuator.md) 글에서 별도로 다룬다. 이 글은 Actuator는 "메트릭이 나가는 엔드포인트"로만 다룬다.
 
 ## 1. 데이터 흐름
 
@@ -46,7 +46,7 @@ management:
         step: 60
 ```
 
-`/management/prometheus`로 Prometheus 텍스트 포맷 메트릭이 나간다. JVM·HTTP·시스템 메트릭은 자동 수집된다. 세부 옵션(히스토그램, 보안, health probes)은 [Actuator 글](/posts/spring-boot/2025-10-05-actuator/) 참고.
+`/management/prometheus`로 Prometheus 텍스트 포맷 메트릭이 나간다. JVM·HTTP·시스템 메트릭은 자동 수집된다. 세부 옵션(히스토그램, 보안, health probes)은 [Actuator 글](./2025-10-05-actuator.md) 참고.
 
 ## 3. Prometheus 측 (스크래핑·저장)
 

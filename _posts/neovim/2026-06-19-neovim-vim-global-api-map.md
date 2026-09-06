@@ -186,9 +186,9 @@ vim.uv.fs_stat(path)              -- libuv 직행 (옛 vim.loop)
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [Lua 종합 가이드 (Neovim 컨텍스트)](/posts/neovim/2026-06-15-lua-syntax-guide/) | `vim.*`를 담는 그릇 — LuaJIT 문법·타입·테이블·패턴 |
-| [Lua 메타테이블](/posts/neovim/2026-06-15-lua-metatables/) | `vim.opt.number = true`가 실제로는 C 함수 호출인 이유 |
-| [Neovim 플러그인 작성 규칙](/posts/neovim/2026-06-12-neovim-plugin-conventions/) | 이 API들을 `plugin/`·`lua/` 어디에 둘지 |
-| [Lua vs Vimscript 성능](/posts/neovim/2026-06-12-neovim-lua-vs-vimscript-performance/) | `vim.api`·`vim.fn`·`vim.cmd` 호출 비용 비교 |
+| [Lua 종합 가이드 (Neovim 컨텍스트)](./2026-06-15-lua-syntax-guide.md) | `vim.*`를 담는 그릇 — LuaJIT 문법·타입·테이블·패턴 |
+| [Lua 메타테이블](./2026-06-15-lua-metatables.md) | `vim.opt.number = true`가 실제로는 C 함수 호출인 이유 |
+| [Neovim 플러그인 작성 규칙](./2026-06-12-neovim-plugin-conventions.md) | 이 API들을 `plugin/`·`lua/` 어디에 둘지 |
+| [Lua vs Vimscript 성능](./2026-06-12-neovim-lua-vs-vimscript-performance.md) | `vim.api`·`vim.fn`·`vim.cmd` 호출 비용 비교 |
 
 정식 레퍼런스는 nvim 안에서 `:h lua-vim`, `:h vim.api`, `:h vim.fn`, `:h lua-stdlib`로 바로 볼 수 있다.

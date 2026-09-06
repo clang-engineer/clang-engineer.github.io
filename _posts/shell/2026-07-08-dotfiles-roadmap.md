@@ -30,7 +30,7 @@ hidden      : false
 
 ## 입문 — dotfiles를 왜, 무엇으로
 
-설정 파일을 홈에 그대로 두면 새 기기에서 처음부터 다시 만들어야 하고 "어제 뭘 바꿨더라"도 추적이 안 된다. 해법은 **원본을 git 저장소 한곳에 모으는 것**이다. 그 위에 "홈에 어떻게 되돌려 놓을 것인가"(심링크냐 렌더냐)가 얹힌다. 큰 그림 — 새 맥을 받아 시스템 설정부터 dotfiles까지 이어지는 day-1 흐름 — 은 [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/)의 런북이 잡아 준다. 이 로드맵은 그중 dotfiles 갈래를 깊게 판다.
+설정 파일을 홈에 그대로 두면 새 기기에서 처음부터 다시 만들어야 하고 "어제 뭘 바꿨더라"도 추적이 안 된다. 해법은 **원본을 git 저장소 한곳에 모으는 것**이다. 그 위에 "홈에 어떻게 되돌려 놓을 것인가"(심링크냐 렌더냐)가 얹힌다. 큰 그림 — 새 맥을 받아 시스템 설정부터 dotfiles까지 이어지는 day-1 흐름 — 은 [새 맥 초기 설정](../macos/2022-02-05-new-mac-initial-setup.md)의 런북이 잡아 준다. 이 로드맵은 그중 dotfiles 갈래를 깊게 판다.
 
 ## 1단계 — 설정을 한곳에 모으기 (심링크)
 
@@ -38,9 +38,9 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](/posts/shell/2026-07-03-dotfiles-symlink-management/) | 설정을 git 한곳에 모으고 홈으로 심볼릭 링크. `ln -s` 재실행 문제를 없애는 멱등 링크 헬퍼, 도구별 `setup.sh`를 `bootstrap.sh`로 묶는 구조, GNU stow 대안, 시크릿 분리까지 |
+| [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](./2026-07-03-dotfiles-symlink-management.md) | 설정을 git 한곳에 모으고 홈으로 심볼릭 링크. `ln -s` 재실행 문제를 없애는 멱등 링크 헬퍼, 도구별 `setup.sh`를 `bootstrap.sh`로 묶는 구조, GNU stow 대안, 시크릿 분리까지 |
 
-> 이 단계의 멱등 링크 헬퍼·bootstrap은 [셸 로드맵](/posts/shell/2026-07-03-shell-roadmap/)에서 배운 스크립팅이 실제로 쓰이는 첫 실전이기도 하다. 스크립트를 갓 배웠다면 자기 환경을 재현하는 연습으로 삼기 좋다.
+> 이 단계의 멱등 링크 헬퍼·bootstrap은 [셸 로드맵](./2026-07-03-shell-roadmap.md)에서 배운 스크립팅이 실제로 쓰이는 첫 실전이기도 하다. 스크립트를 갓 배웠다면 자기 환경을 재현하는 연습으로 삼기 좋다.
 {: .prompt-tip }
 
 ## 2단계 — 설치도 선언적으로 (Brewfile)
@@ -49,27 +49,27 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [Homebrew Brewfile로 패키지 선언적으로 관리하기](/posts/shell/2026-07-03-homebrew-brewfile-bundle/) | `dump`로 현재 설치를 덤프 → `bundle`로 재설치 → `cleanup`으로 정리 → `check`로 검증. Brewfile 문법과 dotfiles 버전관리에 얹는 법 |
+| [Homebrew Brewfile로 패키지 선언적으로 관리하기](./2026-07-03-homebrew-brewfile-bundle.md) | `dump`로 현재 설치를 덤프 → `bundle`로 재설치 → `cleanup`으로 정리 → `check`로 검증. Brewfile 문법과 dotfiles 버전관리에 얹는 법 |
 
 ## 3단계 — 머신 분기: 런타임이냐 렌더냐
 
 여기가 갈림길이다. 여러 머신을 쓰면 값이 갈린다 — 이메일, 툴셋, 호스트별 경로. 이 차이를 **언제 확정하느냐**로 두 방식이 나뉜다.
 
-- **런타임 분기 (심링크 + `.secrets`)** — 홈의 링크는 원본 그대로 두고, 머신별 값은 `~/.secrets` 같은 파일에 두어 셸이 실행 시점에 `source`로 분기한다. 1단계 심링크 방식의 자연스러운 연장이다. 시크릿을 저장소에서 빼는 방법이 여기 포함된다 ([1단계 글](/posts/shell/2026-07-03-dotfiles-symlink-management/)의 시크릿 분리 절).
+- **런타임 분기 (심링크 + `.secrets`)** — 홈의 링크는 원본 그대로 두고, 머신별 값은 `~/.secrets` 같은 파일에 두어 셸이 실행 시점에 `source`로 분기한다. 1단계 심링크 방식의 자연스러운 연장이다. 시크릿을 저장소에서 빼는 방법이 여기 포함된다 ([1단계 글](./2026-07-03-dotfiles-symlink-management.md)의 시크릿 분리 절).
 - **렌더 (chezmoi)** — 템플릿을 `apply` 시점에 그 머신용 실파일로 렌더해 분기를 미리 확정한다. `.gitconfig`·JSON처럼 런타임 `source`가 안 되는 파일, 또는 남이 클론해 바로 돌리게 하고 싶을 때 값을 한다.
 
 | 글 | 핵심 |
 |---|---|
-| [chezmoi vs 심링크 dotfiles — 근본 차이와 언제 무엇을 쓸까](/posts/shell/2026-07-08-chezmoi-vs-symlink-dotfiles/) | 머신 분기를 런타임에서 apply타임으로 옮기는 게 핵심. 차이를 표로 정리하고 chezmoi가 실제 이득인 세 경우와 심링크가 더 나은 경우를 가른다. stow와의 위치까지 |
-| [chezmoi 사용법 — 소스 표현과 apply 흐름](/posts/shell/2026-07-08-chezmoi-usage-source-apply/) | 파일명 메타 인코딩(`dot_`·`private_`·`encrypted_`·`.tmpl`), 템플릿으로 머신 분기(`.chezmoi.hostname`·`[data]`), `edit`·`update` 일상 명령, 시크릿 암호화(`encrypted_`·패스워드 매니저), `run_` 스크립트로 apply 시 부트스트랩. 공유의 핵심 `init --apply` |
+| [chezmoi vs 심링크 dotfiles — 근본 차이와 언제 무엇을 쓸까](./2026-07-08-chezmoi-vs-symlink-dotfiles.md) | 머신 분기를 런타임에서 apply타임으로 옮기는 게 핵심. 차이를 표로 정리하고 chezmoi가 실제 이득인 세 경우와 심링크가 더 나은 경우를 가른다. stow와의 위치까지 |
+| [chezmoi 사용법 — 소스 표현과 apply 흐름](./2026-07-08-chezmoi-usage-source-apply.md) | 파일명 메타 인코딩(`dot_`·`private_`·`encrypted_`·`.tmpl`), 템플릿으로 머신 분기(`.chezmoi.hostname`·`[data]`), `edit`·`update` 일상 명령, 시크릿 암호화(`encrypted_`·패스워드 매니저), `run_` 스크립트로 apply 시 부트스트랩. 공유의 핵심 `init --apply` |
 
 > **대부분은 심링크로 충분하다.** 개인 1머신이거나 머신 차이가 경로 수준(환경변수로 처리 가능)에 그친다면, chezmoi는 일상 편집에 `apply` 한 단계를 얹어 무겁게만 만든다. chezmoi가 값을 하는 건 (1) 남이 클론해 바로 돌리게, (2) config *내용*이 머신마다 갈릴 때, (3) 비셸 config에 머신별 값이 필요할 때 — 이 세 경우다.
 {: .prompt-info }
 
-> **제3의 배치 모델 — bare git repo · yadm.** 줄기는 "홈에 어떻게 되돌리나"를 링크(심링크)와 렌더(chezmoi)로 갈랐지만, 링크도 복사도 없이 **홈 디렉터리 자체를 git 워크트리로 삼는** bare git 방식이 하나 더 있다. 매니저 없이 git만으로 가장 가볍게 가고 싶을 때의 선택지이고, 여기에 템플릿·암호화를 얹은 매니저가 yadm이다 → [bare git repo · yadm로 dotfiles 관리하기](/posts/shell/2026-07-08-dotfiles-bare-git-yadm/).
+> **제3의 배치 모델 — bare git repo · yadm.** 줄기는 "홈에 어떻게 되돌리나"를 링크(심링크)와 렌더(chezmoi)로 갈랐지만, 링크도 복사도 없이 **홈 디렉터리 자체를 git 워크트리로 삼는** bare git 방식이 하나 더 있다. 매니저 없이 git만으로 가장 가볍게 가고 싶을 때의 선택지이고, 여기에 템플릿·암호화를 얹은 매니저가 yadm이다 → [bare git repo · yadm로 dotfiles 관리하기](./2026-07-08-dotfiles-bare-git-yadm.md).
 {: .prompt-info }
 
-> 💡 **chezmoi의 숨은 축 — `.chezmoiexternal`로 남의 설정을 통째로 추적.** 위 갈림길이 "내 설정"을 다뤘다면, 남이 만든 **설정 프레임워크**(Oh My Tmux!·oh-my-zsh 류)를 통째로 쓰되 upstream을 추적하고 싶을 때가 있다. chezmoi는 `.chezmoiexternal`로 외부 파일·repo를 `apply` 시점에 가져온다 — **특정 커밋에 고정**하면 재현성과 예고 없는 변경 차단까지 얻고, 내 커스텀은 배포판이 정해 둔 override 파일(예: `.tmux.conf.local`) 하나로 격리한다. "완성형 배포판 상속"의 약점을 규율로 상쇄하는 패턴이다 → [요즘 얹는 tmux 플러그인](/posts/tmux/2026-07-11-tmux-plugins-beyond-essentials/)의 Oh My Tmux! 절에 tmux 실사례.
+> 💡 **chezmoi의 숨은 축 — `.chezmoiexternal`로 남의 설정을 통째로 추적.** 위 갈림길이 "내 설정"을 다뤘다면, 남이 만든 **설정 프레임워크**(Oh My Tmux!·oh-my-zsh 류)를 통째로 쓰되 upstream을 추적하고 싶을 때가 있다. chezmoi는 `.chezmoiexternal`로 외부 파일·repo를 `apply` 시점에 가져온다 — **특정 커밋에 고정**하면 재현성과 예고 없는 변경 차단까지 얻고, 내 커스텀은 배포판이 정해 둔 override 파일(예: `.tmux.conf.local`) 하나로 격리한다. "완성형 배포판 상속"의 약점을 규율로 상쇄하는 패턴이다 → [요즘 얹는 tmux 플러그인](../tmux/2026-07-11-tmux-plugins-beyond-essentials.md)의 Oh My Tmux! 절에 tmux 실사례.
 {: .prompt-info }
 
 ---
@@ -81,7 +81,7 @@ dotfiles를 "코드로 관리"하기 전에 잡아 두면 좋은 이해, 그리�
 | 글 | 핵심 |
 |---|---|
 | [/etc/profile, /etc/bashrc, ~/.bash_profile, ~/.bashrc](/posts/shell/2022-07-19-bashrc-profile/) | login/non-login × interactive/non-interactive 두 축으로 본 초기화 파일 로딩 순서. zsh 매핑까지. "왜 내 `.zshrc`가 안 먹히지"의 답 — 어느 파일을 dotfiles로 관리할지 정하기 전 전제 |
-| [direnv 사용법 정리](/posts/shell/2026-02-21-direnv/) | 디렉토리 진입 시 `.envrc`로 환경변수 자동 로드. 저장소별로 갈리는 값을 dotfiles 밖에서 다루는 축. 셸 레벨 direnv vs 앱 레벨 dotenv의 역할 분담 |
+| [direnv 사용법 정리](./2026-02-21-direnv.md) | 디렉토리 진입 시 `.envrc`로 환경변수 자동 로드. 저장소별로 갈리는 값을 dotfiles 밖에서 다루는 축. 셸 레벨 direnv vs 앱 레벨 dotenv의 역할 분담 |
 
 ## 부록 B — SSH 계정 분리 · 새 맥 전체 셋업 (필요할 때)
 
@@ -89,8 +89,8 @@ dotfiles를 "코드로 관리"하기 전에 잡아 두면 좋은 이해, 그리�
 
 | 글 | 핵심 |
 |---|---|
-| [GitHub 다중 계정 관리 (SSH config)](/posts/git/2025-10-03-git-multiple-config/) | 회사·개인 계정을 `~/.ssh/config`의 Host 별칭으로 분리. dotfiles의 시크릿 분리(개인키는 저장소에서 제외)와 이어지는 지점 |
-| [새 맥 초기 설정 — 셋업 순서](/posts/macos/2022-02-05-new-mac-initial-setup/) | 시스템 설정 → Homebrew → dotfiles → Git 계정으로 이어지는 day-1 런북. dotfiles가 전체 셋업의 어디에 놓이는지 |
+| [GitHub 다중 계정 관리 (SSH config)](../git/2025-10-03-git-multiple-config.md) | 회사·개인 계정을 `~/.ssh/config`의 Host 별칭으로 분리. dotfiles의 시크릿 분리(개인키는 저장소에서 제외)와 이어지는 지점 |
+| [새 맥 초기 설정 — 셋업 순서](../macos/2022-02-05-new-mac-initial-setup.md) | 시스템 설정 → Homebrew → dotfiles → Git 계정으로 이어지는 day-1 런북. dotfiles가 전체 셋업의 어디에 놓이는지 |
 
 ---
 
@@ -100,4 +100,4 @@ dotfiles를 "코드로 관리"하기 전에 잡아 두면 좋은 이해, 그리�
 - **새 기기 재현을 완성하고 싶다면** 2단계 Brewfile로 설치까지 코드로.
 - **여러 머신에서 config 내용이 갈린다면** 3단계에서 chezmoi 갈래를 검토. 그렇지 않으면 심링크 + `.secrets`로 남는다.
 
-그다음은 상황껏 — 초기화 파일 로딩이 헷갈리면 부록 A, SSH 계정을 나누거나 새 맥을 처음부터 세우면 부록 B로. 이 로드맵은 [셸 로드맵](/posts/shell/2026-07-03-shell-roadmap/)의 *환경을 코드로 관리* 갈래를 dotfiles 축으로 확장한 것이고, 데스크톱 환경 전반은 [macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/)과 함께 보면 된다.
+그다음은 상황껏 — 초기화 파일 로딩이 헷갈리면 부록 A, SSH 계정을 나누거나 새 맥을 처음부터 세우면 부록 B로. 이 로드맵은 [셸 로드맵](./2026-07-03-shell-roadmap.md)의 *환경을 코드로 관리* 갈래를 dotfiles 축으로 확장한 것이고, 데스크톱 환경 전반은 [macOS 로드맵](../macos/2026-07-03-macos-roadmap.md)과 함께 보면 된다.

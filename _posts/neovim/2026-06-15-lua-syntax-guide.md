@@ -281,7 +281,7 @@ local ok, result = pcall(function()
 end)
 ```
 
-`pcall`/`xpcall`로 잡고, `error`/`assert`로 던지는 게 기본. 에러 객체 패턴, traceback 핸들러, Neovim 플러그인의 에러 관행은 별도 글에서 자세히 다룬다 → [Lua 문법 8 — 에러 처리](/posts/neovim/2026-06-15-lua-error-handling/).
+`pcall`/`xpcall`로 잡고, `error`/`assert`로 던지는 게 기본. 에러 객체 패턴, traceback 핸들러, Neovim 플러그인의 에러 관행은 별도 글에서 자세히 다룬다 → [Lua 문법 8 — 에러 처리](./2026-06-15-lua-error-handling.md).
 
 ## Neovim 자주 쓰는 헬퍼
 
@@ -324,7 +324,7 @@ vim.notify("msg", vim.log.levels.INFO)
 vim.fn.matchstr("abc123", "\\d\\+")     -- Vim regex (Lua 패턴 아님)
 ```
 
-`vim.*` 네임스페이스 전체 지도(`vim.api` vs `vim.fn`, 옵션 범위, 매핑·커맨드)는 [Neovim의 vim 전역 API 지도](/posts/neovim/2026-06-19-neovim-vim-global-api-map/)에서 따로 다룬다.
+`vim.*` 네임스페이스 전체 지도(`vim.api` vs `vim.fn`, 옵션 범위, 매핑·커맨드)는 [Neovim의 vim 전역 API 지도](./2026-06-19-neovim-vim-global-api-map.md)에서 따로 다룬다.
 
 ### Lua 패턴 활용
 
@@ -357,6 +357,6 @@ local file, line, col, text = msg:match("([^:]+):(%d+):(%d+):%s*(.+)")
 | 글 | 다루는 것 |
 | --- | --- |
 | **Lua 종합 가이드 (Neovim 컨텍스트) (현재 글)** | LuaJIT(5.1) 문법 한 번에 정리 — 타입·스코프·테이블·문자열 패턴·`vim.*` 헬퍼 |
-| [Lua 모듈](/posts/neovim/2026-06-15-lua-modules/) | `require`/`package.path`, `local M = {} return M` 패턴, Neovim `lua/` 자동 등록 |
-| [Lua 메타테이블](/posts/neovim/2026-06-15-lua-metatables/) | `__index`/`__newindex`/`__call`, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
-| [Lua 에러 처리](/posts/neovim/2026-06-15-lua-error-handling/) | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. Neovim 플러그인의 에러 관행 |
+| [Lua 모듈](./2026-06-15-lua-modules.md) | `require`/`package.path`, `local M = {} return M` 패턴, Neovim `lua/` 자동 등록 |
+| [Lua 메타테이블](./2026-06-15-lua-metatables.md) | `__index`/`__newindex`/`__call`, OOP 클래스 패턴, `vim.opt`가 일반 테이블처럼 보이는 이유 |
+| [Lua 에러 처리](./2026-06-15-lua-error-handling.md) | `error`/`assert`로 던지고 `pcall`/`xpcall`로 잡기. Neovim 플러그인의 에러 관행 |

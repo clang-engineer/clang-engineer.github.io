@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](/posts/keyboard/2026-07-03-keyboard-roadmap/) · [키보드 펌웨어 지형도](/posts/keyboard/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/) · [QMK로 키맵 짜기](/posts/keyboard/2026-07-03-qmk-keymap-build/)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [QMK로 키맵 짜기](./2026-07-03-qmk-keymap-build.md)
 
-QMK 키맵을 [매번 컴파일](/posts/keyboard/2026-07-03-qmk-keymap-build/)하는 건 번거롭다. **VIA·VIAL**은 지원 펌웨어가 올라간 키보드의 키맵을 GUI에서 바꾸는 도구다. 이 글은 펌웨어와 설정 도구의 경계를 잡고 실제 리맵 흐름을 정리한다.
+QMK 키맵을 [매번 컴파일](./2026-07-03-qmk-keymap-build.md)하는 건 번거롭다. **VIA·VIAL**은 지원 펌웨어가 올라간 키보드의 키맵을 GUI에서 바꾸는 도구다. 이 글은 펌웨어와 설정 도구의 경계를 잡고 실제 리맵 흐름을 정리한다.
 
 ## 전제 — 펌웨어가 VIA/VIAL을 지원해야 한다
 
@@ -20,7 +20,7 @@ VIA·VIAL은 아무 키보드에나 붙는 범용 리매퍼가 아니다. 키보
 - **VIA**: VIA 지원이 활성화된 QMK 펌웨어를 사용한다.
 - **VIAL**: Vial용 QMK 계열 펌웨어를 사용한다.
 
-즉 VIA/VIAL은 [QMK 위에 얹는 설정 도구](/posts/keyboard/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/)다. ZMK 계열에는 별도의 ZMK Studio가 있다.
+즉 VIA/VIAL은 [QMK 위에 얹는 설정 도구](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md)다. ZMK 계열에는 별도의 ZMK Studio가 있다.
 
 ## 기본 리맵 흐름
 
@@ -74,7 +74,7 @@ ZMK firmware
 └─ ZMK Studio
 ```
 
-ZMK의 포크 → 키맵 편집 → GitHub Actions 빌드 → 플래싱 흐름은 [ZMK 키매핑 가이드](/posts/keyboard/2026-07-03-zmk-keymap-editor-build-flash/)에서 다룬다.
+ZMK의 포크 → 키맵 편집 → GitHub Actions 빌드 → 플래싱 흐름은 [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md)에서 다룬다.
 
 ## 정리
 

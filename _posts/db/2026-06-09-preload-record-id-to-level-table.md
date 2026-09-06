@@ -11,7 +11,7 @@ hidden      : false
 
 대형 팩트 테이블(이미지·영상 등 비정형 파일)을 매번 JOIN하는 대신, 중간 테이블 INSERT 시점에 필요한 컬럼을 미리 넣어두면 조회 시 JOIN을 제거할 수 있다.
 
-> 이 기법은 조회 성능을 위해 다른 테이블의 컬럼을 의도적으로 중복 저장하는 **역정규화**의 구체 사례다. 언제 역정규화를 택해야 하는지에 대한 이론과 판단 기준은 [정규화와 스키마 설계 — 1NF~BCNF와 역정규화](/posts/db/2026-07-03-database-normalization/) 글을 참조.
+> 이 기법은 조회 성능을 위해 다른 테이블의 컬럼을 의도적으로 중복 저장하는 **역정규화**의 구체 사례다. 언제 역정규화를 택해야 하는지에 대한 이론과 판단 기준은 [정규화와 스키마 설계 — 1NF~BCNF와 역정규화](./2026-07-03-database-normalization.md) 글을 참조.
 {: .prompt-tip }
 
 ## 문제
@@ -75,7 +75,7 @@ SELECT LVL.IMAGE_RECORD_ID, LVL.VIDEO_RECORD_ID FROM ...
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [RDB에서 조인(Join) 방식 총정리](/posts/db/2026-01-04-rdb-join-strategy/) | 조인 알고리즘과 옵티마이저의 전략 선택 |
-| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](/posts/db/2026-04-15-vertica-or-join-kills-performance/) | OR 조건이 Join Filter로 빠지는 문제와 의미를 보존한 매칭 쌍 분리 해법 |
-| [정규화와 스키마 설계 — 1NF~BCNF와 역정규화](/posts/db/2026-07-03-database-normalization/) | 이 사례가 속한 역정규화의 이론과 판단 기준 |
+| [RDB에서 조인(Join) 방식 총정리](./2026-01-04-rdb-join-strategy.md) | 조인 알고리즘과 옵티마이저의 전략 선택 |
+| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](./2026-04-15-vertica-or-join-kills-performance.md) | OR 조건이 Join Filter로 빠지는 문제와 의미를 보존한 매칭 쌍 분리 해법 |
+| [정규화와 스키마 설계 — 1NF~BCNF와 역정규화](./2026-07-03-database-normalization.md) | 이 사례가 속한 역정규화의 이론과 판단 기준 |
 | **RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선 (현재 글)** | INSERT 시점에 컬럼을 옮겨 조회 JOIN 자체를 제거 |

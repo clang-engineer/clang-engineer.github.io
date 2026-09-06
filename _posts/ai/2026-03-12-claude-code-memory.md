@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [AI 로드맵](/posts/ai/2026-07-03-ai-roadmap/)의 **Claude Code** 갈래 2단계(매일 쓰기)
+> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **Claude Code** 갈래 2단계(매일 쓰기)
 
 ## 메모리 시스템 개요
 

@@ -124,8 +124,8 @@ panvimdoc은 Markdown 구조를 vimdoc 요소로 변환한다.
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [Neovim 플러그인 작성 규칙](/posts/neovim/2026-06-12-neovim-plugin-conventions/) | `doc/`가 runtimepath에서 차지하는 위치 |
-| [직접 만든 플러그인 노출시키기 — 4가지 채널](/posts/neovim/2026-06-12-neovim-plugin-distribution/) | 헬프 문서가 요건인 등록 채널들 |
-| [awesome-neovim에 PR 보내기](/posts/neovim/2026-06-12-awesome-neovim-pr-walkthrough/) | 문서까지 갖춘 뒤의 마지막 단계 |
+| [Neovim 플러그인 작성 규칙](./2026-06-12-neovim-plugin-conventions.md) | `doc/`가 runtimepath에서 차지하는 위치 |
+| [직접 만든 플러그인 노출시키기 — 4가지 채널](./2026-06-12-neovim-plugin-distribution.md) | 헬프 문서가 요건인 등록 채널들 |
+| [awesome-neovim에 PR 보내기](./2026-06-12-awesome-neovim-pr-walkthrough.md) | 문서까지 갖춘 뒤의 마지막 단계 |
 
 정식 레퍼런스는 `:h help-writing`, `:h :helptags`, panvimdoc 저장소 README.

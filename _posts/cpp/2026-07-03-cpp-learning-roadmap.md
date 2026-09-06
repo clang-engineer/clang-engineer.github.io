@@ -27,17 +27,17 @@ C++는 배울 주제가 넓은 데다 서로 얽혀 있어서, 문법을 목차 
 
 | 단계 | 상세 글 | 우선순위 |
 |---|---|---|
-| 초급 | [① 참조자와 동적 할당](/posts/cpp/2026-07-03-cpp-reference-and-dynamic-allocation/) | 필수 |
-| 중급 | [② 클래스와 자원 관리 (RAII)](/posts/cpp/2026-07-03-cpp-class-and-resource-management/) | 필수 |
-| 중급+ | [예외 처리 — try/catch와 예외 안전](/posts/cpp/2026-07-13-cpp-exception-handling/) (②의 짝) | 나중 |
-| 고급 | [③ 값과 소유권 — 이동·스마트 포인터](/posts/cpp/2026-07-03-cpp-move-and-smart-pointers/) | 필수 · **뼈대** |
-| 고급+ | [람다와 클로저 — 캡처·std::function](/posts/cpp/2026-07-13-cpp-lambda-and-closures/) (③의 짝) | 나중 |
-| 고급 | [④ STL — 컨테이너·알고리즘](/posts/cpp/2026-07-03-cpp-stl-containers-and-algorithms/) | 필수 |
-| 고급 | [⑤ 템플릿](/posts/cpp/2026-07-03-cpp-templates/) | 필수 |
-| 고급 | [⑥ 모던 문법·표준 라이브러리](/posts/cpp/2026-07-03-cpp-modern-syntax/) | 필수 |
-| 고급 | [⑦ 동시성 — 스레드·비동기](/posts/cpp/2026-07-03-cpp-concurrency/) | 나중 |
-| 마지막 | [⑧ 빌드 — 컴파일·링킹·CMake](/posts/cpp/2026-07-03-cpp-build-compile-link-cmake/) | 필수 |
-| 부록 | [코드 스타일 — cpplint·clang-format](/posts/cpp/2024-10-22-cpplint-clangformat/) | 다른 축 |
+| 초급 | [① 참조자와 동적 할당](./2026-07-03-cpp-reference-and-dynamic-allocation.md) | 필수 |
+| 중급 | [② 클래스와 자원 관리 (RAII)](./2026-07-03-cpp-class-and-resource-management.md) | 필수 |
+| 중급+ | [예외 처리 — try/catch와 예외 안전](./2026-07-13-cpp-exception-handling.md) (②의 짝) | 나중 |
+| 고급 | [③ 값과 소유권 — 이동·스마트 포인터](./2026-07-03-cpp-move-and-smart-pointers.md) | 필수 · **뼈대** |
+| 고급+ | [람다와 클로저 — 캡처·std::function](./2026-07-13-cpp-lambda-and-closures.md) (③의 짝) | 나중 |
+| 고급 | [④ STL — 컨테이너·알고리즘](./2026-07-03-cpp-stl-containers-and-algorithms.md) | 필수 |
+| 고급 | [⑤ 템플릿](./2026-07-03-cpp-templates.md) | 필수 |
+| 고급 | [⑥ 모던 문법·표준 라이브러리](./2026-07-03-cpp-modern-syntax.md) | 필수 |
+| 고급 | [⑦ 동시성 — 스레드·비동기](./2026-07-03-cpp-concurrency.md) | 나중 |
+| 마지막 | [⑧ 빌드 — 컴파일·링킹·CMake](./2026-07-03-cpp-build-compile-link-cmake.md) | 필수 |
+| 부록 | [코드 스타일 — cpplint·clang-format](./2024-10-22-cpplint-clangformat.md) | 다른 축 |
 | 부록 | [트러블슈팅 — 표준(-std) 경고·에러](/posts/cpp/2022-07-17-cpp-std-extension-warning/) | 막힐 때 |
 
 **①~⑧의 [필수]만 세로로 따라가면 하나의 완결된 경로**입니다. 부록은 학습 단계가 아니라 필요할 때 직행하는 다른 축입니다. 아래는 각 단계를 왜 그 순서·우선순위로 두는지 풀어 쓴 것입니다.
@@ -47,7 +47,7 @@ C++는 배울 주제가 넓은 데다 서로 얽혀 있어서, 문법을 목차 
 
 ## ① 초급 — C++로 사고하기
 
-> 📖 상세 글: [C++로 사고하기 ① 참조자와 동적 할당](/posts/cpp/2026-07-03-cpp-reference-and-dynamic-allocation/)
+> 📖 상세 글: [C++로 사고하기 ① 참조자와 동적 할당](./2026-07-03-cpp-reference-and-dynamic-allocation.md)
 
 C를 알면 문법 상당수는 익숙합니다. 이 단계의 목표는 암기가 아니라 **C와 다른 C++의 사고방식**입니다.
 
@@ -60,7 +60,7 @@ C를 알면 문법 상당수는 익숙합니다. 이 단계의 목표는 암기�
 
 ## ② 중급 — 객체지향
 
-> 📖 상세 글: [객체지향 ② 클래스와 자원 관리](/posts/cpp/2026-07-03-cpp-class-and-resource-management/)
+> 📖 상세 글: [객체지향 ② 클래스와 자원 관리](./2026-07-03-cpp-class-and-resource-management.md)
 
 C++의 핵심 정체성인 클래스입니다. 가장 길고, 이후 모든 고급 주제의 토대가 됩니다.
 
@@ -68,7 +68,7 @@ C++의 핵심 정체성인 클래스입니다. 가장 길고, 이후 모든 고�
 - **[필수] 자원 관리 3종** — 복사 생성자·소멸자·대입 연산자가 왜 함께 등장하는지(얕은 복사 문제). RAII의 씨앗이 여기서 심어집니다.
 - **[필수] `const`와 `static`** — 멤버 함수·변수에 붙는 의미 구분
 - **[필수] 상속과 다형성** — 가상 함수, 오버라이딩, 가상 소멸자가 왜 필요한지
-- **[나중] 예외 처리** — RAII가 "예외가 나도 소멸자가 정리한다"를 전제하는데, 그 예외를 직접 던지고 잡는 법·예외 안전 3등급·`noexcept`. RAII를 익힌 직후 짝으로 보면 좋다. → [예외 처리 — try/catch와 예외 안전](/posts/cpp/2026-07-13-cpp-exception-handling/)
+- **[나중] 예외 처리** — RAII가 "예외가 나도 소멸자가 정리한다"를 전제하는데, 그 예외를 직접 던지고 잡는 법·예외 안전 3등급·`noexcept`. RAII를 익힌 직후 짝으로 보면 좋다. → [예외 처리 — try/catch와 예외 안전](./2026-07-13-cpp-exception-handling.md)
 - **[나중] 연산자 오버로딩** — 내 타입을 내장 타입처럼. 개념은 초반에, 첨자·타입변환·증감 같은 세부는 필요할 때.
 - **[나중] 입출력** — `iostream`, 파일(`fstream`), 문자열 스트림(`stringstream`)
 
@@ -82,20 +82,20 @@ C++11 이후의 본체입니다. 실무의 어려움 대부분이 이 구간에 
 
 ### ③ 값과 소유권 (가장 먼저)
 
-> 📖 상세 글: [값과 소유권 ③ 이동 시맨틱과 스마트 포인터](/posts/cpp/2026-07-03-cpp-move-and-smart-pointers/)
+> 📖 상세 글: [값과 소유권 ③ 이동 시맨틱과 스마트 포인터](./2026-07-03-cpp-move-and-smart-pointers.md)
 
 모던 C++의 뼈대입니다. 고급 단계에서 **이 묶음을 최우선**으로 두길 권합니다. 순서대로 배우면 자연스럽게 이어집니다.
 
 1. **[필수] 우측값 레퍼런스(rvalue reference)** — 임시 객체를 가리키는 참조
 2. **[필수] 이동 시맨틱(`std::move`, 완벽한 전달)** — 복사 대신 자원을 넘기기. 성능과 직결
 3. **[필수] 스마트 포인터** — `unique_ptr`(유일 소유), `shared_ptr`/`weak_ptr`(공유 소유). `new`/`delete`를 직접 안 쓰게 되는 이유
-4. **[나중] 함수를 객체로** — 람다, `std::function`, `std::bind`. → [람다와 클로저 — 캡처·std::function·제네릭 람다](/posts/cpp/2026-07-13-cpp-lambda-and-closures/)
+4. **[나중] 함수를 객체로** — 람다, `std::function`, `std::bind`. → [람다와 클로저 — 캡처·std::function·제네릭 람다](./2026-07-13-cpp-lambda-and-closures.md)
 
 **자주 막히는 지점:** `std::move`가 "옮긴다"고 오해하는 것. 실제로는 이동 가능하다고 *표시*만 하고, 실제 이동은 이동 생성자가 합니다.
 
 ### ④ STL
 
-> 📖 상세 글: [STL ④ 컨테이너와 알고리즘](/posts/cpp/2026-07-03-cpp-stl-containers-and-algorithms/)
+> 📖 상세 글: [STL ④ 컨테이너와 알고리즘](./2026-07-03-cpp-stl-containers-and-algorithms.md)
 
 - **[필수] 컨테이너** — `vector`, `map`, `unordered_map`을 먼저. `list`/`deque`는 필요할 때.
 - **[필수] 알고리즘** — `sort`, `find`, `accumulate` 등 반복문을 대체하는 표준 함수
@@ -103,7 +103,7 @@ C++11 이후의 본체입니다. 실무의 어려움 대부분이 이 구간에 
 
 ### ⑤ 제네릭 프로그래밍
 
-> 📖 상세 글: [제네릭 ⑤ 템플릿](/posts/cpp/2026-07-03-cpp-templates/)
+> 📖 상세 글: [제네릭 ⑤ 템플릿](./2026-07-03-cpp-templates.md)
 
 - **[필수] 템플릿** — 타입을 인자로 받는 함수·클래스
 - **[나중] 가변 길이 템플릿(variadic template)**
@@ -111,7 +111,7 @@ C++11 이후의 본체입니다. 실무의 어려움 대부분이 이 구간에 
 
 ### ⑥ 모던 문법과 표준 라이브러리
 
-> 📖 상세 글: [모던 문법 ⑥ auto·constexpr와 표준 라이브러리](/posts/cpp/2026-07-03-cpp-modern-syntax/)
+> 📖 상세 글: [모던 문법 ⑥ auto·constexpr와 표준 라이브러리](./2026-07-03-cpp-modern-syntax.md)
 
 `auto`·`constexpr`·유니폼 초기화는 아래 동시성 코드를 포함해 이후 코드 전반에 깔리므로, 동시성보다 먼저 잡습니다.
 
@@ -121,7 +121,7 @@ C++11 이후의 본체입니다. 실무의 어려움 대부분이 이 구간에 
 
 ### ⑦ 동시성 (필요해질 때)
 
-> 📖 상세 글: [동시성 ⑦ 스레드와 비동기](/posts/cpp/2026-07-03-cpp-concurrency/)
+> 📖 상세 글: [동시성 ⑦ 스레드와 비동기](./2026-07-03-cpp-concurrency.md)
 
 멀티스레드 프로그램을 짤 일이 생기기 전엔 통째로 미뤄도 됩니다. [필수] 고급 주제 중 유일하게 [나중]이라, ⑧ 빌드로 넘어가기 전 곁길에 둡니다.
 
@@ -131,7 +131,7 @@ C++11 이후의 본체입니다. 실무의 어려움 대부분이 이 구간에 
 
 ## ⑧ 마지막 — 코드에서 실행 파일까지
 
-> 📖 상세 글: [빌드 ⑧ 컴파일·링킹과 CMake](/posts/cpp/2026-07-03-cpp-build-compile-link-cmake/)
+> 📖 상세 글: [빌드 ⑧ 컴파일·링킹과 CMake](./2026-07-03-cpp-build-compile-link-cmake.md)
 
 문법을 넘어 **프로젝트를 빌드하는** 관점입니다. 규모가 커지면 반드시 마주칩니다.
 
@@ -152,7 +152,7 @@ C++11 이후의 본체입니다. 실무의 어려움 대부분이 이 구간에 
 
 | 글 | 핵심 |
 |---|---|
-| [Cpplint와 ClangFormat으로 Google 스타일 코드 작성](/posts/cpp/2024-10-22-cpplint-clangformat/) | cpplint로 Google 스타일 위반을 **검사**(lint)하고, clang-format·`.clang-format` 파일로 **일괄 자동 포맷**, 저장 시 자동 정리까지. 스타일을 사람의 의지가 아니라 도구로 고정하는 법 |
+| [Cpplint와 ClangFormat으로 Google 스타일 코드 작성](./2024-10-22-cpplint-clangformat.md) | cpplint로 Google 스타일 위반을 **검사**(lint)하고, clang-format·`.clang-format` 파일로 **일괄 자동 포맷**, 저장 시 자동 정리까지. 스타일을 사람의 의지가 아니라 도구로 고정하는 법 |
 
 ⑧에서 빌드 시스템을 잡았다면, 같은 프로젝트에 이 도구들을 붙여 CI에서 스타일 위반을 차단하고 포맷을 자동화하는 실전으로 이어집니다.
 

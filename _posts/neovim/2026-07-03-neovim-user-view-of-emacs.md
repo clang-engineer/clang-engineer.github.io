@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-Vim과 Emacs의 차이는 단축키가 아니라 "에디터를 무엇으로 보느냐"에서 갈린다. Vim은 텍스트를 정밀하게 다루는 날카로운 도구고, Emacs는 Elisp 위에 에디터가 얹힌 확장 가능한 런타임이다. 엔진·배포판·플러그인 매니저라는 멘탈 모델은 [Neovim 시작점 비교](/posts/neovim/2026-06-16-neovim-starting-point-comparison/)에서 먼저 잡고 오면 이 글이 더 잘 읽힌다.
+Vim과 Emacs의 차이는 단축키가 아니라 "에디터를 무엇으로 보느냐"에서 갈린다. Vim은 텍스트를 정밀하게 다루는 날카로운 도구고, Emacs는 Elisp 위에 에디터가 얹힌 확장 가능한 런타임이다. 엔진·배포판·플러그인 매니저라는 멘탈 모델은 [Neovim 시작점 비교](./2026-06-16-neovim-starting-point-comparison.md)에서 먼저 잡고 오면 이 글이 더 잘 읽힌다.
 
 ## 결론 먼저
 
@@ -77,4 +77,4 @@ Emacs가 기술적으로 더 확장 가능한데도 생태계는 더 작다. 이
 
 ## 더 깊이
 
-- [Neovim 시작점 비교](/posts/neovim/2026-06-16-neovim-starting-point-comparison/) — 엔진/배포판/플러그인 매니저 멘탈 모델을 이 글의 `Doom vs LazyVim` 대응과 함께 보면 좋다.
+- [Neovim 시작점 비교](./2026-06-16-neovim-starting-point-comparison.md) — 엔진/배포판/플러그인 매니저 멘탈 모델을 이 글의 `Doom vs LazyVim` 대응과 함께 보면 좋다.

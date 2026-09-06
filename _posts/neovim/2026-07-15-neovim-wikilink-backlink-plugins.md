@@ -11,9 +11,9 @@ hidden      : false
 
 평범한 `.md` 파일 디렉토리 — 이를테면 노트 95개 중 41개가 `[[다른-노트]]`로 서로를 참조하는 상태 — 에서 딱 두 가지만 하고 싶다고 하자. **링크 위에서 눌러 점프**하고, **이 노트를 참조하는 다른 노트들(백링크)을 찾기**. 직접 플러그인을 짤 필요는 없다. 이미 하는 도구가 여럿 있다.
 
-문제는 **어떤 걸 고르느냐**인데, 여기서 두 가지가 결정을 뒤흔든다. 하나는 쓰고 있는 picker가 [telescope가 아니라 snacks](/posts/neovim/2026-07-03-telescope-vs-fzf/)냐이고, 다른 하나는 — 반직관적이지만 — **"이미 깔려 있는 vimwiki를 확장"하는 게 최악의 선택**이라는 점이다.
+문제는 **어떤 걸 고르느냐**인데, 여기서 두 가지가 결정을 뒤흔든다. 하나는 쓰고 있는 picker가 [telescope가 아니라 snacks](./2026-07-03-telescope-vs-fzf.md)냐이고, 다른 하나는 — 반직관적이지만 — **"이미 깔려 있는 vimwiki를 확장"하는 게 최악의 선택**이라는 점이다.
 
-> PKM(Personal Knowledge Management, 개인 지식관리) 전반을 org-mode·Obsidian과 비교하는 상위 관점은 [Neovim과 PKM](/posts/neovim/2026-07-12-neovim-pkm-obsidian-orgmode/)에서 다룬다. 이 글은 그 아래 층위 — "링크 점프·백링크"라는 구체적 기능을 어느 플러그인으로 얻느냐 — 의 실전 결정 가이드다.
+> PKM(Personal Knowledge Management, 개인 지식관리) 전반을 org-mode·Obsidian과 비교하는 상위 관점은 [Neovim과 PKM](./2026-07-12-neovim-pkm-obsidian-orgmode.md)에서 다룬다. 이 글은 그 아래 층위 — "링크 점프·백링크"라는 구체적 기능을 어느 플러그인으로 얻느냐 — 의 실전 결정 가이드다.
 {: .prompt-info }
 
 ## ⚠️ 함정 먼저: vimwiki 확장은 하지 마라
@@ -97,5 +97,5 @@ daily notes·템플릿·frontmatter 관리 같은 machinery가 딸려오지만 �
 - 도구를 고를 땐 스타 수보다 **config 수·릴리스 최신성**으로 모멘텀을 본다. 원작자 방치 후 커뮤니티 포크가 활발하면 그게 정착의 증거다.
 - 백링크는 꼭 노트 전용 플러그인이 있어야 얻는 게 아니다 — **LSP의 참조 찾기로도** 된다. 가장 적게 늘리는 길이다.
 
-> LazyVim 기본 너머의 플러그인 지형은 [LazyVim 너머 인기 플러그인](/posts/neovim/2026-07-12-popular-plugins-beyond-lazyvim/)도 함께 참고.
+> LazyVim 기본 너머의 플러그인 지형은 [LazyVim 너머 인기 플러그인](./2026-07-12-popular-plugins-beyond-lazyvim.md)도 함께 참고.
 {: .prompt-info }

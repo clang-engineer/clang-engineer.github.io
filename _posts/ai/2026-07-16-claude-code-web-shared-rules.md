@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: claude.ai 웹의 메뉴 지형은 [claude.ai 웹 지형](/posts/ai/2026-07-13-claude-ai-web-tour/)에서 · 로컬 CLI의 규칙·메모리 구조는 [Claude Code 메모리 시스템](/posts/ai/2026-03-12-claude-code-memory/)에서.
+> 관련: claude.ai 웹의 메뉴 지형은 [claude.ai 웹 지형](./2026-07-13-claude-ai-web-tour.md)에서 · 로컬 CLI의 규칙·메모리 구조는 [Claude Code 메모리 시스템](./2026-03-12-claude-code-memory.md)에서.
 
 로컬에서 Claude Code CLI를 쓰다 보면 `~/.claude/CLAUDE.md`에 내 개인 원칙(가독성 우선, YAGNI, 커밋 컨벤션…)을 적어두고, 모든 프로젝트에서 그게 자동으로 적용되는 데 익숙해진다. 그런데 claude.ai의 **Code(웹)** — GitHub repo를 연결해 클라우드 샌드박스에서 돌리는 버전 — 로 넘어가면, 그 룰이 **하나도 안 먹는다.** 왜 그런지, 그리고 어떻게 하면 개인 원칙을 웹에서도 쓰게 만드는지 정리한다.
 

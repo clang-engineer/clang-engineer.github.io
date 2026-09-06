@@ -9,11 +9,11 @@ pin         : false
 hidden      : false
 ---
 
-> [모던 C++ 학습 로드맵](/posts/cpp/2026-07-03-cpp-learning-roadmap/)의 **고급(제네릭)** 단계입니다. 앞 글: [④ STL 컨테이너와 알고리즘](/posts/cpp/2026-07-03-cpp-stl-containers-and-algorithms/)
+> [모던 C++ 학습 로드맵](./2026-07-03-cpp-learning-roadmap.md)의 **고급(제네릭)** 단계입니다. 앞 글: [④ STL 컨테이너와 알고리즘](./2026-07-03-cpp-stl-containers-and-algorithms.md)
 
 `std::vector<int>`, `std::vector<std::string>` — 어떻게 하나의 `vector`가 모든 타입에서 동작할까요? 답이 **템플릿**입니다. 타입 자체를 인자로 받아, 컴파일러가 필요한 타입마다 코드를 찍어냅니다.
 
-> **언어 공통 개념**: "타입을 매개변수로 받는" 이 아이디어는 C++만의 것이 아니라 **파라미터 다형성**이라는 언어 무관 개념입니다. 단형화 vs 타입 소거, 제약(constraints)이 언어마다 갈리는 지점은 → [제네릭 — 파라미터 다형성](/posts/concept/2026-07-12-generics-parametric-polymorphism/). 이 글은 그 개념의 **C++ 구현(템플릿)**에 집중합니다.
+> **언어 공통 개념**: "타입을 매개변수로 받는" 이 아이디어는 C++만의 것이 아니라 **파라미터 다형성**이라는 언어 무관 개념입니다. 단형화 vs 타입 소거, 제약(constraints)이 언어마다 갈리는 지점은 → [제네릭 — 파라미터 다형성](../concept/2026-07-12-generics-parametric-polymorphism.md). 이 글은 그 개념의 **C++ 구현(템플릿)**에 집중합니다.
 
 ## 함수 템플릿 — 코드를 찍어내는 틀
 

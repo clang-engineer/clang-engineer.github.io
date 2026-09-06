@@ -9,16 +9,16 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](/posts/keyboard/2026-07-03-keyboard-roadmap/) · [키보드 펌웨어 지형도](/posts/keyboard/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/) · [VIA·VIAL 실전](/posts/keyboard/2026-07-03-via-vial-gui-remap/)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [VIA·VIAL 실전](./2026-07-03-via-vial-gui-remap.md)
 
-[지형도](/posts/keyboard/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/)에서 봤듯 **QMK는 유선·기능 중심의 성숙한 펌웨어**다. ZMK가 devicetree로 키맵을 정의한다면, QMK는 **C 소스(`keymap.c`)를 컴파일**한다. 이 글은 QMK로 키맵을 직접 짜서 빌드·플래싱하는 실전 흐름이다.
+[지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md)에서 봤듯 **QMK는 유선·기능 중심의 성숙한 펌웨어**다. ZMK가 devicetree로 키맵을 정의한다면, QMK는 **C 소스(`keymap.c`)를 컴파일**한다. 이 글은 QMK로 키맵을 직접 짜서 빌드·플래싱하는 실전 흐름이다.
 
 ## QMK를 언제 고르나
 
 - 유선이고, OLED·RGB·오디오·tap dance 같은 **기능을 폭넓게** 쓰고 싶을 때.
 - 지원 보드·키맵 예제가 압도적으로 많은 **성숙한 생태계**가 필요할 때.
 
-무선 split이 목적이면 QMK 대신 ZMK가 맞다. 판단 기준은 [펌웨어 지형도](/posts/keyboard/2026-07-03-keyboard-firmware-qmk-zmk-via-vial/)에 정리해 뒀다.
+무선 split이 목적이면 QMK 대신 ZMK가 맞다. 판단 기준은 [펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md)에 정리해 뒀다.
 
 ## 개발 환경 — qmk_firmware + QMK CLI
 
@@ -53,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 ## 자주 쓰는 키코드 — MO·LT·MT
 
-40% 키맵의 뼈대가 되는 레이어·탭홀드 키코드는 다음처럼 쓴다. 개념 자체는 [키맵 용어집](/posts/keyboard/2026-07-03-keymap-terms-glossary/)에서 함께 볼 수 있다.
+40% 키맵의 뼈대가 되는 레이어·탭홀드 키코드는 다음처럼 쓴다. 개념 자체는 [키맵 용어집](./2026-07-03-keymap-terms-glossary.md)에서 함께 볼 수 있다.
 
 ```c
 MO(NUM)              // 홀드하는 동안 NUM 레이어
@@ -75,7 +75,7 @@ qmk flash -kb <보드> -km <키맵>
 
 ## 매번 컴파일하기 싫으면 — VIA/VIAL
 
-키 하나를 바꿀 때마다 컴파일·플래싱하는 게 번거롭다면 VIA/VIAL 같은 런타임 설정 도구를 사용할 수 있다. 펌웨어와 GUI 설정 도구의 관계는 [VIA·VIAL 실전](/posts/keyboard/2026-07-03-via-vial-gui-remap/)에서 이어서 다룬다.
+키 하나를 바꿀 때마다 컴파일·플래싱하는 게 번거롭다면 VIA/VIAL 같은 런타임 설정 도구를 사용할 수 있다. 펌웨어와 GUI 설정 도구의 관계는 [VIA·VIAL 실전](./2026-07-03-via-vial-gui-remap.md)에서 이어서 다룬다.
 
 ## 정리
 
