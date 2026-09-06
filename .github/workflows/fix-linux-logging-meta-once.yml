@@ -1,0 +1,42 @@
+name: Fix Linux logging metadata once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fix-linux-logging-meta-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Update metadata
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('_posts/linux/2026-07-11-syslog-journald-logging.md')
+          text = p.read_text(encoding='utf-8')
+          old = 'description : "로그가 생성·수집·저장되는 두 체계 — 전통적 syslog(rsyslog)와 systemd journald가 어떻게 공존하는지, /var/log 구조와 facility·priority, logger로 직접 남기기, journalctl 실전 조회·영속화까지."'
+          new = 'description : "Linux 로그가 journald, syslog daemon, 애플리케이션 자체 로그로 흐를 수 있는 구조를 구분하고 현재 호스트의 실제 수집 경로를 확인한다. /var/log, facility·priority, journalctl, 영속화까지 함께 정리한다."'
+          text = text.replace(old, new)
+          text = text.replace('updated     : 2026-07-11 15:00:00 +0900', 'updated     : 2026-09-06 14:30:00 +0900')
+          p.write_text(text, encoding='utf-8')
+          PY
+      - name: Remove workflow and commit
+        shell: bash
+        run: |
+          rm .github/workflows/fix-linux-logging-meta-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _posts/linux/2026-07-11-syslog-journald-logging.md .github/workflows/fix-linux-logging-meta-once.yml
+          git commit -m "docs: align Linux logging metadata"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
