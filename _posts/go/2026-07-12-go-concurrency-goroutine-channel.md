@@ -45,7 +45,7 @@ goroutine
 → Go runtime 스케줄링 단위
 ```
 
-코루틴과도 역사적·구현적 공통점이 있지만 일반적인 `async/await` stackless coroutine과 같은 의미론으로 등치하지 않는다. 자세한 경계는 [코루틴이란 무엇인가](../concept/2026-07-12-coroutine.md)에서 본다.
+코루틴과도 역사적·구현적 공통점이 있지만 일반적인 `async/await` stackless coroutine과 같은 의미론으로 등치하지 않는다. 자세한 경계는 [코루틴이란 무엇인가](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/세부학습/02-운영체제/99-코루틴-동시성-조율-모델.md)에서 본다.
 
 main goroutine이 종료되면 프로그램 프로세스가 끝나므로 다른 goroutine의 완료를 자동으로 기다려 주지 않는다. 완료를 기다려야 한다면 `WaitGroup`, channel 등으로 수명 관계를 명시한다.
 
@@ -251,4 +251,4 @@ race detector는 실행 중 실제로 관찰된 메모리 접근을 바탕으로
 - [Go Blog — Share Memory By Communicating](https://go.dev/blog/codelab-share)
 - [Go Blog — Context](https://go.dev/blog/context)
 - [Data Race Detector](https://go.dev/doc/articles/race_detector)
-- [코루틴이란 무엇인가](../concept/2026-07-12-coroutine.md)
+- [코루틴이란 무엇인가](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/세부학습/02-운영체제/99-코루틴-동시성-조율-모델.md)

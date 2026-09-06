@@ -13,7 +13,7 @@ hidden      : false
 
 Rust에서 가장 먼저 오래 붙잡아야 할 구간이다. C++의 RAII·이동 시맨틱·스마트 포인터·댕글링 참조 문제를 알고 있으면 좋은 발판이 된다. 다만 Rust 소유권은 이 도구들을 단순히 "컴파일러가 강제한 버전"으로 합친 것이 아니라, **값의 소유·빌림·수명 관계를 언어의 타입 규칙으로 만든 별도의 모델**이다.
 
-소유권이 GC·명시적 관리와 어떤 차이가 있는지는 [메모리 관리 모델](../concept/2026-07-12-memory-management-models.md)을 함께 본다.
+소유권이 GC·명시적 관리와 어떤 차이가 있는지는 [메모리 관리 모델](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/세부학습/05-소프트웨어-공학/99-프로그래밍-언어-의미론.md)을 함께 본다.
 
 ## 소유권 — non-Copy 값은 대입·전달에서 이동할 수 있다
 
@@ -169,4 +169,4 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 - [The Rust Book Ch.4 — Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
 - [rustlings](https://github.com/rust-lang/rustlings)
 - [Rust by Example — Ownership and moves](https://doc.rust-lang.org/rust-by-example/scope/move.html)
-- [메모리 관리 모델](../concept/2026-07-12-memory-management-models.md)
+- [메모리 관리 모델](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/세부학습/05-소프트웨어-공학/99-프로그래밍-언어-의미론.md)

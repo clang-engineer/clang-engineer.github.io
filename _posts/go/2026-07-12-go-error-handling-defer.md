@@ -217,7 +217,7 @@ func run() (err error) {
 | Throw/unwind | `panic` | stack unwind가 있지만 일반 recoverable error API로 쓰는 관례가 아님 |
 | top-level exception boundary | deferred `recover` boundary | 격리 경계라는 역할은 유사하지만 goroutine과 Go panic 규칙을 따름 |
 
-일반 실패 모델의 비교 자체는 [에러 핸들링 모델](../concept/2026-07-12-error-handling-models.md)에 두고, 이 글은 Go의 구체 의미론에 집중한다.
+일반 실패 모델의 비교 자체는 [에러 핸들링 모델](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/세부학습/05-소프트웨어-공학/99-프로그래밍-언어-의미론.md)에 두고, 이 글은 Go의 구체 의미론에 집중한다.
 
 ## 흔한 함정
 

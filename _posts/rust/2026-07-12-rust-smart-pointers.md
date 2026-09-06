@@ -102,4 +102,4 @@ println!("{:?}", shared.borrow());       // [1, 2, 3, 4]
 
 - [The Rust Book Ch.15](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html) — 스마트 포인터의 정본.
 - [The Rust Book Ch.15.6 — Reference Cycles](https://doc.rust-lang.org/book/ch15-06-reference-cycles.html) — `Weak`으로 순환 끊기.
-- [메모리 관리 모델](../concept/2026-07-12-memory-management-models.md) — 소유권·참조 카운트·GC의 위치.
+- [메모리 관리 모델](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/세부학습/05-소프트웨어-공학/99-프로그래밍-언어-의미론.md) — 소유권·참조 카운트·GC의 위치.

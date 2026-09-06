@@ -162,7 +162,7 @@ Rust move
 
 C++에서는 moved-from 객체가 여전히 유효한 객체일 수 있고 타입 계약에 따라 사용할 수 있다. Rust에서 non-`Copy` 값이 이동하면 이전 바인딩 사용은 컴파일러가 금지한다.
 
-자세한 비교는 [값 vs 참조 의미론](../concept/2026-07-12-value-vs-reference-semantics.md)에서 본다.
+자세한 비교는 [값 vs 참조 의미론](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/세부학습/05-소프트웨어-공학/99-프로그래밍-언어-의미론.md)에서 본다.
 
 ## 자주 막히는 지점
 

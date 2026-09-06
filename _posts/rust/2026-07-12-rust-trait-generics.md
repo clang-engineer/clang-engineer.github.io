@@ -11,7 +11,7 @@ hidden      : false
 
 > [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **⑥ 추상화** 단계입니다. 앞 글: [⑤ error 처리 — Result·Option·?](./2026-07-12-rust-error-handling-result-option.md)
 
-C++의 인터페이스·템플릿·concept에 해당하는 축입니다. Rust는 이 셋을 **trait**과 **제네릭**으로 통합합니다. 제네릭 일반론은 [제네릭과 매개변수 다형성](../concept/2026-07-12-generics-parametric-polymorphism.md)에서 다루고, 여기서는 Rust에서 어떻게 생겼는지에 집중합니다.
+C++의 인터페이스·템플릿·concept에 해당하는 축입니다. Rust는 이 셋을 **trait**과 **제네릭**으로 통합합니다. 제네릭 일반론은 [제네릭과 매개변수 다형성](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/세부학습/05-소프트웨어-공학/99-프로그래밍-언어-의미론.md)에서 다루고, 여기서는 Rust에서 어떻게 생겼는지에 집중합니다.
 
 ## trait — 공유 동작의 정의
 
@@ -97,4 +97,4 @@ for s in &shapes { println!("{}", s.area()); }   // vtable로 동적 디스패�
 
 - [The Rust Book Ch.10](https://doc.rust-lang.org/book/ch10-00-generics.html) — 제네릭·trait·수명의 정본.
 - [The Rust Book Ch.18 — Trait Objects](https://doc.rust-lang.org/book/ch18-02-trait-objects.html) — `dyn`의 정본.
-- [제네릭과 매개변수 다형성](../concept/2026-07-12-generics-parametric-polymorphism.md) — 언어 무관 제네릭 개념.
+- [제네릭과 매개변수 다형성](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/세부학습/05-소프트웨어-공학/99-프로그래밍-언어-의미론.md) — 언어 무관 제네릭 개념.
