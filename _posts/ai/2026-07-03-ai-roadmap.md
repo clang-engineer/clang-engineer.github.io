@@ -1,10 +1,10 @@
 ---
-title       : "AI 로드맵 — 코딩 도구·외부 연결·API 개발의 세 축"
-description : "AI 개발 글을 코딩 도구 사용, 외부 리소스 연결(MCP), 모델 API 개발이라는 서로 다른 축으로 나눈다. 도구 지형도에서 출발하되 Claude Code→MCP→API를 하나의 필수 발전 단계로 만들지 않는다."
+title       : "AI 개발 지형 — 코딩 도구·외부 연결·API 개발의 세 축"
+description : "AI 개발 글을 코딩 도구 사용, 외부 리소스 연결(MCP), 모델 API 개발이라는 서로 다른 축으로 나눈다. 하나의 학습 순서를 제시하기보다 목적에 맞는 실전 영역을 찾는 인덱스다."
 date        : 2026-07-03 21:30:00 +0900
-updated     : 2026-09-06 12:10:00 +0900
+updated     : 2026-09-06 19:00:00 +0900
 categories  : [ai, "개요·인덱스"]
-tags        : [roadmap, ai, claude-code, mcp, claude]
+tags        : [ai, index, claude-code, mcp, claude]
 pin         : false
 hidden      : false
 ---
@@ -24,7 +24,7 @@ AI 개발 도구를 익힐 때 서로 다른 질문을 한 줄에 놓기 쉽다.
 
 이 세 질문은 **발전 단계가 아니라 서로 다른 축**이다. Claude Code를 잘 쓰기 위해 Claude API를 직접 다룰 필요는 없고, MCP는 Claude Code뿐 아니라 다른 MCP Client에서도 사용할 수 있다. 반대로 API를 직접 쓰는 Application이 Claude Code를 사용하지 않을 수도 있다.
 
-따라서 이 로드맵은 먼저 도구 지형을 잡고, 이후 목적에 맞는 갈래로 들어간다.
+따라서 이 문서는 학습 순서를 강제하는 Roadmap이 아니라, AI 관련 실전 글에서 현재 필요한 영역을 찾기 위한 **지형도이자 인덱스**다.
 
 ## 한눈에 보기
 
@@ -51,12 +51,12 @@ AI 개발 지형
     └─ claude.ai Web
 ```
 
-| 갈래 | 답하는 질문 | 필수 관계 |
+| 영역 | 답하는 질문 | 관계 |
 |---|---|---|
-| 도구 지형 | 어떤 Form Factor와 제품을 선택할까 | 공통 진입점 |
+| 도구 지형 | 어떤 Form Factor와 제품을 선택할까 | 공통 탐색점 |
 | Claude Code | Terminal Agent를 일상 개발에 어떻게 쓸까 | 도구 사용 축 |
-| MCP | AI Client와 외부 Resource를 어떻게 표준 연결할까 | 필요할 때 Branch |
-| Claude API | 내가 만드는 Application에서 Model을 어떻게 호출할까 | 개발자 Branch |
+| MCP | AI Client와 외부 Resource를 어떻게 표준 연결할까 | 필요할 때 탐색 |
+| Claude API | 내가 만드는 Application에서 Model을 어떻게 호출할까 | 개발자 영역 |
 | claude.ai Web | Browser Product의 기능을 어떻게 사용할까 | 별도 Surface |
 
 ## 0. 도구 지형 — 먼저 선택 좌표를 잡는다
@@ -81,7 +81,7 @@ Remote / Cloud Task
 → 제품별 Cloud Agent
 ```
 
-여기서 선택한 뒤 아래 갈래 중 필요한 것만 탄다.
+여기서 선택한 뒤 아래 영역 중 필요한 곳만 본다.
 
 ## 1. 코딩 도구 사용 — Claude Code
 
@@ -132,7 +132,7 @@ Agent가 탐색·수정·검증
 Hook / CI가 반복 가능한 Guardrail 제공
 ```
 
-Claude Code 학습 줄기는 여기서 완결된다. MCP와 API는 이 다음 "레벨"이 아니라 필요에 따라 옆으로 확장하는 별도 축이다.
+Claude Code 사용 흐름은 여기서 한 번 정리된다. MCP와 API는 이 다음 "레벨"이 아니라 필요에 따라 옆으로 확장하는 별도 축이다.
 
 ## 2. 외부 연결 — MCP
 
@@ -144,7 +144,7 @@ MCP의 질문은 **코딩 Agent를 잘 쓰는 법**이 아니라, AI Client가 �
 | [Serena 기본 가이드](./2025-11-07-serena-mcp.md) | Codebase 의미 검색·편집 MCP Server를 실제 Client에 연결 |
 | [MCP 서버 더 붙이기](./2026-07-03-mcp-servers-catalog.md) | Server 등록 Scope, Transport, GitHub·Browser·DB 등 확장 시 신뢰 경계 |
 
-이 갈래 내부에서는 실제 순서가 있다.
+이 영역 내부에서는 실제 순서가 있다.
 
 ```text
 Protocol이 무엇인가
@@ -201,7 +201,7 @@ API 기반 Application이 MCP Client를 구현할 수도 있고, Claude Code 같
 
 Web UI는 CLI의 초급판이 아니다. 같은 Model 생태계의 **다른 Product Surface**다. Browser 중심으로 작업할 때 바로 들어가면 된다.
 
-## 어디서 시작할까
+## 무엇을 찾고 있는가
 
 ```text
 어떤 AI 코딩 도구를 쓸지 모르겠다
@@ -226,4 +226,4 @@ Browser Product만 정리하고 싶다
 
 Terminal Agent를 오래 쓰는 경우 셸·Session 환경 자체가 생산성에 영향을 준다. 이 부분은 [셸 로드맵](../shell/2026-07-03-shell-roadmap.md)과 [tmux 로드맵](../tmux/2026-06-16-tmux-roadmap.md)의 책임이다.
 
-> **AI Roadmap은 `Claude Code → MCP → API`라는 한 줄 사다리가 아니다. 도구 사용, 외부 연결, Application 개발이라는 서로 다른 질문을 먼저 분리하고 필요한 갈래만 Zoom-in한다.**
+> **AI 글은 하나의 필수 학습 사다리가 아니다. 도구 사용, 외부 연결, Application 개발이라는 서로 다른 질문을 분리하고 현재 목적에 필요한 영역만 탐색한다.**
