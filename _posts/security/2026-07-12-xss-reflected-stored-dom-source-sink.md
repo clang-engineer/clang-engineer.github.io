@@ -1,91 +1,222 @@
 ---
-title       : "XSS 분류 — Reflected·Stored·DOM-based와 Source/Sink"
-description : "세 XSS의 갈림길은 '악성 스크립트가 어디서 페이지에 삽입되는가'다. 서버 응답이면 Reflected, 저장 후 전달이면 Stored, 클라이언트 JS의 DOM 조작이면 DOM-based. View Source로 구분하는 법과, DOM-based를 관통하는 Source→Sink 흐름을 정리한다."
+title       : "XSS 분류 — Reflected·Stored·DOM-based를 전달 경로와 실행 지점으로 보기"
+description : "Reflected·Stored는 페이로드 전달 경로를, DOM-based는 클라이언트 JavaScript의 Source→Sink 실행 경로를 강조하는 분류라는 점을 구분해 XSS 유형과 방어 지점을 정리한다."
 date        : 2026-07-12 19:00:00 +0900
-updated     : 2026-07-12 19:00:00 +0900
+updated     : 2026-09-06 10:30:00 +0900
 categories  : [security, "웹 취약점"]
 tags        : [xss, security, dom, reflected, source-sink]
 pin         : false
 hidden      : false
 ---
 
-XSS를 Reflected/Stored/DOM-based로 나누긴 하는데, 셋의 진짜 갈림길은 **악성 스크립트가 어디서 페이지에 삽입되는가**다. 삽입 주체가 서버냐 클라이언트 JS냐를 잡으면 분류도 방어 위치도 따라온다.
+XSS의 `Reflected`, `Stored`, `DOM-based`를 하나의 완전히 배타적인 축처럼 외우면 예외가 생긴다. 먼저 **무엇을 기준으로 붙인 이름인지**를 나누는 편이 정확하다.
 
-## 세 유형
+```text
+페이로드가 사용자에게 어떻게 전달되는가?
+→ Request에 반사됨 / 저장됐다 나중에 전달됨
 
-| | 삽입되는 곳 | 취약점 원인 |
-|---|---|---|
-| **Reflected(반사형)** | 요청값이 **서버 응답 HTML**에 되돌아 실림 | 서버 측 출력 처리 미흡 |
-| **Stored(저장형)** | 페이로드가 DB 등에 **저장됐다가** 나중에 전달 | 저장·출력 시 미흡 |
-| **DOM-based** | 서버 무관, **클라이언트 JS가 DOM 조작** 중 실행 | 클라이언트 JS의 DOM 처리 미흡 |
-
-쉽게 말해 **Reflected는 "서버가 되돌려준 응답"에서 터지고, DOM-based는 "브라우저 안 JS"에서 터진다.** Stored는 페이로드가 서버에 저장됐다 재전달된다는 점에서 또 다르다.
-
-## Reflected vs DOM-based — View Source로 구분
-
-가장 헷갈리는 두 유형이다. 결정적 판별은 **"페이지 소스 보기(View Source)에 페이로드가 보이느냐"**다.
-
-**Reflected** — 페이로드가 요청(URL 쿼리스트링)에 담겨 **서버까지 갔다가 응답 HTML에 삽입**돼 되돌아온다.
-
-```
-공격 URL:  https://site/search?q=<script>steal()</script>
-서버 응답: <p>검색 결과: <script>steal()</script></p>   ← 응답에 그대로 실림
+실제 위험한 HTML·JavaScript 문맥은 어디서 만들어지는가?
+→ Server-side Rendering / Client-side DOM 처리
 ```
 
-→ 서버 응답에 페이로드가 있으니 **View Source에 보인다.** 서버 응답 검사로 탐지 가능.
+`Reflected`와 `Stored`는 주로 **전달·지속 방식**을 강조하고, `DOM-based`는 **Browser JavaScript의 Source→Sink 흐름에서 취약점이 만들어지는 위치**를 강조한다.
 
-**DOM-based** — 서버는 페이로드를 **본 적도 없다.** 클라이언트 JS가 `location.hash` 같은 값을 읽어 DOM에 집어넣는다.
+## 1. Reflected — 현재 Request의 값이 Response에 반영된다
 
-```html
-<!-- 서버가 보낸 건 멀쩡한 HTML -->
-<div id="o"></div>
-<script>
-  // URL의 # 뒤 값을 읽어 그대로 DOM에 삽입
-  document.getElementById("o").innerHTML = location.hash.substring(1);
-</script>
+사용자가 보낸 값이 같은 Request/Response 흐름에서 Server Response에 반영되고, 안전하지 않은 문맥에 들어가 실행되는 전형적인 형태다.
+
+```text
+Request Input
+   ↓
+Server
+   ↓ 안전하지 않은 HTML Context에 출력
+Response
+   ↓
+Browser에서 실행
 ```
 
-→ **서버 응답엔 페이로드가 없다.** View Source엔 안 보이고 개발자도구의 DOM을 봐야 보인다. DOM 동적 분석이 필요.
+핵심은 **현재 Request에서 들어온 공격자 제어 값이 응답에 반사되는 것**이다.
 
-| | Reflected | DOM-based |
-|---|---|---|
-| 페이로드가 서버까지 감 | O | △ (fragment면 X) |
-| 응답 HTML에 삽입 | O (서버가) | X (JS가) |
-| View Source에 페이로드 | **보임** | **안 보임** |
-| 탐지 | 서버 응답 검사 | DOM 동적 분석 |
+## 2. Stored — 값이 저장됐다 다른 Response에서 전달된다
 
-> 주의: DOM-based가 꼭 `#fragment`만 쓰는 건 아니다. `?q=...`(서버로 가는 값)를 클라이언트 JS가 읽어 처리하는 DOM-based도 있다. 이땐 페이로드가 서버로도 가지만 **서버는 정상 처리하고, 실제 취약점은 클라이언트 JS의 DOM 조작에서 발생**한다. 진짜 기준은 **"어느 코드가 페이로드를 페이지에 넣어 실행시키는가"** — 서버 출력이면 Reflected, 클라이언트 JS면 DOM-based다.
-{: .prompt-warning }
+Stored XSS는 공격자 입력이 DB, 게시물, 프로필 같은 저장소에 남았다가 이후 사용자에게 전달된다.
 
-## 방어 위치가 다르다
-
-결함이 생기는 위치가 다르니 막는 위치도 다르다.
-
-- **Reflected/Stored** — **서버 측 출력 인코딩/이스케이프**로 막는다. 응답에 실을 때 `<`, `>`, `&` 등을 엔티티로 바꾼다.
-- **DOM-based** — **클라이언트 JS에서 안전한 API 사용**으로 막는다. `innerHTML` 대신 `textContent`, `eval`·`document.write` 회피.
-
-## DOM-based를 관통하는 것 — Source → Sink
-
-DOM-based XSS는 결국 **"공격자가 통제 가능한 값(source)이 검증 없이 위험한 지점(sink)으로 흘러간다"**는 하나의 구조다.
-
-- **Source(소스)** — 공격자가 통제할 수 있는 입력을 JS가 읽어오는 지점. `location.hash`, `location.search`, `document.referrer`, `window.name` 등.
-- **Sink(싱크)** — 그 값이 흘러 들어가 실행으로 이어지는 위험한 지점. `innerHTML`, `outerHTML`, `eval`, `document.write`, `setTimeout(문자열)` 등.
-
-```js
-let x = location.hash.substring(1);           // ← source (공격자 통제)
-document.getElementById("o").innerHTML = x;   // ← sink (실행)
+```text
+공격자 입력
+   ↓
+Persistent Storage
+   ↓ 나중의 Request
+Response
+   ↓
+다른 사용자 Browser에서 실행
 ```
 
-막는 법은 둘 중 하나다.
+Reflected와 다른 점은 공격자가 만든 값이 **지속적으로 저장되고 이후 여러 사용자에게 전달될 수 있다는 것**이다.
 
-- 위험한 sink를 안전한 것으로 교체 — `innerHTML` → `textContent`
-- source 값을 sink에 넣기 전 인코딩·검증
+## 3. DOM-based — 취약한 실행 경로가 Client JavaScript 안에 있다
 
-"JS로 DOM을 통제한다"는 그 통제 과정에 **외부 입력이 섞여드는 게 취약점**이다. source와 sink만 추적하면 DOM-based는 대부분 잡힌다.
+DOM-based XSS에서는 Browser JavaScript가 공격자가 제어할 수 있는 값을 읽고 위험한 DOM/API 지점으로 흘려보낸다.
+
+```javascript
+const value = location.hash.substring(1);  // Source
+document.querySelector('#output').innerHTML = value; // Sink
+```
+
+```text
+Attacker-controlled Source
+        ↓
+Client JavaScript
+        ↓
+Dangerous Sink
+        ↓
+Browser DOM / Script Context
+```
+
+여기서 핵심은 **Server가 값을 봤느냐 아니냐가 아니라 실제 취약한 변환과 삽입이 Client-side JavaScript에서 일어났느냐**다.
+
+`location.hash`처럼 Server로 전송되지 않는 Source가 대표적이지만, `location.search`처럼 Server에도 전달되는 값을 Client JavaScript가 다시 읽어 DOM Sink에 넣는 경우도 있다.
+
+## View Source는 단서이지 정의가 아니다
+
+`View Source`와 현재 DOM을 비교하면 Server Response와 Client-side Mutation을 구분하는 데 도움이 된다.
+
+```text
+View Source
+→ Server가 내려준 원본 Response에 가까운 모습
+
+DevTools Elements / 현재 DOM
+→ Client JavaScript 실행 뒤 바뀐 상태 포함
+```
+
+하지만:
+
+```text
+View Source에 페이로드가 보임
+= 무조건 Reflected XSS
+
+View Source에 안 보임
+= 무조건 DOM-based XSS
+```
+
+처럼 사용하면 안 된다.
+
+Server Response에 공격자 제어 문자열이 들어 있어도 실제 위험한 Sink가 Client JavaScript에 있을 수 있고, Encoding·Parsing·Template 처리에 따라 단순 문자열 존재 여부만으로 취약점 유형을 확정하기 어렵다.
+
+따라서 판별 질문은:
+
+```text
+1. 공격자 제어 값은 어디서 왔나?
+2. Server Response에 어떤 형태로 들어갔나?
+3. Client JavaScript가 그 값을 다시 처리하나?
+4. 실제 실행 가능한 문맥을 만든 지점은 어디인가?
+```
+
+이다.
+
+## DOM-based의 핵심 — Source에서 Sink까지의 Data Flow
+
+### Source
+
+공격자가 영향을 줄 수 있는 값을 JavaScript가 읽는 지점이다.
+
+예:
+
+```text
+location.href / search / hash
+window.name
+document.referrer
+postMessage data
+Web Storage 등
+```
+
+모든 Source 값이 곧 취약한 것은 아니다. **그 값이 위험한 Sink까지 어떤 변환을 거쳐 도달하는지**가 중요하다.
+
+### Sink
+
+공격자 제어 값이 들어갔을 때 HTML Parsing이나 Script 실행 같은 위험한 동작을 만들 수 있는 지점이다.
+
+대표적으로 상황에 따라:
+
+```text
+innerHTML / outerHTML
+document.write
+eval
+Function
+문자열 형태의 setTimeout / setInterval 등
+```
+
+을 주의한다.
+
+```text
+Source
+  ↓
+Validation / Transformation
+  ↓
+Sink
+```
+
+DOM XSS 분석은 이 Data Flow를 추적하는 문제다.
+
+## 방어도 실행 문맥에 맞춰 잡는다
+
+XSS 방어를 `입력값에서 <script> 제거`처럼 하나의 필터로 해결하지 않는다.
+
+### Server-side 출력
+
+Server가 HTML을 만들 때는 **출력되는 문맥에 맞는 Encoding**과 안전한 Template 동작을 사용한다.
+
+```text
+HTML Text Context
+HTML Attribute Context
+JavaScript Context
+URL Context
+```
+
+문맥마다 안전한 처리 방식이 다르다.
+
+### Client-side DOM 처리
+
+HTML Parsing이 필요 없는 값은 `innerHTML` 대신 `textContent` 같은 안전한 API를 우선한다.
+
+```javascript
+output.textContent = value;
+```
+
+HTML을 정말 허용해야 한다면 신뢰 경계와 Sanitization 정책을 별도로 설계한다.
+
+CSP는 XSS 위험을 줄이는 추가 방어층이 될 수 있지만 취약한 Source→Sink나 출력 처리를 대신 고쳐주는 것은 아니다.
+
+## 분류를 한 장에 놓으면
+
+```text
+[전달 방식]
+현재 Request에서 반사
+→ Reflected
+
+저장 후 나중에 전달
+→ Stored
+
+[취약한 실행 지점]
+Client JS Source → Sink에서 생성
+→ DOM-based
+```
+
+실제 사례를 설명할 때는 한 단어만 붙이기보다 **Payload가 어떻게 도착했고 어느 코드가 위험한 문맥을 만들었는지**를 함께 적는 편이 더 정확하다.
 
 ## 정리
 
-- 세 XSS의 갈림길은 **삽입 주체** — 서버 응답(Reflected) / 저장 후 전달(Stored) / 클라이언트 JS의 DOM 조작(DOM-based).
-- Reflected vs DOM-based는 **View Source에 페이로드가 보이느냐**로 직관적으로 갈린다.
-- 방어 위치가 다르다: Reflected/Stored는 **서버 출력 인코딩**, DOM-based는 **클라이언트 안전 API**.
-- DOM-based의 본질은 **source → sink** 흐름. 위험한 sink 교체나 source 검증으로 끊는다.
+XSS 분류의 목적은 이름을 맞히는 것이 아니라 **취약한 Data Flow와 방어 위치를 찾는 것**이다.
+
+```text
+Input / Stored Data
+        ↓
+Server Response
+        ↓
+Client-side Processing
+        ↓
+Execution Context
+```
+
+이 흐름에서 공격자 제어 값이 어디에서 들어오고, 어디에서 안전하지 않은 문맥으로 바뀌는지를 찾는다.
+
+**Reflected·Stored는 전달 경로를 이해하는 데 유용하고, DOM-based는 Client-side Source→Sink 경로를 이해하는 데 유용하다. 분류명보다 실제 실행 경계를 보는 것이 더 중요하다.**
