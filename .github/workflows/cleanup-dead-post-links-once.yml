@@ -1,0 +1,80 @@
+name: Cleanup dead post links once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/cleanup-dead-post-links-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove or absorb dead legacy links
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          # 1) C++: deleted troubleshooting article is redundant with the current build/CMake stage.
+          p = Path('_posts/cpp/2026-07-03-cpp-learning-roadmap.md')
+          text = p.read_text(encoding='utf-8')
+          text = '\n'.join(
+              line for line in text.split('\n')
+              if '/posts/cpp/2022-07-17-cpp-std-extension-warning/' not in line
+          )
+          p.write_text(text, encoding='utf-8')
+
+          # 2) DB: general isolation theory now belongs to the Information Management PE Knowledge area.
+          p = Path('_posts/db/2026-07-03-mvcc-vacuum.md')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace(
+              '격리 수준의 이론적 배경은 아래 관련 글에서 다룬다.',
+              '격리 수준의 일반 이론은 정보관리기술사 Knowledge에서 관리하고, 이 글은 PostgreSQL의 구현에 집중한다.'
+          )
+          text = '\n'.join(
+              line for line in text.split('\n')
+              if '/posts/db/2024-05-03-isolation-level/' not in line
+          )
+          p.write_text(text, encoding='utf-8')
+
+          # 3) Shell: absorb the deleted reading-guide idea into the roadmap instead of keeping a dead document link.
+          p = Path('_posts/shell/2026-07-03-shell-roadmap.md')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace(
+              '낯선 Script를 읽는 관점이 필요하면 [낯선 셸 스크립트 읽기](/posts/shell/2026-07-03-shell-script-reading-guide/)에서 Interpreter·Quote·Expansion·Exit Status 순으로 추적한다.',
+              '낯선 Script를 읽을 때도 Interpreter → Quote → Expansion → Exit Status 순으로 추적하면 실행 의미를 놓치지 않는다.'
+          )
+          p.write_text(text, encoding='utf-8')
+
+          # 4) Dotfiles: the deleted shell-init article should not remain as a roadmap entry.
+          p = Path('_posts/shell/2026-07-08-dotfiles-roadmap.md')
+          text = p.read_text(encoding='utf-8')
+          text = '\n'.join(
+              line for line in text.split('\n')
+              if '/posts/shell/2022-07-19-bashrc-profile/' not in line
+          )
+          p.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Remove one-time workflow
+        run: rm .github/workflows/cleanup-dead-post-links-once.yml
+
+      - name: Commit cleanup
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _posts .github/workflows/cleanup-dead-post-links-once.yml
+          git commit -m "fix: remove dead internal post links"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
