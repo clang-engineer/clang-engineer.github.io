@@ -2,7 +2,7 @@
 title       : "새 맥에 더 얹을 보조 유틸 — 메뉴바·모니터·스크린샷·디스플레이·터미널"
 description : "창 관리·키맵·창 전환 같은 큰 도구를 잡은 뒤, 깔아두면 삶이 편해지는 macOS 보조 유틸을 한데 모아 소개한다. Ice(메뉴바)·Stats(모니터)·Shottr(스크린샷)·BetterDisplay(디스플레이)·Ghostty(터미널) — 각각 무엇을·왜·대안까지."
 date        : 2026-07-03 16:00:00 +0900
-updated     : 2026-07-03 16:00:00 +0900
+updated     : 2026-09-06 10:35:00 +0900
 categories  : [macos, "시스템 운영"]
 tags        : [macos, utilities, menubar, terminal]
 pin         : false
@@ -11,7 +11,7 @@ hidden      : false
 
 > 관련: [macOS 로드맵](/posts/macos/2026-07-03-macos-roadmap/) · [새 맥 초기 설정](/posts/macos/2022-02-05-new-mac-initial-setup/)
 
-큰 축은 이미 각각 글로 다뤘다 — 창 관리는 [AeroSpace + Hammerspoon](/posts/macos/2026-07-03-macos-roadmap/), 키맵은 [Karabiner-Elements](/posts/etc/2026-07-03-karabiner-elements-macos-keymap/), 창 전환은 [AltTab](/posts/macos/2026-07-03-alttab-window-switcher/), 검색·런처는 [Raycast](/posts/macos/2026-07-03-raycast-search-layer-role/). 이 글은 그 다음, **"깊게 파진 않지만 깔아두면 삶이 편해지는"** 보조 유틸을 한데 모은 것이다. 각각 무엇을·왜·대안만 짧게.
+큰 축은 이미 각각 글로 다뤘다 — 창 관리는 [AeroSpace + Hammerspoon](/posts/macos/2026-07-03-macos-roadmap/), 키맵은 [Karabiner-Elements](/posts/keyboard/2026-07-03-karabiner-elements-macos-keymap/), 창 전환은 [AltTab](/posts/macos/2026-07-03-alttab-window-switcher/), 검색·런처는 [Raycast](/posts/macos/2026-07-03-raycast-search-layer-role/). 이 글은 그 다음, **"깊게 파진 않지만 깔아두면 삶이 편해지는"** 보조 유틸을 한데 모은 것이다. 각각 무엇을·왜·대안만 짧게.
 
 공통점 하나 — 아래 다섯 중 넷은 **무료·오픈소스**다. 유료 대안이 더 유명한 자리마저 오픈소스 대체제가 충분히 성숙했다.
 
