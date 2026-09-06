@@ -55,6 +55,7 @@ order: 6
 ---
 ## 주요 저장소
 - [harlequin-h2](https://github.com/clang-engineer/harlequin-h2) — Harlequin용 H2 JDBC community adapter · PyPI 배포 · 공식 Harlequin 문서 등록
+- [harlequin-odbc-vertica](https://github.com/clang-engineer/harlequin-odbc-vertica) — Harlequin용 Vertica ODBC adapter · PyPI 배포 · 공식 문서 PR #163 진행 중
 - [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) — Neovim 플러그인 · jdtls/Gradle JDK 환경 분리 · awesome-neovim 등록
 - [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) — vim-dadbod Vertica 어댑터 + dadbod-ui schema-tree 통합 · awesome-neovim 등록
 - [dotfiles](https://github.com/clang-engineer/dotfiles) — Neovim·zsh·tmux 등 개발환경 설정
