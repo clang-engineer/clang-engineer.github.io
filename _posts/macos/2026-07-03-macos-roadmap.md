@@ -2,7 +2,7 @@
 title       : "macOS 로드맵 — 셋업·런처·창 관리의 세 갈래"
 description : "macOS 개발환경 글을 시스템 셋업, 런처·생산성, 창 관리·자동화라는 세 독립 축으로 나눈다. 새 Mac에서는 시스템 셋업을 먼저 권장하지만, 세 축을 얕은→깊은 학습 단계로 보지 않는다."
 date        : 2026-07-03 17:30:00 +0900
-updated     : 2026-09-06 12:20:00 +0900
+updated     : 2026-09-06 19:00:00 +0900
 categories  : [macos, "개요·인덱스"]
 tags        : [roadmap, macos, aerospace, hammerspoon, window-manager]
 pin         : false
@@ -74,7 +74,7 @@ dotfiles Roadmap
 | 글 | 증상 |
 |---|---|
 | [brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때](./2026-06-07-homebrew-cleanup-java-symlink-broken.md) | JDK Symlink가 깨져 Version 탐색이 꼬인 경우 |
-| [Docker 실행 시 Operation not permitted](../virtualization/2023-12-16-mac-docker-operation-not-permitted.md) | macOS File/Folder 접근 권한 문제 |
+| [Docker 실행 시 Operation not permitted](../engineering/2023-12-16-docker-macos-operation-not-permitted.md) | macOS File/Folder 접근 권한 문제 |
 
 Troubleshooting은 셋업 학습의 다음 단계가 아니라 **같은 증상이 생겼을 때만 들어오는 분기**다.
 
