@@ -4,7 +4,7 @@ description : "②의 소유권 규칙이 너무 빡빡할 때 푸는 도구. C+
 date        : 2026-07-12 11:40:00 +0900
 updated     : 2026-07-12 11:40:00 +0900
 categories  : [rust]
-tags        : [roadmap, rust]
+tags        : [rust]
 pin         : false
 hidden      : false
 ---

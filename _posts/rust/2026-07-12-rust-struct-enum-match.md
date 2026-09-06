@@ -4,7 +4,7 @@ description : "Rust 타입 시스템은 C++보다 강력하고 특히 enum이 �
 date        : 2026-07-12 11:15:00 +0900
 updated     : 2026-07-12 11:15:00 +0900
 categories  : [rust]
-tags        : [roadmap, rust]
+tags        : [rust]
 pin         : false
 hidden      : false
 ---

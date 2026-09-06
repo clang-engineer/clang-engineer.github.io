@@ -4,7 +4,7 @@ description : "직접 자료구조를 만들지 않고 표준 라이브러리를
 date        : 2026-07-03 10:40:00 +0900
 updated     : 2026-07-03
 categories  : [cpp]
-tags        : [roadmap, modern-cpp]
+tags        : [modern-cpp]
 pin         : false
 hidden      : false
 ---

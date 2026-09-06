@@ -4,7 +4,7 @@ description : "C를 알면 Go 문법 절반은 익숙하다. 이 글은 암기�
 date        : 2026-07-12 10:10:00 +0900
 updated     : 2026-07-12 10:10:00 +0900
 categories  : [go]
-tags        : [roadmap, go]
+tags        : [go]
 pin         : false
 hidden      : false
 ---

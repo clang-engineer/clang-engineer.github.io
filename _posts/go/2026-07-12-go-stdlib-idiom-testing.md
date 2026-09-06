@@ -4,7 +4,7 @@ description : "문법을 넘어 실제로 뭔가 만들고 Go답게 쓰는 단�
 date        : 2026-07-12 10:55:00 +0900
 updated     : 2026-07-12 10:55:00 +0900
 categories  : [go]
-tags        : [roadmap, go]
+tags        : [go]
 pin         : false
 hidden      : false
 ---

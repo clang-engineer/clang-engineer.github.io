@@ -4,7 +4,7 @@ description : "모던 C++의 이동 시맨틱과 std::move의 정확한 의미, 
 date        : 2026-07-03 10:30:00 +0900
 updated     : 2026-08-22
 categories  : [cpp]
-tags        : [roadmap, modern-cpp]
+tags        : [modern-cpp]
 pin         : false
 hidden      : false
 ---

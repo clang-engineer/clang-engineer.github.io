@@ -4,7 +4,7 @@ description : "C++ 대응이 흐릿한, Rust에서 새로 배우는 축. 여길 
 date        : 2026-07-12 11:35:00 +0900
 updated     : 2026-07-24 12:00:00 +0900
 categories  : [rust]
-tags        : [roadmap, rust]
+tags        : [rust]
 pin         : false
 hidden      : false
 ---

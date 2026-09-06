@@ -4,7 +4,7 @@ description : "Rust의 소유권·빌림·수명을 C++의 RAII·이동·참조�
 date        : 2026-07-12 11:10:00 +0900
 updated     : 2026-08-22 18:00:00 +0900
 categories  : [rust]
-tags        : [roadmap, rust]
+tags        : [rust]
 pin         : false
 hidden      : false
 ---

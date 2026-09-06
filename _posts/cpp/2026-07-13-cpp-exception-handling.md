@@ -4,7 +4,7 @@ description : "RAII의 동기로만 스치던 예외를 정면으로 다룬다. 
 date        : 2026-07-13 09:00:00 +0900
 updated     : 2026-07-13 09:00:00 +0900
 categories  : [cpp]
-tags        : [roadmap, modern-cpp]
+tags        : [modern-cpp]
 pin         : false
 hidden      : false
 ---

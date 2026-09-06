@@ -4,7 +4,7 @@ description : "Go의 struct·method·interface를 클래스 상속의 대체물�
 date        : 2026-07-12 10:20:00 +0900
 updated     : 2026-08-22 18:00:00 +0900
 categories  : [go]
-tags        : [roadmap, go]
+tags        : [go]
 pin         : false
 hidden      : false
 ---

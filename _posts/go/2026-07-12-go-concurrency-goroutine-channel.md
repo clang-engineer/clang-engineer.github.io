@@ -4,7 +4,7 @@ description : "goroutine을 단순한 경량 스레드로 등치하지 않고 Go
 date        : 2026-07-12 10:50:00 +0900
 updated     : 2026-08-22 18:00:00 +0900
 categories  : [go]
-tags        : [roadmap, go]
+tags        : [go]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "C++/Java 출신에게 가장 큰 문화 충격. Go에는 예외�
 date        : 2026-07-12 10:40:00 +0900
 updated     : 2026-07-24 12:00:00 +0900
 categories  : [go]
-tags        : [roadmap, go]
+tags        : [go]
 pin         : false
 hidden      : false
 ---

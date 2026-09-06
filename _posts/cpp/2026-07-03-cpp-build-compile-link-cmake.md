@@ -4,7 +4,7 @@ description : "문법을 넘어 프로젝트를 빌드하는 관점. 소스가 �
 date        : 2026-07-03 11:20:00 +0900
 updated     : 2026-07-03
 categories  : [cpp]
-tags        : [roadmap, modern-cpp]
+tags        : [modern-cpp]
 pin         : false
 hidden      : false
 ---

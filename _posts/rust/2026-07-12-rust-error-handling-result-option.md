@@ -4,7 +4,7 @@ description : "Rust에도 예외가 없다. 대신 ③의 enum으로 에러를 �
 date        : 2026-07-12 11:25:00 +0900
 updated     : 2026-07-12 11:25:00 +0900
 categories  : [rust]
-tags        : [roadmap, rust]
+tags        : [rust]
 pin         : false
 hidden      : false
 ---

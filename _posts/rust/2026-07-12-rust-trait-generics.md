@@ -4,7 +4,7 @@ description : "C++의 인터페이스·템플릿·concept에 해당하는 Rust �
 date        : 2026-07-12 11:30:00 +0900
 updated     : 2026-07-12 11:30:00 +0900
 categories  : [rust]
-tags        : [roadmap, rust]
+tags        : [rust]
 pin         : false
 hidden      : false
 ---

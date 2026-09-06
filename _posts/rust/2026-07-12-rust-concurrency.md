@@ -4,7 +4,7 @@ description : "Rust의 슬로건 'fearless concurrency'. safe Rust가 소유권�
 date        : 2026-07-12 11:45:00 +0900
 updated     : 2026-07-24 12:00:00 +0900
 categories  : [rust]
-tags        : [roadmap, rust]
+tags        : [rust]
 pin         : false
 hidden      : false
 ---

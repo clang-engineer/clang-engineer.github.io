@@ -4,7 +4,7 @@ description : "여러 작업을 동시에 돌릴 때의 C++ 표준 도구. std::
 date        : 2026-07-03 11:00:00 +0900
 updated     : 2026-07-03
 categories  : [cpp]
-tags        : [roadmap, modern-cpp]
+tags        : [modern-cpp]
 pin         : false
 hidden      : false
 ---

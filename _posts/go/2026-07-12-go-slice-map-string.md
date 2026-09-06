@@ -4,7 +4,7 @@ description : "Go의 핵심 자료구조. slice가 std::vector가 아니라 '배
 date        : 2026-07-12 10:30:00 +0900
 updated     : 2026-07-24 12:00:00 +0900
 categories  : [go]
-tags        : [roadmap, go]
+tags        : [go]
 pin         : false
 hidden      : false
 ---

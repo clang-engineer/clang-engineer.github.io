@@ -4,7 +4,7 @@ description : "Go는 도구가 언어에 내장돼 있어 CMake 같은 외부 �
 date        : 2026-07-12 10:58:00 +0900
 updated     : 2026-07-24 12:00:00 +0900
 categories  : [go]
-tags        : [roadmap, go]
+tags        : [go]
 pin         : false
 hidden      : false
 ---

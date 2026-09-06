@@ -4,7 +4,7 @@ description : "Rust는 도구 경험이 언어의 강점이다. 빌드·테스�
 date        : 2026-07-12 11:50:00 +0900
 updated     : 2026-07-12 11:50:00 +0900
 categories  : [rust]
-tags        : [roadmap, rust]
+tags        : [rust]
 pin         : false
 hidden      : false
 ---

@@ -4,7 +4,7 @@ description : "C에서 넘어온 사람을 위한 C++ 첫 단계. 참조자가 �
 date        : 2026-07-03 10:10:00 +0900
 updated     : 2026-07-03
 categories  : [cpp]
-tags        : [roadmap, modern-cpp]
+tags        : [modern-cpp]
 pin         : false
 hidden      : false
 ---

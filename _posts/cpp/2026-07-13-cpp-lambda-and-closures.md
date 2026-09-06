@@ -4,7 +4,7 @@ description : "람다가 컴파일러가 만드는 '클로저 객체'(operator()
 date        : 2026-07-13 09:30:00 +0900
 updated     : 2026-07-13 09:30:00 +0900
 categories  : [cpp]
-tags        : [roadmap, modern-cpp]
+tags        : [modern-cpp]
 pin         : false
 hidden      : false
 ---

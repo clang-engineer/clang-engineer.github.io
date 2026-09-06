@@ -4,7 +4,7 @@ description : "STL이 모든 타입에서 동작하는 원리인 템플릿을 �
 date        : 2026-07-03 10:50:00 +0900
 updated     : 2026-07-03
 categories  : [cpp]
-tags        : [roadmap, modern-cpp]
+tags        : [modern-cpp]
 pin         : false
 hidden      : false
 ---

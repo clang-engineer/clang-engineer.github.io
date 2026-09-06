@@ -4,7 +4,7 @@ description : "C++ 객체지향의 핵심을 자원 관리 관점으로 정리. 
 date        : 2026-07-03 10:20:00 +0900
 updated     : 2026-07-24
 categories  : [cpp]
-tags        : [roadmap, modern-cpp]
+tags        : [modern-cpp]
 pin         : false
 hidden      : false
 ---
