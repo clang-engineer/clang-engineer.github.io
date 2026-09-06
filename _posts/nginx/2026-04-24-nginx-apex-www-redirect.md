@@ -1,162 +1,354 @@
 ---
-title       : "nginx apex/www 도메인 분리로 인한 캐시 문제와 해결"
-description : "apex와 www를 동일 server 블록에서 서비스하면 origin 분리로 90일 주기 HTTP 500이 터지는 이유와 리다이렉트 해법"
+title       : "apex와 www를 함께 서비스할 때 — Origin 분리와 오래된 Frontend Cache 진단"
+description : "example.com과 www.example.com을 같은 서비스로 열었을 때 브라우저 관점에서는 별도 Origin이라는 점을 기준으로, 특정 Host에서만 오래된 HTML·Asset 문제가 나는 상황을 진단하고 canonical redirect로 통일하는 방법을 정리한다."
 date        : 2026-04-24 10:00:00 +0900
-updated     : 2026-04-24 10:00:00 +0900
+updated     : 2026-09-06 11:00:00 +0900
 categories  : [nginx, "HTTPS·SSL"]
-tags        : [tls, cache, jhipster, letsencrypt, troubleshooting]
+tags        : [tls, cache, nginx, redirect, troubleshooting]
 pin         : false
 hidden      : false
 ---
 
-`example.com`과 `www.example.com`을 동일하게 처리하면 90일 주기로 HTTP 500 에러가 발생할 수 있다.
+`example.com`과 `www.example.com`이 같은 Backend를 바라본다고 해서 Browser에서도 하나의 상태 공간이 되는 것은 아니다.
 
-## 증상
+```text
+https://example.com
+→ Origin A
 
-- `www.example.com` 정상 작동
-- `example.com` HTTP 500 에러
-- **90일 주기**로 반복 발생
-- 브라우저 데이터 삭제하면 해결
-
-## 근본 원인: 하나의 서비스, 두 개의 origin
-
-### 잘못된 nginx 설정
-```nginx
-server {
-    listen 443 ssl;
-    server_name example.com www.example.com;  # 둘 다 같이 처리
-    ...
-}
-```
-nginx 입장에선 같은 서비스지만, **브라우저 입장에선 완전히 다른 사이트**다.
-
-### 브라우저의 origin 정책
-```
-https://example.com      →  origin A
-https://www.example.com  →  origin B
+https://www.example.com
+→ Origin B
 ```
 
-| 리소스 | origin A (example.com) | origin B (www.example.com) |
-|--------|---------------------|-------------------------|
-| localStorage | 별도 | 별도 |
-| 캐시 | 별도 | 별도 |
-| 쿠키 | `.example.com` 설정 아니면 별도 | 별도 |
-| Service Worker | 별도 | 별도 |
+따라서 한쪽 Host만 오래된 Frontend 상태를 갖고 있거나 특정 Host에서만 문제가 재현된다면 **Server Process보다 먼저 Host별 Browser State와 Cache Policy를 분리해서 볼 필요가 있다.**
 
-**사용자가 둘 다 접속한 적 있으면, 각각 다른 버전의 JS/CSS가 캐시됨.**
+이 글은 실제로 `www`는 정상인데 apex에서만 Browser 문제가 반복된 상황을 기준으로 진단 흐름을 정리한다.
 
-### JHipster의 공격적인 캐시 설정
-```yaml
-# application-prod.yml
-jhipster:
-  http:
-    cache:
-      timeToLiveInDays: 1461  # 4년!
-```
-정적 파일에 4년짜리 `Cache-Control: max-age=126230400` 헤더가 붙음.
+## 먼저 사실과 가설을 분리한다
 
-## 90일 주기의 비밀: Let's Encrypt + 캐시 불일치
+관찰된 증상이 예를 들어 다음과 같다고 하자.
 
-```
-평소: www.example.com 사용 (origin B)
-    ↓
-Let's Encrypt 인증서 갱신 (90일 주기)
-    ↓
-certbot이 nginx reload → 서버 재시작
-    ↓
-새 프론트엔드 배포될 수 있음 (JS 해시 변경)
-    ↓
-www.example.com 접속: 새 index.html → 새 JS 번들 다운로드 → 정상
-    ↓
-example.com 접속 (오랜만에):
-  - 브라우저: "4년 캐시니까 서버에 안 물어봐도 되지"
-  - 캐시된 구버전 index.html 사용
-  - 구버전 HTML이 참조하는 JS 경로가 서버에 없음
-  - 또는 구버전 JS가 새 API 호출 → 스키마 불일치
-    ↓
-HTTP 500 또는 앱 크래시
-    ↓
-브라우저 데이터 삭제 → 새로 다운로드 → 해결
+```text
+www.example.com
+→ 정상
+
+example.com
+→ Browser에서만 실패
+
+curl
+→ 두 Host 모두 Server Response 정상
+
+Browser Data 삭제
+→ 다시 정상
 ```
 
-## 진단 과정
+여기서 바로:
 
-### 1. SSL/DNS 문제 아님을 확인
+```text
+90일마다 발생
+→ Let's Encrypt가 90일짜리 Certificate
+→ Certificate Renewal이 원인
+```
+
+이라고 결론 내리면 안 된다.
+
+Certificate 갱신은 TLS Certificate를 바꾸는 작업이고, **그 자체가 Frontend HTML/JS Version을 변경하거나 Browser HTTP Cache를 무효화하는 원인은 아니다.**
+
+주기가 우연히 Deployment, Maintenance, Restart 같은 다른 운영 이벤트와 겹쳤을 수 있으므로 시간 상관관계와 인과관계를 분리한다.
+
+## 1. 같은 서비스여도 Host가 다르면 Origin이 다르다
+
+Origin은:
+
+```text
+scheme + host + port
+```
+
+로 구분된다.
+
+따라서:
+
+```text
+https://example.com
+≠
+https://www.example.com
+```
+
+이다.
+
+대표적으로 다음 상태가 독립될 수 있다.
+
+```text
+Local Storage
+Session Storage
+Service Worker Scope
+Cookie Scope(설정에 따라)
+HTTP Cache Entry(URL 기준)
+```
+
+HTTP Cache도 Resource URL이 다르면 별도 Entry다.
+
+```text
+https://example.com/main.js
+https://www.example.com/main.js
+```
+
+은 서로 다른 URL이다.
+
+따라서 평소 `www`만 사용하고 apex는 가끔 접근한다면 apex 쪽 Browser State가 훨씬 오래 남아 있을 수 있다.
+
+## 2. 먼저 Server 문제와 Browser 문제를 분리한다
+
+### TLS Certificate 확인
+
+두 Host가 Certificate SAN에 포함되는지 본다.
+
 ```bash
-# SSL 인증서: 둘 다 커버함
-openssl s_client -connect example.com:443 -servername example.com 2>/dev/null \
-  | openssl x509 -noout -text | grep -A1 "Subject Alternative Name"
-# → DNS:example.com, DNS:www.example.com
-
-# DNS: 같은 IP
-dig example.com +short      # 203.0.113.10
-dig www.example.com +short  # 203.0.113.10
-
-# HTTP 응답: 서버 측에선 둘 다 200 OK
-curl -sI https://example.com | head -1      # HTTP/1.1 200 OK
-curl -sI https://www.example.com | head -1  # HTTP/1.1 200 OK
+openssl s_client \
+  -connect example.com:443 \
+  -servername example.com </dev/null 2>/dev/null \
+  | openssl x509 -noout -subject -issuer -ext subjectAltName
 ```
 
-### 2. 쿠키/세션 문제 아님을 확인
-- JWT 기반 인증 → 쿠키 없음
-- JSESSIONID도 없음
+`www`도 별도로 확인한다.
 
-### 3. 캐시 문제로 결론
-- 서버 측 테스트는 항상 성공 (캐시 없이 요청)
-- 브라우저에서만 실패 (캐시 사용)
-- 브라우저 데이터 삭제하면 해결
+### DNS 확인
 
-## 해결: apex → www 리다이렉트
+```bash
+dig example.com +short
+dig www.example.com +short
+```
+
+같은 IP여야 한다는 규칙은 아니지만, 현재 의도한 Routing과 일치하는지 본다.
+
+### HTTP Response 확인
+
+```bash
+curl -sI https://example.com
+curl -sI https://www.example.com
+```
+
+Browser에서는 실패하지만 fresh `curl` 요청은 정상이라면 다음 질문이 생긴다.
+
+```text
+Server가 현재 잘못된 응답을 만드는가?
+        ↓ 아니면
+Browser가 과거 상태를 재사용하는가?
+```
+
+## 3. Cache는 HTML과 Hash Asset을 같은 정책으로 두지 않는다
+
+Frontend Build에서 흔한 구조는:
+
+```text
+index.html
+   ↓
+main.a1b2c3.js
+styles.d4e5f6.css
+```
+
+Hash가 붙은 Asset은 Content가 바뀌면 URL도 바뀌므로 긴 Cache를 주기 좋다.
+
+```http
+Cache-Control: public, max-age=31536000, immutable
+```
+
+반대로 `index.html`은 **새 Asset URL을 가리키는 진입점**이므로 긴 Fresh Cache를 주면 문제가 생길 수 있다.
+
+```text
+오래된 index.html
+      ↓
+과거 main.oldhash.js 참조
+      ↓
+Server에서 과거 Asset 제거됨
+      ↓
+404 / Application Load 실패
+```
+
+따라서 진단할 때는 "Cache TTL이 길다" 한 줄보다 **어떤 Resource에 긴 Cache가 붙었는지**를 본다.
+
+```bash
+curl -I https://example.com/
+curl -I https://example.com/main.a1b2c3.js
+```
+
+HTML과 Hash Asset의 `Cache-Control`을 따로 확인한다.
+
+## 4. Browser Data 삭제로 해결된다면 어떤 상태가 사라졌는지 좁힌다
+
+"Browser Data 삭제 → 해결"은 Browser-side State 문제라는 강한 단서지만 정확한 원인을 하나로 확정해주진 않는다.
+
+삭제되는 것은 환경에 따라:
+
+```text
+HTTP Cache
+Cookie
+Local Storage
+Service Worker / Cache Storage
+기타 Site Data
+```
+
+등 여러 종류일 수 있다.
+
+따라서 DevTools에서 다음을 따로 확인한다.
+
+```text
+Network
+→ Disable cache 상태와 비교
+
+Application
+→ Local/Session Storage
+→ Service Workers
+→ Cache Storage
+→ Cookies
+```
+
+특히 Service Worker가 있는 Application은 일반 HTTP Cache 외에 별도 Cache Storage를 사용할 수 있다.
+
+## 5. apex와 www를 둘 다 서비스해야 하는 이유가 없다면 Canonical Host로 통일한다
+
+같은 Application을 두 Host에서 똑같이 서비스할 필요가 없다면 한쪽을 Canonical Host로 정하는 것이 단순하다.
+
+예를 들어 `www.example.com`으로 통일한다.
+
+### HTTP
 
 ```nginx
-# HTTP: 둘 다 www HTTPS로
 server {
     listen 80;
     server_name example.com www.example.com;
+
     return 301 https://www.example.com$request_uri;
 }
+```
 
-# HTTPS: apex → www 리다이렉트
+### HTTPS apex → www
+
+```nginx
 server {
     listen 443 ssl;
     server_name example.com;
-    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+
+    ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 
     return 301 https://www.example.com$request_uri;
 }
+```
 
-# HTTPS: www 실제 서비스
+### HTTPS www — 실제 Application
+
+```nginx
 server {
     listen 443 ssl;
     server_name www.example.com;
-    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+
+    ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 
     location / {
-        proxy_pass http://localhost:8080;
-        # ...
+        proxy_pass http://127.0.0.1:8080;
     }
 }
 ```
 
-**각 server 블록에 SSL 설정 필요** — nginx는 블록 간 설정을 공유하지 않음.
-
-## 적용 후
+적용 전후:
 
 ```bash
-nginx -t && systemctl reload nginx
+sudo nginx -t
+sudo systemctl reload nginx
+
+curl -I https://example.com/foo
 ```
 
-- 캐시 TTL(4년)은 그대로 둬도 됨
-- 모든 사용자가 www로 통일 → origin 하나 → 캐시 불일치 원천 차단
-- JHipster는 파일명에 해시 포함 (`main.abc123.css`) → 배포 시 새 파일 다운로드
+Redirect의 `Location`이 의도한 Canonical Host를 가리키는지 확인한다.
+
+## 6. Redirect는 Cache Policy 자체를 고치는 대체재는 아니다
+
+Canonical Redirect는:
+
+```text
+사용자가 앞으로 어느 Host를 쓰는지
+```
+
+를 하나로 통일한다.
+
+하지만 `index.html`에 잘못된 장기 Cache Policy가 있다면 그 문제는 별도로 수정해야 한다.
+
+```text
+Canonical Host
+→ Origin/URL 다양성 축소
+
+적절한 Cache-Control
+→ Version별 Resource 수명 관리
+```
+
+두 문제를 분리한다.
+
+## 7. TLS Renewal과 Application Deployment도 분리한다
+
+운영 자동화가 다음처럼 묶여 있을 수는 있다.
+
+```text
+Certificate Renewal
+        ↓ 어떤 Script/Job
+Nginx Reload
+        +
+Application Deploy
+```
+
+하지만 이것은 **해당 운영 Pipeline의 구현**이지 Let's Encrypt 자체의 동작이 아니다.
+
+주기적 장애가 Certificate 갱신 시점과 겹친다면:
+
+```text
+Certbot Log
+Deploy Log
+Nginx Reload 시간
+Frontend Build Artifact 변경 시간
+Browser Cache Header
+```
+
+를 같은 Timeline에 놓고 실제 인과를 확인한다.
+
+## 진단 순서
+
+```text
+1. apex와 www의 DNS/TLS가 정상인가?
+2. fresh HTTP Client에서 두 Host 응답이 다른가?
+3. Browser에서 Disable Cache하면 정상인가?
+4. HTML과 Hash Asset의 Cache-Control은 각각 무엇인가?
+5. Service Worker / Cache Storage가 있는가?
+6. Canonical Host 없이 두 Origin을 계속 서비스할 이유가 있는가?
+7. 반복 주기가 특정 Deploy/Renewal Job과 실제로 연결되는가?
+```
+
+이 순서로 보면 "90일마다 뭔가 이상하다"는 관찰을 특정 원인으로 성급하게 고정하지 않을 수 있다.
+
+## 정리
+
+apex와 `www` 문제의 핵심은 Nginx에서 같은 `server`에 적었느냐가 아니라 **Browser에서는 Host가 다르면 별도의 Origin과 URL 공간이라는 것**이다.
+
+```text
+두 Host 운영
+→ Browser State도 두 벌
+
+오래된 HTML Cache
+→ 과거 Asset 참조 위험
+
+Canonical Redirect
+→ 사용자 진입 Host 통일
+
+Cache-Control
+→ Resource 수명 별도 해결
+```
+
+**증상 주기와 Certificate 유효기간이 같아 보여도 먼저 상관관계와 인과관계를 분리하고, 실제 Cache Entry·Deployment Timeline으로 확인하는 것**이 중요하다.
 
 ## nginx HTTPS 시리즈
 
 | 글 | 다루는 것 |
-| --- | --- |
-| [Let's Encrypt + Nginx 운영 가이드](/posts/nginx/2025-04-02-letsencrypt/) | 발급 방식 비교, fullchain, webroot 전환, HSTS 캐시 함정 |
-| [nginx HTTPS 운영 — 재시작·포트·인증서 검증](/posts/nginx/2026-04-22-nginx-ssl-operations/) | reload vs restart, 포트 점유 해결, 인증서 체인 확인 |
-| [특정 IP에서 HTTPS 강제 우회하기](/posts/nginx/2025-07-21-nginx-skip-https-for-ip/) | 사내 모니터링 IP 같은 예외 라우팅 패턴 |
-| **Apex ↔ www 도메인 통일과 캐시 문제 (현재 글)** | 한쪽으로 통합해 origin 분리·캐시 불일치 차단 |
+|---|---|
+| [Let's Encrypt + Nginx — 인증서 수명주기](/posts/nginx/2025-04-02-letsencrypt/) | Challenge 선택 → 발급 → Renewal → Reload → 외부 TLS 검증 |
+| [nginx SSL 인증서 운영](/posts/nginx/2026-04-22-nginx-ssl-operations/) | 인증서 배치, reload/restart, process 복구 |
+| [특정 IP에서 HTTPS 강제 우회하기](/posts/nginx/2025-07-21-nginx-skip-https-for-ip/) | 내부 Probe 같은 예외 Routing |
+| **apex/www Origin과 Cache (현재 글)** | Host별 Browser State와 Canonical Redirect |
