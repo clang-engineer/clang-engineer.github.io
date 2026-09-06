@@ -1,0 +1,129 @@
+name: Verify roadmap review once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/verify-roadmap-review-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify roadmap set, links, and tags
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+
+          expected = [
+              Path('_posts/terminal/2026-09-05-terminal-roadmap.md'),
+              Path('_posts/neovim/2026-06-16-neovim-roadmap.md'),
+              Path('_posts/tmux/2026-06-16-tmux-roadmap.md'),
+              Path('_posts/shell/2026-07-03-shell-roadmap.md'),
+              Path('_posts/shell/2026-07-08-dotfiles-roadmap.md'),
+              Path('_posts/macos/2026-07-03-macos-roadmap.md'),
+              Path('_posts/linux/2026-07-11-linux-roadmap.md'),
+              Path('_posts/keyboard/2026-07-03-keyboard-roadmap.md'),
+              Path('_posts/ai/2026-07-03-ai-roadmap.md'),
+              Path('_posts/cpp/2026-07-03-cpp-learning-roadmap.md'),
+              Path('_posts/go/2026-07-12-go-roadmap.md'),
+              Path('_posts/rust/2026-07-12-rust-roadmap.md'),
+          ]
+          missing = [str(p) for p in expected if not p.exists()]
+          if missing:
+              print('Missing expected roadmaps:')
+              print('\n'.join(missing))
+              sys.exit(1)
+
+          tab = Path('_tabs/roadmap.md')
+          sources = [tab] + expected
+          link_re = re.compile(r'\[[^\]]+\]\(([^)]+)\)')
+          bad_links = []
+          checked = 0
+
+          for src in sources:
+              text = src.read_text(encoding='utf-8')
+              for dest in link_re.findall(text):
+                  dest = dest.strip()
+                  if dest.startswith(('http://', 'https://', 'mailto:', '#')):
+                      continue
+                  clean = dest.split('#', 1)[0].split('?', 1)[0]
+                  if not clean.endswith('.md'):
+                      continue
+                  target = (src.parent / clean).resolve()
+                  checked += 1
+                  if not target.exists():
+                      bad_links.append(f'{src}: {dest} -> {target}')
+
+          if bad_links:
+              print('Broken roadmap Markdown links:')
+              print('\n'.join(bad_links))
+              sys.exit(1)
+          print(f'Roadmap Markdown links checked: {checked}')
+
+          tag_re = re.compile(r'^tags\s*:\s*\[(.*)\]\s*$', re.MULTILINE)
+          polluted = []
+          for p in Path('_posts').rglob('*.md'):
+              m = tag_re.search(p.read_text(encoding='utf-8'))
+              if not m:
+                  continue
+              tags = [x.strip().strip('"\'').lower() for x in m.group(1).split(',')]
+              if 'roadmap' in tags and 'roadmap' not in p.stem.lower():
+                  polluted.append(str(p))
+          if polluted:
+              print('Non-roadmap posts carrying roadmap tag:')
+              print('\n'.join(polluted))
+              sys.exit(1)
+          print('Roadmap tag scope is clean.')
+
+          body_pattern = re.compile(r'\]\(/posts/')
+          body_bad = []
+          excluded = {Path('_posts/markdown/2026-09-06-markdown-link-syntax.md')}
+          for p in list(Path('_posts').rglob('*.md')) + [tab]:
+              if p in excluded:
+                  continue
+              for num, line in enumerate(p.read_text(encoding='utf-8').splitlines(), 1):
+                  if body_pattern.search(line):
+                      body_bad.append(f'{p}:{num}: {line.strip()}')
+          if body_bad:
+              print('Jekyll-only body links remain:')
+              print('\n'.join(body_bad))
+              sys.exit(1)
+          print('No Jekyll-only body links remain.')
+          PY
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+
+      - name: Build site
+        run: bundle exec jekyll b -d _site
+        env:
+          JEKYLL_ENV: production
+
+      - name: Verify generated internal links
+        run: bundle exec htmlproofer _site --disable-external --ignore-urls '/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/'
+
+      - name: Remove verifier and commit
+        shell: bash
+        run: |
+          rm .github/workflows/verify-roadmap-review-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/verify-roadmap-review-once.yml
+          git commit -m "chore: remove one-time roadmap verifier"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
