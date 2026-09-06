@@ -1,186 +1,221 @@
 ---
-title       : "셸 로드맵 — 첫 스크립트부터 환경 관리까지"
-description : "첫 스크립트 실행 → Bash 문법 → CLI 인터페이스 → 환경 관리와 dotfiles → 세션·원격으로 이어지는 현재 셸 문서 지도를 정리한다. 삭제된 레거시 글을 제거하고 실제 남아 있는 문서만 연결한다."
+title       : "셸 로드맵 — 실행 모델에서 스크립트와 세션까지"
+description : "첫 스크립트 실행 → Bash 문법 → CLI 인터페이스 → 프로세스·세션으로 이어지는 셸 학습 줄기. dotfiles·Brewfile·chezmoi는 환경 재현이라는 별도 축으로 dotfiles 로드맵에 넘기고, direnv·zoxide는 필요할 때 쓰는 도구 Branch로 분리한다."
 date        : 2026-07-03 14:30:00 +0900
-updated     : 2026-09-05 21:14:00 +0900
+updated     : 2026-09-06 12:00:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, shell, zsh, bash]
 pin         : false
 hidden      : false
 ---
 
-이 로드맵은 셸을 **명령어 모음이 아니라 작업 환경과 자동화 도구를 잇는 층**으로 본다.
+이 로드맵은 셸을 **명령을 해석하고 Process를 실행하며 작은 자동화 도구를 만드는 층**으로 본다.
 
-중심 줄기는 다음과 같다.
+먼저 학습 줄기와 주변 도구를 분리한다.
 
 ```text
-명령을 파일로 실행
-        ↓
-Bash 문법 이해
-        ↓
+[셸 학습 줄기]
+명령 파일 실행
+   ↓
+Bash 문법·확장 규칙
+   ↓
 CLI 인터페이스 설계
-        ↓
-환경을 선언적으로 관리
-        ↓
-세션·원격 환경까지 확장
+   ↓
+Process·Job·Session 이해
+
+[다른 축]
+환경 재현 → dotfiles 로드맵
+Directory 환경변수 → direnv
+탐색 마찰 감소 → zoxide
+터미널 Session 관리 → tmux 로드맵
 ```
 
-파이프·리다이렉션·글로빙·`grep`/`awk` 같은 인터랙티브 셸 기본기는 아직 별도 본문이 충분하지 않다. 없는 글을 억지로 로드맵에 끼워 넣지 않고 빈 영역으로 둔다.
+`dotfiles → Brewfile → chezmoi`는 셸을 배우는 다음 단계가 아니라 **환경을 재현하는 별도 문제**다. 따라서 이 로드맵에서는 위치만 연결하고 상세 학습은 [dotfiles 로드맵](/posts/shell/2026-07-08-dotfiles-roadmap/)에 맡긴다.
 
-## 1. 시작 — 첫 스크립트를 실행한다
+파이프·리다이렉션·글로빙·`grep`/`awk` 같은 인터랙티브 셸 기본기는 아직 전용 본문이 충분하지 않다. 없는 글을 다른 문서로 억지로 메우지 않고 빈 영역으로 표시한다.
+
+## 한눈에 보기
+
+| 구역 | 답하는 질문 | 성격 |
+|---|---|---|
+| 1. 실행 모델 | Script File은 어떤 Interpreter로 어떻게 실행되는가 | 줄기 |
+| 2. 문법·확장 | 셸은 한 줄을 어떤 순서로 해석하는가 | 줄기 |
+| 3. CLI 설계 | Script를 다른 사람이 쓸 수 있는 명령으로 어떻게 만든다 | 줄기 |
+| 4. Process·Session | Background 작업과 Shell 종료의 관계는 무엇인가 | 줄기 |
+| Branch A | Directory별 환경변수를 어떻게 관리하나 | Tool |
+| Branch B | 자주 가는 Directory를 어떻게 빨리 찾나 | Tool |
+| 다른 Roadmap | 환경 재현 / Terminal Session | dotfiles / tmux |
+
+## 1. 실행 모델 — 첫 스크립트를 실행한다
 
 | 글 | 핵심 |
 |---|---|
-| [첫 셸 스크립트 만들고 실행하기](/posts/shell/2026-07-04-first-shell-script/) | shebang, 실행 권한, `./`, PATH, CRLF 같은 첫 실행 단계의 함정 |
+| [첫 셸 스크립트 만들고 실행하기](/posts/shell/2026-07-04-first-shell-script/) | shebang, 실행 권한, `./`, PATH, CRLF |
 
-여기서 중요한 것은 문법보다 **실행 모델**이다.
+문법보다 먼저 실행 계약을 잡는다.
 
 ```text
-파일 생성
-→ 어떤 인터프리터가 읽는가
+Script File
+→ 어떤 Interpreter가 읽는가
 → 실행 권한이 있는가
-→ 셸이 그 파일을 어디서 찾는가
+→ 이름을 어떻게 찾는가(PATH)
+→ 현재 Directory를 명시해야 하는가(./)
 ```
 
-이 바닥이 잡혀야 다음의 문법이 실제 스크립트로 이어진다.
+이 바닥이 잡혀야 문법 오류와 실행 환경 오류를 구분할 수 있다.
 
-## 2. 문법 — Bash 줄기를 잡는다
+## 2. 문법·확장 — Bash가 한 줄을 어떻게 읽는가
 
 | 글 | 핵심 |
 |---|---|
-| [셸 스크립트 문법 종합 가이드](/posts/shell/2026-07-03-bash-syntax-guide/) | 변수·인용·파라미터 확장·조건·반복·함수·배열·확장 순서·`set -euo pipefail` |
+| [셸 스크립트 문법 종합 가이드](/posts/shell/2026-07-03-bash-syntax-guide/) | 변수·인용·Parameter Expansion·조건·반복·함수·배열·확장 순서·`set -euo pipefail` |
 
-문법을 외우는 게 목적이 아니라 다음 질문에 답할 수 있으면 된다.
+핵심 질문은 문법 Keyword 수가 아니다.
 
 ```text
-값은 언제 확장되는가
-공백은 언제 인자를 쪼개는가
-조건식은 어떤 셸 문법을 쓰는가
-실패를 어디까지 전파할 것인가
+값은 언제 확장되는가?
+공백은 언제 Argument를 나누는가?
+Quote는 어떤 확장을 막거나 보존하는가?
+명령의 종료 Code가 다음 제어 흐름에 어떻게 소비되는가?
+실패를 어디까지 전파할 것인가?
 ```
+
+낯선 Script를 읽는 관점이 필요하면 [낯선 셸 스크립트 읽기](/posts/shell/2026-07-03-shell-script-reading-guide/)에서 Interpreter·Quote·Expansion·Exit Status 순으로 추적한다.
 
 > 📎 **치트시트** · [shell](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/shell.md) · [zsh](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/zsh.md)
 {: .prompt-tip }
 
-## 3. CLI로 만들기 — 남이 쓸 수 있는 인터페이스
+## 3. CLI 설계 — Script를 작은 도구로 만든다
 
 | 글 | 핵심 |
 |---|---|
-| [CLI 인자 컨벤션 — positional과 --flag는 왜 섞어 쓰나](/posts/shell/2026-06-10-cli-positional-vs-flag/) | 위치 인자·옵션·환경변수의 역할을 나눠 CLI 인터페이스를 설계 |
-
-스크립트가 일회성 명령 묶음을 넘어서면 입력 인터페이스가 필요하다.
+| [CLI 인자 컨벤션 — positional과 --flag는 왜 섞어 쓰나](/posts/shell/2026-06-10-cli-positional-vs-flag/) | Positional·Option·Environment Variable의 역할 분리 |
 
 ```text
-필수 대상
-→ positional
+핵심 대상
+→ positional argument
 
-선택 동작
+선택 동작·변형
 → --flag / --option
 
-환경별 기본값
+실행 환경의 기본값·Context
 → environment variable
 ```
 
-이 단계부터 셸 스크립트는 개인 메모가 아니라 작은 도구가 된다.
+여기서 중요한 것은 Bash Parsing Code 자체보다 **입력 계약을 어떤 축으로 나눌지**다.
 
-## 4. 환경 — 디렉터리와 패키지를 선언적으로 관리한다
-
-스크립팅과는 다른 축이지만 실제 셸 환경을 재현하려면 이 영역이 중요하다.
+## 4. Process·Job·Session — 명령을 오래 실행하면 무엇이 남는가
 
 | 글 | 핵심 |
 |---|---|
-| [direnv 사용법 정리](/posts/shell/2026-02-21-direnv/) | 디렉터리별 환경변수를 `.envrc`로 자동 로드 |
-| [dotfiles를 git 저장소 + 심볼릭 링크로 관리하기](/posts/shell/2026-07-03-dotfiles-symlink-management/) | 설정 파일을 한 저장소에서 관리하고 홈 디렉터리로 연결 |
-| [Homebrew Brewfile로 패키지 선언적으로 관리하기](/posts/shell/2026-07-03-homebrew-brewfile-bundle/) | 패키지 목록을 코드처럼 선언하고 재설치·검증 |
-| [chezmoi 사용 — source와 apply](/posts/shell/2026-07-08-chezmoi-usage-source-apply/) | dotfiles를 source state와 실제 홈 디렉터리로 분리해 관리 |
-| [chezmoi 전환 시 함정](/posts/shell/2026-07-08-chezmoi-migration-pitfalls/) | 기존 심볼릭 링크 기반 dotfiles에서 chezmoi로 옮길 때 생기는 문제 |
-
-이 흐름은 다음처럼 볼 수 있다.
+| [백그라운드 작업과 세션 지속](/posts/shell/2026-06-16-background-jobs-and-session/) | `&`, Job Control, `nohup`, Shell 종료와 Process 생존, tmux 경계 |
 
 ```text
-환경변수
-→ direnv
+현재 Shell 안에서 Background 전환
+→ & / jobs / fg / bg
 
-설정 파일
-→ dotfiles
+Shell이 끝나도 Process만 계속 실행
+→ nohup 등
 
-패키지
-→ Brewfile
-
-머신별 렌더링·배포
-→ chezmoi
+작업 화면·여러 Shell·Session 자체를 유지
+→ tmux
 ```
 
-단순 심볼릭 링크 방식과 chezmoi는 경쟁 관계라기보다 **복잡도 단계**가 다르다. 머신 분기가 거의 없으면 심볼릭 링크가 단순하고, 템플릿·머신별 차이가 커지면 chezmoi의 가치가 커진다.
+`&`, `nohup`, tmux는 같은 기능의 발전 단계가 아니다. **현재 Shell의 Job Control / Process 생존 / Terminal Session 보존**이라는 서로 다른 문제를 해결한다.
 
-## 5. 일상 탐색 속도
+Terminal·PTY·Session 자체를 더 깊게 보면 [Terminal 로드맵](/posts/terminal/2026-09-05-terminal-roadmap/), tmux 사용 구조는 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)으로 이어진다.
+
+## Branch A — Directory별 환경변수
 
 | 글 | 핵심 |
 |---|---|
-| [zoxide로 디렉토리 이동 빠르게](/posts/shell/2026-07-03-zoxide-directory-jump/) | 방문 기록의 frecency로 자주 가는 디렉터리 점프 |
+| [direnv 사용법 정리](/posts/shell/2026-02-21-direnv/) | Directory 진입 시 `.envrc`를 허용한 범위에서 자동 적용 |
 
-`zoxide`는 셸 문법이 아니라 **반복 이동의 마찰을 줄이는 도구**다.
+`direnv`는 Bash 문법의 다음 단계가 아니라 **Project Directory라는 Context에 환경변수를 묶는 Tool**이다.
+
+```text
+전역 Shell 설정
+→ ~/.zshrc / ~/.bashrc 등
+
+Directory별 개발환경
+→ direnv
+
+Application 내부 .env Loading
+→ dotenv 계열
+```
+
+## Branch B — 일상 탐색 마찰 줄이기
+
+| 글 | 핵심 |
+|---|---|
+| [zoxide로 디렉토리 이동 빠르게](/posts/shell/2026-07-03-zoxide-directory-jump/) | 방문 기록의 Frecency로 자주 가는 Directory Jump |
 
 ```text
 정확한 경로를 안다
 → cd
 
-자주 갔던 목적지를 대충 기억한다
+자주 갔던 목적지를 일부만 기억한다
 → zoxide
 
-목록에서 fuzzy 선택이 필요하다
-→ fzf 계열 도구
+후보 목록에서 Fuzzy Search가 필요하다
+→ fzf 계열
 ```
 
-## 6. 프로세스와 세션 — 셸을 닫아도 작업을 남긴다
+이것도 셸 언어 학습 단계가 아니라 반복 작업의 마찰을 줄이는 Tool 축이다.
 
-| 글 | 핵심 |
-|---|---|
-| [백그라운드 작업과 세션 지속](/posts/shell/2026-06-16-background-jobs-and-session/) | `&`, job control, `nohup`, 세션 종료와 프로세스 생존, tmux와의 경계 |
+## 다른 Roadmap과의 경계
 
-여기서는 명령 실행 자체보다 **프로세스가 어떤 세션에 묶여 있는가**가 핵심이다.
+### 환경을 재현하고 싶다 → dotfiles
+
+설정 파일·Package·Machine 차이를 코드로 재현하는 문제는 [dotfiles 로드맵](/posts/shell/2026-07-08-dotfiles-roadmap/)이 정본이다.
 
 ```text
-현재 셸 안에서 잠깐 백그라운드
-→ & / jobs / fg / bg
+dotfiles
+→ 설정 파일 원본과 배치
 
-로그아웃 후에도 프로세스만 유지
-→ nohup 등
+Brewfile
+→ 설치 Package 선언
 
-작업 화면과 셸 상태까지 유지
-→ tmux
+chezmoi
+→ Machine별 Render·Secret·배포
 ```
 
-터미널 세션 자체를 더 깊게 보려면 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)으로 이어진다.
+Shell Roadmap에서 이 문서들을 다시 단계별로 중복 큐레이션하지 않는다.
+
+### Terminal Session을 관리하고 싶다 → tmux
+
+현재 Process 하나를 Background로 남기는 것과 여러 Pane·Window·Shell State를 Session으로 유지하는 것은 다르다. 후자는 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 책임이다.
 
 ## 아직 비어 있는 영역
 
-현재 문서셋 기준으로 다음은 아직 전용 글이 부족하다.
+현재 문서셋 기준으로 전용 글이 부족한 영역은 그대로 빈칸으로 둔다.
 
-- 파이프와 리다이렉션
-- `grep`·`awk`·`cut`·`sort` 중심 텍스트 처리
-- login / interactive shell 초기화 파일 전체 모델
-- `set -x`, ShellCheck 중심 디버깅
-- POSIX `sh`와 Bash/Zsh의 경계
+- Pipe와 Redirection
+- Globbing과 Command Substitution의 전체 실행 순서
+- `grep`·`awk`·`cut`·`sort` 중심 Text Processing
+- Login / Interactive / Non-interactive Shell 초기화 전체 모델
+- `set -x`, ShellCheck 중심 Debugging
+- POSIX `sh`와 Bash/Zsh 경계
 
-예전의 짧은 메모를 억지로 남겨 이 빈칸을 채우지 않는다. 필요성이 생기면 새 글을 현재 원칙에 맞춰 작성한다.
+필요성이 생기면 기존 짧은 메모를 되살리는 대신 현재 문서 원칙으로 새로 작성한다.
 
 ## 어디서 시작할까
 
 ```text
-셸 스크립트를 처음 만든다
+셸 Script를 처음 만든다
 → 첫 셸 스크립트
-→ Bash 문법 가이드
-→ CLI 인자 설계
+→ Bash 문법
+→ CLI 설계
 
-새 Mac에서 환경을 재현하고 싶다
-→ dotfiles
-→ Brewfile
-→ 필요하면 chezmoi
+오래 실행하는 명령과 Session이 헷갈린다
+→ Background Jobs
+→ Terminal Roadmap / tmux Roadmap
 
-명령을 오래 돌려야 한다
-→ background jobs
-→ tmux
+새 Machine에서 개발환경을 재현하고 싶다
+→ dotfiles Roadmap
+
+Project마다 환경변수가 다르다
+→ direnv
 ```
 
-이 로드맵은 **현재 실제로 남아 있는 문서만** 연결한다. 삭제된 단편 메모를 다시 링크해 지식 구조를 흐리지 않는다.
+> **Shell Roadmap의 줄기는 실행·해석·CLI·Process다. 환경 재현과 Terminal Session은 각각 dotfiles와 tmux라는 독립 Roadmap으로 넘긴다.**
