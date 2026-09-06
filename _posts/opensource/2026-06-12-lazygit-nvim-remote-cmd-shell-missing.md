@@ -1,108 +1,194 @@
 ---
 title       : "lazygit nvim-remote preset의 cmd 분기 부재 — 본체로 거슬러 올라가 이슈 제기"
-description : "snacks.nvim 워크어라운드에서 시작해 lazygit 본체 editor_presets.go까지 추적, OSS 이슈로 정리한 기록"
+description : "snacks.nvim 워크어라운드에서 시작해 lazygit 본체 editor_presets.go까지 추적하고, 책임 경계를 좁혀 OSS 이슈로 제기한 과정을 기록한다."
 date        : 2026-06-12 19:45:00 +0900
-updated     : 2026-06-12 19:45:00 +0900
+updated     : 2026-09-06 10:12:00 +0900
 categories  : [opensource, "Lazygit"]
 tags        : [lazygit, snacks, neovim, windows, oss-contrib]
 pin         : false
 hidden      : false
 ---
 
-> 워크어라운드만 다룬 글은 [Windows에서 Neovim 내 Lazygit 'e' 키 에러 해결](/posts/lazyvim/2026-03-13-lazygit-nvim-windows-edit-error/)에 따로 있다. 이 글은 같은 버그의 **원인을 본체까지 거슬러 올라가 OSS 이슈로 정리한 기록**이다.
+> 워크어라운드 자체는 [Windows에서 Neovim 내 Lazygit 'e' 키 에러 해결](/posts/lazyvim/2026-03-13-lazygit-nvim-windows-edit-error/)에서 다룬다. 이 글은 해결 명령보다 **문제가 어느 프로젝트의 어느 경계에서 생겼는지 본체까지 추적해 OSS 이슈로 만든 기록**이다.
 
-## 출발점
+## 출발점 — 워크어라운드 뒤에 남은 질문
 
-내 dotfiles에 11줄짜리 코멘트가 있었다.
+내 dotfiles에 다음 코멘트가 있었다.
 
 ```lua
 -- snacks.nvim lazygit: Windows에서 editPreset "nvim-remote"가
 -- bash 문법([)을 사용하여 cmd.exe에서 에러 발생 → 비활성화
 ```
 
-워크어라운드로는 충분하지만, 다음 두 질문이 남았다.
+로컬에서 우회하는 데는 충분하지만 두 질문은 남는다.
 
-1. 진짜 버그는 어느 프로젝트에 있나?
-2. 본체에 기여할 만한가?
+```text
+이 증상을 누가 만든 걸까?
+        ↓
+snacks.nvim?
+lazygit?
+Windows shell 환경?
+        ↓
+본체에 보고할 문제인가?
+```
 
-## 추적
+이 글의 핵심은 바로 이 **책임 경계를 좁히는 과정**이다.
 
-### snacks.nvim에서 시작
+## 1. 호출 경로를 위에서 아래로 따라간다
 
-`lua/snacks/lazygit.lua:37`에서 `editPreset = "nvim-remote"`를 **기본값**으로 박는다. 사용자가 명시 안 하면 자동으로 켜진다. 여기서 끝일 수도 있지만, snacks가 만든 preset이 아니라 **lazygit이 정의한 preset의 이름을 참조**하는 구조다. 그렇다면 cmd.exe에서 깨지는 명령은 어디서 만들어질까.
+### snacks.nvim — preset을 선택한다
 
-### lazygit 본체로
+`lua/snacks/lazygit.lua`에서 `editPreset = "nvim-remote"`를 기본값으로 사용한다. 하지만 snacks가 shell command 자체를 만드는 것은 아니다. lazygit이 제공하는 preset 이름을 선택하는 역할이다.
 
-`pkg/config/editor_presets.go:56-86`에 `nvim-remote` preset 정의가 있다. 셸별로 세 갈래 분기:
+```text
+snacks.nvim
+→ nvim-remote preset 선택
+        ↓
+lazygit
+→ 실제 editor command 생성
+```
+
+따라서 shell 문법이 깨진다면 한 단계 아래인 lazygit 구현을 볼 필요가 있다.
+
+### lazygit — preset의 실제 command를 만든다
+
+`pkg/config/editor_presets.go`의 `nvim-remote` preset은 shell 종류에 따라 command를 나눈다.
 
 ```go
 if (strings.HasSuffix(shell, "fish")) || (os.Getenv("FISH_VERSION") != "") {
-    // fish: begin; if test -z "$NVIM"; ...; end; end
+    // fish
 } else if strings.HasSuffix(shell, "nu") || ... {
-    // nushell: if ($env | get -i NVIM | is-empty) { ... }
+    // nushell
 } else {
-    // 그 외: [ -z "$NVIM" ] && (...) || (...)   ← POSIX sh
+    // POSIX sh 형태
 }
 ```
 
-cmd.exe를 위한 분기가 **없다**. fish와 nushell만 신경 쓰고, "그 외"는 무조건 POSIX sh로 가정한다.
+문제는 `cmd.exe`를 위한 분기가 없다는 점이었다. fish와 nushell이 아니면 POSIX shell 문법을 사용하는 fallback으로 내려간다.
 
-### Windows lazygit의 기본 셸
+### Windows — lazygit의 실행 shell을 확인한다
 
-`pkg/commands/oscommands/os_windows.go:13` 한 줄에 답이 있다.
+당시 확인한 `pkg/commands/oscommands/os_windows.go`에서는 Windows platform의 shell이 다음처럼 구성되어 있었다.
 
 ```go
-func GetPlatform() *Platform {
-    return &Platform{
-        OS:       "windows",
-        Shell:    "cmd",
-        ShellArg: "/c",
-    }
-}
+Shell:    "cmd",
+ShellArg: "/c",
 ```
 
-Windows에서 lazygit은 `cmd /c`로 명령을 던진다. 그런데 `nvim-remote` preset이 cmd 분기 없이 POSIX sh 문법을 떨궈주니, cmd.exe가 `[`를 인식 못 해서 깨진다. 인과 끝.
+따라서 당시 관찰한 실행 경로는 다음처럼 연결됐다.
 
-### 책임 분리
+```text
+Windows Neovim
+   ↓
+snacks.nvim
+   ↓ nvim-remote preset 요청
+lazygit
+   ↓ POSIX 형태 command 생성
+cmd /c
+   ↓
+`[` 같은 shell 문법 해석 실패
+```
 
-- **snacks.nvim**: lazygit이 정의한 preset 이름만 참조함. 잘못한 건 없음. 다만 Windows에서 기본값이 깨진다는 사실을 모른 채 사용자에게 노출시킴.
-- **lazygit**: 자기가 만든 preset이 자기 기본 셸에서 안 도는 게 진짜 버그.
+이 지점에서 단순히 "snacks에서 e 키가 안 된다"가 아니라 **lazygit이 선택한 command template과 Windows 실행 shell의 조합 문제**로 범위를 좁힐 수 있었다.
 
-## 기여 시도
+> 이 글은 2026년 6월 당시 소스 상태를 추적한 기록이다. upstream 구현은 이후 바뀔 수 있으므로 현재 동작을 판단할 때는 최신 lazygit 소스를 다시 확인한다.
 
-### 이슈 vs PR 선택
+## 2. 책임을 분리한다
 
-처음엔 PR을 떠올렸지만 접었다. 솔직히:
+문제가 여러 프로젝트를 통과할 때는 "어디에서 증상이 보였는가"와 "어디에서 잘못된 가정이 만들어졌는가"를 나눈다.
 
-- cmd 셸 문법(`if defined NVIM`, `%NVIM%` 확장 타이밍, `^&` escape, 괄호 블록 안 변수 확장)은 실제로 돌려보지 않으면 함정에 빠지기 쉽다.
-- 내 머신은 macOS, Windows 검증 환경이 없다.
-- 검증 못 한 cmd 스크립트를 PR로 던지는 건 메인테이너 입장에서 노이즈에 가깝다. "fish 안 써본 사람이 fish 분기 짠 PR"과 같은 인상이 된다.
-- 결정권을 lazygit 쪽에 넘기는 게 낫다. "cmd 분기 추가가 맞다" vs "Windows 기본 셸을 pwsh로 바꿔라" vs "wontfix, 사용자가 명시 설정해라" 중 무엇이 그쪽 방향과 맞는지는 그쪽이 판단할 영역이다.
+| 계층 | 당시 역할 | 판단 |
+|---|---|---|
+| snacks.nvim | `nvim-remote` preset 선택 | 증상을 노출하는 쪽 |
+| lazygit | shell별 editor command 생성 | shell 가정이 만들어지는 쪽 |
+| Windows / cmd | 전달된 command 실행 | POSIX 문법을 해석하지 못하는 실행 환경 |
 
-### 이슈 본문에서 신경 쓴 것
+따라서 당시에는 lazygit 본체가 가장 적절한 최초 보고 지점이라고 판단했다.
 
-- **재현 단계**: snacks.nvim 사용자가 무심코 마주치는 경로를 그대로 적었다 ("nvim 안에서 lazygit 실행 → `e` 누르기").
-- **소스 링크**: `editor_presets.go:67-71`과 `os_windows.go:13`를 직접 가리켜 메인테이너가 같은 추적을 처음부터 할 필요가 없게 했다.
-- **cmd 템플릿 sketch**: 미검증임을 명시한 채 토론용으로 한 줄만 제시.
-- **워크어라운드의 한계**: snacks 사용자가 흔히 쓰는 우회법(`shell: bash` 명시)이 Git Bash가 PATH에 있어야만 동작한다는 점을 적어, 진짜 픽스의 필요성을 짚었다.
+이 구분이 중요한 이유는 단순하다.
 
-[lazygit#5696](https://github.com/jesseduffield/lazygit/issues/5696)로 올렸다.
+```text
+증상이 보이는 프로젝트
+≠ 항상 원인을 고쳐야 할 프로젝트
+```
+
+## 3. 이슈와 PR 중 무엇을 선택할까
+
+처음에는 PR까지 생각했지만 이슈를 선택했다.
+
+이유는 **원인은 충분히 좁혔지만 수정안을 검증할 환경은 없었기 때문**이다.
+
+- `cmd.exe`에는 `%VAR%` 확장, 괄호 block, escape 등 별도 문법 경계가 있다.
+- 당시 작업 환경은 macOS였고 실제 Windows 검증 환경이 없었다.
+- 미검증 command를 본체 PR로 제안하면 원인 보고보다 오히려 검토 비용을 늘릴 수 있다.
+- `cmd` 분기를 추가할지, PowerShell을 사용할지, preset 정책을 바꿀지는 maintainer의 설계 판단 영역이기도 했다.
+
+그래서 기여 수준을 다음처럼 잘랐다.
+
+```text
+원인 재현 가능
++ 책임 위치 확인 가능
++ 수정안 검증 불가
+        ↓
+Issue로 근거 제공
+
+수정안 구현 가능
++ Target 환경 검증 가능
+        ↓
+PR 검토
+```
+
+## 4. 이슈에는 메인테이너의 재조사 비용을 줄이는 정보를 넣는다
+
+[lazygit#5696](https://github.com/jesseduffield/lazygit/issues/5696)으로 이슈를 제기했다.
+
+당시 본문에는 다음 정보를 우선했다.
+
+- **사용자 재현 경로** — Neovim 안에서 lazygit을 열고 edit 동작 수행
+- **호출 주체** — snacks.nvim이 `nvim-remote` preset을 기본 선택하는 경로
+- **원인 후보 소스** — lazygit의 editor preset과 Windows platform shell 구현
+- **실패 이유** — POSIX shell 형태 command가 `cmd /c`로 전달되는 조합
+- **워크어라운드의 한계** — 사용자 로컬 설정만으로는 기본 preset의 플랫폼 가정을 해결하지 못함
+- **수정 sketch의 검증 상태** — Windows에서 검증하지 못한 제안임을 명시
+
+OSS 이슈의 가치는 설명을 길게 쓰는 데 있지 않고 **maintainer가 같은 추적을 처음부터 반복하지 않아도 되게 만드는 것**에 있다.
+
+## 5. 이 기록에서 남길 수 있는 재사용 가능한 진단법
+
+이 사례의 가치가 lazygit 하나에만 있지는 않다. Plugin/Wrapper가 외부 CLI를 호출할 때 같은 방식으로 볼 수 있다.
+
+```text
+UI에서 증상 발생
+   ↓
+누가 외부 기능을 호출했나
+   ↓
+실제 command/config를 누가 생성했나
+   ↓
+어떤 runtime/shell이 실행했나
+   ↓
+깨진 가정은 어느 경계에 있나
+```
+
+즉 wrapper 계층에서 보이는 오류를 바로 wrapper의 버그로 단정하지 않고 **호출 경로를 실제 command가 만들어지는 지점까지 내려가서 확인한다.**
 
 ## 회고
 
-### 무엇이 좋았나
+좋았던 점은 dotfiles의 짧은 workaround comment가 본체 추적의 출발점이 되었다는 것이다. 임시 해결책에도 "왜 필요한가"를 남겨두면 나중에 원인을 다시 파고들 수 있다.
 
-- **dotfiles의 11줄짜리 코멘트가 본체 이슈 추적의 출발점**이 됐다. 일상적으로 적어두는 워크어라운드 코멘트가 이렇게 쓰일 수 있다는 게 수확.
-- 두 프로젝트 사이의 책임 분리(누가 트리거고 누가 빈 칸인가)를 명확히 나눈 뒤에 보고하니, 이슈 본문이 훨씬 짧고 깔끔해졌다.
+또 하나는 PR을 만드는 것 자체를 기여의 목표로 두지 않았다는 점이다. 내가 검증할 수 있는 범위는 재현과 원인 추적까지였고, 그 경계에서는 **근거가 잘 정리된 Issue가 미검증 PR보다 나은 산출물**이었다.
 
-### 무엇이 아쉬웠나
+아쉬운 점은 Windows 검증 환경이 없어 실제 수정까지 이어갈 수 없었다는 것이다. 반대로 이 경험 덕분에 다중 플랫폼 OSS 기여에서 **Target 환경 검증 가능성도 기여 범위를 결정하는 조건**이라는 점이 분명해졌다.
 
-- Windows 검증 환경이 없어 PR까지 못 갔다. OSS 기여를 진지하게 하려면 검증 가능한 플랫폼 셋업이 선행되어야 한다는 걸 새삼.
-- 사용자가 좁은 교집합(Windows + cmd + snacks + nvim-remote)이라, 머지돼도 임팩트는 크지 않다. 다만 임팩트로만 기여를 재면 시작 자체가 어려워지니, 추적의 즐거움 자체를 보상으로 본다.
+## 정리
 
-### 다음 행동
+이 사례를 한 줄로 압축하면:
 
-- 메인테이너 반응 1주 정도 기다린다.
-- 픽스 방향이 잡히고 검증 도움받을 수 있으면 후속 PR 검토.
-- "wontfix / docs only"면 snacks.nvim 쪽에 docs PR 한 줄로 마무리.
-- 결과 나오면 이 글 후속편으로 정리.
+```text
+워크어라운드 발견
+→ 호출 경로 추적
+→ 책임 프로젝트 분리
+→ 실제 실행 환경과 가정 비교
+→ 내가 검증할 수 있는 범위까지 Issue로 전달
+```
+
+문제를 해결하는 것과 upstream에 좋은 보고를 만드는 것은 조금 다른 작업이다. **좋은 OSS 이슈는 증상을 설명하는 문서가 아니라, 실패가 발생하는 경계를 최대한 좁혀 놓은 조사 결과**에 가깝다.
