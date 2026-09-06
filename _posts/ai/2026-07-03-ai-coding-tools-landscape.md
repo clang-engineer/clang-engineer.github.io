@@ -101,51 +101,39 @@ C++로 치면 같은 컴파일러 백엔드를 쓰더라도 드라이버·플래
 
 OpenCode는 OpenAI를 포함한 여러 제공자를 연결하는 구조다. 여러 모델과 제공자를 바꾸거나 OpenCode의 TUI(Text-based User Interface, 터미널 사용자 인터페이스)를 선호하면 OpenCode가 맞다. OpenAI 모델과 전용 CLI·클라우드 연동을 한 생태계에서 쓰고 싶다면 Codex가 더 단순하다.
 
-## Claude Code vs Codex — 실제 작업에서는 어떻게 고르나
+## Claude Code vs Codex — 같은 Form Factor에서는 무엇을 비교하나
 
-제품 기능만 비교하면 둘 다 터미널에서 코드베이스를 읽고 수정하며 명령과 테스트를 실행하는 코딩 에이전트다. 실제 선택에서는 **무엇을 시킬 것인가**를 기준으로 보는 편이 더 유용하다.
+둘 다 Terminal에서 Repository를 읽고 파일을 수정하며 명령·테스트를 실행할 수 있는 Coding Agent라면, "분석은 A가 잘하고 구현은 B가 잘한다"처럼 고정 성격을 부여하지 않는다. Model·Version·System Prompt·Tooling은 계속 바뀌므로 그런 평가는 금방 낡는다.
 
-둘의 우열을 고정하기보다는 다음과 같은 작업 성향으로 구분해 볼 수 있다.
+대신 **Harness가 제공하는 관찰 가능한 계약**을 비교한다.
 
-| 상황 | 먼저 고려할 도구 | 이유 |
-|---|---|---|
-| 낯선 코드베이스를 읽고 구조·의도를 파악한다 | **Claude Code** | 코드와 문서를 함께 읽으며 설계 맥락을 대화로 좁혀 가는 작업에 잘 맞는다. |
-| 리팩터링 전에 여러 대안을 비교하고 방향을 정한다 | **Claude Code** | 구현 전에 질문·분석·설계 단계를 길게 가져가기 편하다. |
-| 요구사항과 완료 조건이 비교적 명확하다 | **Codex** | 정해진 목표를 기준으로 파일 수정·명령 실행·테스트 반복을 통째로 맡기는 흐름에 잘 맞는다. |
-| 여러 파일을 일괄 수정하고 테스트 결과를 따라 고친다 | **Codex** | 구현 → 검증 → 수정의 반복 작업을 에이전트에게 위임하기 좋다. |
-| 아직 무엇을 고쳐야 할지부터 찾아야 한다 | **Claude Code** | 문제 정의와 코드 탐색 자체가 작업의 큰 비중을 차지할 때 유리하다. |
-| 무엇을 어떻게 고칠지가 정해져 있다 | **Codex** | 구체적인 작업 목록을 실행 단계로 넘기기 쉽다. |
+| 비교축 | 확인할 질문 |
+|---|---|
+| Model 범위 | 어떤 Model 계열을 선택할 수 있고 Tool과 Model이 얼마나 결합돼 있나 |
+| Repository instruction | Project 지침 파일과 사용자 지침을 어떤 Scope·우선순위로 읽나 |
+| Tool surface | Shell·Search·Edit·Browser·MCP 등 어떤 Tool을 어떤 방식으로 노출하나 |
+| Permission / sandbox | Command·Network·File write를 어디까지 자동 허용하고 어디서 승인을 받나 |
+| Context 관리 | 긴 작업에서 File·Tool result·Conversation을 어떻게 유지·요약하나 |
+| Local / cloud execution | 현재 Machine에서만 실행하는가, Remote task를 위임할 수 있는가 |
+| Automation | Headless/CI/SDK/Hook 같은 반복 실행 진입점이 있는가 |
+| Cost / limit | Subscription·API·Credit·Rate limit이 내 사용 패턴과 맞나 |
 
-이를 작업 흐름으로 단순화하면 다음처럼 볼 수 있다.
-
-```text
-Claude Code
-분석 → 설계 → 대화로 방향 조정 → 구현
-
-Codex
-요구사항 → 구현 → 테스트 → 수정 → 완료 조건 확인
-```
-
-이 구분은 모델의 절대적인 능력 차이를 뜻하지 않는다. 두 도구 모두 분석과 구현을 할 수 있고, 모델·버전·하네스의 변화에 따라 체감도 달라진다. 핵심은 **문제가 아직 열려 있는가, 아니면 실행할 작업이 닫혀 있는가**다.
-
-실전에서는 둘을 경쟁 제품으로만 볼 필요도 없다. 복잡한 리팩터링이라면 다음처럼 역할을 나누는 방식이 자연스럽다.
+즉 선택은 다음처럼 한다.
 
 ```text
-1. Claude Code
-   현재 구조와 문제 원인 분석
-   → 대안 비교
-   → 변경 범위와 설계 확정
-
-2. Codex
-   확정된 설계를 작업 단위로 구현
-   → 테스트 실행
-   → 실패 수정
-   → 완료 조건 확인
+내 Repository와 Security Boundary에서
+필요한 Tool / Permission / Execution Model을 먼저 정함
+        ↓
+그 계약을 만족하는 Harness 후보 비교
+        ↓
+현재 Model·가격·사용 한도 확인
+        ↓
+실제 대표 작업으로 평가
 ```
 
-반대로 처음부터 요구사항과 테스트가 명확한 작업이라면 분석 단계를 별도로 분리하지 않고 Codex에 바로 위임하는 편이 단순하다. 작은 수정이나 대화하며 방향을 계속 바꿔야 하는 작업이라면 Claude Code 하나로 끝내는 편이 오히려 효율적일 수 있다.
+같은 Model 계열을 쓰더라도 Harness가 다르면 Context 구성·Tool 호출·권한·반복 Loop가 달라져 결과가 달라질 수 있다. 반대로 특정 시점의 체감 성능 차이를 Tool의 영구적인 성격으로 기록하지 않는다.
 
-결국 **Claude Code냐 Codex냐보다, 현재 작업이 탐색 단계인지 실행 단계인지 먼저 구분하는 것**이 중요하다.
+대표 작업으로 비교할 때도 "설계 작업"과 "구현 작업"을 제품에 고정 배정하지 않고, **같은 Repository·같은 완료 조건·같은 검증 기준**에서 실제 결과를 본다.
 
 ## 누구에게 맞나
 
@@ -160,6 +148,6 @@ Codex
 
 첫 갈림길은 사용 환경이다. **에디터 안에서 계속 일하고 싶으면** Cursor나 Copilot, **셸에서 에이전트를 직접 돌리고 싶으면** Claude Code·OpenCode·Codex·Aider가 자연스럽다. 그다음에는 모델 선택 자유도, 과금 방식, 오픈소스 여부를 비교하면 된다.
 
-Claude Code와 Codex처럼 같은 형태의 터미널 에이전트끼리 고를 때는 한 단계 더 들어가 **탐색·설계가 필요한 작업인지, 실행할 변경이 이미 명확한 작업인지**를 기준으로 나누면 선택하기 쉽다.
+Claude Code와 Codex처럼 같은 Form Factor의 에이전트끼리는 고정된 성격표보다 **Tool surface·Permission·Context·Execution model·비용**을 같은 축에서 비교하고, 현재 대표 작업으로 검증하는 편이 오래 간다.
 
 이 블로그는 터미널 에이전트를 개발 워크플로(셸·Git·tmux)와 연결하는 관점에서 Claude Code를 중심으로 다룬다. 설치·기능부터는 [Claude Code 정리](./2025-10-24-claude-code.md)로, 전체 학습 경로는 [AI 로드맵](./2026-07-03-ai-roadmap.md)으로 이어진다.
