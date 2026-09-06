@@ -33,9 +33,3 @@ title: 로드맵
 | [모던 C++](/posts/cpp/2026-07-03-cpp-learning-roadmap/) | 참조자·동적 할당 → 클래스·RAII → 이동 시맨틱·스마트 포인터 → STL → 템플릿 → 모던 문법 → 동시성 → 빌드(CMake)까지, 필수/나중/선택 우선순위로 정리 |
 | [Go](/posts/go/2026-07-12-go-roadmap/) | 문법·모듈 → struct·interface → slice·map → error·defer → goroutine·channel·context → 표준 라이브러리·관용구 → 도구까지. C++ 대응은 발판으로만 쓰고 Go 고유 규칙을 줄기에 둠 |
 | [Rust](/posts/rust/2026-07-12-rust-roadmap/) | 문법·불변성 → **소유권·빌림·수명** → struct·enum·match → 컬렉션 → trait·제네릭 → Result·Option → **반복자·클로저** → 스마트 포인터 → 동시성 → cargo. C++ RAII·이동은 이해의 발판으로 사용하되 Rust 소유권과 같은 의미론으로 등치하지 않음 |
-
-## 🗄️ 데이터베이스
-
-| 로드맵 | 줄기 · 부록 |
-|------|------|
-| [DB](/posts/db/2026-07-03-db-roadmap/) | 설계·DBMS 동시성 구현·Query 성능·운영·분산 Practice를 질문별로 탐색. 트랜잭션·인덱스 같은 일반 개념 정본은 정보관리기술사 Knowledge에 둠 |
