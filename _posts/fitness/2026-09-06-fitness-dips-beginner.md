@@ -5,6 +5,8 @@ date        : 2026-09-06 09:10:00 +0900
 updated     : 2026-09-06 09:10:00 +0900
 categories  : [fitness, "맨몸운동"]
 tags        : [dips, 딥스, 맨몸운동, 삼두, 가슴운동]
+redirect_from:
+  - /posts/dips-beginner/
 pin         : false
 hidden      : false
 ---

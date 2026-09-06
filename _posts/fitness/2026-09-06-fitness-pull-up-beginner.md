@@ -5,6 +5,8 @@ date        : 2026-09-06 09:00:00 +0900
 updated     : 2026-09-06 09:00:00 +0900
 categories  : [fitness, "맨몸운동"]
 tags        : [pull-up, 턱걸이, 데드행, 스캡풀업, 맨몸운동]
+redirect_from:
+  - /posts/pull-up-beginner/
 pin         : false
 hidden      : false
 ---
