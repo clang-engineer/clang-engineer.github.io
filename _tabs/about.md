@@ -31,6 +31,8 @@ order: 6
 | 기간 | 프로젝트 | 고객사 | 스택 |
 | --- | --- | --- | --- |
 | 2026/08 ~ 2026/09 | Harlequin H2 JDBC Community Adapter 개발·PyPI 배포·공식 문서 등록 | Harlequin OSS | Python, JDBC, JPype |
+| 2026/06 | jvm-env.nvim 개발·awesome-neovim 등록 | Neovim OSS | Lua, Neovim, JDK |
+| 2026/06 | dadbod-vertica.nvim 개발·awesome-neovim 등록 | Neovim OSS | Vimscript, Lua, Vertica |
 | 2026/03 ~ 현재 | 서울대병원 연구검색 재정비 (스누허브 연동·서식지 적재·REX) | 서울대학교병원 | Logstash, Elasticsearch |
 | 2026/02 ~ 현재 | 사내 공통 라이브러리 구축 (JVM·JS 중복 기능 공통화) | Planit Square | Kotlin, TypeScript |
 | 2025/11 ~ 2026/06 | 순천향대학교병원 CDW 구축 (EMR 뷰어·인증 연동·가명화 다기관) | 순천향대학교병원 | JHipster, Spring Boot |
