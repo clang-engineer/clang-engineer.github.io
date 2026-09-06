@@ -1,96 +1,336 @@
 ---
-title       : 마지막 ⑩ 도구 — cargo·crates·모듈
-description : "Rust는 도구 경험이 언어의 강점이다. 빌드·테스트·의존성·문서화를 하나로 묶은 cargo, 헤더 없이 코드를 조직하는 mod·use 모듈 시스템과 pub 가시성, crates.io와 cargo add, 그리고 학습에도 좋은 clippy·rustfmt까지. C++의 파편화된 도구 생태계와 비교하며 로드맵을 마무리한다."
+title       : "Rust Tooling — Cargo·crate·module·rustfmt·Clippy"
+description : "Rust 개발 도구를 Cargo의 package/build/test/dependency 역할, crate·module·visibility 구조, rustdoc/doctest, rustfmt, Clippy로 나눠 설명한다. Cargo가 모든 외부 도구를 대체한다고 단순화하지 않고 전 과정에서 언제 어떤 도구를 쓰는지 정리한다."
 date        : 2026-07-12 11:50:00 +0900
-updated     : 2026-07-12 11:50:00 +0900
+updated     : 2026-09-06 14:15:00 +0900
 categories  : [rust]
-tags        : [rust]
+tags        : [rust, cargo, tooling, modules]
 pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **⑩ 마지막(도구)** 단계입니다. 앞 글: [⑨ thread·Send/Sync·async](./2026-07-12-rust-concurrency.md)
+> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 마지막 단계가 아니라 **1단계부터 계속 사용하는 Cross-cutting Tool/Reference**다.
 
-Rust는 **도구 경험 자체가 언어의 강점**입니다. C++ 생태계의 파편화된 도구들(CMake·Conan·clang-format·clang-tidy)을 `cargo` 하나로 통합합니다. ①에서 맛본 cargo를 여기서 정리합니다.
+Rust 생태계의 강점 중 하나는 package·build·test·dependency workflow가 Cargo를 중심으로 강하게 표준화되어 있다는 점이다. 하지만 다음을 하나의 프로그램이라고 뭉개지는 않는다.
 
-## cargo — 하나로 통합
+```text
+Cargo
+→ package / dependency / build / test / run / publish orchestration
 
-```bash
-cargo new myapp        # 프로젝트 생성
-cargo build            # 빌드 (기본 debug)
-cargo build --release  # 최적화 빌드
-cargo run              # 빌드 + 실행
-cargo test             # 테스트 (#[test] 함수를 찾아서)
-cargo doc --open       # 문서 생성 + 브라우저로 열기
+rustc
+→ Rust compiler
+
+rustdoc
+→ API documentation + documentation test 지원
+
+rustfmt
+→ source formatter
+
+Clippy
+→ lint collection
 ```
 
-빌드·테스트·문서화가 전부 한 명령 체계 안에 있습니다. 테스트는 `#[test]` 속성을 붙인 함수를 cargo가 찾아 돌리고, 문서는 `///` 주석에서 `cargo doc`이 HTML을 생성합니다 — 심지어 문서 안의 코드 예제까지 테스트합니다(doctest).
+`cargo fmt`, `cargo clippy`처럼 Cargo subcommand 형태로 호출할 수 있어 경험은 통합되어 보이지만, 실제 역할과 component는 구분한다.
 
-## 모듈 시스템 — mod·use·pub
-
-C++의 헤더 없이 코드를 조직합니다. `mod`로 모듈을 나누고, `use`로 경로를 가져오고, `pub`으로 공개 범위를 정합니다.
-
-```rust
-mod network {
-    pub fn connect() { }          // pub → 밖에서 접근 가능
-    fn helper() { }               // 기본 비공개
-}
-
-use network::connect;             // 경로를 가져오기
-connect();
-```
-
-Rust는 **기본이 비공개**입니다(①의 불변 기본과 같은 태도) — `pub`을 붙인 것만 밖으로 노출됩니다. Go가 대소문자로 정하던 가시성을 Rust는 `pub` 키워드로 명시합니다. 파일·디렉터리 구조가 모듈 트리에 대응해서, 헤더 경로 씨름 없이 구조가 코드에 드러납니다.
-
-## crates.io — 패키지 생태계
-
-의존성은 crates.io(공식 레지스트리)에서 받습니다.
+## 1. Cargo — Package와 Build Workflow의 중심
 
 ```bash
-cargo add serde        # Cargo.toml에 추가 + 버전 해결
+cargo new myapp
+cargo check
+cargo build
+cargo run
+cargo test
+cargo build --release
+```
+
+역할을 나누면 다음과 같다.
+
+```text
+빠른 type/check
+→ cargo check
+
+binary/library build
+→ cargo build
+
+build 후 실행
+→ cargo run
+
+test target + doctest 실행
+→ cargo test
+
+optimized profile
+→ cargo build --release
+```
+
+`cargo check`는 최종 code generation을 생략해 빠르게 compiler diagnostic을 확인하는 일상 Loop에 특히 유용하다.
+
+Cargo는 일반적인 Rust package에서 별도 CMake project 없이 충분한 경우가 많지만, native C/C++ library·code generation·특수 packaging이 섞이면 `build.rs`, `cc` crate, CMake/Meson 또는 외부 build orchestration과 조합될 수도 있다.
+
+## 2. Package·crate·target — 이름을 먼저 구분한다
+
+Cargo를 이해할 때 가장 먼저 헷갈리는 단어가 package와 crate다.
+
+```text
+Cargo package
+→ 하나의 Cargo.toml이 설명하는 배포/빌드 단위
+
+crate
+→ rustc가 한 번에 compile하는 Rust compilation unit
+
+package 안의 target
+├─ library target
+├─ binary target(s)
+├─ example
+├─ integration test
+└─ benchmark 등
+```
+
+Package 하나가 여러 binary crate를 가질 수 있다. `crate = package`로 항상 일치한다고 생각하지 않는다.
+
+## 3. Dependency — `Cargo.toml`과 `Cargo.lock`
+
+의존성 추가:
+
+```bash
+cargo add serde
 cargo add tokio --features full
 ```
 
-`Cargo.toml`에 의존성을, `Cargo.lock`이 정확한 버전을 잠급니다(재현 가능한 빌드). `serde`(직렬화)·`tokio`(async)·`clap`(CLI 파싱)처럼 사실상 표준인 crate들이 생태계를 떠받칩니다.
+`Cargo.toml`은 package metadata와 dependency requirement를 기술하고, dependency resolution 결과는 `Cargo.lock`에 기록된다.
 
-## clippy·rustfmt — 린터·포매터
+```text
+Cargo.toml
+→ 내가 허용하는 dependency requirement / feature / package 설정
 
-```bash
-cargo fmt              # rustfmt — 표준 포맷 (스타일 논쟁 없음)
-cargo clippy           # 린터 — 관용적이지 않은 코드를 짚어줌
+Cargo.lock
+→ 해당 resolution에서 선택된 package version/source/checksum 정보
 ```
 
-`rustfmt`는 Go의 gofmt처럼 **포맷을 표준화**해 스타일 논쟁을 없앱니다. `clippy`는 단순 린트를 넘어 **"이건 이렇게 쓰는 게 Rust답다"**를 알려줘서, 학습 도구로도 훌륭합니다 — 초심자일수록 `cargo clippy`의 조언을 읽는 게 실력이 됩니다.
+Application·binary project에서는 `Cargo.lock`을 repository에 포함해 동일 resolution을 재현하는 것이 일반적이다. Library의 lockfile 관리 여부는 배포/CI 정책과 Cargo 권장사항을 함께 본다.
 
-## C++ 전환으로 정리
+Dependency graph가 왜 선택됐는지 볼 때는:
 
-| C++ | Rust | 핵심 차이 |
+```bash
+cargo tree
+```
+
+를 사용한다.
+
+## 4. Module System — Build Tool과 Language Namespace를 섞지 않는다
+
+`mod`, `use`, `pub`은 Cargo command가 아니라 **Rust language의 module/visibility system**이다.
+
+```rust
+mod network {
+    pub fn connect() {}
+    fn helper() {}
+}
+
+use network::connect;
+```
+
+역할은 다음과 같다.
+
+```text
+mod
+→ module tree에 module을 선언/정의
+
+use
+→ path를 현재 scope에 가져와 이름 사용을 단순화
+
+pub / pub(crate) / pub(super) ...
+→ visibility boundary 표현
+```
+
+Rust item은 기본적으로 private이고 visibility를 명시적으로 넓힌다.
+
+파일 배치와 module tree는 자주 함께 쓰이지만 완전히 같은 개념은 아니다. Module은 inline으로 정의할 수도 있고 file-backed module로 나눌 수도 있다.
+
+```text
+namespace / visibility 관계
+→ language module system
+
+어떤 crate/target을 build할지
+→ Cargo
+```
+
+## 5. `rustdoc`와 Documentation Test
+
+Rust의 `///`와 `//!` documentation comment는 `rustdoc`이 API 문서로 렌더한다.
+
+```bash
+cargo doc
+cargo doc --open
+```
+
+`cargo doc`의 목적은 문서 생성이다. **문서 code block이 test되는 것은 test workflow의 책임**이다.
+
+```bash
+cargo test
+# 일반적으로 unit/integration test와 함께 doctest도 실행
+
+cargo test --doc
+# documentation test에 집중
+```
+
+따라서 다음처럼 분리한다.
+
+```text
+문서를 만든다
+→ cargo doc / rustdoc
+
+문서 예제가 실제로 compile/run되는지 검증한다
+→ cargo test --doc
+```
+
+## 6. `rustfmt` — Canonical Formatting
+
+Rust toolchain 설치 방식에 따라 rustfmt component가 필요하다.
+
+```bash
+rustup component add rustfmt
+cargo fmt
+```
+
+`cargo fmt`는 Cargo command 자체가 formatting rule을 구현하는 것이 아니라 **rustfmt를 Cargo project 단위로 호출하는 통합 진입점**으로 이해하면 된다.
+
+CI에서 변경 여부만 확인할 때는 예를 들어:
+
+```bash
+cargo fmt --all -- --check
+```
+
+를 사용할 수 있다.
+
+Formatting이 강하게 표준화되어 있어 팀별 논쟁을 크게 줄이지만, naming·API design·module boundary까지 formatter가 결정하는 것은 아니다.
+
+## 7. Clippy — Rust-specific Lint Collection
+
+Clippy component:
+
+```bash
+rustup component add clippy
+cargo clippy --all-targets --all-features
+```
+
+Clippy는 compiler error와 다른 층이다.
+
+```text
+rustc diagnostic
+→ language/type/borrow 규칙을 만족하는가
+
+Clippy lint
+→ compile은 되지만 의심스럽거나 덜 관용적인 pattern인가
+```
+
+모든 Clippy suggestion을 기계적으로 적용하기보다 lint category와 project context를 확인한다. CI에서는 warning policy를 명시할 수 있다.
+
+```bash
+cargo clippy -- -D warnings
+```
+
+## 8. Debug와 Release Profile
+
+기본 `cargo build` / `cargo run`은 dev profile을 사용한다.
+
+```bash
+cargo build --release
+cargo run --release
+```
+
+성능 비교는 optimization·debug assertion·codegen 설정이 다른 dev build와 release build를 섞지 않는다.
+
+`Cargo.toml`의 profile 설정으로 세부 옵션을 조정할 수 있다.
+
+```toml
+[profile.release]
+lto = true
+```
+
+필요한 경우에만 project 특성에 맞춰 조정한다.
+
+## 9. Workspace — 여러 Package를 한 Repository에서
+
+Project가 커지면 package 하나가 아니라 workspace를 사용한다.
+
+```toml
+[workspace]
+members = [
+  "crates/core",
+  "crates/cli",
+]
+resolver = "3"
+```
+
+```text
+repository
+→ workspace
+   ├─ package A
+   └─ package B
+```
+
+Workspace는 module보다 상위의 **package/build organization** 문제다. 한 crate 안의 `mod` tree와 같은 계층으로 보지 않는다.
+
+## 10. 일상 Loop
+
+```text
+코드 수정
+→ cargo fmt
+→ cargo check
+→ cargo test
+→ cargo clippy
+
+Dependency 변경
+→ cargo add / update
+→ cargo tree로 graph 확인
+
+API 문서 확인
+→ cargo doc --open
+
+Release artifact 검증
+→ cargo build --release
+```
+
+필요한 command를 순서대로 한 번 배우는 것이 아니라 개발 Loop에 배치한다.
+
+## C++ 경험과의 비교축
+
+| 문제 | C++에서 흔한 구성 | Rust 기본 생태계 |
 |---|---|---|
-| CMake + Conan/vcpkg | `cargo` | 빌드·의존성·테스트·문서 통합 |
-| 헤더/`#include` | `mod` / `use` | 헤더 없이 모듈 트리로 조직 |
-| `public`/`private` | `pub` (기본 비공개) | 노출할 것만 명시 |
-| Doxygen (별도) | `cargo doc` + doctest | 문서·예제 테스트 내장 |
-| clang-format / clang-tidy | `rustfmt` / `clippy` | 포맷 강제 + 관용구 조언 |
+| Package/build orchestration | CMake + generator + dependency Tool 조합 | Cargo 중심 |
+| Compiler | GCC/Clang/MSVC | rustc |
+| Format | clang-format | rustfmt |
+| Rust-specific lint에 해당하는 층 | clang-tidy 등 | Clippy |
+| API docs | Doxygen 등 | rustdoc / cargo doc |
+| Namespace/visibility | header/module/namespace/access specifier | Rust module + visibility |
 
-## 자주 막히는 지점
+이 표는 우열표가 아니다. **표준 Toolchain이 기본 Workflow를 얼마나 한 생태계로 묶어 제공하는지**를 보는 비교다.
 
-- **모듈 경로 혼동** — `mod`로 선언과 파일 배치가 어긋나면 "file not found for module". 파일 구조가 모듈 트리와 맞아야 합니다.
-- **`pub` 누락** — 밖에서 안 보이면 십중팔구 `pub`을 안 붙인 것(기본 비공개).
-- **debug 빌드로 성능 측정** — `cargo run`은 기본 debug라 최적화가 꺼져 있습니다. 성능은 반드시 `--release`로.
-- **clippy를 무시** — 조언을 흘려보내지 말고 읽으세요. Rust다운 코드로 가는 지름길입니다.
+## 흔한 함정
+
+- **Package와 crate를 같은 말로 사용** — package 하나에 여러 target/crate가 있을 수 있다.
+- **module과 file path를 완전히 동일시** — file-backed module은 흔한 구현이지만 module은 language namespace 개념이다.
+- **`cargo doc`이 doctest를 실행한다고 생각** — 문서 생성과 문서 예제 검증은 `cargo doc` / `cargo test`로 구분한다.
+- **dev build로 성능 측정** — optimization 조건을 확인한다.
+- **Clippy suggestion을 무조건 정답으로 취급** — lint 목적과 codebase contract를 보고 선택한다.
 
 ## 통과 기준
 
-- `cargo`로 빌드·테스트·문서화를 하고, `cargo add`로 의존성을 추가할 수 있다.
-- `mod`·`use`·`pub`으로 코드를 여러 모듈로 조직할 수 있다.
-- `cargo fmt`·`cargo clippy`를 습관화하고, clippy 조언을 학습에 활용할 수 있다.
+다음을 구분하면 충분하다.
 
----
+- Cargo와 rustc의 역할
+- package / crate / target / workspace의 관계
+- module system과 Cargo project structure의 차이
+- `cargo doc`과 doctest의 차이
+- rustfmt와 Clippy의 역할
+- dev/release profile 차이
 
-여기까지가 **Rust를 배우는 학습 줄기 ①~⑩**입니다. 로드맵을 한 바퀴 돌았습니다. 이제 [부록의 매크로·unsafe·FFI](./2026-07-12-rust-roadmap.md)나 실전 프로젝트로 넘어가면 됩니다. borrow checker와 싸우다 막히면 ②로, C++ 습관(수동 메모리 관리·예외·인덱스 루프)이 튀어나오면 로드맵의 대응표·고유 영역으로 돌아와 교정하세요.
+Roadmap에서는 이 글을 “⑩ 마지막”에 두지 않고 **처음부터 필요할 때 찾아보는 Tool/Reference**로 사용한다.
 
 ## Reference
 
-- [The Cargo Book](https://doc.rust-lang.org/cargo/) — 도구·의존성의 정본.
-- [The Rust Book Ch.7](https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html) — 모듈 시스템.
-- [crates.io](https://crates.io/) — 패키지 레지스트리.
+- [The Cargo Book](https://doc.rust-lang.org/cargo/)
+- [The Rust Reference — Modules](https://doc.rust-lang.org/reference/items/modules.html)
+- [rustdoc book](https://doc.rust-lang.org/rustdoc/)
+- [rustfmt](https://github.com/rust-lang/rustfmt)
+- [Clippy](https://doc.rust-lang.org/clippy/)
