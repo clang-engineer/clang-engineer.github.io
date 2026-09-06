@@ -1,0 +1,72 @@
+name: Verify relative links once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/verify-relative-links-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify no Jekyll-only internal links remain
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+
+          files = list(Path('_posts').rglob('*.md')) + [Path('_tabs/roadmap.md')]
+          excluded = {Path('_posts/markdown/2026-09-06-markdown-link-syntax.md')}
+          pattern = re.compile(r'\]\(/posts/')
+          bad = []
+          for p in files:
+              if p in excluded or not p.exists():
+                  continue
+              for i, line in enumerate(p.read_text(encoding='utf-8').splitlines(), 1):
+                  if pattern.search(line):
+                      bad.append((str(p), i, line.strip()))
+          if bad:
+              for row in bad:
+                  print(f'{row[0]}:{row[1]}: {row[2]}')
+              sys.exit(1)
+          print('No Jekyll-only Markdown internal links remain.')
+          PY
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+
+      - name: Build site
+        run: bundle exec jekyll b -d _site
+        env:
+          JEKYLL_ENV: production
+
+      - name: Verify generated links
+        run: bundle exec htmlproofer _site --disable-external --ignore-urls '/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/'
+
+      - name: Remove one-time verifier
+        run: rm .github/workflows/verify-relative-links-once.yml
+
+      - name: Commit verifier removal
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/verify-relative-links-once.yml
+          git commit -m "chore: remove one-time link verifier"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
