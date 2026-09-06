@@ -22,12 +22,6 @@ Troubleshooting·Tool·Comparison처럼 핵심 학습 경로와 역할이 다른
 | [Linux](../_posts/linux/2026-07-11-linux-roadmap.md) | 서버에 접속 → 관측 → 계정·권한 → 서비스 → 로그로 이어지는 운영 흐름. Network·폐쇄망 등은 별도 Branch |
 | [키보드](../_posts/keyboard/2026-07-03-keyboard-roadmap.md) | 입력 습관 → Keymap 개념 → Firmware(QMK/ZMK) → ZMK 구현. VIA/Vial/ZMK Studio와 Karabiner는 다른 제어 계층로 분리 |
 
-## 🤖 AI
-
-| 로드맵 | 무엇을 위한 지도인가 |
-|------|------|
-| [AI](../_posts/ai/2026-07-03-ai-roadmap.md) | AI Coding Tool 사용, 외부 연결(MCP), Application의 Model API 개발, Web Surface를 서로 다른 축으로 분리 |
-
 ## 🔤 언어
 
 | 로드맵 | 무엇을 위한 지도인가 |
