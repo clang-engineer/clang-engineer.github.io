@@ -5,6 +5,8 @@ date        : 2026-08-30 12:00:00 +0900
 updated     : 2026-08-30 12:00:00 +0900
 categories  : [obsidian, "개발 환경"]
 tags        : [obsidian, ipad, github, gitsync]
+redirect_from:
+  - /posts/ipad-obsidian-github-sync/
 pin         : false
 hidden      : false
 ---
