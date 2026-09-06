@@ -1,89 +1,173 @@
 ---
-title       : "키보드 로드맵 — 세벌식·HHKB에서 내 키맵을 짜기까지"
-description : "세벌식 390·HHKB로 손버릇의 배경을 잡고, 펌웨어 지형도·용어로 도구 지도를 그린 뒤, 그 손버릇을 ZMK 40% 커스텀 키맵으로 옮기는 여정이 이 로드맵의 줄기. 유선(QMK)·GUI(VIA·VIAL)는 같은 펌웨어를 고치는 대안 도구로 곁에 얹고, 펌웨어를 아예 못 건드릴 때의 Karabiner(OS 레벨 리맵)만 따로 분리한다."
+title       : "키보드 로드맵 — 손버릇에서 Firmware·Keymap까지"
+description : "세벌식·HHKB라는 개인 입력 배경에서 출발해 Keymap 용어를 잡고, Firmware(QMK·ZMK), Runtime Configurator(VIA·Vial·ZMK Studio), OS Remap(Karabiner)을 서로 다른 계층으로 구분한 뒤 ZMK 40% 키맵 구현으로 Zoom-in하는 학습 지도."
 date        : 2026-07-03 15:00:00 +0900
-updated     : 2026-09-05 21:10:00 +0900
+updated     : 2026-09-06 12:55:00 +0900
 categories  : [keyboard, "개요·인덱스"]
 tags        : [roadmap, keyboard, hhkb, sebeolsik, zmk, qmk, via, vial, karabiner]
 pin         : false
 hidden      : false
 ---
 
-"내가 편한 키보드"를 파고들면 결국 세 갈래가 얽힌다 — 어떤 배열로 글자를 치는가(**자판**), 어떤 판때기를 쓰는가(**하드웨어**), 그걸 어떻게 내 손에 맞게 재배치하는가(**커스텀 키맵**). 이 로드맵은 그 세 갈래를 **배경 → 실전** 한 줄기로 묶는다. 세벌식 390·HHKB로 "무엇을 왜"를 잡고, 펌웨어 지형도·용어로 도구 지도를 그린 뒤, 그 손버릇을 **ZMK 40% 커스텀 키맵**으로 옮기는 데까지. 저자가 실제로 걷는 길이 ZMK라, 줄기도 ZMK다. 본인 위치에서 가까운 데부터 들어오면 된다.
+이 로드맵은 커스텀 키보드 하드웨어 전체를 다루지 않는다. **내가 이미 가진 입력 습관을 Keymap으로 어떻게 표현하고 어느 계층에서 바꿀 것인가**가 범위다.
 
-키를 재배치하는 도구는 여럿이지만, 이 블로그가 깊게 걷는 길은 무선 40% 보드의 **ZMK**다. 유선 보드면 **QMK**, 컴파일이 싫으면 **GUI(VIA·VIAL)** — 이 셋은 같은 펌웨어를 고치는 대안 도구라 줄기 옆에 얹는다. 리플래시가 아예 안 되는 보드(맥북 내장·기성품)만 **Karabiner로 OS에서 덮는** 다른 방법이라, 맨 뒤에 따로 뺐다.
+먼저 서로 다른 세 계층을 구분한다.
+
+```text
+Keyboard Firmware
+→ QMK / ZMK
+→ Scan·Keymap·Layer·Behavior를 장치에서 처리
+
+Runtime Configurator
+→ VIA / Vial / ZMK Studio
+→ 지원 Firmware가 노출한 Dynamic Keymap을 GUI에서 변경
+
+OS Remap
+→ Karabiner-Elements
+→ 장치 Firmware를 건드리지 않고 macOS에서 입력을 변환
+```
+
+즉 **QMK와 VIA는 같은 종류의 대안이 아니다.** QMK는 Firmware이고 VIA/Vial은 주로 QMK 계열 Firmware가 제공하는 Dynamic Keymap 기능을 설정하는 상위 도구다. ZMK와 ZMK Studio도 같은 관계로 본다.
 
 ## 한눈에 보기
 
-배경 → 도구 지도 → ZMK 실전이 줄기다. QMK·GUI는 같은 펌웨어의 대안 도구, Karabiner는 펌웨어를 못 건드릴 때의 OS 레벨 대안이다.
-
-| 구역 | 무엇을 다루나 | 성격 |
+| 구역 | 핵심 질문 | 관계 |
 |---|---|---|
-| 입문 | 세벌식 390 자판·HHKB 하드웨어 배경 | 배경 |
-| 도구 지도 | 펌웨어 지형도와 키매핑 용어 | 지도 |
-| ZMK로 키맵 짜기 | 손버릇을 40% 보드에 올리고 설계 | 줄기 |
-| 대안 도구 | 같은 펌웨어 — 유선(QMK)·GUI(VIA·VIAL) | 대안 |
-| OS 레벨 대안 | 펌웨어 못 건드릴 때 — Karabiner | 대안 |
+| 배경 | 어떤 입력 습관을 재현하려는가 | 개인 Context |
+| 개념 지도 | Layer·hold-tap·combo 같은 말은 무엇인가 | 공통 기반 |
+| Firmware 선택 | 장치에서 Keymap을 어느 Firmware가 처리하나 | QMK ↔ ZMK |
+| ZMK 구현 | 무선 40% 보드에서 내 Keymap을 어떻게 구현하나 | 현재 주 경로 |
+| Runtime 설정 | Compile 없이 지원 범위 안에서 바꿀 수 있나 | VIA/Vial/ZMK Studio |
+| OS Remap | Firmware를 바꿀 수 없는 장치라면 어디서 바꾸나 | Karabiner |
 
-## 입문 — 자판과 하드웨어 배경
+## 1. 배경 — 무엇을 재현하려는가
 
-키맵을 짜기 전에, "무엇을 왜" 치고 있는지부터. 어떤 배열(자판)과 어떤 판때기(하드웨어)를 쓰는지가 뒤에서 레이어를 어떻게 짤지를 결정한다. 두 글은 서로 독립적이라 관심 가는 쪽부터 읽어도 된다.
+세벌식 390과 HHKB는 모든 독자의 선행지식이 아니라 **현재 Keymap 설계를 만든 개인 Context**다. 둘은 독립적으로 읽어도 된다.
 
-| 글 | 핵심 |
+| 글 | 역할 |
 |---|---|
-| [세벌식 390 입문](./2026-07-03-sebeolsik-390-intro.md) | 세벌식이 두벌식과 뭐가 다른지(도깨비불 현상), 390 vs 최종, 그리고 **숫자를 넘패드처럼 치는** 390만의 기능. macOS 기본 지원 |
-| [HHKB 입문](./2026-07-03-hhkb-intro.md) | 미니멀 배열의 철학, **Ctrl이 Caps 자리**·Fn 방향키·삭제키 위치, Topre 스위치, 프로그래머에게 인기인 이유 |
+| [세벌식 390 입문](./2026-07-03-sebeolsik-390-intro.md) | 두벌식과 다른 입력 특성·숫자 배열 등 뒤의 Layer 설계에 영향을 준 입력 Context |
+| [HHKB 입문](./2026-07-03-hhkb-intro.md) | Caps 위치의 Ctrl·Fn Layer 등 익숙한 물리 배열과 손버릇을 설명 |
 
-여기까지면 "내 손이 왜 이 배열·이 판때기에 길들었는지"가 잡힌다. 이 손버릇이 곧 실전에서 레이어로 옮길 원본이다.
+## 2. 공통 개념 — Firmware 이름보다 Keymap 언어를 먼저
 
-## 도구 지도 — 펌웨어 지형도와 용어
+Firmware가 달라도 Layer·combo·dual-role 같은 문제는 반복된다.
 
-배경을 잡았으면, 그걸 실제로 재배치할 도구의 지도부터. QMK·ZMK·VIA·VIAL이 펌웨어 레이어의 어디에 끼는지, 그리고 키매핑 글에 계속 나오는 용어를 먼저 손에 익혀야 실전이 "왜 이렇게 짜나"까지 읽힌다.
-
-| 글 | 핵심 |
+| 글 | 역할 |
 |---|---|
-| [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) | QMK vs ZMK(유선/무선), 그 위에 얹는 **VIA·VIAL·ZMK Studio**가 어디에 끼는지 — "어떤 스택을 고를까" |
-| [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) | combo·hold-tap·momentary·layer-tap·mod-tap·tap-dance·one-shot… 키매핑 용어를 QMK·ZMK 표기와 함께 정리 |
+| [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) | combo·hold-tap·momentary·layer-tap·mod-tap·tap-dance·one-shot의 공통 좌표 |
 
-지형도에서 내 보드에 맞는 경로(무선이면 ZMK, 유선이면 QMK, 컴파일이 싫으면 GUI)를 고르고, 용어집을 옆에 두면 실전 글의 hold-tap·layer 이야기가 낯설지 않다.
+이 문서는 Reference 성격이므로 순서대로 암기하지 않고, 구현 글을 읽다가 낯선 용어를 찾는 용도로 둔다.
 
-## ZMK로 내 키맵 짜기 (줄기)
+## 3. Firmware 지형 — QMK와 ZMK
 
-배경에서 익힌 손버릇(세벌식의 넘패드 감각, HHKB의 Ctrl·Fn 방향키)을 실제 ZMK 40% 보드 키맵에 녹이는 단계. "올리는 법 → 설계" 순서로 읽으면, 일단 내 키맵을 보드에 띄운 다음 왜 그렇게 배치하는지가 이어진다. 이 두 글이 로드맵의 줄기다 — 저자가 실제로 걷는 길이라 가장 깊다.
-
-| 글 | 핵심 |
+| 글 | 역할 |
 |---|---|
-| [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md) | 판매자 config **포크 → 웹 키맵 에디터 → GitHub Actions 빌드 → 플래싱**. 일단 내 키맵을 보드에 올리는 4단계 |
-| [ZMK 키맵 설계기 — HHKB + 40% + 세벌식 390](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md) | 입력기 특성이 레이어를 강제하는 과정, 손버릇을 레이어로 재현, 위험한 키를 **hold-tap으로 실수 방지**, ZMK 레이어 인덱스 함정. **"40%에서 세벌식 390"은 선례가 드문 조합**. 여기 담긴 설계 원칙(레이어 분리·hold-tap 가드)은 펌웨어와 무관해 아래 QMK에도 그대로 쓴다 |
+| [키보드 Firmware 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) | QMK·ZMK의 실행 환경과 장치 범위를 비교하고 VIA/Vial/ZMK Studio가 어느 상위 계층에 놓이는지 지도화 |
 
-여기까지 오면 배경(자판·하드웨어)에서 도구(지형도·용어)를 거쳐, 내 손버릇을 실제로 재현하는 커스텀 키맵을 직접 올리고 설계할 수 있다. 배경 → 실전 한 바퀴는 여기서 끝이다.
+핵심 비교축은 UI 유무가 아니라 **Firmware가 실행되는 장치와 지원 모델**이다.
 
-## 대안 도구 — 유선·GUI (QMK·VIA·VIAL)
+```text
+유선 MCU·거대한 보드 생태계
+→ QMK
 
-이 블로그가 깊게 걷는 건 ZMK지만, 같은 펌웨어를 고치는 다른 도구도 있다. 유선 보드면 QMK, 컴파일이 번거로우면 GUI(VIA·VIAL). 필요한 사람이 출발점을 잡도록 곁에 얹어 둔다. 설계 원칙(레이어 분리·hold-tap)은 위 ZMK 설계기에서 그대로 가져오고, 표기·빌드 흐름만 바꾸면 된다.
+Bluetooth / split / Zephyr 기반 무선 보드
+→ ZMK
+```
 
-| 글 | 핵심 |
+실제 지원 여부는 보드 Firmware와 Vendor 구성에 따라 달라지므로 “유선=무조건 QMK, 무선=무조건 ZMK”라는 규칙으로 등치하지 않는다.
+
+## 4. 주 경로 — ZMK에서 내 Keymap 구현
+
+현재 문서셋이 가장 깊게 다루는 구현 경로다.
+
+```text
+Board의 기존 ZMK config 확보
+→ Keymap 수정
+→ GitHub Actions / local build
+→ Firmware flash
+→ 실제 사용에서 Layer·Behavior 보정
+```
+
+| 글 | 역할 |
 |---|---|
-| [QMK로 키맵 짜기](./2026-07-03-qmk-keymap-build.md) | `keymap.c` 레이어 배열, `MO`·`LT`·`MT` 키코드, `qmk compile`/`flash`까지 QMK 쪽 워크플로우. 유선 보드의 경로 |
-| [VIA·VIAL 실전](./2026-07-03-via-vial-gui-remap.md) | 컴파일 없이 **GUI로 실시간 리맵**. VIA vs VIAL 선택, ZMK는 ZMK Studio. 컴파일이 싫을 때의 경로 |
+| [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md) | Config fork → 편집 → Build → Flash의 실제 How-to |
+| [ZMK 키맵 설계기 — HHKB + 40% + 세벌식 390](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md) | 입력 습관을 Layer·hold-tap으로 번역한 설계 Record/Analysis |
 
-## 펌웨어를 못 건드릴 때 — Karabiner (OS 레벨)
+첫 글은 **작업 수행**, 둘째 글은 **왜 그런 배치를 선택했는지**가 중심이라 역할을 구분한다.
 
-리플래시가 아예 불가능한 키보드(맥북 내장·기성품)는 펌웨어를 못 건드린다. 이때는 OS 레벨에서 덮는 게 유일한 길이라, 위 펌웨어 도구들과 따로 뺐다.
+## Branch A — QMK 구현
 
-| 글 | 핵심 |
+ZMK의 다음 단계가 아니라 다른 Firmware를 쓰는 보드의 대안 경로다.
+
+| 글 | 역할 |
 |---|---|
-| [Karabiner-Elements — macOS 소프트웨어 키맵](./2026-07-03-karabiner-elements-macos-keymap.md) | 펌웨어가 아닌 **macOS 레벨** 리맵. 맥북 내장·기성 키보드까지, dual-role·Hyper 키, `karabiner.json`을 dotfiles로 관리 |
+| [QMK로 키맵 짜기](./2026-07-03-qmk-keymap-build.md) | `keymap.c`, Layer keycode, compile/flash를 QMK 방식으로 수행하는 How-to |
 
----
+Layer 분리나 dual-role 설계 원칙은 공유할 수 있지만 ZMK Behavior와 QMK Keycode의 세부 의미를 그대로 등치하지 않는다.
 
-본인 위치에 따라:
+## Branch B — Runtime Configurator
 
-- **자판·하드웨어부터 궁금하면** → 입문의 세벌식 390 / HHKB 중 끌리는 쪽부터. 이게 뒤에서 레이어로 옮길 손버릇의 원본이다.
-- **어떤 펌웨어·도구를 쓸지 모르겠으면** → 도구 지도의 펌웨어 지형도로 내 보드에 맞는 경로부터 고르고, 용어가 낯설면 용어집을 옆에 둔다.
-- **무선 40% 보드로 내 키맵을 짜려면** → 줄기인 ZMK 실전 — 올리는 법 → 설계.
-- **유선 보드거나 컴파일이 번거로우면** → 대안 도구의 QMK, 혹은 VIA·VIAL. 설계 원칙은 ZMK 설계기에서 가져온다.
-- **맥북 내장·리플래시 불가한 키보드까지 리맵하려면** → Karabiner로 OS 레벨에서 덮는다.
+Firmware를 다시 Compile/Flash하지 않고 **Firmware가 허용한 Dynamic Keymap 범위**를 바꾸는 계층이다.
 
-> 이 로드맵이 **다루지 않는 축**: 스위치(축)·키캡·PCB·폼팩터 같은 **물리 하드웨어를 고르고 조립하는** 이야기는 여기 없다. 이 로드맵의 "하드웨어 배경"은 어디까지나 내 손버릇을 만든 특정 자판·판때기(세벌식 390·HHKB)일 뿐, 커스텀 키보드 하드웨어 입문은 별개 축이다. 여기서는 그 손버릇을 **키맵(소프트웨어)으로 옮기는 축**만 다룬다.
-{: .prompt-info }
+| 글 | 역할 |
+|---|---|
+| [VIA·Vial 실전](./2026-07-03-via-vial-gui-remap.md) | VIA/Vial의 GUI Keymap 변경과 지원 조건, ZMK Studio와의 계층적 대응을 설명 |
+
+```text
+QMK 계열 Firmware + Dynamic Keymap 지원
+→ VIA / Vial
+
+ZMK + Studio 지원 구성
+→ ZMK Studio
+```
+
+Configurator는 Firmware를 대체하지 않는다. 보드가 해당 기능을 포함해 빌드되어 있어야 한다.
+
+## Branch C — Firmware를 못 바꾸면 OS에서 Remap
+
+| 글 | 역할 |
+|---|---|
+| [Karabiner-Elements — macOS 소프트웨어 Keymap](./2026-07-03-karabiner-elements-macos-keymap.md) | macOS Input Event 계층에서 key remap·dual-role·Hyper key를 구현하는 Tool/How-to |
+
+```text
+장치 자체 Behavior를 바꾼다
+→ QMK / ZMK
+
+장치는 그대로 두고 macOS에 들어온 Key Event를 바꾼다
+→ Karabiner
+```
+
+따라서 Karabiner는 “쉬운 QMK”가 아니라 **제어 지점 자체가 다른 대안**이다.
+
+## 다른 Roadmap과의 경계
+
+- macOS 단축키·Window Tool과의 충돌/역할 → [macOS](../macos/2026-07-03-macos-roadmap.md)
+- Karabiner 설정 파일을 여러 Machine에 배포 → [dotfiles](../shell/2026-07-08-dotfiles-roadmap.md)
+- Terminal/Neovim/tmux 자체 Key Binding 체계 → 각 도구 Roadmap
+
+이 로드맵은 Switch·Keycap·PCB·Case·Mount 방식 같은 **물리 커스텀 키보드 제작**은 다루지 않는다.
+
+## 어디서 시작할까
+
+```text
+용어가 헷갈린다
+→ Keymap 용어집
+
+내 보드가 어떤 Firmware 계열인지 모르겠다
+→ Firmware 지형도
+
+ZMK 보드에 직접 올리고 싶다
+→ ZMK Guide → ZMK 설계기
+
+QMK 보드다
+→ QMK How-to
+
+지원되는 GUI로 Keymap만 빠르게 바꾸고 싶다
+→ VIA/Vial 또는 ZMK Studio
+
+Firmware를 바꿀 수 없는 macOS Keyboard다
+→ Karabiner
+```
+
+> **Firmware(QMK·ZMK), Runtime Configurator(VIA·Vial·ZMK Studio), OS Remap(Karabiner)은 서로 다른 계층이다. 먼저 제어 지점을 정한 뒤 그 계층의 Tool로 Zoom-in한다.**
