@@ -1,0 +1,114 @@
+name: Normalize legacy post links once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/normalize-legacy-post-links-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve legacy category links by basename
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          import re
+          from collections import defaultdict
+
+          root = Path('.')
+          posts = root / '_posts'
+          targets = list(posts.rglob('*.md'))
+          roadmap_tab = root / '_tabs' / 'roadmap.md'
+          if roadmap_tab.exists():
+              targets.append(roadmap_tab)
+
+          excluded = {
+              Path('_posts/markdown/2026-09-06-markdown-link-syntax.md'),
+          }
+
+          by_name = defaultdict(list)
+          for p in posts.rglob('*.md'):
+              by_name[p.name].append(p)
+
+          pattern = re.compile(r'\]\(/posts/([^\s)#?]+?)/?(#[^)\s]+)?\)')
+          changed = []
+          unresolved = []
+          ambiguous = []
+
+          for src in targets:
+              rel_src = src.relative_to(root)
+              if rel_src in excluded:
+                  continue
+              text = src.read_text(encoding='utf-8')
+
+              def repl(match):
+                  post_path = match.group(1).rstrip('/')
+                  anchor = match.group(2) or ''
+                  direct = posts / f'{post_path}.md'
+                  if direct.exists():
+                      target = direct
+                  else:
+                      name = Path(post_path).name + '.md'
+                      candidates = by_name.get(name, [])
+                      if len(candidates) == 1:
+                          target = candidates[0]
+                      elif len(candidates) > 1:
+                          ambiguous.append((str(rel_src), post_path, [str(x) for x in candidates]))
+                          return match.group(0)
+                      else:
+                          unresolved.append((str(rel_src), post_path))
+                          return match.group(0)
+
+                  rel = os.path.relpath(target, start=src.parent).replace(os.sep, '/')
+                  if not rel.startswith('.'):
+                      rel = './' + rel
+                  return '](' + rel + anchor + ')'
+
+              new_text = pattern.sub(repl, text)
+              if new_text != text:
+                  src.write_text(new_text, encoding='utf-8')
+                  changed.append(str(rel_src))
+
+          print(f'Changed files: {len(changed)}')
+          for path in changed:
+              print('  ', path)
+
+          if ambiguous:
+              print('Ambiguous links left unchanged:')
+              for row in ambiguous:
+                  print('  ', row)
+          if unresolved:
+              print('Unresolved links left unchanged:')
+              for src, target in sorted(set(unresolved)):
+                  print(f'  {src}: /posts/{target}/')
+          PY
+
+      - name: Remove one-time workflow
+        run: rm .github/workflows/normalize-legacy-post-links-once.yml
+
+      - name: Commit normalized legacy links
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _posts _tabs/roadmap.md .github/workflows/normalize-legacy-post-links-once.yml
+          git commit -m "refactor: resolve legacy internal post links"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
