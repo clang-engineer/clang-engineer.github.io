@@ -106,8 +106,8 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [리눅스 네트워크 기초: ip, ss로 갈아타기 + DNS 진단](./2026-07-11-network-basics-ip-ss.md) | 레거시 `ifconfig`/`netstat`에서 `ip`/`ss`로 갈아타기, LISTEN 포트·라우팅 확인, `/etc/hosts`·`resolv.conf`·`dig`로 DNS 진단. "서비스가 안 뜬 건지 방화벽이 막은 건지" 구분하는 순서 |
-| [리눅스 방화벽 기초: firewalld와 ufw, 그리고 nftables](./2026-07-11-firewalld-ufw-basics.md) | firewalld(zone·service·port·`--permanent` 함정) 중심, ufw(Debian) 대안, 그 아래 nftables/iptables 엔진까지. SSH 잠금 사고를 피하는 순서 포함 |
+| [리눅스 네트워크 기초: ip, ss로 갈아타기 + DNS 진단](./2026-07-11-network-basics-ip-ss.md) | IP·Port·Route·DNS를 기준으로 통신 문제를 진단하기 |
+| [리눅스 방화벽 기초: firewalld와 ufw, 그리고 nftables](./2026-07-11-firewalld-ufw-basics.md) | firewalld·ufw와 하위 Firewall 계층의 역할 구분 |
 
 ## 부록 B — 특수 상황·트러블슈팅 (곁가지)
 
@@ -115,8 +115,8 @@ hidden      : false
 
 | 글 | 핵심 |
 |---|---|
-| [폐쇄망 환경에서 서비스 운영을 위한 환경 구축](./2025-01-14-offline-runtime-enviroment.md) | 외부에서 `dnf download --resolve`로 의존성까지 받아 내부망에서 rpm 설치. postgresql·java·nginx 사례. 인터넷 없는 서버를 다룰 때 |
-| [passwd 직후 su 인증이 실패할 때 점검 순서](./2026-06-07-rocky-linux-chage-su-authentication-failure.md) | PAM 로그, 계정 잠금, faillock, 만료, 접근 정책과 셸을 순서대로 좁힌다. `PASS_MIN_DAYS`가 인증을 막는다는 오해도 교정 |
+| [폐쇄망 환경에서 서비스 운영을 위한 환경 구축](./2025-01-14-offline-runtime-enviroment.md) | 폐쇄망에서 Package·Runtime 의존성을 반입하고 설치하기 |
+| [passwd 직후 su 인증이 실패할 때 점검 순서](./2026-06-07-rocky-linux-chage-su-authentication-failure.md) | su 인증 실패를 PAM·잠금·만료·정책 순서로 좁히기 |
 
 ---
 
