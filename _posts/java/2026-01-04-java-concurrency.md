@@ -1,263 +1,278 @@
 ---
-title       : Java 동시성 모델 정리
-description : "Thread 직접 사용부터 Runnable·Callable·Future·ExecutorService·CompletableFuture까지 자바 동시성 모델의 진화 과정을 단계별로 정리한다."
+title       : "Java 동시성 — 작업·실행·결과·공유 상태의 네 축"
+description : "Java 동시성을 Task, Executor, Result/Completion, Shared State Coordination의 네 축으로 나누고 Thread·Runnable·Callable·Future·CompletableFuture·Lock이 각각 어느 문제를 해결하는지 정리한다."
 date        : 2026-01-04 12:54:36 +0900
-updated     : 2026-01-04 12:55:51 +0900
+updated     : 2026-09-06 09:55:00 +0900
 categories  : [java, "동시성"]
 tags        : [concurrency, multithreading]
 pin         : false
 hidden      : false
 ---
 
-## 1. 자바 동시성 모델의 진화
+Java 동시성 API를 `Thread → Runnable → Future → CompletableFuture`의 버전 역사로만 외우면 서로 다른 책임이 한 줄에 섞인다. 먼저 **동시에 여러 작업을 다룰 때 무엇을 분리해야 하는지**를 잡는 편이 낫다.
 
-### Thread 직접 사용 (초기 모델)
+```text
+동시에 여러 작업을 처리한다
+        ↓
+무엇을 실행할까?
+→ Task: Runnable / Callable
 
-```java
-new Thread(() -> doWork()).start();
+어디서 실행할까?
+→ Executor / Thread Pool
+
+결과와 완료를 어떻게 다룰까?
+→ Future / CompletableFuture
+
+공유 상태를 어떻게 안전하게 다룰까?
+→ synchronized / volatile / Lock / Atomic
 ```
 
-**문제점**
+`Thread`는 이 전체 모델의 목적이 아니라 **실제 실행을 담당하는 자원**이다. 고수준 API는 작업과 Thread의 생명주기를 분리하고, 결과와 공유 상태의 문제를 별도 계층으로 다룬다.
 
-* 스레드 생성 비용 큼
-* 관리 불가
-* 예외 처리 어려움
-* 서버 환경에서 확장 불가
+## 1. Task — 무엇을 실행할 것인가
 
-Thread는 *실행 수단*이지, 작업 모델이 아님
+### Runnable
 
----
-
-### Runnable – 작업 개념 도입
+결과값 없이 실행할 작업을 표현한다.
 
 ```java
 Runnable task = () -> doWork();
-new Thread(task).start();
 ```
 
-* 작업(Task)과 실행(Thread) 분리
-* 결과 반환 불가
+### Callable
 
----
-
-## 블로킹/논블로킹, 동기/비동기 정리
-
-동시성 논의에서 자주 섞이는 두 축을 분리해서 보면 결정이 쉬워진다.
-
-- **Blocking / Non-Blocking**: 호출이 끝날 때까지 호출자가 멈추는가?
-- **Synchronous / Asynchronous**: 결과를 기다리는 정책이 호출자 쪽에 있나, 완료를 알림으로 넘기나?
-
-| 호출 반환 | 완료 대기 방식 | 의미 |
-|---|---|---|
-| Blocking | Synchronous | `future.get()`에서 스레드가 멈춰 결과를 받는 형태 |
-| Non-Blocking | Synchronous | 즉시 돌아오지만 폴링/상태조회로 완료를 확인 |
-| Non-Blocking | Asynchronous | 콜백/이벤트/`CompletionStage` 체인을 통해 완료를 전파 |
-| Blocking | Asynchronous | 구조상 가능하나 운영상 이득이 적은 편 |
-
-Java의 `CompletableFuture`는 기본 API만 봐도 이 조합을 드러낸다. `supplyAsync`로 시작한 작업은 "비동기 실행"이고, `get/join`에서 동기 대기가 생기면 블로킹-동기 구간이 된다.
-
-```java
-CompletableFuture
-  .supplyAsync(this::heavy)
-  .thenApply(this::decode);
-```
-
-`thenApply`는 앞단 결과가 준비될 때까진 기다리지 않는 것이 아니라, **연쇄 구성**을 만든다. 실행은 실행자 풀의 스레드에 배치되고, 대기 지점에서만 블로킹이 생긴다.
-
----
-
-## CPU-bound vs I/O-bound와 스레드 풀 튜닝
-
-CPU-bound와 I/O-bound의 구분은 스레드 풀 전략에 직접 들어간다. 일반적인 가이드:
-
-- **CPU-bound 작업**: 병렬 계산이 핵심이므로 풀 크기를 `코어 수` 또는 `코어 수+1` 근처로 둔다.
-- **I/O-bound 작업**: 소켓·디스크 대기가 많으면 더 많은 스레드를 둬도 대기 시간을 숨길 수 있다.
-- 다만 무한 확장은 컨텍스트 스위칭과 메모리 압박을 만들므로 큐/타임아웃 정책이 필수.
-
-```java
-ExecutorService cpuPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
-ExecutorService ioPool = Executors.newCachedThreadPool();   // 또는 bounded queue/timeout 조합
-```
-
-`newCachedThreadPool()`은 편하지만 폭주 상황에서 스레드 폭주를 부를 수 있어, 프로덕션에서는 큐 용량과 거부 정책을 직접 가진 커스텀 `ThreadPoolExecutor`가 안전하다.
-
----
-
-### Callable + Future (Java 5)
+결과를 반환하고 checked exception을 던질 수 있는 작업이다.
 
 ```java
 Callable<Integer> task = () -> 42;
-Future<Integer> future = executor.submit(task);
 ```
 
-* 결과 반환 가능
-* 예외 처리 가능
-* 하지만 `get()`은 블로킹
+둘의 핵심은 **작업 정의를 Thread 자체와 분리한다는 것**이다.
 
----
+```text
+Task
+≠
+Thread
+```
 
-### ExecutorService – 실무 표준
+같은 Task도 직접 Thread에서 실행할 수 있고 Executor에 제출할 수도 있다.
+
+## 2. Executor — 어디서 실행할 것인가
+
+직접 Thread를 생성하면 작업마다 Thread 생성·종료 비용과 수명 관리를 호출 코드가 떠안는다.
+
+```java
+new Thread(task).start();
+```
+
+`ExecutorService`는 이 책임을 실행 계층으로 분리한다.
 
 ```java
 ExecutorService executor = Executors.newFixedThreadPool(10);
 executor.submit(task);
 ```
 
-* 스레드 풀 관리
-* 리소스 제어
-* 서버 애플리케이션 핵심 구성요소
+```text
+Application
+   ↓ submit(Task)
+Executor
+   ↓ Scheduling
+Thread Pool
+   ↓
+실제 실행
+```
 
----
+따라서 Pool Size는 단순한 성능 숫자가 아니라 **동시에 실행할 작업 수를 제한하는 자원 정책**이다.
 
-### CompletableFuture (Java 8)
+### CPU-bound와 I/O-bound
+
+CPU-bound 작업은 실제 계산 자원이 병목이므로 코어 수 주변에서 병렬도를 시작해 측정한다. I/O-bound 작업은 대기 시간이 많아 더 높은 동시성이 유리할 수 있지만, 무제한 Thread 생성은 메모리·Context Switching·외부 시스템 부하를 키운다.
+
+```text
+CPU-bound
+→ CPU 병렬 처리량이 한계
+
+I/O-bound
+→ 대기 시간 동안 다른 작업 실행 가능
+→ 그래도 동시성 상한은 필요
+```
+
+따라서 운영에서는 단순 공식보다 Queue 길이, 처리량, Latency, 외부 자원 제한을 함께 본다.
+
+## 3. Future — 실행과 결과 사이의 Handle
+
+`ExecutorService.submit()`으로 결과가 있는 작업을 제출하면 `Future`를 받을 수 있다.
+
+```java
+Future<Integer> future = executor.submit(() -> 42);
+```
+
+`Future`는 작업 그 자체가 아니라 **아직 끝나지 않았을 수도 있는 결과를 가리키는 Handle**이다.
+
+```java
+Integer value = future.get();
+```
+
+`get()`은 결과가 준비될 때까지 현재 Thread를 기다리게 할 수 있다. 즉 "작업을 다른 Thread에서 실행했다"와 "호출자가 결과를 기다리지 않는다"는 같은 말이 아니다.
+
+## 4. CompletableFuture — 기다림을 흐름 연결로 바꾼다
+
+`Future`는 결과를 얻기 위해 `get()` 같은 대기 지점으로 돌아가기 쉽다. `CompletableFuture`는 완료 후 수행할 다음 단계를 연결할 수 있다.
 
 ```java
 CompletableFuture
-    .supplyAsync(() -> fetch())
-    .thenApply(data -> process(data))
-    .thenAccept(result -> save(result));
+    .supplyAsync(this::fetch)
+    .thenApply(this::process)
+    .thenAccept(this::save);
 ```
 
-* 비동기 파이프라인
-* 콜백 지옥 해결
-* 함수형 인터페이스 적극 활용
+```text
+fetch 완료
+   ↓
+process
+   ↓
+save
+```
 
----
+핵심은 "무조건 Non-Blocking"이라는 이름표가 아니라 **완료를 기다리는 코드를 호출 흐름에 직접 박아 넣는 대신 Completion 관계를 구성할 수 있다는 것**이다.
 
-## 2. 핵심 구성 요소
-
-### Task (작업)
-
-| 인터페이스    | 설명              |
-| -------- | --------------- |
-| Runnable | 실행만 수행          |
-| Callable | 실행 + 결과 반환 + 예외 |
-
-→ **동시성을 위한 함수형 인터페이스**
-
----
-
-### Executor / ExecutorService
-
-* Thread 생성 및 관리 책임자
-* 작업 스케줄링
+반대로 마지막에:
 
 ```java
-executor.submit(task);
+future.join();
 ```
 
----
+을 호출하면 그 지점에서는 완료를 기다린다.
 
-### Future
+## 5. Blocking / Non-Blocking과 Sync / Async는 다른 축이다
 
-* 비동기 작업의 결과 핸들
-* 상태 확인 / 결과 대기
+동시성 설명에서 자주 섞이는 개념이다.
+
+```text
+Blocking / Non-Blocking
+→ 호출한 Thread가 진행을 멈추는가?
+
+Synchronous / Asynchronous
+→ 완료 결과를 어떤 제어 흐름으로 전달받는가?
+```
+
+예를 들어:
 
 ```java
-future.get(); // blocking
+CompletableFuture<String> future =
+    CompletableFuture.supplyAsync(this::fetch);
+
+String value = future.join();
 ```
 
----
+작업은 비동기적으로 시작했지만 `join()`에서는 현재 Thread가 완료를 기다릴 수 있다.
 
-### CompletableFuture
+따라서 API 이름보다 **어디에서 실제 대기가 발생하는지**를 보는 것이 중요하다.
 
-* Future 확장
-* 논블로킹 체인 처리
-* 동시성 + 함수형 프로그래밍 융합
+## 6. 공유 상태 — 실행 방식과 별개의 문제
 
----
+Executor나 CompletableFuture를 쓴다고 공유 데이터가 자동으로 안전해지는 것은 아니다.
 
-## 3. 동시성 vs 병렬성
+```text
+여러 Thread
+   ↓
+같은 Mutable State 접근
+   ↓
+Visibility / Atomicity / Ordering 문제
+```
 
-| 구분  | 의미        |
-| --- | --------- |
-| 동시성 | 여러 작업을 관리 |
-| 병렬성 | 실제 동시에 실행 |
+여기서 Java Memory Model과 동기화 도구가 등장한다.
 
-→ Java 동시성 모델은 **관리 중심**
+| 도구 | 주 역할 |
+|---|---|
+| `synchronized` | Mutual Exclusion + Memory Visibility |
+| `volatile` | Visibility와 Ordering 경계 |
+| `Atomic*` | 특정 단일 연산의 Atomic Update |
+| `ReentrantLock` | 명시적 Lock, `tryLock`, interruptible lock 등 |
+| `ReadWriteLock` | Read/Write Lock 분리 |
 
----
+`volatile`은 단순히 "Thread-safe 변수"가 아니며 복합 연산 전체의 원자성을 보장하지 않는다. 자세한 경계는 [volatile vs static](/posts/java/2026-04-01-java-volatile-vs-static/)에서 다룬다.
 
-## 4. Java Memory Model (JMM) 핵심
+Lock 선택은 [Java Lock 비교](/posts/java/2026-05-11-java-lock-comparison/)에서 이어진다.
 
-### 왜 필요한가?
+## 7. 작업 간 Coordination 도구
 
-* CPU 캐시
-* 명령어 재정렬
-* 가시성 문제
+공유 값을 보호하는 것과 여러 작업의 진행 순서를 조율하는 것도 구분한다.
 
-### 주요 키워드
+| 도구 | 질문 |
+|---|---|
+| `CountDownLatch` | N개의 작업이 끝날 때까지 기다릴까? |
+| `Semaphore` | 동시에 자원을 몇 개까지 사용할까? |
+| `BlockingQueue` | Producer와 Consumer 사이에 작업을 어떻게 전달할까? |
+| `CompletableFuture.allOf()` | 여러 비동기 Completion을 어떻게 합칠까? |
 
-| 키워드            | 의미         |
-| -------------- | ---------- |
-| synchronized   | 원자성 + 가시성  |
-| volatile       | 가시성 보장     |
-| happens-before | 메모리 가시성 규칙 |
-
----
-
-## 5. 고수준 동시성 도구
-
-| 도구                   | 용도         |
-| -------------------- | ---------- |
-| Lock / ReentrantLock | 고급 락 제어    |
-| Atomic*              | 락 없는 원자 연산 |
-| CountDownLatch       | 스레드 대기     |
-| Semaphore            | 자원 제어      |
-| BlockingQueue        | 생산자-소비자 패턴 |
-
----
-
-## 6. CompletableFuture의 의미
-
-### 기존 방식
+예:
 
 ```java
-f1.get();
-f2.get();
+CompletableFuture.allOf(f1, f2, f3)
+    .thenRun(this::done);
 ```
 
-### 비동기 흐름 방식
+이는 Lock과 다른 문제를 해결한다. Lock은 공유 상태 접근을 조율하고, `allOf()`는 **작업 완료 관계**를 조합한다.
 
-```java
-CompletableFuture
-  .allOf(f1, f2)
-  .thenRun(() -> done());
-```
-
-→ **결과 대기 → 흐름 연결**
-
----
-
-## 7. 전체 구조 요약
+## 8. 전체 구조
 
 ```text
 [Task]
- Runnable / Callable
-        ↓
-[Executor]
- Thread Pool
-        ↓
-[Future]
-        ↓
-[CompletableFuture]
- (Async Flow)
+Runnable / Callable
+      ↓ submit
+[Execution]
+Executor / Thread Pool
+      ↓
+[Result / Completion]
+Future / CompletableFuture
+      ↓
+다음 작업 연결
+
+별도 축:
+[Shared State]
+synchronized / volatile / Lock / Atomic
+
+[Coordination]
+Latch / Semaphore / Queue / Completion composition
 ```
 
----
+이 구조로 보면 Java 동시성 API는 하나의 진화 단계가 아니라 **서로 다른 책임을 분리해 온 도구 집합**이다.
 
-## 8. 핵심 문장 요약
+## 선택 순서
 
-1. Thread는 직접 관리하지 않는다
-2. Task와 실행은 분리된다
-3. Executor는 스레드를 관리한다
-4. Future는 결과 핸들이다
-5. CompletableFuture는 비동기 흐름이다
+실무에서는 API 이름보다 질문부터 잡는다.
 
-## Java 동시성 시리즈
+```text
+1. 작업 자체는 무엇인가?
+2. 동시에 몇 개를 실행해야 하는가?
+3. 결과가 필요한가?
+4. 완료 후 다음 작업을 연결해야 하는가?
+5. 공유 Mutable State가 있는가?
+6. 작업 사이의 순서·자원 수를 조율해야 하는가?
+```
 
-| 글 | 다루는 것 |
-| --- | --- |
-| **Java 동시성 모델 (현재 글)** | Thread→Executor→Future→CompletableFuture 흐름과 책임 분리 |
-| [volatile vs static](/posts/java/2026-04-01-java-volatile-vs-static/) | 메모리 가시성 키워드의 의미와 조합 선택 기준 |
-| [Java Lock 비교 — synchronized · ReentrantLock · ReadWriteLock · StampedLock](/posts/java/2026-05-11-java-lock-comparison/) | 락 4종의 보장·재진입성·tryLock·낙관적 읽기 |
+그다음 `Runnable`, `Executor`, `Future`, `CompletableFuture`, Lock 계열을 선택한다.
+
+## 정리
+
+Java 동시성의 중심을 `Thread`에 놓으면 API가 계속 늘어나는 것처럼 보인다. 책임을 나누면 훨씬 단순하다.
+
+```text
+Task
+→ 무엇을 할까
+
+Executor
+→ 어디서·얼마나 실행할까
+
+Future / CompletableFuture
+→ 결과와 완료를 어떻게 다룰까
+
+Synchronization
+→ 공유 상태를 어떻게 안전하게 다룰까
+
+Coordination
+→ 여러 작업의 관계를 어떻게 조율할까
+```
+
+**Thread는 실행 자원이고, Java 동시성 API의 핵심은 작업·실행·완료·공유 상태의 책임을 분리하는 것**이다.
