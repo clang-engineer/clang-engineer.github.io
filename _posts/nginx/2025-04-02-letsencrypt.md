@@ -176,7 +176,7 @@ Certificate 파일이 존재하는 것과 Nginx가 그 Certificate를 실제로 
 
 ## 5. Renewal은 처음 발급 때 사용한 설정을 재사용한다
 
-Certbot의 `renew`는 갱신 대상 Certificate가 만료에 가까워지면 기존 Renewal Configuration의 Plugin과 옵션을 이용해 갱신을 시도한다. citeturn625212search0
+Certbot의 `renew`는 갱신 대상 Certificate가 만료에 가까워지면 기존 Renewal Configuration의 Plugin과 옵션을 이용해 갱신을 시도한다.
 
 따라서 운영에서 중요한 것은:
 
@@ -195,13 +195,13 @@ Certbot의 `renew`는 갱신 대상 Certificate가 만료에 가까워지면 기
 sudo certbot renew --dry-run
 ```
 
-`--dry-run`은 실제 Certificate를 바꾸지 않고 미래 갱신 경로를 시험하는 핵심 검증 절차다. citeturn625212search0
+`--dry-run`은 실제 Certificate를 바꾸지 않고 미래 갱신 경로를 시험하는 핵심 검증 절차다.
 
 ## 6. 새 인증서가 발급됐으면 Nginx가 다시 읽어야 한다
 
 Renewal에 성공해 File Symlink가 새 Version을 가리켜도 이미 실행 중인 Nginx Process가 자동으로 새 Certificate를 사용하는 것은 별도 문제다.
 
-성공한 Renewal 뒤에만 실행할 작업은 Deploy Hook으로 둘 수 있다. Certbot은 성공적으로 발급/갱신된 뒤 실행하는 `--deploy-hook`을 제공한다. citeturn625212search13
+성공한 Renewal 뒤에만 실행할 작업은 Deploy Hook으로 둘 수 있다. Certbot은 성공적으로 발급/갱신된 뒤 실행하는 `--deploy-hook`을 제공한다.
 
 예:
 
