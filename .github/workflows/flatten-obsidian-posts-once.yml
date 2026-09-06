@@ -1,0 +1,55 @@
+name: Flatten obsidian posts once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/flatten-obsidian-posts-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  flatten:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+
+      - name: Move Obsidian posts to root
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          src_dir = Path('_posts/obsidian')
+          root = Path('_posts')
+          if src_dir.exists():
+              for src in src_dir.glob('*.md'):
+                  dst = root / src.name
+                  if dst.exists():
+                      raise SystemExit(f'destination exists: {dst}')
+                  src.rename(dst)
+              if not any(src_dir.iterdir()):
+                  src_dir.rmdir()
+          PY
+
+      - name: Validate Jekyll build
+        run: bundle exec jekyll build
+
+      - name: Commit flattening
+        run: |
+          git config user.name 'clang.engineer'
+          git config user.email 'clang.engineer@gmail.com'
+          git add -A
+          git commit -m 'docs: flatten small obsidian post folder'
+          git push
+
+      - name: Remove one-time workflow
+        run: |
+          git rm .github/workflows/flatten-obsidian-posts-once.yml
+          git commit -m 'chore: remove one-time obsidian flatten workflow'
+          git push
