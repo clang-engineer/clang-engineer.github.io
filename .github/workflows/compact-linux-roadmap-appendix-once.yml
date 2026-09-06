@@ -1,0 +1,46 @@
+name: Compact Linux roadmap appendix once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/compact-linux-roadmap-appendix-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compact appendix descriptions
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('_posts/linux/2026-07-11-linux-roadmap.md')
+          s = p.read_text()
+          replacements = {
+              './2026-07-11-network-basics-ip-ss.md': 'IP·Port·Route·DNS를 기준으로 통신 문제를 진단하기',
+              './2026-07-11-firewalld-ufw-basics.md': 'firewalld·ufw와 하위 Firewall 계층의 역할 구분',
+              './2025-01-14-offline-runtime-enviroment.md': '폐쇄망에서 Package·Runtime 의존성을 반입하고 설치하기',
+              './2026-06-07-rocky-linux-chage-su-authentication-failure.md': 'su 인증 실패를 PAM·잠금·만료·정책 순서로 좁히기',
+          }
+          for path, desc in replacements.items():
+              pattern = re.compile(r'^(\| \[[^\]]+\]\(' + re.escape(path) + r'\) \|).*(\|)$', re.M)
+              s = pattern.sub(r'\1 ' + desc + r' \2', s)
+          p.write_text(s)
+          PY
+      - name: Commit and cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _posts/linux/2026-07-11-linux-roadmap.md
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: compact Linux roadmap appendix"
+            git push
+          fi
+          git pull --rebase
+          git rm .github/workflows/compact-linux-roadmap-appendix-once.yml
+          git commit -m "chore: remove one-time Linux appendix workflow"
+          git push
