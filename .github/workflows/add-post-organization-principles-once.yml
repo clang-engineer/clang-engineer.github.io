@@ -1,13 +1,10 @@
 name: Add post organization principles once
-
 on:
   push:
     paths:
-      - '.github/workflows/add-post-organization-principles-once.yml'
-
+      - .github/workflows/add-post-organization-principles-once.yml
 permissions:
   contents: write
-
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -15,114 +12,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Add Blog physical organization principles
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path('docs/KNOWLEDGE_ORGANIZATION.md')
-          text = path.read_text()
-          marker = '## 8. 지식 원본과 공개·열람 계층을 분리해서 본다'
-          section = r'''## 8. Blog의 물리 폴더와 파일명은 역할을 분리한다
-
-`_posts/`의 물리 폴더는 세부 분류 체계를 모두 표현하는 곳이 아니다. 파일을 찾을 때 실제로 도움이 되는 **독립된 문서 영역의 경계**만 남긴다.
-
-```text
-물리 Folder
-= 독립된 문서 영역 / Roadmap 단위
-
-Filename
-= 개별 글의 실제 주제 식별
-
-categories / tags
-= 세부 논리 분류와 검색
-```
-
-### Roadmap이 있는 독립 영역은 폴더 단위로 유지할 수 있다
-
-Roadmap이 있고 그 아래에 여러 대표 Zoom-in과 세부 글이 연결되는 영역은 하나의 작은 문서 생태계를 이룬다. 이런 경우 물리 폴더가 곧 탐색 경계가 되므로 별도 폴더를 유지할 수 있다.
-
-예를 들어 `neovim/`, `tmux/`, `terminal/`, `cpp/`, `go/`, `rust/`처럼 Roadmap이 해당 영역의 진입점 역할을 하고 여러 글을 묶는 경우다.
-
-반대로 다음 이유만으로 새 최상위 폴더를 만들지 않는다.
-
-- 글이 1~2개 생겼다.
-- front matter의 category 이름과 폴더 이름을 맞추고 싶다.
-- 기존 폴더보다 조금 더 세부적인 Topic이다.
-- 파일명을 짧게 만들기 위해 문맥을 폴더에 숨기고 싶다.
-
-> **폴더 수를 줄이기 위해 계층을 더 깊게 만들지 않는다. `_posts/` 아래의 물리 구조는 가능하면 1단계 깊이를 유지한다.**
-
-### Roadmap이 없는 세부 주제는 먼저 기존 큰 영역에 포함할 수 있는지 본다
-
-Roadmap 없이 몇 개의 글만 존재하는 Topic은 별도 폴더를 만들기 전에 다음을 확인한다.
-
-1. 이미 존재하는 독립 영역의 실전 맥락에 포함되는가?
-2. 더 넓은 공통 영역에 두고 파일명으로 주제를 식별할 수 있는가?
-3. category/tag만으로 충분히 탐색 가능한가?
-4. 앞으로도 독립된 Roadmap과 문서 생태계로 성장할 가능성이 실제로 있는가?
-
-단순히 분류명이 다르다는 이유만으로 물리 폴더를 늘리지 않는다.
-
-### 파일명만 보고도 주제가 식별되어야 한다
-
-폴더 문맥을 제거해도 파일의 영역과 핵심 주제가 드러나도록 이름을 정한다.
-
-기본 형태는 다음을 권장한다.
-
-```text
-YYYY-MM-DD-<subject>-<specific-topic>.md
-```
-
-좋은 예:
-
-```text
-2026-07-12-go-error-handling-defer.md
-2026-07-12-rust-ownership-borrow-lifetime.md
-2026-06-19-neovim-buffer-window-extmark.md
-2026-07-11-linux-systemd-service-management.md
-2026-09-05-terminal-tty-pty.md
-```
-
-피할 예:
-
-```text
-2026-07-12-basics.md
-2026-07-12-intro.md
-2026-07-12-guide.md
-2026-07-12-tips.md
-```
-
-`basics`, `guide`, `tips` 같은 역할어는 보조적으로 사용할 수 있지만, 그것만으로 실제 주제를 대신하지 않는다.
-
-### 물리 구조를 바꿀 때는 링크와 공개 URL을 별도로 본다
-
-폴더 이동은 Source의 물리 위치를 바꾸는 작업이다. 이동 전에 상대경로 Markdown link가 깨지는지 확인하고, 공개 permalink 호환이 필요한 경우 기존 `redirect_from` 정책을 유지한다.
-
-정리의 목적은 폴더 수 자체를 최소화하는 것이 아니라 다음 상태를 만드는 것이다.
-
-> **Roadmap은 독립 영역의 폴더 경계를 만들고, 개별 글의 주제는 파일명이 책임지며, 세부 분류는 category/tag가 담당한다. 폴더를 줄이기 위해 불필요한 하위 계층을 만들지 않는다.**
-
-'''
-          if section in text:
-              raise SystemExit('section already exists')
-          if marker not in text:
-              raise SystemExit('marker not found')
-          text = text.replace(marker, section + marker.replace('## 8.', '## 9.'), 1)
-          text = text.replace('## 9. 한 문장 원칙', '## 10. 한 문장 원칙')
-          path.write_text(text)
-          PY
-
+      - name: Update principles
+        env:
+          SCRIPT_B64: ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnA9UGF0aCgnZG9jcy9LTk9XTEVER0VfT1JHQU5JWkFUSU9OLm1kJykKdD1wLnJlYWRfdGV4dCgpCm1hcmtlcj0nIyMgOC4g7KeA7IudIOybkOuzuOqzvCDqs7XqsJzCt+yXtOuejCDqs4TsuLXsnYQg67aE66as7ZW07IScIOuzuOuLpCcKc2VjdGlvbj0nJycjIyA4LiBCbG9n7J2YIOusvOumrCDtj7TrjZTsmYAg7YyM7J2866qF7J2AIOyXre2VoOydhCDrtoTrpqztlZzri6QKCmBfcG9zdHMvYOydmCDrrLzrpqwg7Y+0642U64qUIOyEuOu2gCDrtoTrpZgg7LK06rOE66W8IOuqqOuRkCDtkZztmITtlZjripQg6rOz7J20IOyVhOuLiOuLpC4g7YyM7J287J2EIOywvuydhCDrlYwg7Iuk7KCc66GcIOuPhOybgOydtCDrkJjripQgKirrj4Xrpr3rkJwg66y47IScIOyYgeyXreydmCDqsr3qs4QqKuunjCDrgqjquLTri6QuCgpgYGB0ZXh0CuusvOumrCBGb2xkZXIKPSDrj4Xrpr3rkJwg66y47IScIOyYgeyXrSAvIFJvYWRtYXAg64uo7JyECgpGaWxlbmFtZQo9IOqwnOuzhCDquIDsnZgg7Iuk7KCcIOyjvOygnCDsi53rs4QKCmNhdGVnb3JpZXMgLyB0YWdzCj0g7IS467aAIOuFvOumrCDrtoTrpZjsmYAg6rKA7IOJCmBgYAoKIyMjIFJvYWRtYXDsnbQg7J6I64qUIOuPheumvSDsmIHsl63snYAg7Y+0642UIOuLqOychOuhnCDsnKDsp4DtlaAg7IiYIOyeiOuLpAoKUm9hZG1hcOydtCDsnojqs6Ag6re4IOyVhOuemOyXkCDsl6zrn6wg64yA7ZGcIFpvb20taW7qs7wg7IS467aAIOq4gOydtCDsl7DqsrDrkJjripQg7JiB7Jet7J2AIO2VmOuCmOydmCDsnpHsnYAg66y47IScIOyDne2DnOqzhOulvCDsnbTro6zri6QuIOydtOufsCDqsr3smrAg66y866asIO2PtOuNlOqwgCDqs6cg7YOQ7IOJIOqyveqzhOqwgCDrkJjrr4DroZwg67OE64+EIO2PtOuNlOulvCDsnKDsp4DtlaAg7IiYIOyeiOuLpC4KCuyYiOulvCDrk6TslrQgYG5lb3ZpbS9gLCBgdG11eC9gLCBgdGVybWluYWwvYCwgYGNwcC9gLCBgZ28vYCwgYHJ1c3QvYOyymOufvCBSb2FkbWFw7J20IO2VtOuLuSDsmIHsl63snZgg7KeE7J6F7KCQIOyXre2VoOydhCDtlZjqs6Ag7Jes65+sIOq4gOydhCDrrLbripQg6rK97Jqw64ukLgoK67CY64yA66GcIOuLpOydjCDsnbTsnKDrp4zsnLzroZwg7IOIIOy1nOyDgeychCDtj7TrjZTrpbwg66eM65Ok7KeAIOyViuuKlOuLpC4KCi0g6riA7J20IDF+MuqwnCDsg53qsrzri6QuCi0gZnJvbnQgbWF0dGVy7J2YIGNhdGVnb3J5IOydtOumhOqzvCDtj7TrjZQg7J2066aE7J2EIOunnuy2lOqzoCDsi7bri6QuCi0g6riw7KG0IO2PtOuNlOuztOuLpCDsobDquIgg642UIOyEuOu2gOyggeyduCBUb3BpY+ydtOuLpC4KLSDtjIzsnbzrqoXsnYQg7Ken6rKMIOunjOuTpOq4sCDsnITtlbQg66y466el7J2EIO2PtOuNlOyXkCDsiKjquLDqs6Ag7Iu264ukLgoKPiAqKu2PtOuNlCDsiJjrpbwg7KSE7J206riwIOychO2VtCDqs4TsuLXsnYQg642UIOq5iuqyjCDrp4zrk6Tsp4Ag7JWK64qU64ukLiBgX3Bvc3RzL2Ag7JWE656Y7J2YIOusvOumrCDqtazsobDripQg6rCA64ql7ZWY66m0IDHri6jqs4Qg6rmK7J2066W8IOycoOyngO2VnOuLpC4qKgoKIyMjIFJvYWRtYXDsnbQg7JeG64qUIOyEuOu2gCDso7zsoJzripQg66i87KCAIOq4sOyhtCDtgbAg7JiB7Jet7JeQIO2PrO2VqO2VoCDsiJgg7J6I64qU7KeAIOuzuOuLpAoKUm9hZG1hcCDsl4bsnbQg66qHIOqwnOydmCDquIDrp4wg7KG07J6s7ZWY64qUIFRvcGlj7J2AIOuzhOuPhCDtj7TrjZTrpbwg66eM65Ok6riwIOyghOyXkCDri6TsnYzsnYQg7ZmV7J247ZWc64ukLgoKMS4g7J2066+4IOyhtOyerO2VmOuKlCDrj4Xrpr0g7JiB7Jet7J2YIOyLpOyghCDrp6Xrnb3sl5Ag7Y+s7ZWo65CY64qU6rCAPwoyLiDrjZQg64ST7J2AIOqzte2GtSDsmIHsl63sl5Ag65GQ6rOgIO2MjOydvOuqheycvOuhnCDso7zsoJzrpbwg7Iud67OE7ZWgIOyImCDsnojripTqsIA/CjMuIGNhdGVnb3J5L3RhZ+unjOycvOuhnCDstqnrtoTtnogg7YOQ7IOJIOqwgOuKpe2VnOqwgD8KNC4g7JWe7Jy866Gc64+EIOuPheumveuQnCBSb2FkbWFw6rO8IOusuOyEnCDsg53tg5zqs4TroZwg7ISx7J6l7ZWgIOqwgOuKpeyEseydtCDsi6TsoJzroZwg7J6I64qU6rCAPwoK64uo7Iic7Z6IIOu2hOulmOuqheydtCDri6TrpbTri6TripQg7J207Jyg66eM7Jy866GcIOusvOumrCDtj7TrjZTrpbwg64qY66as7KeAIOyViuuKlOuLpC4KCiMjIyDtjIzsnbzrqoXrp4wg67O06rOg64+EIOyjvOygnOqwgCDsi53rs4TrkJjslrTslbwg7ZWc64ukCgrtj7TrjZQg66y466el7J2EIOygnOqxsO2VtOuPhCDtjIzsnbzsnZgg7JiB7Jet6rO8IO2VteyLrCDso7zsoJzqsIAg65Oc65+s64KY64+E66GdIOydtOumhOydhCDsoJXtlZzri6QuCgrquLDrs7gg7ZiV7YOc64qUIOuLpOydjOydhCDqtozsnqXtlZzri6QuCgpgYGB0ZXh0CllZWVktTU0tREQtPHN1YmplY3Q+LTxzcGVjaWZpYy10b3BpYz4ubWQKYGBgCgrsoovsnYAg7JiIOgoKYGBgdGV4dAoyMDI2LTA3LTEyLWdvLWVycm9yLWhhbmRsaW5nLWRlZmVyLm1kCjIwMjYtMDctMTItcnVzdC1vd25lcnNoaXAtYm9ycm93LWxpZmV0aW1lLm1kCjIwMjYtMDYtMTktbmVvdmltLWJ1ZmZlci13aW5kb3ctZXh0bWFyay5tZAoyMDI2LTA3LTExLWxpbnV4LXN5c3RlbWQtc2VydmljZS1tYW5hZ2VtZW50Lm1kCjIwMjYtMDktMDUtdGVybWluYWwtdHR5LXB0eS5tZApgYGAKCu2UvO2VoCDsmIg6CgpgYGB0ZXh0CjIwMjYtMDctMTItYmFzaWNzLm1kCjIwMjYtMDctMTItaW50cm8ubWQKMjAyNi0wNy0xMi1ndWlkZS5tZAoyMDI2LTA3LTEyLXRpcHMubWQKYGBgCgpgYmFzaWNzYCwgYGd1aWRlYCwgYHRpcHNgIOqwmeydgCDsl63tlaDslrTripQg67O07KGw7KCB7Jy866GcIOyCrOyaqe2VoCDsiJgg7J6I7KeA66eMLCDqt7jqsoPrp4zsnLzroZwg7Iuk7KCcIOyjvOygnOulvCDrjIDsi6DtlZjsp4Ag7JWK64qU64ukLgoKIyMjIOusvOumrCDqtazsobDrpbwg67CU6r+AIOuVjOuKlCDrp4HtgazsmYAg6rO16rCcIFVSTOydhCDrs4Trj4TroZwg67O464ukCgrtj7TrjZQg7J2064+Z7J2AIFNvdXJjZeydmCDrrLzrpqwg7JyE7LmY66W8IOuwlOq+uOuKlCDsnpHsl4XsnbTri6QuIOydtOuPmSDsoITsl5Ag7IOB64yA6rK966GcIE1hcmtkb3duIGxpbmvqsIAg6rmo7KeA64qU7KeAIO2ZleyduO2VmOqzoCwg6rO16rCcIHBlcm1hbGluayDtmLjtmZjsnbQg7ZWE7JqU7ZWcIOqyveyasCDquLDsobQgYHJlZGlyZWN0X2Zyb21gIOygleyxheydhCDsnKDsp4DtlZzri6QuCgo+ICoqUm9hZG1hcOydgCDrj4Xrpr0g7JiB7Jet7J2YIO2PtOuNlCDqsr3qs4Trpbwg66eM65Ok6rOgLCDqsJzrs4Qg6riA7J2YIOyjvOygnOuKlCDtjIzsnbzrqoXsnbQg7LGF7J6E7KeA66mwLCDshLjrtoAg67aE66WY64qUIGNhdGVnb3J5L3RhZ+qwgCDri7Tri7ntlZzri6QuIO2PtOuNlOulvCDspITsnbTquLAg7JyE7ZW0IOu2iO2VhOyalO2VnCDtlZjsnIQg6rOE7Li17J2EIOunjOuTpOyngCDslYrripTri6QuKioKCicnJwppZiAnIyMgOC4gQmxvZ+ydmCDrrLzrpqwg7Y+0642U7JmAIO2MjOydvOuqheydgCDsl63tlaDsnYQg67aE66as7ZWc64ukJyBub3QgaW4gdDoKICAgIHQ9dC5yZXBsYWNlKG1hcmtlciwgc2VjdGlvbittYXJrZXIucmVwbGFjZSgnIyMgOC4nLCcjIyA5LicpLDEpCiAgICB0PXQucmVwbGFjZSgnIyMgOS4g7ZWcIOusuOyepSDsm5DsuZknLCcjIyAxMC4g7ZWcIOusuOyepSDsm5DsuZknKQogICAgcC53cml0ZV90ZXh0KHQpCg==
+        run: echo "$SCRIPT_B64" | base64 -d | python
       - name: Commit update
         run: |
-          git config user.name 'clang.engineer'
-          git config user.email 'clang.engineer@gmail.com'
+          git config user.name clang.engineer
+          git config user.email clang.engineer@gmail.com
           git add docs/KNOWLEDGE_ORGANIZATION.md
           git commit -m 'docs: define post folder and filename principles'
           git push
-
-      - name: Remove one-time workflow
+      - name: Remove workflow
         run: |
           git rm .github/workflows/add-post-organization-principles-once.yml
           git commit -m 'chore: remove one-time post organization workflow'
