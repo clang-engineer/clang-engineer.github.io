@@ -127,4 +127,22 @@ LazyVim을 "그냥 쓰는" 단계에서 "어떻게 동작하는지 알고 고치
 
 | 글 | 핵심 |
 |---|---|
-| [플러그인을 Lua로 짤까 Vimscript로 짤까](/posts/neovim/2026-06-12-neovim-plugin
+| [플러그인을 Lua로 짤까 Vimscript로 짤까](./2026-06-12-neovim-plugin-language-choice.md) | 새 플러그인의 기본 선택은 Lua지만 기존 Vimscript 생태계와의 경계도 함께 본다 |
+| [Lua와 Vimscript 섞기](./2026-06-12-neovim-plugin-mixing-lua-vimscript.md) | 두 언어를 함께 쓸 때 호출 경계를 최소화하는 법 |
+| [플러그인 디렉터리 관례](./2026-06-12-neovim-plugin-conventions.md) | runtimepath 디렉터리 구조와 자동 로드 규칙 |
+| [플러그인 배포](./2026-06-12-neovim-plugin-distribution.md) | GitHub 공개부터 plugin manager·awesome-neovim 노출까지 |
+| [플러그인 테스트](./2026-06-18-neovim-plugin-testing-plenary-minitest-busted.md) | plenary.nvim·mini.test·busted의 역할과 선택 |
+| [vimdoc 작성](./2026-06-19-neovim-plugin-vimdoc-panvimdoc.md) | README와 :help 문서를 함께 관리하는 방법 |
+
+플러그인 개발은 일반 Neovim 사용의 필수 상위 단계가 아니다. 직접 만들 필요가 없다면 3단계까지로 학습 경로를 닫고, 이 구역은 필요할 때만 들어온다.
+
+## 부록으로 탐색할 것
+
+로드맵의 본 줄기와 별개로 다음 주제는 문제를 만났을 때 해당 문서로 바로 들어간다.
+
+- LSP·DAP·언어별 개발환경
+- PKM·Obsidian·Org mode 같은 편집기 활용
+- 다른 Editor와의 비교
+- 개별 Plugin과 LazyVim Troubleshooting
+
+> **기억할 경계:** Neovim을 잘 쓰는 학습과 Neovim Plugin을 만드는 학습은 같은 사다리의 연속 단계가 아니다. 기본 편집 → 설정 언어 → 배포판 구조까지가 사용자 학습의 주 줄기이고, Plugin 개발은 별도 Branch다.
