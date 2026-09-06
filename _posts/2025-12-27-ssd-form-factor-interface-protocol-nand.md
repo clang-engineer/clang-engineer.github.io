@@ -6,9 +6,8 @@ updated     : 2026-09-05 20:45:00 +0900
 categories  : [cs, "컴퓨터 구조"]
 redirect_from:
   - /posts/etc/2025-12-27-ssd/
-tags        : [ssd, nand-flash, nvme, pcie, sata, storage, concept]
-redirect_from:
   - /posts/ssd/
+tags        : [ssd, nand-flash, nvme, pcie, sata, storage, concept]
 pin         : false
 hidden      : false
 ---
