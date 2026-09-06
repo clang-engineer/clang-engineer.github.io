@@ -1,0 +1,97 @@
+name: Enforce post root folder principle once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/enforce-post-root-folder-principle-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  organize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+
+      - name: Update principle and organize root posts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          docs = Path('docs/KNOWLEDGE_ORGANIZATION.md')
+          text = docs.read_text()
+          old = '> **폴더 수를 줄이기 위해 계층을 더 깊게 만들지 않는다. `_posts/` 아래의 물리 구조는 가능하면 1단계 깊이를 유지한다.**'
+          new = '''> **`_posts/` 루트에는 게시글 Markdown을 직접 두지 않는다. 모든 게시글은 의미 있는 1단계 폴더 안에 둔다. 다만 폴더 수를 줄이기 위해 계층을 더 깊게 만들지 않고, `_posts/<영역>/` 한 단계 깊이를 기본으로 유지한다.**\n\nRoadmap이 없는 소수의 글도 루트에 흩어놓지 않는다. 서로 같은 독립 Topic은 아니더라도 **같은 넓은 실전 영역으로 자연스럽게 묶이고 앞으로도 재사용할 수 있는 대분류**가 있다면 그 폴더를 사용한다. 예를 들어 특정 도구의 단독 글은 `tools/`, Roadmap까지 만들 정도는 아닌 범용 소프트웨어·컴퓨터 기술 글은 `engineering/`처럼 넓은 경계에 둘 수 있다.\n\n단, `misc/`처럼 무엇이든 넣는 임시 폴더를 습관적으로 만들지 않는다. 대분류 이름만 보고도 어떤 성격의 글이 들어가는지 설명할 수 있어야 한다.'''
+          if old not in text:
+              raise SystemExit('principle marker not found')
+          text = text.replace(old, new, 1)
+          docs.write_text(text)
+
+          posts = Path('_posts')
+          moves = {
+              '2026-08-30-ipad-obsidian-github-sync.md': 'tools/2026-08-30-obsidian-ipad-github-sync.md',
+              '2026-08-30-obsidian-plugin-architecture.md': 'tools/2026-08-30-obsidian-plugin-architecture.md',
+              '2025-04-11-software-license.md': 'engineering/2025-04-11-software-license.md',
+              '2025-12-27-ssd-form-factor-interface-protocol-nand.md': 'engineering/2025-12-27-ssd-form-factor-interface-protocol-nand.md',
+          }
+
+          for src_name, dst_name in moves.items():
+              src = posts / src_name
+              if not src.exists():
+                  raise SystemExit(f'missing root post: {src}')
+              dst = posts / dst_name
+              dst.parent.mkdir(exist_ok=True)
+              if dst.exists():
+                  raise SystemExit(f'destination exists: {dst}')
+              content = src.read_text()
+              # preserve old public filename-derived URLs after rename where needed
+              if src_name == '2026-08-30-ipad-obsidian-github-sync.md':
+                  if 'redirect_from:' not in content:
+                      content = content.replace('pin         : false', 'redirect_from:\n  - /posts/ipad-obsidian-github-sync/\npin         : false', 1)
+              dst.write_text(content)
+              src.unlink()
+
+          # update source-relative links to moved posts
+          replacements = {
+              '../obsidian/2026-08-30-ipad-obsidian-github-sync.md': '../tools/2026-08-30-obsidian-ipad-github-sync.md',
+              '../obsidian/2026-08-30-obsidian-plugin-architecture.md': '../tools/2026-08-30-obsidian-plugin-architecture.md',
+              './2026-08-30-ipad-obsidian-github-sync.md': '../tools/2026-08-30-obsidian-ipad-github-sync.md',
+              './2026-08-30-obsidian-plugin-architecture.md': '../tools/2026-08-30-obsidian-plugin-architecture.md',
+          }
+          for p in posts.rglob('*.md'):
+              t = p.read_text()
+              u = t
+              for a,b in replacements.items():
+                  u = u.replace(a,b)
+              if u != t:
+                  p.write_text(u)
+
+          root_posts = list(posts.glob('*.md'))
+          if root_posts:
+              raise SystemExit('root posts remain: ' + ', '.join(str(p) for p in root_posts))
+          PY
+
+      - name: Validate Jekyll build
+        run: bundle exec jekyll build
+
+      - name: Commit organization
+        run: |
+          git config user.name 'clang.engineer'
+          git config user.email 'clang.engineer@gmail.com'
+          git add -A
+          git commit -m 'docs: keep posts inside one-level domain folders'
+          git push
+
+      - name: Remove one-time workflow
+        run: |
+          git rm .github/workflows/enforce-post-root-folder-principle-once.yml
+          git commit -m 'chore: remove one-time post root organizer'
+          git push
