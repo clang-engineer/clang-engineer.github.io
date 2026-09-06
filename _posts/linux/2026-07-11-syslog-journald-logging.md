@@ -11,37 +11,54 @@ hidden      : false
 
 서비스가 죽었을 때 가장 먼저 보는 게 로그입니다. 그런데 "로그가 어디 있어요?"라는 질문에 답하려면 먼저 로그가 **어떻게 수집되고 어디에 저장되는지**를 알아야 합니다. `/var/log/messages`인지 `/var/log/syslog`인지 배포판마다 다르고, 요즘은 `journalctl`로 봐야 하는 로그가 따로 있으며, 어떤 로그는 재부팅하면 사라집니다. 이 셋이 다 다른 이유가 있습니다.
 
-이 글은 리눅스 로그를 **생성·수집·저장하는 두 체계** — 전통적 **syslog**(요즘 구현체는 대부분 **rsyslog**)와 systemd의 **journald** — 가 무엇이고 어떻게 공존하는지, 그리고 실전에서 `journalctl`로 어떻게 뒤지는지를 정리합니다.
+이 글은 Linux에서 자주 만나는 **systemd-journald와 syslog 계열 수집기(rsyslog 등)**가 각각 무엇을 수집·저장하는지, 어떤 구성에서는 둘이 연결되고 어떤 구성에서는 하나만 존재하는지, 그리고 현재 서버의 실제 경로를 확인하는 방법을 정리합니다.
 
 > 로그 파일이 **커지지 않게 회전·압축·삭제**하는 건 별도 주제입니다 — [logrotate로 로그 관리하기](./2025-02-19-logrotate.md)에서 다룹니다. "누가 언제 로그인했나" 같은 **로그인 기록 감사**(utmp/wtmp)도 [로그인 기록 추적하기](./2026-07-11-login-records-utmp-wtmp.md)로 따로 뺐습니다. 이 글은 그 앞단, 로그가 애초에 어디서 만들어져 어디로 흘러가는지에 집중합니다.
 {: .prompt-info }
 
 ---
 
-## 두 체계가 공존한다
+## 먼저 실제 로그 경로를 확인한다
 
-리눅스 로그를 헷갈리게 만드는 근본 원인은 **로그 수집기가 하나가 아니라는 것**입니다. 지금 대부분의 배포판에는 두 체계가 동시에 돌아갑니다.
+Linux 로그를 헷갈리게 만드는 이유는 **배포판·init system·설치된 logging daemon·서비스 실행 방식에 따라 수집 경로가 달라질 수 있기 때문**이다.
 
-| 체계 | 정체 | 저장 위치 | 조회 |
-|---|---|---|---|
-| **syslog** (rsyslog) | 전통적 로그 프로토콜·데몬. 과거 `syslogd` → 지금은 **rsyslog**가 표준 구현 | `/var/log/*.log` 텍스트 파일 | `cat` / `tail -f` / `grep` |
-| **journald** | systemd의 로그 데몬 (`systemd-journald`) | `/run/log/journal` 또는 `/var/log/journal` **바이너리** | `journalctl` |
+대표 구성요소는 다음처럼 구분한다.
 
-두 체계는 경쟁이 아니라 대개 **직렬로 연결**됩니다. 흔한 구조는 이렇습니다:
+| 구성요소 | 역할 | 대표 조회/저장 |
+|---|---|---|
+| `systemd-journald` | kernel·service stdout/stderr·syslog socket 등 여러 source를 journal로 수집 | `journalctl`, `/run/log/journal` 또는 `/var/log/journal` |
+| syslog daemon (`rsyslog`, `syslog-ng` 등) | syslog message를 rule에 따라 file·remote destination 등으로 route | `/var/log/*` text file, remote syslog 등 |
+| Application 자체 logging | Application이 자기 file/remote sink를 직접 관리 | App별 path·service |
 
+systemd 기반 배포판이라고 해서 **항상 rsyslog가 설치되어 있거나 journald 뒤에 직렬로 연결된다고 가정하지 않는다.** journald만 사용하는 Host도 있고, 별도 syslog daemon을 함께 운영하는 Host도 있다.
+
+함께 쓸 때도 연결 경로는 설정에 따라 다를 수 있다.
+
+```text
+Application / kernel / service stdout-stderr
+        │
+        ├──> systemd-journald ──> journal storage
+        │             │
+        │             └──> forwarding/socket/journal input을 통해
+        │                    syslog daemon과 연동될 수 있음
+        │
+        └──> application file / syslog socket 등 다른 sink
 ```
-애플리케이션 / 커널
-      │  (로그 발생)
-      ▼
-systemd-journald   ← 먼저 여기서 받음 (구조화 저장)
-      │  forward
-      ▼
-rsyslog            ← 전달받아 /var/log 텍스트 파일로도 남김
+
+따라서 “로그는 무조건 `/var/log/messages`” 또는 “무조건 journald가 먼저 받고 rsyslog로 넘긴다”라고 외우지 않는다.
+
+현재 Host에서는 다음 순서로 확인한다.
+
+```bash
+systemctl status systemd-journald
+systemctl status rsyslog 2>/dev/null || true
+systemctl status syslog-ng 2>/dev/null || true
+
+journalctl -b -n 50
+ls -lah /var/log | head
 ```
 
-journald가 먼저 모든 로그를 받아 구조화된 바이너리로 저장하고, 그걸 rsyslog로 **전달(forward)**해서 `/var/log`에 예전 방식대로 텍스트 파일로도 남깁니다. 그래서 같은 로그를 `journalctl`로도, `tail -f /var/log/messages`로도 볼 수 있는 경우가 많습니다. 어느 쪽을 봐도 되지만, 각자 강점이 다릅니다(뒤에서 정리).
-
----
+Service unit의 stdout/stderr가 journal에 들어가는지, Application이 별도 file을 쓰는지도 함께 본다.
 
 ## `/var/log` 구조 — 배포판마다 이름이 다르다
 
