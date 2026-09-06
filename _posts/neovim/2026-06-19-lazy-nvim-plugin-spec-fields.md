@@ -13,7 +13,7 @@ LazyVim 설정을 만지다 보면 `lua/plugins/` 아래 파일마다 `opts`, `i
 
 이 글은 lazy.nvim **plugin spec의 필드들을 세 묶음으로 나눠** 정리한다 — (1) 언제 로드되나, (2) 로드될 때 뭘 하나, (3) 다른 플러그인과의 관계. 각 필드가 따로 노는 게 아니라 역할이 분명히 갈린다는 걸 보면 spec이 한눈에 읽히기 시작한다.
 
-> 이 글은 **하나의 spec을 읽고 쓰는 법**(필드 레퍼런스)에 집중한다. core/extras/사용자 plugin이 **여러 spec으로 어떻게 합쳐지는지**(머지 알고리즘)는 시리즈의 [의존성 계층 글](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/)에서 다룬다.
+> 이 글은 **하나의 spec을 읽고 쓰는 법**(필드 레퍼런스)에 집중한다. core/extras/사용자 plugin이 **여러 spec으로 어떻게 합쳐지는지**(머지 알고리즘)는 시리즈의 [의존성 계층 글](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md)에서 다룬다.
 
 ## spec은 테이블 하나다
 
@@ -301,7 +301,7 @@ LazyVim은 일부 플러그인(특히 nvim-lspconfig, conform, mason 등)에 **�
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [LazyVim 주요 플러그인 정리](/posts/lazyvim/2026-06-07-lazyvim-plugins-overview/) | LazyVim에 어떤 플러그인들이 어떤 키맵으로 들어있는지 — 글로벌 명함 |
-| [LazyVim 기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/) | 기능 영역(Git·검색·LSP·완성·DAP)별로 어떤 플러그인이 협력하는지, snacks.nvim의 hub 역할 |
-| [LazyVim 의존성 계층 — spec merge](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/) | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 머지 알고리즘 |
+| [LazyVim 주요 플러그인 정리](./2026-06-07-lazyvim-plugins-overview.md) | LazyVim에 어떤 플러그인들이 어떤 키맵으로 들어있는지 — 글로벌 명함 |
+| [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md) | 기능 영역(Git·검색·LSP·완성·DAP)별로 어떤 플러그인이 협력하는지, snacks.nvim의 hub 역할 |
+| [LazyVim 의존성 계층 — spec merge](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 머지 알고리즘 |
 | **lazy.nvim plugin spec 필드 완전 정리 (현재 글)** | 하나의 spec을 읽고 쓰는 법 — 로드 트리거 / init·opts·config / 의존성 |

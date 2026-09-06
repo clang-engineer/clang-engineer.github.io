@@ -99,4 +99,4 @@ Neovim을 IDE처럼 쓰는 전체 그림은 이 다섯 축이면 정리된다. �
 
 "LSP가 안 된다"면 `:Mason`에서 실행 파일을 확인하고, `:checkhealth vim.lsp`에서 config·root·client를 확인한 뒤, 필요할 때 LSP 로그를 연다. 설치 여부와 attach 여부를 분리하는 것이 핵심이다.
 
-> 관련: 각 기능 영역을 **어떤 플러그인들이 분담**해 만드는지는 [LazyVim 기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 다룬다. Vim·Neovim·배포판이 **계층별로 무슨 기능**을 얹는지는 [Vim vs Neovim vs 배포판](./2026-06-08-vim-neovim-lazyvim-feature-layers.md)을, LSP가 실제로 안 붙을 때의 **검증 방법**은 [헤드리스 모드로 attach 검증하기](./2026-06-15-neovim-lsp-headless-attach-debug.md)를 참고.
+> 관련: 각 기능 영역을 **어떤 플러그인들이 분담**해 만드는지는 [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md)에서 다룬다. Vim·Neovim·배포판이 **계층별로 무슨 기능**을 얹는지는 [Vim vs Neovim vs 배포판](./2026-06-08-vim-neovim-lazyvim-feature-layers.md)을, LSP가 실제로 안 붙을 때의 **검증 방법**은 [헤드리스 모드로 attach 검증하기](./2026-06-15-neovim-lsp-headless-attach-debug.md)를 참고.

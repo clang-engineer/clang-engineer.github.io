@@ -54,5 +54,5 @@ git add -p        # (= git add --patch) hunk 단위로 물어보며 스테이징
 
 CLI의 `git add -p`를 Neovim에서 그대로 하는 게 gitsigns다. `]h`/`[h`로 hunk 사이를 이동하고, 커서가 있는 hunk만 `:Gitsigns stage_hunk`(LazyVim은 `<leader>ghs`)로 스테이징한다. Visual 모드로 일부 줄만 선택해 hunk보다 더 잘게 고를 수도 있다.
 
-> LazyVim의 gitsigns 키맵·동선 상세는 [LazyVim Git 플러그인 정리](/posts/lazyvim/2026-06-09-lazyvim-git-plugins/) 참고.
+> LazyVim의 gitsigns 키맵·동선 상세는 [LazyVim Git 플러그인 정리](../neovim/2026-06-09-lazyvim-git-plugins.md) 참고.
 {: .prompt-tip }

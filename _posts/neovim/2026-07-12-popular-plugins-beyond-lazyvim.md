@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 이 글은 [Neovim 로드맵](./2026-06-16-neovim-roadmap.md)의 **부록 A(비교·생태계)** 다. LazyVim이 *기본으로* 켜는 플러그인의 키맵·역할은 [LazyVim 주요 플러그인 정리](/posts/lazyvim/2026-06-07-lazyvim-plugins-overview/)와 [기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 다뤘다. 이 글은 그 **밖의** 인기 플러그인 — 기본값을 갈아탈 때의 대안과, 기본에 아예 없는 인기템이다.
+> 이 글은 [Neovim 로드맵](./2026-06-16-neovim-roadmap.md)의 **부록 A(비교·생태계)** 다. LazyVim이 *기본으로* 켜는 플러그인의 키맵·역할은 [LazyVim 주요 플러그인 정리](./2026-06-07-lazyvim-plugins-overview.md)와 [기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md)에서 다뤘다. 이 글은 그 **밖의** 인기 플러그인 — 기본값을 갈아탈 때의 대안과, 기본에 아예 없는 인기템이다.
 {: .prompt-tip }
 
 LazyVim을 쓰면 인기 플러그인 대부분이 이미 깔려 있다 — snacks·blink·neo-tree·gitsigns·flash·conform… 그래서 "인기 Neovim 플러그인" 카탈로그를 또 나열하면 대부분 이미 아는 것이다. 가치 있는 질문은 다르다: **"기본값 대신 뭘 얹나, 그리고 왜 갈아타나."** 이 글은 그 각도로 정리한다. (별 개수는 2026-07 실측, 정착도는 dotfyle의 실 사용 config 수·커뮤니티 반응 기준.)
@@ -75,7 +75,7 @@ LazyVim 기본은 **conform.nvim**(5.3k⭐, 포맷) + **nvim-lint**(2.8k⭐)다.
 | **nvim-dap** | 7.2k | 디버거 코어. LazyVim은 `dap.core` extra로만 얹음 |
 
 - **harpoon**은 이 표에서 가장 널리 쓰인다. LazyVim의 buffer/picker와 목적이 달라(전환이 아니라 *고정 북마크*) 병용 가치가 크다.
-- Git은 LazyVim이 gitsigns(gutter) + lazygit(TUI)로 커버하지만([Git 플러그인 구성](/posts/lazyvim/2026-06-09-lazyvim-git-plugins/)), **에디터 안에서** magit식으로 다루고 싶으면 neogit + diffview 조합이 그 빈자리다.
+- Git은 LazyVim이 gitsigns(gutter) + lazygit(TUI)로 커버하지만([Git 플러그인 구성](./2026-06-09-lazyvim-git-plugins.md)), **에디터 안에서** magit식으로 다루고 싶으면 neogit + diffview 조합이 그 빈자리다.
 
 ---
 

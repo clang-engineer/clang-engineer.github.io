@@ -11,7 +11,7 @@ hidden      : false
 
 "Git 띄울 때 lazygit가 뜨는 거야 그렇다 치고, gitsigns 는 또 뭐가 하지?", "Telescope 끄면 검색이 안 될 텐데 왜 안 끊기지?" — LazyVim 을 좀 쓰다 보면 **하나의 기능을 여러 플러그인이 분담**한다는 게 보이기 시작한다. 이 글은 그 분담 관계를 기능 영역별로 정리한다.
 
-[지난 글](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/) 이 "LazyVim이 어떻게 조립되는가(구조)"였다면, 이번 글은 "그 안에 뭐가 들어 있는가(내용)" 다.
+[지난 글](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) 이 "LazyVim이 어떻게 조립되는가(구조)"였다면, 이번 글은 "그 안에 뭐가 들어 있는가(내용)" 다.
 
 > 2026-07 LazyVim 기준. picker·completion·explorer는 선택형 extra이며, 새 설치의 fallback 선택은 snacks picker·blink.cmp·snacks explorer다. 기존 설치와 `vim.g.lazyvim_*` 설정은 다른 구현을 유지할 수 있다.
 
@@ -56,7 +56,7 @@ nvim 에서 lazygit 띄우기                →  snacks.lazygit (또는 lazygit
 
 즉 **gitsigns 는 inline, lazygit 은 fullscreen** 으로 역할이 명확히 갈린다.
 
-> Git 영역의 전체 키맵과 작업 동선은 [LazyVim의 Git 플러그인 구성 — gitsigns·lazygit·snacks](/posts/lazyvim/2026-06-09-lazyvim-git-plugins/) 에서 따로 깊게 다룬다.
+> Git 영역의 전체 키맵과 작업 동선은 [LazyVim의 Git 플러그인 구성 — gitsigns·lazygit·snacks](./2026-06-09-lazyvim-git-plugins.md) 에서 따로 깊게 다룬다.
 
 ## 2. 검색 / Picker — 선택한 picker + grug-far + flash
 
@@ -218,7 +218,7 @@ vim-dadbod-ui           ← 사이드바 UI (DBUI)
 vim-dadbod-completion   ← SQL 자동완성 (blink.cmp source)
 ```
 
-`extras lang.sql` 을 켜면 셋 다 들어온다. 더 깊은 이야기는 [vim-dadbod 인증 함정](/posts/lazyvim/2026-05-06-vim-dadbod-pgpass-windows/), [dbout 레이아웃 커스터마이징](/posts/lazyvim/2026-05-06-vim-dadbod-dbout-layout/) 글 참고.
+`extras lang.sql` 을 켜면 셋 다 들어온다. 더 깊은 이야기는 [vim-dadbod 인증 함정](./2026-05-06-vim-dadbod-pgpass-windows.md), [dbout 레이아웃 커스터마이징](./2026-05-06-vim-dadbod-dbout-layout.md) 글 참고.
 
 ## 정리 — "이 기능이 안 먹어" 일 때 어디부터 보는가
 
@@ -240,7 +240,7 @@ LazyVim 은 **"풍부한 기본값을 가진 spec 묶음"** 이고, 그 spec 들
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [LazyVim 주요 플러그인 정리](/posts/lazyvim/2026-06-07-lazyvim-plugins-overview/) | LazyVim에 어떤 플러그인들이 어떤 키맵으로 들어있는지 — 글로벌 명함 |
+| [LazyVim 주요 플러그인 정리](./2026-06-07-lazyvim-plugins-overview.md) | LazyVim에 어떤 플러그인들이 어떤 키맵으로 들어있는지 — 글로벌 명함 |
 | **LazyVim 기능 지도 (현재 글)** | 기능 영역(Git·검색·LSP·완성·DAP)별로 어떤 플러그인이 협력하는지, snacks.nvim의 hub 역할 |
-| [LazyVim 의존성 계층 — spec merge](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/) | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 머지 알고리즘 |
-| [lazy.nvim plugin spec 필드 완전 정리](/posts/lazyvim/2026-06-19-lazy-nvim-plugin-spec-fields/) | 하나의 spec을 읽고 쓰는 법 — 로드 트리거 / init·opts·config / 의존성 |
+| [LazyVim 의존성 계층 — spec merge](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 머지 알고리즘 |
+| [lazy.nvim plugin spec 필드 완전 정리](./2026-06-19-lazy-nvim-plugin-spec-fields.md) | 하나의 spec을 읽고 쓰는 법 — 로드 트리거 / init·opts·config / 의존성 |

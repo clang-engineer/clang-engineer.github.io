@@ -77,19 +77,19 @@ LazyVim을 "그냥 쓰는" 단계에서 "어떻게 동작하는지 알고 고치
 
 | 글 | 핵심 |
 |---|---|
-| [LazyVim 주요 플러그인 정리](/posts/lazyvim/2026-06-07-lazyvim-plugins-overview/) | core와 선택 extra를 구분하며 UI/편집/Git/진단/LSP 도구와 키맵 확인 |
-| [LazyVim 기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/) | 각 기능 영역(Git·검색·LSP·완성·DAP)이 어떤 플러그인 묶음으로 만들어지는지, snacks.nvim의 hub 역할 |
-| [lazy.nvim 플러그인 spec 필드 완전 정리](/posts/lazyvim/2026-06-19-lazy-nvim-plugin-spec-fields/) | `lazy`·`keys`·`cmd`·`ft`·`priority`(로드 트리거), `init`·`opts`·`config`(로드 시 동작), `dependencies`·`optional`·`branch`(관계)를 실행 순서와 함께. spec merge를 읽기 전에 필드부터 |
-| [LazyVim 의존성 계층 — spec merge](/posts/lazyvim/2026-06-07-lazyvim-spec-merge-and-dependency-layers/) | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 순서 |
-| [LazyVim extra의 spec에 의존성만 보강하기](/posts/lazyvim/2026-05-07-lazyvim-extra-override-merge-deps/) | 같은 이름으로 다시 작성해 `dependencies`만 머지하는 패턴 |
-| [Which-Key Keymaps 정리](/posts/lazyvim/2025-10-04-whichkey/) | LazyVim 기본 키맵 그룹의 전체 지도 |
-| [LazyVim Trouble — 코드 문제와 목록 탐색](/posts/lazyvim/2026-05-04-lazyvim-leader-x-trouble/) | `<leader>x`의 diagnostics/list와 `<leader>c`의 symbols/LSP 목록 구분 |
-| [LazyVim의 Git 플러그인 구성](/posts/lazyvim/2026-06-09-lazyvim-git-plugins/) | gitsigns · lazygit · snacks 3축 |
+| [LazyVim 주요 플러그인 정리](./2026-06-07-lazyvim-plugins-overview.md) | core와 선택 extra를 구분하며 UI/편집/Git/진단/LSP 도구와 키맵 확인 |
+| [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md) | 각 기능 영역(Git·검색·LSP·완성·DAP)이 어떤 플러그인 묶음으로 만들어지는지, snacks.nvim의 hub 역할 |
+| [lazy.nvim 플러그인 spec 필드 완전 정리](./2026-06-19-lazy-nvim-plugin-spec-fields.md) | `lazy`·`keys`·`cmd`·`ft`·`priority`(로드 트리거), `init`·`opts`·`config`(로드 시 동작), `dependencies`·`optional`·`branch`(관계)를 실행 순서와 함께. spec merge를 읽기 전에 필드부터 |
+| [LazyVim 의존성 계층 — spec merge](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) | lazy.nvim → core → extras → 사용자 plugin이 합쳐지는 순서 |
+| [LazyVim extra의 spec에 의존성만 보강하기](./2026-05-07-lazyvim-extra-override-merge-deps.md) | 같은 이름으로 다시 작성해 `dependencies`만 머지하는 패턴 |
+| [Which-Key Keymaps 정리](./2025-10-04-whichkey.md) | LazyVim 기본 키맵 그룹의 전체 지도 |
+| [LazyVim Trouble — 코드 문제와 목록 탐색](./2026-05-04-lazyvim-leader-x-trouble.md) | `<leader>x`의 diagnostics/list와 `<leader>c`의 symbols/LSP 목록 구분 |
+| [LazyVim의 Git 플러그인 구성](./2026-06-09-lazyvim-git-plugins.md) | gitsigns · lazygit · snacks 3축 |
 
 > 📎 **치트시트** · [lazyvim](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazyvim.md) · [lazygit](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazygit.md) — LazyVim 키맵 / lazygit TUI 단축키 (GitHub)
 {: .prompt-tip }
 
-> **경계 — IDE 기능 레이어는 이 줄기가 직접 가르치지 않는다.** LSP 설정 기초·자동완성/스니펫·DAP(디버깅)·Treesitter는 학습 단계로 두지 않았다. LazyVim이 core와 선택 extra로 이 기능을 조립하므로, [기능 지도](/posts/lazyvim/2026-06-07-lazyvim-feature-plugin-map/)에서 "어떤 플러그인이 담당하나"를 확인하고 실제 사용은 선택한 기본값에 맡기는 구성이다. 다만 그 LSP 레이어가 실제로 **어떻게 물려 도는지**를 한 장으로 잡아 두면, 설정을 직접 안 만지더라도 "LSP가 안 될 때 어느 층 문제인지"를 짚을 수 있다 → [Neovim 0.11+ LSP 3계층 — mason·lspconfig·vim.lsp의 역할](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md). 밑바닥부터 직접 구성하는 사람은 이 글을 3단계 보강으로 읽으면 된다.
+> **경계 — IDE 기능 레이어는 이 줄기가 직접 가르치지 않는다.** LSP 설정 기초·자동완성/스니펫·DAP(디버깅)·Treesitter는 학습 단계로 두지 않았다. LazyVim이 core와 선택 extra로 이 기능을 조립하므로, [기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md)에서 "어떤 플러그인이 담당하나"를 확인하고 실제 사용은 선택한 기본값에 맡기는 구성이다. 다만 그 LSP 레이어가 실제로 **어떻게 물려 도는지**를 한 장으로 잡아 두면, 설정을 직접 안 만지더라도 "LSP가 안 될 때 어느 층 문제인지"를 짚을 수 있다 → [Neovim 0.11+ LSP 3계층 — mason·lspconfig·vim.lsp의 역할](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md). 밑바닥부터 직접 구성하는 사람은 이 글을 3단계 보강으로 읽으면 된다.
 {: .prompt-info }
 
 ## 4단계 — 플러그인 개발 (만들 사람만)

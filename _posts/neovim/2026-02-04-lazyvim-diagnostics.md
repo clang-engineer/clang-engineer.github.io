@@ -132,4 +132,4 @@ LSP가 이상하게 동작한다
 :w lsp-debug.log
 ```
 
-Trouble의 키맵과 Diagnostics·Quickfix·Location List의 관계는 [LazyVim Trouble — 코드 문제와 목록 탐색](/posts/lazyvim/2026-05-04-lazyvim-leader-x-trouble/)에서 별도로 다룬다. 이 글의 목적은 **문제가 있을 때 어떤 정보원을 어디서 확인할지 빠르게 선택하는 것**이다.
+Trouble의 키맵과 Diagnostics·Quickfix·Location List의 관계는 [LazyVim Trouble — 코드 문제와 목록 탐색](./2026-05-04-lazyvim-leader-x-trouble.md)에서 별도로 다룬다. 이 글의 목적은 **문제가 있을 때 어떤 정보원을 어디서 확인할지 빠르게 선택하는 것**이다.

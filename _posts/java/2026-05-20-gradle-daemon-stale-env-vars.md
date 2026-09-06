@@ -88,6 +88,6 @@ credentials {
 
 | 글 | 다루는 것 |
 | --- | --- |
-| [SNAPSHOT 의존성 해석 실패 — 불완전 배포](/posts/gradle/2026-03-06-github-packages-snapshot-incomplete-publish/) | pom 누락으로 404, 재배포로 해결 |
-| [GitHub Packages 인증 실패 — 401/403 디버깅](/posts/gradle/2026-05-15-github-packages-gradle-auth-debugging/) | PAT 스코프·SSO authorize·환경변수 전달까지 |
+| [SNAPSHOT 의존성 해석 실패 — 불완전 배포](./2026-03-06-github-packages-snapshot-incomplete-publish.md) | pom 누락으로 404, 재배포로 해결 |
+| [GitHub Packages 인증 실패 — 401/403 디버깅](./2026-05-15-github-packages-gradle-auth-debugging.md) | PAT 스코프·SSO authorize·환경변수 전달까지 |
 | **Gradle 데몬 환경변수 stale 문제 (현재 글)** | 데몬이 옛 환경변수를 잡고 있어 PAT 갱신이 반영되지 않는 함정 |
