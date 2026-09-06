@@ -1,8 +1,8 @@
 ---
 title       : "리눅스 로그는 어디에 쌓이나: syslog(rsyslog)와 journald"
-description : "로그가 생성·수집·저장되는 두 체계 — 전통적 syslog(rsyslog)와 systemd journald가 어떻게 공존하는지, /var/log 구조와 facility·priority, logger로 직접 남기기, journalctl 실전 조회·영속화까지."
+description : "Linux 로그가 journald, syslog daemon, 애플리케이션 자체 로그로 흐를 수 있는 구조를 구분하고 현재 호스트의 실제 수집 경로를 확인한다. /var/log, facility·priority, journalctl, 영속화까지 함께 정리한다."
 date        : 2026-07-11 15:00:00 +0900
-updated     : 2026-07-11 15:00:00 +0900
+updated     : 2026-09-06 14:30:00 +0900
 categories  : [linux, "시스템 관리"]
 tags        : [logging, syslog, rsyslog, journald, journalctl]
 pin         : false
