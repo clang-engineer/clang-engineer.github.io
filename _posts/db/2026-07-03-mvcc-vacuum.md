@@ -66,7 +66,7 @@ MVCC가 격리 수준을 구현하는 핵심은 결국 **스냅샷을 뜨는 시
 
 Read Committed에서는 문장을 실행할 때마다 스냅샷을 새로 뜨므로, 같은 트랜잭션 안에서 같은 행을 두 번 읽어도 그 사이 다른 트랜잭션이 커밋했다면 값이 달라질 수 있다.
 
-Repeatable Read는 트랜잭션이 처음 데이터를 건드릴 때 스냅샷을 한 번 뜨고 끝까지 고정한다. 그래서 트랜잭션 내내 세상이 얼어붙은 것처럼 보인다. PostgreSQL의 Repeatable Read는 표준의 Repeatable Read보다 강해 phantom read까지 막는다(스냅샷 격리). 격리 수준의 이론적 배경은 아래 관련 글에서 다룬다.
+Repeatable Read는 트랜잭션이 처음 데이터를 건드릴 때 스냅샷을 한 번 뜨고 끝까지 고정한다. 그래서 트랜잭션 내내 세상이 얼어붙은 것처럼 보인다. PostgreSQL의 Repeatable Read는 표준의 Repeatable Read보다 강해 phantom read까지 막는다(스냅샷 격리). 격리 수준의 일반 이론은 정보관리기술사 Knowledge에서 관리하고, 이 글은 PostgreSQL의 구현에 집중한다.
 
 > 스냅샷 시점만 바꿔서 서로 다른 격리 수준을 만든다 — 이것이 MVCC가 격리를 "구현"하는 방식이다.
 
@@ -187,5 +187,4 @@ LIMIT 10;
 
 | 글 | 왜 |
 | --- | --- |
-| [트랜잭션 동시성 제어 — 격리 수준과 락](/posts/db/2024-05-03-isolation-level/) | MVCC가 구현하는 격리 수준의 이론적 배경 |
 | [PostgreSQL 모니터링 — pg_stat 뷰와 슬로우 쿼리 추적](./2026-07-03-postgresql-monitoring.md) | dead tuple·autovacuum 상태를 실제로 보는 법 |

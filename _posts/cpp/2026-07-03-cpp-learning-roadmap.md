@@ -38,7 +38,6 @@ C++는 배울 주제가 넓은 데다 서로 얽혀 있어서, 문법을 목차 
 | 고급 | [⑦ 동시성 — 스레드·비동기](./2026-07-03-cpp-concurrency.md) | 나중 |
 | 마지막 | [⑧ 빌드 — 컴파일·링킹·CMake](./2026-07-03-cpp-build-compile-link-cmake.md) | 필수 |
 | 부록 | [코드 스타일 — cpplint·clang-format](./2024-10-22-cpplint-clangformat.md) | 다른 축 |
-| 부록 | [트러블슈팅 — 표준(-std) 경고·에러](/posts/cpp/2022-07-17-cpp-std-extension-warning/) | 막힐 때 |
 
 **①~⑧의 [필수]만 세로로 따라가면 하나의 완결된 경로**입니다. 부록은 학습 단계가 아니라 필요할 때 직행하는 다른 축입니다. 아래는 각 단계를 왜 그 순서·우선순위로 두는지 풀어 쓴 것입니다.
 
@@ -162,7 +161,6 @@ C++11 이후의 본체입니다. 실무의 어려움 대부분이 이 구간에 
 
 | 글 | 핵심 |
 |---|---|
-| [표준(-std) 관련 경고·에러 해결](/posts/cpp/2022-07-17-cpp-std-extension-warning/) | 어떤 기능이 어느 표준(C++11/14/17/20)에서 들어왔는지 표로 정리하고, 명령줄·Makefile·CMake(`CMAKE_CXX_STANDARD`)·VS Code에서 `-std`를 지정하는 법 |
 
 ⑧의 CMake 설정(`CMAKE_CXX_STANDARD`, `CMAKE_CXX_EXTENSIONS OFF`)과 직접 이어집니다. 모던 문법이 갑자기 안 먹히면 문법이 아니라 표준 옵션을 먼저 의심하세요.
 

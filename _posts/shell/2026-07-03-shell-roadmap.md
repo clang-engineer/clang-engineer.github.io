@@ -80,7 +80,7 @@ Quote는 어떤 확장을 막거나 보존하는가?
 실패를 어디까지 전파할 것인가?
 ```
 
-낯선 Script를 읽는 관점이 필요하면 [낯선 셸 스크립트 읽기](/posts/shell/2026-07-03-shell-script-reading-guide/)에서 Interpreter·Quote·Expansion·Exit Status 순으로 추적한다.
+낯선 Script를 읽을 때도 Interpreter → Quote → Expansion → Exit Status 순으로 추적하면 실행 의미를 놓치지 않는다.
 
 > 📎 **치트시트** · [shell](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/shell.md) · [zsh](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/zsh.md)
 {: .prompt-tip }

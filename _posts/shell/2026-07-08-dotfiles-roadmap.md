@@ -80,7 +80,6 @@ dotfiles를 "코드로 관리"하기 전에 잡아 두면 좋은 이해, 그리�
 
 | 글 | 핵심 |
 |---|---|
-| [/etc/profile, /etc/bashrc, ~/.bash_profile, ~/.bashrc](/posts/shell/2022-07-19-bashrc-profile/) | login/non-login × interactive/non-interactive 두 축으로 본 초기화 파일 로딩 순서. zsh 매핑까지. "왜 내 `.zshrc`가 안 먹히지"의 답 — 어느 파일을 dotfiles로 관리할지 정하기 전 전제 |
 | [direnv 사용법 정리](./2026-02-21-direnv.md) | 디렉토리 진입 시 `.envrc`로 환경변수 자동 로드. 저장소별로 갈리는 값을 dotfiles 밖에서 다루는 축. 셸 레벨 direnv vs 앱 레벨 dotenv의 역할 분담 |
 
 ## 부록 B — SSH 계정 분리 · 새 맥 전체 셋업 (필요할 때)
