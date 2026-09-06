@@ -1,0 +1,85 @@
+name: Refine AI landscape once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/refine-ai-landscape-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Replace subjective Claude Code vs Codex section
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('_posts/ai/2026-07-03-ai-coding-tools-landscape.md')
+          text = p.read_text(encoding='utf-8')
+          start = text.index('## Claude Code vs Codex — 실제 작업에서는 어떻게 고르나')
+          end = text.index('## 누구에게 맞나', start)
+
+          section = '''## Claude Code vs Codex — 같은 Form Factor에서는 무엇을 비교하나
+
+둘 다 Terminal에서 Repository를 읽고 파일을 수정하며 명령·테스트를 실행할 수 있는 Coding Agent라면, "분석은 A가 잘하고 구현은 B가 잘한다"처럼 고정 성격을 부여하지 않는다. Model·Version·System Prompt·Tooling은 계속 바뀌므로 그런 평가는 금방 낡는다.
+
+대신 **Harness가 제공하는 관찰 가능한 계약**을 비교한다.
+
+| 비교축 | 확인할 질문 |
+|---|---|
+| Model 범위 | 어떤 Model 계열을 선택할 수 있고 Tool과 Model이 얼마나 결합돼 있나 |
+| Repository instruction | Project 지침 파일과 사용자 지침을 어떤 Scope·우선순위로 읽나 |
+| Tool surface | Shell·Search·Edit·Browser·MCP 등 어떤 Tool을 어떤 방식으로 노출하나 |
+| Permission / sandbox | Command·Network·File write를 어디까지 자동 허용하고 어디서 승인을 받나 |
+| Context 관리 | 긴 작업에서 File·Tool result·Conversation을 어떻게 유지·요약하나 |
+| Local / cloud execution | 현재 Machine에서만 실행하는가, Remote task를 위임할 수 있는가 |
+| Automation | Headless/CI/SDK/Hook 같은 반복 실행 진입점이 있는가 |
+| Cost / limit | Subscription·API·Credit·Rate limit이 내 사용 패턴과 맞나 |
+
+즉 선택은 다음처럼 한다.
+
+```text
+내 Repository와 Security Boundary에서
+필요한 Tool / Permission / Execution Model을 먼저 정함
+        ↓
+그 계약을 만족하는 Harness 후보 비교
+        ↓
+현재 Model·가격·사용 한도 확인
+        ↓
+실제 대표 작업으로 평가
+```
+
+같은 Model 계열을 쓰더라도 Harness가 다르면 Context 구성·Tool 호출·권한·반복 Loop가 달라져 결과가 달라질 수 있다. 반대로 특정 시점의 체감 성능 차이를 Tool의 영구적인 성격으로 기록하지 않는다.
+
+대표 작업으로 비교할 때도 "설계 작업"과 "구현 작업"을 제품에 고정 배정하지 않고, **같은 Repository·같은 완료 조건·같은 검증 기준**에서 실제 결과를 본다.
+
+'''
+
+          text = text[:start] + section + text[end:]
+          text = text.replace(
+              'Claude Code와 Codex처럼 같은 형태의 터미널 에이전트끼리 고를 때는 한 단계 더 들어가 **탐색·설계가 필요한 작업인지, 실행할 변경이 이미 명확한 작업인지**를 기준으로 나누면 선택하기 쉽다.\n\n',
+              'Claude Code와 Codex처럼 같은 Form Factor의 에이전트끼리는 고정된 성격표보다 **Tool surface·Permission·Context·Execution model·비용**을 같은 축에서 비교하고, 현재 대표 작업으로 검증하는 편이 오래 간다.\n\n'
+          )
+          p.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Remove workflow and commit
+        shell: bash
+        run: |
+          rm .github/workflows/refine-ai-landscape-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _posts/ai/2026-07-03-ai-coding-tools-landscape.md .github/workflows/refine-ai-landscape-once.yml
+          git commit -m "docs: use stable comparison axes for coding agents"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
