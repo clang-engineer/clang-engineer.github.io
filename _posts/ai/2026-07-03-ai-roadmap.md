@@ -1,103 +1,229 @@
 ---
-title       : "AI 로드맵 — 도구 지형도에서 Claude Code·MCP·API까지 읽는 순서"
-description : "AI 코딩 도구를 개발 워크플로에 들이는 주제별 인덱스. 도구 지형도(왜 Claude Code인가)에서 시작해 Claude Code를 매일 쓰고 실전으로 확장하고, MCP로 외부를 연결하고, 그 아래 Claude API까지 — 이 블로그의 AI 글을 단계별로 큐레이션한다."
+title       : "AI 로드맵 — 코딩 도구·외부 연결·API 개발의 세 축"
+description : "AI 개발 글을 코딩 도구 사용, 외부 리소스 연결(MCP), 모델 API 개발이라는 서로 다른 축으로 나눈다. 도구 지형도에서 출발하되 Claude Code→MCP→API를 하나의 필수 발전 단계로 만들지 않는다."
 date        : 2026-07-03 21:30:00 +0900
-updated     : 2026-07-13 14:00:00 +0900
+updated     : 2026-09-06 12:10:00 +0900
 categories  : [ai, "개요·인덱스"]
 tags        : [roadmap, ai, claude-code, mcp, claude]
 pin         : false
 hidden      : false
 ---
 
-AI 코딩 도구는 "채팅창에 붙여넣기"에서 멈추기 쉽다. 그런데 터미널에서 도구로 들이기 시작하면 — 어느 도구를 고르고, 무엇을 매일 호출하고, 프로젝트 맥락을 어떻게 기억시키고, 외부 리소스를 어떻게 연결하고, 그 아래 API를 어떻게 직접 다루느냐 — 작업 방식 자체가 달라진다. 이 로드맵은 이 블로그의 AI 글을 그 흐름대로 묶은 인덱스다. **지형도·비교 → Claude Code → MCP → API**, 처음이라면 위에서부터 순서대로 읽으면 된다.
+AI 개발 도구를 익힐 때 서로 다른 질문을 한 줄에 놓기 쉽다.
+
+```text
+어떤 AI 코딩 도구를 쓸까?
+→ Product / Workflow 선택
+
+도구가 외부 File·DB·API를 어떻게 사용할까?
+→ MCP / Tool 연결
+
+내 Application에 Model을 어떻게 넣을까?
+→ Model API 개발
+```
+
+이 세 질문은 **발전 단계가 아니라 서로 다른 축**이다. Claude Code를 잘 쓰기 위해 Claude API를 직접 다룰 필요는 없고, MCP는 Claude Code뿐 아니라 다른 MCP Client에서도 사용할 수 있다. 반대로 API를 직접 쓰는 Application이 Claude Code를 사용하지 않을 수도 있다.
+
+따라서 이 로드맵은 먼저 도구 지형을 잡고, 이후 목적에 맞는 갈래로 들어간다.
 
 ## 한눈에 보기
 
-| 단계 | 무엇을 잡나 | 성격 |
+```text
+AI 개발 지형
+│
+├─ 1. 코딩 도구 사용
+│   └─ Claude Code
+│       ├─ 개요
+│       ├─ 명령·Memory
+│       └─ Workflow·Hook
+│
+├─ 2. 외부 연결
+│   └─ MCP
+│       ├─ Protocol
+│       ├─ Serena
+│       └─ Server 확장
+│
+├─ 3. Application 개발
+│   └─ Claude API
+│       └─ Messages / Streaming / Tool Use / Cache
+│
+└─ 별도 사용자 Surface
+    └─ claude.ai Web
+```
+
+| 갈래 | 답하는 질문 | 필수 관계 |
 |---|---|---|
-| 입문 | AI 코딩 도구 지형도 — 왜 Claude Code인가 | 시작점 |
-| 웹 지형 | claude.ai 웹의 메뉴들 — Projects·Connectors·Routines | 곁가지 |
-| Claude Code | 개요 → 명령·메모리 → 실전 워크플로·확장 | 핵심 경로 (1~3단계) |
-| MCP | 외부 리소스 연결 — 개념 → Serena → 서버 확장 | 확장 |
-| API | 그 아래 Claude API — 직접 앱에 붙일 때 | 저변 |
+| 도구 지형 | 어떤 Form Factor와 제품을 선택할까 | 공통 진입점 |
+| Claude Code | Terminal Agent를 일상 개발에 어떻게 쓸까 | 도구 사용 축 |
+| MCP | AI Client와 외부 Resource를 어떻게 표준 연결할까 | 필요할 때 Branch |
+| Claude API | 내가 만드는 Application에서 Model을 어떻게 호출할까 | 개발자 Branch |
+| claude.ai Web | Browser Product의 기능을 어떻게 사용할까 | 별도 Surface |
 
-**입문 → Claude Code가 핵심 경로**다. 웹 지형은 브라우저에서 먼저 감을 잡는 곁가지, MCP는 바깥을 붙일 때, API는 직접 앱에 얹을 때 필요해지면 들어가면 된다.
-
-## 입문 — 도구 지형도부터
-
-무엇을 설치하기 전에, 지금 뭐가 있고 왜 Claude Code인지부터. 폼팩터로 갈리는 선택지를 훑고 진입한다.
+## 0. 도구 지형 — 먼저 선택 좌표를 잡는다
 
 | 글 | 핵심 |
 |---|---|
-| [AI 코딩 도구 지형도](/posts/ai/2026-07-03-ai-coding-tools-landscape/) | Claude Code·Cursor·Copilot·Codex·Aider를 폼팩터(터미널·에디터·플러그인·클라우드)·모델 종속성·과금·오픈소스 네 축으로 비교. "왜 이 도구인가"를 잡는 진입점 |
+| [AI 코딩 도구 지형도](/posts/ai/2026-07-03-ai-coding-tools-landscape/) | Claude Code·OpenCode·Cursor·Copilot·Codex·Aider를 사용 환경, 모델 종속성, 과금, Open Source 여부로 비교 |
 
-여기서 "터미널 에이전트 vs 에디터 vs 클라우드"의 갈림길을 잡고 나면, 이 블로그가 왜 Claude Code에 집중하는지가 선명해진다.
+가장 먼저 보는 축은 "누가 더 좋나"가 아니라 **어디에서 어떤 방식으로 작업할 것인가**다.
 
-## 곁가지 — claude.ai 웹 지형
+```text
+Terminal Agent
+→ Claude Code / OpenCode / Codex CLI / Aider
 
-터미널로 가기 전, 브라우저에서 먼저 감을 잡는 사람이 많다. claude.ai 웹의 사이드바 메뉴들이 각각 무엇을 하고 언제 쓰는지 한 바퀴 돌아둔다. 핵심 경로는 아니지만, Projects·Connectors·Routines는 CLI로 넘어가서도 그대로 이어지는 개념이다.
+Editor 중심
+→ Cursor
+
+기존 IDE Plugin
+→ Copilot
+
+Remote / Cloud Task
+→ 제품별 Cloud Agent
+```
+
+여기서 선택한 뒤 아래 갈래 중 필요한 것만 탄다.
+
+## 1. 코딩 도구 사용 — Claude Code
+
+이 블로그에서 가장 깊게 다루는 Practice 축이다.
+
+### 1-1. 도구의 위치와 기본 계약
 
 | 글 | 핵심 |
 |---|---|
-| [claude.ai 웹 지형](/posts/ai/2026-07-13-claude-ai-web-tour/) | Projects(대화+지식+지침)·Artifacts·Customize(Skills·Connectors·Plugins)·Design, 그리고 Code 웹의 Routines·Dispatch까지. 메뉴가 두 제품 표면에 나뉜 구조와 "언제 뭘 쓰나"를 화면 기준으로 정리 |
+| [Claude Code 정리](/posts/ai/2025-10-24-claude-code/) | Terminal Agent의 역할, 설치, 권한, 기본 기능, `CLAUDE.md`, MCP 연결의 위치 |
 
-## Claude Code — 도구 익히기
+먼저 "AI Chat"이 아니라 **Repository를 읽고 Tool을 실행하며 변경을 수행하는 Agent Harness**라는 위치를 잡는다.
 
-### 1단계 — 무엇을 하는 도구인가
-
-| 글 | 핵심 |
-|---|---|
-| [Claude Code 정리](/posts/ai/2025-10-24-claude-code/) | 터미널에서 동작하는 Anthropic의 AI 코딩 도구. 설치·핵심 기능·권한 모드·단축키·MCP 연동·CLAUDE.md 활용까지 전체 개요 |
-
-### 2단계 — 매일 쓰기: 명령과 메모리
-
-반복해서 치는 명령과 프로젝트 맥락을 다루는 단계. 명령으로 조작하고, 메모리로 "매번 다시 설명하는" 낭비를 없앤다.
+### 1-2. 매일 쓰기 — 명령과 Memory
 
 | 글 | 핵심 |
 |---|---|
-| [Claude Code 슬래시 명령어 사전](/posts/ai/2025-10-24-claude-code-slash-commands/) | 기본/설정/프로젝트/Git/계정/통합 카테고리로 묶은 슬래시 명령어 전체 사전. 필요할 때 찾아 쓰는 레퍼런스 + `.claude/commands`로 **커스텀 명령 만들기**(`$ARGUMENTS`·frontmatter·`!`/`@`) |
-| [Claude Code 메모리 시스템 정리](/posts/ai/2026-03-12-claude-code-memory/) | `CLAUDE.md`(프로젝트 규칙)와 Auto Memory(대화 간 지속되는 사실)로 컨텍스트를 관리. 매번 같은 배경을 다시 설명하지 않게 만드는 축 |
+| [Claude Code 슬래시 명령어 사전](/posts/ai/2025-10-24-claude-code-slash-commands/) | Slash Command Reference와 Custom Command |
+| [Claude Code 메모리 시스템 정리](/posts/ai/2026-03-12-claude-code-memory/) | `CLAUDE.md`와 지속 Context의 역할 분리 |
 
-> 📎 **치트시트** · [claude-code](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/claude-code.md) — CLI 명령·슬래시·설정 빠른 참조 (GitHub)
+> 📎 **치트시트** · [claude-code](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/claude-code.md) — 반복 명령 빠른 참조
 {: .prompt-tip }
 
-### 3단계 — 실전 워크플로와 확장
+Reference를 모두 외우는 것이 아니라:
 
-조작법에서 활용법으로. 큰 작업을 안전·빠르게 굴리고, 도구 자체를 프로젝트에 맞게 확장한다.
+```text
+현재 Session 조작
+→ Command
 
-| 글 | 핵심 |
-|---|---|
-| [Claude Code 실전 워크플로](/posts/ai/2026-07-03-claude-code-workflow/) | 플랜 모드로 전략 먼저, 서브에이전트로 컨텍스트 격리, 병렬 도구 실행, 헤드리스(`claude -p`)로 스크립트·CI에 태우기 |
-| [Claude Code hooks — 실행 흐름에 셸 끼우기](/posts/ai/2026-07-03-claude-code-hooks-custom-commands/) | `settings.json`의 hooks로 도구 실행 전후에 셸을 끼운다(편집 후 포맷·위험 명령 차단·완료 알림). 이벤트·종료 코드 제어·보안 주의점, 커스텀 명령/스킬과의 경계 |
+Repository 규칙·지속 Context
+→ Memory / CLAUDE.md
+```
 
-## MCP — 외부로 확장
+처럼 책임을 구분한다.
 
-도구 안에서의 사용에 익숙해지면 다음은 **"바깥의 무엇을 연결하느냐"**다. 개념(프로토콜)을 잡고, 구현체 하나로 감을 굳히고, 여러 서버로 넓힌다.
-
-| 글 | 핵심 |
-|---|---|
-| [Model Context Protocol(MCP) 개념 정리](/posts/ai/2025-10-23-mcp/) | AI 모델과 외부 리소스를 잇는 오픈 프로토콜. 통신·구조·전송·보안을 최신 스펙 기준으로. 구현체를 보기 전 잡아야 할 줄기 |
-| [Serena 기본 가이드](/posts/ai/2025-11-07-serena-mcp/) | 코드베이스의 **의미 기반** 검색·편집 MCP 서버. 설치·실행·설정·인덱싱·Claude Code 연동. 개념이 실제로 붙는 첫 구현체 |
-| [MCP 서버 더 붙이기](/posts/ai/2026-07-03-mcp-servers-catalog/) | `claude mcp add` 문법과 스코프(local·project·user), 전송 방식, 쓸 만한 서버들(GitHub·Playwright·Context7·DB), 신뢰·보안 주의 |
-
-## 저변 — Claude API
-
-도구 아래에 무엇이 있는지. 직접 앱에 Claude를 붙일 때의 최소 지형이다.
+### 1-3. Workflow와 자동화
 
 | 글 | 핵심 |
 |---|---|
-| [Claude API 기초](/posts/ai/2026-07-03-claude-api-basics/) | 모델 ID·가격, Messages API 기본 요청, adaptive thinking·effort, 스트리밍, tool use, 프롬프트 캐싱, 토큰 카운팅을 공식 SDK 기준으로 |
+| [Claude Code 실전 워크플로](/posts/ai/2026-07-03-claude-code-workflow/) | Plan, Subagent, 병렬 Tool, Headless 실행을 작업 흐름으로 조합 |
+| [Claude Code hooks — 실행 흐름에 셸 끼우기](/posts/ai/2026-07-03-claude-code-hooks-custom-commands/) | Tool 실행 전후 자동화, 정책·Format·알림·보안 경계 |
 
-MCP는 이 tool use를 **표준 프로토콜로** 감싼 것이다 — 앞서 MCP로 붙였던 외부 연결이, 여기 API 레벨에서 실제로 어떻게 굴러가는지 한 층 아래에서 드러난다.
+```text
+사람이 방향·완료조건 설정
+        ↓
+Agent가 탐색·수정·검증
+        ↓
+Hook / CI가 반복 가능한 Guardrail 제공
+```
 
----
+Claude Code 학습 줄기는 여기서 완결된다. MCP와 API는 이 다음 "레벨"이 아니라 필요에 따라 옆으로 확장하는 별도 축이다.
 
-본인 위치에 따라:
+## 2. 외부 연결 — MCP
 
-- **어느 도구를 쓸지 아직 못 정했다면** 입문 지형도부터.
-- **Claude Code를 깔았는데 겉핥기라면** 2단계(명령·메모리) → 3단계(워크플로·확장). 체감 차이가 가장 크다.
-- **코드베이스·외부 리소스를 물려 쓰고 싶다면** MCP 갈래(개념 → Serena → 서버 확장).
-- **직접 앱에 Claude를 붙인다면** 저변의 API 기초로.
-- **비용·사용량이 걱정되면** 전용 정거장은 아직 없다 — 과금 구조는 [지형도](/posts/ai/2026-07-03-ai-coding-tools-landscape/)의 과금 축, 세션 중 확인은 [슬래시 명령어 사전](/posts/ai/2025-10-24-claude-code-slash-commands/)의 `/usage`·`/cost`·`/context`, API 비용 절감은 [API 기초](/posts/ai/2026-07-03-claude-api-basics/)의 프롬프트 캐싱에 나뉘어 있다.
+MCP의 질문은 **코딩 Agent를 잘 쓰는 법**이 아니라, AI Client가 외부 Tool·Resource를 어떤 공통 계약으로 발견하고 호출할지다.
 
-Claude Code는 터미널 도구다. 터미널 환경 자체(세션·창·셸)를 함께 다듬으면 궁합이 좋다 — [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)과 [셸 로드맵](/posts/shell/2026-07-03-shell-roadmap/)을 곁에 두면 AI 도구를 얹을 바탕이 단단해진다.
+| 글 | 핵심 |
+|---|---|
+| [Model Context Protocol(MCP) 개념 정리](/posts/ai/2025-10-23-mcp/) | MCP Client/Server, Tool·Resource·Prompt, Transport와 보안 경계 |
+| [Serena 기본 가이드](/posts/ai/2025-11-07-serena-mcp/) | Codebase 의미 검색·편집 MCP Server를 실제 Client에 연결 |
+| [MCP 서버 더 붙이기](/posts/ai/2026-07-03-mcp-servers-catalog/) | Server 등록 Scope, Transport, GitHub·Browser·DB 등 확장 시 신뢰 경계 |
+
+이 갈래 내부에서는 실제 순서가 있다.
+
+```text
+Protocol이 무엇인가
+→ 구현체 하나를 연결
+→ 여러 Server로 확장
+→ 권한·신뢰 경계 관리
+```
+
+하지만 **Claude Code → MCP** 자체가 필수 선행 관계는 아니다. Claude Code는 MCP 없이도 사용할 수 있고, MCP는 다른 Client에서도 사용된다.
+
+## 3. Application 개발 — Claude API
+
+| 글 | 핵심 |
+|---|---|
+| [Claude API 기초](/posts/ai/2026-07-03-claude-api-basics/) | Messages API, Model 선택, Streaming, Tool Use, Prompt Cache, Token Count |
+
+API는 Claude Code 내부를 배우는 "더 낮은 단계"가 아니라 **내 Software가 Model Provider를 직접 호출하는 별도 개발 경로**다.
+
+```text
+내 Application
+    ↓ HTTP / SDK
+Model API
+    ↓
+Model Inference
+```
+
+여기서는 다음 질문이 중요하다.
+
+- Request/Response 계약을 어떻게 설계할까?
+- Streaming이 필요한가?
+- Tool Call을 Application이 어떻게 실행할까?
+- Context와 Cache를 어떻게 관리할까?
+- 비용·Latency·Failure를 어떻게 관측할까?
+
+### MCP와 API는 어디서 만나는가
+
+둘은 계층 관계로 단순화하지 않는다.
+
+```text
+Model API Tool Use
+→ Application이 Tool 호출 Loop를 직접 구현할 수 있음
+
+MCP
+→ Client와 Tool Provider 사이의 발견·호출 계약을 표준화
+```
+
+API 기반 Application이 MCP Client를 구현할 수도 있고, Claude Code 같은 완성된 Client가 MCP Server를 사용할 수도 있다. 즉 **조합되는 축**이다.
+
+## 별도 Surface — claude.ai Web
+
+| 글 | 핵심 |
+|---|---|
+| [claude.ai 웹 지형](/posts/ai/2026-07-13-claude-ai-web-tour/) | Projects·Artifacts·Connectors·Skills/Routines 등 Browser Product Surface의 역할 |
+
+Web UI는 CLI의 초급판이 아니다. 같은 Model 생태계의 **다른 Product Surface**다. Browser 중심으로 작업할 때 바로 들어가면 된다.
+
+## 어디서 시작할까
+
+```text
+어떤 AI 코딩 도구를 쓸지 모르겠다
+→ 도구 지형도
+
+Claude Code를 일상 개발에 쓰고 싶다
+→ Claude Code 개요
+→ 명령·Memory
+→ Workflow·Hook
+
+GitHub·DB·Browser·Codebase Tool을 AI Client에 연결하고 싶다
+→ MCP 개념
+→ 구현체 하나
+→ Server 확장
+
+내 서비스에 Model 기능을 직접 넣고 싶다
+→ Claude API
+
+Browser Product만 정리하고 싶다
+→ claude.ai Web 지형
+```
+
+Terminal Agent를 오래 쓰는 경우 셸·Session 환경 자체가 생산성에 영향을 준다. 이 부분은 [셸 로드맵](/posts/shell/2026-07-03-shell-roadmap/)과 [tmux 로드맵](/posts/tmux/2026-06-16-tmux-roadmap/)의 책임이다.
+
+> **AI Roadmap은 `Claude Code → MCP → API`라는 한 줄 사다리가 아니다. 도구 사용, 외부 연결, Application 개발이라는 서로 다른 질문을 먼저 분리하고 필요한 갈래만 Zoom-in한다.**
