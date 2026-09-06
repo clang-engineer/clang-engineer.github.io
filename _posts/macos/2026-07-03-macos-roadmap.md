@@ -74,7 +74,7 @@ dotfiles Roadmap
 | 글 | 증상 |
 |---|---|
 | [brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때](./2026-06-07-homebrew-cleanup-java-symlink-broken.md) | JDK Symlink가 깨져 Version 탐색이 꼬인 경우 |
-| [Docker 실행 시 Operation not permitted](../engineering/2023-12-16-docker-macos-operation-not-permitted.md) | macOS File/Folder 접근 권한 문제 |
+| [Docker 실행 시 Operation not permitted](./2023-12-16-docker-operation-not-permitted.md) | macOS File/Folder 접근 권한 문제 |
 
 Troubleshooting은 셋업 학습의 다음 단계가 아니라 **같은 증상이 생겼을 때만 들어오는 분기**다.
 
