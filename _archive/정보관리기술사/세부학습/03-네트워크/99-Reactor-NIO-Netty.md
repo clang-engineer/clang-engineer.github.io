@@ -6,7 +6,40 @@
 
 ## 1. 출발점: I/O Multiplexing과 Event Loop
 
-OS는 `select / poll / epoll` 등의 I/O Multiplexing 메커니즘을 통해 여러 Socket의 readiness를 관리한다.
+먼저 **OS의 Network I/O가 항상 I/O Multiplexing 방식으로 동작하는 것은 아니다.**
+
+OS는 Socket · Buffer · TCP 등 실제 Network 자원을 관리하고, Application / Runtime은 자신의 서버 구조에 맞는 I/O 전략을 선택하여 그에 맞는 System Call / API를 호출한다.
+
+```text
+Application / Runtime
+= I/O 처리 구조와 Thread 정책 결정
+        ↓
+Application Thread
+= 해당 API / System Call 호출
+        ↓
+OS Kernel
+= 요청된 방식에 따라 Socket / Thread / readiness 등을 실제 관리
+```
+
+같은 OS에서도 Application마다 서로 다른 I/O 방식을 사용할 수 있다.
+
+```text
+                    OS Kernel
+
+App A ── blocking read() ───────→ Socket별 I/O 대기
+
+App B ── non-blocking read() ───→ 데이터 없으면 즉시 반환
+
+App C ── select / poll / epoll ─→ 여러 Socket의 readiness를 함께 대기
+```
+
+즉 OS가 Application을 보고 임의로 Multiplexing을 선택하는 것이 아니다.
+
+> **Application / Runtime이 I/O 전략을 선택하고, Application Thread가 그에 맞는 API를 호출하며, OS가 해당 메커니즘으로 요청을 처리한다.**
+
+이 문서에서는 그중 **Non-blocking / Event-driven 서버 구조에서 주로 사용하는 I/O Multiplexing 경로**를 따라간다.
+
+OS는 `select / poll / epoll` 등의 I/O Multiplexing 메커니즘을 통해 여러 Socket의 readiness를 관리할 수 있다.
 
 Application Thread는 Multiplexing API를 호출하여 준비된 Socket을 확인하고 실제 I/O를 수행한다.
 
@@ -365,6 +398,12 @@ Thread
 
 Socket / Channel
 = 통신 자원
+
+I/O 전략
+= Application / Runtime이 서버 구조에 맞게 선택
+
+OS
+= Blocking / Non-blocking / Multiplexing 등 요청된 I/O 메커니즘과 실제 자원을 관리
 
 I/O Multiplexing
 = 여러 I/O 중 무엇이 Ready인지 효율적으로 기다림
