@@ -1,6 +1,8 @@
 # Reactor · Java NIO · Netty
 
 > `99-Socket-서버-IO.md`에서 학습한 **I/O Multiplexing과 Event Loop가 실제 Application Server 구조에서 어떻게 확장되는지** 이해하기 위한 `99-` 보충학습 문서다.
+>
+> 최종적으로는 OS의 Socket / I/O Multiplexing에서 출발해 Java NIO, Netty를 거쳐 **Reactive Streams · Project Reactor · Spring WebFlux**까지 하나의 실행 구조로 연결해서 이해하는 것을 목표로 한다.
 
 ## 1. 출발점: I/O Multiplexing과 Event Loop
 
@@ -346,6 +348,13 @@ Channel / Selector / SelectionKey
         ↓
 Netty
 EventLoop / Channel / Handler
+        ↓
+Reactive Streams
+        ↓
+Project Reactor
+Mono / Flux
+        ↓
+Spring WebFlux
 ```
 
 현재까지의 핵심을 한 번에 정리하면:
@@ -363,7 +372,7 @@ I/O Multiplexing
 Event Loop
 = Ready 대기와 처리를 반복하는 실행 구조
 
-Reactor
+Reactor Pattern
 = Ready Event를 적절한 Handler로 Dispatch하는 Application 설계 패턴
 
 Java NIO Selector
@@ -373,9 +382,13 @@ Netty
 = NIO 기반 Event-driven Network Application 구조를 Framework 수준에서 추상화
 ```
 
-## 6. 다음 학습 지점
+## 6. 이후 WebFlux까지 연결할 학습 경로
 
-다음에는 **Netty의 Threading Model**을 중심으로 아래 질문을 확인한다.
+현재는 Netty의 기본 위치까지 확인했다. 이후에는 아래 순서로 학습한다.
+
+### 6.1 Netty Threading Model
+
+확인할 질문:
 
 1. 하나의 `EventLoop`가 여러 `Channel`을 담당하는 것이 실제로 어떻게 가능한가?
 2. `EventLoopGroup`은 여러 EventLoop를 어떻게 구성하고 Channel에 배정하는가?
@@ -383,4 +396,107 @@ Netty
 4. EventLoop Thread에서 Handler를 실행할 때 오래 걸리는 Blocking 작업이 왜 문제가 되는가?
 5. 이런 작업을 Worker Thread / 별도 Executor로 넘기면 실행 흐름이 어떻게 달라지는가?
 
-이후 필요하면 `ChannelPipeline / ChannelHandler`의 Event 전달 구조와 Spring WebFlux 등 상위 Reactive Server 구조까지 연결한다.
+### 6.2 Reactive Streams
+
+Netty의 Network Event 처리와 Reactive Programming을 바로 같은 개념으로 취급하지 않는다.
+
+다음 단계에서는 Reactive Streams가 해결하려는 문제를 별도로 확인한다.
+
+```text
+Publisher
+    ↓
+데이터 Stream
+    ↓
+Subscriber
+```
+
+특히 다음 개념을 학습한다.
+
+- Publisher / Subscriber
+- Subscription
+- 비동기 데이터 흐름
+- Backpressure
+
+### 6.3 Project Reactor
+
+Reactive Streams의 개념이 Java Application에서 어떻게 사용되는지 확인한다.
+
+```text
+Project Reactor
+├─ Mono
+└─ Flux
+```
+
+여기서 주의할 점:
+
+```text
+Reactor Pattern
+≠
+Project Reactor
+```
+
+Reactor Pattern은 I/O Event를 Handler로 Dispatch하는 **설계 패턴**이고, Project Reactor는 Reactive Streams 기반의 **Reactive Programming Library**다.
+
+두 개념은 이름이 같지만 동일한 개념으로 취급하지 않는다.
+
+### 6.4 Spring WebFlux
+
+최종적으로 다음 흐름을 연결한다.
+
+```text
+HTTP Request
+     ↓
+Netty EventLoop
+     ↓
+Spring WebFlux
+     ↓
+Controller / Handler
+     ↓
+Mono / Flux
+     ↓
+비동기 처리 흐름
+     ↓
+HTTP Response
+```
+
+이 단계에서 최종적으로 확인할 핵심 질문은:
+
+> **왜 Spring WebFlux에서 Blocking 작업을 EventLoop Thread에서 실행하면 문제가 되는가?**
+
+현재까지 학습한 구조를 기반으로 다음 연결을 검증한다.
+
+```text
+소수의 EventLoop Thread
+        ↓
+다수의 Channel 처리
+        ↓
+Handler / Application 처리
+        ↓
+Blocking 작업 발생
+        ↓
+EventLoop Thread가 해당 작업에 묶임
+        ↓
+같은 EventLoop가 담당하는 다른 Channel의 처리도 지연 가능
+```
+
+따라서 WebFlux의 Non-blocking 실행 모델을 단순히 `Mono / Flux를 사용한다`로 이해하지 않고, **Socket → Multiplexing → EventLoop → Netty → Reactive Stream → WebFlux로 이어지는 전체 실행 구조**에서 이해하는 것을 최종 목표로 한다.
+
+## 7. 다음 학습 지점
+
+다음 학습은 **Netty Threading Model**부터 시작한다.
+
+```text
+현재
+Netty EventLoop / Channel / Handler
+        ↓
+NEXT
+EventLoop ↔ Channel 관계
+EventLoopGroup
+Blocking 작업과 Worker 분리
+        ↓
+Reactive Streams
+        ↓
+Project Reactor
+        ↓
+Spring WebFlux
+```
