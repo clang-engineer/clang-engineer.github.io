@@ -248,7 +248,109 @@ fd 2 = stderr
 
 그래서 Unix/Linux의 File, Socket, Pipe, Device, 표준 입출력 등이 FD라는 공통적인 I/O Handle 관점에서 연결된다.
 
-## 6. Socket I/O와 FD
+## 6. FD로 연결되는 Linux I/O
+
+평소에는 File, Socket, Pipe, 표준 입출력, Shell Redirection이 서로 다른 기능처럼 보이지만 FD 관점에서는 하나의 I/O 모델로 연결된다.
+
+```text
+                    Process
+
+File ─────────────→ FD 3 ─┐
+Socket ───────────→ FD 4 ─┤
+Pipe ─────────────→ FD 5 ─┼→ read / write / close
+stdin ────────────→ FD 0 ─┤
+stdout ───────────→ FD 1 ─┤
+stderr ───────────→ FD 2 ─┘
+```
+
+### 6.1 Redirection은 FD가 가리키는 대상을 바꾼다
+
+Shell에서 다음 명령은 단순히 "출력을 File에 저장한다"고 볼 수도 있지만 FD 관점에서는 stdout의 연결 대상을 바꾸는 것으로 이해할 수 있다.
+
+```text
+echo hello > out.txt
+```
+
+```text
+원래
+
+FD 1 (stdout)
+      ↓
+  Terminal
+
+> out.txt
+      ↓
+
+FD 1 (stdout)
+      ↓
+   out.txt
+```
+
+따라서 다음과 같은 Shell 문법도 FD 번호를 알면 의미가 보인다.
+
+```text
+1>file
+= stdout(FD 1)을 File로 Redirection
+
+2>file
+= stderr(FD 2)를 File로 Redirection
+
+2>&1
+= stderr(FD 2)를 현재 stdout(FD 1)이 향하는 대상으로 Redirection
+```
+
+예를 들어:
+
+```text
+command > out.txt 2>&1
+```
+
+은 stdout을 `out.txt`로 보내고, stderr도 stdout이 향하는 곳으로 보내는 구조다.
+
+### 6.2 Pipe도 FD를 서로 연결한다
+
+```text
+cat a.txt | grep hello
+```
+
+를 FD 관점으로 보면 개념적으로 다음과 같다.
+
+```text
+cat Process                         grep Process
+
+stdout                               stdin
+ FD 1                                 FD 0
+   │                                   ↑
+   └──────────→ Pipe ──────────────────┘
+```
+
+즉 앞 Process의 표준 출력과 뒤 Process의 표준 입력 사이에 Pipe라는 Kernel I/O 자원을 연결한다.
+
+```text
+cat의 FD 1
+    ↓
+  Pipe
+    ↓
+grep의 FD 0
+```
+
+이 관점에서 Unix/Linux의 여러 기능이 하나로 연결된다.
+
+```text
+File
+Socket
+Pipe
+stdin / stdout / stderr
+Redirection
+        ↓
+       FD
+        ↓
+Kernel I/O Resource
+```
+
+> **FD를 이해하면 File · Socket · Pipe · 표준 입출력 · Redirection이 서로 별개의 기능이 아니라, Process가 Kernel I/O 자원을 FD로 참조하고 연결하는 하나의 모델 위에 있다는 것을 볼 수 있다.**
+
+## 7. Socket I/O와 FD
 
 Socket I/O를 FD 관점까지 내려가면 다음처럼 읽을 수 있다.
 
@@ -272,7 +374,7 @@ Application Thread ── write(Connected Socket의 FD) ───→ OS Kernel
 
 으로 이해할 수 있다.
 
-## 7. I/O Multiplexing과 FD
+## 8. I/O Multiplexing과 FD
 
 앞에서 `select / poll / epoll`을 **여러 Socket의 readiness를 감시한다**고 표현했지만 Linux 구현 관점으로 내려가면 FD가 직접 등장한다.
 
@@ -300,7 +402,7 @@ Linux 구현 관점
 
 `select`의 `fd_set`, `poll`의 `pollfd`, `epoll_ctl()`에 등록하는 FD가 여기서 연결된다.
 
-## 8. 한 번에 구분하기
+## 9. 한 번에 구분하기
 
 ```text
 Socket
