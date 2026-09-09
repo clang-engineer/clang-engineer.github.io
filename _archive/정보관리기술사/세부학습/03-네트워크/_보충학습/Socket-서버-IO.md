@@ -47,38 +47,94 @@ Application Thread ── send(Connected Socket) ────→ OS Kernel
 
 즉 **Socket이 `accept()`나 `read()`를 호출하는 것이 아니다. Application Thread가 Socket API를 호출하고 Socket은 그 호출의 대상 자원이다.**
 
+Unix/Linux에서 Process가 Socket을 실제로 참조할 때는 FD(File Descriptor)를 사용한다. FD 자체의 구조와 Unix I/O 관점은 `FD-File-Descriptor.md`에서 별도로 다룬다.
+
 ## 3. TCP Client / Server 전체 흐름
 
 ```text
 [Server Application Thread]              [Client Application Thread]
 
-socket()
-   ↓
-bind(:8080)
-   ↓
-listen()
-   ↓
-accept(Listening Socket)                    socket()
-   │                                           ↓
-   │                                        connect()
-   │                                           ↓
+socket()                                  socket()
+   ↓                                         ↓
+Listening용 Socket FD 반환                Socket FD 반환
+   ↓                                         ↓
+bind(:8080)                              connect(fd, Server)
+   ↓                                         │
+listen()                                     │
+   ↓                                         │
+accept(Listening FD)                         │
+   │                                         │
    │              Client OS ↔ Network ↔ Server OS
    │                     TCP 연결 수립
-   │
-   └──────── Connected Socket 반환
+   │                                         │
+   └──── Connected Socket의 새 FD 반환       │
+                  ↓                          │
+           최초 read(fd)  ←──── send(fd) ────┘
                   ↓
-           최초 read(Connected Socket)
-                  │
-                  │                       send()
-                  │                          ↓
-                  └──── 데이터 수신 / 처리
+           send(fd) ───────────────→ read(fd)
                   ↓
-           send(Connected Socket) ───────→ read()
-                  ↓
-           통신 종료 시 close
+           통신 종료 시 close(fd)
 ```
 
 위 함수들이 Network 반대편 함수를 직접 호출하는 것이 아니다. **각 Application Thread가 자기 OS에 Socket API를 호출하고, 실제 Network 통신은 양쪽 OS가 처리한다.**
+
+### 3.1 Client와 Server 모두 Socket FD를 가진다
+
+Unix/Linux 기준으로 TCP 연결 양쪽 Process 모두 자기 Socket을 참조하는 FD를 가진다. 다만 FD를 얻는 흐름이 다르다.
+
+```text
+Client
+
+socket()
+   ↓
+FD 반환
+   ↓
+connect(fd, ...)
+   ↓
+연결 완료 후에도 같은 FD로
+Client 측 Connected Socket 사용
+```
+
+```text
+Server
+
+socket()
+   ↓
+Listening Socket용 FD 반환
+   ↓
+bind → listen
+   ↓
+accept(Listening FD)
+   ↓
+새 Connected Socket을 가리키는
+새 FD 반환
+```
+
+따라서 서버의 Listening Socket FD는 연결 후에도 그대로 유지된다.
+
+```text
+Server Process
+
+FD 3 → Listening Socket
+FD 4 → Client A와 연결된 Connected Socket
+FD 5 → Client B와 연결된 Connected Socket
+```
+
+TCP 연결 하나를 양쪽에서 보면:
+
+```text
+Client Process                         Server Process
+
+FD 7                                      FD 12
+ ↓                                          ↓
+Client Connected Socket ←──── TCP ────→ Server Connected Socket
+ ↓                                          ↓
+Client Kernel                           Server Kernel
+```
+
+양쪽 FD 번호는 같을 필요가 없다. **FD는 각 Process의 FD Table에서만 의미가 있는 Process-local 식별자**이기 때문이다.
+
+> **Client는 `socket()`에서 받은 FD로 `connect()`하고, Server는 Listening FD로 `accept()`하여 새로운 Connected Socket FD를 받는다.**
 
 ## 4. `listen()`은 입구를 만들고 `accept()`는 연결을 가져온다
 
@@ -116,7 +172,22 @@ Server OS
 └─ 없음 → Blocking이면 호출한 Thread 대기
 ```
 
-`accept()`는 Listening Socket을 Connected Socket으로 바꾸는 것이 아니다. Listening Socket은 그대로 유지되고 `accept()`가 특정 Client용 Connected Socket을 반환한다.
+Unix/Linux 구현 관점에서 더 정확히 말하면 **`accept()`는 완료된 연결에 대응하는 새 Connected Socket을 참조하는 FD를 반환한다.**
+
+```text
+FD 3 → Listening Socket
+
+accept(3)
+   ↓
+FD 4 반환
+
+FD 3 → Listening Socket       (계속 유지)
+FD 4 → Connected Socket       (특정 Client와 통신)
+```
+
+`accept()`는 Listening Socket을 Connected Socket으로 바꾸는 것이 아니다. Listening Socket은 그대로 유지되고 `accept()`가 특정 Client용 Connected Socket에 대한 새 참조를 반환한다.
+
+또한 Connected Socket은 `accept()` 순간부터 처음 Kernel이 관리하는 것이 아니다. **TCP 연결과 Socket 상태는 이미 Kernel이 관리하고 있으며, `accept()`를 통해 Server Process가 그 Connected Socket을 사용할 FD를 얻는 것**으로 이해한다.
 
 ## 6. accept 대기 Thread 수와 연결 대기열은 다른 문제다
 
@@ -402,79 +473,4 @@ Worker Thread
 
 > **Worker Thread는 I/O Multiplexing의 필수 구성요소가 아니다.**
 
-## 14. Socket 위에는 Application Protocol이 올라간다
-
-Socket은 Byte를 전달할 뿐 그 의미까지 해석하지 않는다.
-
-```text
-HTTP/1.1 · HTTP/2
-WebSocket
-RPC용 Protocol
-직접 만든 Protocol
-        ↓
-       TCP
-        ↓
-    Socket API
-        ↓
-     OS Kernel
-```
-
-```text
-Socket이 HTTP를 사용한다            X
-HTTP가 TCP Socket을 사용할 수 있다  O
-```
-
-`WebSocket`은 OS Socket과 같은 개념이 아니다.
-
-```text
-Socket
-= Application ↔ OS의 Network 통신 접점/자원
-
-WebSocket
-= 지속적인 양방향 Message 통신을 위한 Application Protocol
-```
-
-HTTP/3은 대표적으로 `HTTP/3 → QUIC → UDP → Socket` 구조를 사용하므로 `HTTP = 항상 TCP`도 아니다.
-
-## 15. 한 번에 다시 떠올리기
-
-```text
-Application / Runtime
-= 구조 · Thread 정책 결정
-        ↓
-Application Thread
-= Socket API 호출
-        ↓
-OS
-= TCP 연결 · Socket · Buffer · Network I/O 관리
-
-Server 시작
-socket → bind → listen → accept
-                         ↓
-                Connected Socket 획득
-                         ↓
-                  최초 read()
-                         ↓
-                   read / send
-                         ↓
-                      close
-
-accept = 완료된 연결을 OS에서 가져옴
-read   = 수신 데이터를 OS에서 가져옴
-send   = 보낼 데이터를 자기 OS에 넘김
-
-accept() / read() 시 필요한 대상이 없으면
-├─ Blocking     → 호출한 Thread 대기
-└─ Non-blocking → 즉시 반환
-
-Socket이 많으면
-├─ Socket별 Blocking I/O → 대기 Thread 증가 가능
-├─ Non-blocking 반복 I/O → Busy Polling 가능
-└─ I/O Multiplexing
-     → 여러 Socket의 readiness를 하나의 대기 지점에서 기다림
-     → select / poll / epoll
-     → Ready 종류에 맞게 accept / read 등 수행
-     → Event Loop로 반복 처리 가능
-```
-
-> **정책은 Application / Runtime, 호출은 Application Thread, 실제 자원 관리는 OS. `listen()`은 입구를 준비하고, `accept()`는 완료된 연결을 Connected Socket으로 가져오며, `read()`는 그 Socket의 수신 데이터를 Application으로 가져온다. Blocking/Non-blocking은 I/O 호출 시 필요한 결과가 없을 때의 행동 차이고, I/O Multiplexing은 여러 Socket의 readiness를 하나의 대기 지점에서 함께 기다리는 구조다.**
+## 14. Socket 위에는
