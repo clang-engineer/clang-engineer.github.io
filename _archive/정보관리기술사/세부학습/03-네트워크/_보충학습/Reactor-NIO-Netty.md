@@ -92,6 +92,92 @@ System Call 호출 관점
 
 > **Kernel은 Event / readiness가 발생하고 관리되는 곳이고, Application Thread는 Multiplexing API를 호출해 그 결과를 받는 주체다. Reactor · Event Loop · Handler는 Application 영역의 실행 구조다.**
 
+### Readiness는 I/O 완료가 아니라 "지금 진행할 수 있는 상태"다
+
+`readiness`는 I/O가 이미 Application까지 완료되었다는 뜻이 아니다. **해당 FD에 대해 지금 I/O를 수행할 조건이 준비된 상태**를 의미한다.
+
+```text
+READ Ready
+= 지금 read()를 진행할 수 있는 조건이 준비됨
+
+WRITE Ready
+= 지금 write()를 진행할 수 있는 조건이 준비됨
+
+ACCEPT Ready
+= 지금 accept()할 완료된 연결이 존재함
+```
+
+예를 들어 Connected Socket의 Receive Buffer에 읽을 데이터가 도착하면 해당 FD는 READ Ready 상태가 될 수 있다.
+
+```text
+Network Data 도착
+        ↓
+Kernel Socket Receive Buffer
+        ↓
+읽을 데이터 존재
+        ↓
+FD READ Ready
+        ↓
+Multiplexing 호출 결과로 Ready Event 확인
+        ↓
+Application Thread가 read(fd) 호출
+```
+
+즉:
+
+```text
+Readiness
+≠ I/O 처리 완료
+
+Readiness
+= I/O를 진행할 조건이 준비됨
+```
+
+### Ready Event는 Multiplexing 호출에서 대기하던 Thread가 받는다
+
+Ready Event를 Kernel이 임의의 Application Thread에 밀어주는 것으로 이해하지 않는다. `select()` / `poll()` / `epoll_wait()`를 호출하여 대기하던 Thread의 **System Call이 Ready 결과를 가지고 반환**되는 구조다.
+
+```text
+Event Loop Thread A
+        │
+        │ epoll_wait()
+        ▼
+OS Kernel
+        │
+        │ Ready FD 없음
+        ▼
+Thread A 대기
+        │
+        │ FD Ready 발생
+        ▼
+Thread A를 실행 가능한 상태로 전환
+        │
+        ▼
+OS Scheduler가 CPU 할당
+        │
+        ▼
+Thread A 실행 재개
+        │
+        ▼
+epoll_wait()가 Ready Event와 함께 반환
+```
+
+여기서 **Kernel이 Thread를 깨운다고 해서 즉시 CPU에서 실행되는 것은 아니다.** 대기할 이유가 사라진 Thread를 실행 가능한 상태로 만들고, 실제 실행 시점은 Scheduler가 결정한다.
+
+그리고 `epoll_wait()`에서 돌아온 같은 Event Loop Thread가 Application의 Reactor / Event Loop 로직을 계속 실행한다.
+
+```text
+Event Loop Thread
+      ↓ Ready Event 확인
+Reactor / EventLoop 로직
+      ↓ Event 판별
+Handler Dispatch
+      ├─ 같은 Event Loop Thread가 직접 Handler 실행
+      └─ 필요하면 Worker Thread / Executor에 위임
+```
+
+> **Ready Event를 최초로 처리하는 주체는 Multiplexing System Call을 호출해 대기하던 Thread다. Worker Thread에 넘길지는 그 Thread가 실행하는 Reactor / Event Loop의 Application 정책에 따라 결정된다.**
+
 이 과정을 반복하는 Application 실행 구조가 Event Loop다.
 
 ```text
