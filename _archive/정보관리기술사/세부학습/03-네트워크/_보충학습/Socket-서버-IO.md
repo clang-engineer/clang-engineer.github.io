@@ -23,7 +23,7 @@ OS Kernel
 
 > **정책은 Application / Runtime, 호출은 Application Thread, 실제 자원 관리는 OS가 담당한다.**
 
-## 2. Socket API · Socket · FD · Thread는 서로 다르다
+## 2. Socket API · Socket · Thread는 서로 다르다
 
 ```text
 Socket API
@@ -31,121 +31,21 @@ Socket API
 = socket / bind / listen / connect / accept / read / write / send / recv 등
 
 Socket
-= OS Kernel이 관리하는 통신 자원
+= 통신 자원
 = Network endpoint / 연결
-
-FD (File Descriptor)
-= Process가 열린 Kernel I/O 자원을 참조하기 위한 정수형 식별자
 
 Thread
 = 실행 자원
 = Application Code와 Socket API를 실행하는 주체
 ```
 
-Unix/Linux에서 Application은 Kernel의 Socket 자원을 직접 들고 있는 것이 아니라 FD를 통해 참조한다.
-
 ```text
-Application Process
-
-fd 3 ──→ 일반 File
-fd 4 ──→ Listening Socket
-fd 5 ──→ Connected Socket
-fd 6 ──→ Pipe
+Application Thread ── accept(Listening Socket) ──→ OS Kernel
+Application Thread ── read(Connected Socket) ────→ OS Kernel
+Application Thread ── send(Connected Socket) ────→ OS Kernel
 ```
 
-따라서 Socket과 FD는 같은 것이 아니다.
-
-```text
-Socket
-= Kernel의 실제 Network 자원
-
-FD
-= Process가 그 자원을 가리키는 번호
-```
-
-개념적으로는 다음과 같이 볼 수 있다.
-
-```text
-Application Process
-       │
-       │ fd = 5
-       ↓
-    FD Table
-       │
-       ↓
-Kernel의 열린 자원
-       │
-       ↓
-     Socket
-```
-
-FD는 Process별 식별자이므로 서로 다른 Process에서 같은 FD 번호가 서로 다른 자원을 가리킬 수 있다.
-
-```text
-Process A : fd 5 → Socket A
-Process B : fd 5 → File X
-```
-
-일반 File의 경우에는 FD와 inode도 구분해야 한다.
-
-```text
-Process
-  │
-  │ fd
-  ↓
-FD Table
-  ↓
-Open File Description
-  ↓
-inode
-  ↓
-File Data
-```
-
-```text
-FD
-= Process가 현재 열린 자원을 참조하는 번호
-
-inode number
-= File System이 File 객체를 식별하는 번호
-```
-
-따라서 같은 File을 여러 번 열면 서로 다른 FD가 같은 File/inode에 연결될 수도 있다. 반대로 TCP Socket은 FD로 접근할 수 있지만 일반 File처럼 반드시 File System의 inode를 찾아가는 구조라고 이해하면 안 된다.
-
-Unix의 `everything is a file`이라는 표현도 **모든 자원이 디스크의 일반 File이라는 뜻이 아니라, 여러 I/O 자원을 FD와 공통 I/O Interface를 통해 비슷하게 다룰 수 있다는 관점**으로 이해한다.
-
-```text
-일반 File ─┐
-Socket ────┤
-Pipe ──────┼→ FD → read / write / close
-Device ────┘
-```
-
-호출 관계를 조금 더 실제적으로 읽으면:
-
-```text
-Application Thread ── accept(Listening Socket의 FD) ──→ OS Kernel
-Application Thread ── read(Connected Socket의 FD) ────→ OS Kernel
-Application Thread ── send(Connected Socket의 FD) ────→ OS Kernel
-```
-
-즉 **Socket이 `accept()`나 `read()`를 호출하는 것이 아니다. Application Thread가 FD를 통해 Socket API를 호출하고, Socket은 OS가 관리하는 대상 자원이다.**
-
-이 구분은 뒤의 I/O Multiplexing과 직접 연결된다.
-
-```text
-fd 4 → Listening Socket
-fd 5 → Connected Socket A
-fd 6 → Connected Socket B
-          │
-          ↓
- select / poll / epoll
-          │
-          ↓
-   Ready FD / Event
-```
-
-> **Socket = 통신 자원, FD = Process가 그 자원을 참조하는 식별자, Thread = FD를 이용해 I/O API를 실행하는 주체다.**
+즉 **Socket이 `accept()`나 `read()`를 호출하는 것이 아니다. Application Thread가 Socket API를 호출하고 Socket은 그 호출의 대상 자원이다.**
 
 ## 3. TCP Client / Server 전체 흐름
 
@@ -472,4 +372,109 @@ C Ready ✓                         │ A 처리 중
                              B / C 처리
 ```
 
-즉 **A 처리 중이라고 B/C가 Ready되지 않는 것이 아니라, B/C의 Application 처리가 늦어지는
+즉 **A 처리 중이라고 B/C가 Ready되지 않는 것이 아니라, B/C의 Application 처리가 늦어지는 것**이다.
+
+### 13.2 직접 처리와 Worker 위임
+
+Ready Event를 받은 Thread가 직접 처리할 수도 있다.
+
+```text
+Event Loop Thread
+       ↓
+Ready Event
+       ↓
+Handler / I/O 처리
+       ↓
+다시 Event 대기
+```
+
+또는 오래 걸리는 작업을 Worker Thread에 위임하도록 구성할 수도 있다.
+
+```text
+Event Loop Thread
+       ↓
+Ready Event
+       ↓
+작업 Dispatch
+       ↓
+Worker Thread
+```
+
+> **Worker Thread는 I/O Multiplexing의 필수 구성요소가 아니다.**
+
+## 14. Socket 위에는 Application Protocol이 올라간다
+
+Socket은 Byte를 전달할 뿐 그 의미까지 해석하지 않는다.
+
+```text
+HTTP/1.1 · HTTP/2
+WebSocket
+RPC용 Protocol
+직접 만든 Protocol
+        ↓
+       TCP
+        ↓
+    Socket API
+        ↓
+     OS Kernel
+```
+
+```text
+Socket이 HTTP를 사용한다            X
+HTTP가 TCP Socket을 사용할 수 있다  O
+```
+
+`WebSocket`은 OS Socket과 같은 개념이 아니다.
+
+```text
+Socket
+= Application ↔ OS의 Network 통신 접점/자원
+
+WebSocket
+= 지속적인 양방향 Message 통신을 위한 Application Protocol
+```
+
+HTTP/3은 대표적으로 `HTTP/3 → QUIC → UDP → Socket` 구조를 사용하므로 `HTTP = 항상 TCP`도 아니다.
+
+## 15. 한 번에 다시 떠올리기
+
+```text
+Application / Runtime
+= 구조 · Thread 정책 결정
+        ↓
+Application Thread
+= Socket API 호출
+        ↓
+OS
+= TCP 연결 · Socket · Buffer · Network I/O 관리
+
+Server 시작
+socket → bind → listen → accept
+                         ↓
+                Connected Socket 획득
+                         ↓
+                  최초 read()
+                         ↓
+                   read / send
+                         ↓
+                      close
+
+accept = 완료된 연결을 OS에서 가져옴
+read   = 수신 데이터를 OS에서 가져옴
+send   = 보낼 데이터를 자기 OS에 넘김
+
+accept() / read() 시 필요한 대상이 없으면
+├─ Blocking     → 호출한 Thread 대기
+└─ Non-blocking → 즉시 반환
+
+Socket이 많으면
+├─ Socket별 Blocking I/O → 대기 Thread 증가 가능
+├─ Non-blocking 반복 I/O → Busy Polling 가능
+└─ I/O Multiplexing
+     → 여러 Socket의 readiness를 하나의 대기 지점에서 기다림
+     → select / poll / epoll
+     → Ready 종류에 맞게 accept / read 등 수행
+     → Event Loop로 반복 처리 가능
+```
+
+> **정책은 Application / Runtime, 호출은 Application Thread, 실제 자원 관리는 OS. `listen()`은 입구를 준비하고, `accept()`는 완료된 연결을 Connected Socket으로 가져오며, `read()`는 그 Socket의 수신 데이터를 Application으로 가져온다. Blocking/Non-blocking은 I/O 호출 시 필요한 결과가 없을 때의 행동 차이고, I/O Multiplexing은 여러 Socket의 readiness를 하나의 대기 지점에서 함께 기다리는 구조다.**
