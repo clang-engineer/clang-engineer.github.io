@@ -52,14 +52,20 @@ Kernel 구조는 이 호출 경계와 자원관리 기능을 어떻게 배치하
 Monolithic Kernel
 ↔
 Microkernel
+↔
+Hybrid Kernel
 
 비교
+├─ Kernel 내부에 두는 서비스 범위
+├─ 서비스 간 호출 / IPC 방식
 ├─ 성능
 ├─ 장애 격리
 └─ 확장성
 ```
 
 특정 Kernel의 구현 상세보다 **어디까지 Kernel 내부에 두는가에 따른 Trade-off**를 기억한다.
+
+→ [[../../세부학습/02-운영체제/_보충학습/커널-구조-모놀리틱-마이크로-하이브리드|커널 구조: Monolithic / Microkernel / Hybrid]]
 
 ## 3. Process와 Thread의 경계를 먼저 잡는다
 
