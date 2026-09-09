@@ -1,8 +1,10 @@
 # Socket과 서버 I/O
 
-> 이 문서는 정보관리기술사 직접 출제 Topic 자체를 정리한 문서라기보다, 네트워크 개념지도를 이해하는 과정에서 생긴 **Socket · Thread · OS · Blocking · I/O Multiplexing의 이해 빈틈을 메우기 위한 `99-` 보충학습 문서**다.
+> 이 문서는 정보관리기술사 직접 출제 Topic 자체를 정리한 문서라기보다, 네트워크 개념지도를 이해하는 과정에서 생긴 **Socket · Thread · OS · Blocking · I/O Multiplexing의 이해 빈틈을 메우기 위한 보충학습 문서**다.
 >
 > 핵심은 **Application이 Network 자원을 직접 관리하지 않는다는 것**이다. OS가 TCP 연결·Socket·Buffer·실제 송수신을 관리하고, Application Thread는 Socket API로 자기 OS에 필요한 작업을 요청한다.
+>
+> 이 문서에서는 Socket I/O의 기반과 I/O Multiplexing의 출발점까지만 잡는다. **Readiness · Multiplexing 호출 Thread의 대기/재개 · Event Loop · Reactor Pattern**은 `IO-Multiplexing-EventLoop-Reactor.md`에서 이어서 다룬다.
 
 ## 1. 먼저 주체를 분리한다
 
@@ -109,8 +111,6 @@ accept(Listening FD)
 새 Connected Socket을 가리키는
 새 FD 반환
 ```
-
-따라서 TCP 연결 하나를 양쪽에서 보면 다음처럼 이해할 수 있다.
 
 ```text
 Client Process                         Server Process
@@ -317,19 +317,15 @@ Socket C ─┘
 
 즉 `Multiplexing`의 핵심은 **여러 Socket의 준비 상태를 하나의 대기 지점에서 함께 기다리는 것**이다.
 
-### 11.2 OS가 대신 `read()`나 `accept()`하는 것은 아니다
-
 ```text
 OS
-= "이 Socket에서 지금 I/O가 가능하다"라고 알려줌
+= "이 Socket에서 지금 I/O가 가능하다"는 readiness를 알려줌
 
 Application Thread
 = Ready 종류에 맞게 실제 accept() / read() 등을 호출
 ```
 
-OS가 Multiplexing 호출을 통해 알려주는 핵심은 데이터 자체가 아니라 **readiness**다.
-
-### 11.3 Multiplexing도 Blocking될 수 있다
+Multiplexing 호출 자체는 Ready Event가 생길 때까지 Blocking될 수 있다.
 
 ```text
 Blocking read
@@ -339,126 +335,29 @@ I/O Multiplexing
 = Thread 하나가 A / B / C 중 하나라도 준비되기를 기다림
 ```
 
-> **N개의 Socket마다 따로 기다리는 구조를, 하나의 I/O 대기 지점에서 N개의 Socket을 함께 기다리는 구조로 바꾸는 것**이다.
+또한 `Non-blocking ≠ Busy Polling`이다. Non-blocking은 결과가 없을 때 즉시 반환하는 성질이고, Busy Polling은 Application이 그 호출을 쉬지 않고 반복하는 실행 방식이다.
 
-### 11.4 Non-blocking과 Busy Polling은 같은 말이 아니다
+## 12. `select` / `poll` / `epoll`은 대표적인 Multiplexing 방식이다
 
-```text
-Non-blocking
-= 필요한 결과가 없으면 I/O 호출이 즉시 반환
-
-Busy Polling
-= 준비되지 않은 상태에서도 Application Thread가
-  non-blocking I/O를 쉬지 않고 반복 호출하여
-  CPU를 사용하며 준비 여부를 계속 확인
-```
-
-따라서 **`Non-blocking ≠ Busy Polling`**이다.
-
-## 12. `select` / `poll` / `epoll`
-
-셋 모두 **"여러 Socket 중 준비된 Socket을 알려줘"**를 구현하는 대표적인 I/O Multiplexing 방식/API 계열이다.
-
-Application Thread가 각각의 System Call/API를 호출하고, 실제 FD의 상태 검사·등록·이벤트 관리는 Kernel이 수행한다.
-
-```text
-Application                         OS Kernel
-    │                                  │
-    │ select() / poll()                │
-    ├─────────────────────────────────→│ 여러 FD 상태 확인
-    │←─────────────────────────────────┤ Ready 결과 반환
-    │                                  │
-    │ epoll_create / epoll_ctl         │
-    ├─────────────────────────────────→│ 관심 FD 등록·관리
-    │ epoll_wait()                     │
-    ├─────────────────────────────────→│ Ready Event 대기
-    │←─────────────────────────────────┤ Ready Event 반환
-```
+셋 모두 **"여러 Socket 중 준비된 Socket을 알려줘"**라는 문제를 해결하는 대표적인 I/O Multiplexing 방식/API 계열이다.
 
 ```text
 select
 = fd_set 기반
-= 전통적으로 FD_SETSIZE 제약과 연관
 
 poll
 = pollfd 목록/배열 기반
-= select의 고정 비트셋 방식 제약을 피함
 
 epoll
-= 관심 Socket 목록을 Kernel에 등록·유지
-= epoll_wait()를 반복하여 준비된 Event를 받음
+= 관심 FD를 Kernel에 등록·유지하고
+  epoll_wait()로 Ready Event를 기다림
 ```
 
-## 13. Event Loop는 이 과정을 반복하는 Application 구조다
+이 문서에서는 여기까지를 **Socket I/O에서 Multiplexing으로 넘어가는 연결점**으로 잡는다.
 
-```text
-준비된 I/O Event 기다림
-        ↓
-OS가 준비된 Socket / Event 반환
-        ↓
-Application이 해당 I/O 처리
-        ↓
-다시 I/O Event 기다림
-        ↺
-```
+> **Readiness가 정확히 무엇인지, Event가 어느 Thread에 반환되는지, Event Loop가 무엇인지, Reactor가 왜 등장하는지는 `IO-Multiplexing-EventLoop-Reactor.md`에서 이어서 학습한다.**
 
-```text
-I/O Multiplexing
-= 여러 I/O의 readiness를 함께 기다리고 통지받는 Mechanism/API
-
-Event Loop
-= 준비 대기 → 처리 → 다시 대기를 반복하는 Application 실행 구조
-```
-
-따라서 `epoll = Event Loop`는 아니다. **I/O Multiplexing은 메커니즘이고, Event Loop는 그 결과를 반복해서 소비하는 Application 구조다.**
-
-### 13.1 Ready 감지와 실제 처리는 별개다
-
-Application Thread가 Ready Socket의 작업을 직접 처리하는 동안에도 Kernel은 다른 Socket의 Ready 상태를 감지·관리할 수 있다.
-
-```text
-OS Kernel                    Application Thread
-
-A Ready ──────────────────→ A 처리 시작
-B Ready ✓                         │
-C Ready ✓                         │ A 처리 중
-                                  │
-                             A 처리 완료
-                                  ↓
-                             B / C 처리
-```
-
-즉 **A 처리 중이라고 B/C가 Ready되지 않는 것이 아니라, B/C의 Application 처리가 늦어지는 것**이다.
-
-### 13.2 직접 처리와 Worker 위임
-
-Ready Event를 받은 Thread가 직접 처리할 수도 있다.
-
-```text
-Event Loop Thread
-       ↓
-Ready Event
-       ↓
-Handler / I/O 처리
-       ↓
-다시 Event 대기
-```
-
-또는 오래 걸리는 작업을 Worker Thread에 위임하도록 구성할 수도 있다.
-
-```text
-Event Loop Thread
-       ↓
-Ready Event
-       ↓
-작업 Dispatch
-       ↓
-Worker Thread
-```
-
-> **Worker Thread는 I/O Multiplexing의 필수 구성요소가 아니다.**
-
-## 14. Socket 위에는 Application Protocol이 올라간다
+## 13. Socket 위에는 Application Protocol이 올라간다
 
 Socket은 Byte를 전달할 뿐 그 의미까지 해석하지 않는다.
 
@@ -492,7 +391,7 @@ WebSocket
 
 HTTP/3은 대표적으로 `HTTP/3 → QUIC → UDP → Socket` 구조를 사용하므로 `HTTP = 항상 TCP`도 아니다.
 
-## 15. 한 번에 다시 떠올리기
+## 14. 한 번에 다시 떠올리기
 
 ```text
 Application / Runtime
@@ -529,8 +428,7 @@ Socket이 많으면
 └─ I/O Multiplexing
      → 여러 Socket의 readiness를 하나의 대기 지점에서 기다림
      → select / poll / epoll
-     → Ready 종류에 맞게 accept / read 등 수행
-     → Event Loop로 반복 처리 가능
+     → 이후 Event Loop / Reactor 구조로 확장 가능
 ```
 
 > **정책은 Application / Runtime, 호출은 Application Thread, 실제 자원 관리는 OS. `listen()`은 입구를 준비하고, `accept()`는 완료된 연결을 Connected Socket으로 가져오며, `read()`는 그 Socket의 수신 데이터를 Application으로 가져온다. Blocking/Non-blocking은 I/O 호출 시 필요한 결과가 없을 때의 행동 차이고, I/O Multiplexing은 여러 Socket의 readiness를 하나의 대기 지점에서 함께 기다리는 구조다.**
