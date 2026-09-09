@@ -261,19 +261,19 @@ OS
 
 > **둘 다 Application Thread가 Socket API를 호출하고 OS가 자원의 준비 상태를 확인한다. 차이는 `accept()`는 연결을, `read()`는 데이터를 기다린다는 것이다.**
 
-이 원칙은 I/O Multiplexing에도 이어진다. Listening Socket 역시 감시 대상이 될 수 있다.
+이 원칙은 I/O Multiplexing에도 이어진다. Unix/Linux 관점에서는 Listening Socket 자체가 아니라 **Listening Socket을 가리키는 FD** 역시 감시 대상이 될 수 있다.
 
 ```text
-Listening Socket ─┐
-Connected A ──────┼→ select / poll / epoll
-Connected B ──────┘
-                        ↓
-               Listening Socket Ready
-                        ↓
-                     accept()
+FD 3: Listening Socket ─┐
+FD 4: Connected A ──────┼→ select / poll / epoll
+FD 5: Connected B ──────┘
+                              ↓
+                         FD 3 Ready
+                              ↓
+                  accept(FD 3) → 새 Connected FD
 ```
 
-즉 Multiplexing은 Connected Socket의 `read-ready`뿐 아니라 **Listening Socket에서 `accept()`할 연결이 준비된 상태**도 함께 다룰 수 있다.
+즉 Multiplexing은 Connected Socket FD의 `read-ready`뿐 아니라 **Listening Socket FD에서 `accept()`할 연결이 준비된 상태**도 함께 다룰 수 있다.
 
 ## 9. Blocking / Non-blocking은 호출 후의 행동 차이다
 
@@ -307,27 +307,27 @@ Thread C → read(Socket C) → C의 데이터 대기
 
 ### 11.1 왜 필요한가
 
-Non-blocking I/O를 쉬지 않고 반복하면 Busy Polling이 될 수 있다. 어느 Socket이 준비됐는지는 OS가 알고 있으므로, Application이 Socket마다 호출해서 확인하지 말고 OS에게 준비된 Socket만 물어볼 수 있다.
+Non-blocking I/O를 쉬지 않고 반복하면 Busy Polling이 될 수 있다. 어느 Socket FD가 준비됐는지는 OS가 알고 있으므로, Application이 FD마다 `read()` / `accept()`를 반복 호출해서 확인하지 말고 OS에게 준비된 FD만 물어볼 수 있다.
 
 ```text
-Socket A ─┐
-Socket B ─┼→ 하나의 I/O 대기 지점 ← Application Thread
-Socket C ─┘
+FD 4: Socket A ─┐
+FD 5: Socket B ─┼→ 하나의 I/O 대기 지점 ← Application Thread
+FD 6: Socket C ─┘
 ```
 
-즉 `Multiplexing`의 핵심은 **여러 Socket의 준비 상태를 하나의 대기 지점에서 함께 기다리는 것**이다.
+즉 `Multiplexing`의 핵심은 **여러 Socket FD의 준비 상태를 하나의 대기 지점에서 함께 기다리는 것**이다.
 
 ### 11.2 OS가 대신 `read()`나 `accept()`하는 것은 아니다
 
 ```text
 OS
-= "이 Socket에서 지금 I/O가 가능하다"라고 알려줌
+= "이 FD가 지금 I/O 가능 상태다"라고 알려줌
 
 Application Thread
-= Ready 종류에 맞게 실제 accept() / read() 등을 호출
+= Ready 종류에 맞게 실제 accept(fd) / read(fd) 등을 호출
 ```
 
-OS가 Multiplexing 호출을 통해 알려주는 핵심은 데이터 자체가 아니라 **readiness**다.
+OS가 Multiplexing 호출을 통해 알려주는 핵심은 데이터 자체가 아니라 **readiness**다. 준비된 FD를 받았다는 말은 "이제 해당 FD에 대해 `accept()`나 `read()`를 호출하면 의미 있는 결과를 얻을 가능성이 높다"는 뜻이지, OS가 Application 대신 데이터를 처리했다는 뜻은 아니다.
 
 ### 11.3 Multiplexing도 Blocking될 수 있다
 
@@ -357,22 +357,22 @@ Busy Polling
 
 ## 12. `select` / `poll` / `epoll`
 
-셋 모두 **"여러 Socket 중 준비된 Socket을 알려줘"**를 구현하는 대표적인 I/O Multiplexing 방식/API 계열이다.
+셋 모두 **"여러 FD 중 준비된 FD를 알려줘"**를 구현하는 대표적인 I/O Multiplexing 방식/API 계열이다.
 
-Application Thread가 각각의 System Call/API를 호출하고, 실제 FD의 상태 검사·등록·이벤트 관리는 Kernel이 수행한다.
+Application Thread가 각각의 System Call/API를 호출하고, 실제 FD의 상태 검사·등록·이벤트 관리는 Kernel이 수행한다. 그래서 Application 관점에서는 `select` / `poll` / `epoll_wait`를 호출하지만, 감시 대상의 실체는 Socket을 참조하는 FD 목록이다.
 
 ```text
 Application                         OS Kernel
     │                                  │
-    │ select() / poll()                │
+    │ select(fd_set) / poll(pollfd[])  │
     ├─────────────────────────────────→│ 여러 FD 상태 확인
-    │←─────────────────────────────────┤ Ready 결과 반환
+    │←─────────────────────────────────┤ Ready FD 결과 반환
     │                                  │
-    │ epoll_create / epoll_ctl         │
+    │ epoll_create / epoll_ctl(fd)     │
     ├─────────────────────────────────→│ 관심 FD 등록·관리
     │ epoll_wait()                     │
     ├─────────────────────────────────→│ Ready Event 대기
-    │←─────────────────────────────────┤ Ready Event 반환
+    │←─────────────────────────────────┤ Ready FD/Event 반환
 ```
 
 ```text
@@ -385,8 +385,8 @@ poll
 = select의 고정 비트셋 방식 제약을 피함
 
 epoll
-= 관심 Socket 목록을 Kernel에 등록·유지
-= epoll_wait()를 반복하여 준비된 Event를 받음
+= 관심 FD 목록을 Kernel에 등록·유지
+= epoll_wait()를 반복하여 준비된 FD/Event를 받음
 ```
 
 ## 13. Event Loop는 이 과정을 반복하는 Application 구조다
@@ -394,9 +394,9 @@ epoll
 ```text
 준비된 I/O Event 기다림
         ↓
-OS가 준비된 Socket / Event 반환
+OS가 준비된 FD / Event 반환
         ↓
-Application이 해당 I/O 처리
+Application이 해당 FD에 맞는 I/O 처리
         ↓
 다시 I/O Event 기다림
         ↺
@@ -414,14 +414,14 @@ Event Loop
 
 ### 13.1 Ready 감지와 실제 처리는 별개다
 
-Application Thread가 Ready Socket의 작업을 직접 처리하는 동안에도 Kernel은 다른 Socket의 Ready 상태를 감지·관리할 수 있다.
+Application Thread가 Ready FD의 작업을 직접 처리하는 동안에도 Kernel은 다른 Socket FD의 Ready 상태를 감지·관리할 수 있다.
 
 ```text
 OS Kernel                    Application Thread
 
-A Ready ──────────────────→ A 처리 시작
-B Ready ✓                         │
-C Ready ✓                         │ A 처리 중
+FD A Ready ───────────────→ A 처리 시작
+FD B Ready ✓                     │
+FD C Ready ✓                     │ A 처리 중
                                   │
                              A 처리 완료
                                   ↓
@@ -527,10 +527,10 @@ Socket이 많으면
 ├─ Socket별 Blocking I/O → 대기 Thread 증가 가능
 ├─ Non-blocking 반복 I/O → Busy Polling 가능
 └─ I/O Multiplexing
-     → 여러 Socket의 readiness를 하나의 대기 지점에서 기다림
+     → 여러 Socket FD의 readiness를 하나의 대기 지점에서 기다림
      → select / poll / epoll
-     → Ready 종류에 맞게 accept / read 등 수행
+     → Ready FD 종류에 맞게 accept / read 등 수행
      → Event Loop로 반복 처리 가능
 ```
 
-> **정책은 Application / Runtime, 호출은 Application Thread, 실제 자원 관리는 OS. `listen()`은 입구를 준비하고, `accept()`는 완료된 연결을 Connected Socket으로 가져오며, `read()`는 그 Socket의 수신 데이터를 Application으로 가져온다. Blocking/Non-blocking은 I/O 호출 시 필요한 결과가 없을 때의 행동 차이고, I/O Multiplexing은 여러 Socket의 readiness를 하나의 대기 지점에서 함께 기다리는 구조다.**
+> **정책은 Application / Runtime, 호출은 Application Thread, 실제 자원 관리는 OS. `listen()`은 입구를 준비하고, `accept()`는 완료된 연결을 Connected Socket FD로 가져오며, `read()`는 그 FD가 가리키는 Socket의 수신 데이터를 Application으로 가져온다. Blocking/Non-blocking은 I/O 호출 시 필요한 결과가 없을 때의 행동 차이고, I/O Multiplexing은 여러 Socket FD의 readiness를 하나의 대기 지점에서 함께 기다리는 구조다.**
