@@ -43,22 +43,60 @@ OS는 `select / poll / epoll` 등의 I/O Multiplexing 메커니즘을 통해 여
 
 Application Thread는 Multiplexing API를 호출하여 준비된 Socket을 확인하고 실제 I/O를 수행한다.
 
+### Event 발생 흐름과 System Call 호출 흐름을 구분한다
+
+여기서 두 흐름을 섞지 않는다.
+
+Network Event 자체는 Kernel 쪽에서 발생·관리된다.
+
 ```text
+Network Data / Connection
+        ↓
 OS Kernel
-    ↓
-I/O Multiplexing
-select / poll / epoll
-    ↓
-Ready Event
-    ↓
-Application Thread
-    ↓
-read / write
+        ↓
+Socket / FD Ready
+        ↓
+Application이 받을 수 있는 Event 상태
 ```
+
+하지만 **System Call의 호출 주체는 Application Thread**다.
+
+```text
+Application Event Loop Thread
+        │
+        │ select() / poll() / epoll_wait()
+        ▼
+OS Kernel
+        │
+        │ 여러 FD의 readiness 관리
+        │ Ready FD / Event를 호출 결과로 반환
+        ▼
+Application Event Loop Thread
+        │
+        │ Event 판별
+        ▼
+accept / read / write 등 실제 I/O 수행
+```
+
+따라서 `Kernel → Application` 방향의 그림은 **Event가 어디에서 발생해 Application에 보이는가**를 설명할 수는 있지만, System Call의 호출 순서를 뜻하지 않는다.
+
+```text
+Event 발생 / 전달 관점
+= Network → Kernel → FD Ready → Application이 결과 확인
+
+System Call 호출 관점
+= Application Thread → Multiplexing System Call → Kernel
+                                      ↓
+                         Ready 결과 반환 → Application Thread
+```
+
+> **Kernel은 Event / readiness가 발생하고 관리되는 곳이고, Application Thread는 Multiplexing API를 호출해 그 결과를 받는 주체다. Reactor · Event Loop · Handler는 Application 영역의 실행 구조다.**
 
 이 과정을 반복하는 Application 실행 구조가 Event Loop다.
 
 ```text
+Application Event Loop Thread
+       ↓
 Ready Event 대기
        ↓
 준비된 Socket 확인
@@ -109,11 +147,15 @@ I/O Multiplexing은 **여러 Socket 중 무엇이 Ready인가**라는 문제를 
 여기서 Event를 기다리고 판별하는 공통 흐름과 Event별 처리 로직을 분리하는 Reactor Pattern이 등장한다.
 
 ```text
-I/O Multiplexing
-       ↓
-   Ready Event
-       ↓
-    Reactor
+Application Event Loop Thread
+       │
+       │ Multiplexing API 호출
+       ▼
+OS Kernel
+       │
+       │ Ready Event 반환
+       ▼
+Application의 Reactor
        ↓
     Dispatch
    /    |    \
@@ -121,7 +163,7 @@ Accept  Read  Write
 Handler Handler Handler
 ```
 
-> **Reactor Pattern은 Multiplexing으로 얻은 I/O Event를 적절한 Handler로 Dispatch하여 Event 처리 구조를 분리·구조화하는 패턴이다.**
+> **Reactor Pattern은 Multiplexing으로 얻은 I/O Event를 적절한 Handler로 Dispatch하여 Event 처리 구조를 분리·구조화하는 패턴이다. Kernel이 Reactor나 Handler를 호출하는 구조가 아니다.**
 
 ### Multiplexing과 Reactor의 관점 차이
 
@@ -142,7 +184,7 @@ I/O Multiplexing
     ↓
 Ready Event 발견
     ↓
-Reactor
+Application의 Reactor
     ↓
 적절한 Handler로 Dispatch
     ↓
