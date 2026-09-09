@@ -80,6 +80,60 @@ accept(Listening Socket)                    socket()
 
 위 함수들이 Network 반대편 함수를 직접 호출하는 것이 아니다. **각 Application Thread가 자기 OS에 Socket API를 호출하고, 실제 Network 통신은 양쪽 OS가 처리한다.**
 
+### 3.1 Unix/Linux에서는 양쪽 모두 Socket을 FD로 참조한다
+
+개념 설명에서는 `Socket을 반환한다`, `Socket에 read한다`고 표현하지만 Unix/Linux 구현 관점에서는 Process가 Socket 자체를 직접 들고 있는 것이 아니라 **Socket을 가리키는 FD(File Descriptor)** 를 사용한다.
+
+```text
+Client
+socket()
+   ↓
+Socket FD 반환
+   ↓
+connect(fd, ...)
+   ↓
+연결 후에도 같은 FD로
+Client 측 Connected Socket 사용
+```
+
+```text
+Server
+socket()
+   ↓
+Listening Socket FD 반환
+   ↓
+bind → listen
+   ↓
+accept(Listening FD)
+   ↓
+새 Connected Socket을 가리키는
+새 FD 반환
+```
+
+따라서 TCP 연결 하나를 양쪽에서 보면 다음처럼 이해할 수 있다.
+
+```text
+Client Process                         Server Process
+
+FD 7                                      FD 12
+ ↓                                          ↓
+Client Connected Socket ←──── TCP ────→ Server Connected Socket
+ ↓                                          ↓
+Client Kernel                           Server Kernel
+```
+
+양쪽 FD 번호는 같을 필요가 없다. **FD는 각 Process의 FD Table에서만 의미가 있는 Process-local Handle**이기 때문이다.
+
+```text
+Server Process
+
+FD 3 → Listening Socket
+FD 4 → Client A의 Connected Socket
+FD 5 → Client B의 Connected Socket
+```
+
+> **Client는 `socket()`에서 받은 FD로 `connect()`하고, Server는 Listening FD로 `accept()`하여 새로운 Connected Socket FD를 받는다.** FD 자체의 구조와 File · Pipe · 표준입출력까지 연결되는 Unix/Linux I/O 관점은 `FD-File-Descriptor.md`에서 별도로 다룬다.
+
 ## 4. `listen()`은 입구를 만들고 `accept()`는 연결을 가져온다
 
 ```text
@@ -117,6 +171,8 @@ Server OS
 ```
 
 `accept()`는 Listening Socket을 Connected Socket으로 바꾸는 것이 아니다. Listening Socket은 그대로 유지되고 `accept()`가 특정 Client용 Connected Socket을 반환한다.
+
+Unix/Linux 구현 관점에서 더 정확히 말하면 **`accept()`는 그 Connected Socket을 참조하는 새 FD를 반환한다.** TCP 연결과 Socket 상태는 이미 Kernel이 관리하고 있으며, `accept()`를 통해 Server Process가 해당 Connected Socket을 사용할 Handle을 얻는 것이다.
 
 ## 6. accept 대기 Thread 수와 연결 대기열은 다른 문제다
 

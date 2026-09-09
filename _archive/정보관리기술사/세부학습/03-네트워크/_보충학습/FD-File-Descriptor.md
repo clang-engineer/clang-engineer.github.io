@@ -526,6 +526,20 @@ Linux 구현 관점
 
 `select`의 `fd_set`, `poll`의 `pollfd`, `epoll_ctl()`에 등록하는 FD가 여기서 연결된다.
 
+### 9.1 Linux I/O는 FD 중심으로 기억해도 되는가
+
+Linux/Unix의 주요 I/O 자원인 **File · Socket · Pipe · Device 등은 FD를 공통 Handle로 사용**한다. 따라서 Blocking / Non-blocking I/O와 `select / poll / epoll`을 이해할 때는 **FD를 중심으로 보면 전체 흐름을 연결하기 쉽다.**
+
+다만 다음처럼 과잉 일반화하지 않는다.
+
+```text
+Linux/Unix의 주요 I/O 자원은 FD 중심이다          O
+모든 OS 자원은 반드시 FD를 사용한다              X
+모든 운영체제의 I/O가 FD 기반이다                X
+```
+
+즉 FD는 **Unix/Linux I/O의 핵심 공통 Handle**이지만, 모든 Kernel 자원이나 모든 운영체제에 그대로 적용되는 보편적인 식별자라는 뜻은 아니다.
+
 따라서 Socket I/O 학습 흐름을 FD까지 내려가면 다음처럼 연결된다.
 
 ```text
