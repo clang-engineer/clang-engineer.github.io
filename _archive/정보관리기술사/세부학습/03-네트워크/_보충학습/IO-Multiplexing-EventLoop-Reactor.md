@@ -1,8 +1,8 @@
-# Reactor Pattern과 I/O Event 처리
+# I/O Multiplexing · Event Loop · Reactor
 
-> Socket / FD · I/O Multiplexing · Event Loop · Reactor Pattern을 **언어에 종속되지 않는 일반 원리**로 이해하기 위한 보충학습 문서다.
+> `Socket-서버-IO.md`에서 확인한 **Socket / FD · Blocking / Non-blocking · I/O Multiplexing의 출발점**에서 이어서, Readiness · Event Loop · Reactor Pattern을 **언어에 종속되지 않는 일반 원리**로 이해하기 위한 보충학습 문서다.
 >
-> Java NIO · Netty처럼 특정 생태계의 구현 경로와 섞지 않고, 여러 언어와 Runtime에서 공통으로 재사용되는 실행 원리를 복원하는 것을 목표로 한다.
+> 이 문서에서는 Multiplexing 이후 Application 실행 구조를 깊게 보고, Java NIO · Netty · WebFlux처럼 특정 생태계의 구현 경로는 `Java-Network-IO-WebFlux.md`에서 이어서 다룬다.
 
 ## 1. 출발점: I/O Multiplexing
 
@@ -156,7 +156,27 @@ Event Loop
 = 준비 대기 → 처리 → 다시 대기를 반복하는 Application 실행 구조
 ```
 
-## 6. Reactor Pattern은 왜 필요한가
+따라서 `epoll = Event Loop`는 아니다.
+
+## 6. Ready 감지와 실제 처리는 별개다
+
+Application Thread가 Ready FD 하나를 처리하는 동안에도 Kernel은 다른 FD의 Ready 상태를 감지·관리할 수 있다.
+
+```text
+OS Kernel                    Application Thread
+
+A Ready ──────────────────→ A 처리 시작
+B Ready ✓                         │
+C Ready ✓                         │ A 처리 중
+                                  │
+                             A 처리 완료
+                                  ↓
+                             B / C 처리
+```
+
+즉 **A 처리 중이라고 B/C가 Ready되지 않는 것이 아니라, B/C의 Application 처리가 늦어지는 것**이다.
+
+## 7. Reactor Pattern은 왜 필요한가
 
 I/O Multiplexing만으로도 서버는 구현할 수 있다.
 
@@ -201,7 +221,7 @@ Reactor
 
 따라서 Reactor는 I/O Multiplexing의 필수 다음 단계가 아니다. **Multiplexing/Event-driven I/O를 Application에서 구조화하는 대표적인 설계 패턴 중 하나**다.
 
-## 7. Reactor와 Thread를 구분한다
+## 8. Reactor와 Thread를 구분한다
 
 Handler로 Dispatch한다는 것이 반드시 Worker Thread에게 작업을 넘긴다는 뜻은 아니다.
 
@@ -225,7 +245,7 @@ Thread
 
 > **Reactor의 핵심은 Thread 분배가 아니라 Event Dispatch다. Worker Thread 사용 여부는 별도의 실행 전략이다.**
 
-## 8. I/O Multiplexing은 여러 생태계에서 각자의 방식으로 활용된다
+## 9. I/O Multiplexing은 여러 생태계에서 각자의 방식으로 활용된다
 
 I/O Multiplexing은 Java에 종속된 개념이 아니다. OS가 제공하는 일반적인 I/O 메커니즘을 각 언어와 Runtime이 자신의 API와 실행 모델에 맞게 활용·추상화한다.
 
@@ -262,28 +282,17 @@ Framework
 어떻게? = Event Loop · Handler · Buffer · Thread 정책 등을 더 높은 수준에서 구조화
 ```
 
-따라서 다음처럼 기억한다.
+## 10. 학습 연결
 
 ```text
-I/O Multiplexing
-= 공통 기반 메커니즘
-        │
-        ├─ Java 생태계의 활용 경로
-        ├─ Node.js 생태계의 활용 경로
-        ├─ Python 생태계의 활용 경로
-        └─ 그 밖의 여러 Runtime / Framework
+Socket-서버-IO.md
+= Socket / FD / accept / read / Blocking / Non-blocking
+        ↓
+현재 문서
+= I/O Multiplexing / Readiness / Event Loop / Reactor
+        ↓
+Java-Network-IO-WebFlux.md
+= Java NIO / Netty + Reactive Programming / WebFlux
 ```
 
-이 문서에서는 공통 원리까지만 다룬다. Java 생태계의 가지를 확대하면 다음과 같다.
-
-```text
-OS I/O Multiplexing
-        ↓ Java에서 활용
-Java NIO
-Channel / Selector / SelectionKey
-        ↓ 서버 구조를 Framework화
-Netty
-EventLoop / Channel / Pipeline
-```
-
-Java 생태계의 상세한 `왜 → 어떻게`는 `Java-NIO-Netty.md`에서 이어서 다룬다.
+> **Socket 자체의 I/O 동작, Multiplexing 이후의 Application 실행 구조, 특정 언어·Framework의 활용 경로를 한 문서에 억지로 섞지 않고 학습 단위별로 나눈다.**
