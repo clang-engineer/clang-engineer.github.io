@@ -420,4 +420,61 @@ RPC용 Protocol
 ```
 
 ```text
-Socket이 HTTP를 사용한다           
+Socket이 HTTP를 사용한다            X
+HTTP가 TCP Socket을 사용할 수 있다  O
+```
+
+`WebSocket`은 OS Socket과 같은 개념이 아니다.
+
+```text
+Socket
+= Application ↔ OS의 Network 통신 접점/자원
+
+WebSocket
+= 지속적인 양방향 Message 통신을 위한 Application Protocol
+```
+
+HTTP/3은 대표적으로 `HTTP/3 → QUIC → UDP → Socket` 구조를 사용하므로 `HTTP = 항상 TCP`도 아니다.
+
+## 15. 한 번에 다시 떠올리기
+
+```text
+Application / Runtime
+= 구조 · Thread 정책 결정
+        ↓
+Application Thread
+= Socket API 호출
+        ↓
+OS
+= TCP 연결 · Socket · Buffer · Network I/O 관리
+
+Server 시작
+socket → bind → listen → accept
+                         ↓
+                Connected Socket 획득
+                         ↓
+                  최초 read()
+                         ↓
+                   read / send
+                         ↓
+                      close
+
+accept = 완료된 연결을 OS에서 가져옴
+read   = 수신 데이터를 OS에서 가져옴
+send   = 보낼 데이터를 자기 OS에 넘김
+
+accept() / read() 시 필요한 대상이 없으면
+├─ Blocking     → 호출한 Thread 대기
+└─ Non-blocking → 즉시 반환
+
+Socket이 많으면
+├─ Socket별 Blocking I/O → 대기 Thread 증가 가능
+├─ Non-blocking 반복 I/O → Busy Polling 가능
+└─ I/O Multiplexing
+     → 여러 Socket의 readiness를 하나의 대기 지점에서 기다림
+     → select / poll / epoll
+     → Ready 종류에 맞게 accept / read 등 수행
+     → Event Loop로 반복 처리 가능
+```
+
+> **정책은 Application / Runtime, 호출은 Application Thread, 실제 자원 관리는 OS. `listen()`은 입구를 준비하고, `accept()`는 완료된 연결을 Connected Socket으로 가져오며, `read()`는 그 Socket의 수신 데이터를 Application으로 가져온다. Blocking/Non-blocking은 I/O 호출 시 필요한 결과가 없을 때의 행동 차이고, I/O Multiplexing은 여러 Socket의 readiness를 하나의 대기 지점에서 함께 기다리는 구조다.**
