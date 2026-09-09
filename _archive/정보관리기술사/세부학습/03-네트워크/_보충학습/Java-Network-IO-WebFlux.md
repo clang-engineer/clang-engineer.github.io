@@ -1,6 +1,6 @@
 # Java Network I/O에서 Spring WebFlux까지
 
-> `Reactor-Pattern.md`에서 정리한 I/O Multiplexing의 일반 원리가 **Java 웹 개발 기술 스택에서 어떤 문제를 만나고, 어떤 추상화를 거쳐 Spring WebFlux까지 연결되는지** 이해하기 위한 보충학습 문서다.
+> `IO-Multiplexing-EventLoop-Reactor.md`에서 정리한 I/O Multiplexing의 일반 원리가 **Java 웹 개발 기술 스택에서 어떤 문제를 만나고, 어떤 추상화를 거쳐 Spring WebFlux까지 연결되는지** 이해하기 위한 보충학습 문서다.
 >
 > 각 기술의 사용법이나 API 암기가 목적이 아니다. **왜 등장했는가 → 무엇을 해결하는가 → 어떻게 해결하는가 → 핵심 특징과 장단점·Trade-off → 앞뒤 기술과 무엇이 다른가**를 중심으로, WebFlux 실무 코드의 실행 원리를 아래 계층부터 복원하는 것을 목표로 한다.
 
