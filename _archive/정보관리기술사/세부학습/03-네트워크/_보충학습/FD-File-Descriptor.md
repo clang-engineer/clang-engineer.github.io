@@ -9,6 +9,9 @@ FD는 **Process가 열린 Kernel I/O 자원을 참조하기 위한 정수형 식
 ```text
 Application Process
 
+fd 0 → stdin
+fd 1 → stdout
+fd 2 → stderr
 fd 3 → 일반 File
 fd 4 → Listening Socket
 fd 5 → Connected Socket
@@ -51,7 +54,137 @@ Process A : fd 5 → Socket A
 Process B : fd 5 → File X
 ```
 
-## 2. FD와 inode는 다르다
+### 열린 자원이라는 의미
+
+여기서 `열린(open) 자원`은 단순히 자원의 위치를 안다는 뜻이 아니다. **Process가 OS에 자원의 사용을 요청하여, 해당 Process가 사용할 수 있는 참조 관계가 만들어진 상태**라고 이해한다.
+
+일반 File의 경우:
+
+```text
+a.txt가 File System에 존재
+        ↓
+open("a.txt")
+        ↓
+OS가 열린 상태를 구성
+        ↓
+FD 3 반환
+        ↓
+read(3) / write(3) / close(3)
+```
+
+Socket도 비슷하다.
+
+```text
+socket()
+   ↓
+Kernel에 Socket 자원 생성
+   ↓
+Process가 사용할 FD 반환
+   ↓
+FD를 통해 Socket 사용
+```
+
+따라서 `open → FD → I/O → close`는 **Process가 Kernel I/O 자원을 사용하기 위한 참조의 생명주기**로 볼 수 있다.
+
+## 2. FD는 Pointer와 비슷하지만 Pointer는 아니다
+
+FD와 Pointer는 둘 다 **간접 참조(indirection)** 역할을 한다는 점에서 비슷하다.
+
+```text
+Pointer
+  ↓
+Memory Address
+  ↓
+Memory Object
+
+FD
+  ↓
+정수 번호
+  ↓
+Process의 FD Table
+  ↓
+Kernel I/O Resource
+```
+
+하지만 FD 값 자체가 Memory Address나 Disk Address인 것은 아니다.
+
+```text
+fd = 5
+
+5번 Disk 위치       X
+Memory Address 0x5  X
+Process FD Table의 5번 Entry  O
+```
+
+따라서 FD는 Pointer보다는 **Process-local Handle**이라고 표현하는 것이 더 정확하다.
+
+```text
+Pointer
+= 주소를 통한 간접 참조
+
+FD
+= 번호/Handle을 통한 간접 참조
+```
+
+예를 들어:
+
+```text
+read(5, ...)
+= "현재 Process의 FD Table 5번이 가리키는 열린 I/O 자원에서 읽어라"
+```
+
+### FD와 Disk Address는 직접 관계가 없다
+
+일반 File을 읽는 경우에도 FD에서 실제 Storage까지는 여러 계층을 거친다.
+
+```text
+FD
+ ↓
+FD Table
+ ↓
+Open File Description
+ ↓
+File / inode
+ ↓
+File System
+ ↓
+Data Block
+ ↓
+Storage
+```
+
+따라서 FD 번호 자체로 Disk의 물리적 위치를 알 수 있는 것은 아니다. Socket이나 Pipe도 FD를 가질 수 있다는 점을 생각하면 더 명확하다.
+
+## 3. FD는 일시적인 식별자다
+
+FD는 File이나 Socket 자체의 영구 식별자가 아니라 **현재 Process에서 열린 동안 의미가 있는 식별자**다.
+
+```text
+open("a.txt")
+   ↓
+FD 3
+   ↓
+close(3)
+   ↓
+FD 3 사용 종료
+   ↓
+open("b.txt")
+   ↓
+FD 3이 다시 사용될 수도 있음
+```
+
+Process가 종료되면 해당 Process가 가지고 있던 FD들도 OS에 의해 정리된다.
+
+따라서:
+
+```text
+FD 5 = 특정 자원의 영구 ID  X
+FD 5 = 현재 Process에서 현재 열린 자원을 가리키는 일시적 Handle  O
+```
+
+비유하면 **inode가 File System 안에서 공책 자체를 식별하는 관리번호라면, FD는 Process가 그 공책을 빌려 사용할 때 받은 일시적인 대여번호**에 가깝다.
+
+## 4. FD와 inode는 다르다
 
 일반 File을 기준으로 보면 다음처럼 구분할 수 있다.
 
@@ -81,7 +214,7 @@ inode number
 
 반대로 TCP Socket은 FD로 접근할 수 있지만, 일반 File처럼 반드시 File System의 inode를 찾아가는 구조라고 이해하면 안 된다.
 
-## 3. 왜 File Descriptor인데 Socket도 다루는가
+## 5. 왜 File Descriptor인데 Socket도 다루는가
 
 Unix의 `everything is a file`은 **모든 자원이 디스크의 일반 File이라는 뜻이 아니다.** 여러 I/O 자원을 FD와 공통 I/O Interface를 통해 비슷하게 다룰 수 있다는 관점에 가깝다.
 
@@ -105,7 +238,17 @@ close(fd 3)
 close(fd 4)
 ```
 
-## 4. Socket I/O와 FD
+표준 입출력도 같은 FD 체계에 포함된다.
+
+```text
+fd 0 = stdin
+fd 1 = stdout
+fd 2 = stderr
+```
+
+그래서 Unix/Linux의 File, Socket, Pipe, Device, 표준 입출력 등이 FD라는 공통적인 I/O Handle 관점에서 연결된다.
+
+## 6. Socket I/O와 FD
 
 Socket I/O를 FD 관점까지 내려가면 다음처럼 읽을 수 있다.
 
@@ -129,7 +272,7 @@ Application Thread ── write(Connected Socket의 FD) ───→ OS Kernel
 
 으로 이해할 수 있다.
 
-## 5. I/O Multiplexing과 FD
+## 7. I/O Multiplexing과 FD
 
 앞에서 `select / poll / epoll`을 **여러 Socket의 readiness를 감시한다**고 표현했지만 Linux 구현 관점으로 내려가면 FD가 직접 등장한다.
 
@@ -157,14 +300,15 @@ Linux 구현 관점
 
 `select`의 `fd_set`, `poll`의 `pollfd`, `epoll_ctl()`에 등록하는 FD가 여기서 연결된다.
 
-## 6. 한 번에 구분하기
+## 8. 한 번에 구분하기
 
 ```text
 Socket
 = OS Kernel의 Network 통신 자원
 
 FD
-= Process가 열린 Kernel I/O 자원을 참조하는 식별자
+= Process가 현재 열린 Kernel I/O 자원을 참조하는 일시적인 Handle
+= Memory Address / Disk Address가 아님
 
 inode
 = File System이 File 객체를 식별하는 번호
@@ -173,4 +317,4 @@ Thread
 = Application Code와 I/O API를 실행하는 실행 주체
 ```
 
-> **Socket ≠ FD ≠ Thread이며, FD와 inode도 서로 다른 계층의 식별자다. Socket은 Kernel 자원이고, Process는 FD를 통해 그 자원에 접근하며, Thread가 그 FD를 이용해 I/O API를 호출한다.**
+> **Socket ≠ FD ≠ Thread이며, FD와 inode도 서로 다른 계층의 식별자다. FD는 Pointer처럼 간접 참조 역할을 하지만 주소가 아니라 Process의 FD Table Entry를 지정하는 정수형 Handle이다.**
