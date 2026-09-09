@@ -225,19 +225,65 @@ Thread
 
 > **Reactor의 핵심은 Thread 분배가 아니라 Event Dispatch다. Worker Thread 사용 여부는 별도의 실행 전략이다.**
 
-## 8. 특정 언어의 구현과 분리해서 기억한다
+## 8. I/O Multiplexing은 여러 생태계에서 각자의 방식으로 활용된다
+
+I/O Multiplexing은 Java에 종속된 개념이 아니다. OS가 제공하는 일반적인 I/O 메커니즘을 각 언어와 Runtime이 자신의 API와 실행 모델에 맞게 활용·추상화한다.
+
+```text
+                       OS I/O Multiplexing
+                    select / poll / epoll 등
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+             ▼                ▼                ▼
+          Java 계열        Node.js 계열      Python 계열
+          Java NIO           libuv            selectors
+          Selector         Event Loop            등
+             │
+             ▼
+           Netty
+```
+
+이 그림은 `I/O Multiplexing → Java NIO → Netty`가 모든 환경에서 공통으로 진행되는 발전 단계라는 뜻이 아니다. **Java NIO는 여러 활용 경로 중 Java 생태계의 한 갈래**다.
+
+각 단계에서 질문도 달라진다.
+
+```text
+OS I/O Multiplexing
+왜?  = 많은 I/O의 readiness를 효율적으로 기다리기 위해
+어떻게? = select / poll / epoll 등으로 여러 FD를 함께 감시
+
+언어 / Runtime 추상화
+왜?  = OS별 System Call과 FD를 Application 코드가 직접 다루는 부담을 줄이기 위해
+어떻게? = 각 생태계의 I/O API · Event Loop · Channel 등의 추상화로 노출
+
+Framework
+왜?  = 저수준 I/O API만으로 서버 구조 전체를 직접 구성하는 부담을 줄이기 위해
+어떻게? = Event Loop · Handler · Buffer · Thread 정책 등을 더 높은 수준에서 구조화
+```
+
+따라서 다음처럼 기억한다.
 
 ```text
 I/O Multiplexing
-= OS 수준의 일반 메커니즘
-
-Event Loop
-= Application 실행 구조
-
-Reactor Pattern
-= Application 설계 패턴
+= 공통 기반 메커니즘
+        │
+        ├─ Java 생태계의 활용 경로
+        ├─ Node.js 생태계의 활용 경로
+        ├─ Python 생태계의 활용 경로
+        └─ 그 밖의 여러 Runtime / Framework
 ```
 
-이 원리는 Java에만 해당하지 않는다. 각 언어와 Runtime은 자신만의 I/O API와 Event Loop 추상화를 제공할 수 있다.
+이 문서에서는 공통 원리까지만 다룬다. Java 생태계의 가지를 확대하면 다음과 같다.
 
-Java 생태계에서 이 원리가 어떻게 나타나는지는 `Java-NIO-Netty.md`에서 이어서 다룬다.
+```text
+OS I/O Multiplexing
+        ↓ Java에서 활용
+Java NIO
+Channel / Selector / SelectionKey
+        ↓ 서버 구조를 Framework화
+Netty
+EventLoop / Channel / Pipeline
+```
+
+Java 생태계의 상세한 `왜 → 어떻게`는 `Java-NIO-Netty.md`에서 이어서 다룬다.
