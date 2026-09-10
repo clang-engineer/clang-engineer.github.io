@@ -2,11 +2,63 @@
 
 > 학습 원칙: [`00-프로그래밍-언어-학습원칙.md`](00-프로그래밍-언어-학습원칙.md)
 >
-> 핵심 질문: **Source Code를 CPU가 실행할 수 있는 형태로 언제 바꾸고, 그 비용을 실행 전과 실행 중 어디에 둘 것인가?**
+> 핵심 질문: **Source Code가 실제로 실행되기까지 언제 무엇으로 바뀌고, 누가 실행하며, Runtime은 어디에서 무엇을 맡는가?**
 
 ---
 
-## 1. 먼저 언어와 실행 방식을 나눈다
+## 1. 큰 그림 — 프로그램 실행을 네 질문으로 본다
+
+Compile, Interpreter, Bytecode, VM, JIT, Runtime을 각각 따로 외우지 않는다.
+
+먼저 프로그램 실행을 다음 네 질문으로 나눈다.
+
+```text
+Source Code
+   ↓
+1. 언제 바꾸는가?
+   ├─ 실행 전
+   └─ 실행 중
+
+2. 무엇으로 바꾸는가?
+   ├─ Native Machine Code
+   └─ Bytecode / IR 같은 중간 표현
+
+3. 누가 실행하는가?
+   ├─ CPU가 Native Code를 직접 실행
+   └─ VM / Interpreter / Runtime이 중간 표현을 실행
+
+4. Runtime은 어디에 있고 무엇을 맡는가?
+   ├─ 별도의 실행 환경
+   ├─ Native Binary 안에 포함
+   └─ Native 실행 + 비교적 얇은 Runtime 지원
+```
+
+이 네 질문에 기존 용어를 놓으면 위치가 보인다.
+
+```text
+AOT
+→ 언제 바꾸는가? : 실행 전
+
+JIT
+→ 언제 바꾸는가? : 실행 중
+
+Bytecode / IR
+→ 무엇으로 바꾸는가? : 중간 표현
+
+Interpreter / VM
+→ 누가 실행하는가? : Runtime이 Program 표현을 실행
+
+JVM / Node.js / Go Runtime / C++ Runtime 지원
+→ Runtime은 어디에 있고 무엇을 맡는가?
+```
+
+따라서 이 문서의 목적은 `컴파일 언어`, `인터프리터 언어` 같은 이름을 외우는 것이 아니다.
+
+> **프로그램이 실행되기까지 어떤 변환 단계를 거치고, 각 단계의 일을 언제 누가 맡는지 구조로 보는 것이 핵심이다.**
+
+---
+
+## 2. 먼저 언어와 실행 방식을 나눈다
 
 `C++은 컴파일 언어`, `Python은 인터프리터 언어`처럼 언어 이름과 실행 방식을 그대로 묶으면 실제 구조를 놓치기 쉽다.
 
@@ -24,7 +76,7 @@ Implementation / Runtime
 
 ---
 
-## 2. C++ 기준점 — 실행 전에 Native Code를 만든다
+## 3. C++ 기준점 — 실행 전에 Native Code를 만든다
 
 전형적인 C++ Toolchain은 다음처럼 이해할 수 있다.
 
@@ -46,6 +98,22 @@ OS Loader
 CPU 실행
 ```
 
+네 질문에 대입하면:
+
+```text
+언제 바꾸는가?
+→ 실행 전에 대부분 변환
+
+무엇으로 바꾸는가?
+→ Native Machine Code
+
+누가 실행하는가?
+→ OS가 Process를 준비하고 CPU가 Machine Code 실행
+
+Runtime은 어디에 있는가?
+→ 별도 VM보다는 Native 실행 + Runtime/Library 지원 중심
+```
+
 핵심은 **실행 전에 분석과 Code Generation을 많이 끝내고, CPU가 직접 실행할 Machine Code를 미리 준비한다는 것**이다.
 
 장점:
@@ -62,11 +130,27 @@ Trade-off:
 
 ---
 
-## 3. Interpreter — 프로그램 표현을 읽으면서 실행한다
+## 4. 언제 바꾸는가 — AOT · Interpret · JIT
+
+첫 번째 질문은 **Code를 언제 실행 가능한 형태로 바꾸는가**다.
+
+### AOT — 실행 전에 만든다
+
+AOT(Ahead-Of-Time Compilation)는 Program을 실행하기 전에 Code를 Compile한다.
+
+```text
+Source
+  ↓ 실행 전 Compile
+Native Code
+  ↓
+실행
+```
+
+C++의 일반적인 Build 흐름이 좋은 기준점이다.
+
+### Interpreter — 실행하면서 Program 표현을 읽는다
 
 Interpreter는 Program 표현을 읽고 그 의미에 맞는 동작을 수행한다.
-
-가장 단순하게 보면:
 
 ```text
 Source / Intermediate Representation
@@ -101,41 +185,7 @@ while (running) {
 
 따라서 `Interpret = Source Text를 한 줄씩 읽는다`고 외우지 않는다.
 
----
-
-## 4. Bytecode와 VM — Source와 Native Code 사이에 중간 명령어를 둔다
-
-Java, Python 등 여러 Runtime은 Source를 바로 Native Code로 만들지 않고 중간 표현을 사용한다.
-
-```text
-Source
-  ↓
-Compiler
-  ↓
-Bytecode / Intermediate Representation
-  ↓
-Virtual Machine
-  ↓
-Interpret 또는 JIT
-  ↓
-실행
-```
-
-Bytecode는 실제 CPU가 실행하는 Machine Code가 아니라 **VM이 이해하는 Instruction Set**으로 보면 된다.
-
-```text
-Native Machine Code
-→ 실제 CPU가 직접 실행
-
-Bytecode
-→ 가상의 CPU 역할을 하는 VM이 실행
-```
-
-이 중간 계층을 두면 Platform 독립성, Runtime 검사, 동적 최적화 같은 설계를 하기 쉬워질 수 있다.
-
----
-
-## 5. JIT — 실행하면서 필요한 Code를 Native Code로 만든다
+### JIT — 실행 중에 Native Code를 만든다
 
 JIT(Just-In-Time Compilation)는 Program 실행 중에 Code를 Compile한다.
 
@@ -167,11 +217,7 @@ JIT의 강점은 **실제 실행 중에 얻은 정보를 최적화에 쓸 수 �
 
 이런 정보는 실행 전에 Compile하는 Compiler가 알기 어렵다.
 
----
-
-## 6. AOT와 JIT는 둘 중 하나만 고르는 관계가 아니다
-
-AOT(Ahead-Of-Time Compilation)는 실행 전에 Compile하고, JIT는 실행 중 Compile한다.
+### AOT와 JIT는 둘 중 하나만 고르는 관계가 아니다
 
 ```text
 AOT
@@ -207,9 +253,91 @@ Optimizing JIT
 
 ---
 
-## 7. Java — Bytecode + VM + JIT
+## 5. 무엇으로 바꾸는가 — Native Code와 Bytecode / IR
 
-Java의 전형적인 흐름은 다음과 같다.
+두 번째 질문은 **Source를 어떤 실행 표현으로 바꾸는가**다.
+
+Native Code로 바로 갈 수도 있고, 중간 표현을 둘 수도 있다.
+
+```text
+Source
+├─→ Native Machine Code
+│      ↓
+│     CPU
+│
+└─→ Bytecode / IR
+       ↓
+      VM / Interpreter
+       ↓ 필요하면 JIT
+      Native Code
+```
+
+### Bytecode와 VM
+
+Java, Python 등 여러 Runtime은 Source를 바로 Native Code로 만들지 않고 중간 표현을 사용한다.
+
+```text
+Source
+  ↓
+Compiler
+  ↓
+Bytecode / Intermediate Representation
+  ↓
+Virtual Machine
+  ↓
+Interpret 또는 JIT
+  ↓
+실행
+```
+
+Bytecode는 실제 CPU가 실행하는 Machine Code가 아니라 **VM이 이해하는 Instruction Set**으로 보면 된다.
+
+```text
+Native Machine Code
+→ 실제 CPU가 직접 실행
+
+Bytecode
+→ 가상의 CPU 역할을 하는 VM이 실행
+```
+
+이 중간 계층을 두면 Platform 독립성, Runtime 검사, 동적 최적화 같은 설계를 하기 쉬워질 수 있다.
+
+---
+
+## 6. 누가 실행하는가 — CPU · Interpreter · VM · Runtime
+
+세 번째 질문은 **최종적으로 Program의 실행을 누가 주도하는가**다.
+
+```text
+Native 실행
+→ CPU가 Machine Code를 직접 실행
+
+Interpreter
+→ Runtime이 Program 표현을 읽고 그에 맞는 동작 수행
+
+VM
+→ VM용 Instruction을 실행하고 필요하면 JIT로 Native Code 생성
+```
+
+여기서 `VM이 실행한다`고 해서 CPU가 사라지는 것은 아니다.
+
+```text
+Application Bytecode
+   ↓
+VM / Interpreter Program
+   ↓
+그 VM 자체의 Native Code
+   ↓
+CPU
+```
+
+즉 차이는 **CPU가 Application의 Machine Code를 직접 실행하느냐, Runtime이 중간 표현을 해석하거나 변환하는 계층이 사이에 있느냐**다.
+
+---
+
+## 7. 언어별 실행 구조를 네 질문에 대입한다
+
+### Java — Bytecode + JVM + JIT
 
 ```text
 .java Source
@@ -224,21 +352,20 @@ JVM
 ```
 
 ```text
-javac
-→ Source를 Bytecode로 변환
+언제?
+→ Source→Bytecode는 실행 전, 일부 Native Code는 실행 중 JIT
 
-JVM
-→ Bytecode를 실행하는 Runtime
+무엇으로?
+→ Bytecode, 이후 필요하면 Native Code
 
-JIT
-→ 실행 중 일부 Code를 Native Code로 Compile
+누가?
+→ JVM이 Bytecode 실행과 JIT 관리
+
+Runtime은 어디에?
+→ JVM이라는 별도 실행 환경
 ```
 
-따라서 Java를 단순히 `Compiler Language`나 `Interpreter Language` 하나로만 분류하면 전체 구조가 보이지 않는다.
-
----
-
-## 8. JavaScript — 언어보다 Engine의 실행 흐름을 본다
+### JavaScript — 언어보다 Engine과 Runtime을 본다
 
 JavaScript도 `Interpreter Language`라는 한 단어로 설명하기 어렵다.
 
@@ -260,8 +387,6 @@ Optimizing JIT
 Native Code
 ```
 
-Engine마다 내부 단계와 이름은 다를 수 있다. 특정 Engine의 구현을 JavaScript 언어 자체의 규칙으로 일반화하지 않는다.
-
 또 JavaScript를 실제로 실행할 때는 Engine만이 아니라 Browser나 Node.js 같은 실행 환경이 함께 동작한다.
 
 ```text
@@ -275,9 +400,9 @@ Browser / Node.js
 → Engine을 포함하고 Timer, I/O, Event Loop 같은 실행 환경까지 제공하는 Runtime
 ```
 
----
+Engine마다 내부 단계와 이름은 다를 수 있다. 특정 Engine의 구현을 JavaScript 언어 자체의 규칙으로 일반화하지 않는다.
 
-## 9. Python — 언어와 구현체를 구분하기 좋은 사례
+### Python — 언어와 구현체를 구분하기 좋은 사례
 
 CPython은 일반적으로 Python Source를 Bytecode로 바꾸고 Python Virtual Machine이 이를 실행한다.
 
@@ -305,11 +430,11 @@ CPython
 
 ---
 
-## 10. Runtime은 있다/없다가 아니라 어디에 있는지를 본다
+## 8. Runtime은 있다/없다가 아니라 어디에 있는지를 본다
+
+네 번째 질문은 **실행에 필요한 Runtime 기능이 어디에 있고 무엇을 맡는가**다.
 
 `C++에는 Runtime이 없고 Java에는 Runtime이 있다`처럼 둘로 나누면 실제 구조를 놓치기 쉽다.
-
-더 정확한 질문은 다음이다.
 
 ```text
 실행에 필요한 Runtime 기능은 어디에 있는가?
@@ -345,7 +470,7 @@ C++
 
 ---
 
-## 11. Runtime을 어디에 두느냐에 따라 Trade-off가 달라진다
+## 9. Runtime을 어디에 두느냐에 따라 Trade-off가 달라진다
 
 ### 별도의 Runtime / VM을 사용하는 경우
 
@@ -435,25 +560,42 @@ Runtime 기능
 
 ---
 
-## 12. Compiler와 Interpreter의 이름보다 중요한 질문
+## 10. 새 언어 또는 Runtime을 볼 때의 순서
 
-새 Runtime을 볼 때는 다음을 순서대로 확인한다.
+새로운 언어의 실행 방식을 볼 때는 제품명이나 `컴파일 언어/인터프리터 언어`부터 외우지 않는다.
 
 ```text
-1. Source를 어떤 중간 표현으로 바꾸는가?
-2. 실행 전에 Native Code를 만드는가?
-3. VM이나 Interpreter가 있는가?
-4. 실행 중 Native Code를 추가로 만드는가?
-5. Runtime Profile을 최적화에 사용하는가?
-6. 실행에 필요한 Runtime 기능은 어디에 있는가?
-7. 만든 Code를 언제 버리거나 다시 최적화하는가?
+1. 언제 바꾸는가?
+→ 실행 전 / 실행 중
+
+2. 무엇으로 바꾸는가?
+→ Native Code / Bytecode / IR
+
+3. 누가 실행하는가?
+→ CPU / Interpreter / VM
+
+4. Runtime은 어디에 있고 무엇을 맡는가?
+→ 별도 환경 / Binary 포함 / 얇은 지원
+
+5. 실행 중 다시 Compile하거나 최적화하는가?
+→ JIT / Runtime Profile / Reoptimization
 ```
 
-이 질문을 쓰면 서로 다른 Runtime도 같은 기준으로 비교할 수 있다.
+좀 더 세부적으로 확인할 때는 다음 질문을 붙인다.
+
+```text
+Source를 어떤 중간 표현으로 바꾸는가?
+실행 전에 Native Code를 만드는가?
+VM이나 Interpreter가 있는가?
+실행 중 Native Code를 추가로 만드는가?
+Runtime Profile을 최적화에 사용하는가?
+실행에 필요한 Runtime 기능은 어디에 있는가?
+만든 Code를 언제 버리거나 다시 최적화하는가?
+```
 
 ---
 
-## 13. 실행 방식과 타입 시스템은 다른 축이다
+## 11. 실행 방식과 타입 시스템은 다른 축이다
 
 정적 타입과 AOT Compile, 동적 타입과 Interpreter가 자주 함께 보이지만 같은 개념은 아니다.
 
@@ -478,7 +620,7 @@ AOT / JIT / Interpret
 
 ---
 
-## 14. 성능은 실행 방식 하나로 결정되지 않는다
+## 12. 성능은 실행 방식 하나로 결정되지 않는다
 
 다음 요소가 함께 영향을 준다.
 
@@ -503,24 +645,30 @@ AOT는 시작부터 Native Code를 쓸 수 있지만 실제 Runtime 정보를 �
 
 ---
 
-## 15. 개념 경계 정리
+## 13. 개념 경계 정리
 
-| 개념 | 핵심 질문 | C++ 기준점 |
-|---|---|---|
-| Compiler | Code를 다른 실행 표현으로 언제 바꾸는가? | C++ Compiler |
-| Interpreter | Program 표현을 읽으며 동작을 실행하는가? | `switch(opcode)` Loop |
-| Bytecode | VM이 실행할 중간 Instruction인가? | Native ISA와 대비 |
-| VM | 중간 Instruction을 실행하는 Runtime인가? | 가상의 실행 Machine |
-| AOT | 실행 전에 Native Code를 만드는가? | 일반적인 C++ Build |
-| JIT | 실행 중 Native Code를 만드는가? | Runtime Code Generation |
-| Runtime | 실행에 필요한 기능을 누가, 어디에서 제공하는가? | Native 실행 + Runtime/Library 지원 |
-| Runtime Profile | 실제 실행 정보를 최적화에 쓰는가? | 사전 Compile과 대비 |
+| 개념 | 네 질문에서의 위치 | 핵심 질문 | C++ 기준점 |
+|---|---|---|---|
+| Compiler | 언제/무엇으로 | Code를 다른 실행 표현으로 언제 바꾸는가? | C++ Compiler |
+| AOT | 언제 | 실행 전에 Native Code를 만드는가? | 일반적인 C++ Build |
+| Interpreter | 언제/누가 | Program 표현을 읽으며 동작을 실행하는가? | `switch(opcode)` Loop |
+| Bytecode | 무엇으로 | VM이 실행할 중간 Instruction인가? | Native ISA와 대비 |
+| VM | 누가 | 중간 Instruction을 실행하는 Runtime인가? | 가상의 실행 Machine |
+| JIT | 언제 | 실행 중 Native Code를 만드는가? | Runtime Code Generation |
+| Runtime | 어디/무엇을 맡나 | 실행에 필요한 기능을 누가 어디에서 제공하는가? | Native 실행 + Runtime/Library 지원 |
+| Runtime Profile | 실행 중 최적화 | 실제 실행 정보를 최적화에 쓰는가? | 사전 Compile과 대비 |
 
 ---
 
-## 16. 기억·인출
+## 14. 기억·인출
 
 ```text
+프로그램 실행의 네 질문
+= 언제 바꾸나?
+= 무엇으로 바꾸나?
+= 누가 실행하나?
+= Runtime은 어디에 있고 무엇을 맡나?
+
 AOT
 = 실행 전에 만든다
 
@@ -533,16 +681,10 @@ Bytecode
 JIT
 = 실행하면서 필요한 Native Code를 만든다
 
-Runtime
-= Program 실행에 필요한 기능과 환경을 제공
-
 Runtime 비교
 = "있나 없나"보다 "어디에 있고 무엇을 맡나"
-
-핵심 비교축
-= "언제 어떤 실행 Code를 만들고, 누가 실행을 관리하는가?"
 ```
 
 핵심 문장:
 
-> **Compile, Interpret, JIT는 언어 자체의 고정 속성이 아니다. 구현체가 Program을 어떤 단계와 시점에 실행 가능한 형태로 바꾸는지 보고, Runtime은 실행에 필요한 기능을 어디에서 어떤 방식으로 제공하는지 따로 봐야 한다.**
+> **Compile, Interpret, JIT를 따로 외우지 않는다. Source Code가 언제 무엇으로 바뀌고, 누가 그것을 실행하며, Runtime이 어디에서 어떤 역할을 맡는지를 같은 좌표 위에서 보면 서로 다른 언어와 구현체의 실행 구조를 비교할 수 있다.**
