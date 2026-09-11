@@ -2,7 +2,7 @@
 title       : "터미널은 무엇인가 — TTY에서 PTY까지"
 description : "물리 터미널에서 터미널 에뮬레이터와 PTY로 이어지는 구조를 따라가며, 왜 이런 계층이 필요한지와 tmux·SSH까지의 연결을 정리한다."
 date        : 2026-09-05 12:50:00 +0900
-updated     : 2026-09-11 21:55:00 +0900
+updated     : 2026-09-11 22:15:00 +0900
 categories  : [terminal]
 tags        : [terminal, tty, pty, pseudoterminal, shell, tmux, neovim]
 pin         : false
@@ -444,33 +444,100 @@ zsh / Neovim
 
 `multiplex`는 여러 흐름이나 연결을 하나의 통로에서 나누어 다루는 의미를 가진다. tmux라는 이름도 여러 Terminal session을 한 환경에서 관리하는 역할과 연결된다.
 
-### 9.2 SSH에서는 원격 측에 PTY를 만든다
+### 9.2 SSH에서는 원격 측에 PTY를 만들 수 있다
 
-SSH로 원격 서버에 접속할 때도 같은 원리가 반복된다.
+여기서 먼저 하나를 분리해서 생각해야 한다.
 
-원격 Shell을 단순 명령 실행기가 아니라 대화형 Terminal 프로그램처럼 사용하려면 원격 측에도 PTY가 필요하다.
+> **프로그램을 실행하는 것 자체에는 Terminal이 필요하지 않다.**
 
-개념적으로 보면:
+Terminal은 프로그램을 실행시키는 장치가 아니라, 실행된 프로그램이 사용자와 대화형으로 입출력할 때 사용할 수 있는 **입출력 환경** 중 하나다.
 
-```text
-로컬 사용자
-    ↓
-로컬 Terminal Emulator
-    ↓
-로컬 측 입출력
-    ↓
-SSH 연결
-    ↓ 네트워크
-원격 sshd
-    ↓
-원격 PTY
-    ↓
-원격 Shell / TUI 프로그램
+그래서 SSH로 원격 명령 하나만 실행하는 경우에는 원격 PTY가 없어도 된다.
+
+예를 들어:
+
+```bash
+ssh server ls
 ```
 
-그래서 SSH에서도 `vim`, `top`, `tmux` 같은 TUI 프로그램을 사용할 수 있다.
+를 실행하면 개념적으로 다음과 같다.
 
-네트워크 너머의 프로그램에게도 **Terminal 의미론을 제공할 수 있기 때문**이다.
+```text
+로컬 Terminal Emulator
+        ↓
+     로컬 PTY
+        ↓
+    ssh client
+        ↓ 네트워크
+    원격 sshd
+        ↓ 프로세스 실행
+        ls
+        ↓ stdout/stderr
+     SSH channel
+        ↓ 네트워크
+    ssh client
+        ↓ stdout
+     로컬 PTY
+        ↓
+로컬 Terminal Emulator
+```
+
+원격 `ls`가 실행되는 데 Terminal이 필요한 것은 아니다. 원격 `sshd` 쪽에서 프로세스를 실행할 수 있고, `ls`의 표준 출력과 표준 오류를 SSH channel에 연결하면 결과를 로컬로 전달할 수 있다.
+
+즉:
+
+```text
+프로그램 실행
+≠
+Terminal에 연결되어 실행
+```
+
+이다.
+
+반대로 `vim`, `top`, 대화형 Shell처럼 키 입력, 화면 크기, raw mode, job control 같은 Terminal 기능을 기대하는 프로그램은 원격에서도 PTY가 필요하다.
+
+```text
+로컬 Terminal Emulator
+        ↓
+     로컬 PTY
+        ↓
+    ssh client
+        ↓ 네트워크
+    원격 sshd
+        ↓
+    원격 PTY
+        ↓
+원격 Shell / vim / top
+```
+
+대화형 `ssh server`에서는 보통 이 원격 PTY가 할당된다. 원격 명령 실행에서 PTY를 명시적으로 요청하고 싶다면 `-t`를 사용할 수 있다.
+
+```bash
+ssh -t server top
+```
+
+여기서 `-t`는 원격 측에 **pseudo-terminal allocation을 요청**한다는 뜻이다.
+
+이 차이를 짧게 비교하면:
+
+```text
+ssh server ls
+→ 원격에서 ls 실행
+→ stdout/stderr를 SSH channel로 전달
+→ 원격 PTY가 없어도 됨
+
+ssh server
+→ 원격 Shell을 대화형으로 사용
+→ 일반적으로 원격 PTY 할당
+
+ssh -t server top
+→ 원격 top 실행
+→ top이 사용할 원격 PTY를 명시적으로 요청
+```
+
+따라서 "내가 로컬 Terminal에서 명령을 입력했다"와 "원격에서 실행된 프로그램이 Terminal에 연결되어 있다"는 같은 말이 아니다.
+
+SSH가 있으면 네트워크 너머에서도 필요한 경우 프로그램에게 **Terminal 의미론을 제공할 수 있다**.
 
 ## 10. 전체 그림
 
@@ -507,6 +574,10 @@ Shell / TUI 프로그램
 > **Terminal Emulator는 사용자 쪽에서 물리 Terminal을 재현한다.**
 >
 > **PTY는 프로그램 쪽에서 Terminal 장치를 재현한다.**
+
+그리고 한 문장을 더 기억해두면 SSH까지 헷갈리지 않는다.
+
+> **Terminal은 프로그램을 실행시키는 장치가 아니라, 프로그램이 사용할 수 있는 입출력 환경이다.**
 
 이 구분을 잡아두면 이후에 나오는 `termios`, raw mode, ANSI escape sequence, curses, tmux, SSH가 각각 어디에 위치하는지 훨씬 쉽게 보인다.
 
