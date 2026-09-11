@@ -2,7 +2,7 @@
 title       : "터미널 로드맵 — TTY·PTY에서 현대 TUI까지"
 description : "터미널을 단순한 명령창이 아니라 하나의 입출력·렌더링 스택으로 이해하기 위한 학습 지도. TTY/PTY, termios, ANSI/VT, terminfo, curses를 거쳐 현대 TUI 프레임워크와 실제 애플리케이션 구조까지 바닥부터 올라간다."
 date        : 2026-09-05 12:30:00 +0900
-updated     : 2026-09-05 15:35:00 +0900
+updated     : 2026-09-11 22:25:00 +0900
 categories  : [terminal]
 tags        : [roadmap, terminal, tty, pty, termios, ansi, vt, terminfo, ncurses, tui]
 pin         : false
@@ -12,6 +12,50 @@ hidden      : false
 터미널에서 동작하는 도구를 오래 쓰다 보면 서로 다른 질문이 결국 같은 바닥으로 모인다. `tmux`는 왜 터미널을 중첩할 수 있는가, SSH에서도 왜 Neovim 화면이 그대로 보이는가, TUI 앱은 픽셀을 그리지 않는데 어떻게 화면 전체를 갱신하는가, `fzf`와 `btop`은 무엇을 직접 구현했고 OpenTUI나 Ratatui는 무엇을 대신해주는가.
 
 이 로드맵은 특정 도구의 사용법보다 **그 도구들이 공통으로 기대는 터미널의 원리**를 다룬다. 도구 자체의 설정과 사용법은 기존 `shell`, `tmux`, `neovim` 로드맵에 두고, 여기서는 그 아래의 공통 기반을 바닥부터 올라간다.
+
+이 로드맵의 학습 순서는 단순한 기술 목록이 아니다.
+
+```text
+기존 방식
+  ↓
+문제 / 한계
+  ↓
+그 문제를 해결하기 위해 생긴 다음 계층
+```
+
+이라는 흐름으로 이어진다.
+
+```text
+물리 Terminal이 사라짐
+  ↓
+Terminal Emulator + PTY
+
+PTY가 입력 바이트를 전달하는 것만으로는 부족함
+  ↓
+termios / Terminal 의미론
+
+문자 출력만으로 화면 전체를 제어하기 어려움
+  ↓
+ANSI / VT Escape Sequence
+
+터미널마다 제어 방식이 다름
+  ↓
+termcap / terminfo
+
+제어 문자열을 직접 다루기 너무 낮은 수준임
+  ↓
+curses / ncurses
+
+화면 API만으로 복잡한 앱 구조를 만들기 어려움
+  ↓
+Event Loop / State / Layout / Renderer
+
+그 구조를 앱마다 다시 만들기 번거로움
+  ↓
+현대 TUI Framework
+```
+
+이 인과관계를 놓치지 않는 것이 이 로드맵의 핵심이다.
 
 ## 한눈에 보기
 
@@ -37,17 +81,24 @@ hidden      : false
 
 ## 2. TTY와 PTY — 프로세스는 터미널에 어떻게 붙는가
 
-현대 터미널 에뮬레이터는 보통 PTY(Pseudoterminal, 물리 터미널처럼 동작하는 가상 터미널 장치)를 만들고 그 반대편에 셸을 실행한다.
+현대 터미널 에뮬레이터는 보통 PTY(Pseudoterminal, 물리 터미널처럼 동작하는 가상 터미널 장치)를 만들고 그 반대편에 셸이나 TUI 프로그램을 실행한다.
 
 ```text
-터미널 에뮬레이터
+Terminal Emulator
+       │ 연결
+       ▼
+   PTY master
        ↕
-      PTY
-       ↕
-      셸
-       ↕
- 애플리케이션
+   PTY slave
+       ▲
+       │ 연결
+       │
+Shell / TUI 프로그램
 ```
+
+이 그림의 화살표는 호출 관계가 아니라 **연결과 데이터 흐름**을 뜻한다.
+
+또 하나 중요한 점은 Terminal이 프로그램을 실행시키는 장치가 아니라는 것이다. 프로그램은 Terminal 없이도 실행될 수 있고, PTY는 그 프로그램이 **Terminal 환경을 필요로 할 때** 연결되는 입출력 계층이다.
 
 이 구조를 이해하면 `ssh`, `tmux`, 컨테이너의 `-t`, 터미널 크기 변경 같은 현상이 한 계통으로 연결되기 시작한다.
 
@@ -185,15 +236,17 @@ Ghostty
 로컬 PTY
    ↕
 tmux client
-   ↕
+   ↕ socket
 tmux server
    ↕
-PTY
+Pane PTY
    ↕
 Neovim / fzf / 셸
 ```
 
-SSH가 들어오면 어느 쪽에서 PTY가 생기는지, `TERM`은 어디서 전달되는지, 터미널 크기 변경과 signal은 어떻게 흘러가는지를 추적한다.
+여기서 `↕`는 연결과 양방향 데이터 흐름이다.
+
+SSH가 들어오면 단순 명령 실행과 대화형 PTY 세션을 구분하고, 어느 쪽에서 PTY가 생기는지, `TERM`은 어디서 전달되는지, 터미널 크기 변경과 signal은 어떻게 흘러가는지를 추적한다.
 
 글: [tmux와 SSH까지 연결한 터미널 전체 스택](./2026-09-05-tmux-ssh-terminal-stack.md)
 
