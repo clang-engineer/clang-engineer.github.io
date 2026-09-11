@@ -2,7 +2,7 @@
 title       : "tmux와 SSH까지 연결한 터미널 전체 스택"
 description : "Ghostty 같은 터미널 에뮬레이터에서 로컬 PTY, tmux client/server와 Pane PTY, SSH 전송, 원격 PTY, TERM, SIGWINCH가 어떻게 이어지는지 전체 경로를 한 번에 정리한다."
 date        : 2026-09-05 15:50:00 +0900
-updated     : 2026-09-05 18:03:00 +0900
+updated     : 2026-09-11 22:20:00 +0900
 categories  : [terminal]
 tags        : [terminal, tmux, ssh, tty, pty, term, sigwinch, neovim]
 pin         : false
@@ -39,6 +39,15 @@ SSH
 
 겉보기에는 터미널 창 하나지만 내부에는 여러 개의 PTY와 터미널 에뮬레이션 계층이 겹친다.
 
+이 글의 핵심 질문은 두 가지다.
+
+```text
+1. tmux는 왜 프로그램을 끊지 않고 터미널을 분리·재접속할 수 있는가?
+2. SSH는 왜 원격 프로그램을 로컬 터미널에서 자연스럽게 사용할 수 있는가?
+```
+
+둘의 공통점은 **프로그램에게 Terminal 인터페이스를 다시 제공하거나 그 입출력을 다른 곳으로 전달한다는 것**이다.
+
 ## 1. tmux 없이 로컬 셸만 실행
 
 가장 단순한 구조부터 시작한다.
@@ -56,6 +65,8 @@ PTY slave
 ```
 
 구조가 만들어진다.
+
+여기서 `↕`는 호출 관계가 아니라 **연결과 양방향 데이터 흐름**을 뜻한다.
 
 터미널 에뮬레이터는 master 쪽을 잡고 셸은 slave 쪽을 자신의 터미널처럼 사용한다.
 
@@ -133,9 +144,9 @@ tmux
 
 를 실행한다.
 
-tmux는 단순히 화면을 나누는 UI가 아니다.
+`multiplex`는 여러 신호·흐름을 하나의 매체나 연결 위에서 나누어 다루는 뜻이다. 그래서 **Terminal Multiplexer**는 하나의 바깥 Terminal 연결 위에서 여러 Terminal session과 Pane을 관리하는 프로그램이라는 이름이다.
 
-**터미널 멀티플렉서(Terminal Multiplexer)**라는 이름 그대로 여러 Pseudoterminal을 관리한다.
+tmux는 단순히 화면을 나누는 UI가 아니다.
 
 공식 tmux 구조에서 server는 session/window/pane을 관리하고, 각 Pane에는 별도의 Pseudoterminal이 있다.
 
@@ -158,6 +169,8 @@ zsh / Neovim
 이다.
 
 여기서 PTY가 두 층이다.
+
+바깥쪽에서는 tmux client가 Terminal 프로그램처럼 보이고, 안쪽에서는 tmux server가 Pane 프로그램에게 다시 Terminal 환경을 제공한다.
 
 ## 4. tmux client와 server를 분리해서 보기
 
@@ -193,6 +206,8 @@ Server ── Pane PTY ── Process
 ```
 
 이게 tmux session persistence의 핵심이다.
+
+사용자가 붙었다 떨어지는 **바깥 Terminal 연결**과 실제 작업 프로그램이 붙어 있는 **Pane PTY**를 분리했기 때문에 가능한 구조다.
 
 ## 5. 각 Pane은 하나의 Pseudoterminal이다
 
@@ -346,17 +361,63 @@ UI 레이아웃 재계산
 
 하나의 크기 변경이 여러 계층을 타고 전파되는 것이다.
 
-## 10. 이제 SSH를 넣어보자
+## 10. 이제 SSH를 넣어보자 — 실행과 Terminal 연결은 다르다
 
-로컬 셸에서:
+여기서 가장 먼저 구분해야 할 것이 있다.
+
+> **프로그램을 실행하는 것 자체에는 Terminal이 필요하지 않다.**
+
+Terminal은 프로세스를 실행시키는 엔진이 아니라, 프로세스가 사용자와 상호작용할 때 사용할 수 있는 **입출력 환경** 중 하나다.
+
+그래서 SSH에는 크게 두 그림이 있다.
+
+### 10.1 원격 명령만 실행하는 경우
+
+```bash
+ssh server ls
+```
+
+이 경우 원격 `ls`는 PTY 없이도 실행할 수 있다.
+
+```text
+로컬 Terminal Emulator
+        ↓
+     로컬 PTY
+        ↓
+    ssh client
+        ↓ 암호화된 네트워크
+    ssh server
+        ↓ 프로세스 실행
+        ls
+        ↓ stdout/stderr
+     SSH channel
+        ↓
+    ssh client
+        ↓
+로컬 Terminal Emulator
+```
+
+원격 `sshd`가 프로세스를 실행하고 `ls`의 stdout/stderr를 SSH channel에 연결하면 된다.
+
+즉 원격 `ls`가 Terminal에 붙어 있지 않아도 결과는 네트워크를 통해 로컬 화면까지 전달될 수 있다.
+
+```text
+프로그램 실행
+≠
+Terminal에 연결되어 실행
+```
+
+### 10.2 대화형 Terminal이 필요한 경우
+
+반대로:
 
 ```bash
 ssh server
 ```
 
-를 실행하면 터미널 바이트 스트림이 네트워크를 건너간다.
+처럼 원격 Shell을 대화형으로 사용하거나 `vim`, `top` 같은 프로그램을 사용할 때는 Terminal 기능이 필요하다.
 
-PTY를 할당한 대화형(Interactive) SSH 세션을 단순화하면:
+PTY를 할당한 대화형 SSH 세션을 단순화하면:
 
 ```text
 로컬 터미널 에뮬레이터
@@ -376,7 +437,37 @@ PTY를 할당한 대화형(Interactive) SSH 세션을 단순화하면:
 
 원격 셸이나 Neovim은 네트워크 socket을 직접 터미널로 사용하는 것이 아니라 원격 PTY의 slave 쪽을 터미널로 본다.
 
+### 10.3 `ssh -t`는 무엇인가
+
+원격 명령 실행에서도 PTY를 명시적으로 요청할 수 있다.
+
+```bash
+ssh -t server top
+```
+
+`-t`는 원격 측에 **pseudo-terminal allocation을 요청**하는 옵션이다.
+
+비교하면:
+
+```text
+ssh server ls
+→ 명령 실행
+→ 원격 PTY 없어도 됨
+
+ssh server
+→ 대화형 원격 Shell
+→ 일반적으로 원격 PTY 사용
+
+ssh -t server top
+→ 원격 top 실행
+→ top이 사용할 PTY를 명시적으로 요청
+```
+
+따라서 **로컬 Terminal에서 SSH 명령을 입력했다는 사실과 원격 프로그램이 Terminal에 연결되어 있다는 사실은 별개**다.
+
 ## 11. SSH에서 키 입력은 어떻게 흐르는가
+
+이제 PTY를 할당한 대화형 세션을 보자.
 
 사용자가 로컬에서 `j`를 누른다.
 
@@ -643,6 +734,17 @@ terminfo
 ```
 
 그리고 tmux와 SSH는 이 터미널 인터페이스를 **중간에서 다시 제공하거나 전송**하기 때문에 기존 TUI 앱을 거의 그대로 중첩하고 원격으로 보낼 수 있다.
+
+다만 역할은 다르다.
+
+```text
+tmux
+→ 안쪽 프로그램에게 PTY를 다시 제공하고 여러 session을 multiplex
+
+SSH
+→ 원격 실행과 입출력을 네트워크로 전달
+→ 대화형 Terminal이 필요할 때 원격 PTY도 제공
+```
 
 이게 터미널 생태계가 오래 살아남은 가장 재미있는 구조 중 하나다.
 
