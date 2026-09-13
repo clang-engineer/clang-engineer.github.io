@@ -2,7 +2,7 @@
 title       : "터미널 로드맵 — TTY·PTY에서 현대 TUI까지"
 description : "터미널을 단순한 명령창이 아니라 하나의 입출력·렌더링 스택으로 이해하기 위한 학습 지도. TTY/PTY, termios, ANSI/VT, terminfo, curses를 거쳐 현대 TUI 프레임워크와 실제 애플리케이션 구조까지 바닥부터 올라간다."
 date        : 2026-09-05 12:30:00 +0900
-updated     : 2026-09-11 22:25:00 +0900
+updated     : 2026-09-13 18:15:00 +0900
 categories  : [terminal]
 tags        : [roadmap, terminal, tty, pty, termios, ansi, vt, terminfo, ncurses, tui]
 pin         : false
@@ -12,6 +12,29 @@ hidden      : false
 터미널에서 동작하는 도구를 오래 쓰다 보면 서로 다른 질문이 결국 같은 바닥으로 모인다. `tmux`는 왜 터미널을 중첩할 수 있는가, SSH에서도 왜 Neovim 화면이 그대로 보이는가, TUI 앱은 픽셀을 그리지 않는데 어떻게 화면 전체를 갱신하는가, `fzf`와 `btop`은 무엇을 직접 구현했고 OpenTUI나 Ratatui는 무엇을 대신해주는가.
 
 이 로드맵은 특정 도구의 사용법보다 **그 도구들이 공통으로 기대는 터미널의 원리**를 다룬다. 도구 자체의 설정과 사용법은 기존 `shell`, `tmux`, `neovim` 로드맵에 두고, 여기서는 그 아래의 공통 기반을 바닥부터 올라간다.
+
+## 먼저 잡을 다섯 질문
+
+세부 기술 이름부터 외우지 않고, 터미널 전체를 다음 다섯 질문으로 본다.
+
+```text
+1. 프로세스는 터미널과 어떻게 연결되는가?
+   → TTY / PTY / 표준 입출력 / 제어 터미널
+
+2. 입력 바이트는 어떤 의미로 처리되는가?
+   → termios / canonical / raw / echo / signal
+
+3. 출력 바이트는 어떻게 화면 제어가 되는가?
+   → ANSI / VT Escape Sequence / Terminal Emulator
+
+4. 서로 다른 터미널의 차이를 어떻게 숨기는가?
+   → termcap / terminfo / curses
+
+5. 복잡한 TUI 앱은 입력·상태·화면 갱신을 어떻게 조직하는가?
+   → Event Loop / State / Layout / Renderer / TUI Framework
+```
+
+이 다섯 질문이 이 로드맵의 좌표다. 아래에서 기술이 하나씩 추가되더라도 **지금 어느 질문을 설명하고 있는지**를 잃지 않는 것이 중요하다.
 
 이 로드맵의 학습 순서는 단순한 기술 목록이 아니다.
 
