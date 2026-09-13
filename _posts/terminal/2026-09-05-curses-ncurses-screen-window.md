@@ -2,7 +2,7 @@
 title       : "curses와 ncurses — 터미널 제어가 화면·창 추상화로 올라온 순간"
 description : "escape sequence와 terminfo를 직접 다루던 단계에서 curses/ncurses가 화면, 창, refresh, getch 같은 추상화를 제공하며 TUI 개발 방식을 어떻게 바꿨는지 정리한다."
 date        : 2026-09-05 14:10:00 +0900
-updated     : 2026-09-13 19:30:00 +0900
+updated     : 2026-09-13 19:35:00 +0900
 categories  : [terminal]
 tags        : [terminal, curses, ncurses, terminfo, tui, screen, window]
 pin         : false
@@ -26,6 +26,12 @@ hidden      : false
 > **커서 이동 시퀀스를 직접 다루지 말고, 화면과 창 단위로 UI를 다룰 수 없을까?**
 
 이 요구에 답한 고전적인 추상화가 **curses**다.
+
+한마디로 말하면:
+
+> **curses는 애플리케이션이 ANSI/VT 제어 시퀀스를 직접 조립하지 않아도 되게 해주는 상위 추상화다.**
+
+애플리케이션은 "어떤 제어 시퀀스를 보낼까"보다 "어느 화면 위치에 무엇을 보여줄까"를 생각하면 된다.
 
 curses를 모든 TUI의 시초라고 단정할 수는 없지만, **터미널 제어를 화면·창 단위로 끌어올린 고전적인 TUI 추상화의 대표격**이라고 볼 수 있다.
 
