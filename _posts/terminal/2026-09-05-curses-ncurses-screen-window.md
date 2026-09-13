@@ -2,7 +2,7 @@
 title       : "curses와 ncurses — 터미널 제어가 화면·입력 추상화로 올라온 순간"
 description : "ANSI/VT 제어 시퀀스와 terminfo를 직접 다루던 단계에서 curses/ncurses가 화면 상태, refresh, 입력, Window 같은 공통 추상화를 제공한 의미를 정리한다."
 date        : 2026-09-05 14:10:00 +0900
-updated     : 2026-09-13 20:20:00 +0900
+updated     : 2026-09-13 20:25:00 +0900
 categories  : [terminal]
 tags        : [terminal, curses, ncurses, terminfo, tui, screen, window]
 pin         : false
@@ -29,7 +29,7 @@ ANSI/VT 제어 시퀀스
 
 한마디로 말하면:
 
-> **curses는 애플리케이션이 ANSI/VT 제어 시퀀스와 원시 입력 바이트를 직접 다루지 않아도 되게 해주는 상위 추상화다.**
+> **curses는 애플리케이션이 ANSI/VT 제어 시퀀스와 원시 입력 바이트를 직접 다루지 않아도 되게 해주는 고전적인 TUI API/추상화 계열이다.**
 
 curses를 모든 TUI의 시초라고 할 수는 없다. 초기 `vi`처럼 자체 화면 처리 계층을 가진 프로그램도 있었다. 중요한 점은 curses가 여러 프로그램이 각자 구현하던 터미널 UI 처리 패턴을 **공통 API로 제공했다**는 것이다.
 
@@ -102,14 +102,14 @@ curses
 
 `mvaddstr()`를 호출했다고 해서 반드시 그 순간 모든 바이트를 바로 출력해야 하는 것은 아니다.
 
-curses는 내부에 애플리케이션이 원하는 화면 상태를 관리하고, `refresh()` 시점에 현재 표시 상태와 비교해 필요한 변경을 실제 출력으로 반영한다.
+curses 계열 구현은 내부에 애플리케이션이 원하는 화면 상태를 관리하고, `refresh()` 시점에 현재 표시 상태와 비교해 필요한 변경을 실제 출력으로 반영한다.
 
 ```text
 애플리케이션이 원하는 화면
         ↓
-curses 내부 화면 모델
+curses 계열 구현의 내부 화면 모델
         ↓ 비교
-curses가 추적하는 현재 표시 상태
+구현이 추적하는 현재 표시 상태
         ↓
 필요한 제어 시퀀스 출력
         ↓
@@ -118,7 +118,7 @@ curses가 추적하는 현재 표시 상태
 
 즉 `refresh()`는 단순히 "출력해라"보다:
 
-> **curses 내부 화면 상태를 실제 표시 상태와 맞춰라**
+> **내부 화면 상태를 실제 표시 상태와 맞춰라**
 
 에 가깝다.
 
@@ -239,7 +239,7 @@ curses Window
 
 ## ncurses는 무엇인가
 
-`curses`는 화면·입력 중심의 터미널 UI API 계열이고, **ncurses는 오늘날 Unix/Linux 계열에서 널리 사용되는 대표적인 구현**이다.
+`curses`는 고전적인 터미널 UI API/추상화 계열이고, **ncurses는 오늘날 Unix/Linux 계열에서 널리 사용되는 대표적인 구현**이다.
 
 ```text
 curses
@@ -249,7 +249,26 @@ ncurses
 = 널리 쓰이는 구현
 ```
 
-ncurses는 curses API를 구현하면서 terminfo와 연동하고 color, menu, form, panel 같은 기능도 제공한다.
+ncurses만 유일한 구현은 아니다. PDCurses나 여러 Unix 계열의 curses 구현처럼 다른 구현도 있다.
+
+중요한 점은 현대 TUI 프레임워크들이 보통 **curses API를 구현한 구현체가 아니라는 것**이다.
+
+```text
+curses 계열
+애플리케이션
+→ curses API
+→ ncurses 같은 구현
+→ terminfo / termios / 제어 시퀀스
+→ 터미널 에뮬레이터
+
+현대 TUI 프레임워크
+애플리케이션
+→ State / Event / Layout / Render 같은 자체 API
+→ 자체 렌더러·백엔드
+→ 터미널 제어
+```
+
+즉 Bubble Tea, Ratatui, Textual, OpenTUI 같은 현대 TUI는 대체로 curses를 구현한 것이 아니라, **curses가 풀던 터미널 UI 문제를 더 높은 수준의 구조로 다시 추상화한 별도 계열**이라고 보면 된다.
 
 ## 여기까지가 핵심
 
@@ -257,7 +276,14 @@ ncurses는 curses API를 구현하면서 terminfo와 연동하고 color, menu, f
 
 ```text
 curses
-= 앱이 직접 하던 반복적인 터미널 UI 처리를 공통 라이브러리로 올림
+= 앱이 직접 하던 반복적인 터미널 UI 처리를 공통 라이브러리 API로 올린 고전적 방식
+
+ncurses
+= curses API의 대표 구현
+
+현대 TUI
+= 보통 curses 구현체가 아니라,
+  같은 문제를 더 높은 수준에서 다시 추상화한 별도 계열
 
 출력
 = ANSI/VT 제어 시퀀스 대신 화면 상태를 다룸
@@ -283,7 +309,7 @@ ncurses 내부 개념을 단순화하면 두 상태를 생각할 수 있다.
 = 애플리케이션이 다음에 보여주고 싶은 상태
 
 현재 화면 모델
-= curses가 알고 있는 현재 표시 상태
+= ncurses가 알고 있는 현재 표시 상태
 ```
 
 `refresh()` 계열은 둘을 비교해 필요한 변경만 제어 시퀀스로 출력한다.
