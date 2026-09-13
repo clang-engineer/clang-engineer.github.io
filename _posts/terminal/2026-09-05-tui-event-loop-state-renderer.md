@@ -2,7 +2,7 @@
 title       : "TUI 엔진의 공통 구조 — 이벤트 루프에서 렌더링까지"
 description : "터미널 제어 추상화 이후, 현대 TUI가 Event → State → Layout → Render → Diff 구조로 애플리케이션 전체를 조직하는 방식을 정리한다."
 date        : 2026-09-05 14:30:00 +0900
-updated     : 2026-09-13 21:20:00 +0900
+updated     : 2026-09-13 21:40:00 +0900
 categories  : [terminal]
 tags        : [terminal, tui, event-loop, renderer, state, layout, buffer, diff]
 pin         : false
@@ -32,7 +32,9 @@ curses
 
 > **터미널을 하나의 UI 플랫폼처럼 사용해서, 대화형 애플리케이션 전체를 어떻게 구조화할까?**
 
-다만 여기서 중요한 경계가 하나 있다.
+다만 여기서 중요한 경계가 두 가지 있다.
+
+첫째,
 
 > **이벤트 루프 자체가 현대 TUI에서 처음 생긴 것은 아니다.**
 
@@ -62,7 +64,43 @@ curses 계열
 
 즉 현대 TUI의 핵심 변화는 이벤트 루프의 발명이 아니라, **앱마다 직접 만들던 실행 구조를 프레임워크 수준의 공통 추상화로 끌어올린 것**에 가깝다.
 
+둘째,
+
+> **현대 TUI 프레임워크가 curses 위에 올라가는 계층이라고 생각하면 안 된다.**
+
+`ncurses`는 curses API를 직접 구현한 대표적인 라이브러리다. 반면 Bubble Tea, Ratatui, Textual, OpenTUI 같은 현대 TUI 프레임워크는 일반적으로 curses API의 구현체가 아니며, 내부적으로도 curses를 반드시 거쳐야 하는 것은 아니다.
+
+관계는 위아래 계층보다 **서로 다른 TUI 구현 계열**에 가깝다.
+
+```text
+고전 curses 계열
+app
+→ curses API
+→ ncurses 같은 구현체
+→ terminfo / termios / ANSI·VT 계열 제어
+→ terminal emulator
+
+현대 TUI 계열
+app
+→ TUI framework
+→ 자체 event / state / layout / renderer / terminal backend
+→ termios / ANSI·VT 계열 제어
+→ terminal emulator
+```
+
+즉 두 계열은 아래쪽의 터미널 기반 기술을 공유할 수 있지만:
+
+```text
+현대 TUI Framework
+        ↓
+      curses
+```
+
+라는 필수 계층 관계는 아니다.
+
 curses와 완전히 단절되는 것도 아니다. curses의 `refresh()`는 내부 화면 상태와 현재 표시 상태를 비교해 필요한 변경만 출력한다는 점에서 현대 TUI 렌더링과 이어지는 아이디어가 있다.
+
+즉 **구현 계층은 별도일 수 있지만, 해결하려는 문제와 일부 설계 아이디어는 이어진다.**
 
 이제 중심 질문은 다음과 같다.
 
@@ -407,7 +445,7 @@ curses 화면·입력 API
 Component / 선언형 TUI
 ```
 
-이것을 모든 기술이 앞 기술을 대체한 단일 발전 단계로 외우면 안 된다.
+하지만 이 그림도 **구현 계층도**로 읽으면 안 된다. 현대 TUI Framework가 curses를 내부적으로 호출한다는 뜻이 아니라, 개발자가 직접 책임하던 범위가 역사적으로 어떻게 더 높은 추상화로 이동했는지를 나타낸 것이다.
 
 핵심은:
 
