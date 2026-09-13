@@ -2,7 +2,7 @@
 title       : "현대 TUI 프레임워크 비교 — 무엇을 얼마나 추상화하는가"
 description : "Bubble Tea, Ratatui, Textual, OpenTUI를 기능표가 아니라 이벤트 루프, 상태, 레이아웃, 렌더러, 컴포넌트의 추상화 수준으로 비교한다."
 date        : 2026-09-05 14:50:00 +0900
-updated     : 2026-09-13 21:04:00 +0900
+updated     : 2026-09-13 23:02:00 +0900
 categories  : [terminal]
 tags        : [tui, bubble-tea, ratatui, textual, opentui, architecture, framework]
 pin         : false
@@ -365,6 +365,215 @@ native library
 TUI 원리                 → 언어 독립적
 프레임워크의 구현/API     → 대체로 언어 종속적
 ```
+
+## 프레임워크는 아래의 어느 터미널 계층을 바라보는가
+
+앞에서 터미널 추상화의 흐름을 다음처럼 확장해왔다.
+
+```text
+Terminal Emulator
+      ↑
+   TTY / PTY
+      ↑
+   termios
+      ↑
+  ANSI / VT
+      ↑
+   terminfo
+      ↑
+    curses
+      ↑
+현대 TUI 프레임워크
+```
+
+이 그림은 **역사적으로 추상화가 추가되어 온 흐름**을 이해하기에는 좋다.
+
+하지만 이것을 모든 프로그램이 반드시 아래에서 위로 한 층씩 통과하는 실제 호출 스택으로 이해하면 안 된다.
+
+현대 TUI 프레임워크는 `curses → terminfo`를 반드시 거치지 않는다. 많은 프레임워크가 자체 renderer, driver 또는 backend를 두고 **ANSI/VT 계열 터미널 프로토콜까지 직접 내려간다.**
+
+대략적인 구조는 다음과 같다.
+
+| 프레임워크 | 터미널 쪽 하위 계층 | ANSI/VT | terminfo | curses |
+|---|---|---|---|---|
+| Bubble Tea | 자체 renderer / terminal I/O | 사용 | 필수 아님 | 사용하지 않음 |
+| Ratatui | Backend → Crossterm/Termion/Termwiz 등 | backend를 통해 사용 | backend에 따라 다름 | 필수 아님 |
+| Textual | 자체 Driver / renderer | 사용 | 필수 아님 | 사용하지 않음 |
+| OpenTUI | Zig native renderer | 사용 | 필수 아님 | 사용하지 않음 |
+
+즉 공통적인 바닥은 대략 다음과 같다.
+
+```text
+현대 TUI 프레임워크
+      ↓
+renderer / backend / driver
+      ↓
+ANSI / VT 계열 터미널 제어
+      ↓
+TTY / PTY
+      ↓
+Terminal Emulator
+```
+
+### Bubble Tea
+
+Bubble Tea는 `curses` 위에서 화면을 그리는 라이브러리가 아니다.
+
+```text
+Bubble Tea
+    ↓
+자체 renderer / terminal I/O
+    ↓
+ANSI / VT
+    ↓
+TTY / PTY
+```
+
+애플리케이션 수준에서는 Model/Update/View를 제공하면서, 아래쪽에서는 터미널 제어 시퀀스를 만들어 화면을 갱신한다.
+
+### Ratatui
+
+Ratatui는 터미널 출력을 `Backend`라는 별도 추상화 뒤에 둔다는 점이 특징적이다.
+
+```text
+Ratatui
+   ↓
+Backend
+   ↓
+Crossterm / Termion / Termwiz / ...
+   ↓
+ANSI / VT 및 OS terminal I/O
+```
+
+그래서 Ratatui 자체와 실제 터미널 I/O 구현을 분리해 생각할 수 있다.
+
+`terminfo` 같은 capability 정보의 사용 여부도 선택한 backend와 구현에 따라 달라질 수 있다.
+
+### Textual
+
+Textual 역시 `curses`를 필수 기반으로 삼지 않는다.
+
+```text
+Textual
+   ↓
+Driver / renderer
+   ↓
+ANSI / VT
+   ↓
+TTY / PTY
+```
+
+위에서는 Widget, 메시지, Reactive State 같은 높은 수준의 애플리케이션 모델을 제공하지만 아래에서는 자체 터미널 드라이버 계층을 통해 터미널과 통신한다.
+
+### OpenTUI
+
+OpenTUI는 이 구조가 특히 명확하다.
+
+```text
+TypeScript / React / Solid
+          ↓
+      OpenTUI Core
+          ↓ FFI
+   Zig native renderer
+          ↓
+      ANSI / VT
+          ↓
+      TTY / PTY
+```
+
+고수준 컴포넌트 모델과 저수준 native renderer를 명확히 분리하고 있다.
+
+## 왜 terminfo를 반드시 쓰지 않는가
+
+`terminfo`가 등장한 이유는 터미널마다 같은 기능을 수행하는 제어 시퀀스가 달랐기 때문이다.
+
+과거에는 프로그램이 다음과 같은 차이를 직접 알기 어려웠다.
+
+```text
+터미널 A → cursor_up = 시퀀스 A
+터미널 B → cursor_up = 시퀀스 B
+터미널 C → 색상 기능 자체가 다름
+```
+
+그래서 `terminfo`가 터미널의 capability를 데이터베이스로 제공했다.
+
+```text
+애플리케이션
+    ↓
+terminfo
+    ↓
+"현재 터미널에서 cursor_up은 무엇인가?"
+    ↓
+해당 터미널의 제어 시퀀스
+```
+
+하지만 현대 terminal emulator들은 VT/xterm 계열의 ANSI escape sequence를 광범위하게 호환한다.
+
+따라서 현대 TUI 프레임워크는 흔히 다음과 같은 전제를 둔다.
+
+> 지원 대상은 현대적인 ANSI/VT 호환 터미널이다.
+
+그러면 커서 이동, 화면 지우기, 색상, alternate screen, mouse reporting, bracketed paste 같은 기본 기능은 프레임워크나 backend가 직접 시퀀스를 생성해도 된다.
+
+```text
+renderer / backend
+       ↓
+ANSI / VT sequence 직접 생성
+       ↓
+Terminal Emulator
+```
+
+또 현대 터미널 기능은 전통적인 terminfo capability만으로 설명하기 어려운 경우도 있다.
+
+```text
+24-bit true color
+OSC 8 hyperlink
+Kitty keyboard protocol
+Kitty graphics
+Sixel
+focus event
+bracketed paste
+```
+
+그래서 현대 라이브러리들은 필요에 따라 다음 방법들을 함께 사용한다.
+
+```text
+$TERM / 환경변수
+터미널별 capability table
+runtime probing
+특정 터미널 프로토콜 감지
+terminfo
+```
+
+즉 `terminfo`가 사라진 것이 아니다.
+
+**터미널을 제어하기 위해 반드시 통과해야 하는 중간 계층에서, capability를 알아내기 위한 여러 수단 중 하나로 역할이 바뀐 것**에 가깝다.
+
+이를 로드맵 관점에서 구분하면 다음과 같다.
+
+```text
+역사적 추상화 흐름
+ANSI/VT → terminfo → curses → 현대 TUI
+
+실제 현대 TUI의 런타임 경로
+현대 TUI
+   ↓
+renderer / backend / driver
+   ↓
+ANSI / VT
+   ↓
+TTY / PTY
+```
+
+따라서:
+
+```text
+ANSI / VT → 현대 TUI의 사실상 공통 기반
+terminfo   → 선택적 capability 계층
+curses     → 전통적 화면 추상화, 현대 프레임워크는 자주 우회
+```
+
+라고 이해하면 된다.
 
 ## 왜 현대 TUI에서 Go와 Rust가 자주 보이는가
 
