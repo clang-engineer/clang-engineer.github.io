@@ -1,5 +1,19 @@
 # TCP 연결·종료·흐름·혼잡 제어
 
+## 이 문서의 위치
+
+이 문서는 IP와 Routing 위에서 동작하는 **전송 계층 TCP의 핵심 원리**를 정리한다.
+
+```text
+IP / Routing
+    ↓
+   TCP
+    ↓
+HTTP · RPC 등 Application Protocol
+```
+
+본문에서는 연결 설정·종료, 신뢰성, 흐름 제어, 혼잡 제어와 상위 계층의 연결 재사용 관계까지 다룬다. `Socket · FD · Application Thread · Blocking/Non-blocking · I/O Multiplexing`처럼 **OS/Application 실행 구조로 내려가는 내용은 `_보충학습`에서 이어서 다룬다.**
+
 ## 이 문서의 목적
 
 TCP 용어를 따로 외우기보다 다음 질문을 하나의 흐름으로 이해한다.
@@ -316,4 +330,4 @@ Handshake, Keep-Alive, Window, TIME_WAIT는 서로 무관한 암기 항목이 �
 - Connection Pool은 TCP 연결 자체가 아니라 여러 연결을 재사용하는 상위 관리 방식이다.
 - FIN은 연결을 처음 시작한 주체만 보내는 것이 아니다.
 - 4-Way 종료는 양방향 전송을 각각 닫기 때문에 필요하다.
-- TIME_WAIT는 쓸모없이 남은 연결이
+- TIME_WAIT는 쓸모없이 남은 연결이 아니라 마지막 ACK 유실과 이전 연결의 지연 Segment를 안전하게 처리하기 위해 일정 시간 상태를 유지하는 과정이다.

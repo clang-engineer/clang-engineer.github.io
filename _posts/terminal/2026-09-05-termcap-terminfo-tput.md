@@ -1,412 +1,346 @@
 ---
-title       : "termcap과 terminfo — 터미널마다 다른 제어 코드를 어떻게 숨겼나"
-description : "TERM, termcap, terminfo, tput의 관계를 통해 터미널 capability database가 왜 필요했고 curses와 현대 TUI의 호환성 계층에 어떻게 연결되는지 정리한다."
+title       : "termcap과 terminfo — 터미널 인터페이스 차이를 어떻게 숨겼나"
+description : "ANSI/VT와 TERM, termcap, terminfo, tput의 관계를 통해 터미널 capability database가 왜 필요한지 핵심 구조부터 정리한다."
 date        : 2026-09-05 13:50:00 +0900
-updated     : 2026-09-05 17:57:00 +0900
+updated     : 2026-09-13 19:35:00 +0900
 categories  : [terminal]
 tags        : [terminal, termcap, terminfo, tput, term, ncurses, capability]
 pin         : false
 hidden      : false
 ---
 
-앞에서는 TUI 앱이 표준 출력으로 `ESC [ ...` 형태의 control sequence를 보내 커서를 움직이고 화면을 지울 수 있다는 것을 봤다.
+앞에서는 애플리케이션이 ANSI/VT 계열 제어 시퀀스를 출력하고, **터미널 에뮬레이터**가 이를 해석해 화면을 바꾼다는 구조를 봤다.
 
-그런데 여기서 역사적으로 큰 문제가 생긴다.
+그러면 다음 의문이 생긴다.
 
-> 모든 터미널이 같은 sequence와 같은 기능을 지원하는가?
+> **ANSI/VT라는 공통 문법이 있는데 왜 TERM과 terminfo가 또 필요한가?**
 
-오늘날 Ghostty, Kitty, WezTerm처럼 VT/xterm 계열 호환성이 높은 터미널만 보면 차이가 작아 보이지만, 과거에는 터미널 제조사와 모델마다 기능과 제어 문자열이 크게 달랐다.
+이 질문이 이 문서의 핵심이다.
 
-애플리케이션이 터미널마다 이렇게 분기한다면 유지보수가 불가능해진다.
-
-```c
-if (terminal == VT100) {
-    ...
-} else if (terminal == ADM3A) {
-    ...
-} else if (...) {
-    ...
-}
-```
-
-이 문제를 풀기 위해 등장한 핵심 아이디어가 **터미널의 기능을 코드에서 분리해 데이터로 기술하는 것**이다.
-
-## Capability라는 관점
-
-애플리케이션이 실제로 알고 싶은 것은 보통 터미널 모델명이 아니다.
-
-다음 같은 질문이다.
+## 먼저 구분할 것 — 에뮬레이터와 터미널 정의
 
 ```text
-커서를 임의 위치로 이동할 수 있는가?
-화면 전체를 지우는 문자열은 무엇인가?
-색상을 지원하는가?
-몇 개의 색상을 지원하는가?
-대체 화면(Alternate Screen)에 들어가는 sequence는 무엇인가?
-F1 키는 어떤 바이트 시퀀스로 들어오는가?
+터미널 에뮬레이터
+= Ghostty, WezTerm, Kitty처럼
+  실제 바이트를 해석하고 화면을 그리는 프로그램
+
+터미널 인터페이스 / 터미널 정의
+= 애플리케이션이 상대한다고 가정하는
+  기능과 제어 시퀀스의 논리적 계약
 ```
 
-이런 기능을 **터미널 capability**라고 부른다.
+`TERM`과 `terminfo`는 주로 두 번째인 **터미널 인터페이스/정의**를 다룬다.
 
-그러면 구조를 이렇게 바꿀 수 있다.
+## 핵심 관계
+
+```text
+ANSI / VT
+= 터미널 에뮬레이터에 실제로 보내는 제어 명령 문법
+
+TERM
+= 어떤 터미널 정의를 사용할지 고르는 키
+
+terminfo
+= 그 정의의 capability와 제어 시퀀스 정보
+
+tput
+= 그 정보를 꺼내 쓰는 명령어
+```
+
+`terminfo`가 ANSI/VT를 대신하는 것은 아니다.
+
+최종적으로 터미널 에뮬레이터에 도착하는 것은 여전히 문자와 제어 시퀀스다.
 
 ```text
 애플리케이션
-    ↓
-"cursor_address 기능 필요"
-    ↓
-Capability Database
-    ↓
-현재 터미널에 맞는 제어 시퀀스
-    ↓
-터미널
+  ↓
+필요한 제어 시퀀스 선택
+  ↓ stdout / PTY
+터미널 에뮬레이터
+  ↓
+해석해서 화면 반영
 ```
 
-애플리케이션은 하드코딩된 모델별 문자열 대신 capability 이름을 요청한다.
+`terminfo`는 그 앞에서 **현재 상대하는 터미널 인터페이스에 어떤 기능이 있고, 그 기능을 어떤 시퀀스로 호출할지 알려주는 호환성 정보**다.
 
-## TERM — 지금 어떤 터미널이라고 가정할 것인가
+## 왜 ANSI/VT만으로 끝나지 않는가
 
-셸에서 다음을 실행해보자.
+이상적으로는 모든 프로그램이 하나의 공통 문법만 출력하고 모든 터미널 에뮬레이터가 똑같이 처리하면 가장 단순하다.
+
+실제로 ANSI/VT 계열은 큰 공통 기반을 제공한다.
+
+하지만 현실에서는 터미널 인터페이스마다 다음 차이가 남을 수 있다.
+
+```text
+지원 기능 범위
+색상 수
+특수키 시퀀스
+확장 기능
+오래된 호환성 차이
+```
+
+그래서 애플리케이션이 알고 싶은 것은 에뮬레이터 제품명보다 이런 **기능(capability)**이다.
+
+```text
+커서 이동이 가능한가?
+화면을 지우려면 어떤 시퀀스를 쓰는가?
+색상을 몇 개 지원하는가?
+대체 화면을 지원하는가?
+```
+
+이 정보를 코드 밖으로 분리해 둔 것이 termcap/terminfo 계열이다.
+
+## TERM과 terminfo는 어떻게 연결되는가
+
+예를 들어:
 
 ```bash
 echo "$TERM"
 ```
 
-환경에 따라 다음과 같은 값이 나올 수 있다.
+결과가 다음과 같다고 하자.
 
 ```text
-xterm-256color
-screen-256color
 tmux-256color
 ```
 
-`TERM`은 단순한 브랜드 이름이 아니라 **어떤 터미널 capability description을 사용할지 선택하는 키**에 가깝다.
+그러면 개념적으로:
 
 ```text
-$TERM=tmux-256color
-       ↓
-terminfo에서 해당 entry 검색
-       ↓
-이 터미널이 지원한다고 가정할 capability 집합
+TERM=tmux-256color
+  ↓
+terminfo에서 tmux-256color entry 선택
+  ↓
+capability 정보 확인
+  ↓
+필요한 제어 시퀀스 선택
 ```
 
-따라서 `TERM`을 무턱대고 바꾸는 것은 좋지 않다.
+이 된다.
 
-실제 터미널이 지원하지 않는 capability를 선언하면 프로그램이 잘못된 sequence를 보낼 수 있고, 반대로 너무 보수적인 값이면 사용할 수 있는 기능을 못 쓰게 된다.
-
-## termcap — 초기 capability database
-
-초기 Unix/BSD 환경에서는 **termcap(terminal capability)** 형식이 널리 사용됐다.
-
-핵심 아이디어는 단순하다.
+즉:
 
 ```text
-터미널 이름
-  +
-capability 이름
-  +
-capability 값
+TERM
+= 어떤 entry를 볼지 선택
+
+terminfo
+= 그 entry의 기능과 시퀀스를 저장
 ```
 
-을 텍스트 데이터베이스로 관리한다.
+이다.
 
-예를 들어 개념적으로:
+## tput — terminfo를 직접 써보는 도구
 
-```text
-vt100:
-  clear_screen = ESC[H ESC[2J
-  cursor_move  = ...
-  columns      = 80
-```
-
-같은 정보가 들어 있다고 이해하면 된다.
-
-프로그램은 현재 터미널 entry를 읽고 필요한 capability를 가져간다.
-
-이것만으로도 터미널별 제어 코드가 애플리케이션 코드에서 상당 부분 분리된다.
-
-## terminfo — capability 표현을 더 구조화
-
-System V 계열에서 발전한 **terminfo**는 같은 문제를 더 구조적인 형태로 다룬다.
-
-terminfo entry의 capability는 크게 세 종류다.
-
-| 종류 | 의미 | 예 |
-|---|---|---|
-| Boolean | 기능 존재 여부 | 자동 margin 여부 등 |
-| Numeric | 숫자 값 | color 수 등 |
-| String | 제어 문자열 | 커서 이동, 화면 지우기 |
-
-즉 terminfo는 단순 escape code 사전이 아니라:
-
-> 이 터미널이 무엇을 할 수 있고, 그 기능을 어떻게 호출하는가
-
-를 기술하는 데이터베이스다.
-
-오늘날 ncurses 생태계에서는 terminfo가 핵심 capability database 역할을 한다.
-
-## 실제로 terminfo를 들여다보기 — infocmp
-
-현재 `TERM`의 terminfo entry를 사람이 읽을 수 있게 출력해볼 수 있다.
-
-```bash
-infocmp
-```
-
-또는 특정 타입:
-
-```bash
-infocmp xterm-256color
-```
-
-출력에는 많은 capability가 등장한다.
-
-대표적으로 개념을 잡기 좋은 것들은:
-
-```text
-colors
-clear
-cup
-bold
-setaf
-setab
-smcup
-rmcup
-```
-
-정도다.
-
-이름은 구현/표현 방식에 따라 다소 낯설지만 의미는 대략 다음과 같다.
-
-| capability | 의미 |
-|---|---|
-| `colors` | 지원 색상 수 |
-| `clear` | 화면 지우기 |
-| `cup` | 커서 위치 지정 |
-| `bold` | 굵은 글씨 모드 |
-| `setaf` | 전경색 설정 |
-| `setab` | 배경색 설정 |
-| `smcup` | 대체 화면 계열 진입 |
-| `rmcup` | 대체 화면 계열 종료 |
-
-즉 이전 글에서 직접 `ESC[2J`를 하드코딩했던 것을 capability 이름으로 찾을 수 있다.
-
-## tput — 셸에서 terminfo를 쉽게 사용하기
-
-셸에서 terminfo capability를 사용해보는 가장 쉬운 도구가 `tput`이다.
-
-화면 지우기:
-
-```bash
-tput clear
-```
-
-커서를 5행 10열 근처로 이동:
-
-```bash
-tput cup 5 10
-printf 'HELLO'
-```
-
-굵게:
-
-```bash
-tput bold
-printf 'bold text'
-tput sgr0
-```
-
-색상 수 확인:
-
-```bash
-tput colors
-```
-
-여기서 중요한 차이는:
+직접 제어 시퀀스를 출력하면:
 
 ```bash
 printf '\e[2J'
 ```
 
-은 **특정 sequence를 직접 출력**한 것이고,
+내가 특정 시퀀스를 하드코딩한 것이다.
+
+반면:
 
 ```bash
 tput clear
 ```
 
-은 **현재 `$TERM`에 맞는 clear capability를 찾아 출력**한 것이다.
-
-구조는 다음과 같다.
+은 현재 `TERM`에 맞는 `clear` capability를 terminfo에서 찾아 그 시퀀스를 출력한다.
 
 ```text
-셸 스크립트
-   ↓ tput clear
-terminfo 조회
-   ↓
-현재 TERM에 맞는 sequence
-   ↓
-터미널
+printf '\e[2J'
+= 제어 시퀀스를 직접 선택
+
+tput clear
+= TERM / terminfo를 통해 선택
 ```
 
-## clear 명령도 같은 세계에 있다
+커서 이동이나 색상도 같은 식으로 사용할 수 있다.
 
-`clear`를 단순히 `printf '\e[2J'`의 별칭으로 생각하기 쉽지만, 전통적인 Unix 터미널 생태계에서는 현재 터미널 capability를 고려해 적절한 동작을 선택하는 쪽에 가깝다.
+```bash
+tput cup 5 10
+tput bold
+tput colors
+```
 
-즉 이런 도구들이 모두 같은 계층을 공유한다.
+## 애플리케이션이 항상 terminfo를 거치는 것은 아니다
+
+이 점이 중요하다.
 
 ```text
-clear
- tput
- curses
-  ↓
+방법 1
+앱이 ANSI/VT 계열 시퀀스를 직접 출력
+
+방법 2
+TERM / terminfo를 참고해 적절한 시퀀스를 선택
+
+방법 3
+curses나 TUI 라이브러리에 맡김
+```
+
+즉 terminfo는 **필수 통로가 아니라 호환성 정보 계층**이다.
+
+한 줄로 정리하면:
+
+> **ANSI/VT는 실제 제어 언어이고, terminfo는 필요할 때 현재 터미널 인터페이스에 맞는 사용법을 고르는 데 도움을 준다.**
+
+## 여기까지가 핵심
+
+처음 읽을 때는 다음만 기억하면 충분하다.
+
+```text
+ANSI/VT
+= 실제 제어 문법
+
+TERM
+= 어떤 터미널 정의를 쓸지 선택
+
 terminfo
+= 그 정의의 capability와 제어 시퀀스 정보
+
+tput
+= 그 정보를 꺼내 쓰는 도구
+```
+
+그리고 최종 출력은 항상 다음 방향으로 간다.
+
+```text
+애플리케이션
+→ 제어 시퀀스
+→ PTY
+→ 터미널 에뮬레이터
+```
+
+아래 내용은 이 구조를 이해한 뒤 보면 되는 연결·심화 내용이다.
+
+## 심화 — Vim 같은 앱을 예로 보면
+
+개념적으로는 다음처럼 생각할 수 있다.
+
+```text
+Vim 시작
   ↓
-터미널 capability
+TERM 확인
+  ↓
+capability 정보 확인
+  ↓
+필요한 제어 시퀀스 선택
+  ↓
+stdout 출력
+  ↓
+터미널 에뮬레이터가 해석
 ```
 
-## 왜 escape sequence 표준이 있는데 terminfo가 필요한가
+다만 현대 Vim/Neovim이 모든 터미널 처리를 반드시 terminfo 하나만으로 결정한다고 단순화하면 안 된다. 자체 처리나 확장 지원을 함께 사용할 수 있다.
 
-여기서 자연스러운 의문이 생긴다.
+## 심화 — termcap은 무엇인가
 
-> VT/ANSI sequence가 어느 정도 표준화됐는데 지금도 capability database가 왜 필요한가?
+`termcap`은 초기 Unix/BSD 환경에서 널리 사용된 capability 데이터베이스 형식이다.
 
-이유는 터미널 기능이 단일 표준 하나로 완전히 끝나지 않았기 때문이다.
-
-터미널마다:
-
-- 지원하는 기능의 범위
-- 색상 capability
-- function key sequence
-- 대체 화면 동작
-- private extension
-- 오래된 호환성 차이
-
-가 존재할 수 있다.
-
-그리고 애플리케이션은 "이론상 표준에 존재한다"보다 **현재 터미널이 무엇을 지원한다고 선언하는가**를 알아야 한다.
-
-terminfo는 그 계약을 데이터로 표현한다.
-
-## tmux가 들어오면 TERM이 달라지는 이유
-
-이제 tmux의 `TERM`이 왜 흥미로운지 보인다.
-
-구조를 단순화하면:
+핵심 아이디어는 terminfo와 같다.
 
 ```text
-Ghostty
-  ↑ 실제 터미널 capability
- tmux
-  ↑ tmux가 클라이언트에게 제공하는 가상 터미널 capability
-Neovim
+터미널 종류
++ capability 이름
++ capability 값
 ```
 
-Neovim은 Ghostty와 직접 대화하는 것이 아니다. tmux 안에서 실행되면 Neovim이 보는 상대는 **tmux가 제공하는 터미널 인터페이스**다.
+을 코드 밖의 데이터로 관리한다.
 
-그래서 내부에서 `$TERM`이 `tmux-256color`나 `screen-256color`처럼 바뀔 수 있다.
+처음에는 **termcap → terminfo로 표현 방식이 발전했다**는 정도만 잡으면 충분하다.
+
+## 심화 — infocmp
+
+현재 `TERM`의 terminfo entry를 직접 보고 싶다면 `infocmp`를 사용할 수 있다.
+
+```bash
+infocmp
+```
+
+또는:
+
+```bash
+infocmp xterm-256color
+```
+
+역할은 다음처럼 구분된다.
 
 ```text
-밖의 TERM: xterm-... / ghostty 계열
-           ↓
-tmux가 해석하고 다시 표현
-           ↓
-안의 TERM: tmux-256color
+TERM     = 어떤 entry를 볼지 선택
+terminfo = capability 데이터 저장
+infocmp  = 그 데이터를 보여줌
+tput     = 그 데이터를 이용해 기능을 사용
 ```
 
-이것은 단순 환경변수 장난이 아니라 **중간에 터미널을 에뮬레이션하는 계층이 하나 더 생겼기 때문**이다.
+## 심화 — 새로운 터미널 에뮬레이터가 나오면
 
-## SSH에서도 TERM이 전달되는 이유
+새로운 터미널 에뮬레이터가 나와도 기존 ANSI/VT·xterm 계열과 충분히 호환된다면 기존 TERM/terminfo 정의를 사용할 수 있다.
 
-SSH 접속에서 PTY를 할당하면 원격 셸/TUI도 어떤 터미널 capability를 기대해야 하는지 알아야 한다.
+반대로 기능이나 동작 차이가 크다면 전용 TERM/terminfo entry가 필요할 수 있다.
 
-그래서 로컬 terminal type 정보가 원격 세션의 `TERM`과 연결된다.
+중요한 점은 terminfo가 **에뮬레이터마다 완전히 다른 언어를 저장하는 곳은 아니라는 것**이다.
 
-개념적으로:
+공통 터미널 문법 위에서 각 터미널 인터페이스의 capability 차이를 기술한다.
+
+## 심화 — tmux와 TERM
+
+```text
+Ghostty               ← 실제 터미널 에뮬레이터
+  ↑
+tmux                  ← 안쪽에 별도 터미널 인터페이스 제공
+  ↑
+Neovim                ← 그 인터페이스를 상대하는 앱
+```
+
+Neovim이 tmux 안에서 실행되면 Ghostty를 직접 상대하지 않고 tmux가 제공하는 터미널 인터페이스를 상대한다.
+
+그래서 안쪽에서는 `TERM=tmux-256color`나 `screen-256color`처럼 다른 값이 보일 수 있다.
+
+## 심화 — SSH와 TERM
+
+SSH에서 PTY를 할당하면 원격 애플리케이션도 어떤 터미널 인터페이스를 기대해야 하는지 알아야 한다.
 
 ```text
 로컬 터미널 에뮬레이터
-        ↓
+  ↓
 SSH 클라이언트
-        ↓ TERM + 터미널 바이트 스트림
+  ↓ TERM + 바이트 스트림
 SSH 서버
-        ↓
+  ↓
 원격 PTY
-        ↓
+  ↓
 원격 애플리케이션
 ```
 
-원격 애플리케이션은 로컬 GPU나 터미널 에뮬레이터 구현을 직접 아는 것이 아니라, **PTY와 TERM이라는 Unix 터미널 계약**을 통해 동작한다.
+원격 시스템에 해당 TERM의 terminfo entry가 없으면 `unknown terminal type` 같은 문제가 생길 수 있다.
 
-이게 SSH에서도 Neovim/TUI가 그대로 동작할 수 있는 중요한 이유 중 하나다.
+## 다음 단계 — curses
 
-## terminfo가 모르면 생기는 문제
-
-새로운 터미널 에뮬레이터를 쓰거나 terminfo entry가 없는 오래된 서버에 SSH하면 다음과 같은 문제가 생길 수 있다.
+여기까지의 추상화는 다음처럼 올라간다.
 
 ```text
-unknown terminal type
-Error opening terminal
-terminal is not fully functional
-```
+제어 시퀀스 직접 사용
+애플리케이션 → ANSI/VT → 터미널 에뮬레이터
 
-로컬에서는 최신 terminfo가 있지만 원격 서버의 데이터베이스에는 해당 `$TERM` entry가 없는 상황이다.
-
-이때 사람들이 임시로:
-
-```bash
-TERM=xterm-256color
-```
-
-처럼 바꾸기도 하는 이유가 여기 있다.
-
-다만 실제 capability보다 과장하거나 축소된 TERM을 지정하면 미묘한 렌더링 문제가 생길 수 있으므로 근본적으로는 적절한 terminfo entry를 설치하는 편이 낫다.
-
-## termcap → terminfo → curses
-
-여기까지의 추상화 상승을 정리하면:
-
-```text
-1. Escape sequence 직접 사용
-애플리케이션 → ESC[...] → 터미널
-
-2. Capability database
-애플리케이션 → termcap/terminfo → 터미널별 sequence
-
-3. 화면 추상화
-애플리케이션 → curses → terminfo → 터미널
-```
-
-terminfo는 아직 UI 프레임워크가 아니다.
-
-"화면에 버튼을 하나 만들어줘" 같은 추상화를 제공하는 것이 아니라:
-
-> 이 터미널에서 커서를 움직이려면 어떤 문자열을 써야 하는가?
-
-를 알려주는 **터미널 capability 추상화 계층**이다.
-
-다음 단계인 curses가 이 정보 위에서 화면과 창(Window)이라는 더 높은 추상화를 만든다.
-
-## 다음 단계 — curses/ncurses
-
-이제 애플리케이션 개발자는 escape sequence와 capability를 직접 다루지 않고 이렇게 말하고 싶어진다.
-
-```text
-(10, 20)에 "hello"를 그려라.
-이 창(Window)을 갱신해라.
-키 하나를 읽어라.
-```
-
-여기서 curses/ncurses가 등장한다.
-
-즉 추상화가:
-
-```text
-터미널 capability
         ↓
-화면(Screen) / 창(Window) 추상화
+
+터미널 인터페이스 차이 추상화
+애플리케이션 → TERM / terminfo → 제어 시퀀스 → 터미널 에뮬레이터
+
+        ↓
+
+화면 추상화
+애플리케이션 → curses → terminfo → 터미널 에뮬레이터
 ```
 
-로 한 단계 더 올라간다.
+terminfo는 UI 프레임워크가 아니다.
+
+> **현재 상대하는 터미널 인터페이스에서 이 기능을 어떤 시퀀스로 호출할까?**
+
+에 답하는 계층이다.
+
+다음 단계인 curses는 이 위에서 Screen, Window, 입력 처리 같은 더 높은 UI 추상화를 제공한다.
 
 ## 참고
 

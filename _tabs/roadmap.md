@@ -9,18 +9,41 @@ title: 로드맵
 
 Troubleshooting·Tool·Comparison처럼 핵심 학습 경로와 역할이 다른 문서는 단계에 억지로 넣지 않고 별도 Branch나 Appendix로 둔다.
 
+개발환경 계열은 처음부터 전부 순서대로 읽을 필요는 없지만, 바닥 구조를 따라가고 싶다면 다음 흐름이 가장 자연스럽다.
+
+```text
+Linux
+  ↓
+Shell
+  ↓
+Terminal
+  ↓
+tmux
+  ↓
+Neovim
+```
+
+이 순서는 각 도구의 우열이 아니라 **아래 계층이 위 계층의 동작을 설명해 주는 정도**를 기준으로 잡은 것이다. macOS·dotfiles·키보드는 이 직선 위의 다음 단계라기보다 서로 다른 개발환경 문제축이다.
+
 ## 🖥️ 개발환경
+
+### 시스템에서 터미널 애플리케이션까지
 
 | 로드맵 | 무엇을 위한 지도인가 |
 |------|------|
-| [Terminal](../_posts/terminal/2026-09-05-terminal-roadmap.md) | TTY/PTY → termios → ANSI/VT → terminfo → curses → 현대 TUI로 이어지는 터미널 입출력·렌더링 바닥 |
-| [Neovim](../_posts/neovim/2026-06-16-neovim-roadmap.md) | Vim/Neovim/Distro 계층 → 편집 기본기 → 최소 Lua → LazyVim 구조가 사용자 줄기. Plugin 개발·LSP/DAP는 별도 Branch |
-| [tmux](../_posts/tmux/2026-06-16-tmux-roadmap.md) | session/window/pane 구조 → 설정 → Plugin 사용 → 필요할 때 Session workflow. Plugin 제작·AI 관제·피커는 선택 Branch |
+| [Linux](../_posts/linux/2026-07-11-linux-roadmap.md) | 서버에 접속 → 관측 → 계정·권한 → 서비스 → 로그로 이어지는 운영 흐름. Network·폐쇄망 등은 별도 Branch |
 | [셸](../_posts/shell/2026-07-03-shell-roadmap.md) | Script 실행 모델 → Bash 해석·확장 → CLI 계약 → Process·Job·Session. 환경 재현과 tmux는 다른 Roadmap으로 넘김 |
+| [Terminal](../_posts/terminal/2026-09-05-terminal-roadmap.md) | 물리 Terminal → Terminal Emulator·PTY → termios → ANSI/VT → terminfo → curses → 현대 TUI로 이어지는 입출력·렌더링 바닥 |
+| [tmux](../_posts/tmux/2026-06-16-tmux-roadmap.md) | Terminal Multiplexer의 session/window/pane 구조 → 설정 → Plugin 사용 → 필요할 때 Session workflow. Plugin 제작·AI 관제·피커는 선택 Branch |
+| [Neovim](../_posts/neovim/2026-06-16-neovim-roadmap.md) | Vim/Neovim/Distro 계층 → 편집 기본기 → 최소 Lua → LazyVim 구조가 사용자 줄기. Plugin 개발·LSP/DAP는 별도 Branch |
+
+### 개발환경을 구성하고 재현하는 다른 축
+
+| 로드맵 | 무엇을 위한 지도인가 |
+|------|------|
 | [dotfiles](../_posts/shell/2026-07-08-dotfiles-roadmap.md) | Git 정본을 공통 기반으로, Home 배치(symlink·bare/yadm·chezmoi), Host별 값, Package 재현을 서로 다른 축으로 선택 |
 | [macOS](../_posts/macos/2026-07-03-macos-roadmap.md) | System Setup · Launcher/Productivity · Window Management/Automation을 독립 문제축으로 탐색 |
-| [Linux](../_posts/linux/2026-07-11-linux-roadmap.md) | 서버에 접속 → 관측 → 계정·권한 → 서비스 → 로그로 이어지는 운영 흐름. Network·폐쇄망 등은 별도 Branch |
-| [키보드](../_posts/keyboard/2026-07-03-keyboard-roadmap.md) | 입력 습관 → Keymap 개념 → Firmware(QMK/ZMK) → ZMK 구현. VIA/Vial/ZMK Studio와 Karabiner는 다른 제어 계층로 분리 |
+| [키보드](../_posts/keyboard/2026-07-03-keyboard-roadmap.md) | 입력 습관 → Keymap 개념 → Firmware(QMK/ZMK) → ZMK 구현. VIA/Vial/ZMK Studio와 Karabiner는 다른 제어 계층으로 분리 |
 
 ## 🔤 언어
 

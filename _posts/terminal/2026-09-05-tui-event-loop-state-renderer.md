@@ -1,45 +1,140 @@
 ---
 title       : "TUI 엔진의 공통 구조 — 이벤트 루프에서 렌더링까지"
-description : "curses 이후 현대 TUI 프레임워크를 관통하는 입력 이벤트 → 상태 갱신 → 레이아웃 → 셀 버퍼 → 차이 렌더링 구조를 Ratatui와 OpenTUI 사례로 정리한다."
+description : "터미널 제어 추상화 이후, 현대 TUI가 Event → State → UI Structure → Layout → Render → Diff 구조로 애플리케이션 전체를 조직하는 방식을 정리한다."
 date        : 2026-09-05 14:30:00 +0900
-updated     : 2026-09-05 18:03:00 +0900
+updated     : 2026-09-13 22:00:00 +0900
 categories  : [terminal]
-tags        : [terminal, tui, event-loop, renderer, state, layout, buffer, diff]
+tags        : [terminal, tui, event-loop, renderer, state, layout, buffer, diff, component]
 pin         : false
 hidden      : false
 ---
 
-curses까지 오면 터미널의 좌표와 제어 문자열을 직접 다루는 부담은 크게 줄어든다.
-
-하지만 실제 대화형 TUI 애플리케이션을 만들려면 여전히 한 단계 더 높은 구조가 필요하다.
-
-사용자가 키를 누르고, 상태가 바뀌고, 레이아웃을 계산하고, 화면을 다시 그리는 전체 흐름이다.
-
-프레임워크마다 API 이름은 다르지만 현대 TUI 엔진의 공통 구조를 단순화하면 다음과 같다.
+앞 단계까지는 주로 **터미널 자체를 어떻게 다룰 것인가**를 봤다.
 
 ```text
-입력(Input)
-  ↓
-이벤트(Event)
-  ↓
-이벤트 루프(Event Loop)
-  ↓
-상태 갱신(State Update)
-  ↓
-레이아웃(Layout)
-  ↓
-셀 버퍼에 렌더링
-  ↓
-차이 계산(Diff)
-  ↓
-터미널 출력
+TTY / PTY
+= 프로세스와 터미널을 어떻게 연결할까?
+
+termios
+= 입력을 어떤 규칙으로 전달할까?
+
+ANSI / VT
+= 화면을 어떤 제어 시퀀스로 움직일까?
+
+TERM / terminfo
+= 터미널 인터페이스 차이를 어떻게 흡수할까?
+
+curses
+= 화면·입력 처리를 어떻게 공통 API로 올릴까?
 ```
 
-이 구조를 이해하면 Bubble Tea, Ratatui, Textual, OpenTUI가 서로 완전히 다른 세계가 아니라 **같은 문제에 서로 다른 추상화를 씌운 것**이라는 게 보인다.
+여기까지가 주로 **터미널 UI를 다루는 저수준 책임을 줄이는 층**이었다면, 이 문서부터는 질문이 한 단계 올라간다.
 
-## 1. 입력 — 시작은 결국 바이트 스트림이다
+> **터미널을 하나의 UI 플랫폼처럼 사용해서, 대화형 애플리케이션 전체를 어떻게 구조화할까?**
 
-아래쪽은 앞에서 본 그대로다.
+다만 먼저 경계를 두 가지 잡아야 한다.
+
+첫째,
+
+> **이벤트 루프 자체가 현대 TUI에서 처음 생긴 것은 아니다.**
+
+curses를 사용한 고전 TUI도 애플리케이션이 직접 다음 같은 반복 구조를 만들 수 있었다.
+
+```text
+while running:
+    input = getch()
+    update_state(input)
+    redraw()
+    refresh()
+```
+
+이것도 이미 이벤트 루프다.
+
+차이는 **누가 그 구조를 얼마나 책임지는가**에 있다.
+
+```text
+curses 계열
+= 화면·입력 API 제공
+= 이벤트 루프와 상태 구조는 앱이 직접 구성하는 경우가 많음
+
+현대 TUI 프레임워크
+= Event / State / Component / Layout / Render 같은
+  애플리케이션 구조 자체를 더 강하게 모델링하거나 제공
+```
+
+둘째,
+
+> **현대 TUI 프레임워크가 curses 위에 올라가는 계층이라고 생각하면 안 된다.**
+
+`ncurses`는 curses API를 직접 구현한 대표적인 라이브러리다. 반면 Bubble Tea, Ratatui, Textual, OpenTUI 같은 현대 TUI 프레임워크는 일반적으로 curses API의 구현체가 아니며, 내부적으로도 curses를 반드시 거쳐야 하는 것은 아니다.
+
+```text
+고전 curses 계열
+app
+→ curses API
+→ ncurses 같은 구현체
+→ terminfo / termios / ANSI·VT 계열 제어
+→ terminal emulator
+
+현대 TUI 계열
+app
+→ TUI framework
+→ 자체 event / state / component / layout / renderer / terminal backend
+→ termios / ANSI·VT 계열 제어
+→ terminal emulator
+```
+
+즉 **구현 계층은 별도일 수 있지만, 해결하려는 문제와 일부 설계 아이디어는 이어진다.**
+
+특히 curses의 `refresh()`가 원하는 화면 상태와 현재 화면 상태의 차이를 실제 터미널에 반영한다는 점은 현대 TUI의 렌더링 구조와도 연결된다.
+
+## 전체 그림 — 네 층으로 본다
+
+이 문서의 구조는 세부 API보다 다음 네 층으로 잡는 편이 쉽다.
+
+```text
+1. 애플리케이션 실행 구조
+   Event Source → Event Loop → State Update
+
+2. UI 구조
+   Immediate-style 또는 Component Tree
+
+3. 화면 계산
+   Layout → Render Representation
+
+4. 실제 출력
+   Diff → Terminal Output
+```
+
+전체 흐름으로 연결하면:
+
+```text
+Event Source
+   ↓
+Event Loop
+   ↓
+State Update
+   ↓
+UI Structure
+   ↓
+Layout
+   ↓
+Render Representation
+   ↓
+Diff
+   ↓
+Terminal Output
+```
+
+이 구조를 이해하면 Bubble Tea, Ratatui, Textual, OpenTUI가 서로 완전히 다른 세계가 아니라 **같은 TUI 애플리케이션 문제에서 서로 다른 범위를 대신해주는 프레임워크**라는 점이 보인다.
+
+---
+
+# Part 1. 애플리케이션 실행 구조
+
+## 1. Event Source — 변화의 시작은 키보드만이 아니다
+
+가장 아래의 키 입력 경로는 앞에서 본 그대로다.
 
 ```text
 키보드
@@ -48,41 +143,40 @@ curses까지 오면 터미널의 좌표와 제어 문자열을 직접 다루는 
   ↓
 PTY
   ↓
-raw/noncanonical 입력
+raw / noncanonical 입력
   ↓
 애플리케이션
 ```
 
-방향키나 function key는 여러 바이트의 escape sequence일 수 있다.
-
-그래서 첫 단계는 원시 바이트 스트림을 논리적인 입력 이벤트(Input Event)로 해석하는 것이다.
+방향키나 Function Key는 여러 바이트의 Escape Sequence일 수 있다. 애플리케이션이나 하위 라이브러리는 이 바이트 스트림을 논리적인 입력 이벤트로 해석한다.
 
 ```text
 ESC [ A
-  ↓ 파서(Parser)
-위쪽 키(KeyUp)
+  ↓ 입력 파서
+KeyUp
 ```
 
-마우스를 지원하는 TUI라면 mouse sequence도 같은 식으로 해석한다.
-
-터미널 크기 변경은 보통 `SIGWINCH` 같은 별도 이벤트로 들어온다.
-
-즉 이벤트 루프가 받는 것은 단순 키 하나만이 아니다.
+하지만 현대 TUI의 Event Source는 키보드에 한정되지 않는다.
 
 ```text
 키 이벤트
 마우스 이벤트
-크기 변경 이벤트
+터미널 크기 변경
 타이머
 네트워크 결과
+프로세스 출력
 백그라운드 작업 완료
 ```
 
-현대 TUI가 복잡해질수록 일반 GUI 앱의 이벤트 루프와 매우 비슷해진다.
+즉 첫 번째 질문은:
 
-## 2. 이벤트 루프 — 입력과 상태 변경을 직렬화한다
+> **애플리케이션의 다음 상태 변화를 일으킬 사건이 무엇인가?**
 
-가장 단순한 TUI 루프는 이런 모양이다.
+다.
+
+## 2. Event Loop — Event를 받아 다음 처리를 반복한다
+
+가장 단순한 구조는 이런 모양이다.
 
 ```text
 while running:
@@ -91,45 +185,29 @@ while running:
     render()
 ```
 
-조금 더 현실적으로는:
+Event Loop는 한 번 실행하고 끝나는 함수가 아니라:
 
 ```text
-┌────────────────┐
-│   이벤트 루프   │◀──────────────┐
-└───────┬────────┘               │
-        ↓                        │
-      이벤트                     │
-        ↓                        │
-     상태 갱신                    │
-        ↓                        │
-     렌더링                      │
-        └────────────────────────┘
+Event 받기
+→ State 변경
+→ 필요하면 Render
+→ 다시 다음 Event 대기
 ```
 
-이 루프가 애플리케이션의 시간 흐름을 만든다.
+를 반복하는 실행 구조다.
 
-사용자가 `j`를 누르면:
+중요한 점은 이 구조 자체는 curses 시대에도 만들 수 있었다는 것이다.
 
-```text
-Key(j)
-  ↓
-selected_index += 1
-  ↓
-새 상태
-  ↓
-다음 프레임
-```
+현대 프레임워크에서는 여기에 메시지 큐, 비동기 작업, 렌더 스케줄링, 컴포넌트 이벤트 전달 같은 기능까지 결합하면서 **애플리케이션 실행 기반**으로 발전한다.
 
-이런 식으로 진행된다.
+## 3. State — 화면을 직접 고치기보다 데이터를 바꾼다
 
-## 3. 상태 — 화면 자체보다 먼저 데이터가 있다
-
-좋은 TUI 구조에서는 화면 좌표를 여기저기 직접 고치기보다 **애플리케이션 상태(State)를 먼저 바꾸고 화면은 그 상태의 결과로 만든다.**
+좋은 TUI 구조에서는 화면 좌표를 여기저기 직접 수정하기보다 **애플리케이션 상태(State)를 먼저 바꾸고 화면은 그 상태의 결과로 만든다.**
 
 예를 들어 파일 목록 UI라면:
 
 ```text
-상태
+State
 ├─ files
 ├─ selected_index
 ├─ current_directory
@@ -137,93 +215,46 @@ selected_index += 1
 └─ preview_visible
 ```
 
-`j`가 들어오면 화면의 `>` 문자를 직접 아래로 옮기는 것이 아니라:
+`j`가 들어오면 화면의 `>` 문자를 직접 아래로 옮기는 대신:
 
 ```text
 selected_index: 4 → 5
 ```
 
-로 상태를 바꾸고 다음 렌더링에서 다시 표현한다.
-
-이 사고방식이 현대 선언형 UI와 연결된다.
+처럼 상태를 바꾸고 다음 렌더링에서 화면을 다시 만든다.
 
 ```text
-UI = f(state)
+UI = f(State)
 ```
 
-## 4. 레이아웃 — 상태를 터미널 좌표로 변환한다
-
-상태만으로는 아직 터미널 셀 위치가 정해지지 않는다.
-
-터미널 크기가 120x40이라면 화면을 어떻게 나눌지 계산해야 한다.
+여기까지가 애플리케이션 실행 구조다.
 
 ```text
-120 x 40
-┌──────────────┬─────────────────────────┐
-│ 사이드바 30   │ 메인 90                 │
-│              │                         │
-└──────────────┴─────────────────────────┘
+Event
+→ State Update
 ```
 
-전통적인 TUI에서는 좌표를 직접 계산할 수 있다.
+다음부터는 **그 State를 어떤 UI 구조로 표현할 것인가**가 문제다.
+
+---
+
+# Part 2. UI 구조 — 화면을 어떤 방식으로 기술할까
+
+## 4. Immediate-style — 현재 화면을 다시 기술한다
+
+어떤 TUI 라이브러리는 매 Frame 현재 State를 기준으로 화면을 다시 기술하는 방식에 가깝다.
 
 ```text
-sidebar_width = 30
-main_x = 30
-main_width = terminal_width - 30
+State
+  ↓
+현재 Frame을 다시 기술
+  ↓
+Layout / Widget
+  ↓
+Render Representation
 ```
 
-현대 프레임워크는 이 부분도 추상화한다.
-
-- 비율(Percentage)
-- 제약 조건(Constraint)
-- Flex 레이아웃
-- 최소/최대 크기
-- 여백(Padding)
-- 정렬(Alignment)
-
-OpenTUI처럼 Flexbox/Yoga 계열 레이아웃을 사용하는 프레임워크도 있다.
-
-웹 UI의 레이아웃 모델이 터미널 셀 공간으로 내려온 셈이다.
-
-## 5. 셀 버퍼 — 픽셀이 아니라 터미널 셀을 그린다
-
-TUI 렌더러의 대표적인 내부 모델은 **2차원 셀 버퍼(Cell Buffer)**다.
-
-```text
-┌───┬───┬───┬───┐
-│ H │ e │ l │ l │ ...
-├───┼───┼───┼───┤
-│   │ > │ a │ . │ ...
-└───┴───┴───┴───┘
-```
-
-각 셀에는 보통 다음 같은 정보가 들어간다.
-
-```text
-문자 또는 grapheme
-전경색
-배경색
-속성(bold, underline 등)
-```
-
-Ratatui도 프레임 안의 widget을 버퍼에 렌더링하고, OpenTUI도 렌더러가 소유하는 셀 버퍼를 사용한다.
-
-OpenTUI의 `OptimizedBuffer`는 문자와 전경/배경 색, 속성 등을 터미널 셀 단위로 관리한다.
-
-즉 현대 TUI 렌더러가 그리는 표면은 대체로:
-
-> 픽셀 framebuffer가 아니라 터미널 셀 framebuffer
-
-라고 이해하면 좋다.
-
-## 6. Immediate Mode와 Retained/Component 방식
-
-여기서 프레임워크별 철학 차이가 나타난다.
-
-### Ratatui 스타일
-
-Ratatui는 대표적으로 **현재 상태를 기준으로 프레임 전체를 다시 기술하는 Immediate Mode 스타일**에 가깝다.
+Ratatui를 단순화하면 이런 감각이다.
 
 ```text
 terminal.draw(frame => {
@@ -233,15 +264,13 @@ terminal.draw(frame => {
 })
 ```
 
-매 draw마다 "지금 화면은 이렇게 생겨야 한다"를 다시 버퍼에 기록한다.
+매번 **"현재 화면은 이렇게 보여야 한다"**를 다시 기술한다.
 
-그렇다고 실제 터미널에 모든 셀을 다시 출력하는 것은 아니다.
+그렇다고 실제 터미널 전체를 매번 다시 출력한다는 뜻은 아니다. 뒤의 Diff 단계에서 실제 출력량은 줄일 수 있다.
 
-버퍼의 차이 계산이 뒤에서 최적화한다.
+## 5. Component Tree — UI 구조를 트리로 유지한다
 
-### Component / Retained 스타일
-
-Textual이나 OpenTUI의 고수준 API에서는 UI 트리나 컴포넌트가 더 오래 살아 있는 객체처럼 느껴진다.
+다른 프레임워크는 UI를 컴포넌트 트리로 오래 유지한다.
 
 ```text
 Root
@@ -252,267 +281,313 @@ Root
 └─ StatusBar
 ```
 
-상태 변화가 컴포넌트·레이아웃·렌더링 스케줄링과 연결된다.
-
-React binding을 쓰는 OpenTUI라면 웹 프론트엔드와 더 비슷한 형태까지 올라간다.
-
-하지만 내부 끝에는 결국 셀 버퍼와 터미널 출력이 있다.
-
-## 7. 차이 렌더링 — 매 프레임 전체를 출력하지 않는다
-
-가장 중요한 최적화다.
-
-이전 프레임:
+이 구조에서는 각 Component가 역할을 나눠 가진다.
 
 ```text
-> file-a
-  file-b
+Component
+├─ 자신의 State 또는 Props
+├─ 자식 Component
+├─ Layout 참여
+└─ Rendering 참여
 ```
 
-새 프레임:
+이 사고방식은 React의 Component Tree와 상당히 비슷하다.
 
 ```text
-  file-a
-> file-b
+React
+Component Tree
+→ DOM / Native UI
+
+TUI Framework
+Component Tree
+→ Layout
+→ Terminal Render Representation
+→ Terminal
 ```
 
-화면 전체를 지우고 다시 출력할 수도 있다.
+다만 **모든 현대 TUI가 React 방식이라는 뜻은 아니다.**
 
-하지만 렌더러가 두 버퍼를 비교하면 바뀐 셀만 찾을 수 있다.
+핵심은 UI를 구성하는 두 대표적인 사고방식이 있다는 것이다.
 
 ```text
-이전 버퍼
+Immediate-style
+= 현재 State를 기준으로 매번 화면을 다시 기술
+
+Retained / Component-style
+= UI 구조를 Tree / Component로 유지
+```
+
+이 구분을 먼저 잡으면 뒤의 Layout과 Render가 훨씬 자연스럽다.
+
+---
+
+# Part 3. 화면 계산
+
+## 6. Layout — UI 구조를 터미널 좌표로 배치한다
+
+State와 UI 구조만으로는 아직 어느 터미널 셀에 무엇을 보여줄지 정해지지 않는다.
+
+```text
+120 x 40
+┌──────────────┬─────────────────────────┐
+│ 사이드바 30   │ 메인 90                 │
+│              │                         │
+└──────────────┴─────────────────────────┘
+```
+
+Layout 단계에서는:
+
+```text
+어떤 Component / Widget을
+어느 위치에
+어떤 크기로
+배치할 것인가?
+```
+
+를 계산한다.
+
+현대 프레임워크는 비율, Constraint, Flex Layout, 최소·최대 크기, Padding, Alignment 같은 방식으로 이 부분을 추상화한다.
+
+## 7. Render — 다음 화면 상태를 만든다
+
+Layout이 정해지면 다음에 보여줄 화면을 계산한다.
+
+```text
+State
+  ↓
+UI Structure
+  ↓
+Layout
+  ↓
+Render
+  ↓
+다음 화면 상태
+```
+
+이때 내부 표현은 프레임워크마다 다를 수 있다.
+
+TUI Renderer에서 자주 쓰이는 대표적인 표현이 **2차원 Cell Buffer**다.
+
+```text
+┌───┬───┬───┬───┐
+│ H │ e │ l │ l │ ...
+├───┼───┼───┼───┤
+│   │ > │ a │ . │ ...
+└───┴───┴───┴───┘
+```
+
+각 셀에는 문자 또는 Grapheme, 전경색, 배경색, Bold·Underline 같은 속성이 들어갈 수 있다.
+
+하지만:
+
+> **모든 현대 TUI 프레임워크가 반드시 같은 형태의 Cell Buffer를 직접 노출하거나 내부적으로 똑같이 구현하는 것은 아니다.**
+
+여기서는 **다음 터미널 화면 상태를 표현하는 대표적인 내부 모델**로 이해하면 충분하다.
+
+---
+
+# Part 4. 실제 출력
+
+## 8. Diff — 실제 터미널에는 변경분만 보낸다
+
+다음 화면 상태가 만들어졌다고 해서 화면 전체를 무조건 다시 출력할 필요는 없다.
+
+```text
+이전 화면 상태
    ↕ 비교
-다음 버퍼
+다음 화면 상태
    ↓
-변경된 셀
+변경된 부분
    ↓
-커서 이동 + 최소 문자열 출력
+커서 이동 + 필요한 문자열 출력
 ```
 
-Ratatui는 이중 버퍼(Double Buffer)를 두고 현재 버퍼와 이전 버퍼의 차이를 계산해 터미널에 필요한 변경만 쓴다.
-
-OpenTUI도 `currentRenderBuffer`와 `nextRenderBuffer`를 비교해 변경된 셀을 native renderer가 출력한다.
-
-수십 년 전 curses의 가상/물리 화면 개념과 현대 프레임워크의 이중 버퍼·차이 렌더러가 같은 문제를 계속 풀고 있다는 점이 재미있다.
-
-## 8. 이중 버퍼 — 다음 화면을 따로 만든다
-
-왜 버퍼가 두 개 필요한지 생각해보자.
-
-화면을 그리는 중간 상태를 실제 터미널에 바로 보여주면:
+여기서 curses와의 연결도 보인다.
 
 ```text
-사이드바 그림
-→ 사용자에게 보임
-메인 영역 그림
-→ 다시 보임
-상태 표시줄 그림
-→ 다시 보임
+curses
+가상 화면 ↔ 현재 화면 모델
+        ↓
+     refresh()
+
+현대 TUI
+이전 Render 상태 ↔ 다음 Render 상태
+        ↓
+       Diff
 ```
 
-같은 부분 렌더링이 보일 수 있다.
+완전히 같은 구현이라는 뜻은 아니지만, **원하는 화면 상태를 만든 뒤 실제 출력은 필요한 변경만 반영한다**는 문제의식은 이어진다.
 
-대신 다음 프레임을 화면 밖 버퍼(Off-screen Buffer)에 완성한다.
+## 9. 현재 화면과 다음 화면을 따로 유지할 수 있다
+
+다음 Frame을 별도의 화면 상태에 완성한 뒤 현재 화면 상태와 비교할 수 있다.
 
 ```text
-현재 버퍼        다음 버퍼
-현재 화면         다음 화면 작성 중
-                    ↓
-                  완성
-                    ↓ 차이 계산
+현재 화면 상태      다음 화면 상태
+현재 표시 기준       다음 화면 작성 중
+                       ↓
+                     완성
+                       ↓ 차이 계산
 터미널 ← 변경분만 출력
 ```
 
-이 방식은 화면 갱신을 하나의 프레임처럼 다루게 해준다.
+이를 이중 버퍼와 비슷하게 설명할 수 있지만, 여기서는 그래픽 시스템의 모든 Double Buffering 의미와 동일시하기보다:
 
-## 9. 렌더링 스케줄 — 언제 다시 그릴 것인가
+> **현재 상태와 다음 상태를 분리해 Frame 단위로 갱신한다.**
 
-모든 TUI가 게임처럼 초당 60번 렌더링할 필요는 없다.
+정도로 이해하면 충분하다.
 
-UI에 변화가 있을 때만 렌더링할 수도 있다.
+## 10. 언제 다시 그릴 것인가 — Render Scheduling
+
+모든 TUI가 게임처럼 계속 같은 속도로 Render할 필요는 없다.
 
 ```text
 키 이벤트
-  ↓ 상태 변경
-렌더링 요청
+  ↓
+State 변경
+  ↓
+Render 요청
 ```
 
-반대로 CPU/네트워크 모니터링 앱은 주기적으로 프레임을 갱신할 필요가 있다.
+또는:
 
 ```text
 타이머 Tick
   ↓
 지표 갱신
   ↓
-렌더링
+Render
 ```
 
-그래서 현대 렌더러는 보통 다음 전략 중 하나 또는 조합을 가진다.
+즉 Event 기반, 주기적 Tick, 요청 기반 Rendering을 사용할 수 있다.
 
-```text
-이벤트 기반 렌더링(Event-driven Rendering)
-고정 FPS / Tick 렌더링
-요청 기반 렌더링(Demand Rendering)
-```
+핵심 질문은:
 
-OpenTUI의 렌더러도 프레임 스케줄링을 관리하고 target FPS나 demand 계열 동작을 제공한다.
+> **State가 바뀐 뒤 언제 다음 화면을 계산하고 터미널에 반영할 것인가?**
 
-## 10. 이벤트 루프에는 비동기 작업도 들어온다
+다.
 
-TUI 앱이 파일만 보여주는 수준을 넘어가면 I/O가 많아진다.
+---
 
-예를 들어 lazygit 같은 앱이라면:
+# Part 5. 현대 TUI Framework에 대입해보기
+
+## 11. Event Source가 많아지면 Application Runtime처럼 보인다
+
+TUI 앱이 복잡해지면 동시에 처리해야 할 Event Source가 늘어난다.
 
 ```text
 키 입력
-Git 프로세스 결과
+프로세스 결과
 파일 변경
 타이머
 터미널 크기 변경
+네트워크 결과
+백그라운드 작업 완료
 ```
 
-가 동시에 발생할 수 있다.
+그래서 현대 TUI Framework는 단순히 "터미널에 그림을 그리는 라이브러리"에 머물지 않고, Event 처리와 State 흐름까지 관리하는 **애플리케이션 실행 기반**처럼 발전하기도 한다.
 
-AI 코딩 도구라면:
+## 12. 프레임워크를 공통 구조에 대입해보기
+
+### Bubble Tea
 
 ```text
-키 입력
-HTTP 스트리밍 토큰
-백그라운드 프로세스 출력
-LSP 이벤트
+Model   = State
+Msg     = Event
+Update  = State Transition
+View    = State를 UI 표현으로 바꿈
 ```
 
-까지 들어온다.
+상태와 메시지 흐름을 강하게 구조화한다.
 
-그래서 현대 TUI 프레임워크가 단순 "터미널 그림 라이브러리"가 아니라 **애플리케이션 런타임(Application Runtime)**처럼 발전하는 이유가 있다.
-
-## 11. Bubble Tea의 Model / Update / View가 보이기 시작한다
-
-이 공통 구조를 알고 Bubble Tea를 보면 이해가 쉽다.
+### Ratatui
 
 ```text
-Model   = 상태(State)
-Message = 이벤트(Event)
-Update  = 상태 전이(State Transition)
-View    = 상태 → UI 표현
+Event Loop / State
+→ 애플리케이션이 비교적 직접 구성
+
+Layout / Widget / Buffer / Diff
+→ Ratatui가 강하게 지원
 ```
 
-즉 Elm Architecture를 터미널 애플리케이션에 적용한 것이다.
+현재 State에서 화면을 다시 기술하는 Immediate-style에 가까운 감각으로 이해하기 쉽다.
+
+### Textual / OpenTUI 계열
 
 ```text
-Msg
- ↓
-Update(Model, Msg)
- ↓
-새 Model
- ↓
-View(Model)
+Event
+State
+Component Tree
+Layout
+Rendering
 ```
 
-우리가 지금까지 만든 일반식과 거의 같다.
+까지 더 넓은 범위를 Framework가 관리하는 방향으로 올라간다.
 
-## 12. Ratatui도 같은 문제를 다른 방식으로 푼다
+특히 Component Tree를 유지하는 방식은 React 같은 GUI/Web UI 프레임워크와도 사고방식이 닮아 있다.
 
-Ratatui에서는 애플리케이션이 상태와 이벤트 루프를 직접 구성하는 느낌이 더 강하다.
+각 Framework의 구체적인 철학과 차이는 [현대 TUI 프레임워크 비교](./2026-09-05-modern-tui-frameworks-abstraction.md)에서 따로 본다.
 
-```text
-이벤트 대기
-  ↓
-애플리케이션 상태 갱신
-  ↓
-terminal.draw(|frame| render(app, frame))
-```
+---
 
-Widget은 프레임의 버퍼를 채우고, 마지막 flush에서 이전 버퍼와의 차이를 계산한다.
+# 고전과 현대를 연결하면
 
-즉:
-
-```text
-상태 소유권       → 애플리케이션
-렌더링 추상화     → Ratatui
-```
-
-로 나뉘는 편이다.
-
-## 13. OpenTUI는 훨씬 위까지 가져간다
-
-OpenTUI는 렌더러뿐 아니라:
-
-```text
-입력 파싱
-레이아웃
-컴포넌트/Renderable 트리
-프레임 스케줄링
-버퍼
-native rendering
-```
-
-까지 넓은 범위를 가진다.
-
-고수준에서는 React/Solid binding도 제공하므로 애플리케이션 개발자는 터미널 좌표보다 컴포넌트와 상태를 먼저 생각할 수 있다.
-
-하지만 내부를 내려가면 역시:
-
-```text
-컴포넌트 트리
-   ↓ 레이아웃
-Renderable
-   ↓
-다음 셀 버퍼
-   ↓ 차이 계산
-현재 셀 버퍼
-   ↓
-터미널 출력
-```
-
-이라는 구조가 보인다.
-
-## 고전과 현대를 연결하면
-
-지금까지의 역사는 단절된 것이 아니다.
+지금까지의 흐름은 단절된 기술 목록이 아니다.
 
 ```text
 Escape Sequence
        ↓
 termcap / terminfo
        ↓
-curses 가상 화면
+curses 화면·입력 API
        ↓
-애플리케이션 전용 이벤트 루프
+앱이 직접 구성한 Event Loop / State
        ↓
-현대 TUI 프레임워크
+현대 TUI Framework
        ↓
-컴포넌트 / 선언형 TUI
+Component / 선언형 TUI
 ```
 
-각 시대마다 개발자가 직접 담당하던 부분이 프레임워크 안으로 이동했다.
+하지만 이 그림은 **구현 계층도**가 아니다.
 
-그래서 TUI 추상화의 역사는 다음 질문의 변화로 볼 수 있다.
+현대 TUI Framework가 curses를 내부적으로 반드시 호출한다는 뜻이 아니라, 개발자가 직접 책임하던 범위가 역사적으로 어떻게 더 높은 추상화로 이동했는지를 나타낸 것이다.
+
+질문의 변화로 보면 더 간단하다.
 
 ```text
 "커서를 어떻게 움직이지?"
         ↓
 "화면을 어떻게 갱신하지?"
         ↓
-"상태를 어떻게 관리하지?"
+"이벤트와 State를 어떻게 조직하지?"
         ↓
-"컴포넌트를 어떻게 구성하지?"
+"UI 구조를 어떻게 표현하지?"
+        ↓
+"Layout과 Render를 누가 책임지지?"
 ```
 
-## 다음 단계 — 프레임워크들을 같은 축에서 비교하기
+즉 이 지점부터는 본격적으로 **터미널을 단순 입출력 장치가 아니라 UI 애플리케이션의 화면으로 사용하는 단계**라고 볼 수 있다.
 
-이제 Bubble Tea, Ratatui, Textual, OpenTUI를 단순 기능표로 비교할 필요가 없다.
-
-다음 질문으로 비교하면 된다.
+## 기억할 전체 흐름
 
 ```text
-이벤트 루프를 누가 소유하는가?
-상태 모델을 프레임워크가 얼마나 강제하는가?
-레이아웃은 어디까지 제공하는가?
-렌더러와 버퍼는 누가 관리하는가?
-컴포넌트 추상화가 있는가?
-비동기 작업을 어떻게 통합하는가?
+Event Source
+   ↓
+Event Loop
+   ↓
+State Update
+   ↓
+UI Structure
+   ├─ Immediate-style
+   └─ Component Tree
+   ↓
+Layout
+   ↓
+Render Representation
+   ↓
+Diff
+   ↓
+Terminal Output
 ```
 
-이 기준으로 보면 각 프레임워크의 철학 차이가 훨씬 선명해진다.
+이 구조를 기준으로 보면 Framework 이름이 달라져도 어느 층을 대신해주는지 다시 찾아갈 수 있다.
