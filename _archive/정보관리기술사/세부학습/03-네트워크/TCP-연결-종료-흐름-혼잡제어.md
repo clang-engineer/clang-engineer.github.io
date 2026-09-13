@@ -330,4 +330,4 @@ Handshake, Keep-Alive, Window, TIME_WAIT는 서로 무관한 암기 항목이 �
 - Connection Pool은 TCP 연결 자체가 아니라 여러 연결을 재사용하는 상위 관리 방식이다.
 - FIN은 연결을 처음 시작한 주체만 보내는 것이 아니다.
 - 4-Way 종료는 양방향 전송을 각각 닫기 때문에 필요하다.
-- TIME_WAIT는 쓸모없이 남은 연결이
+- TIME_WAIT는 쓸모없이 남은 연결이 아니라 마지막 ACK 유실과 이전 연결의 지연 Segment를 안전하게 처리하기 위해 일정 시간 상태를 유지하는 과정이다.
