@@ -2,7 +2,7 @@
 title       : "터미널 로드맵 — TTY·PTY에서 현대 TUI까지"
 description : "터미널을 단순한 명령창이 아니라 하나의 입출력·렌더링 스택으로 이해하기 위한 학습 지도. TTY/PTY, termios, ANSI/VT, terminfo, curses를 거쳐 현대 TUI 프레임워크와 실제 애플리케이션 구조까지 바닥부터 올라간다."
 date        : 2026-09-05 12:30:00 +0900
-updated     : 2026-09-13 21:25:00 +0900
+updated     : 2026-09-13 21:45:00 +0900
 categories  : [terminal]
 tags        : [roadmap, terminal, tty, pty, termios, ansi, vt, terminfo, ncurses, tui]
 pin         : false
@@ -23,7 +23,7 @@ hidden      : false
    curses / ncurses
 
 3. 본격적인 TUI 애플리케이션 구조
-   Event / State / Layout / Render / Diff / Framework
+   Event / State / UI Structure / Layout / Render / Diff / Framework
 ```
 
 즉 앞부분은 **터미널 자체가 어떻게 동작하는가**를 이해하는 단계이고, 뒤로 갈수록 **터미널을 하나의 UI 플랫폼처럼 어떻게 사용할 것인가**로 질문이 올라간다.
@@ -45,8 +45,8 @@ hidden      : false
 4. 터미널 차이와 저수준 제어를 어떻게 추상화하는가?
    → termcap / terminfo / curses
 
-5. TUI 애플리케이션 전체는 이벤트·상태·화면 갱신을 어떻게 조직하는가?
-   → Event Loop / State / Layout / Renderer / TUI Framework
+5. TUI 애플리케이션 전체는 이벤트·상태·UI 구조·화면 갱신을 어떻게 조직하는가?
+   → Event Loop / State / UI Structure / Layout / Renderer / TUI Framework
 ```
 
 이 다섯 질문이 이 로드맵의 좌표다.
@@ -71,7 +71,7 @@ hidden      : false
 화면·입력의 반복 처리
 → curses API
 
-이벤트·상태·레이아웃·렌더링 구조
+이벤트·상태·UI 구조·레이아웃·렌더링 구조
 → 앱 자체 또는 현대 TUI Framework
 ```
 
@@ -81,7 +81,7 @@ hidden      : false
 
 curses를 사용한 고전 TUI도 애플리케이션이 직접 `getch() → 상태 변경 → redraw → refresh()` 같은 이벤트 루프를 만들 수 있었다.
 
-현대 TUI 프레임워크의 차이는 이벤트 루프를 발명한 것이 아니라, **Event / State / Update / Layout / Render 같은 애플리케이션 구조 자체를 더 많이 공통화하고 프레임워크 안으로 끌어올린 것**이다.
+현대 TUI 프레임워크의 차이는 이벤트 루프를 발명한 것이 아니라, **Event / State / UI Structure / Layout / Render 같은 애플리케이션 구조 자체를 더 많이 공통화하고 프레임워크 안으로 끌어올린 것**이다.
 
 ## 한눈에 보기
 
@@ -93,7 +93,7 @@ curses를 사용한 고전 TUI도 애플리케이션이 직접 `getch() → 상�
 | 4. 화면 제어 | 출력 바이트로 어떻게 커서와 화면을 제어하나? | ANSI/VT escape sequence, cursor, color, alternate screen |
 | 5. 호환성 | 터미널 인터페이스 차이를 앱은 어떻게 흡수하나? | TERM, termcap, terminfo |
 | 6. 고전 TUI API | 제어 시퀀스와 입력 바이트를 직접 안 다루고 UI를 어떻게 만들었나? | curses API, ncurses, refresh, 입력 추상화, Window |
-| 7. TUI 앱 구조 | 터미널을 UI 플랫폼처럼 사용할 때 앱 전체를 어떻게 조직하나? | Event Loop, State, Layout, Render, Diff |
+| 7. TUI 앱 구조 | 터미널을 UI 플랫폼처럼 사용할 때 앱 전체를 어떻게 조직하나? | Event Loop, State, UI Structure, Layout, Render, Diff |
 | 8. 현대 TUI Framework | 그 앱 구조 중 어디까지 Framework가 대신하나? | Bubble Tea, Ratatui, Textual, OpenTUI |
 | Branch A. 실제 앱 | 실제 앱은 어느 추상화 계층을 선택했나? | fzf, btop, lazygit, Yazi, Harlequin, OpenCode |
 | Branch B. TUI 플랫폼 | TUI 앱이 다시 상위 UI 플랫폼이 될 수 있나? | Neovim 내장 TUI, UI protocol, vim.ui, nui, Snacks, LazyVim |
@@ -244,7 +244,7 @@ while running:
 
 이제 질문이 달라진다.
 
-> **터미널을 하나의 UI 화면으로 쓸 때, 대화형 애플리케이션 전체 실행 흐름을 어떻게 조직할까?**
+> **터미널을 하나의 UI 화면으로 쓸 때, 대화형 애플리케이션 전체 실행 흐름과 UI 구조를 어떻게 조직할까?**
 
 대표적인 공통 구조는 다음과 같다.
 
@@ -255,6 +255,10 @@ Event Loop
    ↓
 State Update
    ↓
+UI Structure
+   ├─ Immediate-style
+   └─ Component Tree / Retained-style
+   ↓
 Layout
    ↓
 Render Representation
@@ -264,9 +268,22 @@ Diff
 Terminal Output
 ```
 
+여기서 `UI Structure`는 화면을 어떤 방식으로 조직하고 기술할지에 대한 상위 개념이다.
+
+```text
+Immediate-style
+= 현재 State에서 매번 다음 화면을 다시 기술
+
+Component Tree / Retained-style
+= UI를 부모·자식 Component 구조로 유지하고
+  State·Layout·Rendering을 그 구조에 연결
+```
+
+따라서 Component Tree는 Cell Buffer 같은 렌더링 구현 세부보다 위쪽에 있는 **UI 구성 방식**으로 보는 편이 자연스럽다. React의 Component Tree와 비슷하게 느껴지는 것도 이 때문이다. 다만 모든 현대 TUI 프레임워크가 Component Tree 방식을 쓰는 것은 아니다.
+
 여기서 중요한 것은 Event Loop 자체의 존재가 새롭다는 것이 아니다.
 
-**현대 TUI에서는 앱이 직접 만들던 Event / State / Layout / Render 구조를 명시적인 아키텍처로 보고, 프레임워크가 그중 더 많은 책임을 맡기 시작한다.**
+**현대 TUI에서는 앱이 직접 만들던 Event / State / UI Structure / Layout / Render 구조를 명시적인 아키텍처로 보고, 프레임워크가 그중 더 많은 책임을 맡기 시작한다.**
 
 렌더링 측면에서는 curses의 `refresh()`와 현대 TUI의 `Diff Rendering` 사이에도 이어지는 아이디어가 있다.
 
@@ -303,7 +320,7 @@ curses
 
 가 아니라:
 
-> **Event → State → Layout → Render 흐름 중 어디까지 대신해주나?**
+> **Event → State → UI Structure → Layout → Render 흐름 중 어디까지 대신해주나?**
 
 가 더 중요하다.
 
