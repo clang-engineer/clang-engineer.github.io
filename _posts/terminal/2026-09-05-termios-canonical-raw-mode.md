@@ -109,6 +109,66 @@ isig
 
 셸에서 `stty -a`를 보면 일반적으로 이 기능들이 켜져 있다.
 
+## 같은 PTY를 셸과 Vim이 번갈아 쓰는 예
+
+여기서 중요한 점은 **Shell용 termios와 Vim용 termios가 각각 따로 저장되어 있는 것이 아니라는 것**이다.
+
+termios 상태는 현재 연결된 TTY/PTY 장치에 붙어 있고, foreground 프로그램이 필요하면 그 상태를 바꿔 쓴다.
+
+예를 들어 셸이 `/dev/pts/3`에 연결되어 있다고 하자.
+
+```text
+Shell
+  ↓
+/dev/pts/3
+  ↓
+termios 상태
+```
+
+셸에서 명령을 입력할 때는 보통 다음과 같은 상태가 편하다.
+
+```text
+ICANON on  → Enter까지 한 줄을 모음
+ECHO on    → 입력한 문자를 화면에 다시 보여줌
+ISIG on    → Ctrl-C 등을 Signal로 처리
+```
+
+이 상태에서 `vim`을 실행해도 Vim이 별도의 PTY를 새로 갖는 것은 아니다. 일반적으로 같은 `/dev/pts/3`를 사용하면서 foreground process가 Vim으로 바뀐다.
+
+```text
+Shell
+  ↓ vim 실행
+Vim
+  ↓
+같은 /dev/pts/3
+```
+
+Vim은 키 하나마다 즉시 반응해야 하므로 시작하면서 현재 termios 상태를 저장한 뒤, 같은 PTY의 설정을 raw/noncanonical 계열로 바꾼다.
+
+```text
+Shell이 사용하던 termios 상태
+        ↓ 저장
+Vim이 PTY 설정 변경
+        ↓
+ICANON off / ECHO off / 기타 입력 가공 축소
+        ↓
+Vim 실행
+```
+
+Vim이 정상 종료할 때는 처음 저장해둔 상태를 다시 복구한다.
+
+```text
+Vim 종료
+  ↓
+원래 termios 상태 복구
+  ↓
+Shell이 다시 foreground
+```
+
+즉 프로그램마다 독립된 termios 설정표가 있는 것이 아니라, **같은 PTY의 현재 설정을 foreground 프로그램이 자기 필요에 맞게 바꿔 쓰고 종료할 때 되돌리는 구조**다.
+
+이 때문에 TUI 프로그램이 비정상 종료하면서 복구하지 못하면 셸로 돌아온 뒤에도 글자가 보이지 않거나 Enter 동작이 이상해질 수 있다.
+
 ## Canonical mode — Enter까지 한 줄을 모은다
 
 기본 셸 입력은 대개 **canonical mode**다.
