@@ -1,8 +1,8 @@
 ---
 title       : "React Hooks — Render 흐름에서 State·Ref·Effect를 이해하기"
-description : "React Hooks를 API 목록이 아니라 Render 관점에서 정리한다. useState, useReducer, useRef, useMemo, useCallback, useEffect가 무엇을 기억하고 무엇이 다시 렌더링을 일으키며 Commit 이후 무엇을 동기화하는지 연결한다."
+description : "React Hooks를 API 목록이 아니라 함수 컴포넌트가 React의 상태와 렌더 사이클에 참여하는 접점으로 정리한다. useState, useReducer, useRef, useMemo, useCallback, useEffect가 무엇을 기억하고 무엇이 다시 렌더링을 일으키며 Commit 이후 무엇을 동기화하는지 연결한다."
 date        : 2026-09-13 16:30:00 +0900
-updated     : 2026-09-13 16:30:00 +0900
+updated     : 2026-09-13 22:00:00 +0900
 categories  : [javascript, React]
 tags        : [react, hooks, useState, useReducer, useRef, useEffect, useMemo, useCallback, rendering]
 pin         : false
@@ -28,6 +28,22 @@ DOM 반영
 글: [React 렌더링 — State에서 DOM 반영까지](./2026-09-13-react-render-reconciliation-commit.md)
 
 Hooks도 이 흐름 위에 놓으면 훨씬 덜 헷갈린다.
+
+먼저 가장 중요한 문장을 잡는다.
+
+> **Hooks는 함수 컴포넌트가 React의 상태와 렌더 사이클에 참여하기 위한 접점이다.**
+
+즉 Hooks의 목적을 단순히 **"렌더링 타이밍을 제어하는 기능"**이라고 보면 너무 좁다.
+
+Hooks를 통해 함수 컴포넌트는 다음 같은 React 기능에 연결된다.
+
+```text
+상태를 기억한다
+상태 변화로 새 Render를 요청한다
+Render와 무관한 값을 보존한다
+Render 중 계산 결과나 identity를 재사용한다
+Commit 이후 외부 시스템과 동기화한다
+```
 
 Hooks를 처음 배우면 다음처럼 함수 이름을 따로 외우기 쉽다.
 
@@ -463,7 +479,7 @@ C++ 식으로 아주 거칠게 비유하면:
 
 실제 React 내부 구현을 그대로 묘사한 코드는 아니지만, Rules of Hooks가 왜 필요한지 이해하는 데 유용한 멘탈 모델이다.
 
-## 9. Render 관점에서 Hook을 다시 분류하면
+## 9. Render 사이클의 어느 지점과 연결되는가
 
 ```text
 useState / useReducer
@@ -484,7 +500,7 @@ useEffect
 = Commit 이후 외부 시스템과 동기화
 ```
 
-이렇게 보면 Hooks가 한꺼번에 외울 API 목록이 아니라 **React Render 파이프라인의 서로 다른 위치에서 쓰이는 도구**라는 게 보인다.
+따라서 Hooks를 한꺼번에 외울 API 목록으로 보기보다 **함수 컴포넌트가 React의 서로 다른 기능과 연결되는 접점들**로 보는 편이 정확하다.
 
 ## 10. 전체 흐름에 꽂아보기
 
@@ -516,9 +532,21 @@ Effect
 
 이 그림이 Hooks를 이해하는 핵심 좌표다.
 
+여기서 중요한 것은 Hooks 전체를 **"언제 Render할지 정하는 기능"**으로 보는 게 아니라는 점이다.
+
+```text
+어떤 Hook은 Render를 요청하고
+어떤 Hook은 Render와 무관하게 값을 기억하고
+어떤 Hook은 Render 계산을 재사용하고
+어떤 Hook은 Commit 이후 외부 시스템과 연결된다.
+```
+
 ## 11. 처음에는 이것만 기억하면 된다
 
 ```text
+Hooks
+= 함수 컴포넌트가 React의 상태와 렌더 사이클에 참여하기 위한 접점
+
 State
 = 화면을 바꿔야 하는 기억
 
@@ -537,6 +565,9 @@ Effect
 ```text
 Hook
 ≠ 모두 State
+
+Hooks의 목적
+≠ 단순한 렌더링 타이밍 제어
 
 Effect
 ≠ 일반적인 후처리 함수
