@@ -1,5 +1,19 @@
 # TCP 연결·종료·흐름·혼잡 제어
 
+## 이 문서의 위치
+
+이 문서는 IP와 Routing 위에서 동작하는 **전송 계층 TCP의 핵심 원리**를 정리한다.
+
+```text
+IP / Routing
+    ↓
+   TCP
+    ↓
+HTTP · RPC 등 Application Protocol
+```
+
+본문에서는 연결 설정·종료, 신뢰성, 흐름 제어, 혼잡 제어와 상위 계층의 연결 재사용 관계까지 다룬다. `Socket · FD · Application Thread · Blocking/Non-blocking · I/O Multiplexing`처럼 **OS/Application 실행 구조로 내려가는 내용은 `_보충학습`에서 이어서 다룬다.**
+
 ## 이 문서의 목적
 
 TCP 용어를 따로 외우기보다 다음 질문을 하나의 흐름으로 이해한다.
