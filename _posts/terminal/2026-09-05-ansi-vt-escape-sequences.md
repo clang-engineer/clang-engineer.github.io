@@ -2,7 +2,7 @@
 title       : "ANSI/VT Escape Sequence — 표준 출력으로 커서를 움직이고 화면을 그리는 법"
 description : "TUI 앱이 픽셀을 직접 그리는 대신 stdout으로 문자와 제어 시퀀스를 보내고, 터미널 에뮬레이터가 이를 해석해 화면 상태를 바꾸는 원리를 정리한다."
 date        : 2026-09-05 13:30:00 +0900
-updated     : 2026-09-13 18:15:00 +0900
+updated     : 2026-09-13 19:17:00 +0900
 categories  : [terminal]
 tags        : [terminal, ansi, vt100, escape-sequence, csi, sgr, tui]
 pin         : false
@@ -299,9 +299,32 @@ ESC [ A
 
 ## 심화 — ANSI와 VT라는 이름
 
-DEC의 VT 계열 터미널과 ANSI/ECMA 계열 제어 시퀀스 표준은 오늘날 터미널 관행에 큰 영향을 줬다.
+`ANSI`와 `VT`는 출발점이 다르다.
 
-그래서 다음 표현이 함께 쓰인다.
+```text
+ANSI
+= American National Standards Institute
+= 미국의 표준화 기관 이름
+= 여기서는 ANSI 계열 터미널 제어 규격 쪽을 가리킴
+
+VT
+= Video Terminal
+= DEC의 VT100, VT220 같은 실제 터미널 제품군 이름
+```
+
+즉 간단히 보면:
+
+```text
+ANSI
+= 표준 규격 쪽 이름
+
+VT
+= 실제 터미널 제품/계열 쪽 이름
+```
+
+DEC의 VT 계열 터미널은 ANSI 계열 제어 규칙을 널리 구현했고, 이후 터미널 에뮬레이터들이 VT 호환 동작을 많이 따라갔다.
+
+그래서 오늘날에는 다음 표현이 함께 쓰인다.
 
 ```text
 ANSI escape code
