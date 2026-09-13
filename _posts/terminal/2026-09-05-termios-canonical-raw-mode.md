@@ -2,7 +2,7 @@
 title       : "termios와 raw mode — Ctrl-C는 언제 문자가 아니라 signal이 되는가"
 description : "터미널 입력을 처리하는 termios의 역할과 canonical/raw mode, echo, ISIG, VMIN/VTIME을 직접 실험하며 Neovim·fzf 같은 TUI가 키 입력을 즉시 받는 원리를 정리한다."
 date        : 2026-09-05 13:10:00 +0900
-updated     : 2026-09-05 17:57:00 +0900
+updated     : 2026-09-13 18:15:00 +0900
 categories  : [terminal]
 tags        : [terminal, termios, tty, pty, raw-mode, canonical-mode, signal, stdin]
 pin         : false
@@ -19,6 +19,18 @@ hidden      : false
 - 비밀번호 입력에서는 왜 타이핑한 문자가 화면에 보이지 않는가?
 
 이 동작의 중심에 Unix 터미널 드라이버의 **termios** 설정이 있다.
+
+처음 읽을 때는 세 가지 질문만 먼저 잡으면 된다.
+
+```text
+Enter까지 입력을 모을까?      → ICANON
+입력한 문자를 다시 보여줄까? → ECHO
+Ctrl-C를 Signal로 바꿀까?    → ISIG
+```
+
+그리고 이 처리를 대부분 줄여 애플리케이션이 입력 바이트를 직접 해석하도록 만드는 쪽이 **raw mode**다.
+
+`VMIN/VTIME`, software flow control, 셸의 line editing은 이 핵심 구조를 이해한 뒤 보는 심화 내용이다.
 
 ## 입력 경로에서 termios가 끼는 위치
 
@@ -210,6 +222,8 @@ ICRNL   → CR → NL 변환 끔
 OPOST   → 출력 후처리 끔
 ```
 
+처음에는 `ICANON`, `ECHO`, `ISIG`가 꺼진다는 점까지만 이해해도 충분하다. 나머지 플래그는 raw mode가 단순히 "Enter 대기만 끄는 모드"가 아니라 **터미널 드라이버의 여러 가공을 함께 줄이는 설정 묶음**이라는 것을 보여주는 세부사항이다.
+
 즉 raw mode의 철학은:
 
 > 터미널 드라이버가 최대한 해석하지 말고 들어온 바이트를 애플리케이션이 직접 처리하게 하라.
@@ -260,6 +274,19 @@ stty sane
 ```
 
 실험 중 터미널을 완전히 망가뜨렸다면 새 터미널 탭을 열어 복구하는 것도 방법이다.
+
+## 여기부터는 심화 — 입력을 더 세밀하게 제어하기
+
+여기까지 이해했다면 termios의 핵심 모델은 잡은 것이다.
+
+```text
+ICANON → 줄 단위로 모을지
+ECHO   → 입력을 다시 보여줄지
+ISIG   → 제어 문자를 Signal로 바꿀지
+raw    → 이런 가공을 최대한 줄일지
+```
+
+아래 내용은 noncanonical 입력의 세부 반환 조건이나 TUI·셸이 이 기반을 어떻게 사용하는지 설명한다. 처음 읽을 때는 건너뛰어도 전체 터미널 구조를 이해하는 데 큰 문제가 없다.
 
 ## VMIN / VTIME — noncanonical read는 언제 반환되는가
 
