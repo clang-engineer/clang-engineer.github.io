@@ -19,21 +19,21 @@ HTTP · RPC 등 Application Protocol
 TCP 용어를 따로 외우기보다 다음 질문을 하나의 흐름으로 이해한다.
 
 - TCP 연결은 실제로 무엇이며 어디에 기록되는가?
-- HTTP Keep-Alive와 TCP Keepalive, Connection Pool은 무엇이 다른가?
 - 연결할 때는 3단계인데 종료할 때는 왜 보통 4단계인가?
 - 오류 제어·흐름 제어·혼잡 제어는 각각 무엇을 보호하는가?
 - **왜 오류 제어 → 흐름 제어 → 혼잡 제어 순으로 보면 이해하기 쉬운가?**
+- HTTP Keep-Alive와 TCP Keepalive, Connection Pool은 무엇이 다른가?
 
 ## 왜 이 순서로 학습하는가
 
-TCP는 기능을 따로 외우기보다 **문제의 범위가 점점 바깥으로 확장되는 순서**로 보면 이해하기 쉽다.
+TCP는 기능을 따로 외우기보다 **연결의 생명주기를 먼저 잡고, 그다음 데이터 전달 문제의 범위를 바깥으로 넓힌 뒤, 마지막에 상위 Application이 연결을 어떻게 사용하는지 보는 순서**로 이해하면 쉽다.
 
 ```text
 ① 연결을 만든다
    3-Way Handshake
         ↓
-② 연결을 끝낸다
-   FIN / 4-Way Handshake
+② 연결을 끝내는 원리를 본다
+   FIN / 4-Way Handshake / TIME_WAIT
         ↓
 ③ 데이터가 제대로 갔는가?
    오류 제어
@@ -44,13 +44,13 @@ TCP는 기능을 따로 외우기보다 **문제의 범위가 점점 바깥으�
 ⑤ 중간 Network가 감당할 수 있는가?
    혼잡 제어
         ↓
-⑥ 이 TCP 연결을 HTTP가 어떻게 재사용하는가?
-   Keep-Alive / Connection Pool
+⑥ 이 TCP 연결을 상위 Application이 어떻게 재사용하는가?
+   HTTP Keep-Alive / TCP Keepalive / Connection Pool
 ```
 
 오류 제어에서는 가장 먼저 **전달 자체의 정확성**을 해결한다. 그다음 데이터는 잘 가지만 상대가 느린 경우를 흐름 제어로 해결하고, 마지막으로 송수신자는 괜찮지만 중간 Network가 버티지 못하는 경우를 혼잡 제어로 해결한다.
 
-> **연결을 만들고 → 데이터를 확실히 보내고 → 상대방 속도에 맞추고 → Network 속도에도 맞춘다.**
+> **연결 상태를 만들고 → 안전하게 닫는 원리를 이해하고 → 데이터를 확실히 보내고 → 상대방 속도에 맞추고 → Network 속도에도 맞춘다.**
 
 이 흐름을 잡으면 ACK, Sliding Window, `rwnd`, `cwnd`, Slow Start가 서로 떨어진 암기 항목이 아니라 하나의 문제 해결 과정으로 연결된다.
 
@@ -107,67 +107,7 @@ Server의 응답까지만 있으면 Client의 요청이 Server에 도착했다�
 
 > 3-Way Handshake는 단순 인사가 아니라 **양방향 통신 능력과 초기 상태를 합의하는 과정**이다.
 
-## 4. HTTP 연결을 재사용한다는 의미
-
-HTTP 요청 하나가 끝날 때마다 TCP를 닫으면 다음 요청마다 다시 3-Way Handshake가 필요하다. HTTPS라면 TLS 연결 비용도 추가될 수 있다.
-
-HTTP Keep-Alive는 하나의 TCP 연결을 바로 닫지 않고 여러 HTTP 요청과 응답에 재사용한다.
-
-```text
-HTTP Client                         HTTP Server
-     │                                   │
-     │──── TCP 연결 생성 ────────────────→│
-     │──── HTTP Request 1 ───────────────→│
-     │←─── HTTP Response 1 ───────────────│
-     │──── HTTP Request 2 ───────────────→│
-     │←─── HTTP Response 2 ───────────────│
-     │          Idle / Keep-Alive         │
-     │──── HTTP Request 3 ───────────────→│
-     │←─── HTTP Response 3 ───────────────│
-```
-
-### HTTP/1.0과 HTTP/1.1
-
-- HTTP/1.0: 요청·응답 후 연결 종료가 기본이며 재사용하려면 Keep-Alive를 명시하는 방식이 사용됨
-- HTTP/1.1: 지속 연결이 기본이며 일반적으로 `Connection: close`로 종료 의사를 표시
-
-### timeout과 max
-
-- `timeout`: 요청이 없는 연결을 얼마나 기다린 뒤 닫을 것인가
-- `max`: 한 연결에서 최대 몇 개의 요청을 처리할 것인가
-
-너무 오래 유지하면 유휴 Socket과 Memory가 Server 자원을 차지한다. 너무 빨리 닫으면 연결 재사용 효과가 줄어든다.
-
-이 값들은 **보장값이라기보다 정책값**으로 이해하는 것이 좋다. Client, Server, Proxy, Load Balancer, Network 상태에 따라 더 일찍 종료될 수 있다.
-
-## 5. HTTP Keep-Alive·TCP Keepalive·Connection Pool
-
-| 개념 | 관리 위치 | 목적 |
-|---|---|---|
-| HTTP Keep-Alive | HTTP 계층 | 여러 HTTP 요청이 하나의 TCP 연결을 재사용 |
-| TCP Keepalive | OS TCP 계층 | 오랫동안 데이터가 없는 연결의 상대가 살아 있는지 확인 |
-| Connection Pool | 애플리케이션·Library | 여러 연결을 보관하고 빌려주며 재사용 |
-
-HTTP Keep-Alive는 한 번 건 전화로 여러 용건을 이어서 말하는 것과 비슷하다. TCP Keepalive는 한동안 말이 없을 때 상대가 여전히 전화를 받고 있는지 확인하는 신호다. Connection Pool은 사용할 수 있는 전화 연결 여러 개를 보관했다가 필요한 작업에 빌려주는 관리 장치다.
-
-### “TCP 연결을 Memory에 기록하면 Connection Pool 아닌가?”
-
-둘은 관련 있지만 같지 않다. Kernel은 TCP가 동작하기 위해 모든 연결 상태를 관리한다. Connection Pool은 그 위에서 애플리케이션이 여러 연결의 생성·대여·반납·폐기 정책을 관리한다.
-
-```text
-HTTP Client / Library
-         │
-         ▼
-   Connection Pool
-    ├─ TCP Connection #1 ─┐
-    ├─ TCP Connection #2 ─┼─→ OS Kernel의 TCP 상태
-    └─ TCP Connection #3 ─┘
-```
-
-> **Kernel의 TCP 상태 = 연결 자체**  
-> **Connection Pool = 여러 연결을 재사용하는 상위 관리 방식**
-
-## 6. 연결 종료: 왜 보통 4-Way인가
+## 4. 연결 종료: 왜 보통 4-Way인가
 
 TCP는 양방향 통신이다. 한쪽이 보낼 데이터를 모두 보냈더라도 상대는 아직 보낼 데이터가 남아 있을 수 있으므로 두 방향을 따로 닫는다.
 
@@ -195,7 +135,7 @@ TIME_WAIT
 
 또한 연결을 먼저 시작한 쪽만 FIN을 보낼 수 있는 것은 아니다. **Client와 Server 어느 쪽이든 종료를 먼저 시작할 수 있다.**
 
-## 7. TIME_WAIT는 왜 필요한가
+## 5. TIME_WAIT는 왜 필요한가
 
 먼저 종료를 시작하고 마지막 ACK를 보낸 쪽은 연결 정보를 즉시 지우지 않고 일정 시간 TIME_WAIT 상태로 기다린다.
 
@@ -209,7 +149,7 @@ TIME_WAIT
 
 따라서 TIME_WAIT가 많다고 곧바로 장애라고 단정하면 안 된다. 짧은 연결을 매우 많이 만들면 자연스럽게 증가할 수 있다.
 
-## 8. 오류·흐름·혼잡 제어
+## 6. 오류·흐름·혼잡 제어
 
 | 구분 | 해결하려는 문제 | 주된 수단 |
 |---|---|---|
@@ -249,7 +189,7 @@ Sliding Window는 매번 하나 보내고 ACK를 기다리는 대신 Window 범�
 
 수신자가 충분히 빨라도 Router와 Link에 Packet이 몰리면 Queue가 가득 차고 손실과 지연이 발생한다. 송신자는 혼잡 신호를 보고 `cwnd`를 조절한다.
 
-## 9. 실제로 얼마나 보낼 수 있는가
+## 7. 실제로 얼마나 보낼 수 있는가
 
 송신자는 수신자와 Network의 한계를 모두 지켜야 한다.
 
@@ -262,7 +202,7 @@ Sliding Window는 매번 하나 보내고 ACK를 기다리는 대신 Window 범�
 
 수도관에 비유하면 `rwnd`는 목적지 물탱크가 받을 수 있는 양이고, `cwnd`는 중간 배관이 통과시킬 수 있다고 판단한 양이다.
 
-## 10. Slow Start·Congestion Avoidance·Fast Retransmit·Fast Recovery
+## 8. Slow Start·Congestion Avoidance·Fast Retransmit·Fast Recovery
 
 TCP는 연결 직후 Network가 얼마나 감당할 수 있는지 모른다. 작은 혼잡 Window에서 시작해 전송 가능량을 탐색한다.
 
@@ -308,20 +248,82 @@ Congestion Avoidance로 복귀
 
 세부 TCP Algorithm마다 수치와 동작은 다르지만 기술사 학습에서는 먼저 이 원리를 잡는다.
 
+## 9. 상위 Application은 TCP 연결을 어떻게 재사용하는가
+
+TCP 자체의 연결·종료·전송 제어를 이해했다면 이제 상위 Application이 그 연결을 어떻게 사용하는지 본다.
+
+HTTP 요청 하나가 끝날 때마다 TCP를 닫으면 다음 요청마다 다시 3-Way Handshake가 필요하다. HTTPS라면 TLS 연결 비용도 추가될 수 있다.
+
+HTTP Keep-Alive는 하나의 TCP 연결을 바로 닫지 않고 여러 HTTP 요청과 응답에 재사용한다.
+
+```text
+HTTP Client                         HTTP Server
+     │                                   │
+     │──── TCP 연결 생성 ────────────────→│
+     │──── HTTP Request 1 ───────────────→│
+     │←─── HTTP Response 1 ───────────────│
+     │──── HTTP Request 2 ───────────────→│
+     │←─── HTTP Response 2 ───────────────│
+     │          Idle / Keep-Alive         │
+     │──── HTTP Request 3 ───────────────→│
+     │←─── HTTP Response 3 ───────────────│
+```
+
+### HTTP/1.0과 HTTP/1.1
+
+- HTTP/1.0: 요청·응답 후 연결 종료가 기본이며 재사용하려면 Keep-Alive를 명시하는 방식이 사용됨
+- HTTP/1.1: 지속 연결이 기본이며 일반적으로 `Connection: close`로 종료 의사를 표시
+
+### timeout과 max
+
+- `timeout`: 요청이 없는 연결을 얼마나 기다린 뒤 닫을 것인가
+- `max`: 한 연결에서 최대 몇 개의 요청을 처리할 것인가
+
+너무 오래 유지하면 유휴 Socket과 Memory가 Server 자원을 차지한다. 너무 빨리 닫으면 연결 재사용 효과가 줄어든다.
+
+이 값들은 **보장값이라기보다 정책값**으로 이해하는 것이 좋다. Client, Server, Proxy, Load Balancer, Network 상태에 따라 더 일찍 종료될 수 있다.
+
+## 10. HTTP Keep-Alive·TCP Keepalive·Connection Pool
+
+| 개념 | 관리 위치 | 목적 |
+|---|---|---|
+| HTTP Keep-Alive | HTTP 계층 | 여러 HTTP 요청이 하나의 TCP 연결을 재사용 |
+| TCP Keepalive | OS TCP 계층 | 오랫동안 데이터가 없는 연결의 상대가 살아 있는지 확인 |
+| Connection Pool | 애플리케이션·Library | 여러 연결을 보관하고 빌려주며 재사용 |
+
+HTTP Keep-Alive는 한 번 건 전화로 여러 용건을 이어서 말하는 것과 비슷하다. TCP Keepalive는 한동안 말이 없을 때 상대가 여전히 전화를 받고 있는지 확인하는 신호다. Connection Pool은 사용할 수 있는 전화 연결 여러 개를 보관했다가 필요한 작업에 빌려주는 관리 장치다.
+
+### “TCP 연결을 Memory에 기록하면 Connection Pool 아닌가?”
+
+둘은 관련 있지만 같지 않다. Kernel은 TCP가 동작하기 위해 모든 연결 상태를 관리한다. Connection Pool은 그 위에서 애플리케이션이 여러 연결의 생성·대여·반납·폐기 정책을 관리한다.
+
+```text
+HTTP Client / Library
+         │
+         ▼
+   Connection Pool
+    ├─ TCP Connection #1 ─┐
+    ├─ TCP Connection #2 ─┼─→ OS Kernel의 TCP 상태
+    └─ TCP Connection #3 ─┘
+```
+
+> **Kernel의 TCP 상태 = 연결 자체**  
+> **Connection Pool = 여러 연결을 재사용하는 상위 관리 방식**
+
 ## 11. 전체 동작을 한 번에 연결하기
 
 1. Client와 Server가 3-Way Handshake로 연결 상태를 만든다.
 2. Kernel이 Sequence, Buffer, Window와 Timer를 관리한다.
-3. HTTP 요청과 응답이 TCP Byte Stream으로 전달된다.
-4. 오류 제어가 손실·중복·순서를 처리한다.
-5. 흐름 제어가 수신자의 처리 한계를 넘지 않게 한다.
-6. 혼잡 제어가 중간 Network에 과도한 Packet을 보내지 않게 한다.
+3. 오류 제어가 손실·중복·순서를 처리한다.
+4. 흐름 제어가 수신자의 처리 한계를 넘지 않게 한다.
+5. 혼잡 제어가 중간 Network에 과도한 Packet을 보내지 않게 한다.
+6. 상위 HTTP가 이 TCP Byte Stream으로 요청과 응답을 전달한다.
 7. HTTP Keep-Alive를 사용하면 같은 연결로 다음 요청을 처리한다.
 8. HTTP Client는 Connection Pool로 재사용 가능한 여러 연결을 관리할 수 있다.
 9. 더 재사용하지 않으면 FIN과 ACK로 양방향을 닫는다.
 10. 마지막 ACK를 보낸 쪽은 TIME_WAIT에서 안전한 종료를 보장한다.
 
-Handshake, Keep-Alive, Window, TIME_WAIT는 서로 무관한 암기 항목이 아니다. 모두 **신뢰할 수 있는 연결을 만들고, 효율적으로 사용하고, 안전하게 정리하는 과정**에 속한다.
+Handshake, Window, Keep-Alive, TIME_WAIT는 서로 무관한 암기 항목이 아니다. 모두 **신뢰할 수 있는 연결을 만들고, 데이터를 조절해 전달하고, 상위 계층에서 효율적으로 사용하고, 안전하게 정리하는 과정**에 속한다.
 
 ## 12. 자주 헷갈리는 부분
 
