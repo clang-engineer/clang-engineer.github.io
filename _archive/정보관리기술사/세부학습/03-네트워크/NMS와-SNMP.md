@@ -1,5 +1,22 @@
 # NMS와 SNMP
 
+## 이 문서의 위치
+
+이 문서는 Network의 데이터 전달 자체가 아니라, **구성된 Network 장비와 상태를 어떻게 중앙에서 관측·관리할 것인가**라는 운영 축을 다룬다.
+
+```text
+Network 구성·전달
+VLAN / IP / Routing / TCP
+        ↓
+운영 단계에서 생기는 질문
+"장비가 정상인가? 어디에 장애가 났나?"
+        ↓
+현재 문서
+NMS / SNMP
+```
+
+NMS(Network Management System, 여러 Network 장비의 상태·성능·장애·구성을 중앙에서 관리하는 시스템)와 SNMP(Simple Network Management Protocol, 관리 시스템과 장비가 관리 정보를 주고받는 대표 Protocol)를 같은 개념으로 보지 않는 것이 출발점이다.
+
 ## 이 문서에서 되짚을 질문
 
 - 사람은 NMS 전체 흐름의 어디에 개입하는가?
@@ -11,7 +28,7 @@
 
 ## NMS를 먼저 '사람이 쓰는 방식'으로 이해하기
 
-NMS(Network Management System)는 여러 네트워크 장비의 상태·성능·장애·구성을 중앙에서 통합 관리하는 시스템이다. 단순히 OS 내부에서 CPU·Memory를 보는 Process가 아니다.
+NMS는 여러 네트워크 장비의 상태·성능·장애·구성을 중앙에서 통합 관리하는 시스템이다. 단순히 OS 내부에서 CPU·Memory를 보는 Process가 아니다.
 
 운영자는 보통 SNMP 명령을 직접 입력하지 않는다. NMS의 Web UI나 Console에서 상태와 Alarm을 보고, 이상이 있으면 해당 장비나 Server에 접속해 상세 원인을 분석한다.
 
@@ -36,7 +53,7 @@ Router / Switch / Firewall / Server
 
 ## NMS와 SNMP의 관계
 
-SNMP(Simple Network Management Protocol)는 NMS Manager와 장비의 Agent가 관리 정보를 주고받는 대표 프로토콜이다.
+SNMP는 NMS Manager와 장비의 Agent가 관리 정보를 주고받는 대표 프로토콜이다.
 
 여기서 가장 중요한 점은 **NMS와 SNMP가 같은 계층의 개념이 아니라는 것**이다.
 
@@ -65,8 +82,8 @@ SNMP 구조를 이해할 때 네 용어의 역할을 분리한다.
 
 - Manager: 조회·설정·수집·경보 처리를 담당
 - Agent: 장비에서 동작하며 Manager의 요청에 관리 값을 제공
-- MIB: 어떤 관리 객체가 존재하고 어떤 구조·형식으로 표현되는지 정의
-- OID: 각각의 관리 객체를 식별하는 계층형 번호
+- MIB(Management Information Base, 관리 객체의 구조와 형식을 정의하는 정보 모델): 어떤 관리 객체가 존재하고 어떤 구조·형식으로 표현되는지 정의
+- OID(Object Identifier, 관리 객체를 식별하는 계층형 식별자): 각각의 관리 객체를 식별하는 번호
 
 ```text
 NMS / Manager
@@ -169,7 +186,7 @@ NMS
 → 수십~수천 대의 장비를 중앙 통합 관리
 ```
 
-반면 여러 Router·Switch·AP를 중앙 Controller에서 관리하는 제품은 NMS에 가까운 성격을 가진다.
+반면 여러 Router·Switch·AP(Access Point, 무선 단말을 유선 Network와 연결하는 장치)를 중앙 Controller에서 관리하는 제품은 NMS에 가까운 성격을 가진다.
 
 ## Grafana도 다 보여주는데 NMS가 왜 필요한가
 
