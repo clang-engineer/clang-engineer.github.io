@@ -2,7 +2,7 @@
 
 ## 이 문서의 위치
 
-이 문서는 IP와 Routing 위에서 동작하는 **전송 계층 TCP의 핵심 원리**를 정리한다.
+이 문서는 IP와 Routing 위에서 동작하는 **전송 계층 TCP(Transmission Control Protocol, 신뢰성 있는 종단 간 Byte Stream을 제공하는 전송 Protocol)의 핵심 원리**를 정리한다.
 
 ```text
 IP / Routing
