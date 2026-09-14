@@ -1,8 +1,8 @@
 # I/O Multiplexing · Event Loop · Reactor
 
-> `Socket-서버-IO.md`에서 확인한 **Socket / FD · Blocking / Non-blocking · I/O Multiplexing의 출발점**에서 이어서, Readiness · Event Loop · Reactor Pattern을 **언어에 종속되지 않는 일반 원리**로 이해하기 위한 보충학습 문서다.
+> `Socket-서버-IO.md`에서 확인한 **Socket / FD(File Descriptor, Process가 열린 Kernel I/O 자원을 참조하는 정수형 Handle) · Blocking / Non-blocking · I/O Multiplexing의 출발점**에서 이어서, Readiness · Event Loop · Reactor Pattern을 **언어에 종속되지 않는 일반 원리**로 이해하기 위한 보충학습 문서다.
 >
-> 이 문서에서는 Multiplexing 이후 Application 실행 구조를 깊게 보고, Java NIO · Netty · WebFlux처럼 특정 생태계의 구현 경로는 `Java-Network-IO-WebFlux.md`에서 이어서 다룬다.
+> 이 문서에서는 Multiplexing 이후 Application 실행 구조를 깊게 보고, Java NIO(New I/O, Java의 Channel·Selector 중심 I/O API) · Netty · WebFlux처럼 특정 생태계의 구현 경로는 `Java-Network-IO-WebFlux.md`에서 이어서 다룬다.
 
 ## 1. 출발점: I/O Multiplexing
 
