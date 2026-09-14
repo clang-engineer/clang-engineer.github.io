@@ -63,7 +63,7 @@ Subnet Mask 또는 Prefix(`/24`)는 IP 주소에서 **Network 부분과 Host 부
 
 ## CIDR과 Subnet
 
-CIDR(Classless Inter-Domain Routing)은 Class A·B·C의 고정 경계를 버리고 `/24`, `/26`처럼 Prefix 길이로 Network 범위를 표현한다.
+CIDR(Classless Inter-Domain Routing, Class 고정 경계 없이 Prefix로 주소 범위를 표현·할당·집약하는 방식)은 Class A·B·C의 고정 경계를 버리고 `/24`, `/26`처럼 Prefix 길이로 Network 범위를 표현한다.
 
 `/24`는 앞 24bit가 Network 부분이라는 뜻이다. Prefix가 길수록 Network 범위는 작아지고 Host 주소 수는 줄어든다.
 
@@ -75,7 +75,7 @@ Subnetting은 큰 주소 범위를 더 작은 범위로 나누는 작업이고, 
 
 ## VLSM
 
-VLSM(Variable Length Subnet Mask)은 모든 Subnet을 같은 크기로 자르지 않는다.
+VLSM(Variable Length Subnet Mask, Subnet마다 서로 다른 Prefix 길이를 사용해 필요한 크기로 나누는 방식)은 모든 Subnet을 같은 크기로 자르지 않는다.
 
 예를 들어:
 
@@ -119,9 +119,9 @@ CIDR과 VLSM 모두 `/24`, `/26` 같은 Prefix 표기를 사용하므로 비슷�
 
 ## DHCP
 
-DHCP(Dynamic Host Configuration Protocol)는 단말이 접속할 때 Network 설정을 자동으로 제공한다.
+DHCP(Dynamic Host Configuration Protocol, 단말에 IP·Gateway·DNS 같은 Network 설정을 자동 제공하는 Protocol)는 단말이 접속할 때 Network 설정을 자동으로 제공한다.
 
-대표 흐름은 Discover → Offer → Request → Acknowledge이며 DORA라고 부른다. 단말은 아직 자기 주소를 모르므로 초기 메시지에 Broadcast를 사용한다. 다른 Subnet의 DHCP Server를 사용하면 Router의 DHCP Relay가 요청을 전달할 수 있다.
+대표 흐름은 Discover → Offer → Request → Acknowledge이며, 앞 글자를 따서 DORA(Discover → Offer → Request → Acknowledge)라고 부른다. 단말은 아직 자기 주소를 모르므로 초기 메시지에 Broadcast를 사용한다. 다른 Subnet의 DHCP Server를 사용하면 Router의 DHCP Relay가 요청을 전달할 수 있다.
 
 ```text
 Client                         DHCP Server
@@ -148,7 +148,7 @@ DHCP가 주는 것은 IP 하나만이 아니다.
 
 ## NAT — DHCP와 왜 같이 보이는가
 
-가정에서는 공유기가 DHCP Server이면서 NAT Router 역할도 함께 수행하기 때문에 두 기능이 하나처럼 느껴진다.
+NAT(Network Address Translation, Network 경계를 지나는 Packet의 IP 주소를 변환하는 방식)는 가정에서는 공유기의 DHCP Server 기능과 함께 동작하는 경우가 많아 두 기능이 하나처럼 느껴진다.
 
 하지만 목적은 완전히 다르다.
 
@@ -186,7 +186,7 @@ DHCP와 NAT는 서로 필수 관계가 아니다. 수동으로 사설 IP를 설�
 
 ### PAT / NAPT
 
-가정에서 가장 익숙한 형태다. 여러 내부 단말이 **하나의 공인 IP**를 공유하고 Port까지 이용해 각 연결을 구분한다.
+PAT(Port Address Translation, Port까지 변환해 여러 내부 연결이 하나의 공인 IP를 공유하게 하는 방식) 또는 NAPT(Network Address and Port Translation)는 가정에서 가장 익숙한 형태다. 여러 내부 단말이 **하나의 공인 IP**를 공유하고 Port까지 이용해 각 연결을 구분한다.
 
 여기서 자연스럽게 생기는 질문이 있다.
 
