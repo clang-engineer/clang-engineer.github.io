@@ -1,6 +1,6 @@
 # 03. 네트워크 세부학습 지도
 
-이 디렉터리는 네트워크 기술을 용어별로 나열하기보다 **Layer와 문제 범위가 확장되는 순서**로 연결해 학습한다.
+이 디렉터리는 네트워크 기술을 용어별로 나열하기보다 **먼저 핵심 전달 축을 잡고, 그 위에서 Application·품질·운영·무선 같은 별도 질문으로 확장하는 방식**으로 학습한다.
 
 핵심 원칙은 다음과 같다.
 
@@ -16,33 +16,61 @@ _보충학습
 
 ---
 
-## 전체 학습 흐름
+## 전체 학습 구조
+
+먼저 Network에서 데이터가 전달되는 중심 축을 잡는다.
 
 ```text
-1. Layer 2에서 망을 나눈다
-   VLAN / Broadcast Domain
-          ↓
-2. Layer 3 주소와 경계를 설계한다
-   Subnet / CIDR / VLSM / DHCP / NAT
-          ↓
-3. 다른 Network로 갈 경로를 정한다
-   Routing / RIP / OSPF / BGP
-          ↓
-4. 종단 간 신뢰성 있는 전달을 만든다
-   TCP
-          ↓
-5. Application이 원격 기능을 호출한다
-   IPC / RPC / gRPC
-          ↓
-6. Network를 운영하고 품질을 관리한다
-   NMS / SNMP / QoS / QoE
+[핵심 전달 축]
 
-별도 축
-   무선 공유 매체와 WLAN
-   CSMA/CA / Association / DHCP
+Layer 2 경계
+VLAN / Broadcast Domain
+        ↓
+Layer 3 주소와 경계
+Subnet / CIDR / VLSM / DHCP / NAT
+        ↓
+경로 선택
+Routing / RIP / OSPF / BGP
+        ↓
+종단 간 전송
+TCP
 ```
 
-이 흐름은 OSI Layer를 그대로 암기하는 순서라기보다 **Network를 분리하고 → 주소를 정하고 → 경로를 만들고 → 종단 간 전송하고 → Application이 사용하고 → 운영하는 과정**으로 본 것이다.
+여기까지는 `같은 망 안에서 어떻게 나누고 → 어떤 주소를 쓰고 → 다른 망으로 어떤 경로를 선택하고 → 종단 사이에서 어떻게 신뢰성 있게 전달하는가`라는 하나의 강한 연결 축이다.
+
+그다음부터는 이 흐름의 단순한 다음 단계가 아니라 **서로 다른 상위 질문**으로 분기한다.
+
+```text
+                         [TCP까지의 핵심 전달 축]
+                                  │
+          ┌───────────────────────┼───────────────────────┐
+          │                       │                       │
+          ▼                       ▼                       ▼
+ [Application 통신 축]       [Network 품질 축]        [Network 운영 축]
+ IPC / RPC / gRPC            QoS / QoE               NMS / SNMP
+
+별도 Access 축
+무선 공유 매체와 WLAN
+CSMA/CA / Association / DHCP
+```
+
+각 축의 질문은 다르다.
+
+```text
+Application 통신
+= Process와 원격 기능 호출을 어떻게 추상화할까?
+
+Network 품질
+= 한정된 Network 자원을 Traffic 특성에 맞게 어떻게 관리할까?
+
+Network 운영
+= 장비와 상태를 어떻게 중앙에서 관측·관리할까?
+
+무선 Access
+= 공유 무선 매체에서 Link를 어떻게 만들고 IP 통신까지 이어갈까?
+```
+
+따라서 아래 문서 번호는 **권장 탐색 순서**일 뿐, 5번 이후의 Topic이 서로의 필수 다음 단계라는 뜻은 아니다.
 
 ---
 
@@ -121,14 +149,16 @@ IP Routing 위에서 Application이 신뢰할 수 있는 Byte Stream을 사용�
 
 ```text
 연결 설정
+→ 연결 종료
 → 오류 제어
 → 흐름 제어
 → 혼잡 제어
-→ 연결 종료
-→ HTTP Connection 재사용
+→ 상위 Application의 Connection 재사용
 ```
 
 본문에서는 TCP 자체의 핵심 원리까지 다루고, Socket · FD · Thread · Multiplexing 같은 OS/Application 구현 관점은 `_보충학습`에서 이어간다.
+
+여기까지가 **Network의 핵심 전달 축**이다. 이후 문서는 이 위에서 서로 다른 문제를 본다.
 
 ---
 
@@ -153,23 +183,7 @@ gRPC
 
 ---
 
-## 6. Network 운영 — NMS · SNMP
-
-[`NMS와-SNMP.md`](NMS와-SNMP.md)
-
-```text
-NMS
-= Network 장비를 중앙에서 관리하는 시스템
-
-SNMP
-= NMS가 장비와 관리 정보를 주고받을 때 사용할 수 있는 대표 Protocol
-```
-
-Manager · Agent · MIB · OID와 Polling · Trap을 장비 운영 흐름에서 연결한다.
-
----
-
-## 7. Network 품질 — QoS · QoE
+## 6. Network 품질 — QoS · QoE
 
 [`QoS와-QoE.md`](QoS와-QoE.md)
 
@@ -185,13 +199,33 @@ QoS를 단순 우선순위 기술로 보지 않고 Traffic 관리 흐름으로 �
 → QoE
 ```
 
+이 흐름은 QoS를 이해하기 위한 **대표적인 관리 관점**이다. 모든 구현이 모든 단계를 동일한 순서로 반드시 거친다는 뜻은 아니다.
+
 QoS는 Network 관점의 품질이고 QoE는 사용자가 느끼는 품질이라는 경계를 유지한다.
 
 ---
 
-## 8. 무선 Network — WLAN
+## 7. Network 운영 — NMS · SNMP
+
+[`NMS와-SNMP.md`](NMS와-SNMP.md)
+
+```text
+NMS
+= Network 장비를 중앙에서 관리하는 시스템
+
+SNMP
+= NMS가 장비와 관리 정보를 주고받을 때 사용할 수 있는 대표 Protocol
+```
+
+Manager · Agent · MIB · OID와 Polling · Trap을 장비 운영 흐름에서 연결한다.
+
+---
+
+## 8. 무선 Access — WLAN
 
 [`무선-매체접근과-WLAN.md`](무선-매체접근과-WLAN.md)
+
+무선은 유선 전달 축의 단순한 다음 단계가 아니라 **Layer 1/2의 공유 매체 접근을 다루는 별도 축**이다.
 
 무선은 단말마다 별도 회선을 쓰는 것이 아니라 같은 Channel이라는 공유 매체를 사용한다.
 
@@ -214,6 +248,8 @@ QoS는 Network 관점의 품질이고 QoE는 사용자가 느끼는 품질이라
 본문을 이해하다 OS · Runtime · Framework 수준의 질문이 생기면 다음 순서로 내려간다.
 
 ```text
+TCP / Application 경계
+        ↓
 FD
 ↓
 Socket Server I/O
@@ -307,12 +343,13 @@ Reactive Programming
 
 이 디렉터리의 문서는 다음 기준을 유지한다.
 
-1. **용어를 나열하기보다 문제 발생 순서와 인과관계로 연결한다.**
+1. **용어를 나열하기보다 실제 인과가 있는 곳은 문제 발생 순서와 인과관계로 연결한다.**
 2. **비슷해 보이는 개념은 먼저 Layer · 역할 · 관리 주체를 분리한다.**
-3. **`왜 필요한가 → 어떻게 해결하는가 → 무엇이 다른가` 순서로 설명한다.**
-4. **기술사 Topic 자체의 핵심 원리는 본문에 둔다.**
-5. **OS · 구현 · Runtime · 특정 언어/Framework 수준의 심화는 `_보충학습`으로 분리한다.**
-6. **한 문서가 다음 문서와 어디에서 연결되는지 명시한다.**
-7. **역사적 발전 순서, 개념적 추상화 계층, 실제 Runtime 호출 경로를 필요하면 구분해서 설명한다.**
+3. **서로 다른 상위 질문이나 분류축을 하나의 발전 단계처럼 만들지 않는다.**
+4. **`왜 필요한가 → 어떻게 해결하는가 → 무엇이 다른가` 순서로 설명한다.**
+5. **기술사 Topic 자체의 핵심 원리는 본문에 둔다.**
+6. **OS · 구현 · Runtime · 특정 언어/Framework 수준의 심화는 `_보충학습`으로 분리한다.**
+7. **한 문서가 어떤 상위 질문을 다루고 인접 문서와 어디에서 연결되는지 명시한다.**
+8. **역사적 발전 순서, 개념적 추상화 계층, 실제 Runtime 호출 경로를 필요하면 구분해서 설명한다.**
 
 목표는 많은 용어를 외우는 것이 아니라 **각 기술이 어떤 문제를 해결하기 위해 어느 위치에서 등장했는지 복원할 수 있는 상태**다.
