@@ -1,5 +1,20 @@
 # QoS와 QoE
 
+## 이 문서의 위치
+
+이 문서는 Packet을 목적지까지 **전달하는 경로 자체**보다, 이미 공유되고 있는 Network 자원을 Traffic 특성에 맞게 어떻게 관리하고 그 결과가 사용자 체감 품질에 어떻게 이어지는지를 다루는 **품질 축**이다.
+
+```text
+Network 전달 축
+IP / Routing / TCP
+        ↓
+공유 자원에서 생기는 문제
+혼잡 / 지연 / Jitter / Loss
+        ↓
+현재 문서
+QoS / QoE
+```
+
 이 문서는 QoS를 단순히 `우선순위 기술`로 외우지 않고, **왜 필요한지 → Traffic을 어떻게 구분하는지 → 혼잡 시 어떤 정책을 적용하는지 → 사용자가 실제로 느끼는 QoE와 어떻게 연결되는지**를 이해하는 데 목적이 있다.
 
 ## 이 문서에서 되짚을 질문
@@ -14,7 +29,7 @@
 
 # 1. QoS와 QoE의 차이
 
-QoS(Quality of Service)는 네트워크가 제공하는 품질을 기술적인 지표와 정책으로 관리하는 개념이다.
+QoS(Quality of Service, Network가 제공하는 품질을 기술 지표와 정책으로 관리하는 개념)는 네트워크가 제공하는 품질을 기술적인 지표와 정책으로 관리하는 개념이다.
 
 대표적인 품질 지표:
 
@@ -38,7 +53,7 @@ Throughput
 
 즉 **Bandwidth는 '얼마나 담을 수 있는가', Throughput은 '실제로 얼마나 흘려보냈는가'**에 가깝다.
 
-QoE(Quality of Experience)는 사용자가 실제로 느끼는 서비스 품질이다.
+QoE(Quality of Experience, 사용자가 실제로 느끼는 서비스 품질)는 사용자가 실제로 느끼는 서비스 품질이다.
 
 예:
 
@@ -176,7 +191,7 @@ Backup
 
 이 단계가 Classification이다.
 
-분류한 뒤 Network 장비가 이후에도 해당 Class를 알 수 있도록 Packet에 우선순위 정보를 표시할 수 있다. DiffServ에서는 DSCP를 이용해 Class를 구분한다.
+분류한 뒤 Network 장비가 이후에도 해당 Class를 알 수 있도록 Packet에 우선순위 정보를 표시할 수 있다. DiffServ에서는 DSCP(Differentiated Services Code Point, Packet의 Service Class를 표시하는 IP Header 값)를 이용해 Class를 구분한다.
 
 중요한 흐름은:
 
@@ -287,9 +302,9 @@ Scheduling은 Queue별로 어떤 순서와 비율로 Packet을 보낼지 결정�
 
 ## IntServ
 
-IntServ(Integrated Services)는 Flow마다 필요한 자원을 예약한다.
+IntServ(Integrated Services, Flow 단위로 자원을 예약해 품질을 제공하는 방식)는 Flow마다 필요한 자원을 예약한다.
 
-RSVP를 사용해 경로의 Router가 Flow 상태를 유지한다.
+RSVP(Resource Reservation Protocol, 경로상의 자원 예약을 요청하는 Signaling Protocol)를 사용해 경로의 Router가 Flow 상태를 유지한다.
 
 ```text
 Flow A
@@ -324,7 +339,7 @@ Network Core에서 모든 Flow를 개별적으로 기억해야 한다면 규모�
 
 ## DiffServ
 
-DiffServ(Differentiated Services)는 Packet을 개별 Flow가 아니라 Class로 묶어서 처리한다.
+DiffServ(Differentiated Services, Packet을 Class 단위로 구분해 차등 처리하는 방식)는 Packet을 개별 Flow가 아니라 Class로 묶어서 처리한다.
 
 ```text
 수많은 Flow
