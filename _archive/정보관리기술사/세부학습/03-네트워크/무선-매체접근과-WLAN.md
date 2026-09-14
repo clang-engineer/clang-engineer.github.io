@@ -2,7 +2,7 @@
 
 ## 이 문서의 위치
 
-이 문서는 유선 Network 흐름의 단순한 다음 단계라기보다 **Layer 1/2의 공유 무선 매체 접근과, 그 Link가 Layer 3 IP 통신으로 이어지는 경계**를 다룬다.
+이 문서는 WLAN(Wireless LAN, 무선 기반 근거리 Network)을 유선 Network 흐름의 단순한 다음 단계로 보지 않고, **Layer 1/2의 공유 무선 매체 접근과 그 Link가 Layer 3 IP 통신으로 이어지는 경계**를 다룬다.
 
 ```text
 공유 무선 매체
@@ -18,7 +18,7 @@ DHCP
 IP 통신
 ```
 
-따라서 `AP가 보인다`, `Wi-Fi에 연결됐다`, `IP를 받았다`, `외부 통신이 된다`를 같은 상태로 보지 않는다. 특정 AP 제품 설정, OS별 Driver 문제 해결, 명령어 사용법은 이 문서의 기본 범위에서 제외한다.
+따라서 `AP가 보인다`, `Wi-Fi에 연결됐다`, `IP를 받았다`, `외부 통신이 된다`를 같은 상태로 보지 않는다. 여기서 AP(Access Point, 무선 단말을 유선 Network와 연결하는 장치)는 무선 Link의 접속 지점이다. 특정 AP 제품 설정, OS별 Driver 문제 해결, 명령어 사용법은 이 문서의 기본 범위에서 제외한다.
 
 ## 이 문서에서 되짚을 질문
 
@@ -28,7 +28,7 @@ IP 통신
 
 ## 유선 충돌에서 출발
 
-과거 공유 Ethernet에서는 여러 장치가 같은 Cable을 사용했다. 동시에 전송하면 전기 신호가 충돌하므로 CSMA/CD(Carrier Sense Multiple Access with Collision Detection)를 사용했다.
+과거 공유 Ethernet에서는 여러 장치가 같은 Cable을 사용했다. 동시에 전송하면 전기 신호가 충돌하므로 CSMA/CD(Carrier Sense Multiple Access with Collision Detection, 전송 전 매체를 확인하고 충돌이 나면 감지해 재시도하는 방식)를 사용했다.
 
 장치는 전송 전에 매체를 듣고, 충돌을 감지하면 전송을 멈춘 뒤 무작위 시간 후 재시도한다. 현대 Switch 기반 Full-Duplex Ethernet에서는 각 Port가 충돌 영역을 분리하므로 CSMA/CD의 실질적 필요가 크게 줄었다.
 
@@ -66,7 +66,7 @@ Random Backoff 후 재시도
 
 ## CSMA/CA
 
-CSMA/CA(Carrier Sense Multiple Access with Collision Avoidance)의 기본 흐름은 다음과 같다.
+CSMA/CA(Carrier Sense Multiple Access with Collision Avoidance, 전송 전에 매체 상태를 확인하고 충돌 가능성을 줄이는 방식)의 기본 흐름은 다음과 같다.
 
 ```text
 채널이 사용 중인지 확인
@@ -84,7 +84,9 @@ Counter가 0이 되면 전송
 ACK가 없으면 충돌·손실로 보고 재전송
 ```
 
-RTS/CTS는 송신 예정 구간을 주변 단말에 알려 Hidden Node 충돌을 줄일 수 있지만 제어 Frame 비용이 생긴다.
+IFS(Interframe Space, Frame 전송 사이에 두는 대기 시간)는 매체 접근 순서를 조절하는 데 사용된다.
+
+RTS/CTS(Request to Send / Clear to Send, 송신 의사와 송신 허용을 확인하는 제어 Frame 교환)는 송신 예정 구간을 주변 단말에 알려 Hidden Node 충돌을 줄일 수 있지만 제어 Frame 비용이 생긴다.
 
 Hidden Node는 두 단말이 서로의 전파는 듣지 못하지만 같은 AP에는 도달하는 상황이다. 두 단말은 각자 채널이 비었다고 생각해 동시에 보낼 수 있다. RTS/CTS를 사용하면 AP의 CTS를 들은 주변 단말이 일정 시간 전송을 미루므로 이런 충돌을 줄일 수 있다.
 
@@ -95,11 +97,13 @@ Hidden Node는 두 단말이 서로의 전파는 듣지 못하지만 같은 AP�
 단말 A ── RTS ──→ AP
 단말 A ←─ CTS ─── AP ── CTS ──→ 단말 B
                          ↓
-                     단말 B는 NAV 설정 후 대기
+             단말 B는 NAV 설정 후 대기
 
 단말 A ── DATA ──→ AP
 단말 A ←─ ACK ─── AP
 ```
+
+NAV(Network Allocation Vector, 다른 단말이 매체를 사용하기로 예약한 시간을 가상으로 기록하는 값)는 주변 단말이 해당 시간 동안 전송을 미루게 하는 데 사용된다.
 
 ## WLAN 연결 흐름
 
