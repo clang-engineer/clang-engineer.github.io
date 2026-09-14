@@ -20,6 +20,8 @@ _보충학습
 
 먼저 Network에서 데이터가 전달되는 중심 축을 잡는다.
 
+> 아래 화살표는 Runtime 호출 순서가 아니라 **개념적 전달 구조와 권장 학습 연결**을 나타낸다.
+
 ```text
 [핵심 전달 축]
 
@@ -246,6 +248,8 @@ Manager · Agent · MIB · OID와 Polling · Trap을 장비 운영 흐름에서 
 # 보충학습 — 구현 계층으로 내려가기
 
 본문을 이해하다 OS · Runtime · Framework 수준의 질문이 생기면 다음 순서로 내려간다.
+
+> 아래 화살표는 필수 Runtime 실행 순서가 아니라 **이해를 깊게 가져가는 학습 Zoom-in 순서**다. 예를 들어 Reactor Pattern은 I/O Multiplexing 뒤에 반드시 존재해야 하는 실행 단계가 아니라 Event-driven I/O를 구조화하는 대표적인 설계 방식이다.
 
 ```text
 TCP / Application 경계
