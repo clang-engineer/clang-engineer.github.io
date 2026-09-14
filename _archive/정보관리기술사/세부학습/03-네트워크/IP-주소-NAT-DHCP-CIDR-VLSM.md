@@ -1,5 +1,22 @@
 # IP 주소·NAT·DHCP·CIDR·VLSM
 
+## 이 문서의 위치
+
+이 문서는 VLAN과 Subnet으로 잡은 L2/L3 경계를 실제 **IP 주소 범위·할당·변환 문제**로 이어가는 문서다.
+
+```text
+VLAN / Broadcast Domain
+        ↓
+Subnet 경계
+        ↓
+현재 문서
+IP 주소 범위 · CIDR · VLSM · DHCP · NAT
+        ↓
+Routing
+```
+
+즉 `어디까지 같은 Network인가 → 주소 공간을 어떻게 나눌까 → 단말에 설정을 어떻게 줄까 → Network 경계에서 주소를 어떻게 바꿀까`를 하나의 흐름으로 본다.
+
 ## 이 문서에서 되짚을 질문
 
 - Subnetting, CIDR, VLSM은 어떤 관계인가?
