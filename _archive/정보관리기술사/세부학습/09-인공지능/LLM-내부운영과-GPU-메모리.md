@@ -1,6 +1,23 @@
 # LLM 내부 운영과 GPU · Memory
 
-이 문서는 Open Weight LLM을 사내에 직접 배포할 때 등장하는 `8B`, `70B`, GPU, VRAM, Quantization 같은 용어를 **Parameter → Weight → Memory → 연산 → Serving** 흐름으로 이해하는 데 목적이 있다.
+## 이 문서의 위치
+
+이 문서는 LLM의 Token 생성 원리를 이해한 뒤 한 단계 더 내려가 **그 거대한 Model을 실제 Hardware와 Serving Runtime에서 어떻게 실행할 것인가**를 다룬다.
+
+```text
+LLM 동작 원리
+Text → Token → Transformer → 다음 Token
+        ↓
+LLM 추론
+Prefill / Decode / KV Cache
+        ↓
+현재 문서
+Parameter → Weight → Memory → GPU 연산 → Serving
+```
+
+위 화살표는 제품의 고정 Runtime 호출 순서가 아니라 **LLM 내부 원리에서 실제 실행·운영 문제로 Zoom-in하는 학습 관계**를 나타낸다.
+
+LLM(Large Language Model, 대규모 언어 모델)을 사내에 직접 배포할 때 등장하는 `8B`, `70B`, GPU(Graphics Processing Unit, 대규모 병렬 연산 장치), VRAM(Video Random Access Memory, GPU가 빠르게 접근하는 전용 Memory), Quantization 같은 용어를 **Parameter → Weight → Memory → 연산 → Serving** 흐름으로 이해하는 데 목적이 있다.
 
 가장 먼저 잡을 핵심은 다음이다.
 
@@ -78,7 +95,7 @@ Parameter 값 수정
 
 Parameter 하나를 몇 bit로 저장하느냐에 따라 Model Weight의 Memory 크기가 달라진다.
 
-FP16은 숫자 하나를 16bit, 즉 2Byte로 표현한다.
+FP16(16-bit Floating Point, 숫자 하나를 16bit로 표현하는 부동소수점 형식)은 숫자 하나를 2Byte로 표현한다.
 
 ```text
 70B
@@ -103,7 +120,7 @@ FP16
 ```text
 필요 Memory
 ├─ Model Weight
-├─ KV Cache
+├─ KV Cache(Key-Value Cache, 이전 Attention의 K/V 계산 결과를 재사용하는 Cache)
 ├─ Runtime Buffer
 ├─ 연산 중간 값
 └─ 기타 Overhead
@@ -173,7 +190,7 @@ CPU
         └─ GPU 연산에 필요한 Data
 ```
 
-VRAM(Video RAM)은 GPU가 빠르게 접근할 수 있는 고속 Memory다.
+VRAM은 GPU가 빠르게 접근할 수 있는 고속 Memory다.
 
 LLM을 GPU에서 실행하면 가능한 한 Model Weight와 연산 Data를 VRAM에 두는 것이 유리하다.
 
