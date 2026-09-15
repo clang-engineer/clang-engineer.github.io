@@ -1,10 +1,28 @@
 # LLM의 동작 원리
 
-이 문서는 LLM을 단순히 `Transformer 기반 생성형 AI`라고 외우는 대신, **사용자 문장이 들어온 뒤 실제로 답변 Token이 하나씩 만들어지기까지 무슨 일이 일어나는지**를 흐름으로 이해하는 데 목적이 있다.
+## 이 문서의 위치
+
+이 문서는 생성형 AI·LLM 내부로 Zoom-in해서 **Text가 Token과 Vector로 바뀌고, Transformer가 문맥을 반영해 다음 Token을 예측하는 기본 원리**를 다룬다.
+
+```text
+생성형 AI / Language Foundation Model
+        ↓
+LLM
+        ↓
+현재 문서
+Text → Token → Embedding → Transformer / Attention → 다음 Token 예측
+        ↓
+LLM-추론과-Token-생성.md
+LM Head / Logit / Decoding / KV Cache
+```
+
+위 화살표는 제품의 고정 Runtime 호출 계층이 아니라 **LLM 내부 원리를 학습할 때 큰 그림에서 세부로 내려가는 Zoom-in 관계**를 나타낸다.
+
+LLM(Large Language Model, 대규모 언어 모델)을 단순히 `Transformer 기반 생성형 AI`라고 외우는 대신, **사용자 문장이 들어온 뒤 실제로 답변 Token이 하나씩 만들어지기까지 무슨 일이 일어나는지**를 흐름으로 이해하는 데 목적이 있다.
 
 ## 1. 가장 먼저 잡을 핵심: LLM은 다음 Token 예측 모델이다
 
-GPT 계열 생성형 LLM의 가장 밑바닥 동작을 단순화하면 다음과 같다.
+GPT(Generative Pre-trained Transformer, Transformer 기반 사전학습 생성 모델 계열) 계열 생성형 LLM의 가장 밑바닥 동작을 단순화하면 다음과 같다.
 
 > **현재까지 주어진 Token들을 보고 다음 Token의 확률을 계산한다.**
 
@@ -59,7 +77,7 @@ Autoregressive Generation
 
 따라서 `LLM = Autoregressive Generation`은 아니다. **LLM은 Model이고, Autoregressive Generation은 그 Model을 사용해 긴 Text를 생성하는 방식**이다.
 
-이 관점이 중요한 이유는 뒤에서 나오는 Attention, Context Window, KV Cache, 출력 Token 비용까지 모두 이 구조에서 설명되기 때문이다.
+이 관점이 중요한 이유는 뒤에서 나오는 Attention, Context Window, KV Cache(Key-Value Cache, 이전 Attention의 K/V 계산 결과를 재사용하는 Cache), 출력 Token 비용까지 모두 이 구조에서 설명되기 때문이다.
 
 ---
 
@@ -171,7 +189,7 @@ LLM 내부의 Token Embedding은 Token ID를 초기 Vector로 바꾼다. 이 Vec
 
 ### 중요한 구분: LLM Token Embedding과 RAG 검색 Embedding
 
-둘 다 `Embedding`이라는 말을 쓰지만 목적이 다르다.
+RAG(Retrieval-Augmented Generation, 검색한 외부 지식을 LLM에 함께 제공하는 방식)의 검색 Embedding과 LLM 내부 Token Embedding은 둘 다 `Embedding`이라는 말을 쓰지만 목적이 다르다.
 
 | 구분 | LLM 내부 Token Embedding | RAG 검색용 Embedding |
 |---|---|---|
@@ -406,7 +424,7 @@ Wq, Wk, Wv는 Q/K/V를 만드는 별도의 AI 모델이 아니라 **하나의 LL
 │   │   ├─ Wq
 │   │   ├─ Wk
 │   │   └─ Wv
-│   └─ FFN Weight
+│   └─ FFN(Feed-Forward Network) Weight
 │
 ├─ Transformer Layer 2
 │   ├─ Wq / Wk / Wv
