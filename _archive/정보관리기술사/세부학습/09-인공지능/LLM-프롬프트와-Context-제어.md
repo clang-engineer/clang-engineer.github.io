@@ -1,6 +1,21 @@
 # LLM 프롬프트와 Context 제어
 
-이 문서는 LLM을 다시 학습시키지 않고 **현재 요청의 Context를 어떻게 구성해 원하는 행동을 유도하는지**를 정리한다.
+## 이 문서의 위치
+
+이 문서는 Foundation Model·LLM 활용 축에서 **Model Weight를 다시 학습하지 않고 현재 Inference에 어떤 정보를 넣어 행동을 유도할 것인가**를 다룬다.
+
+```text
+이미 학습된 LLM
+        ↓
+현재 요청의 Context 구성
+        ↓
+현재 문서
+System Prompt / Few-shot / RAG / Tool 결과
+        ↓
+LLM Inference
+```
+
+LLM(Large Language Model, 대규모 언어 모델)을 다시 학습시키지 않고 **현재 요청의 Context를 어떻게 구성해 원하는 행동을 유도하는지**를 정리한다.
 
 핵심 구분은 다음과 같다.
 
@@ -13,6 +28,8 @@ Fine-tuning
 → Training을 수행
 → Model Parameter를 바꿈
 ```
+
+여기서 RAG(Retrieval-Augmented Generation, 검색한 외부 지식을 LLM에 함께 제공하는 방식)는 Context를 동적으로 구성하는 대표적인 방법 중 하나다.
 
 ---
 
