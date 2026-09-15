@@ -1,5 +1,22 @@
 # 라우팅 원리와 RIP·OSPF·BGP
 
+## 이 문서의 위치
+
+이 문서는 IP 주소와 Subnet으로 나뉜 Network 사이에서 **어떤 경로로 Packet을 전달할지 결정하는 문제**를 다룬다.
+
+```text
+IP 주소 / Subnet 경계
+        ↓
+현재 문서
+Routing / RIP / OSPF / BGP
+        ↓
+선택된 경로를 따라 Packet Forwarding
+        ↓
+TCP 등 종단 간 전송
+```
+
+핵심은 Protocol 이름을 외우는 것이 아니라 **Network 규모와 관리 범위가 달라질 때 경로를 계산하고 교환하는 방식이 왜 달라지는지** 이해하는 것이다.
+
 ## 이 문서에서 되짚을 질문
 
 - Router는 목적지까지의 전체 길을 알고 Packet을 보내는가?
@@ -78,6 +95,8 @@ Distance Vector의 생각은 단순하다.
 
 각 Router는 이웃이 알려준 거리와 자기 Link 비용을 합쳐 더 좋은 경로를 찾는다.
 
+RIP(Routing Information Protocol, Hop Count를 대표 거리 기준으로 사용하는 Distance Vector 라우팅 프로토콜)는 이 방식의 대표 예다.
+
 - 대표 Protocol: RIP
 - 대표 계산 원리: Bellman-Ford
 - 대표 Metric: Hop Count
@@ -100,20 +119,20 @@ RIP는 쉽게 말하면 **목적지까지 몇 개의 Router를 거치는가**를
 
 > "이웃 말만 듣지 말고 Link 상태를 공유해서 전체 지도를 만들자."
 
-각 Router가 영역의 Link 상태를 공유하고 Topology 지도를 만든 뒤 자기 자신을 기준으로 최단경로 Tree를 계산한다.
+OSPF(Open Shortest Path First, Link State 정보를 바탕으로 내부 경로를 계산하는 라우팅 프로토콜)는 각 Router가 영역의 Link 상태를 공유하고 Topology 지도를 만든 뒤 자기 자신을 기준으로 최단경로 Tree를 계산한다.
 
 ```text
 각 Router의 Link State
         ↓
-    LSA Flooding
+LSA(Link State Advertisement, Link 상태 정보를 알리는 메시지) Flooding
         ↓
 동일 Area의 Topology DB
         ↓
-   Dijkstra(SPF)
+Dijkstra 기반 SPF(Shortest Path First, 최단경로 계산)
         ↓
 자기 기준 최단경로 Tree
         ↓
-    Routing Table
+Routing Table
 ```
 
 - 대표 Protocol: OSPF
@@ -141,7 +160,7 @@ OSPF는 Topology 정보를 유지하고 Dijkstra를 계산한다. Internet 전�
 - SPF 재계산 CPU 비용
 - 수렴 부담
 
-즉 IGP 방식의 세부 Topology 공유를 Internet 전체 규모로 그대로 확장하기 어렵다.
+즉 IGP(Interior Gateway Protocol, 하나의 AS 내부에서 사용하는 라우팅 프로토콜) 방식의 세부 Topology 공유를 Internet 전체 규모로 그대로 확장하기 어렵다.
 
 ### 문제 2. Internet은 하나의 관리 조직이 아니다
 
@@ -163,7 +182,7 @@ NAVER
 
 ## AS — Internet을 관리 단위로 추상화
 
-AS(Autonomous System)는 **하나의 관리 주체와 일관된 Routing Policy 아래 운영되는 Network 집합**이다.
+AS(Autonomous System, 하나의 관리 주체와 일관된 Routing Policy 아래 운영되는 Network 집합)는 Internet Routing의 중요한 관리 단위다.
 
 ```text
 [ AS A 내부 ]
@@ -189,7 +208,7 @@ AS A의 Router가 AS B 내부의 모든 Router와 Link 구조를 알 필요는 �
 
 ## BGP와 Path Vector
 
-BGP(Border Gateway Protocol)는 AS 사이에서 목적지 Prefix까지 갈 수 있는 경로를 교환한다.
+BGP(Border Gateway Protocol, AS 사이에서 경로와 정책 정보를 교환하는 라우팅 프로토콜)는 AS 사이에서 목적지 Prefix까지 갈 수 있는 경로를 교환한다.
 
 경로 정보에는 `AS-PATH`처럼 지금까지 거쳐 온 AS 번호 목록과 여러 Path Attribute가 포함된다.
 

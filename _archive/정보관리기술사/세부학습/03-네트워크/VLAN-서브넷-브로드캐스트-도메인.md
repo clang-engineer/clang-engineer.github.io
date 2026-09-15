@@ -1,6 +1,19 @@
 # VLAN·서브넷·브로드캐스트 도메인
 
-이 문서는 VLAN, Subnet, Broadcast Domain이 모두 `망을 나누는 것`처럼 보여 헷갈리는 지점을 풀기 위한 문서다. 핵심은 **무엇을 기준으로 나누는지와 어느 Layer의 경계인지**를 구분하는 것이다.
+## 이 문서의 위치
+
+이 문서는 Ethernet 기반 Layer 2 전달에서 **망의 경계를 어떻게 나누고, 그 경계가 Layer 3의 Subnet과 어떻게 연결되는지**를 정리한다.
+
+```text
+Ethernet / Layer 2 전달
+        ↓
+현재 문서
+Broadcast Domain / VLAN / Subnet 경계
+        ↓
+IP 주소 범위와 Routing
+```
+
+여기서 VLAN(Virtual LAN, 하나의 물리 Network를 여러 논리적 Layer 2 Network로 나누는 방식), Subnet, Broadcast Domain이 모두 `망을 나누는 것`처럼 보여 헷갈리는 지점을 풀어본다. 핵심은 **무엇을 기준으로 나누는지와 어느 Layer의 경계인지**를 구분하는 것이다.
 
 ## 이 문서에서 되짚을 질문
 
