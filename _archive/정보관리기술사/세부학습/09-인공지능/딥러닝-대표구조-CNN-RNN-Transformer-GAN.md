@@ -1,6 +1,6 @@
 # 딥러닝 대표 구조: CNN · RNN · Transformer · GAN
 
-이 문서는 기술사 학습 중 반복해서 등장하는 CNN, RNN, LSTM, Transformer, GAN, Diffusion을 **서로 같은 종류의 용어처럼 외우지 않고 전체 AI 지도에서 각각 어디에 위치하는지** 이해하는 데 목적이 있다.
+이 문서는 기술사 학습 중 반복해서 등장하는 CNN(Convolutional Neural Network, 공간적 특징을 합성곱으로 추출하는 신경망), RNN(Recurrent Neural Network, 순서 정보를 반복 상태로 처리하는 신경망), LSTM(Long Short-Term Memory, 장기 의존성 학습을 보완한 RNN), Transformer, GAN(Generative Adversarial Network, 생성자와 판별자가 경쟁하며 학습하는 생성 구조), Diffusion을 **서로 같은 종류의 용어처럼 외우지 않고 전체 AI 지도에서 각각 어디에 위치하는지** 이해하는 데 목적이 있다.
 
 가장 먼저 잡을 핵심은 다음이다.
 
@@ -10,17 +10,19 @@
 
 ## 1. 먼저 전체 위치를 잡는다
 
+AI(Artificial Intelligence, 인공지능) → ML(Machine Learning, 데이터에서 패턴을 학습하는 기계학습) → DL(Deep Learning, 다층 신경망 기반 학습)로 내려가면 여러 신경망 구조와 생성 방식이 만난다.
+
 ```text
 AI
 └─ Machine Learning
    └─ Deep Learning
       │
       ├─ 대표 Neural Network Architecture
-      │   ├─ DNN / MLP
+      │   ├─ DNN(Deep Neural Network) / MLP(Multi-Layer Perceptron)
       │   ├─ CNN
       │   ├─ RNN
       │   │   ├─ LSTM
-      │   │   └─ GRU
+      │   │   └─ GRU(Gated Recurrent Unit)
       │   └─ Transformer
       │
       └─ 대표 생성 Model / 생성 방식
@@ -59,7 +61,7 @@ Neural Network의 가장 기본적인 생각은 여러 입력에 Weight를 적�
 입력 x3 ──× w3 ─┘
 ```
 
-이런 Layer를 여러 층 쌓으면 Deep Neural Network(DNN)로 생각할 수 있다.
+이런 Layer를 여러 층 쌓으면 DNN으로 생각할 수 있다.
 
 ```text
 Input Layer
@@ -81,7 +83,7 @@ Output Layer
 
 ## 3. CNN: 가까운 공간의 특징을 잘 찾는다
 
-CNN(Convolutional Neural Network)은 Image처럼 **공간적으로 가까운 값들의 관계가 중요한 Data**를 처리하는 데 강점을 가진 구조다.
+CNN은 Image처럼 **공간적으로 가까운 값들의 관계가 중요한 Data**를 처리하는 데 강점을 가진 구조다.
 
 Image를 단순한 숫자 배열로 생각하면:
 
@@ -126,7 +128,7 @@ CNN이 Image 전용이라는 뜻은 아니다. 핵심은 **국소적(Local) Patt
 
 ## 4. RNN: 이전 상태를 다음 처리에 넘긴다
 
-RNN(Recurrent Neural Network)은 Sequence Data의 순서를 처리하기 위해 이전 시점의 정보를 다음 시점으로 전달하는 구조다.
+RNN은 Sequence Data의 순서를 처리하기 위해 이전 시점의 정보를 다음 시점으로 전달하는 구조다.
 
 ```text
 Token 1
@@ -158,7 +160,7 @@ RNN Cell ── hidden state ──→
 
 기본 RNN은 긴 Sequence에서 Gradient가 너무 작아지는 Vanishing Gradient 등의 문제로 오래전 정보를 학습하기 어려울 수 있다.
 
-LSTM(Long Short-Term Memory)은 Gate 구조를 두어 어떤 정보를 유지하고 버릴지 조절한다.
+LSTM은 Gate 구조를 두어 어떤 정보를 유지하고 버릴지 조절한다.
 
 ```text
 이전 정보
@@ -188,7 +190,7 @@ Output Gate
 → 무엇을 밖으로 전달할까?
 ```
 
-GRU(Gated Recurrent Unit)는 비슷한 목적을 더 단순한 Gate 구조로 구현한 계열이다.
+GRU는 비슷한 목적을 더 단순한 Gate 구조로 구현한 계열이다.
 
 따라서:
 
@@ -291,7 +293,7 @@ Transformer Layer
 
 Self-Attention을 통해 Token 간 관계를 직접 계산할 수 있고, Training에서는 여러 Token 위치의 계산을 병렬화하기 유리하다.
 
-이 구조가 대규모 Data와 GPU 기반 병렬 학습에 잘 맞으면서 현대 LLM의 핵심 Architecture가 되었다.
+이 구조가 대규모 Data와 GPU 기반 병렬 학습에 잘 맞으면서 현대 LLM(Large Language Model, 대규모 언어 모델)의 핵심 Architecture가 되었다.
 
 ```text
 Transformer
@@ -334,7 +336,7 @@ Vision Transformer(ViT)처럼 Image를 Patch 단위로 나누고 Transformer로 
 
 ## 10. GAN: Generator와 Discriminator의 경쟁
 
-GAN(Generative Adversarial Network)은 생성 Model을 학습시키는 대표적인 구조다.
+GAN은 생성 Model을 학습시키는 대표적인 구조다.
 
 두 Network가 경쟁한다.
 
@@ -515,7 +517,7 @@ Architecture 축
 생성 방식 축
 → Autoregressive Generation
 
-GPT류 LLM의 실행 흐름
+GPT(Generative Pre-trained Transformer)류 LLM의 실행 흐름
 → Transformer Architecture를 사용해
   Autoregressive 방식으로 Token을 하나씩 생성
 ```
