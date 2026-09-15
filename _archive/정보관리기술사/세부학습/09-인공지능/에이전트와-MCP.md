@@ -1,6 +1,24 @@
 # 에이전트와 MCP
 
-이 문서는 Agent와 MCP를 별도의 신기한 AI 기술로 외우기보다, **기본 LLM에 실제 행동 능력을 어떻게 붙이는지**를 이해하는 데 목적이 있다.
+## 이 문서의 위치
+
+이 문서는 Foundation Model·LLM 활용 축에서 **LLM의 판단을 실제 외부 행동으로 연결하는 Agent와, 외부 Tool·Resource를 공통 규격으로 연결하는 MCP의 경계**를 다룬다.
+
+```text
+LLM
+ ↓ 판단
+Tool Calling
+ ↓ 실제 실행
+Agent Runtime / Harness
+ ↓ 외부 기능 연결
+MCP 또는 개별 API 연동
+ ↓
+File / DB / Web / 업무 System
+```
+
+위 화살표는 하나의 고정 Runtime 구현을 뜻하지 않고, **판단·실행·외부 연결이라는 역할 관계를 단순화한 그림**이다.
+
+LLM(Large Language Model, 대규모 언어 모델)과 MCP(Model Context Protocol, AI Client가 외부 Tool·Resource를 발견하고 호출하는 공통 Protocol)를 별도의 신기한 AI 기술로 외우기보다, **기본 LLM에 실제 행동 능력을 어떻게 붙이는지**를 이해하는 데 목적이 있다.
 
 ## 1. Agent의 바닥에는 여전히 LLM이 있다
 
@@ -207,7 +225,7 @@ Memory
 → LLM Context에 공급
 ```
 
-따라서 Memory 역시 모델 Weight를 수정하는 개념이 아니다. 구현에 따라 RAG와 비슷한 Retrieval 구조를 사용할 수도 있다.
+따라서 Memory 역시 모델 Weight를 수정하는 개념이 아니다. 구현에 따라 RAG(Retrieval-Augmented Generation, 검색한 외부 지식을 LLM에 함께 제공하는 방식)와 비슷한 Retrieval 구조를 사용할 수도 있다.
 
 ---
 
@@ -215,7 +233,7 @@ Memory
 
 ## 7. MCP를 먼저 '지도'라고 생각하자
 
-MCP(Model Context Protocol)는 AI Model도 아니고 Tool 자체도 아니다.
+MCP는 AI Model도 아니고 Tool 자체도 아니다.
 
 처음에는 다음 질문이 자연스럽다.
 
@@ -297,7 +315,7 @@ MCP를 사용하면 Tool 제공자가 공통 규격으로 기능을 노출하고
           Agent A  Agent B  Agent C
 ```
 
-즉 MCP는 **기존 API를 없애는 기술이 아니라 AI Agent용 Adapter·Protocol 계층**에 가깝다.
+즉 MCP는 **기존 API(Application Programming Interface, 프로그램 간 기능을 호출하는 인터페이스)를 없애는 기술이 아니라 AI Agent용 Adapter·Protocol 계층**에 가깝다.
 
 MCP Server 내부에서는 기존 REST API, DB, File System 등을 그대로 호출할 수 있다.
 
@@ -380,7 +398,7 @@ Symbol 기반 탐색
 
 큰 Code Base에서 파일 전체를 무작정 LLM Context에 넣는 대신 필요한 Symbol과 위치를 먼저 좁힐 수 있어 Context와 Token을 절약할 수 있다.
 
-Serena와 LSP도 같은 계층은 아니다. LSP는 IDE 등에 Code Intelligence를 제공하기 위한 Protocol이고, Serena는 Code 분석·Symbol 탐색 기능을 Agent가 사용할 수 있도록 제공하는 Tool 계층으로 이해하는 것이 편하다.
+Serena와 LSP(Language Server Protocol, IDE와 언어 도구 사이의 Code Intelligence 통신 규격)도 같은 계층은 아니다. LSP는 IDE 등에 Code Intelligence를 제공하기 위한 Protocol이고, Serena는 Code 분석·Symbol 탐색 기능을 Agent가 사용할 수 있도록 제공하는 Tool 계층으로 이해하는 것이 편하다.
 
 ---
 

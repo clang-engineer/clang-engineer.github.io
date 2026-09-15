@@ -1,10 +1,30 @@
 # Agent Harness
 
+## 이 문서의 위치
+
+이 문서는 Agent 자체의 판단·행동 Loop보다 한 단계 바깥에서 **그 Agent를 어떤 Context·Rule·Tool·Workflow·권한으로 운용할 것인가**를 다룬다.
+
+```text
+LLM
+ ↓
+Agent
+= 판단 → Tool → Observation → 재판단
+ ↓
+Agent Runtime
+= Loop를 실제로 구동
+ ↓
+현재 문서의 관점
+Harness
+= Context / Rule / Skill / Hook / Tool·Permission / Workflow / Orchestration
+```
+
+이 그림은 표준화된 물리 계층을 뜻하지 않고 **Agent·Runtime·Harness를 어떤 책임 관점에서 구분할지 보여주는 이해 모델**이다.
+
 이 문서는 Agent Harness를 별도의 새로운 AI 기술로 외우기보다, **Agent를 원하는 방식으로 운용하기 위해 주변에 붙는 실행·운영 체계**로 이해하는 데 목적이 있다.
 
 ## 1. 먼저 Agent의 핵심부터 잡는다
 
-LLM Agent의 핵심은 LLM이 Tool을 사용하고 그 결과를 다시 관찰하면서 목표를 수행하는 반복 Loop다.
+LLM(Large Language Model, 대규모 언어 모델) Agent의 핵심은 LLM이 Tool을 사용하고 그 결과를 다시 관찰하면서 목표를 수행하는 반복 Loop다.
 
 ```text
 사용자 목표
@@ -72,7 +92,7 @@ Agent가 어떤 원칙으로 일할지 알려준다.
 - 파일 검색은 find보다 fd를 우선한다.
 ```
 
-`find 대신 fd를 사용한다`라는 Rule 하나가 Harness 자체인 것은 아니다. 이런 Rule들이 Harness를 구성하는 재료가 된다.
+YAGNI(You Aren't Gonna Need It, 필요하지 않은 기능을 미리 만들지 않는 원칙)처럼 `find 대신 fd를 사용한다`라는 Rule 하나가 Harness 자체인 것은 아니다. 이런 Rule들이 Harness를 구성하는 재료가 된다.
 
 ### Skills
 
@@ -281,7 +301,7 @@ OpenCode + GPT
 Codex    + GPT
 ```
 
-둘 다 GPT를 사용할 수 있어도 같은 Runtime은 아니다.
+GPT(Generative Pre-trained Transformer, Transformer 기반 사전학습 생성 모델 계열)를 둘 다 사용할 수 있어도 같은 Runtime은 아니다.
 
 예를 들어 다음처럼 이해하면 쉽다.
 

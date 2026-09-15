@@ -1,6 +1,23 @@
 # 임베딩·벡터검색·RAG
 
-이 문서는 RAG를 단순히 `문서 → Embedding → Vector DB → LLM`으로 외우는 대신, **왜 별도의 검색용 Embedding Model이 필요한지, 긴 Chunk가 어떻게 Vector 하나가 되는지, Vector DB는 정확히 무엇을 해야 하는지**를 이해하는 데 목적이 있다.
+## 이 문서의 위치
+
+이 문서는 생성형 AI·LLM 활용 축에서 **외부 지식이 필요할 때 어떤 정보를 찾아 LLM Context에 넣을 것인가**를 다룬다.
+
+```text
+Foundation Model / LLM 활용
+        ↓
+외부 지식이 필요함
+        ↓
+현재 문서
+Embedding → Retrieval → RAG
+        ↓
+검색된 원문을 LLM Context에 공급
+```
+
+LLM(Large Language Model, 대규모 언어 모델) 자체의 Weight를 바꾸는 Fine-tuning과 달리, RAG(Retrieval-Augmented Generation, 검색한 외부 지식을 LLM에 함께 제공하는 방식)는 **Inference 시점에 필요한 외부 지식을 찾아 Context로 제공하는 활용 구조**다.
+
+이 문서는 RAG를 단순히 `문서 → Embedding → Vector DB → LLM`으로 외우는 대신, **왜 별도의 검색용 Embedding Model이 필요한지, 긴 Chunk가 어떻게 Vector 하나가 되는지, Vector DB(Vector Database, Vector 유사도 검색을 지원하는 저장·검색 계층)는 정확히 무엇을 해야 하는지**를 이해하는 데 목적이 있다.
 
 ## 1. 먼저 LLM 내부 Embedding과 검색용 Embedding을 분리하자
 
@@ -58,7 +75,7 @@ LLM의 Parameter에 없는 사내 문서, 최신 규정, 조직 고유의 업무
 → LLM 답변
 ```
 
-RAG(Retrieval-Augmented Generation)는 이 **검색(Retrieval) + 생성(Generation)** 구조를 결합한 방식이다.
+RAG는 이 **검색(Retrieval) + 생성(Generation)** 구조를 결합한 방식이다.
 
 ---
 
@@ -318,11 +335,11 @@ Query
 → Top-K
 ```
 
-정확하지만 데이터가 커지면 비싸다. 그래서 ANN(Approximate Nearest Neighbor) 검색을 사용한다.
+정확하지만 데이터가 커지면 비싸다. 그래서 ANN(Approximate Nearest Neighbor, 전체 후보를 모두 확인하지 않고 가까운 후보를 빠르게 찾는 근사 최근접 이웃 검색)을 사용한다.
 
 ### HNSW
 
-Vector 사이에 Graph 형태의 길을 만들어 놓고 가까운 방향으로 이동하며 탐색한다.
+HNSW(Hierarchical Navigable Small World, 계층형 Graph를 따라 가까운 Vector 후보를 탐색하는 ANN Index)는 Vector 사이에 Graph 형태의 길을 만들어 놓고 가까운 방향으로 이동하며 탐색한다.
 
 ```text
 Query → Graph 탐색 → 점점 가까운 Node → 후보
@@ -334,7 +351,7 @@ Query → Graph 탐색 → 점점 가까운 Node → 후보
 
 ### IVF
 
-Vector 공간을 여러 Cluster로 나눈다.
+IVF(Inverted File, Vector 공간을 여러 구역으로 나누고 가까운 구역의 후보만 탐색하는 ANN 계열)는 Vector 공간을 여러 Cluster로 나눈다.
 
 ```text
 전체 Vector 공간

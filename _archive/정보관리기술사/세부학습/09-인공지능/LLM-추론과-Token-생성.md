@@ -1,6 +1,27 @@
 # LLM 추론과 Token 생성
 
-이 문서는 `LLM의-동작원리.md`에서 설명한 Transformer 이후의 과정을 더 자세히 다룬다. 특히 **문맥화된 Token Vector가 어떻게 실제 다음 Token으로 바뀌는지**, 그리고 **Prefill · Causal Attention · KV Cache · Decode · EOS가 어떻게 하나의 흐름으로 연결되는지**를 이해하는 데 목적이 있다.
+## 이 문서의 위치
+
+이 문서는 `LLM의-동작원리.md`에서 잡은 **Token → Embedding → Transformer** 흐름 다음에, Transformer의 출력이 실제 다음 Token으로 바뀌고 반복 생성되는 과정을 Zoom-in한다.
+
+```text
+LLM의 동작 원리
+Token → Embedding → Transformer
+        ↓
+현재 문서
+Hidden Vector
+→ LM Head
+→ Logit
+→ Decoding
+→ 다음 Token
+→ KV Cache를 이용해 반복
+        ↓
+LLM 내부 운영과 GPU · Memory
+```
+
+위 화살표는 LLM 추론의 개념적 처리 흐름과 학습 Zoom-in 관계를 나타낸다.
+
+LLM(Large Language Model, 대규모 언어 모델)의 Transformer 이후 과정을 더 자세히 다룬다. 특히 **문맥화된 Token Vector가 어떻게 실제 다음 Token으로 바뀌는지**, 그리고 **Prefill · Causal Attention · KV Cache(Key-Value Cache, 이전 Attention의 K/V 계산 결과를 재사용하는 Cache) · Decode · EOS(End Of Sequence, 생성 종료를 나타내는 특수 Token)가 어떻게 하나의 흐름으로 연결되는지**를 이해하는 데 목적이 있다.
 
 가장 먼저 잡을 전체 흐름은 다음과 같다.
 
@@ -48,7 +69,7 @@ Autoregressive Generation
   다음 Token 생성을 반복하는 방식
 ```
 
-따라서 AG는 Transformer와 Decoding 바깥에 따로 붙은 작은 후처리 단계라기보다, **Transformer · LM Head · Decoding · Context 누적을 사용해 긴 Sequence를 만드는 전체 생성 방식**이다.
+따라서 Autoregressive Generation은 Transformer와 Decoding 바깥에 따로 붙은 작은 후처리 단계라기보다, **Transformer · LM Head · Decoding · Context 누적을 사용해 긴 Sequence를 만드는 전체 생성 방식**이다.
 
 ---
 
@@ -72,7 +93,7 @@ Transformer를 통과하면 개념적으로 다음과 같은 출력이 생긴다
 
 여기서 `h1`, `h2`는 Token 자체가 아니라 숫자로 이루어진 문맥화 Vector다.
 
-GPT 계열 Causal LLM에서는 각 위치가 자기보다 뒤에 있는 미래 Token을 볼 수 없다.
+GPT(Generative Pre-trained Transformer, Transformer 기반 사전학습 생성 모델 계열) 계열 Causal LLM에서는 각 위치가 자기보다 뒤에 있는 미래 Token을 볼 수 없다.
 
 ```text
 h1
@@ -138,7 +159,7 @@ Transformer가 한 일은 현재 Context를 다음 Token 예측에 유용한 내
 
 ## 4. LM Head: Hidden 공간을 Vocabulary 점수로 바꾼다
 
-LM Head(Language Modeling Head)는 마지막 Hidden Vector를 Vocabulary 전체 Token의 점수로 변환한다.
+LM Head(Language Modeling Head, Hidden Vector를 Vocabulary 전체 Token 점수로 바꾸는 출력층)는 마지막 Hidden Vector를 Vocabulary 전체 Token의 점수로 변환한다.
 
 예를 들어:
 
@@ -396,7 +417,7 @@ LM Head가 Vocabulary 점수를 만들었다고 해서 아직 다음 Token이 �
 
 > **Hidden Vector → LM Head → Vocabulary Logit → 확률분포 → Decoding → Token 선택**
 
-Decoding은 Autoregressive Generation과 경쟁하는 별도 개념이 아니다. AG라는 전체 생성 방식 안에서 **각 Step마다 실제 다음 Token을 고르는 하위 절차**로 이해하면 된다.
+Decoding은 Autoregressive Generation과 경쟁하는 별도 개념이 아니다. Autoregressive Generation이라는 전체 생성 방식 안에서 **각 Step마다 실제 다음 Token을 고르는 하위 절차**로 이해하면 된다.
 
 ---
 
@@ -668,7 +689,7 @@ LM Head
 
 Autoregressive Decode는 무한히 반복하지 않는다. 대표적인 종료 조건은 다음과 같다.
 
-- Model이 EOS(End Of Sequence) Token을 선택한 경우
+- Model이 EOS Token을 선택한 경우
 - API나 Runtime에 설정한 최대 출력 Token 수에 도달한 경우
 - Stop Sequence 같은 애플리케이션 종료 조건을 만족한 경우
 - 외부 실행기가 도구 호출이나 정책상 다른 흐름으로 전환한 경우
@@ -756,7 +777,7 @@ EOS / 최대 Token / Stop 조건 확인
 조건을 만족할 때까지 반복
 ```
 
-이 전체가 GPT류 LLM의 Autoregressive Generation 실행 흐름이다. 즉 AG는 `Transformer와 다른 곳에 따로 있는 작은 모듈`이 아니라, **Transformer로 다음 Token 분포를 계산하고 Decoding으로 Token을 선택한 뒤 그 Token을 다시 Context에 포함시키는 반복 생성 절차**다.
+이 전체가 GPT류 LLM의 Autoregressive Generation 실행 흐름이다. 즉 Autoregressive Generation은 `Transformer와 다른 곳에 따로 있는 작은 모듈`이 아니라, **Transformer로 다음 Token 분포를 계산하고 Decoding으로 Token을 선택한 뒤 그 Token을 다시 Context에 포함시키는 반복 생성 절차**다.
 
 핵심 연결은 다음 네 문장으로 압축할 수 있다.
 

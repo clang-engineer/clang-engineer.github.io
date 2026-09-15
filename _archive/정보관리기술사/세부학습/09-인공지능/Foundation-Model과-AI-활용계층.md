@@ -1,5 +1,23 @@
 # Foundation Model과 AI 활용 계층
 
+## 이 문서의 위치
+
+이 문서는 인공지능 전체 개념지도에서 **Foundation Model·생성형 AI·LLM 가지를 선택했을 때, Model을 만드는 층과 이미 만들어진 Model을 활용하는 층을 구분하는 문서**다.
+
+```text
+인공지능 전체
+        ↓
+Foundation Model · 생성형 AI · LLM
+        ↓
+현재 문서
+├─ Model을 만드는 층
+│  └─ Pre-training / Post-training / Serving
+└─ Model을 활용하는 층
+   └─ Prompt / RAG / Tool / Agent / 업무 Application
+```
+
+위 화살표는 하나의 Runtime 호출 순서가 아니라 **전체 AI 지식에서 현재 문서가 내려가는 개념적 Zoom-in 경로**를 나타낸다.
+
 이 문서는 최근 AI 산업을 볼 때 **누가 거대한 Model을 만들고, 대부분의 기업과 개발자는 그 Model을 어떻게 활용하는가**를 구분해서 이해하는 데 목적이 있다.
 
 가장 먼저 잡을 핵심은 다음이다.
@@ -40,7 +58,7 @@ Foundation Model
 
 즉 **범용 능력을 먼저 크게 학습하고 여러 문제에 재사용**한다.
 
-LLM은 Foundation Model의 대표적인 형태지만 Foundation Model이 반드시 언어 Model만을 의미하는 것은 아니다.
+LLM(Large Language Model, 대규모 언어 모델)은 Foundation Model의 대표적인 형태지만 Foundation Model이 반드시 언어 Model만을 의미하는 것은 아니다.
 
 ```text
 Foundation Model
