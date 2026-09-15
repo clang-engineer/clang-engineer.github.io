@@ -1,5 +1,25 @@
 # Text2SQL과 스키마 링킹
 
+## 이 문서의 위치
+
+이 문서는 인공지능 전체 지도에서 **업무 Task에 AI 기술을 적용하는 응용 축**에 위치한다. 핵심은 Text2SQL이라는 문제와 그것을 푸는 구현 방법을 구분하는 것이다.
+
+```text
+업무 Task
+└─ Text2SQL
+   = 자연어 질문을 SQL로 변환
+        │
+        ├─ Rule / Template
+        ├─ 전용 ML Model
+        └─ LLM 기반
+             ├─ Schema / Metadata Retrieval
+             ├─ Schema Linking
+             ├─ SQL Generation
+             └─ Validation
+```
+
+LLM(Large Language Model, 대규모 언어 모델)이나 RAG(Retrieval-Augmented Generation, 검색한 외부 지식을 LLM에 함께 제공하는 방식)는 Text2SQL 자체가 아니라 **Text2SQL을 구현할 때 선택·조합할 수 있는 기술**이다.
+
 이 문서는 Text2SQL을 단순히 `자연어 → SQL`로 외우기보다, **Text2SQL이라는 문제 자체와 그 구현 방법을 구분하고, 그중 LLM 기반 접근에서 RAG와 Schema Linking이 어떤 역할을 하는지** 이해하는 데 목적이 있다.
 
 ## 1. 먼저 가장 중요한 구분: Text2SQL ≠ LLM
@@ -42,7 +62,7 @@ SELECT ...
 
 ### 2) 전통적 NLP · 전용 ML Model 기반
 
-LLM 이전에도 Text2SQL 연구는 존재했다.
+NLP(Natural Language Processing, 자연어 처리)와 ML(Machine Learning, 데이터에서 패턴을 학습하는 기계학습) 기반 Text2SQL 연구는 LLM 이전에도 존재했다.
 
 ```text
 자연어
@@ -53,7 +73,7 @@ LLM 이전에도 Text2SQL 연구는 존재했다.
 → SQL 생성
 ```
 
-또는 자연어와 SQL 쌍을 학습한 Seq2Seq·Transformer 계열의 **Text2SQL 전용 Model**이 SQL을 직접 생성할 수도 있다.
+또는 자연어와 SQL 쌍을 학습한 Seq2Seq(Sequence-to-Sequence, 입력 Sequence를 출력 Sequence로 변환)·Transformer 계열의 **Text2SQL 전용 Model**이 SQL을 직접 생성할 수도 있다.
 
 ```text
 자연어 질문
@@ -213,7 +233,7 @@ ADM_DT
 
 - Table·Column 물리명
 - 논리명과 설명
-- PK·FK·Join 관계
+- PK(Primary Key)·FK(Foreign Key)·Join 관계
 - Data Type과 허용값
 - Code 값과 업무 용어
 - 동의어와 약어
