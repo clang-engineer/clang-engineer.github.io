@@ -8,6 +8,8 @@
 
 I/O Multiplexing에서 WebFlux까지를 하나의 단순한 파생 계층으로 보지 않는다. 두 개의 관심사가 Java Web Application에서 합류한다.
 
+Java NIO(New I/O, Java에서 Channel·Buffer·Selector 등으로 I/O를 다루는 API)는 Network I/O 실행 축에 있고, Reactive Streams·Project Reactor는 비동기 데이터 흐름을 표현하고 제어하는 별도 축에 있다.
+
 ```text
 [Network I/O 실행 축]
 OS I/O Multiplexing
@@ -417,110 +419,60 @@ HTTP Response
 
 ### 핵심 특징
 
-- Reactive / Non-blocking Web Application 구성을 지원한다.
-- Project Reactor의 `Mono` / `Flux`를 주요 Reactive Type으로 사용한다.
-- Network Runtime의 Event-driven I/O와 Application의 Reactive 데이터 흐름을 Web Framework 수준에서 연결한다.
+- Reactive / Non-blocking Web Application 구조를 지원한다.
+- Project Reactor의 `Mono` / `Flux`와 자연스럽게 결합한다.
+- Netty 같은 Event-driven Server Runtime과 함께 사용할 수 있다.
 
-### 장점
-
-- I/O 대기가 많은 높은 동시성 환경에서 소수 Thread를 효율적으로 활용할 수 있다.
-- 여러 비동기 작업을 Reactive Pipeline으로 조합하기 좋다.
-- Backpressure와 Reactive 생태계의 조합 모델을 활용할 수 있다.
-
-### Trade-off
-
-- 명령형 코드보다 실행 흐름과 Thread 전환을 추적하기 어려울 수 있다.
-- Blocking Library와 섞이면 EventLoop 기반 실행 모델의 장점을 훼손할 수 있다.
-- CPU-bound 작업이 자동으로 빨라지는 모델은 아니다.
-- Reactive Stack 전체에 대한 이해가 부족하면 Debugging과 운영 복잡도가 커질 수 있다.
-
-## 9. WebFlux에서 Blocking 작업이 왜 문제가 되는가
-
-이 질문은 지금까지의 두 축이 만나는 지점이다.
+## 9. 전체 실행 관계
 
 ```text
-[Network I/O 축]
-Netty
-소수 EventLoop Thread
-        ↓
-다수 Channel / Connection 처리
-
-             +
-
-[Reactive 축]
-Project Reactor
+Network Event
+      ↓
+OS Kernel
+      ↓
+I/O Multiplexing
+      ↓
+Java NIO
+      ↓
+Netty EventLoop
+      ↓
+Spring WebFlux
+      ↓
+Controller / Handler
+      ↓
 Mono / Flux Pipeline
-        ↓
-Spring WebFlux Handler
+      ↓
+Application Service
 ```
 
-WebFlux Handler의 작업이 EventLoop Thread에서 실행되는 상황에서 오래 걸리는 Blocking 호출을 수행하면:
+이 그림은 각 구현이 항상 정확히 이 순서의 단일 호출 Stack으로 연결된다는 뜻이 아니다. **Network I/O 실행 축과 WebFlux Application 처리 축이 어떤 계층에서 연결되는지 보여주는 개념적 구조**다.
 
-```text
-EventLoop Thread
-      ↓
-WebFlux Handler
-      ↓
-Blocking 작업
-      ↓
-Thread가 해당 작업에 묶임
-      ↓
-같은 EventLoop가 담당하는
-다른 Connection 처리도 지연 가능
-```
-
-그래서 Blocking 작업이 불가피하다면 **EventLoop를 점유하지 않도록 별도의 적절한 Scheduler / Thread Pool로 격리하는 실행 전략**이 필요하다.
-
-여기서 `boundedElastic` 같은 개념이 등장하지만, 구체적인 API 사용법보다 먼저 **왜 Thread를 분리해야 하는가**를 이해한다.
-
-## 10. 단계별 핵심 질문으로 복원한다
-
-```text
-많은 I/O를 어떻게 효율적으로 기다리지?
-→ OS I/O Multiplexing
-
-Java에서는 OS I/O를 어떻게 다루지?
-→ Java NIO
-
-NIO 서버 구조를 매번 직접 만들어야 하나?
-→ Netty
-
-비동기 데이터 흐름을 어떻게 표현하지?
-→ Reactive Programming
-
-생산자와 소비자의 속도 차이는 어떻게 제어하지?
-→ Reactive Streams
-
-Reactive Streams를 Java Application에서 어떻게 편하게 사용하지?
-→ Project Reactor
-
-Reactive 모델로 Web Application을 어떻게 만들지?
-→ Spring WebFlux
-```
-
-## 11. 한 번에 구분한다
+## 10. 기억 흐름
 
 ```text
 OS I/O Multiplexing
-= 여러 I/O의 readiness를 효율적으로 기다리는 메커니즘
-
+= 여러 I/O의 readiness를 효율적으로 기다림
+        ↓
 Java NIO
-= OS I/O 기능을 Java에서 다루는 API / 추상화
-
+= OS별 저수준 I/O를 Java API로 추상화
+        ↓
 Netty
-= NIO 기반 Event-driven Network Framework
+= EventLoop · Channel · Handler 구조로 Network Server 실행 구조를 Framework화
 
+별도 관심사
 Reactive Programming
-= 비동기 데이터 흐름을 Stream 중심으로 표현하는 Programming Model
-
+= 비동기 데이터 흐름을 표현
+        ↓
 Reactive Streams
-= 비동기 Stream과 Backpressure를 위한 표준 규약
-
+= Publisher / Subscriber / Subscription + Backpressure 규약
+        ↓
 Project Reactor
-= Reactive Streams 기반 Java Reactive Library
+= Reactive Streams 기반 Java Library
 
+두 축이 합류
+        ↓
 Spring WebFlux
-= Reactive Programming Model을 Web에 적용한 Spring Framework
+= Reactive Web Framework
 ```
 
-> **전체를 하나의 직렬 파생 관계로 외우지 않는다. Network I/O 축과 Reactive 데이터 흐름 축이 Spring WebFlux 실행 구조에서 합류한다고 이해한다.**
+> **WebFlux를 단순히 “Non-blocking 서버”라고만 외우지 않고, 아래에는 Netty/Java NIO/OS I/O가 있고 위에는 Reactive Streams/Project Reactor의 데이터 흐름 모델이 합류한다는 구조로 이해한다.**
