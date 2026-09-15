@@ -1,5 +1,26 @@
 # Fine-tuning과 PEFT · LoRA
 
+## 이 문서의 위치
+
+이 문서는 Foundation Model 활용 기술 중 **Inference Context를 바꾸는 방법이 아니라 Model을 추가 Training해서 학습 Parameter를 조정하는 축**을 다룬다.
+
+```text
+Pre-training
+→ Base Model / Foundation Model
+        ↓
+현재 문서
+Fine-tuning
+├─ 학습 신호 관점
+│  ├─ SFT
+│  └─ Preference / RL 계열
+└─ Parameter 업데이트 관점
+   ├─ Full Fine-tuning
+   └─ PEFT
+      └─ LoRA
+```
+
+여기서 SFT(Supervised Fine-Tuning, 입력-정답 Pair를 이용한 지도학습 기반 Fine-tuning), RL(Reinforcement Learning, 보상 신호를 이용하는 강화학습), PEFT(Parameter-Efficient Fine-Tuning, 적은 학습 Parameter로 효율적으로 조정하는 방법군), LoRA(Low-Rank Adaptation, 기존 Weight를 고정하고 저랭크 변화분을 추가 학습하는 대표 PEFT 기법)는 **같은 분류축의 일렬 단계가 아니다.**
+
 이 문서는 `Fine-tuning = 모델을 다시 만든다`는 식의 오해를 풀고, **Pre-training과 Fine-tuning의 차이, SFT·Preference/RL 계열·PEFT·LoRA의 관계, Open Weight와 폐쇄형 API 모델의 차이**를 이해하는 데 목적이 있다.
 
 ---
@@ -207,7 +228,7 @@ Preference / RL 계열
 
 ## 7. 왜 Full Fine-tuning이 부담스러운가
 
-큰 LLM은 Parameter가 매우 많다.
+큰 LLM(Large Language Model, 대규모 언어 모델)은 Parameter가 매우 많다.
 
 예를 들어 수십억~수백억 Parameter를 가진 Model의 모든 Weight를 Training 대상으로 두면 다음 자원이 필요하다.
 
@@ -219,7 +240,7 @@ Preference / RL 계열
 
 즉 단순 Inference보다 훨씬 많은 VRAM과 연산 자원이 필요하다.
 
-그래서 나온 방향이 **PEFT(Parameter-Efficient Fine-Tuning)**다.
+그래서 나온 방향이 **PEFT**다.
 
 ---
 
@@ -248,7 +269,7 @@ PEFT는 하나의 특정 Algorithm 이름이 아니라 **Parameter 효율적인 
 
 ## 9. LoRA
 
-LoRA(Low-Rank Adaptation)는 PEFT의 대표적인 방법이다.
+LoRA는 PEFT의 대표적인 방법이다.
 
 원본의 큰 Weight Matrix 자체를 다시 학습하는 대신 **기존 Weight를 고정하고, 저랭크 행렬을 추가하여 변화분을 학습**한다.
 
