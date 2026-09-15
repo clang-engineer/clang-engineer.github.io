@@ -1,5 +1,22 @@
 # AI 평가: Golden Set과 Red Teaming
 
+## 이 문서의 위치
+
+이 문서는 특정 Model이나 활용 기술의 마지막 단계가 아니라 **AI 시스템 전 영역을 가로지르는 평가·검증 축**을 다룬다.
+
+```text
+문제 정의 → Data → Model → Application → 운영
+   └─────────────────────────────┘
+            평가 · 검증
+                 │
+                 ├─ 정상 품질 반복 확인
+                 │  └─ Golden Set
+                 └─ 취약점·실패 경계 탐색
+                    └─ AI Red Teaming
+```
+
+따라서 Model, Prompt, RAG, Fine-tuning, Agent, 업무 Application이 바뀔 때마다 이 평가 축을 다시 적용할 수 있다.
+
 AI 시스템은 단순히 `답을 생성할 수 있는가`만으로 평가하기 어렵다. **정상적인 요구에서 원하는 품질을 내는지**와 **의도적으로 공격하거나 경계를 찔렀을 때도 안전한지**를 서로 다른 관점에서 확인해야 한다.
 
 이때 Golden Set과 AI Red Teaming은 함께 보면 역할 차이가 잘 드러난다.
@@ -73,7 +90,7 @@ Golden Set이 항상 별도의 네 번째 Dataset이어야 하는 것은 아니�
 
 ## 3. LLM과 RAG에서의 Golden Set
 
-LLM 평가는 정답 문자열이 하나로 고정되지 않는 경우가 많다. 따라서 단순한 `질문 → 정답 문자열`보다 평가 목적에 맞는 기준을 함께 둘 수 있다.
+LLM(Large Language Model, 대규모 언어 모델) 평가는 정답 문자열이 하나로 고정되지 않는 경우가 많다. 따라서 단순한 `질문 → 정답 문자열`보다 평가 목적에 맞는 기준을 함께 둘 수 있다.
 
 ```text
 LLM Golden Set
@@ -83,7 +100,7 @@ LLM Golden Set
 └─ 평가 Rubric
 ```
 
-RAG에서는 검색과 생성 단계를 분리해서 볼 수 있다.
+RAG(Retrieval-Augmented Generation, 검색한 외부 지식을 LLM에 함께 제공하는 방식)에서는 검색과 생성 단계를 분리해서 볼 수 있다.
 
 ```text
 질문
