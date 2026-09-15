@@ -1,19 +1,38 @@
 # 생성형 AI와 멀티모달
 
-이 문서는 생성형 AI를 LLM과 동일한 개념으로 생각하지 않고, **Text·Image·Audio·Video처럼 Data 형태에 따라 어떤 생성 방식이 사용되고 서로 어떻게 연결되는지** 큰 그림을 이해하는 데 목적이 있다.
+## 이 문서의 위치
+
+이 문서는 인공지능 전체 지도에서 **무엇을 생성하는가, 어떤 생성 원리를 사용하는가, 여러 Modality를 함께 다루는가**라는 생성형 AI의 분류축을 잡는 문서다.
+
+```text
+[Model 범용성 축]
+Foundation Model
+└─ Language Foundation Model → LLM
+
+[생성 목적·방식 축]
+생성형 AI
+├─ Text  → Autoregressive 등
+├─ Image → GAN / Diffusion 등
+├─ Audio / Video
+└─ Multimodal
+```
+
+두 그림은 하나의 일렬 계보가 아니다. **LLM이라는 Model 범주와 생성형 AI라는 생성 목적, GAN·Diffusion 같은 생성 방식, Multimodal이라는 입력·출력 특성은 서로 다른 질문의 축**이다.
+
+생성형 AI(Generative AI, 학습한 Data의 구조를 바탕으로 새로운 결과를 만드는 AI)를 LLM(Large Language Model, 대규모 언어 모델)과 동일한 개념으로 생각하지 않고, **Text·Image·Audio·Video처럼 Data 형태에 따라 어떤 생성 방식이 사용되고 서로 어떻게 연결되는지** 큰 그림을 이해하는 데 목적이 있다.
 
 가장 먼저 잡을 핵심은 다음이다.
 
 > **LLM은 생성형 AI의 중요한 한 갈래이지만 생성형 AI 전체는 아니다.**
 
 ```text
-생성형 AI(Generative AI)
+생성형 AI
 │
 ├─ Text
 │   └─ LLM / Autoregressive 생성
 │
 ├─ Image
-│   ├─ GAN
+│   ├─ GAN(Generative Adversarial Network, 생성자와 판별자가 경쟁하며 학습하는 생성 구조)
 │   └─ Diffusion 계열
 │
 ├─ Audio / Speech
@@ -58,7 +77,7 @@ Prompt / 조건 / Noise
 
 ## 2. LLM은 Text 생성에 특화된 대표적 생성 모델
 
-GPT 계열 LLM을 단순화하면 다음과 같다.
+GPT(Generative Pre-trained Transformer, Transformer 기반 사전학습 생성 모델 계열) 계열 LLM을 단순화하면 다음과 같다.
 
 ```text
 현재까지의 Token
@@ -116,7 +135,7 @@ Token 하나 선택
 
 ## 3. GAN: 생성자와 판별자를 경쟁시킨다
 
-GAN(Generative Adversarial Network, 생성적 적대 신경망)은 두 Neural Network를 경쟁시키며 생성 능력을 학습하는 방식이다.
+GAN은 두 Neural Network를 경쟁시키며 생성 능력을 학습하는 방식이다.
 
 핵심 구성요소:
 
@@ -306,7 +325,7 @@ Neural Network가 처리할 내부 표현
 Object · 형태 · 관계 등의 특징
 ```
 
-전통적으로 CNN(Convolutional Neural Network)이 Image 처리에서 중요한 역할을 해왔다.
+전통적으로 CNN(Convolutional Neural Network, 공간적 특징을 합성곱으로 추출하는 신경망)이 Image 처리에서 중요한 역할을 해왔다.
 
 Transformer 구조도 Image에 적용할 수 있다. 대표적인 아이디어 중 하나가 Image를 작은 Patch로 나누어 처리하는 것이다.
 
@@ -614,7 +633,7 @@ LLM
 └─ Agent / MCP
 ```
 
-즉 RAG나 Agent는 **LLM을 어떻게 활용할 것인가**에 가까운 개념이고, GAN·Diffusion은 **Data를 어떻게 생성하도록 Model을 학습·구성할 것인가**라는 다른 층위의 개념이다.
+즉 RAG(Retrieval-Augmented Generation, 검색한 외부 지식을 LLM에 함께 제공하는 방식)나 Agent는 **LLM을 어떻게 활용할 것인가**에 가까운 개념이고, GAN·Diffusion은 **Data를 어떻게 생성하도록 Model을 학습·구성할 것인가**라는 다른 층위의 개념이다.
 
 ---
 
