@@ -8,6 +8,26 @@
 
 ---
 
+## 이 문서의 위치
+
+이 문서는 [`비동기-실행-모델.md`](비동기-실행-모델.md)에서 정리한 **언어 공통의 비동기 실행 원리**를 Java/JVM/Spring 생태계에 대입하는 Zoom-in 문서다.
+
+```text
+거시
+비동기-실행-모델.md
+Callback / Event Loop / Promise·Future / Coroutine / async·await / Runtime
+        ↓ Java에 대입
+미시
+Java-비동기-프로그래밍.md
+Runnable / Callable / Executor / Future / CompletableFuture / Virtual Thread
+        ↓ Framework 확장
+Spring @Async / WebFlux
+```
+
+따라서 이 문서에서는 비동기의 일반 원리를 다시 처음부터 설명하기보다, **Java에서는 그 역할을 어떤 API와 Runtime 구조가 담당하는가**를 중심으로 본다.
+
+---
+
 ## 1. 큰 그림 — 비동기와 Thread를 같은 것으로 보지 않는다
 
 비동기(Asynchronous)는 작업 완료를 현재 호출 흐름에서 바로 기다리지 않고 완료 이후의 처리를 연결하는 제어 흐름의 성질이다. Thread는 작업을 실제로 실행하는 실행 자원 중 하나다.
