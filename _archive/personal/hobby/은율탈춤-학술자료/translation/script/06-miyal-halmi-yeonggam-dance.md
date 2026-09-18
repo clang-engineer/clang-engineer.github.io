@@ -246,7 +246,7 @@ Until the expression is checked against comparable Hwanghae-do shamanic songs an
 ### Ritual Vocabulary in This Passage
 
 - **Saha Segye (사바세계)** — the Buddhist *sahā* world: the human world characterized by suffering and endurance. The Korean-Buddhist term is retained rather than flattened to “this world.”
-- **Bugun-nim (부군님)** — a highly honorific ritual designation whose precise referent depends on the local ritual context. It is retained pending more specific identification rather than being forced into *lord*, *deity*, or *guardian*.
+- **Bugun-nim (부군님)** — a highly honorific ritual designation whose precise referent depends on the local ritual context. It is retained rather than being forced into *lord*, *deity*, or *guardian*, because the performance text does not securely establish a single English equivalent.
 - **Iljik Saja / Woljik Saja (일직사자 / 월직사자)** — messengers associated with escorting or summoning the dead in Korean ritual cosmology. *Saja* here means a supernatural messenger, not the lion (*saja*, 사자) of Scene 1; the identical romanization represents different Korean words.
 - **Jeongto (정토)** — the Buddhist Pure Land. Where the ritual text clearly invokes Buddhist afterlife imagery, *Pure Land* is used in English.
 - **Gongsu (공수)** — a spirit message delivered through the *mudang*. In this scene the voice presented through the Mudang is Halmi's.
