@@ -183,7 +183,34 @@ A historically layered social and cultural term. In the Second Mokjung's speech,
 
 Many *bullim* lines are compact quotations or adaptations of Classical Chinese poetry, celebratory couplets, or proverbial expressions. Where the source annotations identify the original sense, the English translation follows that documented meaning. Where the transmitted performance wording is corrupt or differs across recorded versions, the variant is noted rather than silently regularized.
 
-## 9. Reading the Script
+## 9. Terms Requiring Special Disambiguation
+
+### Saja (사자): Lion vs. Messenger
+
+Two unrelated Korean words can both appear as **saja** in romanization:
+
+- **사자 (獅子)** — lion, as in the white lion of Scene 1.
+- **사자 (使者)** — messenger or envoy. In the final *gut*, **Iljik Saja** and **Woljik Saja** are supernatural messengers associated with the dead.
+
+The English translation distinguishes them by context and explanatory glosses.
+
+### Saha Segye (사바세계) — Buddhist Sahā World
+
+The human world of suffering and endurance in Buddhist cosmology. In the final ritual scene the term is retained as *Saha Segye* with an English explanation rather than reduced simply to “this world.”
+
+### Jeongto (정토) — Pure Land
+
+A Buddhist Pure Land or purified realm. In the final scene, sending Halmi to a “good place” is intertwined with explicit Buddhist Pure Land and afterlife imagery.
+
+### Bugun-nim (부군님)
+
+An honorific ritual designation appearing in the Mudang's song. Its precise local referent should not be assumed from the surface meaning of *bugun*. The translation therefore retains **Bugun-nim** rather than prematurely choosing *Lord*, *deity*, or *guardian*.
+
+### Awang Imgeum-ui Manseya (아왕 임금의 만세야)
+
+A recurring ritual refrain in the final *gut*. It is preserved in romanization in the working translation. Although **imgeum** ordinarily has royal associations, this occurrence belongs to a shamanic ritual sequence containing political, local-spiritual, Buddhist, and afterlife imagery. A simple rendering such as “Long live our King” or “Long live our Lord” would impose an interpretation before the ritual referent is securely established.
+
+## 10. Reading the Script
 
 Each scene file begins with a short list of the characters appearing in that scene. These are concise reading aids; fuller descriptions of culturally specific characters and terms are collected in this guide.
 
