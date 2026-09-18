@@ -126,36 +126,36 @@ Dear wife, my first wife is dead. Even death leaves no room for enmity. Poor Hal
 
 **MUDANG:** *Singing.*
 
-**Awang Imgeum-ui Manseya**—  
-*Refrain: Awang Imgeum-ui Manseya.*
+**Awang Imgeum-ui Manseya (아왕 임금의 만세야)**—  
+**REFRAIN:** *Awang Imgeum-ui Manseya.*
 
-May you live a thousand years, ten thousand years, a hundred million years—  
-*Refrain.*
+May there be a thousand years, ten thousand years—ten thousand upon ten thousand years.  
+**REFRAIN:** *Awang Imgeum-ui Manseya.*
 
-This saha world is Namsin-jubu—  
-*Refrain.*
+Within this **Saha Segye (사바세계)**, the world of human suffering—  
+**REFRAIN:** *Awang Imgeum-ui Manseya.*
 
-In the eastern land lies the nation of Joseon—  
-*Refrain.*
+In the eastern land stands the nation of Joseon—  
+**REFRAIN:** *Awang Imgeum-ui Manseya.*
 
-The appointed ground is the sovereign's appointed ground—  
-*Refrain.*
+The appointed site is the site appointed by the sovereign—  
+**REFRAIN:** *Awang Imgeum-ui Manseya.*
 
-Within the sacred precinct is the domain of **Bugun-nim**—  
-*Refrain.*
+Within the sacred precinct is the domain of **Bugun-nim (부군님)**—  
+**REFRAIN:** *Awang Imgeum-ui Manseya.*
 
 *The Mudang makes a broad circuit of the performance ground, then faces front.*
 
-For the affairs of the nation, the Changes and the Eight Trigrams;  
-for the spirit of the deceased, we send her to a good place—
+For the affairs of the nation, the **I Ching and the Eight Trigrams**;  
+for the spirit of the deceased, let us send her onward to a good place—
 
 **REFRAIN:** Aa, ee, ehe, ehee—send her to a good place.
 
-Let the messengers who guide the dead—the Iljik Saja, Woljik Saja, and the Three Messengers—play their part, and let us send her to the Pure Land.
+Let the messengers who guide the dead—the **Iljik Saja (일직사자)**, **Woljik Saja (월직사자)**, and the Three Messengers—carry out their charge, and let us send her onward to the Pure Land.
 
 **REFRAIN:** Aa, ee, ehe, ehee—let us send her to the Pure Land.
 
-As we send her to the lotus terrace of the blessed realm, may she escape the Hell of Knife Mountains, the Hell of Fire Mountains, the Hell of Venomous Snakes, the great-mountain hell, the blood hell, water hell, and ice hell—
+As we send her to the lotus terrace of the blessed realm, may she pass free of the Hell of Knife Mountains, the Hell of Fire Mountains, the Hell of Venomous Snakes, the Great-Mountain Hell, the Blood Hell, the Water Hell, and the Ice Hell—
 
 **REFRAIN:** Aa, ee, ehe, ehee—may she escape the ice hell.
 
@@ -236,8 +236,17 @@ Yeonggam's opening Eight-Provinces itinerary has now been checked against the Ko
 
 ## Translation Note: “Awang Imgeum-ui Manseya”
 
-The opening ritual phrase **아왕 임금의 만세야** has deliberately **not** been normalized to “Long live our King” or “Long live our Lord” in the working script.
+The opening ritual phrase **아왕 임금의 만세야** is deliberately **not** normalized to “Long live our King” or “Long live our Lord” in the working script.
 
 Here the phrase occurs inside a shamanic ritual sequence rather than ordinary court or political speech. The surrounding invocations move among the human world, the Joseon state, local tutelary divinities, messengers of the dead, Buddhist Pure Land imagery, and underworld judges. Translating *imgeum* mechanically as *King* or *Lord* would therefore prejudge the ritual referent.
 
 Until the expression is checked against comparable Hwanghae-do shamanic songs and the supporting scholarship, **Awang Imgeum-ui Manseya** is retained in romanization, with its ritual function preserved by context.
+
+
+### Ritual Vocabulary in This Passage
+
+- **Saha Segye (사바세계)** — the Buddhist *sahā* world: the human world characterized by suffering and endurance. The Korean-Buddhist term is retained rather than flattened to “this world.”
+- **Bugun-nim (부군님)** — a highly honorific ritual designation whose precise referent depends on the local ritual context. It is retained pending more specific identification rather than being forced into *lord*, *deity*, or *guardian*.
+- **Iljik Saja / Woljik Saja (일직사자 / 월직사자)** — messengers associated with escorting or summoning the dead in Korean ritual cosmology. *Saja* here means a supernatural messenger, not the lion (*saja*, 사자) of Scene 1; the identical romanization represents different Korean words.
+- **Jeongto (정토)** — the Buddhist Pure Land. Where the ritual text clearly invokes Buddhist afterlife imagery, *Pure Land* is used in English.
+- **Gongsu (공수)** — a spirit message delivered through the *mudang*. In this scene the voice presented through the Mudang is Halmi's.
