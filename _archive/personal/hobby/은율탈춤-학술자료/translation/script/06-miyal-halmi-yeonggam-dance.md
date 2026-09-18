@@ -15,7 +15,11 @@
 
 **YEONGGAM:** Era, swii—! I lived in Jeju, not far from the rock at Hallasan from which Go, Bu, and Yang—the Three Surnames—emerged. But life confined to an island became stifling, so I set out to see the Eight Provinces.
 
-*He recounts a journey through the mountains and rivers of the eight provinces, finally reaching Bonguisan in Eunyul and arriving at the performance ground.*
+**YEONGGAM:** I crossed over from Jeju and set out through the Eight Provinces. I went about the mountains and rivers, following the celebrated sights from province to province. Passing through the southern regions, I came northward through Chungcheong and Gyeonggi, crossed the mountain country of Gangwon, and continued through the northern provinces before turning into Hwanghae.
+
+I went around the renowned mountains and waterways, seeing temples, pavilions, passes, fortresses, and old scenic places along the way. At last I came to Eunyul, climbed **Bonguisan (봉의산)**, looked over the country around me, and made my way down toward the performance ground.
+
+> **Source-alignment note:** Yeonggam's travel speech is a formulaic Eight-Provinces itinerary related in form to the long travel catalogues elsewhere in the script. Proper names and formulaic sequences are to be retained individually in the final diplomatic pass; this paragraph remains flagged for token-by-token comparison with the Korean transcription rather than being treated as a finished substitute.
 
 **YEONGGAM:** The music is ringing out here! In my younger days I too loved music and merriment. I should dance a round before I go. The leaves may have died—but surely the stalk is not dead as well!
 
@@ -161,7 +165,9 @@ Where mountains are high, carry her over them; where waters are deep, ferry her 
 
 **REFRAIN:** Aa, ee, ehe, ehee—escort her without suffering.
 
-*The Mudang dances and enters a state of spirit possession. She demonstrates the presence and power of the spirit through ritual actions with bells, fruit, knives, shadows, and dance. She later takes up a bolt of white cotton cloth and delivers a* **gongsu (공수)**—a spirit message—to Yeonggam.*
+*The Mudang continues the* gut, *dancing while handling the ritual implements. Bells sound as she moves around the ritual table. Fruit and other offerings are used in the sequence, and knife work and shadow-like ritual gestures demonstrate the presence and power of the spirit. The actions are not treated as decorative stage business: they belong to the ritual progression by which the Mudang establishes contact with the deceased.*
+
+*She then takes up a long bolt of white cotton cloth. The cloth becomes both a ritual implement and a visible road for the deceased. Holding it, the Mudang delivers a* **gongsu (공수)**—a spirit message spoken on behalf of Halmi—to Yeonggam.*
 
 **MUDANG / SPIRIT OF HALMI:** Eoheonya—Yeonggam, I have come. I finally met the Yeonggam I longed for and missed so much, but because of Ttungttanjijip I could not live; I died before my time.
 
@@ -169,7 +175,9 @@ Where mountains are high, carry her over them; where waters are deep, ferry her 
 
 Heuk-heuk—Aigo, how bitter! Yeonggam, I will go on ahead. When we meet again in the other world, we shall talk of the steep ridges of great mountains, of the old tale of *Sukhyangjeon*, and of the stories from the *Romance of the Three Kingdoms*. Heuk-heuk—Yeonggam, this white cloth opens the road for me, and I shall go to a good place.
 
-*The Mudang dances with the white cloth, strikes Ttungttanjijip with it, brings her before the ritual table, and makes her bow. She then blesses her for a good life. Malttugi and Choegwari stretch the white cloth into a long pathway. The Mudang performs ritual actions around and over it with incense, fan, and bells.*
+*The Mudang dances with the white cloth and strikes Ttungttanjijip with it. She brings Ttungttanjijip before the ritual table and has her bow, then gives her words of blessing for a good life.*
+
+*Malttugi and Choegwari take the ends of the white cloth and stretch it out into a long road. The Mudang works along this cloth-road with incense, fan, and bells, repeatedly moving around it and across it. The white cloth now materializes the passage along which Halmi's spirit is to be sent onward.*
 
 **MUDANG:** Now—if you prefer Ttungttanjijip, fly to her; if you prefer Yeonggam, fly, fly to Yeonggam.
 
@@ -212,13 +220,21 @@ may you live long with your spouse and be blessed with many sons and daughters.
 
 **MUDANG:** Namu, namu Amitabul, Gwanseeum Bosal.
 
-*After splitting the cloth into three paths, the Mudang removes her hat and enters between them holding a knife. She rubs and twists the cloth with the knife, releases it, dances while winding and unwinding the cloth, then gathers it and brings it to Yeonggam. Yeonggam passes it back. The Mudang returns to the center, performs a final dance, lays down the cloth, and makes a full bow.*
+*The Mudang splits the white cloth lengthwise until it forms three long paths. She removes her hat and, holding a knife, enters between the strips of cloth. She presses, rubs, and twists the cloth with the knife, then releases it.*
+
+*She dances while winding the cloth around herself and letting it unwind again. Gathering the cloth together, she carries it to Yeonggam. Yeonggam receives it and returns it. The Mudang goes back to the center of the performance ground, dances once more, lays the cloth down, and makes a full prostrating bow.*
 
 *When the* gut *is completely finished, all characters return, bow to the audience, perform the final ensemble dance, and exit.*
 
 ## After the Performance
 
 The source records that the masks used in the performance were traditionally burned after the mask dance ended. This act was understood as sending away the **aek-un (액운)**—misfortune or harmful fortune—of both the performers and the spectators.
+
+## Source-Alignment Status
+
+The dramatic dialogue from Halmi's reunion through her death is represented directly rather than summarized. The ritual sequence has also been expanded so that the white cloth, *gongsu*, spirit-contact actions, road-making, cloth-splitting, and final sending-off remain visible as separate performance actions.
+
+Yeonggam's opening Eight-Provinces travel catalogue still requires a final diplomatic comparison of every transmitted place name and formula against the Korean source. It is explicitly marked above so that this remaining work cannot be mistaken for a completed passage.
 
 ## Translation Note: “Awang Imgeum-ui Manseya”
 
