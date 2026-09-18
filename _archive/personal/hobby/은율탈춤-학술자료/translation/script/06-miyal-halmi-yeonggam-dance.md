@@ -15,11 +15,9 @@
 
 **YEONGGAM:** Era, swii—! I lived in Jeju, not far from the rock at Hallasan from which Go, Bu, and Yang—the Three Surnames—emerged. But life confined to an island became stifling, so I set out to see the Eight Provinces.
 
-**YEONGGAM:** I crossed over from Jeju and set out through the Eight Provinces. I went about the mountains and rivers, following the celebrated sights from province to province. Passing through the southern regions, I came northward through Chungcheong and Gyeonggi, crossed the mountain country of Gangwon, and continued through the northern provinces before turning into Hwanghae.
+**YEONGGAM:** I saw Taebaeksan and the Namgang River in Gyeongsang Province; Jirisan and the Nakdong River in Jeolla Province; Gyeryongsan and the Dongjin River in Chungcheong Province; Samgaksan and the Imjin River in Gyeonggi Province; the twelve thousand peaks of Geumgangsan, its eighty thousand and nine hermitages, and Yujeomsa in Gangwon Province; Durisan and the Tumen River in Hamgyeong Province; Jamosan and the Daedong River in Pyeongan Province; and Guwolsan and Samhyeongje Falls in Hwanghae Province.
 
-I went around the renowned mountains and waterways, seeing temples, pavilions, passes, fortresses, and old scenic places along the way. At last I came to Eunyul, climbed **Bonguisan (봉의산)**, looked over the country around me, and made my way down toward the performance ground.
-
-> **Source-alignment note:** Yeonggam's travel speech is a formulaic Eight-Provinces itinerary related in form to the long travel catalogues elsewhere in the script. Proper names and formulaic sequences are to be retained individually in the final diplomatic pass; this paragraph remains flagged for token-by-token comparison with the Korean transcription rather than being treated as a finished substitute.
+Then I came down to Bonguisan in Eunyul, saw the dolmen there, and arrived here—what a splendid sound of music fills the air!
 
 **YEONGGAM:** The music is ringing out here! In my younger days I too loved music and merriment. I should dance a round before I go. The leaves may have died—but surely the stalk is not dead as well!
 
@@ -234,7 +232,7 @@ The source records that the masks used in the performance were traditionally bur
 
 The dramatic dialogue from Halmi's reunion through her death is represented directly rather than summarized. The ritual sequence has also been expanded so that the white cloth, *gongsu*, spirit-contact actions, road-making, cloth-splitting, and final sending-off remain visible as separate performance actions.
 
-Yeonggam's opening Eight-Provinces travel catalogue still requires a final diplomatic comparison of every transmitted place name and formula against the Korean source. It is explicitly marked above so that this remaining work cannot be mistaken for a completed passage.
+Yeonggam's opening Eight-Provinces itinerary has now been checked against the Korean transcription and restored as an explicit province-by-province catalogue, including the paired mountains and rivers, Geumgangsan's twelve thousand peaks and hermitages, Guwolsan and Samhyeongje Falls, Bonguisan, and the Eunyul dolmen.
 
 ## Translation Note: “Awang Imgeum-ui Manseya”
 
