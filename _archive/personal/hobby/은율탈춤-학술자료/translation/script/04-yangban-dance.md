@@ -24,9 +24,21 @@
 
 **MALTTUGI:** Era, swi—! I am Malttugi, the famous Malttugi of old, from long, long ago. I set out to see the Eight Provinces.
 
-*He launches into an expansive catalogue of mountains, rivers, temples, fortresses, and celebrated places across Korea, moving from Gyeongsang and Jeolla through Chungcheong, Gyeonggi, Gangwon, Hamgyeong, Pyeongan, and finally Hwanghae Province. His speech incorporates phrases associated with pansori* danga *such as* Paldo Gangsan *and* Myeonggi Myeongchang.
+**MALTTUGI:** I went to see Taebaeksan in Gyeongsang Province and looked around the Nakdong River at Sangju. The Songpa River is famous—was it there, they say, that beautiful women and talented young men were born? At Jirisan in Jeolla Province, they say, appeared the **Haedong Yongma**, the “Dragon Horse of the Eastern Land,” a figure of extraordinary ability.
 
-**MALTTUGI:** ...At last I reached Guwolsan in Munhwa. From its summit I looked in every direction; Seoul's Namdaemun seemed to flicker before my eyes. Satgatbong stood beside me, Chodaebong was the blue dragon to the left, Jugaebong the white tiger to the right, and Meoksan in Eunyul and Wondusan in Pungcheon faced me across the land. I climbed Guwangsan, saw Guwang Cave, and came here. Seeing these bright-faced performers at play, I too shall enjoy a round before I go.
+After seeing those places, I stopped at Gyeryongsan in Chungcheong Province. I came up into Gyeonggi Province and visited Geumaksan, Seoryusan, Chilbongsan, and Hoeamsa. Passing Suraksan and Gamtubong, I reached Dobongsan. At Dobong, viewing the moon—there was Cheonjuksa. I passed Dobongam and Myomoksan and climbed to the summit of Samgaksan.
+
+Seated there, I looked in all four directions. Inwangsan stood beside me, and Gwanaksan faced me like an **ansan**, a mountain set before the site. Wangsimni formed the Blue Dragon, Mallijae the White Tiger, while Namsan rose and fell along the terrain.
+
+Leaving there, I reached Geumgangsan in Gangwon Province and looked all around. Its twelve thousand peaks stood clear before me. Looking toward Manbulchobong, the countless forms appeared like figures of every kind. When I reached Yujeomsa and Danballyeong, the sound of Buddhist chanting, repeated four times, was mournful.
+
+After seeing all of that, I visited Durisan in Hamgyeong Province, passed through Pyeongan Province, and crossed into Hwanghae Province. At Jeongbang Fortress on Jeongbangsan in Hwangju, the vegetation was so dense that a cock meant to crow at night crowed in broad daylight.
+
+Leaving there, I went around Jangsu-san in Jaeryeong and reached Suyangsan in Haeju, where I honored the integrity of the two loyal recluses **Boyi and Shuqi**. I passed Cheonjiamsan in Ongjin, then Bultaesan and Jangsangot in Jangyeon. From the crest of Jangsangot came the sound of drums; “today again, at the summit, I meet my beloved,” and on the way I stopped at Monggeum-ri and Gyeampo.
+
+I passed Bakseoksan at the three-way junction of Jangyeon and Songhwa, stopped at Wonilsan in Sincheon, and reached Guwolsan in Munhwa. I climbed to its summit, sat down, and looked in all four directions. Seoul's Namdaemun seemed to flicker before my eyes. Satgatbong stood beside me; Chodaebong was the Blue Dragon to the left, Jugaebong the White Tiger to the right. Meoksan in Eunyul and Wondusan in Pungcheon faced me across the land.
+
+I climbed Guwangsan, saw Guwang Cave, and came here. Seeing these bright-faced performers at play, I too shall enjoy a round before I go.
 
 **BULLIM:** *“Kwaengchang, kwaengchang, kwae-gwaengchang—!”*
 
@@ -168,14 +180,51 @@ and the darling of every neighborhood.
 Are you a child of gold, a child of silver?  
 Among ten thousand folds of green mountains, you are a child of treasure.
 
-*The song continues through a long chain of wordplay, tree names, classical imagery, and a comic game of Korean chess in which historical heroes are assigned to the pieces.*
+On the road I found a paulownia tree;  
+half of ten *ri* makes a five-*ri* tree;  
+at nineteen, a “twenty” tree;  
+at thirty-nine, an aspen—  
+a tree floating on the water,  
+a tree set afloat as the moon rises over the eastern ridge,  
+a tree made from my beloved's wrist,  
+and at ninety-nine, a hundred-seed tree.
 
-**CHOEGWARI:** Kkoduk, kkoduk, kkoduk, kkoduk, kkoduk—Kkodugi, my child! Oi—look at him smiling away!
+In the middle of the sky stands the cloud-tree;  
+in the middle of the moon, the cassia tree.  
+I hewed it down with a golden axe,  
+trimmed it smooth with a jade axe,  
+and on the summit of Guwolsan  
+built a three-room thatched house.
+
+In one room I placed the Golden Maiden,  
+in one the Jade Maiden,  
+and in another the Young Maiden.  
+When the Young Maiden and Jade Maiden fell asleep,  
+I entered the Golden Maiden's room.
+
+There lay a janggi board, a baduk board, and a ssangnyuk board.  
+Setting ssangnyuk and baduk aside,  
+we began a game of **janggi**, Korean chess.
+
+With the character **Han (漢)** I made the Lord of Han;  
+with **Chu (楚)** I made the Hegemon-King of Chu.  
+With the elephant piece, **sang (象)**, I made Guan Yunchang;  
+with the chariot, **cha (車)**, I made Zhao Zilong;  
+with the horse, **ma (馬)**, I made Ma Chao;  
+with the cannon, **po (包)**, I made Lü Bu;  
+with the scholar, **sa (士)**, I made the strategists.
+
+Gathering the foot soldiers on the left and right,  
+as this cannon and that cannon leapt across the board,  
+an army of a hundred thousand scattered like spring snow.
+
+Kkoduk, kkoduk, kkoduk, kkoduk, kkoduk—Kkodugi, my child!  
+Oi—look at him smiling away!
 
 *Domburi jangdan begins. Choegwari continues to dandle the child, then dances to the rhythm and exits together with Saemaeksi.*
 
 ## Translation Notes
 
-The extended travel catalogue and the latter portion of **Kkodugi Taryeong** contain dense geographical, literary, and verbal wordplay. They are preserved in the source-based working translation without replacing Korean place names or historical references with generalized English equivalents.
+The extended travel catalogue and **Kkodugi Taryeong** are now represented in full rather than by editorial summary. The passage contains dense geographical, literary, numerical, and homophonic wordplay. Where a Korean pun cannot be reproduced directly in English, the literal sequence is preserved as far as possible and the cultural mechanism should be clarified in later annotations rather than omitted.
 
 The sexual comedy in this scene is explicit in the source and is translated directly rather than euphemized, because it is part of the scene's comic and satirical performance structure.
