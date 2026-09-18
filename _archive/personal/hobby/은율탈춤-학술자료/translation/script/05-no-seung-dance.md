@@ -15,9 +15,9 @@ No-seung wears a **songnak**, a **108-bead rosary (baekpal yeomju)**, a **moktak
 
 *No-seung has spent his life in a temple studying Buddhist teachings and preparing for the life to come. Wanting to see the world, he leaves the temple. After drinking chrysanthemum wine to intoxication, he descends from the mountains, wanders through the secular world, and, on his way toward Cheongnyongsa at Gwangdeoksan, staggers into the performance ground and collapses.*
 
-*Entering to Jungjungmori rhythm, he sings a monk's song.*
+*Entering to Jungjungmori jangdan, he sings **Jung Taryeong (중타령)**.*
 
-**NO-SEUNG:** Deep in green waters and blue mountains, every flower is in bloom; phoenixes and peacocks call, butterflies dance in pairs, and the flowing water winds bend after bend, striking the screen-like rocks...
+**NO-SEUNG:** Deep in green waters and blue mountains, every flower is in full bloom; phoenixes and peacocks are calling, butterflies dance in pairs, and the flowing water winds around this bend and that, striking against rocks that stand like folding screens...
 
 *Drunk, he staggers and collapses near the center. Suddenly the sound of* samhyun-yukgak *instrumental music rings out. He comes to his senses and dances to Yeongsan Dodeuri jangdan. Still prone, he raises his head and looks to both sides. Gradually recovering his strength, he dances while surveying the world around him, then sighs deeply.*
 
@@ -25,10 +25,13 @@ No-seung wears a **songnak**, a **108-bead rosary (baekpal yeomju)**, a **moktak
 
 *He sits, strikes the moktak, and recites passages from the* **Cheonsugyeong (천수경, Thousand Hands Sutra)**.
 
-**NO-SEUNG:** Jeonggueop Jineon—*Surisuri mahasuri susuri sabaha.*  
-Obang Naeoe Anwi Jesin Jineon—*Namusamanda motdanam, om dorodoro jimi sabaha.*  
-*Musang simsim mimyobeop, baekcheonman-geop nanjou, ageum mungyeon deuksuji, wonhae yeorae jinsirui...*  
-*Namu Amitabha, Gwanseeum Bosal.*
+**NO-SEUNG:**  
+**Jeonggueop Jineon (정구업진언)** — *Surisuri mahasuri susuri sabaha.*  
+**Obang Naeoe Anwi Jesin Jineon (오방내외 안위제신진언)** — *Namu samanda motdanam, om dorodoro jimi sabaha.*  
+*Musang simsim mimyobeop, baekcheonman-geop nanjou, ageum mungyeon deuksuji, wonhae yeorae jinsirui.*  
+**Gaebeopjang Jineon (개법장진언)** — *Om aranam arada.*  
+*Cheonsucheonan Gwanjajae Bosal, gwangdaewonman muae daebisim daedharani gyecheong.*  
+*Namu Ami Gwanseeum Bosal.*
 
 > The Buddhist mantras are retained primarily in transliteration. Their ritual sound and textual identity are more important here than replacing them with invented English liturgical equivalents.
 
@@ -52,11 +55,14 @@ Ehe, eheya!
 The maidens of Eunyul and Jangyeon  
 go out to pick cotton.  
 Ehe-e-e, eheya!  
-Pick it low and pick it high...
+Pick it low and pick it high—
+the clerks' manure is just the thing.
 
 Ehe, ehe, eheya!  
 The maidens of Hamgyeong  
-go out selling wooden bowls...
+go out selling **hambak**, wooden basins.  
+Large winnowing basins, rice-washing basins,  
+and small serving basins are just the thing.
 
 Ehe, ehe, eheya!  
 The maidens of Jeonggokgol  
