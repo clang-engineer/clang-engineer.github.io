@@ -177,3 +177,30 @@ When a line cannot be translated confidently from the script alone:
 5. record any consequential translation decision here.
 
 The translation should not conceal uncertainty by inventing a precise English meaning unsupported by the source.
+
+
+## 15. Completeness and Fidelity Standard
+
+The final translation is intended to be a **complete translation of the performance text**, not an abridged adaptation.
+
+Accordingly:
+
+- every spoken line in the source should have a corresponding English rendering;
+- every song stanza, refrain, *bullim*, cry, and vocable should be represented;
+- stage directions should not be summarized when the omitted detail affects movement, spacing, timing, costume, props, music, or interaction;
+- long catalogues of place names, literary allusions, wordplay, and enumerations should not be replaced by editorial summaries merely for readability;
+- where literal wordplay cannot survive in English, retain the translated line and add a concise note explaining the Korean mechanism;
+- source annotations that materially change the interpretation of a line should be carried into a translation note;
+- uncertain or corrupt transmitted wording should be marked as such rather than silently emended.
+
+A scene containing phrases such as “the speech continues” or “a long chain of wordplay follows” is therefore considered a **working draft**, not a completed translation, until the corresponding source passage has been translated in full.
+
+## 16. Source-Fidelity Review Status
+
+Each scene should be treated as passing through three states:
+
+1. **Draft** — overall dramatic meaning and structure translated.
+2. **Source-aligned** — checked line by line against [8], with omissions and editorial compression removed.
+3. **Reviewed** — terminology and cultural interpretation cross-checked against [1]–[7] and the project guide.
+
+Only a source-aligned and reviewed scene should be described as final.
