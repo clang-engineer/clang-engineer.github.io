@@ -161,4 +161,4 @@ Several of the short *bullim* verses are quotations or adaptations of classical 
 
 ### Hallyang (한량)
 
-The Second Mokjung's expression contrasts someone who knows how to enjoy and perform properly with a mere passerby. *Hallyang* carries historical and cultural associations that exceed a single English equivalent, so it is provisionally retained here.
+The Second Mokjung's expression contrasts someone who knows how to enjoy and perform properly with a mere passerby. *Hallyang* carries historical and cultural associations that exceed a single English equivalent, so it is retained here with an explanatory gloss in the project guide.
