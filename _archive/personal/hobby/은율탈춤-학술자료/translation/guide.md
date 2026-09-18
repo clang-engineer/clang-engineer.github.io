@@ -139,7 +139,51 @@ A ritual performed within Korean shamanic tradition, typically led by a *mudang*
 
 A procession held before the main mask-dance performance. Performers, characters, and musicians move together through the local area before entering the performance ground.
 
-## 6. Reading the Script
+
+
+## 7. Additional Ritual, Costume, and Performance Terms
+
+### Gosa (고사) — Ritual Offering
+
+A ritual offering performed to seek protection, well-being, or favorable conditions before an undertaking. The source records that, before Eunyul Talchum was performed, all members participated in a *gosa* addressed to **Cheonji Sinmyeong**.
+
+### Cheonji Sinmyeong (천지신명) — Divine Powers of Heaven and Earth
+
+A collective expression for sacred or spiritual powers associated with heaven and earth. Because the phrase does not designate a single deity, it is retained in Korean and glossed rather than translated as a singular “God.”
+
+### Gongsu (공수) — Spirit Message
+
+A message delivered through a *mudang* while speaking on behalf of a spirit during a shamanic ritual. In the final scene, the *mudang* conveys Halmi's words to Yeonggam through *gongsu*.
+
+### Yukhwanjang (육환장) — Six-Ringed Buddhist Staff
+
+A Buddhist staff fitted with six metal rings. It forms part of No-seung's visible monastic equipment.
+
+### Aek-un (액운) — Harmful or Inauspicious Fortune
+
+Misfortune or an inauspicious influence understood as something that may be ritually removed or sent away. The source explains that burning the masks after the performance was associated with sending away the *aek-un* of performers and spectators.
+
+### Deogeori (더거리) — Three-Paneled Outer Garment
+
+A traditional outer garment described in the source as having three hanging panels and historically worn by several categories of military or official personnel during the Joseon period. The term is retained because there is no precise modern English garment equivalent.
+
+### Baerye (배례) — Formal Bowing / Paying Respects
+
+A formal act of bowing or paying respects. In the Heotmok (Sangjwa) scene, the performer makes *baerye* toward the four directions before beginning the dance.
+
+### Taeguk-won (태극원) — Taegeuk Circle Formation
+
+A circular ensemble formation made by the Eight Mokjung as they dance out of the performance ground. The Korean name is retained because it refers to a specific choreographic formation.
+
+### Hallyang (한량) — Cultivated Man of Leisure / Merrymaker
+
+A historically layered social and cultural term. In the Second Mokjung's speech, it describes someone who knows how to enjoy and participate properly in the performance world, in contrast to a mere passing guest. The term is therefore retained in the script rather than reduced to a single English social label.
+
+## 8. Note on Classical Quotations in Bullim
+
+Many *bullim* lines are compact quotations or adaptations of Classical Chinese poetry, celebratory couplets, or proverbial expressions. Where the source annotations identify the original sense, the English translation follows that documented meaning. Where the transmitted performance wording is corrupt or differs across recorded versions, the variant is noted rather than silently regularized.
+
+## 9. Reading the Script
 
 Each scene file begins with a short list of the characters appearing in that scene. These are concise reading aids; fuller descriptions of culturally specific characters and terms are collected in this guide.
 
