@@ -29,4 +29,4 @@ In procession order:
 
 **Masup (마숲)** is identified in the source annotation as a long wooded area approximately 1 km from Eunyul-eup. The place name is retained rather than translated.
 
-The ritual terms *gosa* and *Cheonji Sinmyeong* are retained provisionally. Their English glosses will be standardized in the project guide after comparison with the supporting materials.
+The ritual terms *gosa* and *Cheonji Sinmyeong* are retained in romanized form and explained in the project guide, where their ritual meanings are distinguished from generic English religious terminology.
