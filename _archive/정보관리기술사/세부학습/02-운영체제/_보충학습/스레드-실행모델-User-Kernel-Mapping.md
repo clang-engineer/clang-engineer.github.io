@@ -348,6 +348,30 @@ Runtime은 어떤 User Thread를 어떤 Kernel Thread에서 실행할지 결정�
 
 ## 8. 세 Mapping Model의 핵심 비교
 
+먼저 **Kernel이 직접 관리하는 Thread 수** 관점에서 보면 차이가 가장 잘 보인다.
+
+```text
+예: User-level 실행 흐름이 10,000개라고 가정
+
+Many-to-One
+ULT 10,000개
+→ KLT 1개
+
+One-to-One
+ULT 10,000개
+→ KLT 약 10,000개
+
+Many-to-Many
+ULT 10,000개
+→ KLT 8 / 16 / 32 ... 처럼 상대적으로 적은 여러 개
+```
+
+즉 Many-to-Many의 중요한 목적 중 하나는:
+
+> **많은 User-level 실행 흐름을 유지하면서도, Kernel이 직접 관리해야 하는 Thread 수가 One-to-One처럼 함께 폭증하지 않도록 다중화하는 것**이다.
+
+다만 KLT 수가 반드시 특정 숫자로 고정된다는 뜻은 아니다. 실제 개수와 정책은 Runtime 구현과 실행 환경에 따라 달라진다.
+
 | 구분 | Many-to-One | One-to-One | Many-to-Many |
 |---|---|---|---|
 | User Thread 수 | 많음 | Kernel Thread 수와 비슷 | 많음 |
@@ -533,6 +557,51 @@ Runtime이 다른 실행 흐름으로
 
 ## 11. 전체 관계
 
+지금까지의 그림은 **하나의 Process / Runtime 내부를 확대해서 본 것**이다.
+
+실제 시스템에는 여러 Process와 Runtime이 동시에 존재하며, 각 Process는 자신이 사용하는 OS Thread들을 갖는다.
+
+```text
+Process A / Runtime A
+ULT A1, A2, A3
+        ↓
+KLT A1, A2
+
+Process B / Runtime B
+ULT B1, B2
+        ↓
+KLT B1
+
+Process C / Runtime C
+ULT C1, C2, C3, C4
+        ↓
+KLT C1, C2, C3
+```
+
+Kernel은 이들을 Runtime별로 따로 Scheduling하지 않고, **시스템 전체의 Kernel-scheduled Thread를 한꺼번에 Scheduling 대상**으로 본다.
+
+```text
+KLT A1  KLT A2
+KLT B1
+KLT C1  KLT C2  KLT C3
+        ↓
+Kernel Scheduler
+        ↓
+CPU Cores
+```
+
+따라서 중요한 경계는 다음과 같다.
+
+```text
+각 Runtime 내부
+ULT → 자기 Process가 사용하는 KLT에 Mapping
+
+Kernel 전체
+모든 Process의 KLT → CPU Core에 Scheduling
+```
+
+이를 일반화하면:
+
 ```text
 Application / Runtime
         ↓
@@ -543,9 +612,9 @@ Mapping Model
 ├─ One-to-One
 └─ Many-to-Many
         ↓
-Kernel-level Thread
+각 Process가 사용하는 Kernel-level Thread
         ↓
-OS Scheduler
+Kernel Scheduler가 시스템 전체 KLT를 관리
         ↓
 CPU
 ```
@@ -589,6 +658,11 @@ Platform Thread
 
 Virtual Thread
 ≈ Many-to-Many 성격의 현대 Runtime 사례
+
+Kernel Thread 수 관점
+Many-to-One  = 가장 적게 사용할 수 있지만 병렬성 제약
+One-to-One   = 실행 흐름 증가와 함께 KLT도 증가
+Many-to-Many = 많은 ULT를 상대적으로 적은 여러 KLT에 다중화
 ```
 
 가장 중요한 문장:
