@@ -424,19 +424,14 @@ CPU
 
 Java에서는 JVM이 User Space Runtime 역할을 한다.
 
-JVM 전체는 GC · JIT · Class Loading 등 훨씬 많은 기능을 담당하지만, Thread 실행 모델 관점에서는 **Virtual Thread의 상태를 관리하고 어떤 Carrier Platform Thread에서 실행할지 결정하는 Runtime Scheduler 역할**을 한다.
+운영체제 관점에서는 구현 세부를 걷어내고 다음처럼 보는 것이 가장 단순하다.
 
 ```text
-Java Application
+Virtual Thread 여러 개
         ↓
-JVM Runtime
-├─ Virtual Thread 상태 관리
-├─ Virtual Thread Scheduling
-└─ Carrier Platform Thread에 배치
+JVM Scheduler
         ↓
-Carrier Platform Thread
-        ↓
-OS Native / Kernel-scheduled Thread
+여러 OS Native / Kernel-scheduled Thread 위에 다중화
         ↓
 OS Scheduler
         ↓
@@ -452,33 +447,13 @@ Virtual Thread
 JVM Scheduler
 ≈ User-space Thread Runtime / Scheduler 역할
 
-Carrier Platform Thread
-≈ Kernel-level 실행 단위에 연결되는 중간 실행 자원
+OS Native / Kernel-scheduled Thread
+≈ Kernel-level Thread 쪽 실행 단위
 ```
 
-Java Virtual Thread는 JVM이 많은 Virtual Thread를 Carrier Platform Thread 위에 Scheduling한다.
+즉 Java Virtual Thread는 **많은 User-level 실행 흐름을 여러 Kernel-scheduled Thread 위에 다중화한다는 점에서 Many-to-Many 성격**으로 이해할 수 있다.
 
-이때 JVM이 Kernel Thread를 통제하는 것이 아니다. JVM은 **OS가 Scheduling하는 Carrier Platform Thread를 실행 자원으로 사용하면서** 그 위에 Virtual Thread를 배치한다.
-
-```text
-JVM Scheduler
-Virtual Thread → Carrier Platform Thread
-
-OS Scheduler
-Carrier가 사용하는 Native Thread → CPU
-```
-
-```text
-Virtual Thread A ─┐
-Virtual Thread B ─┼→ JVM Scheduler
-Virtual Thread C ─┘
-                  ↓
-        Carrier Platform Thread
-                  ↓
-          OS Native Thread
-```
-
-따라서 학습 관점에서는 **Many-to-Many 성격을 이해하는 현대적인 사례**로 연결할 수 있다.
+`Carrier Platform Thread`는 JVM이 이를 실제로 구현할 때 사용하는 Java 측 실행 자원 이름이므로, 운영체제 Mapping Model 문서에서는 핵심 개념에서 제외하고 Java 비동기/Virtual Thread 문서에서 구현 세부로 다룬다.
 
 다만:
 
@@ -629,8 +604,7 @@ Platform Thread
 Virtual Thread
 → Many-to-Many 성격
 → JVM Scheduler
-→ Carrier Platform Thread
-→ OS Native Thread
+→ 여러 OS Native / Kernel-scheduled Thread 위에 다중화
 ```
 
 ---
