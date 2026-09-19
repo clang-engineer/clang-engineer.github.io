@@ -262,9 +262,62 @@ Worker
 
 ---
 
-## 9. Virtual Thread — 다른 축의 해결책
+## 9. Virtual Thread — Thread 비용 자체를 낮추는 다른 축
 
-Virtual Thread는 `CompletableFuture`와 다른 문제를 해결한다. JVM이 스케줄링하는 경량 Thread를 이용해 Thread-per-task 스타일을 많은 동시 작업에 적용하기 쉽게 한다.
+Virtual Thread는 `CompletableFuture`와 같은 비동기 표현 방식이 아니라, **Java Thread를 어떤 실행 자원 위에서 운영할 것인가**라는 실행 모델의 문제를 해결한다.
+
+먼저 일반적인 Java Thread Pool을 본다.
+
+```text
+newFixedThreadPool(20)
+
+Task Queue
+   ↓
+Platform Thread 20개
+   ↓
+OS Native Thread와 거의 1:1
+   ↓
+OS Scheduler가 CPU에 배치
+```
+
+일반적인 `ExecutorService`의 Worker는 보통 Platform Thread다. Platform Thread는 OS Native Thread와 거의 1:1로 연결되므로, Thread를 아주 많이 만들면 생성 비용·Stack Memory·Scheduling 비용이 커질 수 있다.
+
+```text
+Java Platform Thread 1 ─→ OS Thread 1
+Java Platform Thread 2 ─→ OS Thread 2
+Java Platform Thread 3 ─→ OS Thread 3
+...
+```
+
+그래서 전통적인 Thread Pool은 **비싼 Platform Thread의 개수를 제한하고 Task를 Queue에 쌓아 재사용하는 방식**으로 동시성을 제어한다.
+
+Virtual Thread는 이 관계를 바꾼다.
+
+```text
+Virtual Thread A ─┐
+Virtual Thread B ─┼→ JVM Scheduler
+Virtual Thread C ─┘
+                  ↓
+          Carrier Platform Thread
+                  ↓
+              OS Thread
+```
+
+Virtual Thread는 개발자에게는 `Thread`처럼 보이지만, Virtual Thread마다 OS Thread가 하나씩 생기는 것은 아니다. JVM이 많은 Virtual Thread를 소수의 Carrier Platform Thread 위에 스케줄링한다.
+
+I/O 대기가 발생하면 개념적으로 다음처럼 볼 수 있다.
+
+```text
+Virtual Thread A 실행
+        ↓
+Blocking I/O 대기
+        ↓
+Virtual Thread A는 대기 상태
+        ↓
+Carrier Platform Thread는 다른 Virtual Thread 실행 가능
+```
+
+즉 **Virtual Thread는 Blocking을 없애는 기술이 아니라, Blocking 때문에 많은 OS Thread를 붙잡아 두는 비용을 줄이는 기술**이다.
 
 ```java
 try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
@@ -273,17 +326,29 @@ try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
 }
 ```
 
-```text
-CompletableFuture
-→ 완료 흐름을 Stage로 조합
-→ 비동기 Pipeline 표현
+전통적인 Thread Pool과 비교하면 다음처럼 볼 수 있다.
 
-Virtual Thread
-→ Thread-per-task의 비용을 낮춤
-→ Blocking 스타일 코드를 유지하며 높은 동시성 처리
+```text
+Fixed Platform Thread Pool
+= 비싼 Thread 수를 제한하고 재사용
+= Task가 많으면 Queue에서 대기
+
+Virtual Thread per Task
+= Task마다 Virtual Thread를 부여
+= JVM이 실제 Platform/OS Thread 위에 다중화
 ```
 
-Virtual Thread를 사용한다고 I/O 자체가 Non-blocking I/O로 바뀌는 것은 아니다.
+`CompletableFuture`와도 축이 다르다.
+
+```text
+CompletableFuture
+→ 미래 결과와 완료 이후 흐름을 어떻게 표현할 것인가
+
+Virtual Thread
+→ Blocking 스타일의 Thread-per-task를 얼마나 싸게 운영할 것인가
+```
+
+따라서 Virtual Thread를 사용한다고 I/O 자체가 Non-blocking I/O로 바뀌는 것은 아니다. 또한 CPU, DB Connection, 외부 API 동시성 한계 같은 다른 자원 병목까지 사라지는 것도 아니다.
 
 ---
 
