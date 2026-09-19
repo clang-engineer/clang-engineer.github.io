@@ -70,6 +70,22 @@ System Call 호출 관점
 
 > **Kernel은 Event / readiness가 발생하고 관리되는 곳이고, Application Thread는 Multiplexing API를 호출해 그 결과를 받는 주체다.**
 
+여기서 Kernel이 존재도 모르는 Application을 임의로 찾아가 통지하는 것은 아니다. Application이 먼저 감시할 FD를 등록하고 select / poll / epoll_wait 같은 대기 지점을 만든다.
+
+```text
+Application
+  ↓ 감시 대상 등록
+FD 5 / FD 8 / FD 12
+  ↓
+Kernel
+  ↓ readiness 발생
+대기 중인 Multiplexing System Call 반환
+  ↓
+Event Loop Thread 실행 재개
+```
+
+따라서 이 구조는 **감시 대상 등록 → Kernel 상태 관리 → 대기 지점 반환 → Application 후속 처리**로 이해한다.
+
 ## 3. Readiness는 I/O 완료가 아니다
 
 `readiness`는 I/O가 Application까지 완료됐다는 뜻이 아니라 **해당 FD에 대해 지금 I/O를 진행할 조건이 준비된 상태**다.
@@ -130,6 +146,38 @@ epoll_wait() 반환
 ```
 
 Kernel이 Thread를 깨운다고 해서 즉시 CPU에서 실행되는 것은 아니다. 대기할 이유가 사라진 Thread를 실행 가능한 상태로 만들고 실제 실행 시점은 Scheduler가 결정한다.
+
+## OS Event에서 Application Event로 올라가는 경계
+
+OS가 직접 아는 것은 Socket/FD의 readiness, Timer, Signal, I/O Request 같은 **Kernel 수준의 자원과 Event**다. 반면 Future, Task, Callback, Coroutine은 Runtime/Application 수준의 추상화다.
+
+```text
+Kernel-level Event
+Socket / FD Ready
+Timer 만료
+I/O Completion
+        ↓
+Runtime / Event Loop
+        ↓
+Application-level Event
+Task Ready
+Future Complete
+Callback 실행 가능
+Coroutine Resume
+```
+
+같은 사건이 계층을 올라가며 표현이 바뀐다.
+
+```text
+Socket에 Data 도착
+→ FD READ Ready
+→ epoll_wait() 반환
+→ Event Loop가 해당 Event 처리
+→ Future 상태 갱신 / Callback 준비 / Coroutine Resume
+→ Application Logic 실행
+```
+
+> **I/O Multiplexing은 OS 수준에서 어떤 I/O가 Ready인지 기다리는 Mechanism이고, Event Loop는 그 결과를 Runtime/Application의 후속 작업으로 연결하는 실행 구조다.**
 
 ## 5. Event Loop
 
