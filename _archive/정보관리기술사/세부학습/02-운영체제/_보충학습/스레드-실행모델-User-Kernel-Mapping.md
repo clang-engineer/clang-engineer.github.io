@@ -51,6 +51,25 @@ Kernel-level Thread (KLT)
 = OS Kernel이 직접 Scheduling하는 Thread
 ```
 
+여기서 가장 자주 헷갈리는 점은 **User-level Thread의 `User`가 "사용자가 직접 만든 Thread"라는 뜻이 아니라는 것**이다.
+
+```text
+잘못된 이해
+Application 코드에서 만든 Thread
+= User-level Thread
+
+정확한 이해
+User-level Thread
+= User Space의 Runtime / Library가 직접 관리하는 실행 단위
+
+Kernel-level Thread
+= OS Kernel이 직접 Scheduling하는 실행 단위
+```
+
+따라서 Application이 `new Thread(...)`처럼 직접 생성한 Thread라도, 그 Thread가 OS Native Thread에 거의 1:1로 대응해 Kernel이 직접 Scheduling한다면 고전적인 의미의 User-level Thread라고 보지 않는다.
+
+즉 **구분 기준은 "누가 만들었는가"가 아니라 "누가 해당 실행 단위를 직접 Scheduling·관리하는가"**다.
+
 핵심 질문은 다음이다.
 
 > **User Space의 여러 실행 흐름을 Kernel의 실행 단위에 어떻게 대응시킬 것인가?**
@@ -324,6 +343,40 @@ CPU
 따라서 개념적으로 **One-to-One 성격**이 강하다.
 
 ### Java Virtual Thread
+
+Java에서는 JVM이 User Space Runtime 역할을 한다.
+
+JVM 전체는 GC · JIT · Class Loading 등 훨씬 많은 기능을 담당하지만, Thread 실행 모델 관점에서는 **Virtual Thread의 상태를 관리하고 어떤 Carrier Platform Thread에서 실행할지 결정하는 Runtime Scheduler 역할**을 한다.
+
+```text
+Java Application
+        ↓
+JVM Runtime
+├─ Virtual Thread 상태 관리
+├─ Virtual Thread Scheduling
+└─ Carrier Platform Thread에 배치
+        ↓
+Carrier Platform Thread
+        ↓
+OS Native / Kernel-scheduled Thread
+        ↓
+OS Scheduler
+        ↓
+CPU
+```
+
+따라서 고전 모델과 연결하면:
+
+```text
+Virtual Thread
+≈ User-level Thread 성격
+
+JVM Scheduler
+≈ User-space Thread Runtime / Scheduler 역할
+
+Carrier Platform Thread
+≈ Kernel-level 실행 단위에 연결되는 중간 실행 자원
+```
 
 Java Virtual Thread는 JVM이 많은 Virtual Thread를 Carrier Platform Thread 위에 Scheduling한다.
 
