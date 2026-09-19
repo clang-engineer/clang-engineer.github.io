@@ -4,7 +4,49 @@
 >
 > 이 문서에서는 Multiplexing 이후 Application 실행 구조를 깊게 보고, Java NIO(New I/O, Java의 Channel·Selector 중심 I/O API) · Netty · WebFlux처럼 특정 생태계의 구현 경로는 `Java-Network-IO-WebFlux.md`에서 이어서 다룬다.
 
-## 1. 출발점: I/O Multiplexing
+## 1. 큰 그림 — 현대 비동기 I/O의 공통 기반
+
+Node.js, Netty, WebFlux, Python asyncio처럼 서로 다른 생태계의 비동기 기술은 겉으로 보면 API와 문법이 다르지만, 네트워크 I/O 관점에서는 공통된 기반 위에 쌓여 있다.
+
+```text
+OS 공통 I/O 기반
+select / poll / epoll / kqueue / IOCP ...
+        ↓
+Runtime 실행 구조
+Event Loop / Scheduler
+        ↓
+언어·Framework 비동기 추상화
+Callback / Promise / Future / Coroutine / Mono / Flux
+        ↓
+Application
+Node.js / Netty / WebFlux / asyncio ...
+```
+
+각 계층의 책임은 다음과 같다.
+
+```text
+OS
+= Socket / FD 같은 I/O 자원 상태 관리
+= readiness / completion 통지 메커니즘 제공
+
+Runtime
+= OS의 I/O Event를 반복적으로 받아 처리
+= Event Loop / Scheduler로 후속 실행 연결
+
+언어 / Framework
+= Application이 비동기 흐름을 표현할 수 있도록
+  Promise / Future / Coroutine / Reactive API 등 제공
+```
+
+따라서 현대의 이벤트 기반 비동기 I/O 기술은 서로 완전히 독립된 기술이라기보다, **OS가 제공하는 I/O Event Notification 기반 위에서 Runtime과 Framework가 각자의 추상화를 발전시킨 계열**로 볼 수 있다.
+
+다만 모든 비동기 기술이 반드시 이 계보 하나로만 설명되는 것은 아니다. 예를 들어 Virtual Thread처럼 Blocking 코드를 경량 실행 단위로 확장하는 모델은 핵심 설명축이 다르다.
+
+> **이 문서에서 다루는 핵심 계보는 ‘OS I/O Event Mechanism → Event Loop → Application 비동기 추상화’다.**
+
+---
+
+## 3. 출발점: I/O Multiplexing
 
 OS의 Network I/O가 항상 I/O Multiplexing 방식으로 동작하는 것은 아니다.
 
@@ -29,7 +71,7 @@ App C ── select / poll / epoll ─→ 여러 FD의 readiness를 함께 대�
 
 > **Application / Runtime이 I/O 전략을 선택하고, Application Thread가 그에 맞는 API를 호출하며, OS가 해당 메커니즘으로 요청을 처리한다.**
 
-## 2. Event 발생 흐름과 System Call 호출 흐름은 다르다
+## 3. Event 발생 흐름과 System Call 호출 흐름은 다르다
 
 Network Event 자체는 Kernel 쪽에서 발생·관리된다.
 
@@ -86,7 +128,7 @@ Event Loop Thread 실행 재개
 
 따라서 이 구조는 **감시 대상 등록 → Kernel 상태 관리 → 대기 지점 반환 → Application 후속 처리**로 이해한다.
 
-## 3. Readiness는 I/O 완료가 아니다
+## 4. Readiness는 I/O 완료가 아니다
 
 `readiness`는 I/O가 Application까지 완료됐다는 뜻이 아니라 **해당 FD에 대해 지금 I/O를 진행할 조건이 준비된 상태**다.
 
@@ -122,7 +164,7 @@ Readiness ≠ I/O 처리 완료
 Readiness = I/O를 진행할 조건이 준비됨
 ```
 
-## 4. Ready Event는 대기하던 Thread의 호출 결과다
+## 5. Ready Event는 대기하던 Thread의 호출 결과다
 
 Ready Event를 Kernel이 임의의 Application Thread에 밀어주는 것으로 이해하지 않는다. `select()` / `poll()` / `epoll_wait()`를 호출하여 대기하던 Thread의 **System Call이 Ready 결과를 가지고 반환**된다.
 
@@ -179,7 +221,7 @@ Socket에 Data 도착
 
 > **I/O Multiplexing은 OS 수준에서 어떤 I/O가 Ready인지 기다리는 Mechanism이고, Event Loop는 그 결과를 Runtime/Application의 후속 작업으로 연결하는 실행 구조다.**
 
-## 5. Event Loop
+## 6. Event Loop
 
 이 과정을 반복하는 Application 실행 구조가 Event Loop다.
 
@@ -206,7 +248,7 @@ Event Loop
 
 따라서 `epoll = Event Loop`는 아니다.
 
-## 6. Ready 감지와 실제 처리는 별개다
+## 7. Ready 감지와 실제 처리는 별개다
 
 Application Thread가 Ready FD 하나를 처리하는 동안에도 Kernel은 다른 FD의 Ready 상태를 감지·관리할 수 있다.
 
@@ -224,7 +266,7 @@ C Ready ✓                         │ A 처리 중
 
 즉 **A 처리 중이라고 B/C가 Ready되지 않는 것이 아니라, B/C의 Application 처리가 늦어지는 것**이다.
 
-## 7. Reactor Pattern은 왜 필요한가
+## 8. Reactor Pattern은 왜 필요한가
 
 I/O Multiplexing만으로도 서버는 구현할 수 있다.
 
@@ -269,7 +311,7 @@ Reactor
 
 따라서 Reactor는 I/O Multiplexing의 필수 다음 단계가 아니다. **Multiplexing/Event-driven I/O를 Application에서 구조화하는 대표적인 설계 패턴 중 하나**다.
 
-## 8. Reactor와 Thread를 구분한다
+## 9. Reactor와 Thread를 구분한다
 
 Handler로 Dispatch한다는 것이 반드시 Worker Thread에게 작업을 넘긴다는 뜻은 아니다.
 
@@ -293,7 +335,7 @@ Thread
 
 > **Reactor의 핵심은 Thread 분배가 아니라 Event Dispatch다. Worker Thread 사용 여부는 별도의 실행 전략이다.**
 
-## 9. I/O Multiplexing은 여러 생태계에서 각자의 방식으로 활용된다
+## 10. I/O Multiplexing은 여러 생태계에서 각자의 방식으로 활용된다
 
 I/O Multiplexing은 Java에 종속된 개념이 아니다. OS가 제공하는 일반적인 I/O 메커니즘을 각 언어와 Runtime이 자신의 API와 실행 모델에 맞게 활용·추상화한다.
 
@@ -330,7 +372,7 @@ Framework
 어떻게? = Event Loop · Handler · Buffer · Thread 정책 등을 더 높은 수준에서 구조화
 ```
 
-## 10. Event Loop Thread 구성 — Node.js와 Netty/WebFlux 비교
+## 11. Event Loop Thread 구성 — Node.js와 Netty/WebFlux 비교
 
 Event Loop라고 해서 반드시 Thread가 하나라는 뜻은 아니다. **Event Loop는 반복 실행 구조이고, 그 구조를 몇 개의 Thread에서 돌릴지는 Runtime / Framework의 설계 선택**이다.
 
@@ -435,7 +477,7 @@ Node.js와 Netty/WebFlux의 차이는 Event Loop라는 원리가 다른 것이 �
 
 ---
 
-## 11. 학습 연결
+## 12. 학습 연결
 
 ```text
 Socket-서버-IO.md
