@@ -51,24 +51,17 @@ Kernel-level Thread (KLT)
 = OS Kernel이 직접 Scheduling하는 Thread
 ```
 
-여기서 가장 자주 헷갈리는 점은 **User-level Thread의 `User`가 "사용자가 직접 만든 Thread"라는 뜻이 아니라는 것**이다.
+여기서 `User-level Thread`의 `User`는 **사용자(person)**가 아니라 **User Space**를 의미한다.
 
 ```text
-잘못된 이해
-Application 코드에서 만든 Thread
-= User-level Thread
-
-정확한 이해
 User-level Thread
-= User Space의 Runtime / Library가 직접 관리하는 실행 단위
+= User Space의 Runtime / Library가 관리하는 실행 단위
 
 Kernel-level Thread
 = OS Kernel이 직접 Scheduling하는 실행 단위
 ```
 
-따라서 Application이 `new Thread(...)`처럼 직접 생성한 Thread라도, 그 Thread가 OS Native Thread에 거의 1:1로 대응해 Kernel이 직접 Scheduling한다면 고전적인 의미의 User-level Thread라고 보지 않는다.
-
-즉 **구분 기준은 "누가 만들었는가"가 아니라 "누가 해당 실행 단위를 직접 Scheduling·관리하는가"**다.
+따라서 구분 기준은 **Application 코드에서 직접 생성했는가가 아니라, 해당 실행 단위를 User Space Runtime이 관리하는가, Kernel이 직접 Scheduling하는가**다.
 
 핵심 질문은 다음이다.
 
