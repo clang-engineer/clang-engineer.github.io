@@ -63,6 +63,46 @@ Kernel-level Thread
 
 따라서 구분 기준은 **Application 코드에서 직접 생성했는가가 아니라, 해당 실행 단위를 User Space Runtime이 관리하는가, Kernel이 직접 Scheduling하는가**다.
 
+### Runtime과 Kernel의 책임 경계
+
+Runtime이 Kernel Thread를 직접 만들거나 통제하는 것은 아니다. Runtime이 OS Thread가 필요하면 **OS가 제공하는 API / System Call을 통해 요청**하고, 실제 Thread의 생성·상태 관리·CPU Scheduling은 Kernel이 담당한다.
+
+```text
+Runtime / Thread Library
+        ↓ 요청
+OS API / System Call
+        ↓
+Kernel
+        ↓
+Kernel-level Thread 생성·관리
+        ↓
+OS Scheduler
+```
+
+역할을 분리하면:
+
+```text
+Runtime
+= User-level 실행 단위 관리
+= OS가 제공한 Thread 자원을 사용
+= ULT를 사용 가능한 KLT 위에 배치
+
+Kernel
+= KLT 실제 생성·관리
+= KLT 상태 관리
+= CPU Scheduling
+```
+
+따라서 **Runtime이 Kernel을 Scheduling하는 것이 아니다.**
+
+```text
+Runtime Scheduler
+ULT → 어떤 KLT에서 실행할지 결정
+
+Kernel Scheduler
+KLT → 어떤 CPU에서 언제 실행할지 결정
+```
+
 핵심 질문은 다음이다.
 
 > **User Space의 여러 실행 흐름을 Kernel의 실행 단위에 어떻게 대응시킬 것인가?**
@@ -159,6 +199,23 @@ Many-to-Many
 
 이 세 방식은 발전 순서가 아니라 **비용·병렬성·Blocking 영향 범위 사이의 서로 다른 선택**이다.
 
+여기서 중요한 점은 **Runtime이 실행 중에 마음대로 Mapping 방식을 고른다는 뜻이 아니라는 것**이다.
+
+Mapping Model은 OS가 제공하는 Thread 기능과 Runtime / Thread Library의 구현 구조가 결합되어 만들어지는 실행 모델이다.
+
+```text
+OS
+→ Kernel Scheduling 단위와 Thread 기능 제공
+
+Runtime / Thread Library
+→ 그 기능 위에서 ULT 관리·Mapping 구조 구현
+
+Application
+→ 이미 구현된 Thread 모델을 사용
+```
+
+즉 Runtime은 Kernel Thread 구조를 바꾸는 것이 아니라, **Kernel이 제공하는 실행 자원 위에 자신의 User-level 실행 단위를 어떻게 구성할지 구현한다.**
+
 ### 먼저 비교축을 잡는다
 
 세 Mapping Model을 각각 외우기보다 먼저 무엇을 비교하는지 잡는다.
@@ -193,7 +250,7 @@ User Thread B ─┼→ Kernel Thread 1
 User Thread C ─┘
 ```
 
-여러 User Thread를 하나의 Kernel Thread 위에서 Runtime이 번갈아 실행한다.
+여러 User Thread를 **OS가 제공한 하나의 Kernel Thread를 실행 자원으로 사용하면서** Runtime이 번갈아 실행한다.
 
 장점:
 
@@ -225,7 +282,7 @@ User Thread B → Kernel Thread B
 User Thread C → Kernel Thread C
 ```
 
-각 User Thread가 하나의 Kernel Thread에 대응한다.
+각 User Thread에 대응하는 Kernel Scheduling 단위가 하나씩 존재한다. 이 1:1 대응은 **One-to-One 모델의 특성**이지 모든 Thread 모델의 일반적인 성질은 아니다.
 
 장점:
 
@@ -259,7 +316,7 @@ User Thread C ─┤                     ├→ Kernel Thread 2
 User Thread D ─┘                     └→ Kernel Thread 3
 ```
 
-많은 User Thread를 여러 Kernel Thread 위에 Runtime이 배치한다.
+많은 User Thread를 **OS가 제공한 여러 Kernel Thread 위에** Runtime이 배치한다. Runtime은 이 Kernel Thread들을 직접 관리하는 것이 아니라 실행 자원으로 사용한다.
 
 목표는 다음 두 장점을 함께 얻는 것이다.
 
@@ -271,7 +328,7 @@ Kernel-level Thread
 → 실제 Multi-core 병렬 실행
 ```
 
-Runtime은 어떤 User Thread를 어떤 Kernel Thread에서 실행할지 Scheduling해야 한다.
+Runtime은 어떤 User Thread를 어떤 Kernel Thread에서 실행할지 결정하지만, **그 Kernel Thread를 어느 CPU에서 언제 실행할지는 OS Scheduler가 결정한다.**
 
 장점:
 
@@ -323,6 +380,8 @@ Many-to-Many
 
 Java Platform Thread는 일반적으로 OS Native Thread와 거의 1:1로 연결된다.
 
+이 표현은 **One-to-One 구조이기 때문에 가능한 설명**이다. 모든 User-level / Kernel-level Thread 관계가 1:1이라는 뜻이 아니다.
+
 ```text
 Java Platform Thread
         ↓ 거의 1:1
@@ -334,6 +393,8 @@ CPU
 ```
 
 따라서 개념적으로 **One-to-One 성격**이 강하다.
+
+여기서 `Platform Thread = Kernel Thread`라는 뜻은 아니다. **Platform Thread 하나의 실행을 위해 OS가 Scheduling하는 Native Thread 하나가 거의 대응한다**는 의미다.
 
 ### Java Virtual Thread
 
@@ -372,6 +433,16 @@ Carrier Platform Thread
 ```
 
 Java Virtual Thread는 JVM이 많은 Virtual Thread를 Carrier Platform Thread 위에 Scheduling한다.
+
+이때 JVM이 Kernel Thread를 통제하는 것이 아니다. JVM은 **OS가 Scheduling하는 Carrier Platform Thread를 실행 자원으로 사용하면서** 그 위에 Virtual Thread를 배치한다.
+
+```text
+JVM Scheduler
+Virtual Thread → Carrier Platform Thread
+
+OS Scheduler
+Carrier가 사용하는 Native Thread → CPU
+```
 
 ```text
 Virtual Thread A ─┐
@@ -522,4 +593,6 @@ Virtual Thread
 
 가장 중요한 문장:
 
-> **Thread Mapping Model의 핵심은 User Space의 논리적 실행 흐름을 Kernel이 실제 Scheduling하는 실행 단위에 어떻게 대응시킬 것인가이며, 이 선택이 Thread 비용·Blocking 영향·Multi-core 병렬성·Runtime 복잡도를 결정한다.**
+> **OS는 Kernel-level Thread라는 실제 Scheduling 단위를 제공·관리하고, Runtime은 그 위에서 User-level 실행 단위를 구성한다. Thread Mapping Model은 이 두 계층이 어떤 구조로 연결되는지를 설명한다.**
+
+따라서 `Many-to-One / One-to-One / Many-to-Many`를 볼 때는 **Runtime이 Kernel을 통제한다**고 이해하지 않고, **OS가 제공한 KLT를 Runtime이 어떤 구조로 활용하느냐**를 본다.
