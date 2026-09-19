@@ -106,15 +106,56 @@ Callable<V>
 
 ---
 
-## 4. Executor — 실행 정책을 분리한다
+## 4. Executor — Task 실행을 위임하는 최소 추상화
 
-`Executor`는 Task를 받아 실제 실행을 위임한다.
+`Executor`는 **Task를 어떻게 실행할지 호출자와 분리하기 위한 가장 기본적인 실행 추상화**다.
 
 ```java
 executor.execute(task);
 ```
 
-`ExecutorService`는 Task 제출, Lifecycle 관리, Future 반환 등을 제공한다.
+호출자는 `Runnable`을 넘기고, 실제로 새 Thread를 만들지 Thread Pool에 넣을지 같은 실행 방법은 `Executor` 구현에 맡긴다.
+
+```text
+Caller
+  │ execute(Runnable)
+  ▼
+Executor
+  │
+  └─ 실제 실행 정책은 구현체가 결정
+```
+
+즉 `Executor` 자체의 핵심은 **Task 제출과 실제 실행 방법을 분리하는 것**이다.
+
+```text
+Task를 표현
+→ Runnable
+
+Task 실행을 위임
+→ Executor
+```
+
+---
+
+## 6. ExecutorService — 실행 관리 기능을 확장한다
+
+`ExecutorService`는 `Executor`를 확장해 **Task 제출 결과, Lifecycle, 여러 Task 관리**까지 다룬다.
+
+```text
+Executor
+= execute(Runnable)
+= 실행 위임의 최소 Interface
+
+        ↓ extends
+
+ExecutorService
+= submit()
+= Future 반환
+= shutdown()
+= invokeAll() 등
+```
+
+예를 들어:
 
 ```java
 ExecutorService executor = Executors.newFixedThreadPool(4);
@@ -125,19 +166,30 @@ Future<Integer> future = executor.submit(() -> compute());
 Caller
   │ submit
   ▼
-Executor
+ExecutorService
   ├─ Task Queue
-  └─ Worker Thread(s)
-        │
-        ▼
-      Task 실행
+  ├─ Worker Thread(s)
+  ├─ Future 반환
+  └─ Lifecycle 관리
 ```
 
-사고의 중심이 `Thread를 만든다`에서 **`Task를 실행 정책에 제출한다`**로 바뀐다.
+즉 사고의 흐름은 다음처럼 잡는다.
+
+```text
+Thread를 직접 만든다
+        ↓
+Task를 Executor에 맡긴다
+        ↓
+제출 결과와 Lifecycle까지 관리하려면
+ExecutorService를 사용한다
+```
+
+> **Executor = 실행 위임의 최소 추상화**  
+> **ExecutorService = Executor + Task 결과·Lifecycle 관리**
 
 ---
 
-## 5. Future — 미래 결과를 나타내는 Handle
+## 6. Future — 미래 결과를 나타내는 Handle
 
 `Future<V>`는 아직 완료되지 않았을 수도 있는 작업의 결과를 나타낸다. C++의 `std::future<T>`를 기준점으로 삼을 수 있다.
 
@@ -159,7 +211,7 @@ future.get()에서 현재 Thread는 Blocking 가능
 
 ---
 
-## 6. CompletableFuture — 완료 이후의 흐름을 연결한다
+## 7. CompletableFuture — 완료 이후의 흐름을 연결한다
 
 `CompletableFuture<T>`는 미래 결과를 표현하면서 후속 Stage를 연결할 수 있다.
 
@@ -207,7 +259,7 @@ loadUser().thenCompose(user -> loadOrder(user));
 
 ---
 
-## 7. CompletableFuture는 Thread가 아니다
+## 8. CompletableFuture는 Thread가 아니다
 
 ```text
 CompletableFuture
@@ -244,7 +296,7 @@ CompletableFuture.supplyAsync(
 
 ---
 
-## 8. 상위 원칙을 Java에 대입하면 — Async ≠ Non-blocking
+## 9. 상위 원칙을 Java에 대입하면 — Async ≠ Non-blocking
 
 상위 문서의 원칙은 Java에서도 그대로 적용된다. `CompletableFuture`, `@Async` 등으로 Caller가 결과를 기다리지 않게 만들 수 있어도, 내부에서 Blocking API를 실행하면 **그 작업을 실제로 수행하는 Thread는 대기한다.**
 
@@ -262,7 +314,7 @@ Worker
 
 ---
 
-## 9. Virtual Thread — Thread 비용 자체를 낮추는 다른 축
+## 10. Virtual Thread — Thread 비용 자체를 낮추는 다른 축
 
 Virtual Thread는 `CompletableFuture`와 같은 비동기 표현 방식이 아니라, **Java Thread를 어떤 실행 자원 위에서 운영할 것인가**라는 실행 모델의 문제를 해결한다.
 
@@ -412,7 +464,7 @@ Virtual Thread
 
 ---
 
-## 10. Spring @Async — Spring의 실행 위임
+## 11. Spring @Async — Spring의 실행 위임
 
 `@Async`는 Java 언어나 JVM 기능이 아니라 Spring Framework 기능이다.
 
@@ -443,7 +495,7 @@ Method 실행
 
 ---
 
-## 11. WebFlux — @Async와 같은 모델이 아니다
+## 12. WebFlux — @Async와 같은 모델이 아니다
 
 Spring WebFlux는 Reactive Programming과 Non-blocking I/O를 중심으로 설계된 Web Stack이다.
 
@@ -463,7 +515,7 @@ Reactive Streams와 Backpressure의 상세 내용은 별도 학습 대상으로 
 
 ---
 
-## 12. 실무에서 비동기 코드를 읽는 네 질문
+## 13. 실무에서 비동기 코드를 읽는 네 질문
 
 ```text
 1. 현재 코드를 실제로 실행하는 Thread는 누구인가?
@@ -501,7 +553,7 @@ thenApply
 
 ---
 
-## 13. 한 장으로 복원하기
+## 14. 한 장으로 복원하기
 
 ```text
                     Java Application
@@ -534,7 +586,7 @@ Spring WebFlux → Reactive + Non-blocking 처리 모델
 
 ---
 
-## 14. C++ 기준 최종 대응
+## 15. C++ 기준 최종 대응
 
 | Java | C++ 기준점 | 경계 |
 | --- | --- | --- |
