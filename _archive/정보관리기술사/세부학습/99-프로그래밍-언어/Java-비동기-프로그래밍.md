@@ -305,6 +305,66 @@ Virtual Thread C ─┘
 
 Virtual Thread는 개발자에게는 `Thread`처럼 보이지만, Virtual Thread마다 OS Thread가 하나씩 생기는 것은 아니다. JVM이 많은 Virtual Thread를 소수의 Carrier Platform Thread 위에 스케줄링한다.
 
+### 왜 Virtual Thread는 더 가벼운가
+
+핵심은 **Virtual Thread 하나마다 OS Native Thread 하나를 1:1로 만들고 유지하지 않는다는 점**이다.
+
+```text
+Platform Thread
+Java Thread 1개
+→ OS Native Thread 1개
+→ OS가 Scheduling 대상과 실행 상태 관리
+→ Thread Stack 등 자원 필요
+```
+
+Thread 수가 커지면 OS가 직접 관리해야 하는 Native Thread 수도 함께 늘어난다. 생성·전환·Stack Memory·Scheduling 대상 증가가 모두 비용이 된다.
+
+Virtual Thread는 다르게 동작한다.
+
+```text
+Virtual Thread 수천~수만 개
+        ↓
+JVM이 실행 상태 관리
+        ↓
+실제로 CPU에서 실행할 때만
+Carrier Platform Thread에 Mount
+        ↓
+OS는 Carrier Platform Thread만 Scheduling
+```
+
+즉 Virtual Thread 자체는 **JVM이 관리하는 경량 실행 상태**이고, 실제 CPU 실행이 필요할 때 Carrier Thread를 빌려 쓴다.
+
+특히 I/O 대기에서는 차이가 커진다.
+
+```text
+Platform Thread
+→ Blocking I/O
+→ 해당 OS Thread도 대기 상태로 남음
+
+Virtual Thread
+→ Blocking I/O
+→ Virtual Thread 실행 상태는 대기
+→ Carrier Thread는 다른 Virtual Thread 실행 가능
+```
+
+따라서 Virtual Thread가 "싸다"는 말은 새로운 기능을 더 적게 제공한다는 뜻이 아니라, **Thread마다 비싼 OS Thread를 하나씩 전담시키지 않아도 된다는 뜻**이다.
+
+```text
+비용 차이의 핵심
+
+Platform Thread
+= OS Thread 생성·관리
++ Stack Memory
++ OS Scheduling 대상 증가
+
+Virtual Thread
+= JVM 수준 실행 상태
++ 필요할 때만 Carrier Thread 사용
++ 대기 중 Carrier 재사용 가능
+```
+
+그래서 Virtual Thread의 강점은 CPU 계산을 더 빠르게 만드는 것이 아니라, **I/O 대기가 많은 Thread-per-task 구조를 훨씬 큰 규모로 유지하기 쉽게 만드는 것**이다.
+
 I/O 대기가 발생하면 개념적으로 다음처럼 볼 수 있다.
 
 ```text
