@@ -73,6 +73,22 @@ Device ─┘
 
 > **FD는 Process가 다양한 Kernel I/O 자원을 직접 알지 않고도 안전하고 통일된 방식으로 참조하기 위한 핵심 추상화다.**
 
+이 점이 뒤의 I/O Multiplexing과 직접 연결된다. Application은 Kernel 내부의 Socket 객체 자체를 감시 대상으로 넘기는 것이 아니라, **그 자원을 가리키는 FD를 select / poll / epoll에 등록**한다.
+
+```text
+Application Process
+        ↓
+FD를 통해 Kernel I/O Resource 참조
+        ↓
+감시할 FD 등록
+        ↓
+Kernel이 해당 자원의 readiness 관리
+        ↓
+대기 중인 System Call이 Ready FD를 반환
+```
+
+즉 OS가 임의의 Application을 찾아가 결과를 전달하는 것이 아니라, **Application이 먼저 관심 있는 Kernel 자원을 FD로 등록하고 그 결과를 기다리는 관계를 만든다.**
+
 ---
 
 ## 2. FD란 무엇인가
