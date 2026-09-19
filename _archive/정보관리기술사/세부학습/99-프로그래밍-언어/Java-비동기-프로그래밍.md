@@ -244,32 +244,21 @@ CompletableFuture.supplyAsync(
 
 ---
 
-## 8. CompletableFuture로 감싸도 Blocking I/O는 Blocking I/O다
+## 8. 상위 원칙을 Java에 대입하면 — Async ≠ Non-blocking
 
-```java
-CompletableFuture.supplyAsync(() -> repository.findAll());
-```
-
-내부가 Blocking JDBC라면 Caller는 기다리지 않고 진행할 수 있지만 JDBC를 수행하는 Worker Thread는 DB 응답을 기다릴 수 있다.
+상위 문서의 원칙은 Java에서도 그대로 적용된다. `CompletableFuture`, `@Async` 등으로 Caller가 결과를 기다리지 않게 만들 수 있어도, 내부에서 Blocking API를 실행하면 **그 작업을 실제로 수행하는 Thread는 대기한다.**
 
 ```text
-Caller Thread
-  ├─ Task 제출
-  └─ 계속 진행
+Caller
+→ 작업 위임
+→ 기다리지 않고 계속 진행
 
-Worker Thread
-  └─ Blocking JDBC
-       └─ 응답까지 대기
+Worker
+→ Blocking I/O 실행
+→ 해당 I/O가 끝날 때까지 대기
 ```
 
-즉:
-
-```text
-비동기 호출
-≠ Non-blocking I/O
-```
-
-`CompletableFuture`는 Blocking API를 자동으로 Non-blocking API로 바꾸는 장치가 아니다.
+즉 이것은 `CompletableFuture`만의 특징이 아니라 **비동기 실행과 Blocking / Non-blocking I/O가 서로 다른 축이라는 일반 원칙의 Java 사례**다.
 
 ---
 
