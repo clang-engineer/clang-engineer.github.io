@@ -330,7 +330,112 @@ Framework
 어떻게? = Event Loop · Handler · Buffer · Thread 정책 등을 더 높은 수준에서 구조화
 ```
 
-## 10. 학습 연결
+## 10. Event Loop Thread 구성 — Node.js와 Netty/WebFlux 비교
+
+Event Loop라고 해서 반드시 Thread가 하나라는 뜻은 아니다. **Event Loop는 반복 실행 구조이고, 그 구조를 몇 개의 Thread에서 돌릴지는 Runtime / Framework의 설계 선택**이다.
+
+### Node.js
+
+Node.js는 기본적으로 **JavaScript를 실행하는 Main Event Loop Thread를 하나** 둔다.
+
+```text
+Node.js Process
+
+Main Event Loop Thread
+        ↓
+Callback / Timer / Request Logic
+        ↓
+Non-blocking I/O
+        ↓
+OS / libuv
+```
+
+핵심 의도는 JavaScript 실행 흐름을 하나로 유지해 공유 상태 동기화 복잡도를 줄이는 것이다.
+
+```text
+Event Loop 1개
+→ JS 실행 흐름 단순
+→ Lock / Race Condition 부담 감소
+→ I/O 동시성은 OS / libuv에 위임
+```
+
+다만 Node.js Process 전체가 Thread 하나만 가진다는 뜻은 아니다. libuv Worker Thread Pool이나 Runtime 내부 Thread가 별도로 존재할 수 있다.
+
+CPU-bound 작업이 Main Event Loop를 오래 점유하면:
+
+```text
+무거운 JavaScript 계산
+        ↓
+Main Event Loop 점유
+        ↓
+다른 Callback / Request 처리 지연
+```
+
+이 발생할 수 있다.
+
+### Netty / WebFlux
+
+Netty 기반 WebFlux에서는 보통 **여러 Event Loop Thread**가 존재하고, 각 Thread가 여러 Connection을 맡아 처리한다.
+
+```text
+EventLoop Thread 1
+├─ Connection A
+├─ Connection B
+└─ Connection C
+
+EventLoop Thread 2
+├─ Connection D
+├─ Connection E
+└─ Connection F
+```
+
+즉:
+
+```text
+소수의 Event Loop Thread
+        ↓
+많은 Connection을 Multiplexing
+        ↓
+여러 CPU Core도 활용 가능
+```
+
+대신 Event Loop Thread 안에서 Blocking 작업을 오래 수행하면 해당 Thread가 맡은 Connection들의 처리가 함께 지연될 수 있다.
+
+### 왜 무조건 여러 Event Loop가 좋은 것은 아닌가
+
+```text
+Event Loop 1개
+장점
+- 실행 모델 단순
+- 공유 상태 동기화 비용 감소
+- Context Switch 감소
+
+단점
+- 하나의 CPU-bound 작업이 전체 Loop를 막을 수 있음
+- 한 실행 Thread 기준으로는 Multi-core 병렬성 제한
+```
+
+```text
+Event Loop 여러 개
+장점
+- 여러 CPU Core 활용 가능
+- 하나의 Thread가 바빠도 다른 Loop는 진행 가능
+
+단점
+- 공유 상태가 생기면 동기화 고려 필요
+- Thread Scheduling / Context Switch 비용 증가
+- 실행 모델 복잡도 증가
+```
+
+따라서 핵심 비교축은 다음과 같다.
+
+> **Event Loop Thread 1개는 단순성과 동기화 비용 감소를, 여러 개는 Multi-core 활용과 병렬성을 우선하는 선택이다.**
+
+Node.js와 Netty/WebFlux의 차이는 Event Loop라는 원리가 다른 것이 아니라, **같은 Event-driven I/O 구조를 몇 개의 실행 Thread로 운영하느냐가 다르다**는 점에 있다.
+
+---
+
+## 11. 학습 연결
 
 ```text
 Socket-서버-IO.md
