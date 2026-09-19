@@ -318,6 +318,12 @@ Worker
 
 Virtual Thread는 `CompletableFuture`와 같은 비동기 표현 방식이 아니라, **Java Thread를 어떤 실행 자원 위에서 운영할 것인가**라는 실행 모델의 문제를 해결한다.
 
+Thread의 User-level / Kernel-level 구분과 Many-to-One · One-to-One · Many-to-Many Mapping 자체는 운영체제 보충학습에서 먼저 본다.
+
+- [`스레드-모델-User-Kernel-Mapping.md`](../02-운영체제/_보충학습/스레드-모델-User-Kernel-Mapping.md)
+
+이 문서에서는 그 기반을 Java에 대입해 Platform Thread와 Virtual Thread의 차이를 본다.
+
 먼저 일반적인 Java Thread Pool을 본다.
 
 ```text
