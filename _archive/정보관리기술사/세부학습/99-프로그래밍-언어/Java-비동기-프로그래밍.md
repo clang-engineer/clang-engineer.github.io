@@ -334,6 +334,50 @@ OS Scheduler가 CPU에 배치
 
 일반적인 `ExecutorService`의 Worker는 보통 Platform Thread다. Platform Thread는 OS Native Thread와 거의 1:1로 연결되므로, Thread를 아주 많이 만들면 생성 비용·Stack Memory·Scheduling 비용이 커질 수 있다.
 
+여기서 `Platform Thread`는 Java 코드에서 보이는 Thread 추상화이지만 실제 실행은 **OS Native Thread에 거의 1:1로 대응**한다고 이해하면 된다.
+
+```text
+Java Platform Thread
+        ↓ 거의 1:1
+OS Native Thread
+        ↓
+OS Scheduler
+        ↓
+CPU
+```
+
+따라서 다음과 같이 고정 Thread Pool을 만들면:
+
+```java
+Executors.newFixedThreadPool(20);
+```
+
+개념적으로는 **최대 20개의 Platform Thread Worker를 두고**, 이 Worker들이 거의 20개의 OS Native Thread에 대응해 Task를 처리하는 구조다.
+
+```text
+Task Queue
+   ↓
+Platform Thread 20개
+   ↓
+OS Native Thread 약 20개
+   ↓
+OS Scheduler
+```
+
+`newFixedThreadPool(n)`의 `n`은 API상 정수로 지정하지만 실제로 무한히 키울 수 있는 값은 아니다. 현실적인 상한은 다음 자원에 의해 결정된다.
+
+```text
+생성 가능한 Platform Thread 수
+        ↓
+OS Native Thread 한계
++ Process / JVM Memory
++ Thread Stack Memory
++ OS Scheduling Overhead
++ 시스템 설정과 Resource Limit
+```
+
+즉 **Thread Pool 크기 n은 단순 숫자가 아니라 실제 OS Thread 자원을 얼마나 사용할 것인지 결정하는 값**으로 봐야 한다.
+
 ```text
 Java Platform Thread 1 ─→ OS Thread 1
 Java Platform Thread 2 ─→ OS Thread 2
