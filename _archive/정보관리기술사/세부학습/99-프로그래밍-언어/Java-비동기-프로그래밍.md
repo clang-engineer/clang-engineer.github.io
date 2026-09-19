@@ -320,7 +320,7 @@ Virtual Thread는 `CompletableFuture`와 같은 비동기 표현 방식이 아�
 
 Thread의 User-level / Kernel-level 구분과 Many-to-One · One-to-One · Many-to-Many Mapping 자체는 운영체제 보충학습에서 먼저 본다.
 
-- [`스레드-모델-User-Kernel-Mapping.md`](../02-운영체제/_보충학습/스레드-모델-User-Kernel-Mapping.md)
+- [`스레드-실행모델-User-Kernel-Mapping.md`](../02-운영체제/_보충학습/스레드-실행모델-User-Kernel-Mapping.md)
 
 이 문서에서는 그 기반을 Java에 대입해 Platform Thread와 Virtual Thread의 차이를 본다.
 
