@@ -399,7 +399,137 @@ Event Loop
 
 ---
 
-## 8. Event Loop
+## 8. Readiness vs Completion — 무엇을 알려주는가
+
+비동기 I/O에서 `readiness`와 `completion`은 둘 다 "기다렸다가 알려준다"는 점 때문에 비슷해 보이지만, **통지하는 시점과 Application이 실제 I/O를 수행하는 방식이 다르다.**
+
+### Readiness 기반
+
+```text
+Application
+"이 FD가 읽을 수 있게 되면 알려줘"
+        ↓
+select / poll / epoll
+        ↓
+Kernel
+        ↓
+"fd 5가 READ Ready"
+        ↓
+Application이 read(fd 5, buf) 호출
+        ↓
+데이터 사용
+```
+
+즉 Readiness는:
+
+> **"이제 네가 I/O를 시도할 조건이 됐다"**
+
+를 알려준다.
+
+대표 예:
+
+```text
+select / poll / epoll
+= FD readiness 감시
+```
+
+### Completion 기반
+
+Completion 방식에서는 Application이 I/O 작업 자체를 먼저 요청한다.
+
+```text
+Application
+"fd 5에서 읽어서 buf에 넣어줘"
+        ↓
+비동기 I/O 요청
+(fd, buf, size)
+        ↓
+Kernel / I/O subsystem이 실제 I/O 수행
+        ↓
+buf에 데이터 채움
+        ↓
+Completion Event
+"읽기 작업 완료"
+        ↓
+Application은 buf 사용
+```
+
+즉 Completion은:
+
+> **"네가 맡긴 I/O 작업 자체가 끝났다"**
+
+를 알려준다.
+
+대표적으로 Completion Queue 기반 API나 `io_uring`, IOCP 같은 모델을 이해할 때 이 관점이 중요하다.
+
+### 핵심 차이
+
+```text
+Readiness
+= 준비 상태 통지
+= 통지 후 Application이 실제 read / write 수행
+
+Completion
+= I/O 작업 완료 통지
+= 완료 시점에는 요청한 I/O 결과가 준비되어 있음
+```
+
+### 둘 다 Multiplexing 성격은 있다
+
+넓게 보면 둘 다 여러 I/O를 한꺼번에 관리한다는 점에서 Multiplexing 성격이 있다.
+
+```text
+Readiness Multiplexing
+= 여러 FD의 readiness를 함께 감시
+
+Completion Multiplexing
+= 여러 I/O Request의 completion을 함께 수집
+```
+
+다만 운영체제/네트워크 교재에서 `I/O Multiplexing`이라고 하면 보통 먼저 `select / poll / epoll` 같은 **Readiness 기반 모델**을 가리키는 경우가 많다.
+
+### 일반 File I/O가 Readiness와 잘 맞지 않는 이유
+
+일반 Disk File은 Socket과 달리 readiness가 "실제 물리 I/O가 즉시 끝난다"는 뜻이 되기 어렵다.
+
+```text
+Regular File
+논리적으로 read 가능
+        ↓
+read() 호출
+        ↓
+Page Cache Miss 가능
+        ↓
+실제 Disk I/O
+        ↓
+오래 걸릴 수 있음
+```
+
+따라서 일반 File I/O는 Socket처럼:
+
+```text
+"Ready 됐으니 이제 read()"
+```
+
+보다:
+
+```text
+"이 범위를 읽어줘"
+↓
+I/O 완료
+↓
+결과 사용
+```
+
+같은 Completion 모델이 더 자연스럽다.
+
+핵심:
+
+> **Readiness는 "이제 네가 read 해도 돼", Completion은 "네가 맡긴 read 작업 끝났어"다.**
+
+---
+
+## 10. Event Loop
 
 이 과정을 반복하는 Application 실행 구조가 Event Loop다.
 
@@ -426,7 +556,7 @@ Event Loop
 
 따라서 `epoll = Event Loop`는 아니다.
 
-## 9. Ready 감지와 실제 처리는 별개다
+## 10. Ready 감지와 실제 처리는 별개다
 
 Application Thread가 Ready FD 하나를 처리하는 동안에도 Kernel은 다른 FD의 Ready 상태를 감지·관리할 수 있다.
 
@@ -444,7 +574,7 @@ C Ready ✓                         │ A 처리 중
 
 즉 **A 처리 중이라고 B/C가 Ready되지 않는 것이 아니라, B/C의 Application 처리가 늦어지는 것**이다.
 
-## 10. Reactor Pattern은 왜 필요한가
+## 11. Reactor Pattern은 왜 필요한가
 
 I/O Multiplexing만으로도 서버는 구현할 수 있다.
 
@@ -489,7 +619,7 @@ Reactor
 
 따라서 Reactor는 I/O Multiplexing의 필수 다음 단계가 아니다. **Multiplexing/Event-driven I/O를 Application에서 구조화하는 대표적인 설계 패턴 중 하나**다.
 
-## 11. Reactor와 Thread를 구분한다
+## 12. Reactor와 Thread를 구분한다
 
 Handler로 Dispatch한다는 것이 반드시 Worker Thread에게 작업을 넘긴다는 뜻은 아니다.
 
@@ -513,7 +643,7 @@ Thread
 
 > **Reactor의 핵심은 Thread 분배가 아니라 Event Dispatch다. Worker Thread 사용 여부는 별도의 실행 전략이다.**
 
-## 12. 역할 구분 — Application · Network Server · I/O Runtime · Event Loop
+## 13. 역할 구분 — Application · Network Server · I/O Runtime · Event Loop
 
 이 개념들은 반드시 서로 다른 프로그램이나 제품을 뜻하지 않는다. **역할을 구분하기 위한 관점**이다.
 
@@ -602,7 +732,7 @@ Coroutine / Task
 
 ---
 
-## 13. I/O Multiplexing은 여러 상위 영역에서 활용된다
+## 14. I/O Multiplexing은 여러 상위 영역에서 활용된다
 
 I/O Multiplexing은 OS가 제공하는 공통 기반 기술이고, 상위에서는 목적에 따라 서로 다른 형태로 활용·추상화된다.
 
@@ -703,7 +833,7 @@ Framework
 
 > **I/O Multiplexing은 OS의 공통 기반이고, Network Server는 이를 직접 활용하며, Runtime은 Event Loop 실행 구조로 연결하고, Framework는 더 높은 수준의 비동기 API로 추상화한다.**
 
-## 14. Event Loop Thread 구성 — Node.js와 Netty/WebFlux 비교
+## 15. Event Loop Thread 구성 — Node.js와 Netty/WebFlux 비교
 
 Event Loop라고 해서 반드시 Thread가 하나라는 뜻은 아니다. **Event Loop는 반복 실행 구조이고, 그 구조를 몇 개의 Thread에서 돌릴지는 Runtime / Framework의 설계 선택**이다.
 
@@ -808,7 +938,7 @@ Node.js와 Netty/WebFlux의 차이는 Event Loop라는 원리가 다른 것이 �
 
 ---
 
-## 15. 학습 연결
+## 16. 학습 연결
 
 ```text
 Socket-서버-IO.md
