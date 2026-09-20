@@ -46,7 +46,57 @@ Runtime
 
 ---
 
-## 3. 출발점: I/O Multiplexing
+## 2. 출발점: I/O Multiplexing
+
+### Multiplexing은 무슨 뜻인가
+
+`Multiplexing`은 여러 흐름을 **하나의 공통 지점에서 함께 다루는 것**을 뜻한다.
+
+I/O에 적용하면:
+
+```text
+개별 대기
+FD 1 → 별도 대기
+FD 2 → 별도 대기
+FD 3 → 별도 대기
+```
+
+대신:
+
+```text
+I/O Multiplexing
+FD 1 ─┐
+FD 2 ─┼→ 하나의 감시 지점
+FD 3 ─┘
+```
+
+처럼 여러 I/O 자원의 상태를 한 번에 기다리고 확인한다.
+
+Thread 관점에서는:
+
+```text
+Thread-per-Connection
+Socket A → Thread A
+Socket B → Thread B
+Socket C → Thread C
+```
+
+대신:
+
+```text
+I/O Multiplexing
+Socket A ─┐
+Socket B ─┼→ Event Loop Thread
+Socket C ─┘
+             ↓
+      select / poll / epoll
+```
+
+처럼 **한 Thread가 여러 Socket / FD의 readiness를 함께 감시**할 수 있다.
+
+> **I/O Multiplexing = 여러 I/O 흐름을 하나의 감시 지점으로 다중화해서 기다리는 방식**
+
+이 직관을 먼저 잡고 `select / poll / epoll`을 보면 이해가 쉽다.
 
 OS의 Network I/O가 항상 I/O Multiplexing 방식으로 동작하는 것은 아니다.
 
