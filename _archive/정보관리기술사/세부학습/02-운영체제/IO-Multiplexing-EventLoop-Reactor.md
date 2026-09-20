@@ -239,7 +239,7 @@ epoll_wait() 반환
 
 Kernel이 Thread를 깨운다고 해서 즉시 CPU에서 실행되는 것은 아니다. 대기할 이유가 사라진 Thread를 실행 가능한 상태로 만들고 실제 실행 시점은 Scheduler가 결정한다.
 
-## OS Event에서 Application Event로 올라가는 경계
+## 6. OS Event에서 Application Event로 올라가는 경계
 
 OS가 직접 아는 것은 Socket/FD의 readiness, Timer, Signal, I/O Request 같은 **Kernel 수준의 자원과 Event**다. 반면 Future, Task, Callback, Coroutine은 Runtime/Application 수준의 추상화다.
 
@@ -271,7 +271,7 @@ Socket에 Data 도착
 
 > **I/O Multiplexing은 OS 수준에서 어떤 I/O가 Ready인지 기다리는 Mechanism이고, Event Loop는 그 결과를 Runtime/Application의 후속 작업으로 연결하는 실행 구조다.**
 
-## 6. I/O Multiplexing과 Blocking / Non-blocking은 다른 질문이다
+## 7. I/O Multiplexing과 Blocking / Non-blocking은 다른 질문이다
 
 I/O 학습에서 `Blocking / Non-blocking / Multiplexing`이 함께 등장해서 같은 분류처럼 보이기 쉽지만, 실제 동작을 뜯어보면 **질문이 서로 다르다.**
 
@@ -426,7 +426,7 @@ Event Loop
 
 따라서 `epoll = Event Loop`는 아니다.
 
-## 8. Ready 감지와 실제 처리는 별개다
+## 9. Ready 감지와 실제 처리는 별개다
 
 Application Thread가 Ready FD 하나를 처리하는 동안에도 Kernel은 다른 FD의 Ready 상태를 감지·관리할 수 있다.
 
@@ -444,7 +444,7 @@ C Ready ✓                         │ A 처리 중
 
 즉 **A 처리 중이라고 B/C가 Ready되지 않는 것이 아니라, B/C의 Application 처리가 늦어지는 것**이다.
 
-## 9. Reactor Pattern은 왜 필요한가
+## 10. Reactor Pattern은 왜 필요한가
 
 I/O Multiplexing만으로도 서버는 구현할 수 있다.
 
@@ -489,7 +489,7 @@ Reactor
 
 따라서 Reactor는 I/O Multiplexing의 필수 다음 단계가 아니다. **Multiplexing/Event-driven I/O를 Application에서 구조화하는 대표적인 설계 패턴 중 하나**다.
 
-## 10. Reactor와 Thread를 구분한다
+## 11. Reactor와 Thread를 구분한다
 
 Handler로 Dispatch한다는 것이 반드시 Worker Thread에게 작업을 넘긴다는 뜻은 아니다.
 
@@ -513,7 +513,96 @@ Thread
 
 > **Reactor의 핵심은 Thread 분배가 아니라 Event Dispatch다. Worker Thread 사용 여부는 별도의 실행 전략이다.**
 
-## 11. I/O Multiplexing은 여러 상위 영역에서 활용된다
+## 12. 역할 구분 — Application · Network Server · I/O Runtime · Event Loop
+
+이 개념들은 반드시 서로 다른 프로그램이나 제품을 뜻하지 않는다. **역할을 구분하기 위한 관점**이다.
+
+```text
+Application
+= User Space에서 실행되는 프로그램 전체
+
+Network Server
+= Application 중 Network 요청을 처리하는 역할
+
+I/O Runtime / Event Loop
+= 여러 I/O Event를 기다리고 Ready Event를 후속 처리로 연결하는 실행 역할
+```
+
+따라서 Network Server Application 안에 Event Loop를 직접 구현할 수도 있고, Netty · libuv · asyncio 같은 구현체에 맡길 수도 있다.
+
+### 직접 구현하는 경우
+
+```text
+socket 생성
+↓
+non-blocking 설정
+↓
+epoll에 FD 등록
+↓
+epoll_wait()
+↓
+Ready FD 순회
+↓
+accept / read / write
+↓
+다시 epoll_wait()
+```
+
+이 경우 하나의 Application 코드가 동시에 두 역할을 수행한다.
+
+```text
+Network Server Application
+├─ 서버 로직
+│  └─ Protocol / Request 처리
+│
+└─ I/O Runtime / Event Loop 역할
+   ├─ select / poll / epoll 호출
+   ├─ Ready FD 확인
+   └─ Handler Dispatch
+```
+
+즉 **계층을 직접 합쳐서 구현할 수 있다.**
+
+### Runtime / Framework를 사용하는 경우
+
+저수준 I/O 실행 구조를 구현체에 맡길 수도 있다.
+
+```text
+Application
+        ↓
+Netty / libuv / asyncio Event Loop
+        ↓
+select / poll / epoll / kqueue / IOCP
+        ↓
+Kernel
+```
+
+예:
+
+```text
+Node.js
+Application JS
+→ libuv Event Loop
+→ epoll / kqueue / IOCP
+
+Netty
+Application Handler
+→ Netty EventLoop / transport
+→ Java NIO Selector 또는 native epoll
+
+Python asyncio
+Coroutine / Task
+→ asyncio Event Loop / selector
+→ epoll / kqueue 등
+```
+
+여기서 OS에 FD readiness 감시를 **실제로 요청하는 주체**는 가장 아래쪽의 I/O Runtime / Event Loop 구현체다.
+
+> **Application과 I/O Runtime은 반드시 물리적으로 분리된 프로그램이 아니다. 직접 구현하면 Application이 Runtime 역할까지 수행하고, Framework를 사용하면 해당 구현체가 그 역할을 대신한다.**
+
+---
+
+## 13. I/O Multiplexing은 여러 상위 영역에서 활용된다
 
 I/O Multiplexing은 OS가 제공하는 공통 기반 기술이고, 상위에서는 목적에 따라 서로 다른 형태로 활용·추상화된다.
 
@@ -614,7 +703,7 @@ Framework
 
 > **I/O Multiplexing은 OS의 공통 기반이고, Network Server는 이를 직접 활용하며, Runtime은 Event Loop 실행 구조로 연결하고, Framework는 더 높은 수준의 비동기 API로 추상화한다.**
 
-## 12. Event Loop Thread 구성 — Node.js와 Netty/WebFlux 비교
+## 14. Event Loop Thread 구성 — Node.js와 Netty/WebFlux 비교
 
 Event Loop라고 해서 반드시 Thread가 하나라는 뜻은 아니다. **Event Loop는 반복 실행 구조이고, 그 구조를 몇 개의 Thread에서 돌릴지는 Runtime / Framework의 설계 선택**이다.
 
@@ -719,7 +808,7 @@ Node.js와 Netty/WebFlux의 차이는 Event Loop라는 원리가 다른 것이 �
 
 ---
 
-## 13. 학습 연결
+## 15. 학습 연결
 
 ```text
 Socket-서버-IO.md
