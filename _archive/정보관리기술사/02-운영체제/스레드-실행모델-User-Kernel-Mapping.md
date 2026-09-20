@@ -1,6 +1,6 @@
 # Thread 실행 모델 — User-level Thread · Kernel-level Thread · Mapping
 
-> 연결: [[../../개념지도/02-운영체제/01-실행모델-CPU-배분|실행 모델과 CPU 배분]]
+> 연결: [[01-실행모델-CPU-배분|실행 모델과 CPU 배분]]
 >
 > 성격: 운영체제 보충학습. Thread를 단순히 하나의 실행 단위로만 보지 않고, **User Space에서 보이는 실행 단위와 Kernel이 실제 Scheduling하는 실행 단위가 어떻게 연결되는지** 이해하기 위한 문서다.
 >
