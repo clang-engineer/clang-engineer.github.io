@@ -385,42 +385,106 @@ Thread
 
 > **Reactor의 핵심은 Thread 분배가 아니라 Event Dispatch다. Worker Thread 사용 여부는 별도의 실행 전략이다.**
 
-## 10. I/O Multiplexing은 여러 생태계에서 각자의 방식으로 활용된다
+## 10. I/O Multiplexing은 여러 상위 영역에서 활용된다
 
-I/O Multiplexing은 Java에 종속된 개념이 아니다. OS가 제공하는 일반적인 I/O 메커니즘을 각 언어와 Runtime이 자신의 API와 실행 모델에 맞게 활용·추상화한다.
+I/O Multiplexing은 OS가 제공하는 공통 기반 기술이고, 상위에서는 목적에 따라 서로 다른 형태로 활용·추상화된다.
 
 ```text
                        OS I/O Multiplexing
                     select / poll / epoll 등
                               │
-             ┌────────────────┼────────────────┐
-             │                │                │
-             ▼                ▼                ▼
-          Java 계열        Node.js 계열      Python 계열
-          Java NIO           libuv            selectors
-          Selector         Event Loop            등
-             │
-             ▼
-           Netty
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+          ▼                   ▼                   ▼
+     Network Server        Runtime / Language   Framework
+     Socket 여러 개        Event Loop 기반      상위 비동기 추상화
+     readiness 감시              │                   │
+          │                      │                   │
+          ▼                      ├─ Java             ├─ Netty
+   accept / read / write         │  └─ NIO Selector  ├─ WebFlux / Reactor
+                                 ├─ Node.js          └─ 기타 비동기 Framework
+                                 │  └─ libuv
+                                 └─ Python
+                                    ├─ selectors
+                                    └─ asyncio
 ```
 
-이 그림은 `I/O Multiplexing → Java NIO → Netty`가 모든 환경에서 공통으로 진행되는 발전 단계라는 뜻이 아니다. **Java NIO는 여러 활용 경로 중 Java 생태계의 한 갈래**다.
+이 그림은 세 영역이 완전히 배타적이라는 뜻이 아니다.
 
-각 단계에서 질문도 달라진다.
+예를 들어 Netty는 Network Framework이면서 Event Loop Runtime 역할도 하고, Node.js는 Runtime이면서 Network Server 기능도 제공한다. 따라서 이 분류는 제품 분류표가 아니라 **I/O Multiplexing이 상위에서 어떤 역할로 확장되는지 보는 개념 지도**다.
+
+### Network Server 관점
+
+Network Server에서는 I/O Multiplexing을 가장 직접적으로 사용한다.
 
 ```text
-OS I/O Multiplexing
-왜?  = 많은 I/O의 readiness를 효율적으로 기다리기 위해
-어떻게? = select / poll / epoll 등으로 여러 FD를 함께 감시
+Socket A ─┐
+Socket B ─┼→ select / poll / epoll
+Socket C ─┘
+              ↓
+          Ready Socket
+              ↓
+       accept / read / write
+```
 
-언어 / Runtime 추상화
-왜?  = OS별 System Call과 FD를 Application 코드가 직접 다루는 부담을 줄이기 위해
-어떻게? = 각 생태계의 I/O API · Event Loop · Channel 등의 추상화로 노출
+핵심은 **여러 Socket / FD의 readiness를 하나의 Thread가 함께 기다릴 수 있다**는 점이다.
+
+### Runtime / Language 관점
+
+Runtime은 OS의 readiness 결과를 Application 실행 흐름으로 연결한다.
+
+```text
+OS Ready Event
+        ↓
+Event Loop / Scheduler
+        ↓
+Callback / Task / Coroutine Resume
+```
+
+대표 예:
+
+```text
+Java
+→ Java NIO Selector
+→ Netty EventLoop 등
+
+Node.js
+→ libuv
+→ Main Event Loop
+
+Python
+→ selectors
+→ asyncio Event Loop
+```
+
+### Framework 관점
+
+Framework는 Runtime의 Event-driven 실행 구조를 더 높은 수준의 API로 감싼다.
+
+```text
+Netty
+→ Channel / Handler / EventLoop
+
+WebFlux / Reactor
+→ Mono / Flux 기반 Reactive 흐름
+```
+
+즉 같은 OS I/O Multiplexing 기반이 위로 올라가면서:
+
+```text
+Network
+= 어떤 Socket이 Ready인가?
+
+Runtime
+= Ready Event 이후 무엇을 실행할 것인가?
 
 Framework
-왜?  = 저수준 I/O API만으로 서버 구조 전체를 직접 구성하는 부담을 줄이기 위해
-어떻게? = Event Loop · Handler · Buffer · Thread 정책 등을 더 높은 수준에서 구조화
+= 개발자가 비동기 흐름을 어떤 API로 표현할 것인가?
 ```
+
+라는 서로 다른 관점으로 나타난다.
+
+> **I/O Multiplexing은 OS의 공통 기반이고, Network Server는 이를 직접 활용하며, Runtime은 Event Loop 실행 구조로 연결하고, Framework는 더 높은 수준의 비동기 API로 추상화한다.**
 
 ## 11. Event Loop Thread 구성 — Node.js와 Netty/WebFlux 비교
 
