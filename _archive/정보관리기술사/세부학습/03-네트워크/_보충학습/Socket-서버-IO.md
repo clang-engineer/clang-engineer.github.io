@@ -132,7 +132,7 @@ FD 4 → Client A의 Connected Socket
 FD 5 → Client B의 Connected Socket
 ```
 
-> **Client는 `socket()`에서 받은 FD로 `connect()`하고, Server는 Listening FD로 `accept()`하여 새로운 Connected Socket FD를 받는다.** FD 자체의 구조와 File · Pipe · 표준입출력까지 연결되는 Unix/Linux I/O 관점은 `FD-File-Descriptor.md`에서 별도로 다룬다.
+> **Client는 `socket()`에서 받은 FD로 `connect()`하고, Server는 Listening FD로 `accept()`하여 새로운 Connected Socket FD를 받는다.** FD 자체의 구조와 File · Pipe · 표준입출력까지 연결되는 Unix/Linux I/O 관점은 `../../02-운영체제/FD-File-Descriptor.md`에서 별도로 다룬다.
 
 ## 4. `listen()`은 입구를 만들고 `accept()`는 연결을 가져온다
 
