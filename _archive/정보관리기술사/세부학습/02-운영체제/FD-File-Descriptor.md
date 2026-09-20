@@ -1,8 +1,52 @@
 # FD (File Descriptor)
 
-> Socket I/O를 이해하면서 등장하는 Linux/Unix의 FD(File Descriptor)를 별도로 정리한다.
+> Process가 Kernel의 File · Socket · Pipe · Device 같은 I/O 자원을 어떻게 참조하는지 이해하기 위해 Unix/Linux의 FD(File Descriptor)를 정리한다.
 >
-> 이 문서는 **왜 FD 같은 추상화가 필요한가 → FD는 무엇인가 → 어떻게 Kernel 자원을 간접 참조하는가 → Pointer·inode와 무엇이 다른가 → File·Socket·Pipe·표준입출력·Redirection이 어떻게 하나로 연결되는가**의 흐름으로 이해한다.
+> 이 문서는 **왜 FD가 필요한가 → FD는 무엇인가 → FD Table을 통한 간접 참조 → 다른 식별자와의 차이 → Unix I/O 통합 → Socket / I/O Multiplexing으로의 연결** 흐름으로 본다.
+
+## 이 문서의 위치
+
+```text
+Process
+  ↓
+Kernel I/O Resource 사용
+  ↓
+FD / FD Table
+  ↓
+read / write / close
+  ↓
+Socket / Pipe / Redirection
+  ↓
+I/O Multiplexing으로 연결
+```
+
+이 문서의 owner는 **Process가 Kernel I/O Resource를 어떤 Handle로 참조하는가**이다.
+
+따라서:
+
+- FD / FD Table / Process-local Handle은 이 문서에서 깊게 본다.
+- Socket 자체의 서버 I/O 흐름은 `../03-네트워크/_보충학습/Socket-서버-IO.md`에서 이어서 본다.
+- select / poll / epoll과 Event Loop 구조는 `IO-Multiplexing-EventLoop-Reactor.md`에서 이어서 본다.
+
+## 학습 흐름
+
+```text
+왜 FD가 필요한가
+        ↓
+FD는 무엇인가
+        ↓
+FD Table을 통한 간접 참조
+        ↓
+Pointer / inode / Disk Address와 차이
+        ↓
+Unix I/O의 공통 Handle
+        ↓
+Redirection / Pipe
+        ↓
+Socket / I/O Multiplexing으로 연결
+```
+
+---
 
 ## 1. 왜 FD가 필요한가
 
@@ -73,21 +117,23 @@ Device ─┘
 
 > **FD는 Process가 다양한 Kernel I/O 자원을 직접 알지 않고도 안전하고 통일된 방식으로 참조하기 위한 핵심 추상화다.**
 
-이 점이 뒤의 I/O Multiplexing과 직접 연결된다. Application은 Kernel 내부의 Socket 객체 자체를 감시 대상으로 넘기는 것이 아니라, **그 자원을 가리키는 FD를 select / poll / epoll에 등록**한다.
+이 점이 뒤의 I/O Multiplexing과 직접 연결된다. Application은 Kernel 내부의 Socket 객체 자체가 아니라, **그 자원을 가리키는 FD 집합을 I/O Multiplexing API에 전달하고 readiness 결과를 기다린다.**
 
 ```text
 Application Process
         ↓
 FD를 통해 Kernel I/O Resource 참조
         ↓
-감시할 FD 등록
+감시할 FD 집합을 I/O Multiplexing API에 전달
         ↓
 Kernel이 해당 자원의 readiness 관리
         ↓
-대기 중인 System Call이 Ready FD를 반환
+대기 중인 System Call이 Ready 결과를 반환
 ```
 
-즉 OS가 임의의 Application을 찾아가 결과를 전달하는 것이 아니라, **Application이 먼저 관심 있는 Kernel 자원을 FD로 등록하고 그 결과를 기다리는 관계를 만든다.**
+`select / poll`은 호출 시 감시할 FD 집합을 전달하고, `epoll`은 `epoll_ctl()`로 관심 FD를 Kernel의 epoll instance에 등록한 뒤 `epoll_wait()`로 Event를 기다린다.
+
+즉 OS가 임의의 Application을 찾아가 결과를 전달하는 것이 아니라, **Application이 먼저 관심 있는 I/O 대상을 지정하고 그 결과를 기다리는 관계를 만든다.**
 
 ---
 
@@ -198,7 +244,7 @@ read(5, ...)
 
 즉 FD는 **자원을 직접 담는 값이 아니라 FD Table을 통한 간접 참조용 Handle**이다.
 
-### 3.1 FD는 Pointer와 비슷하지만 Pointer는 아니다
+### 3.1 FD vs Pointer
 
 FD와 Pointer는 둘 다 **간접 참조(indirection)** 역할을 한다는 점에서 비슷하다.
 
@@ -238,7 +284,7 @@ FD
 = 번호/Handle을 통한 간접 참조
 ```
 
-### 3.2 FD와 Disk Address는 직접 관계가 없다
+### 3.2 FD vs Disk Address
 
 일반 File을 읽는 경우에도 FD에서 실제 Storage까지는 여러 계층을 거친다.
 
@@ -301,7 +347,7 @@ FD
 
 ---
 
-## 5. FD와 inode는 다르다
+## 5. FD vs inode
 
 일반 File을 기준으로 보면 다음처럼 구분할 수 있다.
 
@@ -475,48 +521,38 @@ Kernel I/O Resource
 
 ---
 
-## 8. Socket I/O와 FD
+## 8. Socket과의 연결
 
-Socket I/O를 FD 관점까지 내려가면 다음처럼 읽을 수 있다.
-
-```text
-Application Thread
-       ↓
-Socket API 호출
-       ↓
-Socket을 가리키는 FD
-       ↓
-OS Kernel의 Socket 자원
-```
-
-따라서 Linux 구현 관점에서는:
-
-```text
-Application Thread ── accept(Listening Socket의 FD) ──→ OS Kernel
-Application Thread ── read(Connected Socket의 FD) ────→ OS Kernel
-Application Thread ── write(Connected Socket의 FD) ───→ OS Kernel
-```
-
-으로 이해할 수 있다.
-
-여기서 다시 세 개를 구분한다.
+Socket도 Kernel I/O Resource이므로 Unix/Linux에서는 Process가 FD로 참조한다.
 
 ```text
 Socket
-= 통신 자원
+  ↓
+FD
+  ↓
+read / write / accept
+```
+
+구분은 다음과 같다.
+
+```text
+Socket
+= Kernel의 Network 통신 자원
 
 FD
 = Process가 Socket을 참조하는 Handle
 
 Thread
-= 그 FD를 이용해 I/O API를 호출하는 실행 주체
+= 그 FD를 사용해 I/O API를 호출하는 실행 주체
 ```
+
+여기까지가 FD 관점의 연결이다. Listening Socket / Connected Socket / accept / read / write의 전체 서버 I/O 흐름은 `../03-네트워크/_보충학습/Socket-서버-IO.md`에서 이어서 본다.
 
 ---
 
-## 9. I/O Multiplexing과 FD
+## 9. I/O Multiplexing과의 연결
 
-앞에서 `select / poll / epoll`을 **여러 Socket의 readiness를 감시한다**고 표현했지만 Linux 구현 관점으로 내려가면 FD가 직접 등장한다.
+여러 FD의 readiness를 함께 기다릴 필요가 생기면 I/O Multiplexing으로 확장된다.
 
 ```text
 fd 4 → Listening Socket
@@ -530,45 +566,29 @@ fd 6 → Connected Socket B
     Ready FD / Event
 ```
 
-즉:
+따라서 관점은 다음처럼 연결된다.
 
 ```text
-개념 관점
+Socket 관점
 = 여러 Socket 중 무엇이 Ready인가?
 
-Linux 구현 관점
+Unix/Linux 구현 관점
 = 여러 FD 중 어떤 I/O 대상이 Ready인가?
 ```
 
-`select`의 `fd_set`, `poll`의 `pollfd`, `epoll_ctl()`에 등록하는 FD가 여기서 연결된다.
+Linux/Unix의 주요 I/O 자원은 FD를 공통 Handle로 사용하므로 Blocking / Non-blocking I/O와 I/O Multiplexing을 이해할 때 FD를 중심으로 보면 전체 흐름을 연결하기 쉽다.
 
-### 9.1 Linux I/O는 FD 중심으로 기억해도 되는가
-
-Linux/Unix의 주요 I/O 자원인 **File · Socket · Pipe · Device 등은 FD를 공통 Handle로 사용**한다. 따라서 Blocking / Non-blocking I/O와 `select / poll / epoll`을 이해할 때는 **FD를 중심으로 보면 전체 흐름을 연결하기 쉽다.**
-
-다만 다음처럼 과잉 일반화하지 않는다.
+다만:
 
 ```text
-Linux/Unix의 주요 I/O 자원은 FD 중심이다          O
-모든 OS 자원은 반드시 FD를 사용한다              X
-모든 운영체제의 I/O가 FD 기반이다                X
+Linux/Unix의 주요 I/O 자원은 FD 중심이다   O
+모든 OS 자원은 반드시 FD를 사용한다       X
+모든 운영체제의 I/O가 FD 기반이다         X
 ```
 
-즉 FD는 **Unix/Linux I/O의 핵심 공통 Handle**이지만, 모든 Kernel 자원이나 모든 운영체제에 그대로 적용되는 보편적인 식별자라는 뜻은 아니다.
+정도로 경계를 둔다.
 
-따라서 Socket I/O 학습 흐름을 FD까지 내려가면 다음처럼 연결된다.
-
-```text
-Kernel I/O Resource
-        ↓
-Process가 FD로 참조
-        ↓
-Thread가 FD를 사용해 I/O API 호출
-        ↓
-여러 FD의 readiness를 함께 기다릴 필요
-        ↓
-select / poll / epoll
-```
+`select / poll / epoll`의 차이, readiness, Event Loop와의 연결은 `IO-Multiplexing-EventLoop-Reactor.md`에서 이어서 본다.
 
 ---
 
@@ -615,6 +635,11 @@ File / Socket / Pipe / Device / stdin / stdout / stderr
 
 I/O Multiplexing
 = 여러 FD의 readiness를 함께 기다리는 구조/API
+
+문서 경계
+FD = Process ↔ Kernel I/O Resource 참조 owner
+Socket = Network I/O owner
+I/O Multiplexing / Event Loop = OS I/O 실행 구조 owner
 ```
 
 > **FD는 단순한 번호가 아니라, Unix/Linux가 Process와 Kernel I/O 자원 사이를 분리하면서도 File · Socket · Pipe · 표준입출력 등을 하나의 I/O 모델로 조합할 수 있게 만든 핵심 Handle 추상화다.**
