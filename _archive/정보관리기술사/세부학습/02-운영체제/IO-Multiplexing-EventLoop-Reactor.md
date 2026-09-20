@@ -271,7 +271,135 @@ Socket에 Data 도착
 
 > **I/O Multiplexing은 OS 수준에서 어떤 I/O가 Ready인지 기다리는 Mechanism이고, Event Loop는 그 결과를 Runtime/Application의 후속 작업으로 연결하는 실행 구조다.**
 
-## 6. Event Loop
+## 6. I/O Multiplexing과 Blocking / Non-blocking은 다른 질문이다
+
+I/O 학습에서 `Blocking / Non-blocking / Multiplexing`이 함께 등장해서 같은 분류처럼 보이기 쉽지만, 실제 동작을 뜯어보면 **질문이 서로 다르다.**
+
+```text
+Blocking / Non-blocking
+= 개별 I/O 호출이 기다리는가?
+
+I/O Multiplexing
+= 여러 FD 중 어떤 것이 Ready인지 어떻게 함께 감시하는가?
+```
+
+### 6.1 I/O Multiplexing의 역할
+
+```text
+fd 4
+fd 5
+fd 6
+   ↓
+select / poll / epoll
+   ↓
+Ready FD 반환
+```
+
+즉 Multiplexing은 **실제 I/O를 대신하는 것이 아니라, 어떤 FD에 I/O를 수행할 수 있는지 찾는 단계**다.
+
+### 6.2 Ready 이후에는 실제 I/O 호출이 있다
+
+```text
+epoll_wait()
+↓
+fd 5 READ Ready
+↓
+read(fd 5)
+```
+
+여기서 `read(fd 5)`는 실제 Socket / File I/O이고, 해당 FD의 설정에 따라 Blocking 또는 Non-blocking으로 동작할 수 있다.
+
+```text
+Blocking FD
+read()
+→ 지금 처리할 수 없으면 Thread가 기다림
+
+Non-blocking FD
+read()
+→ 지금 처리할 수 없으면 EAGAIN / EWOULDBLOCK
+→ 즉시 반환
+```
+
+따라서:
+
+```text
+Multiplexing
+= Ready 대상을 선택 / 감시
+
+Blocking / Non-blocking
+= 선택된 대상에 실제 I/O를 수행할 때의 동작 방식
+```
+
+### 6.3 왜 현대 Event Loop 서버는 Multiplexing + Non-blocking을 함께 쓰는가
+
+Ready 통지를 받은 직후 첫 I/O는 Blocking FD에서도 바로 끝날 수 있다. 하지만 한 번 읽고 난 뒤 추가 `read()`를 하거나, `write()` 도중 송신 Buffer가 가득 차는 등 **처리 도중 다시 기다려야 하는 상황**이 생길 수 있다.
+
+```text
+epoll_wait()
+↓
+fd 5 Ready
+↓
+read(fd 5)      ← 데이터 읽음
+↓
+read(fd 5)      ← 더 이상 데이터 없음
+```
+
+Blocking이면:
+
+```text
+두 번째 read()
+→ 새 데이터가 올 때까지 Event Loop Thread 대기
+→ 다른 Ready FD 처리 지연
+```
+
+Non-blocking이면:
+
+```text
+두 번째 read()
+→ EAGAIN
+→ 즉시 Event Loop로 복귀
+→ 다른 Ready FD 처리
+```
+
+즉 Event Loop / Reactor 구조에서 Non-blocking을 함께 쓰는 이유는:
+
+> **Ready 이후 실제 I/O 처리 중 특정 FD 때문에 Event Loop Thread가 잠드는 상황을 막기 위해서다.**
+
+### 6.4 Pure Non-blocking만 쓰면 왜 비효율적인가
+
+Non-blocking I/O를 Multiplexing 없이 단독으로 사용하면 Application이 여러 FD를 계속 확인해야 할 수 있다.
+
+```text
+fd 4 read → EAGAIN
+fd 5 read → EAGAIN
+fd 6 read → EAGAIN
+다시 fd 4 ...
+```
+
+이런 구조는 Busy Polling처럼 CPU를 낭비하기 쉽다.
+
+그래서 현대 서버에서는 보통:
+
+```text
+I/O Multiplexing
+= 여러 FD를 효율적으로 기다림
+        +
+Non-blocking I/O
+= 실제 처리 중 특정 FD에서 잠들지 않음
+        +
+Event Loop
+= 위 과정을 반복
+```
+
+으로 조합한다.
+
+핵심:
+
+> **Multiplexing은 ‘누구를 처리할 것인가’, Blocking / Non-blocking은 ‘그 대상을 실제로 처리할 때 기다릴 것인가’의 문제다.**
+
+---
+
+## 8. Event Loop
 
 이 과정을 반복하는 Application 실행 구조가 Event Loop다.
 
@@ -298,7 +426,7 @@ Event Loop
 
 따라서 `epoll = Event Loop`는 아니다.
 
-## 7. Ready 감지와 실제 처리는 별개다
+## 8. Ready 감지와 실제 처리는 별개다
 
 Application Thread가 Ready FD 하나를 처리하는 동안에도 Kernel은 다른 FD의 Ready 상태를 감지·관리할 수 있다.
 
@@ -316,7 +444,7 @@ C Ready ✓                         │ A 처리 중
 
 즉 **A 처리 중이라고 B/C가 Ready되지 않는 것이 아니라, B/C의 Application 처리가 늦어지는 것**이다.
 
-## 8. Reactor Pattern은 왜 필요한가
+## 9. Reactor Pattern은 왜 필요한가
 
 I/O Multiplexing만으로도 서버는 구현할 수 있다.
 
@@ -361,7 +489,7 @@ Reactor
 
 따라서 Reactor는 I/O Multiplexing의 필수 다음 단계가 아니다. **Multiplexing/Event-driven I/O를 Application에서 구조화하는 대표적인 설계 패턴 중 하나**다.
 
-## 9. Reactor와 Thread를 구분한다
+## 10. Reactor와 Thread를 구분한다
 
 Handler로 Dispatch한다는 것이 반드시 Worker Thread에게 작업을 넘긴다는 뜻은 아니다.
 
@@ -385,7 +513,7 @@ Thread
 
 > **Reactor의 핵심은 Thread 분배가 아니라 Event Dispatch다. Worker Thread 사용 여부는 별도의 실행 전략이다.**
 
-## 10. I/O Multiplexing은 여러 상위 영역에서 활용된다
+## 11. I/O Multiplexing은 여러 상위 영역에서 활용된다
 
 I/O Multiplexing은 OS가 제공하는 공통 기반 기술이고, 상위에서는 목적에 따라 서로 다른 형태로 활용·추상화된다.
 
@@ -486,7 +614,7 @@ Framework
 
 > **I/O Multiplexing은 OS의 공통 기반이고, Network Server는 이를 직접 활용하며, Runtime은 Event Loop 실행 구조로 연결하고, Framework는 더 높은 수준의 비동기 API로 추상화한다.**
 
-## 11. Event Loop Thread 구성 — Node.js와 Netty/WebFlux 비교
+## 12. Event Loop Thread 구성 — Node.js와 Netty/WebFlux 비교
 
 Event Loop라고 해서 반드시 Thread가 하나라는 뜻은 아니다. **Event Loop는 반복 실행 구조이고, 그 구조를 몇 개의 Thread에서 돌릴지는 Runtime / Framework의 설계 선택**이다.
 
@@ -591,7 +719,7 @@ Node.js와 Netty/WebFlux의 차이는 Event Loop라는 원리가 다른 것이 �
 
 ---
 
-## 12. 학습 연결
+## 13. 학습 연결
 
 ```text
 Socket-서버-IO.md
