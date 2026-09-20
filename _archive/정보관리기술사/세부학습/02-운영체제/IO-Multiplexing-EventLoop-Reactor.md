@@ -527,6 +527,8 @@ I/O 완료
 
 > **Readiness는 "이제 네가 read 해도 돼", Completion은 "네가 맡긴 read 작업 끝났어"다.**
 
+하드웨어 수준에서 실제 데이터 전송을 누가 수행하는지는 별도의 문제다. Programmed I/O · Interrupt-driven I/O · DMA · I/O Channel은 컴퓨터구조 문서 `../01-컴퓨터구조/IO-처리-Programmed-Interrupt-DMA-Channel.md`에서 이어서 본다.
+
 ---
 
 ## 10. Event Loop
