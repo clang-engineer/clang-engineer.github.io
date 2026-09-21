@@ -35,60 +35,44 @@ Camera·Geolocation 같은 Browser Feature를 누가 써도 되나?
 
 ### SOP/CORS와 CSP를 먼저 구분한다
 
-둘 다 Origin과 Browser 정책이 등장하므로 처음 보면 가장 헷갈리기 쉽다.
-
-```text
-SOP / CORS
-→ 다른 Origin과 통신한 결과를
-  내 JavaScript가 읽을 수 있는가?
-→ Cross-Origin Response 접근 경계
-
-CSP
-→ 내 Page가 어떤 출처의 Resource를
-  가져와 로드·실행할 수 있는가?
-→ Resource 사용 경계
-```
-
-시간 흐름으로 단순화하면 다음처럼 기억할 수 있다.
+둘 다 "다른 Origin의 무언가를 Page가 사용한다"는 점 때문에 비슷해 보인다. **자원과 데이터로 나누지 말고, Browser가 무엇을 하려는지**로 구분한다.
 
 ```text
 CSP
-"이 Resource를 가져와 사용해도 되는가?"
-        ↓
-Resource Load / Execution
+→ Resource를 특정 용도로 로드·실행할 수 있는가?
 
-Request
-   ↓
-Response
-   ↓
 SOP / CORS
-"이 Cross-Origin 결과를 JavaScript에 공개해도 되는가?"
+→ JavaScript가 다른 Origin의 내용을 읽고 접근할 수 있는가?
 ```
 
-이는 이해를 위한 단순화다. SOP는 Cross-Origin 상호작용 전반의 기본 보안 경계이고, CORS는 그중 HTTP Cross-Origin Resource Sharing을 제어하는 메커니즘이다.
+같은 URL을 사용해도 Browser가 하려는 일이 다르면 적용되는 정책도 달라진다.
 
-핵심 대비는 **방향**으로 기억한다.
+```html
+<script src="https://other.example/a.js"></script>
+```
 
 ```text
-밖 → 안
-다른 Origin의 Response
-        ↓
-내 JavaScript가 읽기
-→ SOP가 기본 제한
-→ CORS가 허용 범위를 표현
-
-안 → 밖
-내 Page
-   ↓
-다른 Origin의 Script / Style / Image 등 사용
-→ CSP가 Resource 로드·실행 범위를 제한
+other.example/a.js를 Script로 로드·실행
+→ CSP
 ```
 
-즉 다음처럼 인출한다.
+반면 같은 URL을 `fetch()`하면:
 
-> **밖→안 = SOP/CORS, 안→밖 = CSP**
+```javascript
+fetch("https://other.example/a.js")
+```
 
-이는 네트워크 Packet의 실제 이동 방향을 뜻하는 것이 아니라 **무엇에 대한 접근·사용 정책인지 기억하기 위한 개념적 방향**이다.
+```text
+other.example/a.js의 Response 내용을
+JavaScript가 읽으려 함
+→ SOP / CORS
+```
+
+즉 핵심은 **무엇을 가져오느냐가 아니라 가져온 것을 Browser가 어떻게 사용하려 하느냐**다.
+
+> **CSP = 로드·실행 권한, SOP/CORS = Cross-Origin 내용 접근 권한**
+
+SOP는 Cross-Origin 상호작용의 기본 보안 경계이고, CORS는 서버가 허용한 Cross-Origin Response를 JavaScript에 공유할 수 있도록 하는 메커니즘이다.
 
 ## 2. Cache-Control — 저장과 재사용 정책
 
