@@ -33,6 +33,44 @@ Camera·Geolocation 같은 Browser Feature를 누가 써도 되나?
 
 `Cache-Control`은 본래 Cache 동작을 제어하는 HTTP 정책이고, 나머지 Header와 목적 자체가 다르다. 다만 민감한 Response의 저장 여부처럼 보안과 직접 연결되는 지점이 있다.
 
+### SOP/CORS와 CSP를 먼저 구분한다
+
+둘 다 Origin과 Browser 정책이 등장하므로 처음 보면 가장 헷갈리기 쉽다.
+
+```text
+SOP / CORS
+→ 다른 Origin과 통신한 결과를
+  내 JavaScript가 읽을 수 있는가?
+→ Cross-Origin Response 접근 경계
+
+CSP
+→ 내 Page가 어떤 출처의 Resource를
+  가져와 로드·실행할 수 있는가?
+→ Resource 사용 경계
+```
+
+시간 흐름으로 단순화하면 다음처럼 기억할 수 있다.
+
+```text
+CSP
+"이 Resource를 가져와 사용해도 되는가?"
+        ↓
+Resource Load / Execution
+
+Request
+   ↓
+Response
+   ↓
+SOP / CORS
+"이 Cross-Origin 결과를 JavaScript에 공개해도 되는가?"
+```
+
+이는 이해를 위한 단순화다. SOP는 Cross-Origin 상호작용 전반의 기본 보안 경계이고, CORS는 그중 HTTP Cross-Origin Resource Sharing을 제어하는 메커니즘이다.
+
+핵심 대비는 다음 한 줄이다.
+
+> **SOP/CORS는 Cross-Origin 결과 접근, CSP는 Resource 로드·실행을 제한한다.**
+
 ## 2. Cache-Control — 저장과 재사용 정책
 
 대표 Directive는 다음과 같다.
