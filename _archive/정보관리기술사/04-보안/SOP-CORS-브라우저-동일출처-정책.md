@@ -192,8 +192,8 @@ SOP
 
 CORS
 → Server가 Cross-Origin HTTP 통신의 허용 범위를 Browser에 표현
-   ├─ 필요하면 Preflight로 실제 Request 전송 가능 여부를 사전 확인
-   └─ 실제 Response를 요청 Origin의 JavaScript에 공개할지 확인
+   ├─ 전송 전: 필요하면 Preflight로 실제 Request 허용 범위 확인
+   └─ 응답 후: 실제 Response의 JavaScript 공개 범위 확인
 ```
 
 핵심은 **CSP와 SOP/CORS를 `script vs fetch`로 구분하지 않는 것**이다. CSP는 여러 Resource 사용과 연결을 제한하고, 그중 `fetch()`처럼 Cross-Origin Response 내용을 Page JavaScript가 직접 읽으려는 경우에는 SOP/CORS 경계까지 추가로 만난다.
@@ -281,7 +281,28 @@ Access-Control-Allow-Origin: https://app.example.com
 Vary: Origin
 ```
 
-### CORS에는 전송 전과 응답 후의 확인이 있다
+### CORS의 두 가지 측면 — 전송 전 허용과 응답 공개 허용
+
+CORS는 한 가지 시점만 제어하는 것으로 보면 헷갈린다. **전송 전 측면과 응답 후 측면**을 분리해서 본다.
+
+```text
+① 전송 전 측면 — Preflight가 필요한 경우
+   "이 Origin이 이런 Method / Header로
+    실제 Request를 전송해도 되는가?"
+   → OPTIONS로 사전 확인
+
+② 응답 후 측면
+   "실제 Response를
+    요청한 Origin의 JavaScript에 공개해도 되는가?"
+   → Response의 CORS Header 확인
+```
+
+즉 CORS의 두 측면을 짧게 인출하면:
+
+```text
+전송 전 → Request 허용 범위 확인
+응답 후 → Response 공개 범위 확인
+```
 
 CORS를 단순히 "Response 읽기 허용"으로만 외우면 Preflight를 설명하기 어렵다.
 
