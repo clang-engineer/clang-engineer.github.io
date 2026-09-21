@@ -229,7 +229,104 @@ DB / Web 인증
 
 또한 Forwarding 자체는 `AllowTcpForwarding` 같은 sshd 정책의 영향을 받고, Listen Address에 따라 외부 노출 범위도 달라질 수 있다.
 
-## 9. Tunnel 진단 순서
+## 9. Bastion과 주변 관문 용어
+
+SSH Tunneling을 실제 환경에서 보면 Bastion, Jump Host 같은 용어가 자주 함께 나온다.
+
+먼저 공통 그림을 잡는다.
+
+```text
+외부 사용자
+    │
+    ▼
+[접근 관문]
+Bastion / Jump Host
+    │
+    ▼
+Private Network
+    ├─ App Server
+    └─ DB Server
+```
+
+### Bastion Host
+
+외부에서 내부 Network로 접근할 때 **접근을 집중·통제하기 위한 관문 Host**다.
+
+내부 Server를 Internet에 직접 노출하지 않고 Bastion에 대한 접근만 허용한 뒤, 그 지점을 통해 내부로 들어가도록 구성할 수 있다.
+
+```text
+Internet
+   │
+   ▼
+Bastion
+   │
+   ├─ Internal App
+   └─ Internal DB
+```
+
+Bastion은 Tunnel 자체가 아니다. **보안상 통제된 진입점이라는 역할**을 가리킨다.
+
+### Jump Host / Jump Server
+
+최종 Server에 직접 접속하지 않고 **중간 Host를 거쳐 다음 Host로 넘어갈 때 사용하는 중계 Host**라는 의미에 초점이 있다.
+
+실무에서는 Bastion이 Jump Host 역할을 하는 경우가 많아 두 용어가 비슷하게 사용되기도 한다.
+
+```text
+Bastion
+→ 보안 관문이라는 역할에 초점
+
+Jump Host
+→ 다른 Host로 넘어가기 위한 중계에 초점
+```
+
+### ProxyJump `-J`
+
+SSH 자체에도 Jump Host를 경유해 최종 SSH Server로 접속하는 기능이 있다.
+
+```bash
+ssh -J user@bastion user@internal-server
+```
+
+```text
+Local SSH Client
+      ↓
+   Bastion
+      ↓
+Internal SSH Server
+```
+
+이것은 `-L`처럼 내부 DB Port를 Local Port로 Forward하는 것과 목적이 다르다.
+
+```text
+ProxyJump
+→ 다른 SSH Server로 접속하기 위한 SSH 경유
+
+Local Forwarding
+→ SSH Channel을 이용해 다른 TCP Service를 전달
+```
+
+### 주변 관문 개념과 구분
+
+```text
+Bastion / Jump Host
+→ 사람이 내부 Server에 접근하는 관문
+
+VPN Gateway
+→ Network Traffic이 Private Network로 들어가는 VPN 종단점
+
+Reverse Proxy
+→ HTTP Request가 내부 Application으로 들어가는 관문
+
+DMZ
+→ 외부 노출 시스템을 내부망과 분리해 배치할 수 있는 Network 영역
+```
+
+Gateway는 이보다 더 일반적인 용어로, 서로 다른 Network 사이에서 Traffic을 전달하는 장치나 기능을 가리킬 수 있다.
+
+따라서 `Bastion = Gateway = Reverse Proxy`처럼 같은 개념으로 묶지 않고 **무엇의 관문인가**를 기준으로 구분한다.
+
+## 10. Tunnel 진단 순서
 
 ```text
 1. SSH 로그인 자체가 되는가?
@@ -247,7 +344,7 @@ ssh -vvv -N -L 15432:db.internal:5432 user@bastion
 
 Local Listen은 `ss`, `lsof` 등으로 확인한다.
 
-## 10. 기술사 관점 핵심 경계
+## 11. 기술사 관점 핵심 경계
 
 ```text
 SSH Transport
