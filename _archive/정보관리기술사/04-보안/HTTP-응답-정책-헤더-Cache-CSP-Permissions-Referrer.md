@@ -68,11 +68,41 @@ JavaScript가 읽으려 함
 → SOP / CORS
 ```
 
-즉 핵심은 **무엇을 가져오느냐가 아니라 가져온 것을 Browser가 어떻게 사용하려 하느냐**다.
+즉 핵심은 **특정 API나 URL을 어느 정책 하나에 대응시키는 것이 아니라, 각 정책이 어느 단계의 무엇을 제한하는지 보는 것**이다.
 
 > **CSP = 로드·실행 권한, SOP/CORS = Cross-Origin 내용 접근 권한**
 
 SOP는 Cross-Origin 상호작용의 기본 보안 경계이고, CORS는 서버가 허용한 Cross-Origin Response를 JavaScript에 공유할 수 있도록 하는 메커니즘이다.
+
+### 같은 `fetch()`에도 CSP와 CORS가 함께 적용될 수 있다
+
+`fetch()`를 무조건 CORS의 예로만 외우면 안 된다. CSP의 `connect-src`도 `fetch()`가 연결할 수 있는 목적지를 제한할 수 있다.
+
+```javascript
+fetch("https://api.example.com/data")
+```
+
+```text
+1. CSP connect-src
+   "api.example.com으로 연결해도 되는가?"
+        ↓ 허용
+
+2. Request / Response
+        ↓
+
+3. SOP / CORS
+   "Cross-Origin Response를
+    JavaScript가 읽어도 되는가?"
+```
+
+따라서 둘은 우선순위를 두고 하나만 적용하는 정책이 아니라 **서로 다른 단계에서 모두 통과해야 할 수 있는 정책**이다.
+
+```text
+CSP      → 가도 돼?        → 행동 / 연결·Resource 사용 제한
+SOP/CORS → 받아온 거 읽어도 돼? → Cross-Origin 결과 접근 제한
+```
+
+CSP에서 막히면 요청 자체가 진행되지 않을 수 있고, CSP를 통과해 Response가 오더라도 CORS가 허용하지 않으면 JavaScript는 그 Response를 읽을 수 없다.
 
 ## 2. Cache-Control — 저장과 재사용 정책
 
