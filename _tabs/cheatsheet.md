@@ -5,24 +5,7 @@ order: 2
 title: 치트시트
 ---
 
-<div class="cheatsheet-intro">
-  <p>자주 쓰는 도구의 참고 링크를 한곳에 모았다.</p>
-  <p>기본 예시는 tldr, 최신 정보는 공식 문서, 내 작업 흐름은 devkit에 둔다.</p>
-</div>
-
-<section class="cheatsheet-guide" aria-labelledby="cheatsheet-guide-title">
-  <h2 id="cheatsheet-guide-title">먼저 보기</h2>
-  <dl>
-    <div>
-      <dt>도구 사전</dt>
-      <dd>도구 이름이나 역할이 기억나지 않을 때 검색·탐색, 텍스트·JSON, 시스템·네트워크, Git·TUI, 개발 도구 순서로 훑는다.</dd>
-    </div>
-    <div>
-      <dt>Terminal TUI 지도</dt>
-      <dd>터미널 안에서 파일, Git, 세션, 데이터베이스, 에디터를 다룰 때 도구를 고르는 기준을 정리한다.</dd>
-    </div>
-  </dl>
-</section>
+<p class="cheatsheet-intro">자주 쓰는 도구를 찾고, tldr·공식 문서·내 치트시트로 이어지는 참고 링크를 모아 둔 페이지다.</p>
 
 <section class="cheatsheet-browser" aria-label="치트시트 탐색">
   <label class="cheatsheet-search" for="cheatsheet-search-input">
@@ -32,17 +15,24 @@ title: 치트시트
 
   <p class="cheatsheet-search-status" id="cheatsheet-search-status" role="status"></p>
 
+  <div class="cheatsheet-category-tabs" role="tablist" aria-label="카테고리">
+    <button type="button" class="cheatsheet-category-tab is-active" data-category-filter="all" role="tab" aria-selected="true">전체</button>
+    {% for group in site.data.cheatsheets.groups %}
+      <button type="button" class="cheatsheet-category-tab" data-category-filter="{{ group.title | slugify }}" role="tab" aria-selected="false">{{ group.title }}</button>
+    {% endfor %}
+  </div>
+
   <div class="cheatsheet-layout">
     <nav class="cheatsheet-list" aria-label="도구 목록">
       {% for group in site.data.cheatsheets.groups %}
-        <details class="cheatsheet-category" data-category-list open>
+        <details class="cheatsheet-category" data-category-list data-category-key="{{ group.title | slugify }}" open>
           <summary>
             <span>{{ group.title }}</span>
             <span class="cheatsheet-category__count">{{ group.items.size }}</span>
           </summary>
           <ul>
             {% for item in group.items %}
-              <li data-tool-row data-name="{{ item.name | downcase }}" data-desc="{{ item.desc | downcase }}" data-category="{{ group.title | downcase }}">
+              <li data-tool-row data-name="{{ item.name | downcase }}" data-desc="{{ item.desc | downcase }}" data-category="{{ group.title | downcase }}" data-category-key="{{ group.title | slugify }}">
                 <button type="button" class="cheatsheet-tool" data-tool="{{ item.slug }}" aria-controls="cheatsheet-detail-{{ item.slug }}">
                   <span class="cheatsheet-tool__name">{{ item.name }}</span>
                   <span class="cheatsheet-tool__desc">{{ item.desc }}</span>
@@ -60,7 +50,7 @@ title: 치트시트
 
       {% for group in site.data.cheatsheets.groups %}
         {% for item in group.items %}
-          <article id="cheatsheet-detail-{{ item.slug }}" class="cheatsheet-detail" data-detail="{{ item.slug }}" data-category="{{ group.title }}" hidden>
+          <article id="cheatsheet-detail-{{ item.slug }}" class="cheatsheet-detail" data-detail="{{ item.slug }}" data-category="{{ group.title }}" data-category-key="{{ group.title | slugify }}" hidden>
             <header>
               <p class="cheatsheet-detail__category">{{ group.title }}</p>
               <h2>{{ item.name }}</h2>
@@ -116,7 +106,9 @@ title: 치트시트
     const noResults = document.querySelector('.cheatsheet-no-results');
     const rows = Array.from(document.querySelectorAll('[data-tool-row]'));
     const categories = Array.from(document.querySelectorAll('[data-category-list]'));
+    const categoryTabs = Array.from(document.querySelectorAll('[data-category-filter]'));
     const tools = Array.from(document.querySelectorAll('[data-tool]'));
+    let activeCategory = 'all';
     const details = Array.from(document.querySelectorAll('[data-detail]'));
     const placeholder = document.querySelector('#cheatsheet-detail-placeholder');
     const loaded = new Set();
@@ -171,11 +163,30 @@ title: 치트시트
       }
     }
 
+    function selectCategory(category) {
+      activeCategory = category;
+      categoryTabs.forEach((tab) => {
+        const selected = tab.dataset.categoryFilter === category;
+        tab.classList.toggle('is-active', selected);
+        tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+      });
+      details.forEach((item) => { item.hidden = true; });
+      tools.forEach((item) => {
+        item.classList.remove('is-selected');
+        item.setAttribute('aria-pressed', 'false');
+      });
+      placeholder.hidden = false;
+      filterTools();
+    }
+
     function selectTool(slug, updateHash) {
       const detail = document.querySelector('[data-detail="' + slug + '"]');
       const button = document.querySelector('[data-tool="' + slug + '"]');
       if (!detail || !button) return;
 
+      if (activeCategory !== detail.dataset.categoryKey) {
+        selectCategory(detail.dataset.categoryKey);
+      }
       details.forEach((item) => { item.hidden = item !== detail; });
       tools.forEach((item) => {
         const selected = item === button;
@@ -186,7 +197,9 @@ title: 치트시트
       if (updateHash) history.replaceState(null, '', pageBase + '#' + slug);
       const box = detail.querySelector('[data-tldr]');
       if (box) loadTldr(box);
-      detail.scrollIntoView({ block: 'nearest' });
+      if (window.matchMedia('(max-width: 767px)').matches) {
+        detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function filterTools() {
@@ -194,27 +207,39 @@ title: 치트시트
       let visible = 0;
 
       rows.forEach((row) => {
-        const match = !query || [row.dataset.name, row.dataset.desc, row.dataset.category].some((value) => value.includes(query));
+        const categoryMatch = activeCategory === 'all' || row.dataset.categoryKey === activeCategory;
+        const queryMatch = !query || [row.dataset.name, row.dataset.desc, row.dataset.category].some((value) => value.includes(query));
+        const match = categoryMatch && queryMatch;
         row.hidden = !match;
         if (match) visible += 1;
       });
 
       categories.forEach((category) => {
+        const categoryMatch = activeCategory === 'all' || category.dataset.categoryKey === activeCategory;
         const visibleRows = category.querySelectorAll('[data-tool-row]:not([hidden])').length;
-        category.hidden = visibleRows === 0;
-        if (query && visibleRows > 0) category.open = true;
+        category.hidden = !categoryMatch || visibleRows === 0;
+        if (categoryMatch && (query || activeCategory !== 'all')) category.open = true;
       });
 
       noResults.hidden = visible !== 0;
       status.textContent = query ? visible + '개 도구' : '';
     }
 
+    categoryTabs.forEach((tab) => {
+      tab.addEventListener('click', () => selectCategory(tab.dataset.categoryFilter));
+    });
     tools.forEach((button) => {
       button.addEventListener('click', () => selectTool(button.dataset.tool, true));
     });
     searchInput.addEventListener('input', filterTools);
 
     const hash = window.location.hash.slice(1);
-    if (hash && document.querySelector('[data-tool="' + hash + '"]')) selectTool(hash, false);
+    if (hash && document.querySelector('[data-tool="' + hash + '"]')) {
+      selectTool(hash, false);
+    } else if (categoryTabs[1]) {
+      selectCategory(categoryTabs[1].dataset.categoryFilter);
+    } else {
+      filterTools();
+    }
   })();
 </script>

@@ -2,21 +2,9 @@
 @use '../abstracts/variables' as v;
 
 .cheatsheet-intro {
-  margin: 1rem 0 1.6rem;
+  margin: 1rem 0 1.4rem;
   color: var(--text-muted-color);
-
-  p {
-    margin-bottom: 0.35rem;
-    line-height: 1.6;
-
-    &:first-child {
-      color: var(--text-color);
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
+  line-height: 1.6;
 }
 
 .cheatsheet-tip {
@@ -262,37 +250,6 @@
   }
 }
 
-.cheatsheet-guide {
-  margin: 1.5rem 0 2rem;
-
-  h2 {
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.35rem;
-    border-bottom: 1px solid var(--btn-border-color);
-    font-size: 1.25rem;
-  }
-
-  dl {
-    margin-bottom: 0;
-  }
-
-  div {
-    padding: 0.65rem 0;
-    border-bottom: 1px solid var(--btn-border-color);
-  }
-
-  dt {
-    color: var(--heading-color);
-    font-weight: 700;
-  }
-
-  dd {
-    margin: 0.2rem 0 0;
-    color: var(--text-muted-color);
-    line-height: 1.6;
-  }
-}
-
 .cheatsheet-browser {
   margin-top: 2rem;
 }
@@ -321,6 +278,34 @@
   margin: 0;
   color: var(--text-muted-color);
   font-size: 0.85rem;
+}
+
+.cheatsheet-category-tabs {
+  display: flex;
+  gap: 1rem;
+  margin: 0.35rem 0 1rem;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--btn-border-color);
+  scrollbar-width: thin;
+}
+
+.cheatsheet-category-tab {
+  flex: 0 0 auto;
+  padding: 0.45rem 0 0.55rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-muted-color);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible,
+  &.is-active {
+    border-bottom-color: var(--link-color);
+    color: var(--link-color);
+  }
 }
 
 .cheatsheet-layout {
@@ -412,11 +397,21 @@
 
 .cheatsheet-details {
   min-width: 0;
-  min-height: 12rem;
-  padding: 1.25rem 1.35rem;
-  border: 1px solid var(--btn-border-color);
-  border-radius: v.$radius-sm;
-  background: var(--card-bg);
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--btn-border-color);
+}
+
+.cheatsheet-detail-placeholder {
+  margin-top: 0.5rem;
+  color: var(--text-muted-color);
+}
+
+@include bp.lt(768px) {
+  .cheatsheet-details {
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--btn-border-color);
+    border-left: 0;
+  }
 }
 
 .cheatsheet-detail-placeholder,
@@ -427,6 +422,8 @@
 }
 
 .cheatsheet-detail {
+  scroll-margin-top: 1rem;
+
   header {
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--btn-border-color);
