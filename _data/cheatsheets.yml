@@ -2,23 +2,6 @@ intro: 도구를 바로 GitHub로 보내기 전에 블로그 안에서 짧은 �
 source_repo: https://github.com/clang-engineer/devkit/tree/main/cheatsheets
 
 groups:
-  - title: 먼저 보는 가이드
-    items:
-      - slug: tools-dictionary
-        name: 도구 사전
-        desc: 도구 이름이나 역할이 먼저 헷갈릴 때 보는 CLI 도구·개념 입구.
-        official: []
-        custom:
-          label: devkit tools-dictionary
-          url: https://github.com/clang-engineer/devkit/blob/main/cheatsheets/tools-dictionary.md
-      - slug: terminal-tui
-        name: Terminal TUI 지도
-        desc: 터미널 기반 TUI 도구의 역할 분담과 선택 기준.
-        official: []
-        custom:
-          label: devkit terminal-tui
-          url: https://github.com/clang-engineer/devkit/blob/main/cheatsheets/terminal-tui.md
-
   - title: 에디터 & TUI
     items:
       - slug: vim
