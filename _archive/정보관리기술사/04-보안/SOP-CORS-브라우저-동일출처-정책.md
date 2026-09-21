@@ -99,6 +99,64 @@ SOP/CORS → 받아온 거 읽어도 돼? → Cross-Origin 결과 접근 제한
 
 CSP에서 막히면 요청 자체가 진행되지 않을 수 있고, CSP를 통과해 Response가 오더라도 CORS가 허용하지 않으면 JavaScript는 그 Response를 읽을 수 없다.
 
+### 다운로드·실행과 Response 내용 접근은 다르다
+
+SOP를 "Cross-Origin Resource를 다운로드하지 못하게 하는 정책"으로 이해하면 안 된다. Browser는 다른 Origin의 Resource를 내려받아 특정 용도로 사용할 수 있다.
+
+예를 들어:
+
+```html
+<script src="https://other.example/a.js"></script>
+```
+
+CSP의 `script-src`가 허용한다면 Browser는 Cross-Origin `a.js`를 내려받아 Script로 실행할 수 있다.
+
+```text
+<script src="...">
+
+CSP 허용
+   ↓
+Resource 다운로드
+   ↓
+Browser가 Script로 실행
+
+→ Cross-Origin이라는 이유만으로 SOP가 실행을 막는 것은 아님
+```
+
+반면 같은 URL을 `fetch()`하여 Response Body 자체를 JavaScript에서 읽으려 하면 문제가 달라진다.
+
+```javascript
+const response = await fetch("https://other.example/a.js");
+const text = await response.text();
+```
+
+```text
+fetch(...)
+
+CSP connect-src 허용
+   ↓
+Request / Response
+   ↓
+JavaScript가 Response Body에 접근
+   ↓
+Cross-Origin이면 SOP의 기본 제한
+   ↓
+CORS가 허용하면 읽기 가능
+```
+
+따라서 "받는다"를 두 가지로 분리한다.
+
+```text
+Resource로 받아 Browser가 사용·실행
+→ CSP가 해당 Resource 사용을 제한
+
+Response Body를 JavaScript가 직접 읽고 접근
+→ SOP가 기본 제한
+→ CORS가 허용 범위를 표현
+```
+
+핵심은 **다운로드 여부와 JavaScript의 Response 내용 접근 권한은 같은 것이 아니라는 점**이다.
+
 ## 2. Origin — scheme + host + port
 
 Origin은 다음 세 요소의 조합이다.
