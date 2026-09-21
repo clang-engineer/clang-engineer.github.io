@@ -2,9 +2,9 @@
 title       : "AI 개발 지형 — 코딩 도구·외부 연결·API 개발의 세 축"
 description : "AI 개발 글을 코딩 도구 사용, 외부 리소스 연결(MCP), 모델 API 개발이라는 서로 다른 축으로 나눈다. 하나의 학습 순서를 제시하기보다 목적에 맞는 실전 영역을 찾는 인덱스다."
 date        : 2026-07-03 21:30:00 +0900
-updated     : 2026-09-06 19:00:00 +0900
+updated     : 2026-09-21 22:35:00 +0900
 categories  : [ai, "개요·인덱스"]
-tags        : [ai, index, claude-code, mcp, claude]
+tags        : [ai, index, claude-code, opencode, pi, mcp, claude]
 pin         : false
 hidden      : false
 ---
@@ -32,10 +32,12 @@ AI 개발 도구를 익힐 때 서로 다른 질문을 한 줄에 놓기 쉽다.
 AI 개발 지형
 │
 ├─ 1. 코딩 도구 사용
-│   └─ Claude Code
-│       ├─ 개요
-│       ├─ 명령·Memory
-│       └─ Workflow·Hook
+│   ├─ Claude Code
+│   │   ├─ 개요
+│   │   ├─ 명령·Memory
+│   │   └─ Workflow·Hook
+│   └─ 하네스 경량화
+│       └─ Claude/Codex → OpenCode → pi
 │
 ├─ 2. 외부 연결
 │   └─ MCP
@@ -55,6 +57,7 @@ AI 개발 지형
 |---|---|---|
 | 도구 지형 | 어떤 Form Factor와 제품을 선택할까 | 공통 탐색점 |
 | Claude Code | Terminal Agent를 일상 개발에 어떻게 쓸까 | 도구 사용 축 |
+| OpenCode / pi | 완제품 Agent와 얇은 Harness 사이에서 무엇을 선택할까 | 도구 선택·커스텀 축 |
 | MCP | AI Client와 외부 Resource를 어떻게 표준 연결할까 | 필요할 때 탐색 |
 | Claude API | 내가 만드는 Application에서 Model을 어떻게 호출할까 | 개발자 영역 |
 | claude.ai Web | Browser Product의 기능을 어떻게 사용할까 | 별도 Surface |
@@ -63,13 +66,14 @@ AI 개발 지형
 
 | 글 | 핵심 |
 |---|---|
-| [AI 코딩 도구 지형도](./2026-07-03-ai-coding-tools-landscape.md) | Claude Code·OpenCode·Cursor·Copilot·Codex·Aider를 사용 환경, 모델 종속성, 과금, Open Source 여부로 비교 |
+| [AI 코딩 도구 지형도](./2026-07-03-ai-coding-tools-landscape.md) | Claude Code·OpenCode·pi·Cursor·Copilot·Codex·Aider를 사용 환경, 모델 종속성, 과금, Open Source 여부로 비교 |
+| [Claude Code에서 OpenCode를 거쳐 pi까지](./2026-09-21-pi-coding-agent-harness.md) | 완제품 에이전트에서 얇은 하네스로 이동한 개인 사용 기록 |
 
 가장 먼저 보는 축은 "누가 더 좋나"가 아니라 **어디에서 어떤 방식으로 작업할 것인가**다.
 
 ```text
 Terminal Agent
-→ Claude Code / OpenCode / Codex CLI / Aider
+→ Claude Code / OpenCode / Codex CLI / pi / Aider
 
 Editor 중심
 → Cursor
@@ -121,8 +125,7 @@ Repository 규칙·지속 Context
 
 | 글 | 핵심 |
 |---|---|
-| [Claude Code 실전 워크플로](./2026-07-03-claude-code-workflow.md) | Plan, Subagent, 병렬 Tool, Headless 실행을 작업 흐름으로 조합 |
-| [Claude Code hooks — 실행 흐름에 셸 끼우기](./2026-07-03-claude-code-hooks-custom-commands.md) | Tool 실행 전후 자동화, 정책·Format·알림·보안 경계 |
+| [Claude Code 실전 워크플로](./2026-07-03-claude-code-workflow.md) | Plan, Subagent, 병렬 Tool, Headless 실행, Hook 기반 자동화와 Guardrail을 작업 흐름으로 조합 |
 
 ```text
 사람이 방향·완료조건 설정

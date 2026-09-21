@@ -2,9 +2,9 @@
 title       : "AI 코딩 도구 지형도 — Claude Code·OpenCode·Cursor·Codex·Aider 어떻게 다른가"
 description : "AI 코딩 도구를 사용 환경(터미널·에디터·플러그인·클라우드), 모델 종속성, 과금 방식, 오픈소스 여부 네 축으로 비교한다. 같은 Codex 모델도 OpenCode와 공식 CLI에서 결과가 달라지는 이유까지 정리한다."
 date        : 2026-07-03 21:35:00 +0900
-updated     : 2026-09-05 21:53:00 +0900
+updated     : 2026-09-21 22:35:00 +0900
 categories  : [ai, "Claude Code"]
-tags        : [claude-code, opencode, cursor, github-copilot, codex, aider, comparison]
+tags        : [claude-code, opencode, cursor, github-copilot, codex, aider, pi, comparison]
 pin         : false
 hidden      : false
 ---
@@ -22,6 +22,7 @@ hidden      : false
 |---|---|---|---|---|
 | **Claude Code** | 터미널 CLI (+IDE 확장·웹) | Claude 전용 | Claude 구독 또는 API 종량 | ✗ |
 | **OpenCode** | 터미널 CLI (+웹·IDE 연동) | 다중(로컬 포함) | 연결한 구독·API·로컬 모델 | ✓ (MIT) |
+| **pi** | 터미널 CLI / 에이전트 하네스 | 다중 provider 설정 | 연결한 API·provider 비용 | ✓ |
 | **Cursor** | 에디터(VS Code 기반) | 다중(Claude·GPT·Gemini 등) | 구독(+사용량 기반 한도) | ✗ |
 | **GitHub Copilot** | 에디터 플러그인 (+Agent·CLI·클라우드) | 여러 모델 중 선택 | 구독(+사용량 기반 한도) | ✗ |
 | **OpenAI Codex** | 터미널 CLI (+클라우드·IDE) | OpenAI 전용 | ChatGPT 구독 또는 API 종량 | CLI만 ✓ |
@@ -31,7 +32,7 @@ hidden      : false
 
 가장 먼저 갈리는 지점이다.
 
-- **터미널 에이전트**: Claude Code, OpenCode, OpenAI Codex CLI, Aider. 셸에서 코드베이스를 읽고 고치며 테스트를 실행하는 여러 파일 단위의 에이전트 작업에 강하다. 기존 에디터를 바꿀 필요가 없다.
+- **터미널 에이전트**: Claude Code, OpenCode, OpenAI Codex CLI, pi, Aider. 셸에서 코드베이스를 읽고 고치며 테스트를 실행하는 여러 파일 단위의 에이전트 작업에 강하다. 기존 에디터를 바꿀 필요가 없다.
 - **에디터**: Cursor. VS Code 계열 에디터 안에 자동완성·인라인 편집·에이전트 기능을 통합한다. 작업 흐름을 에디터 안에 모으고 싶을 때 맞는다.
 - **플러그인**: GitHub Copilot. 기존 VS Code·JetBrains 등에 붙여 쓰며 GitHub 생태계와의 통합이 강하다.
 - **클라우드·비동기**: Codex 클라우드 작업, Copilot의 클라우드 에이전트 등. 긴 작업을 원격 환경에 맡기고 나중에 결과를 받는 방식이다.
@@ -39,7 +40,7 @@ hidden      : false
 ## 축 2 — 단일 모델 vs 여러 모델
 
 - **한 벤더에 고정**: Claude Code는 Claude, Codex는 OpenAI 모델을 중심으로 동작한다. **도구를 고르는 것이 모델 계열 선택과 연결된다.**
-- **여러 모델 선택**: OpenCode, Aider, Cursor, Copilot. 작업에 따라 모델을 바꾸거나 특정 벤더에 고정되지 않고 싶을 때 유리하다.
+- **여러 모델 선택**: OpenCode, pi, Aider, Cursor, Copilot. 작업에 따라 모델을 바꾸거나 특정 벤더에 고정되지 않고 싶을 때 유리하다.
 
 Claude Code가 Claude 전용인 것은 제약이자 강점이다. 모델과 도구가 같은 생태계에서 함께 설계되므로 에이전트 동작의 일관성을 기대할 수 있지만, 다른 모델을 자유롭게 바꿔 쓰려면 맞지 않는다.
 
@@ -47,7 +48,7 @@ Claude Code가 Claude 전용인 것은 제약이자 강점이다. 모델과 도�
 
 - **구독 중심**: Claude Code, Codex, Copilot, Cursor. 정액 구독 안에서 일정 사용량을 제공하되 제품에 따라 추가 사용량이나 크레딧 정책이 붙는다.
 - **API 종량 중심**: Aider와 Claude Code·Codex의 API 키 사용 경로. 사용량이 적으면 비용을 세밀하게 통제할 수 있지만 사용량이 많으면 비용 변동이 커질 수 있다.
-- **연결한 제공자를 따름**: OpenCode. 공식 지원 구독, 모델 API 키, OpenRouter, 로컬 모델 등 어떤 제공자를 연결했는지에 따라 과금과 한도가 결정된다.
+- **연결한 제공자를 따름**: OpenCode와 pi. 공식 지원 구독, 모델 API 키, OpenRouter, 로컬 모델 등 어떤 제공자를 연결했는지에 따라 과금과 한도가 결정된다.
 
 ### OpenCode에서는 provider와 model을 분리해서 본다
 
@@ -74,7 +75,7 @@ OpenRouter는 여러 모델을 하나의 provider 연결로 바꿔 쓸 수 있�
 
 ## 축 4 — 오픈 vs 클로즈드
 
-- **오픈소스 도구**: OpenCode, Aider.
+- **오픈소스 도구**: OpenCode, pi, Aider.
 - **부분 오픈**: OpenAI Codex는 CLI가 오픈소스이고 모델·클라우드 서비스는 별도다.
 - **클로즈드 제품**: Claude Code, Cursor, Copilot.
 
@@ -139,6 +140,7 @@ OpenCode는 OpenAI를 포함한 여러 제공자를 연결하는 구조다. 여�
 
 - **Claude Code** — 터미널 중심으로 Claude를 사용하고, 여러 파일에 걸친 긴 에이전트 작업을 자주 하는 경우.
 - **OpenCode** — 터미널에서 여러 제공자·로컬 모델을 바꿔 쓰고, 오픈소스 도구와 설정 자유도를 중시하는 경우.
+- **pi** — 기본 기능이 많은 완제품보다 작은 core와 extension·skill·prompt template로 직접 조립하는 얇은 하네스를 원하는 경우. 사용 이동기는 [Claude Code에서 OpenCode를 거쳐 pi까지](./2026-09-21-pi-coding-agent-harness.md)에서 따로 정리했다.
 - **Cursor** — 에디터 안에서 자동완성·편집·에이전트 기능을 한 흐름으로 쓰고 싶은 경우.
 - **Copilot** — 기존 IDE와 GitHub 중심의 팀 개발 흐름을 유지하면서 AI 기능을 붙이고 싶은 경우.
 - **Codex** — OpenAI 모델과 CLI·클라우드 작업을 같은 생태계에서 쓰고 싶은 경우.
@@ -146,7 +148,7 @@ OpenCode는 OpenAI를 포함한 여러 제공자를 연결하는 구조다. 여�
 
 ## 결론
 
-첫 갈림길은 사용 환경이다. **에디터 안에서 계속 일하고 싶으면** Cursor나 Copilot, **셸에서 에이전트를 직접 돌리고 싶으면** Claude Code·OpenCode·Codex·Aider가 자연스럽다. 그다음에는 모델 선택 자유도, 과금 방식, 오픈소스 여부를 비교하면 된다.
+첫 갈림길은 사용 환경이다. **에디터 안에서 계속 일하고 싶으면** Cursor나 Copilot, **셸에서 에이전트를 직접 돌리고 싶으면** Claude Code·OpenCode·Codex·pi·Aider가 자연스럽다. 그다음에는 모델 선택 자유도, 과금 방식, 오픈소스 여부를 비교하면 된다.
 
 Claude Code와 Codex처럼 같은 Form Factor의 에이전트끼리는 고정된 성격표보다 **Tool surface·Permission·Context·Execution model·비용**을 같은 축에서 비교하고, 현재 대표 작업으로 검증하는 편이 오래 간다.
 
