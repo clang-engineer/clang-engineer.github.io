@@ -5,108 +5,203 @@ order: 2
 title: 치트시트
 ---
 
-자주 쓰지만 매번 검색하게 되는 명령어·문법 모음. 본문은 [devkit 레포](https://github.com/clang-engineer/devkit/tree/main/cheatsheets)에서 관리됩니다.
+<div class="cheatsheet-intro">
+  <p><strong>치트시트 허브</strong>는 도구를 바로 GitHub로 보내기 전에, 블로그 안에서 짧은 설명과 빠른 예시를 먼저 확인하는 입구입니다.</p>
+  <p>기본 사용 예는 <strong>tldr</strong>, 최신·정확한 기준은 <strong>공식 문서</strong>, 반복해서 쓰는 작업 흐름은 <strong>devkit 커스텀 치트시트</strong>에서 확인합니다.</p>
+</div>
 
-## 에디터 & TUI
+<ul class="cheatsheet-principles">
+  <li>빠른 예시는 도구 메뉴를 펼칠 때 tldr에서 lazy load합니다.</li>
+  <li>tldr 항목이 없거나 네트워크 오류가 나도 공식 문서와 devkit 링크는 그대로 제공합니다.</li>
+  <li>모든 상세 명령을 블로그에 복제하지 않고, 블로그는 탐색과 맥락을 담당합니다.</li>
+</ul>
 
-| 파일 | 설명 |
-|------|------|
-| [vim.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/vim.md) | Vim 모드별 명령어 |
-| [lazyvim.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazyvim.md) | LazyVim 키맵 |
-| [lazygit.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/lazygit.md) | LazyGit TUI 단축키 |
-| [tmux.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/tmux.md) | Tmux 세션/윈도우/패널 |
-| [smug.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/smug.md) | smug — 선언형 YAML로 tmux 세션 부팅 |
-| [ghostty.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/ghostty.md) | Ghostty 터미널 탭/분할/키맵 |
+{% for group in site.data.cheatsheets.groups %}
+  <section class="cheatsheet-category" aria-labelledby="cheatsheet-category-{{ forloop.index }}">
+    <h2 id="cheatsheet-category-{{ forloop.index }}">{{ group.title }}</h2>
 
-## 모던 CLI 도구 (grep/find/cat/ls 대체)
+    <div class="cheatsheet-accordion">
+      {% for item in group.items %}
+        <details id="{{ item.slug }}" class="cheatsheet-item">
+          <summary>
+            <span class="cheatsheet-item__name">{{ item.name }}</span>
+            <span class="cheatsheet-item__desc">{{ item.desc }}</span>
+          </summary>
 
-| 파일 | 설명 |
-|------|------|
-| [rg.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/rg.md) | ripgrep — 텍스트 검색 (`grep` 대체) |
-| [fzf.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/fzf.md) | fzf — 퍼지 파인더 (Ctrl+R/T, 파이프 조합) |
-| [jq.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/jq.md) | jq — JSON 파이프라인 가공 |
-| [modern-cli.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/modern-cli.md) | bat / eza / fd / tree / zoxide / delta / tldr 통합 |
+          <div class="cheatsheet-item__body">
+            <p>{{ item.desc }}</p>
 
-## 텍스트 처리
+            <section class="cheatsheet-resource" aria-labelledby="{{ item.slug }}-tldr">
+              <h3 id="{{ item.slug }}-tldr">tldr 빠른 예시</h3>
+              {% if item.tldr %}
+                <div class="tldr-box" data-tldr="{{ item.tldr }}">
+                  <p class="tldr-status">메뉴를 펼치면 tldr 예시를 불러옵니다.</p>
+                </div>
+              {% else %}
+                <div class="tldr-box tldr-box--empty">
+                  <p class="tldr-status">이 항목은 단일 명령어가 아니어서 tldr를 연결하지 않았습니다.</p>
+                </div>
+              {% endif %}
+            </section>
 
-| 파일 | 설명 |
-|------|------|
-| [sed-awk.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/sed-awk.md) | sed (치환·삽입·삭제) + awk (필드·집계·보고서) |
-| [regex.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/regex.md) | 정규표현식 문법 + 도구별 플레이버(BRE/ERE/PCRE) 차이 |
-| [compression.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/compression.md) | tar / gzip / zip / xz / bzip2 / 7z |
+            <section class="cheatsheet-resource" aria-labelledby="{{ item.slug }}-official">
+              <h3 id="{{ item.slug }}-official">공식 문서</h3>
+              {% if item.official and item.official.size > 0 %}
+                <ul>
+                  {% for link in item.official %}
+                    <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="cheatsheet-muted">이 항목은 여러 도구를 묶는 가이드라 별도 공식 문서 링크를 두지 않았습니다.</p>
+              {% endif %}
+            </section>
 
-## 셸
+            <section class="cheatsheet-resource" aria-labelledby="{{ item.slug }}-custom">
+              <h3 id="{{ item.slug }}-custom">내 커스텀 치트시트</h3>
+              {% if item.custom %}
+                <ul>
+                  <li><a href="{{ item.custom.url }}">{{ item.custom.label }}</a></li>
+                </ul>
+              {% else %}
+                <p class="cheatsheet-muted">아직 devkit 커스텀 치트시트가 없습니다.</p>
+              {% endif %}
+            </section>
+          </div>
+        </details>
+      {% endfor %}
+    </div>
+  </section>
+{% endfor %}
 
-| 파일 | 설명 |
-|------|------|
-| [shell.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/shell.md) | Bash `set` 옵션, `&`/`&&`/`;`/`\|\|`, job 관리 |
-| [zsh.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/zsh.md) | Zsh 단축키, glob, alias |
-| [powershell.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/powershell.md) | PowerShell — Bash와 다른 점 위주 (PS 5.1 vs 7, 서비스 관리 sc/nssm 포함) |
+<div class="cheatsheet-note">
+  <strong>구조:</strong> 이 페이지는 하나의 허브로 유지합니다. 도구별 별도 상세 페이지를 만들지 않고, <code>/cheatsheet/#git</code>처럼 해시 링크로 필요한 메뉴를 바로 열 수 있습니다.
+</div>
 
-## 시스템 & 서버
+<script>
+  (function () {
+    const TLDR_BASE_URL = 'https://raw.githubusercontent.com/tldr-pages/tldr/main/pages/';
+    const loaded = new Set();
 
-| 파일 | 설명 |
-|------|------|
-| [linux-process.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/linux-process.md) | 프로세스 찾기·종료 (`pgrep`/`pkill`/`lsof`/`kill` 시그널) |
-| [linux.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/linux.md) | Linux 디렉터리 구조 + 자원 모니터링 + 네트워크 |
-| [ssh.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/ssh.md) | ssh-agent/ssh-add, ~/.ssh/config, scp/rsync |
-| [systemd.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/systemd.md) | systemd 서비스 관리 + journalctl 로그 |
-| [nginx.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/nginx.md) | Nginx 설정/명령어 |
-| [openssl.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/openssl.md) | 인증서/암호화 |
-| [rocky-linux.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/rocky-linux.md) | Rocky Linux / RHEL 계열 (dnf, firewalld, SELinux) |
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
 
-## macOS
+    function tldrUrl(page) {
+      return TLDR_BASE_URL + page + '.md';
+    }
 
-| 파일 | 설명 |
-|------|------|
-| [macos-admin.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/macos-admin.md) | macOS troubleshoot (LaunchDaemons, Secure Input 등) |
-| [aerospace.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/aerospace.md) | macOS 타일링 WM |
-| [hammerspoon.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/hammerspoon.md) | macOS 자동화/윈도우 관리 (Lua) |
+    function renderTldr(markdown) {
+      const lines = markdown.split('\n');
+      const title = lines.find((line) => line.startsWith('# '));
+      const description = lines.find((line) => line.startsWith('> '));
+      const examples = [];
 
-## 데이터
+      for (let index = 0; index < lines.length; index += 1) {
+        const line = lines[index];
 
-| 파일 | 설명 |
-|------|------|
-| [harlequin.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/harlequin.md) | Harlequin 기본 사용법 (`--config-path`, `--profile`) |
-| [sql-snippets.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/sql-snippets.md) | PostgreSQL 운영 패턴 (`information_schema` ALTER 자동 생성 등) |
-| [vertica.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/vertica.md) | Vertica — 계정 만료 해제(chage) + v_catalog/v_monitor 용량·이력 조회 |
-| [elasticsearch.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/elasticsearch.md) | Elasticsearch 쿼리/관리 |
-| [kibana.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/kibana.md) | KQL, Dev Tools, Discover, 운영 진단 |
+        if (line.startsWith('- ')) {
+          const command = lines.slice(index + 1).find((nextLine) => nextLine.startsWith('`'));
 
-## 컨테이너 & 빌드
+          if (command) {
+            examples.push({
+              text: line.replace(/^- /, '').trim(),
+              command: command.replace(/^`|`$/g, '').trim()
+            });
+          }
+        }
 
-| 파일 | 설명 |
-|------|------|
-| [kubectl.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/kubectl.md) | Kubernetes CLI — get/logs/exec/port-forward/apply/rollout |
-| [docker.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/docker.md) | Docker / Compose 명령어 + 오프라인 바이너리 설치 |
-| [make.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/make.md) | Makefile — 자동변수, 패턴 룰, .PHONY, 함수 |
+        if (examples.length >= 4) {
+          break;
+        }
+      }
 
-## Git & 버전 관리
+      if (examples.length === 0) {
+        return '<p class="tldr-status">tldr 예시를 찾지 못했습니다. 공식 문서를 확인하세요.</p>';
+      }
 
-| 파일 | 설명 |
-|------|------|
-| [git.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/git.md) | Git 명령어 (브랜치, stash, rebase, tag 등) |
-| [gh.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/gh.md) | GitHub CLI — PR/이슈/Actions/API |
-| [code-review-glossary.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/code-review-glossary.md) | 리뷰 약어/용어 (LGTM, PTAL, nit:, Draft PR 등) |
-| [chezmoi.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/chezmoi.md) | chezmoi — dotfiles 관리 (source/target 모델, 네이밍 규칙, 템플릿) |
+      const heading = title ? '<p class="tldr-title">' + escapeHtml(title.replace(/^# /, '')) + '</p>' : '';
+      const desc = description ? '<p class="tldr-desc">' + escapeHtml(description.replace(/^> /, '')) + '</p>' : '';
+      const items = examples
+        .map(
+          (example) =>
+            '<li><p>' +
+            escapeHtml(example.text) +
+            '</p><pre><code>' +
+            escapeHtml(example.command) +
+            '</code></pre></li>'
+        )
+        .join('');
 
-> `delta`(git diff 페이저)는 [modern-cli.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/modern-cli.md)에 통합.
+      return heading + desc + '<ol class="tldr-examples">' + items + '</ol>';
+    }
 
-## 설정 파일 형식
+    async function loadTldr(box) {
+      const page = box.dataset.tldr;
 
-| 파일 | 설명 |
-|------|------|
-| [toml.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/toml.md) | TOML 문법 — 값, 배열, 테이블 `[ ]`, 테이블 배열 `[[ ]]` |
+      if (!page || loaded.has(page)) {
+        return;
+      }
 
-## 개발 도구
+      loaded.add(page);
+      box.innerHTML = '<p class="tldr-status">tldr 예시를 불러오는 중...</p>';
 
-| 파일 | 설명 |
-|------|------|
-| [terminal-tooling.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/terminal-tooling.md) | 터미널 도구 역할 분담과 선택 가이드 |
-| [mise.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/mise.md) | mise — 다언어 런타임 버전 관리 (rbenv/jenv/pyenv/nvm 통합, config+activate) |
-| [curl.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/curl.md) | curl HTTP 요청 |
-| [taskwarrior.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/taskwarrior.md) | Taskwarrior 3.5 — 태스크 관리, 필터, 날짜, JSON export, TaskChampion 동기화 |
-| [claude-code.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/claude-code.md) | Claude Code CLI |
-| [ccusage.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/ccusage.md) | ccusage 사용량 집계와 임계치 경보 |
-| [opencode.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/opencode.md) | opencode — provider-agnostic 터미널 AI 코딩 에이전트 (인증·모델 선택) |
-| [gdb.md](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/gdb.md) | GDB — GNU 디버거 (중단점·스택·변수·메모리 조사) |
+      try {
+        const response = await fetch(tldrUrl(page), { cache: 'force-cache' });
+
+        if (response.status === 404) {
+          box.innerHTML = '<p class="tldr-status">tldr 항목이 없습니다. 공식 문서와 내 치트시트를 참고하세요.</p>';
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error('tldr request failed');
+        }
+
+        box.innerHTML = renderTldr(await response.text());
+      } catch (error) {
+        box.innerHTML = '<p class="tldr-status">tldr를 일시적으로 불러오지 못했습니다. 공식 문서와 내 치트시트를 참고하세요.</p>';
+      }
+    }
+
+    function openFromHash() {
+      if (!window.location.hash) {
+        return;
+      }
+
+      const target = document.querySelector(window.location.hash);
+
+      if (target && target.tagName.toLowerCase() === 'details') {
+        target.open = true;
+        target.scrollIntoView({ block: 'start' });
+        const box = target.querySelector('[data-tldr]');
+
+        if (box) {
+          loadTldr(box);
+        }
+      }
+    }
+
+    document.querySelectorAll('.cheatsheet-item').forEach((item) => {
+      item.addEventListener('toggle', () => {
+        if (!item.open) {
+          return;
+        }
+
+        const box = item.querySelector('[data-tldr]');
+
+        if (box) {
+          loadTldr(box);
+        }
+      });
+    });
+
+    window.addEventListener('hashchange', openFromHash);
+    openFromHash();
+  })();
+</script>
