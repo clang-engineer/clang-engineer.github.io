@@ -6,6 +6,8 @@
 - SQL Injection의 Form·Second-order·Blind 같은 이름은 왜 한 트리에 넣으면 안 되는가?
 - XSS의 Reflected·Stored·DOM-based는 같은 분류축인가?
 - 방어할 때 입력 필터보다 실행 문맥을 먼저 봐야 하는 이유는 무엇인가?
+- Prepared Statement가 막는 경계와 막지 못하는 동적 SQL 요소는 무엇인가?
+- XSS에서 Encoding과 Sanitization은 언제 구분해서 사용하는가?
 
 ## 1. 먼저 실행 경계를 나눈다
 
@@ -126,6 +128,41 @@ Time-based
 ```
 
 입력 검증은 보조 수단이고, SQL 문맥 분리가 우선이다.
+
+### Parameter Binding이 가능한 것과 불가능한 것을 구분한다
+
+Prepared Statement의 Parameter는 일반적으로 **데이터 값**을 SQL 문법과 분리한다.
+
+```sql
+SELECT *
+FROM users
+WHERE user_id = ?
+```
+
+하지만 Table명, Column명, 정렬 방향 같은 SQL 구조 자체를 Parameter로 바인딩할 수 있다고 생각하면 안 된다.
+
+```text
+WHERE user_id = ?
+→ 값 Parameterization
+
+ORDER BY <column>
+→ SQL 구조이므로 허용 가능한 Column을 Allowlist로 선택
+
+FROM <table>
+→ SQL 구조이므로 허용 가능한 Table을 Allowlist로 선택
+```
+
+즉 방어 경계는 다음처럼 잡는다.
+
+```text
+Data Value
+→ Parameter Binding
+
+SQL Structure
+→ Application이 통제 + Allowlist
+```
+
+Prepared Statement를 사용하더라도 동적으로 SQL 구조를 문자열 결합하는 부분이 남아 있다면 그 부분은 별도로 검토한다.
 
 ## 4. XSS — 전달 방식과 실행 지점을 분리한다
 
@@ -272,9 +309,65 @@ output.textContent = value;
 
 HTML이 필요하면 Sanitization 정책과 신뢰 경계를 별도로 설계한다.
 
+### Encoding과 Sanitization은 목적이 다르다
+
+둘을 같은 "문자열 정리"로 보면 안 된다.
+
+```text
+Encoding
+→ 데이터를 현재 출력 문맥에서 실행 문법으로 해석되지 않게 표현
+
+Sanitization
+→ HTML 자체를 허용해야 할 때 위험한 Element / Attribute 등을 제거·제한
+```
+
+예를 들어 사용자의 이름을 HTML Text로 출력한다면 HTML을 허용할 이유가 없으므로 Context-aware Encoding이 기본이다.
+
+반면 게시물 편집기처럼 일부 HTML 표현을 허용해야 한다면 단순 Encoding을 하면 Markup 자체가 Text가 되므로, 허용할 HTML 정책에 맞춘 Sanitization이 필요할 수 있다.
+
+```text
+Plain Text를 출력
+→ Encoding / Safe DOM API
+
+일부 HTML을 의도적으로 허용
+→ Sanitization Policy
+```
+
 CSP(Content Security Policy)는 추가 방어층이지만 취약한 Source→Sink나 잘못된 출력 처리를 대신 고쳐주지는 않는다.
 
-## 8. SQL Injection과 XSS 비교
+## 8. XSS 방어는 Source보다 Sink와 Context를 기준으로 한다
+
+같은 입력이라도 어디에 들어가느냐에 따라 위험이 달라진다.
+
+```text
+사용자 입력 "hello"
+
+→ textContent
+  Text로 처리
+
+→ innerHTML
+  HTML Parser가 해석
+
+→ JavaScript 문자열 내부
+  JavaScript 문맥으로 해석
+
+→ URL 속성
+  URL 문맥으로 해석
+```
+
+따라서 "입력값에 `<script>`가 있는가?" 같은 Pattern 중심 방어보다 **최종 Sink와 실행 문맥에서 데이터가 코드로 바뀔 수 있는가**를 확인한다.
+
+이 원리는 SQL Injection과도 연결된다.
+
+```text
+SQL Injection
+Data → SQL Grammar 경계 붕괴
+
+XSS
+Data → HTML / JavaScript 실행 문맥 경계 붕괴
+```
+
+## 9. SQL Injection과 XSS 비교
 
 | 구분 | SQL Injection | XSS |
 |---|---|---|
@@ -286,7 +379,7 @@ CSP(Content Security Policy)는 추가 방어층이지만 취약한 Source→Sin
 
 둘 다 공통적으로 **데이터와 실행 문맥의 경계가 무너진 문제**지만 실행 계층이 다르다.
 
-## 9. 기술사 관점 핵심 정리
+## 10. 기술사 관점 핵심 정리
 
 ```text
 SQL Injection
@@ -303,6 +396,15 @@ Delivery Path
 
 서로 다른 분류축의 용어를 한 계층으로 억지로 묶지 않는다.
 
+SQL Injection과 XSS를 함께 볼 때는 공격 이름보다 다음 질문을 먼저 던진다.
+
+```text
+1. 공격자가 제어하는 Data는 어디서 오는가?
+2. 그 Data는 어디까지 이동하는가?
+3. 어느 Interpreter / Parser가 최종적으로 해석하는가?
+4. Data와 실행 문법의 경계를 어떻게 유지할 것인가?
+```
+
 ## 기억·인출 장치
 
 ```text
@@ -314,3 +416,14 @@ XSS
 ```
 
 핵심은 입력 자체보다 **어디에서 명령으로 해석되는가**를 찾는 것이다.
+
+```text
+SQLi
+→ DB가 SQL로 해석
+→ Value는 Parameter로 분리
+
+XSS
+→ Browser가 HTML / JS로 해석
+→ Context에 맞게 Encoding
+→ HTML 자체가 필요하면 Sanitization
+```
