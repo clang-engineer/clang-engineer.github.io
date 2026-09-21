@@ -30,57 +30,44 @@ JavaScript가 응답을 읽을 수 있는가?
 
 ### CSP와의 위치를 먼저 구분한다
 
-SOP/CORS와 CSP는 모두 Browser가 Origin을 기준으로 판단할 수 있어 비슷해 보이지만 질문이 다르다.
+둘 다 "다른 Origin의 무언가를 Page가 사용한다"는 점 때문에 비슷해 보인다. **자원과 데이터로 나누지 말고, Browser가 무엇을 하려는지**로 구분한다.
 
 ```text
-SOP / CORS
-→ 다른 Origin에서 온 Response를
-  내 JavaScript가 읽을 수 있는가?
-
 CSP
-→ 내 Page가 다른 Origin의 Script·Image·Style 등을
-  가져와 사용·실행할 수 있는가?
+→ Resource를 특정 용도로 로드·실행할 수 있는가?
+
+SOP / CORS
+→ JavaScript가 다른 Origin의 내용을 읽고 접근할 수 있는가?
 ```
 
-예를 들어:
+같은 URL을 사용해도 Browser가 하려는 일이 다르면 적용되는 정책도 달라진다.
+
+```html
+<script src="https://other.example/a.js"></script>
+```
 
 ```text
-fetch("https://api.example.com/users")
-→ Response를 JavaScript가 읽을 수 있는가?
-→ SOP / CORS
-
-<script src="https://cdn.example.com/app.js">
-→ 해당 Script를 Page가 로드·실행할 수 있는가?
+other.example/a.js를 Script로 로드·실행
 → CSP
 ```
 
-기억할 때는 **방향**으로 단순화한다.
+반면 같은 URL을 `fetch()`하면:
 
-```text
-밖 → 안
-다른 Origin의 Response
-        ↓
-내 JavaScript
-
-SOP  → 기본적으로 접근 제한
-CORS → Server가 허용한 범위는 공유
-
-
-안 → 밖
-내 Page
-   ↓
-다른 Origin의 Resource
-
-CSP → 무엇을 가져와 로드·실행할지 제한
+```javascript
+fetch("https://other.example/a.js")
 ```
 
-따라서 가장 먼저 다음 한 줄을 인출한다.
+```text
+other.example/a.js의 Response 내용을
+JavaScript가 읽으려 함
+→ SOP / CORS
+```
 
-> **밖→안 = SOP/CORS, 안→밖 = CSP**
+즉 핵심은 **무엇을 가져오느냐가 아니라 가져온 것을 Browser가 어떻게 사용하려 하느냐**다.
 
-여기서 `밖→안`, `안→밖`은 실제 HTTP Request/Response의 전송 방향을 뜻하지 않는다. **Cross-Origin 결과에 접근하는가, Page가 외부 Resource를 사용하는가**를 구분하기 위한 기억 장치다.
+> **CSP = 로드·실행 권한, SOP/CORS = Cross-Origin 내용 접근 권한**
 
-단, SOP 자체는 단순한 Response 정책이 아니라 **Cross-Origin 상호작용 전반을 제한하는 Browser의 기본 보안 정책**이다.
+SOP는 Cross-Origin 상호작용의 기본 보안 경계이고, CORS는 서버가 허용한 Cross-Origin Response를 JavaScript에 공유할 수 있도록 하는 메커니즘이다.
 
 ## 2. Origin — scheme + host + port
 
@@ -367,15 +354,12 @@ CSRF Defense
 
 ## 기억·인출 장치
 
-> **밖→안은 SOP/CORS, 안→밖은 CSP**
+> **CSP는 로드·실행, SOP/CORS는 Cross-Origin 내용 접근**
 
 ```text
-밖 → 안
-SOP    → Cross-Origin 기본 제한
-CORS   → 허용된 Response 공유
-
-안 → 밖
-CSP    → 사용할 Resource 제한
+CSP    → Resource 로드·실행 범위
+SOP    → Cross-Origin 접근의 기본 제한
+CORS   → 허용된 Cross-Origin Response 공유
 
 별도 축
 Cookie → Credential 전송 조건
