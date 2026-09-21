@@ -7,6 +7,8 @@
 - CORS는 Server-to-Server 연결을 열어주는 기능인가?
 - Simple Request와 Preflight는 무엇으로 나뉘는가?
 - Credential, Cookie 정책과 CORS는 어떤 관계인가?
+- Same-Origin과 Same-Site는 왜 같은 개념이 아닌가?
+- CORS 허용과 CSRF 방어를 왜 분리해야 하는가?
 
 ## 1. 전체 흐름부터 본다
 
@@ -42,6 +44,21 @@ scheme + host + port
 | `http://example.com` | `http://sub.example.com` | no |
 
 하나라도 다르면 Cross-Origin이다.
+
+여기서 **Origin과 Site를 구분**해야 한다.
+
+```text
+https://app.example.com
+https://api.example.com
+
+Origin
+→ host가 다르므로 Cross-Origin
+
+Site
+→ 같은 등록 가능 Domain 계열이므로 Same-Site가 될 수 있음
+```
+
+즉 Cookie의 `SameSite`와 SOP/CORS의 `Same-Origin`은 서로 다른 경계를 사용한다.
 
 ## 3. SOP — 브라우저의 기본 보안 경계
 
@@ -87,6 +104,13 @@ Access-Control-Allow-Origin: https://app.example.com
 
 `Access-Control-Allow-Origin`에는 일반적으로 하나의 Origin 또는 `*`를 사용한다. 여러 Origin을 허용하려면 요청의 `Origin`을 Allowlist와 비교한 뒤 허용된 Origin을 응답에 반영한다.
 
+요청 Origin에 따라 응답의 `Access-Control-Allow-Origin` 값을 동적으로 바꾼다면 Cache가 Origin별 응답을 섞지 않도록 `Vary: Origin`도 함께 고려한다.
+
+```http
+Access-Control-Allow-Origin: https://app.example.com
+Vary: Origin
+```
+
 ## 5. Simple Request와 Preflight
 
 Cross-Origin 요청이라고 항상 `OPTIONS`가 먼저 나가는 것은 아니다.
@@ -122,6 +146,25 @@ Browser
 ```
 
 Preflight 여부는 요청이 "위험한가"라는 주관적 판단이 아니라 **요청 형식과 safelist 조건**으로 결정된다.
+
+Preflight Request에서는 Browser가 실제 요청의 의도를 먼저 알린다.
+
+```http
+OPTIONS /orders HTTP/1.1
+Origin: https://app.example.com
+Access-Control-Request-Method: PUT
+Access-Control-Request-Headers: authorization, content-type
+```
+
+Server는 이에 대해 허용 범위를 응답한다.
+
+```http
+Access-Control-Allow-Origin: https://app.example.com
+Access-Control-Allow-Methods: PUT
+Access-Control-Allow-Headers: authorization, content-type
+```
+
+즉 Preflight는 **실제 요청을 보내기 전에 해당 Origin·Method·Header 조합을 허용하는지 확인하는 절차**다.
 
 ## 6. Preflight가 없어도 CORS 검사는 끝나지 않는다
 
@@ -169,6 +212,20 @@ JavaScript가 Cross-Origin 응답을 읽을 수 있는가?
 
 이 두 축을 섞지 않는다.
 
+### CORS 허용과 CSRF 방어도 별도 축이다
+
+CORS를 엄격하게 설정했다고 CSRF가 자동으로 해결되는 것은 아니다.
+
+```text
+CORS
+→ JavaScript가 Cross-Origin Response를 읽을 수 있는가?
+
+CSRF 방어
+→ 사용자의 Credential을 이용한 원치 않는 Request를 막는가?
+```
+
+Simple Request처럼 Preflight 없이 Cross-Origin Request가 전송될 수 있는 경우도 있으므로, 상태 변경 요청은 SameSite Cookie, CSRF Token, Origin 검증 등 별도 방어를 설계한다.
+
 ## 8. CORS는 브라우저 보안 모델이다
 
 `curl`, Postman, Backend Server-to-Server 호출은 브라우저의 SOP 집행 대상이 아니다.
@@ -210,6 +267,18 @@ http://localhost:3000
 http://localhost:8080
 ```
 
+### Preflight는 성공했는데 실제 Request가 실패
+
+Preflight와 실제 Request는 별개의 HTTP 교환이다.
+
+```text
+OPTIONS 성공
+≠
+실제 GET / POST / PUT 성공
+```
+
+실제 Request 단계의 인증·인가, Application Error, 그리고 실제 Response의 CORS Header를 다시 확인한다.
+
 ### Response Header가 JavaScript에서 보이지 않음
 
 기본 노출 범위 밖 Header라면 `Access-Control-Expose-Headers`가 필요한지 확인한다.
@@ -225,6 +294,9 @@ CORS
 
 Cookie Policy
 → Credential 자체가 전송되는 조건
+
+CSRF Defense
+→ Credential이 실린 원치 않는 상태 변경 Request를 차단
 ```
 
 진단할 때는 다음 순서로 복원한다.
@@ -236,10 +308,19 @@ Cookie Policy
 4. 실제 Response에 올바른 Allow-Origin이 있는가?
 5. Credential / Cookie 정책이 맞는가?
 6. 필요한 Response Header가 노출되는가?
+7. 상태 변경 요청이라면 CSRF 방어는 별도로 되어 있는가?
 ```
 
 ## 기억·인출 장치
 
-> **SOP는 기본 경계, CORS는 예외 허용 표현이다.**
+> **SOP는 기본 경계, CORS는 Cross-Origin 응답 공유를 허용하는 규칙이다.**
+
+```text
+Origin → scheme + host + port
+SOP    → 기본 제한
+CORS   → 응답 공유 허용
+Cookie → Credential 전송 조건
+CSRF   → 원치 않는 상태 변경 방어
+```
 
 CORS 문제를 볼 때는 "서버가 요청을 받았는가"와 "브라우저가 응답을 Script에 공개하는가"를 분리해서 본다.
