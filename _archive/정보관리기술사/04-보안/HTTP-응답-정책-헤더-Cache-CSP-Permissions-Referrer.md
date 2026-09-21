@@ -67,9 +67,28 @@ SOP / CORS
 
 이는 이해를 위한 단순화다. SOP는 Cross-Origin 상호작용 전반의 기본 보안 경계이고, CORS는 그중 HTTP Cross-Origin Resource Sharing을 제어하는 메커니즘이다.
 
-핵심 대비는 다음 한 줄이다.
+핵심 대비는 **방향**으로 기억한다.
 
-> **SOP/CORS는 Cross-Origin 결과 접근, CSP는 Resource 로드·실행을 제한한다.**
+```text
+밖 → 안
+다른 Origin의 Response
+        ↓
+내 JavaScript가 읽기
+→ SOP가 기본 제한
+→ CORS가 허용 범위를 표현
+
+안 → 밖
+내 Page
+   ↓
+다른 Origin의 Script / Style / Image 등 사용
+→ CSP가 Resource 로드·실행 범위를 제한
+```
+
+즉 다음처럼 인출한다.
+
+> **밖→안 = SOP/CORS, 안→밖 = CSP**
+
+이는 네트워크 Packet의 실제 이동 방향을 뜻하는 것이 아니라 **무엇에 대한 접근·사용 정책인지 기억하기 위한 개념적 방향**이다.
 
 ## 2. Cache-Control — 저장과 재사용 정책
 
