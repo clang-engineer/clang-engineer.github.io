@@ -141,7 +141,30 @@ Local에서 들어와 Remote 쪽 Target으로 나감
 Remote에서 들어와 Local 쪽 Target으로 나감
 ```
 
-Remote Forward를 외부 Interface에 공개하면 개인용 Tunnel이 아니라 외부 접근 가능한 Service Entry Point가 될 수 있다. `GatewayPorts`, Bind Address, Firewall을 함께 본다.
+Remote Forward를 외부 Interface에 공개하면 개인용 Tunnel이 아니라 외부 접근 가능한 Service Entry Point가 될 수 있다.
+
+Remote의 **어느 주소에 Listen하는지**도 함께 본다.
+
+```text
+127.0.0.1:8080
+→ Remote Server 자신만 접근 가능한 입구
+
+0.0.0.0:8080
+→ 여러 Network Interface에서 연결을 받을 수 있는 입구
+→ 실제 외부 접근은 GatewayPorts, Firewall 등의 정책에도 영향받음
+```
+
+여기서는 다음 정도만 기억한다.
+
+```text
+Bind
+→ 어느 주소에 입구를 만들지 결정
+
+Listen
+→ 그 주소·Port에서 연결을 기다림
+```
+
+즉 `-R`에서는 **Remote에 입구를 만든다**에서 끝나지 않고, 그 입구가 Loopback에만 열리는지 외부 Interface에도 열리는지를 구분한다.
 
 ## 5. Dynamic Forwarding `-D`
 
