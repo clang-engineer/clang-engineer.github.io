@@ -9,9 +9,62 @@
 - SSH Host Key와 TLS Certificate는 각각 무엇을 신뢰하는가?
 - SSH Tunnel은 VPN과 같은 것인가?
 
-## 1. SSH와 TLS는 같은 암호 재료를 쓰지만 독립된 프로토콜이다
+## 1. 먼저 전체 위치를 잡는다
 
-SSH와 TLS는 모두 공개키 기반 키 교환, 대칭키 암호화, 무결성 보호 같은 공통 암호 기술을 사용한다. 그러나 한쪽이 다른 쪽 위에서 동작하는 관계는 아니다.
+SSH와 TLS는 둘 다 **통신을 안전하게 만든다**는 공통점이 있지만, 맡는 범위가 다르다.
+
+```text
+안전한 통신
+│
+├─ 기존 Application Protocol의 통신을 보호
+│    └─ TLS
+│         ├─ HTTP + TLS → HTTPS
+│         ├─ Mail + TLS
+│         └─ DB Protocol + TLS
+│
+└─ 원격 접속 자체를 위한 보안 Protocol
+     └─ SSH
+          ├─ Transport
+          │    └─ 암호화·무결성·Server 인증
+          ├─ Authentication
+          │    └─ 사용자 인증
+          └─ Connection
+               ├─ Shell / Command
+               ├─ SFTP 등의 Channel
+               └─ Port Forwarding
+                    ├─ -L
+                    ├─ -R
+                    └─ -D
+```
+
+따라서 이 문서의 흐름도 다음처럼 내려간다.
+
+```text
+안전한 통신
+   ↓
+TLS와 SSH의 위치 차이
+   ↓
+SSH 내부 구조
+   ↓
+Connection Layer의 Channel
+   ↓
+SSH Tunneling
+   ↓
+-L / -R / -D
+```
+
+즉 TLS와 SSH를 비교하다가 갑자기 Tunneling으로 넘어가는 것이 아니다. **SSH가 제공하는 안전한 Connection 기능 중 하나가 Port Forwarding**이기 때문에 SSH의 위치를 잡은 뒤 Tunneling으로 내려가는 것이다.
+
+## 3. SSH와 TLS는 같은 암호 재료를 쓰지만 독립된 프로토콜이다
+
+SSH와 TLS는 모두 공개키 기반 키 교환, 대칭키 암호화, 무결성 보호 같은 공통 암호 기술을 사용할 수 있다. 그래서 겉으로는 비슷해 보이지만 **역할이 다르고 서로를 기반으로 하는 관계도 아니다.**
+
+먼저 한 문장으로 구분한다.
+
+```text
+TLS → 기존 Application 통신에 보안 채널을 씌운다.
+SSH → 원격 접속을 위한 보안 Protocol 자체다.
+```
 
 ```text
 SSH
@@ -23,7 +76,7 @@ TLS
 
 따라서 `SSH가 SSL/TLS 기반인가?`라는 질문에는 **아니다**라고 답한다.
 
-## 2. 계층 구조로 비교한다
+## 3. 계층 구조로 비교한다
 
 TLS는 Application Protocol과 TCP 사이에서 암호화·무결성·상대 인증을 제공한다.
 
@@ -55,7 +108,7 @@ IP
 
 여기서 `SSH Transport Layer`는 OSI의 Transport Layer(L4)가 아니라 **SSH 내부 계층 이름**이다.
 
-## 3. 인증 모델도 다르다
+## 4. 인증 모델도 다르다
 
 | 구분 | SSH | TLS |
 |---|---|---|
@@ -64,7 +117,19 @@ IP
 | 대표 Client/User 인증 | 공개키, 비밀번호 등 | 선택적 Client Certificate 등 |
 | 대표 사용 | Shell, SFTP, Port Forwarding | HTTPS, Mail, DB TLS |
 
-SSH는 원격 시스템에 들어가 작업하는 사용자를 인증하는 흐름이 중심이고, TLS는 범용 Application이 상대 Server의 신원을 확인하고 안전한 채널을 만드는 기반으로 널리 사용된다.
+여기서 인증의 대상도 분리해서 본다.
+
+```text
+TLS
+→ 우선 "내가 연결한 Server가 맞는가?"를 확인하며
+  Application 통신용 보안 채널을 만든다.
+
+SSH
+→ "내가 접속한 SSH Server가 맞는가?"를 확인한 뒤
+  "이 사용자가 로그인해도 되는가?"까지 이어진다.
+```
+
+즉 SSH는 **Host 인증 + 사용자 인증**이 원격 로그인 흐름 안에서 눈에 잘 드러나고, TLS는 여러 Application이 사용할 **상대 인증과 보안 채널**을 제공하는 기반으로 널리 사용된다.
 
 ### Host Key와 Certificate — 신뢰를 만드는 방식
 
@@ -98,16 +163,36 @@ REMOTE HOST IDENTIFICATION HAS CHANGED
 
 정상적인 Server 재설치나 Key 교체일 수도 있고 중간자 공격 가능성도 있으므로 원인을 확인한 뒤 신뢰 정보를 갱신한다.
 
-## 4. SSH Tunneling — SSH 채널 안으로 다른 TCP 연결을 전달한다
+## 5. SSH Tunneling — SSH 채널 안으로 다른 TCP 연결을 전달한다
 
-SSH Tunneling은 단순히 "포트를 우회"하는 기능이 아니다.
+SSH는 로그인 후 Shell만 제공하는 Protocol이 아니다. Connection Layer에서는 하나의 SSH 연결 안에 여러 Channel을 만들 수 있고, 그 Channel의 용도 중 하나가 **다른 TCP Connection을 대신 전달하는 것**이다.
 
 ```text
-SSH 연결 수립
-    ↓
-암호화된 SSH Channel
-    ↓
-다른 TCP Connection 전달
+SSH 연결
+   ↓
+암호화된 Connection
+   ↓
+여러 Channel
+   ├─ Shell / Command
+   └─ TCP Connection 전달
+          ↓
+     SSH Tunneling
+```
+
+즉 SSH Tunneling은 단순히 "포트를 우회"하는 기능이라기보다 **SSH의 암호화된 Channel을 길처럼 사용해 다른 TCP Connection을 전달하는 기능**이다.
+
+세 옵션의 차이는 암호화 방식이 아니다. **SSH Tunnel의 입구를 어디에 만들고, 어느 쪽에서 최종 Target으로 나갈 것인가**의 차이다.
+
+```text
+Application
+   ↓
+[Listen = Tunnel 입구]
+   ↓
+===== SSH Channel =====
+   ↓
+[Target으로 연결 = Tunnel 출구]
+   ↓
+Target Service
 ```
 
 세 옵션은 이름을 외우기보다 두 질문으로 복원한다.
@@ -118,7 +203,7 @@ SSH 연결 수립
 최종 Target Connection은 어느 쪽에서 만들까?
 ```
 
-## 5. Local Forwarding `-L`
+## 6. Local Forwarding `-L`
 
 Local PC에 Listen Socket을 만들고, SSH Server 쪽에서 Target으로 연결한다.
 
@@ -150,7 +235,7 @@ SSH Server가 실제로 연결하는 Destination
 → db.internal:5432
 ```
 
-## 6. Remote Forwarding `-R`
+## 7. Remote Forwarding `-R`
 
 SSH Server 쪽에 Listen Socket을 만들고, SSH Client 쪽에서 Target으로 연결한다.
 
@@ -170,7 +255,7 @@ Local Application
 
 Remote Forward를 외부 Interface에 공개하면 단순 개인용 Tunnel이 아니라 외부 접근 가능한 Service Entry Point가 될 수 있다. `GatewayPorts`, Bind Address, Firewall을 함께 본다.
 
-## 7. Dynamic Forwarding `-D`
+## 8. Dynamic Forwarding `-D`
 
 Local PC에 SOCKS Proxy를 만들고 Application이 요청한 목적지로 SSH Server 쪽에서 연결한다.
 
@@ -193,7 +278,7 @@ SSH Server
 
 DNS 이름을 어느 쪽에서 해석하는지도 Proxy 설정 방식에 따라 달라질 수 있으므로, "SOCKS를 쓰면 DNS까지 항상 Tunnel 내부에서 처리된다"고 단정하지 않는다.
 
-## 8. 세 옵션을 한 축에서 비교한다
+## 9. 세 옵션을 한 축에서 비교한다
 
 | 옵션 | Listen 위치 | Target 연결이 나가는 쪽 | 대표 용도 |
 |---|---|---|---|
@@ -203,7 +288,7 @@ DNS 이름을 어느 쪽에서 해석하는지도 Proxy 설정 방식에 따라 
 
 기억할 때는 Forward 이름보다 **입구와 출구 위치**를 그린다.
 
-## 9. SSH Tunnel은 VPN과 범위가 다르다
+## 10. SSH Tunnel은 VPN과 범위가 다르다
 
 SSH Port Forwarding과 VPN은 모두 다른 Network에 접근하는 데 사용할 수 있지만 적용 범위가 다르다.
 
@@ -227,7 +312,7 @@ localhost:8080  → Web
 
 따라서 SSH Tunnel을 "간단한 VPN"으로 외우기보다 **SSH Channel을 이용한 선택적 Connection Forwarding**으로 이해한다.
 
-## 10. SSH Tunnel과 Service 인증은 별도 경계다
+## 11. SSH Tunnel과 Service 인증은 별도 경계다
 
 SSH Tunnel을 만들었다고 최종 Service의 인증·인가가 사라지는 것은 아니다.
 
@@ -255,7 +340,7 @@ Forwarding 자체가 허용되는가
 → Service 자체 인증·인가
 ```
 
-## 11. Tunnel 진단 순서
+## 12. Tunnel 진단 순서
 
 ```text
 1. SSH 로그인 자체가 되는가?
@@ -273,7 +358,7 @@ ssh -vvv -N -L 15432:db.internal:5432 user@bastion
 
 Local Listen은 `ss`, `lsof` 등으로 확인한다.
 
-## 12. 기술사 관점 핵심 경계
+## 13. 기술사 관점 핵심 경계
 
 ```text
 TLS
@@ -292,6 +377,24 @@ VPN
 SSH와 TLS는 같은 암호 기술을 사용할 수 있지만 **서로를 기반으로 하는 상하 관계가 아니다.**
 
 ## 기억·인출 장치
+
+먼저 큰 위치를 복원한다.
+
+```text
+TLS
+→ Application 통신에 보안 채널
+
+SSH
+→ 원격 접속용 보안 Protocol
+   ↓
+   Connection Layer
+   ↓
+   Channel
+   ↓
+   Tunneling
+```
+
+그 다음 Tunneling 옵션을 복원한다.
 
 ```text
 -L → Local에 Listen
