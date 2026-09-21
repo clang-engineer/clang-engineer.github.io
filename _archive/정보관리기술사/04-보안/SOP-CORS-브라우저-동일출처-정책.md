@@ -28,6 +28,41 @@ JavaScript가 응답을 읽을 수 있는가?
 
 핵심은 CORS가 네트워크 연결을 여는 기능이 아니라 **브라우저가 Cross-Origin 응답을 JavaScript에 노출할지 판단할 수 있도록 서버가 허용 의사를 표현하는 HTTP 메커니즘**이라는 점이다.
 
+### CSP와의 위치를 먼저 구분한다
+
+SOP/CORS와 CSP는 모두 Browser가 Origin을 기준으로 판단할 수 있어 비슷해 보이지만 질문이 다르다.
+
+```text
+SOP / CORS
+→ 다른 Origin에서 온 Response를
+  내 JavaScript가 읽을 수 있는가?
+
+CSP
+→ 내 Page가 다른 Origin의 Script·Image·Style 등을
+  가져와 사용·실행할 수 있는가?
+```
+
+예를 들어:
+
+```text
+fetch("https://api.example.com/users")
+→ Response를 JavaScript가 읽을 수 있는가?
+→ SOP / CORS
+
+<script src="https://cdn.example.com/app.js">
+→ 해당 Script를 Page가 로드·실행할 수 있는가?
+→ CSP
+```
+
+기억할 때는 먼저 다음처럼 단순화한다.
+
+```text
+SOP / CORS → 결과 접근 제한
+CSP        → 사용할 Resource 제한
+```
+
+단, SOP 자체는 단순한 Response 정책이 아니라 **Cross-Origin 상호작용 전반을 제한하는 Browser의 기본 보안 정책**이다.
+
 ## 2. Origin — scheme + host + port
 
 Origin은 다음 세 요소의 조합이다.
