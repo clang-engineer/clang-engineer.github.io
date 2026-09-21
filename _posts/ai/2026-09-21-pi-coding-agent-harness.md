@@ -2,8 +2,9 @@
 title       : "Claude Code에서 OpenCode를 거쳐 pi까지 — AI 코딩 하네스를 점점 얇게 만든 기록"
 description : "Claude Code·Codex CLI에서 OpenCode와 oh-my-opencode를 거쳐 pi로 이동하며, 완제품 에이전트보다 얇은 하네스와 직접 조립하는 워크플로가 더 맞아진 과정을 정리한다."
 date        : 2026-09-21 22:30:00 +0900
+updated     : 2026-09-21 23:10:00 +0900
 categories  : [ai, "코딩 에이전트"]
-tags        : [pi, jev, claude-code, codex, opencode, ai-coding, agent-skills, harness]
+tags        : [pi, jev, claude-code, codex, opencode, ai-coding, agent-skills, harness, plan-mode]
 pin         : false
 hidden      : false
 ---
@@ -203,6 +204,37 @@ Claude Code / Codex CLI → OpenCode → pi로 갈수록 기본 제공 기능은
 - 공개 글에서는 개인 대화와 내부 맥락을 일반화한다.
 
 이것은 특정 모델의 지능 문제가 아니라 실행 환경의 문제다. 같은 모델도 어떤 하네스에서 도는지에 따라 작업 감각이 달라진다.
+
+## plan mode도 하네스에 붙이는 기능이다
+
+OpenCode처럼 plan mode를 별도 흐름으로 쓰고 싶다면, pi에서는 그것도 core 기능이 아니라 extension으로 붙인다. pi README는 기본값에서 sub agent와 plan mode를 일부러 제외한다고 설명한다. 대신 examples 아래에 `plan-mode` extension이 있고, 이를 전역 extension 위치에 두면 `/plan` 명령으로 사용할 수 있다.
+
+```text
+~/.pi/agent/extensions/plan-mode/
+  ├─ index.ts
+  ├─ utils.ts
+  └─ README.md
+```
+
+이 extension이 하는 일은 모델의 지능을 바꾸는 것이 아니다. 모델 주변의 행동 환경을 바꾼다.
+
+```text
+평소 모드
+  → read / bash / edit / write 사용
+
+plan mode
+  → edit / write 차단
+  → bash는 읽기 중심 명령만 허용
+  → 먼저 Plan: 형식의 번호 목록을 만들게 함
+
+실행 모드
+  → 도구 제한을 풀고 계획을 순서대로 실행
+  → [DONE:n] 표시로 진행 상황 추적
+```
+
+그래서 plan mode는 모델 기능이라기보다 하네스 기능에 가깝다. Claude Code나 OpenCode에서 제품이 기본으로 제공하는 흐름을 pi에서는 extension으로 조립하는 셈이다.
+
+이 지점에서 pi의 성격이 더 분명해진다. pi는 "plan mode가 없는 도구"라기보다, plan mode까지도 사용자가 하네스의 일부로 붙일 수 있게 둔 도구에 가깝다. 필요 없으면 비워 두고, 필요해지면 붙인다. 내 경우에는 실수로 파일을 고치기 전에 먼저 읽고 계획하는 흐름이 필요해졌고, 그래서 `plan-mode` extension을 전역 extension으로 올렸다.
 
 ## 결론 — 더 많은 기능보다 더 얇은 경계
 
