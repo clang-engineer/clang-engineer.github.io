@@ -54,12 +54,31 @@ fetch("https://api.example.com/users")
 → CSP
 ```
 
-기억할 때는 먼저 다음처럼 단순화한다.
+기억할 때는 **방향**으로 단순화한다.
 
 ```text
-SOP / CORS → 결과 접근 제한
-CSP        → 사용할 Resource 제한
+밖 → 안
+다른 Origin의 Response
+        ↓
+내 JavaScript
+
+SOP  → 기본적으로 접근 제한
+CORS → Server가 허용한 범위는 공유
+
+
+안 → 밖
+내 Page
+   ↓
+다른 Origin의 Resource
+
+CSP → 무엇을 가져와 로드·실행할지 제한
 ```
+
+따라서 가장 먼저 다음 한 줄을 인출한다.
+
+> **밖→안 = SOP/CORS, 안→밖 = CSP**
+
+여기서 `밖→안`, `안→밖`은 실제 HTTP Request/Response의 전송 방향을 뜻하지 않는다. **Cross-Origin 결과에 접근하는가, Page가 외부 Resource를 사용하는가**를 구분하기 위한 기억 장치다.
 
 단, SOP 자체는 단순한 Response 정책이 아니라 **Cross-Origin 상호작용 전반을 제한하는 Browser의 기본 보안 정책**이다.
 
@@ -348,12 +367,17 @@ CSRF Defense
 
 ## 기억·인출 장치
 
-> **SOP는 기본 경계, CORS는 Cross-Origin 응답 공유를 허용하는 규칙이다.**
+> **밖→안은 SOP/CORS, 안→밖은 CSP**
 
 ```text
-Origin → scheme + host + port
-SOP    → 기본 제한
-CORS   → 응답 공유 허용
+밖 → 안
+SOP    → Cross-Origin 기본 제한
+CORS   → 허용된 Response 공유
+
+안 → 밖
+CSP    → 사용할 Resource 제한
+
+별도 축
 Cookie → Credential 전송 조건
 CSRF   → 원치 않는 상태 변경 방어
 ```
