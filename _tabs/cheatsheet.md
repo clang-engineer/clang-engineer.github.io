@@ -5,7 +5,7 @@ order: 2
 title: 치트시트
 ---
 
-<p class="cheatsheet-intro">자주 쓰는 도구를 찾고, tldr·공식 문서·내 치트시트로 이어지는 참고 링크를 모아 둔 페이지다.</p>
+<p class="cheatsheet-intro">자주 쓰는 도구를 찾고, tldr·공식 문서·내 치트시트로 이어지는 참고 링크를 모아 둔 페이지다. 도구 간 관계는 <a href="{{ '/cmdtreemap/' | relative_url }}">cmdtreemap</a>에서 탐색할 수 있다.</p>
 
 <section class="cheatsheet-browser" aria-label="치트시트 탐색">
   <label class="cheatsheet-search" for="cheatsheet-search-input">

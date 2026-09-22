@@ -1,0 +1,178 @@
+@use '../abstracts/breakpoints' as bp;
+@use '../abstracts/variables' as v;
+
+.command-map-intro {
+  margin-bottom: 1rem;
+  color: var(--text-muted-color);
+}
+
+.command-map-app {
+  --map-panel: var(--card-bg);
+  --map-line: var(--btn-border-color);
+  --map-accent: var(--link-color);
+
+  #status {
+    margin: 0 0 0.75rem;
+    color: var(--text-muted-color);
+  }
+
+  #search {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--map-line);
+    border-radius: v.$radius-sm;
+    background: var(--map-panel);
+    color: var(--text-color);
+    font: inherit;
+  }
+
+  #tree,
+  #detail {
+    min-width: 0;
+  }
+
+  #detail {
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--map-line);
+  }
+
+  .tree-category,
+  .tree-group {
+    border-top: 1px solid var(--map-line);
+  }
+
+  summary {
+    cursor: pointer;
+    padding: 0.65rem 0;
+    color: var(--link-color);
+    font-weight: 700;
+
+    span {
+      float: right;
+      color: var(--text-muted-color);
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+  }
+
+  .tree-group summary {
+    padding-left: 0.8rem;
+    color: var(--text-muted-color);
+    font-size: 0.9rem;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tree-item {
+    width: 100%;
+    padding: 0.55rem 0.7rem 0.55rem 1.35rem;
+    border: 0;
+    border-left: 2px solid transparent;
+    background: transparent;
+    color: var(--text-color);
+    text-align: left;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible,
+    &.is-selected {
+      border-left-color: var(--map-accent);
+      background: var(--map-panel);
+    }
+
+    strong,
+    small {
+      display: block;
+    }
+
+    small {
+      overflow: hidden;
+      color: var(--text-muted-color);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .muted,
+  .eyebrow {
+    color: var(--text-muted-color);
+  }
+
+  .eyebrow {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  #detail h2 {
+    margin-top: 0;
+
+    span {
+      color: var(--text-muted-color);
+    }
+  }
+
+  .facts {
+    margin: 1.5rem 0;
+
+    div {
+      padding: 0.8rem 0;
+      border-top: 1px solid var(--map-line);
+    }
+
+    dt {
+      color: var(--link-color);
+      font-weight: 700;
+    }
+
+    dd {
+      margin: 0.2rem 0 0;
+    }
+  }
+
+  .detail-section {
+    margin-top: 1.5rem;
+
+    h3 {
+      margin: 0 0 0.6rem;
+      color: var(--link-color);
+      font-size: 1rem;
+    }
+  }
+
+  .tldr-list {
+    list-style: decimal;
+    padding-left: 1.4rem;
+
+    code {
+      color: var(--link-color);
+    }
+  }
+
+  .error {
+    color: var(--prompt-danger-icon-color);
+  }
+}
+
+.command-map-layout {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  align-items: start;
+
+  @include bp.md {
+    grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.5fr);
+  }
+}
+
+@include bp.lt(768px) {
+  .command-map-app #detail {
+    margin-top: 1.5rem;
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--btn-border-color);
+    border-left: 0;
+  }
+}
