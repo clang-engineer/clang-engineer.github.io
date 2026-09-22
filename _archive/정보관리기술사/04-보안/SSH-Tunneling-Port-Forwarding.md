@@ -188,9 +188,69 @@ Target
 
 `-L`은 Target이 명령 실행 시 고정되지만 `-D`는 SOCKS 요청마다 목적지가 달라질 수 있다.
 
-모든 Network Traffic이 자동으로 Tunnel을 타는 것은 아니며 Application이 SOCKS Proxy를 사용하도록 설정해야 한다.
+### Dynamic의 의미 — 내부망 여러 목적지를 Proxy 하나로 접근
 
-DNS 이름을 어느 쪽에서 해석하는지도 Proxy 설정 방식에 따라 달라질 수 있으므로, "SOCKS를 쓰면 DNS까지 항상 Tunnel 내부에서 처리된다"고 단정하지 않는다.
+`Dynamic`은 "모든 Port를 한꺼번에 Forward한다"는 뜻이 아니다. **Tunnel을 만들 때 최종 Target을 고정하지 않고, Application이 SOCKS 요청마다 Target Host와 Port를 지정한다**는 의미다.
+
+```text
+-L
+
+localhost:15432
+      ↓
+SSH Channel
+      ↓
+db.internal:5432
+
+→ Target 고정
+```
+
+반면 `-D`는:
+
+```text
+Application
+     ↓
+localhost:1080
+SOCKS Proxy 하나
+     ↓
+===== SSH Channel =====
+     ↓
+Bastion
+     ├─→ 10.0.0.10:8080
+     ├─→ 10.0.0.20:3000
+     ├─→ 10.0.0.30:9200
+     └─→ internal-db:5432
+
+→ SOCKS 요청마다 Target 결정
+```
+
+따라서 내 PC에서는 직접 접근할 수 없지만 Bastion에서는 접근 가능한 내부망의 여러 Service가 있다면, `-L`을 Service마다 여러 개 만드는 대신 **SOCKS Proxy 하나를 통해 여러 목적지에 접근**할 수 있다.
+
+```bash
+ssh -N -D 1080 user@bastion
+```
+
+예를 들어 SOCKS를 지원하는 Client는 같은 Proxy를 사용하면서 목적지만 바꿀 수 있다.
+
+```bash
+curl --socks5-hostname 127.0.0.1:1080 http://internal-web:8080
+curl --socks5-hostname 127.0.0.1:1080 http://grafana:3000
+```
+
+```text
+127.0.0.1:1080
+→ SOCKS Proxy의 고정된 입구
+
+internal-web:8080 / grafana:3000
+→ 각 연결에서 동적으로 지정되는 실제 목적지
+```
+
+모든 Network Traffic이 자동으로 Tunnel을 타는 것은 아니며 **Application이 SOCKS Proxy를 사용하도록 설정한 연결만** 이 경로를 사용한다. 이 점이 OS Routing 수준에서 Network Traffic 경로를 구성하는 VPN과의 중요한 차이다.
+
+DNS 이름을 어느 쪽에서 해석하는지도 Proxy 설정 방식에 따라 달라질 수 있다. 예를 들어 내 PC에서는 해석되지 않는 `internal-web` 같은 내부 이름을 사용할 때는 DNS 해석도 Proxy 쪽에서 이루어지도록 하는 설정이 필요할 수 있다.
+
+즉 `-D`는 다음 한 줄로 기억한다.
+
+> **SSH를 통해 Bastion을 출구로 사용하는 Local SOCKS Proxy를 만든다.**
 
 ## 6. 세 옵션을 한 축에서 비교한다
 
