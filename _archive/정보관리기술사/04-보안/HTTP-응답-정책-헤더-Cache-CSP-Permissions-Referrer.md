@@ -318,6 +318,82 @@ frame-ancestors
 
 CSP는 XSS 위험을 줄이는 중요한 Defense-in-Depth 수단이지만 **출력 Encoding, 안전한 DOM API, Sanitization을 대신하는 단일 방어책은 아니다.**
 
+### Resource 종류마다 허용 출처를 따로 제한할 수 있다
+
+CSP는 단순히 "외부 Resource 전체 허용/차단"으로 동작하지 않는다. **어떤 종류의 Resource를 어디에서 가져올 수 있는지**를 Directive별로 제한할 수 있다.
+
+```text
+JavaScript      → script-src
+CSS             → style-src
+Web Font        → font-src
+Image           → img-src
+fetch / XHR 등  → connect-src
+Frame           → frame-src
+```
+
+예를 들어 외부 Web Font를 사용한다면:
+
+```css
+@font-face {
+  font-family: MyFont;
+  src: url("https://fonts.example.com/my.woff2");
+}
+```
+
+CSP가 다음과 같으면 외부 Font는 허용되지 않는다.
+
+```http
+Content-Security-Policy: default-src 'self'; font-src 'self'
+```
+
+필요한 출처를 허용하면:
+
+```http
+Content-Security-Policy: font-src 'self' https://fonts.example.com
+```
+
+Browser는 해당 출처에서 Font Resource를 가져올 수 있다.
+
+### CSP 허용만으로 끝나지 않는 Resource도 있다
+
+Cross-Origin Resource의 세부 사용 규칙은 Resource 종류와 요청 방식에 따라 다르다. 모든 외부 Resource에 CORS가 똑같이 적용되는 것은 아니다.
+
+Web Font는 대표적으로 Cross-Origin 로드에서 CORS 확인이 필요한 Resource다.
+
+```text
+외부 Web Font
+
+1. CSP font-src
+   → 이 Font 출처를 사용해도 되는가?
+        ↓ 허용
+
+2. Font Request
+        ↓
+
+3. CORS
+   → Font Server가 이 Origin에
+     Resource 공유를 허용했는가?
+        ↓ 허용
+
+4. Font 사용
+```
+
+따라서 외부 Web Font가 실패하면 **CSP와 CORS를 서로 대체 관계로 보지 않고 각각 확인**한다.
+
+반면 일반적인 Image처럼 Cross-Origin으로 표시할 수 있는 Resource도 있어, "외부 Resource이면 모두 CORS Header가 필요하다"고 외우면 안 된다.
+
+핵심은 다음과 같다.
+
+```text
+CSP
+→ Page가 어떤 종류의 Resource를
+  어느 출처에서 사용할 수 있는지 제한
+
+CORS
+→ Cross-Origin HTTP Resource Sharing이 필요한 경우
+  Server가 허용 범위를 표현
+```
+
 ### `default-src`는 여러 Fetch Directive의 Fallback이다
 
 `default-src`는 모든 CSP Directive의 공통 부모가 아니다. 주로 Resource Fetch 계열 Directive가 생략됐을 때 Fallback으로 사용된다.
