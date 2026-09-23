@@ -226,7 +226,7 @@ VACUUM이 Workload를 따라오지 못하는지 확인
 
 여기서 바로 수동 `VACUUM`이나 Parameter 변경으로 뛰어들기보다 Transaction이 지나치게 오래 열려 있지 않은지, Autovacuum Worker가 실제로 동작하는지, Table별 설정이 어떻게 되어 있는지 확인한다.
 
-MVCC와 VACUUM의 내부 원리는 [MVCC와 VACUUM](./2026-07-03-mvcc-vacuum.md)에서 별도로 다룬다.
+MVCC의 원리는 [트랜잭션 동시성 제어 — Isolation Level, Lock, MVCC](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/08-데이터베이스/트랜잭션-동시성-격리수준-Lock-MVCC.md)에서 다룬다. VACUUM의 동작과 운영 기준은 [PostgreSQL 공식 문서](https://www.postgresql.org/docs/current/routine-vacuuming.html)를 참조한다.
 
 ## 7. 운영 상태 — Replication이 따라오는가
 
