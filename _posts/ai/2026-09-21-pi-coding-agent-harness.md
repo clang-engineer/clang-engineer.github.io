@@ -2,9 +2,9 @@
 title       : "Claude Code에서 OpenCode를 거쳐 pi까지 — AI 코딩 하네스를 점점 얇게 만든 기록"
 description : "Claude Code·Codex CLI에서 OpenCode와 oh-my-opencode를 거쳐 pi로 이동하며, 완제품 에이전트보다 얇은 하네스와 직접 조립하는 워크플로가 더 맞아진 과정을 정리한다."
 date        : 2026-09-21 22:30:00 +0900
-updated     : 2026-09-21 23:10:00 +0900
+updated     : 2026-09-22 00:00:00 +0900
 categories  : [ai, "코딩 에이전트"]
-tags        : [pi, jev, claude-code, codex, opencode, ai-coding, agent-skills, harness, plan-mode]
+tags        : [pi, jev, claude-code, codex, opencode, ai-coding, agent-skills, harness, plan-mode, pi-package]
 pin         : false
 hidden      : false
 ---
@@ -204,6 +204,34 @@ Claude Code / Codex CLI → OpenCode → pi로 갈수록 기본 제공 기능은
 - 공개 글에서는 개인 대화와 내부 맥락을 일반화한다.
 
 이것은 특정 모델의 지능 문제가 아니라 실행 환경의 문제다. 같은 모델도 어떤 하네스에서 도는지에 따라 작업 감각이 달라진다.
+
+## 날것의 pi 위에 얹은 작은 레이어
+
+pi 생태계에는 아직 `oh-my-zsh`나 `oh-my-opencode`처럼 사실상 표준에 가까운 `oh-my-pi`가 굳어져 있지는 않다. 대신 pi package 단위로 작은 개선들이 흩어져 있다. 이 점도 pi답다. 하나의 큰 배포판을 설치한다기보다, 필요한 extension과 prompt template을 골라 얹는 방식이다.
+
+내가 원한 것은 기능을 많이 늘리는 것이 아니라, pi의 날것 느낌을 줄이고 토큰을 덜 쓰는 기본값을 만드는 것이었다. 그래서 무거운 workflow package보다 먼저 다음 조합을 붙였다.
+
+| 레이어 | 역할 |
+|---|---|
+| `pi-spark` | editor와 footer를 정리해 TUI를 덜 산만하게 만든다. |
+| `@zigai/pi-response-renderer` | assistant 응답 표시를 더 compact하게 만든다. |
+| `@eko24ive/pi-ask` | 애매한 선택을 추측하지 않고 구조화된 질문으로 되돌릴 수 있게 한다. |
+| `AGENTS.md` | "짧게 답하기", "한국어 기본", "불필요한 배경 설명 금지" 같은 내 기본 작업 규칙을 고정한다. |
+| prompt template | `/fix`, `/review`, `/commit`처럼 반복 요청을 짧은 명령으로 꺼낸다. |
+
+여기서 중요한 것은 package 자체보다 경계다. `pi-spark`의 자동 recap이나 자동 title처럼 편하지만 LLM 호출을 추가로 만들 수 있는 기능은 꺼 둘 수 있다. 반대로 UI를 정리하거나 응답 렌더링만 바꾸는 기능은 작업 흐름을 크게 흔들지 않으면서 체감 품질을 올린다.
+
+결국 내가 만든 것은 거창한 배포판이 아니라 작은 preset에 가깝다.
+
+```text
+pi core
+  ├─ package: TUI와 응답 표시를 다듬는다
+  ├─ ask tool: 애매할 때 질문하게 한다
+  ├─ AGENTS.md: 기본 행동 규칙을 고정한다
+  └─ prompts: 반복 요청을 짧게 만든다
+```
+
+이 정도만 얹어도 pi는 "빠르지만 날것"에서 "얇지만 내 작업 방식이 붙은 하네스"에 가까워진다. 완제품 에이전트처럼 모든 것을 미리 갖추지는 않지만, 반복해서 말하던 규칙을 밖으로 빼고 필요한 패키지만 고르면 매일 쓰는 감각은 꽤 달라진다.
 
 ## plan mode도 하네스에 붙이는 기능이다
 
