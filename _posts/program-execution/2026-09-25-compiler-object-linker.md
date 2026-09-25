@@ -5,6 +5,9 @@ categories: [Program Execution]
 tags: [compiler, linker, object-file, symbol, static-linking, dynamic-linking]
 ---
 
+> [Program Execution 전체 지도](./2026-09-25-index.md)
+
+
 앞선 글에서는 프로그램이 실행되는 전체 흐름을 살펴봤다.
 
 이번에는 그중 앞부분인 **소스 코드가 실행 파일이 되기까지**를 조금 더 자세히 살펴본다.
