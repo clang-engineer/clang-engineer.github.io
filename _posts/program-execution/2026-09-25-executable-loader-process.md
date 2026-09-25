@@ -5,6 +5,9 @@ categories: [Program Execution]
 tags: [executable, loader, process, virtual-memory, elf, pe, mach-o]
 ---
 
+> [Program Execution 전체 지도](./2026-09-25-index.md)
+
+
 앞선 글에서는 소스 코드가 컴파일과 링크를 거쳐 실행 파일이 되는 과정을 살펴봤다.
 
 그런데 실행 파일이 만들어졌다고 프로그램이 실행 중인 것은 아니다.
