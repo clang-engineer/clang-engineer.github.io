@@ -9,6 +9,10 @@ tags: [compiler, linker, object-file, symbol, static-linking, dynamic-linking]
 
 이번에는 그중 앞부분인 **소스 코드가 실행 파일이 되기까지**를 조금 더 자세히 살펴본다.
 
+핵심 질문은 하나다.
+
+> **왜 소스 코드를 컴파일하는 것만으로 끝나지 않고, 오브젝트 파일과 링커라는 단계가 따로 필요한가?**
+
 ```text
 Source Code
     ↓
@@ -144,7 +148,7 @@ int main(void) {
 
 함수의 형태만 알고 있으면 해당 함수를 호출하는 코드를 생성할 수 있다.
 
-## 4. Object File
+## 4. 왜 오브젝트 파일이 필요한가
 
 각 파일을 개별적으로 컴파일할 수 있다.
 
@@ -182,9 +186,9 @@ add()           → 정의되어 있음
 
 이 들어 있다.
 
-즉 object file은 **일부 기계어와 함께 아직 해결되지 않은 외부 참조를 가질 수 있는 중간 결과물**이다.
+즉 오브젝트 파일(Object File)은 최종 실행 파일을 구성하기 위한 **연결 가능한 중간 바이너리**다. 컴파일은 끝났지만 프로그램 전체의 연결은 아직 끝나지 않은 상태라고 볼 수 있다.
 
-## 5. Symbol
+## 5. Symbol은 왜 필요한가
 
 여기서 symbol이라는 개념이 중요해진다.
 
@@ -217,7 +221,7 @@ nm main.o
 
 **그 이름을 나중에 linker가 해결할 수 있도록 남겨두는 것**이다.
 
-## 6. Linker
+## 6. Linker는 무엇을 연결하는가
 
 이제 linker가 등장한다.
 
@@ -227,7 +231,7 @@ main.o ─┐
 add.o  ─┘
 ```
 
-linker는 `main.o`가 요구하는 `add` symbol을 찾아 `add.o`의 구현과 연결한다.
+link는 서로 떨어진 대상을 연결한다는 뜻이다. 링커(Linker)는 여러 오브젝트 파일과 라이브러리 사이에서 필요한 Symbol과 실제 정의를 찾아 연결한다.
 
 ```text
 main.o
@@ -255,7 +259,7 @@ C Library ──┘
 
 즉 우리가 평소 사용하는 라이브러리 역시 이 linking 과정과 관계가 있다.
 
-## 7. Static Linking
+## 7. 라이브러리 구현은 언제 연결할까 - Static Linking
 
 필요한 라이브러리 코드를 실행 파일 안에 포함시키는 방식을 static linking이라고 한다.
 
@@ -278,7 +282,7 @@ Executable
 
 Unix 계열에서는 static library가 흔히 `.a` 형식을 사용한다.
 
-## 8. Dynamic Linking
+## 8. 실행 시점까지 연결을 미룰 수 있다 - Dynamic Linking
 
 dynamic linking에서는 라이브러리 전체를 실행 파일에 복사하지 않는다.
 
@@ -296,40 +300,30 @@ Linux의 `.so`, Windows의 `.dll`, macOS의 `.dylib` 등이 대표적이다.
 
 따라서 실행 파일을 만든다고 해서 모든 코드가 반드시 그 파일 안에 들어 있는 것은 아니다.
 
-## 9. Header와 Library는 다르다
-
-C/C++를 처음 다룰 때 자주 헷갈리는 부분이다.
+## 9. Header와 Library는 역할이 다르다
 
 ```c
 #include <stdio.h>
 ```
 
-를 했다고 `printf()` 구현이 프로그램 안으로 복사되는 것이 아니다.
+를 했다고 `printf()` 구현이 소스에 복사되는 것은 아니다.
 
-header는 주로 **선언을 compiler에게 알려준다.**
+전통적인 C/C++의 `#include`는 Module Import가 아니라 **전처리기가 Header Text를 포함하는 방식**이다. Header는 Compiler가 함수와 Type을 올바르게 사용할 수 있도록 선언과 Interface 정보를 제공한다.
+
+실제 구현 Code는 별도의 Object File이나 Library에 존재할 수 있다.
 
 ```text
 Header
-   ↓
-Compiler가 함수의 존재와 형태를 이해
-```
+→ Compiler가 사용할 선언·Type 정보
 
-실제 구현은 library에 있다.
-
-```text
 Library
-   ↓
-Linker / Loader가 실제 구현과 연결
+→ 실제 구현 Code 제공
+
+Linker
+→ 필요한 Symbol과 구현을 연결
 ```
 
-즉:
-
-```text
-Header  → "이런 함수가 있다"
-Library → "그 함수의 실제 구현은 이것이다"
-```
-
-라는 차이가 있다.
+따라서 `#include`와 Linking은 서로 다른 단계의 작업이다.
 
 ## 10. 왜 소스 파일을 나누어 컴파일하는가
 
@@ -361,9 +355,9 @@ util.cpp     → util.o
 
 변경된 소스만 다시 컴파일하고 마지막에 object file들을 다시 link할 수 있다.
 
-CMake, Make, Ninja 같은 build system이 이런 dependency를 관리한다.
+파일과 Target이 많아지면 어떤 Source를 다시 Compile하고 어떤 Object File을 다시 Link해야 하는지 관리할 필요가 생긴다. Make·Ninja 같은 Build 도구와 CMake 같은 Build 구성 도구는 이 과정을 자동화한다.
 
-## 11. 플랫폼 종속성은 어디에서 들어오는가
+## 11. 같은 Source인데 왜 플랫폼별 결과물이 달라질까
 
 컴파일러는 target을 기준으로 코드를 생성한다.
 
@@ -381,7 +375,7 @@ CPU instruction set뿐 아니라 object format, ABI, library 등도 target 환�
 
 따라서 같은 C/C++ 소스가 여러 운영체제에서 컴파일될 수 있다고 해서 **컴파일된 object file이나 executable까지 동일한 것은 아니다.**
 
-## 12. WebAssembly와 연결해 보기
+## 12. 이 구조에서 WebAssembly를 보면
 
 WebAssembly 역시 compiler target이 될 수 있다.
 
