@@ -5,6 +5,9 @@ categories: [Program Execution]
 tags: [system-call, kernel, user-mode, kernel-mode, libc, syscall]
 ---
 
+> [Program Execution 전체 지도](./2026-09-25-index.md)
+
+
 앞선 글까지는 프로그램의 Code와 Data가 어떻게 CPU와 Memory에서 실행 가능한 상태가 되는지 살펴봤다.
 
 하지만 실제 프로그램은 계산만 하지 않는다.
