@@ -1,0 +1,307 @@
+---
+title: 프로그램은 어떻게 실행되는가
+date: 2026-09-25 09:00:00 +0900
+categories: [Program Execution]
+tags: [compiler, linker, loader, runtime, syscall, kernel, abi]
+---
+
+코드를 작성하고 실행 버튼을 누르면 프로그램이 실행된다.
+
+평소에는 이 과정을 당연하게 사용하지만, 그 사이에는 생각보다 많은 계층이 존재한다.
+
+```text
+Source Code
+    ↓
+Compiler
+    ↓
+Object File / Bytecode
+    ↓
+Linker
+    ↓
+Executable
+    ↓
+Loader
+    ↓
+Process
+    ↓
+Runtime / Library
+    ↓
+System Call
+    ↓
+Kernel
+    ↓
+Hardware
+```
+
+이 글은 각각의 세부 기술을 설명하기보다 **소스 코드가 실제 컴퓨터에서 실행되기까지의 전체 흐름**을 먼저 잡기 위한 글이다.
+
+## 1. Source Code
+
+우리가 작성하는 C, C++, Rust, Go, Java 등의 코드는 CPU가 직접 이해하는 명령어가 아니다.
+
+```text
+C / C++ / Rust / Go / Java
+            ↓
+       Source Code
+```
+
+따라서 실행하기 위해서는 어떤 형태로든 컴퓨터가 실행할 수 있는 표현으로 변환하는 과정이 필요하다.
+
+언어와 실행 모델에 따라 이 과정은 달라진다.
+
+```text
+C / C++ / Rust
+      ↓
+Native Machine Code
+
+Java
+      ↓
+JVM Bytecode
+
+C++ / Rust / ...
+      ↓
+WebAssembly
+```
+
+## 2. Compiler
+
+컴파일러는 소스 코드를 다른 표현으로 변환한다.
+
+네이티브 컴파일 언어라면 최종적으로 특정 CPU가 실행할 수 있는 기계어를 생성하는 방향으로 진행된다.
+
+```text
+source.cpp
+    ↓
+Compiler
+    ↓
+Object File
+```
+
+하지만 컴파일 결과가 항상 곧바로 실행 파일이 되는 것은 아니다.
+
+프로그램은 여러 소스 파일과 라이브러리로 구성되는 경우가 많기 때문이다.
+
+## 3. Object File
+
+각 소스 파일을 컴파일하면 object file이 만들어질 수 있다.
+
+```text
+main.cpp  ──compile──> main.o
+foo.cpp   ──compile──> foo.o
+bar.cpp   ──compile──> bar.o
+```
+
+object file에는 기계어뿐 아니라 다른 코드에서 해결해야 하는 심볼과 최종 실행 파일을 만들기 위한 여러 정보가 포함된다.
+
+예를 들어 `main.o`가 `foo()`를 호출하지만 `foo()`의 구현이 다른 object file에 있다면 아직 하나의 완성된 프로그램은 아니다.
+
+이들을 연결하는 것이 linker다.
+
+## 4. Linker
+
+Linker는 여러 object file과 library를 연결하여 최종 실행 결과물을 만든다.
+
+```text
+main.o ─┐
+foo.o  ─┼──> Linker ──> Executable
+libX   ─┘
+```
+
+이 과정에서 외부 심볼을 해결하고 필요한 코드와 라이브러리를 연결한다.
+
+여기서 static linking, dynamic linking, symbol resolution 같은 개념이 등장한다.
+
+## 5. Executable
+
+링킹이 끝나면 운영체제가 실행할 수 있는 파일이 만들어진다.
+
+운영체제마다 대표적인 실행 파일 형식이 다르다.
+
+```text
+Linux    → ELF
+Windows  → PE
+macOS    → Mach-O
+```
+
+실행 파일은 단순한 기계어 덩어리가 아니다.
+
+코드, 데이터, 메타데이터, 로딩에 필요한 정보 등이 정해진 파일 형식에 따라 저장된다.
+
+## 6. Loader
+
+실행 파일을 더블클릭하거나 셸에서 실행한다고 CPU가 파일을 그대로 읽어 실행하는 것은 아니다.
+
+운영체제의 loader가 실행 파일을 읽고 프로그램을 실행할 환경을 준비한다.
+
+개념적으로는 다음과 같은 일이 일어난다.
+
+```text
+Executable
+    ↓
+Loader
+    ↓
+Address Space 구성
+    ↓
+필요한 Library 연결
+    ↓
+실행 시작
+```
+
+이 과정에서 executable의 각 영역이 메모리에 매핑되고 필요한 공유 라이브러리가 준비된다.
+
+## 7. Process와 Virtual Memory
+
+디스크에 존재하는 executable과 실행 중인 program은 같은 개념이 아니다.
+
+```text
+Executable File
+      ↓
+    실행
+      ↓
+   Process
+```
+
+Process는 실행 중인 프로그램의 인스턴스라고 볼 수 있다.
+
+각 process에는 코드와 데이터뿐 아니라 stack, heap 등의 메모리 영역이 존재하며, 현대 운영체제에서는 일반적으로 virtual address space 위에서 동작한다.
+
+```text
+Process
+├── Code
+├── Data
+├── Heap
+└── Stack
+       ↓
+Virtual Memory
+       ↓
+Physical Memory
+```
+
+## 8. Runtime
+
+모든 언어가 같은 실행 환경을 가지는 것은 아니다.
+
+```text
+C/C++  → 비교적 작은 runtime + OS
+Rust   → native code + 필요한 runtime
+Go     → Go Runtime
+Java   → JVM
+JS     → JavaScript Engine
+Wasm   → Wasm Runtime
+```
+
+Runtime은 언어와 실행 모델에 따라 메모리 관리, GC, thread scheduling, exception 처리, class loading 등 서로 다른 기능을 담당할 수 있다.
+
+따라서 "runtime이 무엇인가"는 특정 제품 하나를 뜻한다기보다 **프로그램 실행 중 언어와 프로그램이 필요로 하는 기능을 제공하는 실행 계층**이라는 관점에서 보는 것이 좋다.
+
+## 9. Library에서 System Call까지
+
+프로그램이 파일을 읽거나 네트워크 통신을 하려면 결국 운영체제의 기능이 필요하다.
+
+예를 들어 C 프로그램의 다음 코드가 있다고 하자.
+
+```c
+printf("hello\n");
+```
+
+개념적으로는 다음과 같은 계층을 거칠 수 있다.
+
+```text
+Application
+    ↓
+printf()
+    ↓
+C Library
+    ↓
+System Call
+    ↓
+Kernel
+```
+
+애플리케이션은 보통 모든 커널 기능을 직접 다루지 않는다.
+
+라이브러리와 운영체제가 제공하는 API를 이용하고, 필요한 지점에서 system call을 통해 kernel 영역으로 진입한다.
+
+## 10. Kernel과 Hardware
+
+Kernel은 process, memory, file system, network, device 등의 시스템 자원을 관리한다.
+
+```text
+Application
+     ↓
+System Call
+     ↓
+Kernel
+     ↓
+Driver
+     ↓
+Hardware
+```
+
+결국 프로그램의 연산은 실제 CPU에서 수행되고 데이터는 실제 메모리와 장치에 저장된다.
+
+우리가 사용하는 수많은 추상화 계층은 이 하드웨어를 안전하고 일관된 방식으로 사용하기 위해 존재한다.
+
+## 11. 플랫폼 종속성은 어디에서 생기는가
+
+같은 C/C++ 소스 코드라도 빌드 target에 따라 서로 다른 결과물이 만들어질 수 있다.
+
+```text
+             same source
+                 │
+       ┌─────────┼─────────┐
+       ↓         ↓         ↓
+   Linux x64  Windows x64  macOS ARM
+       ↓         ↓         ↓
+      ELF        PE       Mach-O
+```
+
+여기에는 CPU ISA, 운영체제, ABI, system library 등 여러 요소가 관계된다.
+
+따라서 "소스 코드가 이식 가능하다"와 "컴파일된 바이너리가 플랫폼 독립적이다"는 서로 다른 의미다.
+
+Java나 WebAssembly는 중간 실행 형식을 두어 이 관계를 다르게 만든다.
+
+```text
+Java
+Source → JVM Bytecode → JVM → OS / CPU
+
+WebAssembly
+Source → Wasm → Wasm Runtime → OS / CPU
+```
+
+## 12. 이 시리즈에서 살펴볼 것
+
+앞으로 다음 주제들을 하나씩 더 자세히 살펴본다.
+
+```text
+Source Code
+    ↓
+Compiler
+    ↓
+Object File
+    ↓
+Linker
+    ↓
+Executable
+    ↓
+Loader
+    ↓
+Process / Virtual Memory
+    ↓
+Runtime
+    ↓
+Library / ABI
+    ↓
+System Call
+    ↓
+Kernel
+    ↓
+CPU / Memory / Device
+```
+
+각각은 Programming Languages, System Software, Operating Systems, Computer Architecture 등 서로 다른 분야에서 다루는 주제다.
+
+하지만 이 시리즈에서는 학문적 분류보다 **"내가 작성한 코드가 어떻게 실제 컴퓨터에서 실행되는가"**라는 하나의 흐름을 따라가며 연결해서 살펴본다.
+
+WebAssembly 역시 이 관점에서 보면 단순한 웹 기술이 아니라 compiler target, runtime, system interface가 어떻게 분리될 수 있는지를 보여주는 좋은 사례가 된다.
