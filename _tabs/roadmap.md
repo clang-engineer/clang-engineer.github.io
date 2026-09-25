@@ -45,6 +45,12 @@ Neovim
 | [macOS](../_posts/macos/2026-07-03-macos-roadmap.md) | System Setup · Launcher/Productivity · Window Management/Automation을 독립 문제축으로 탐색 |
 | [키보드](../_posts/keyboard/2026-07-03-keyboard-roadmap.md) | 입력 습관 → Keymap 개념 → Firmware(QMK/ZMK) → ZMK 구현. VIA/Vial/ZMK Studio와 Karabiner는 다른 제어 계층으로 분리 |
 
+## 🧠 기반 원리
+
+| 로드맵 | 무엇을 위한 지도인가 |
+|------|------|
+| [Program Execution](../_posts/program-execution/2026-09-25-index.md) | Source Code가 Compiler·Linker·Loader를 거쳐 Process가 되고, Virtual Memory·System Call·ABI·Runtime을 지나 최종적으로 ISA와 CPU 실행으로 이어지는 전체 경로 |
+
 ## 🔤 언어
 
 | 로드맵 | 무엇을 위한 지도인가 |
