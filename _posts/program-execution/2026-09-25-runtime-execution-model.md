@@ -17,7 +17,11 @@ Runtime을 제품 이름처럼 외우기보다 실행 책임이 어디에 놓이
 
 `C++에는 Runtime이 없고 Java에는 Runtime이 있다`처럼 둘로 나누면 실제 구조를 놓치기 쉽다.
 
-Program이 실행되려면 시작과 종료, Library 지원, Memory 관리 등 어떤 형태로든 실행 지원이 필요할 수 있다. 차이는 **그 기능이 어디에 있고 얼마나 많은 책임을 맡느냐**다.
+먼저 **Runtime과 실행 환경(Execution Environment)을 같은 말로 보지 않는다.** 모든 프로그램은 CPU와 Memory를 포함해 자신이 실행될 수 있는 환경이 필요하지만, 모든 프로그램에 JVM 같은 별도의 Runtime Software가 필요한 것은 아니다.
+
+여기서 Runtime은 프로그램이 실행되는 동안 **언어와 프로그램의 실행 자체를 지원하는 Software 계층이나 Code**를 뜻한다. 시작·종료 처리처럼 얇은 Runtime Support일 수도 있고, JVM처럼 Bytecode 실행·JIT·GC까지 맡는 큰 실행 계층일 수도 있다.
+
+차이는 Runtime이 단순히 있다/없다가 아니라 **어디에 있고 무엇을 얼마나 맡느냐**다.
 
 다음 네 질문을 기준으로 보면 언어별 구조를 비교하기 쉽다.
 
@@ -73,7 +77,9 @@ OS / System Call
 
 Native 실행의 핵심은 **Application의 Machine Code를 CPU가 직접 실행한다**는 것이다. Java Bytecode를 JVM이 실행하거나 Wasm Module을 Wasm Runtime이 실행하는 것처럼, Application Instruction을 대신 실행하는 별도의 VM이나 Interpreter가 필수로 끼어 있지 않는다.
 
-하지만 프로그램 실행을 돕는 Runtime 지원까지 사라지는 것은 아니다. C/C++ 환경에서는 구현과 빌드 방식에 따라 CRT(C Runtime), 표준 Library, 동적 Library 등이 시작·종료 처리와 Library 기능 등을 제공할 수 있다.
+하지만 프로그램 실행을 돕는 Runtime 지원까지 사라지는 것은 아니다. C/C++ 환경에서는 구현과 빌드 방식에 따라 CRT(C Runtime, 프로그램 시작·종료 등을 지원하는 코드)와 표준 Library 등이 실행을 지원할 수 있다.
+
+이 지원 코드와 Library가 **반드시 모두 Executable 파일 안에 들어 있어야 하는 것도 아니다.** 빌드·링크 방식에 따라 필요한 코드를 정적으로 포함하거나, 실행 시 외부 Shared Library에 동적으로 의존할 수 있다. 이 차이는 [컴파일러와 링커](./2026-09-25-compiler-object-linker.md)의 Static/Dynamic Linking과 연결된다.
 
 ```text
 Application Machine Code ─────────────→ CPU
