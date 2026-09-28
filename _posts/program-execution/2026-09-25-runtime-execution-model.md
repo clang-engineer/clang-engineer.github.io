@@ -55,6 +55,58 @@ CPU
 
 즉 C++은 **Native 실행 + 비교적 얇은 Runtime/Library 지원**을 기준점으로 볼 수 있다.
 
+여기서 `Native 실행 = Runtime이 전혀 없음`으로 이해하면 안 된다.
+
+```text
+Native Executable
+      ↓
+OS Loader
+      ↓
+Process
+      ↓
+Native Machine Code
+      ↓
+CPU
+      ↕
+OS / System Call
+```
+
+Native 실행의 핵심은 **Application의 Machine Code를 CPU가 직접 실행한다**는 것이다. Java Bytecode를 JVM이 실행하거나 Wasm Module을 Wasm Runtime이 실행하는 것처럼, Application Instruction을 대신 실행하는 별도의 VM이나 Interpreter가 필수로 끼어 있지 않는다.
+
+하지만 프로그램 실행을 돕는 Runtime 지원까지 사라지는 것은 아니다. C/C++ 환경에서는 구현과 빌드 방식에 따라 CRT(C Runtime), 표준 Library, 동적 Library 등이 시작·종료 처리와 Library 기능 등을 제공할 수 있다.
+
+```text
+Application Machine Code ─────────────→ CPU
+        │
+        ├─ Runtime / Library 지원
+        │      ├─ CRT
+        │      └─ libc 등
+        │
+        └─ OS 기능 필요
+               ↓
+          System Call
+               ↓
+             Kernel
+```
+
+따라서 `Runtime`이라는 말을 사용할 때는 무엇을 뜻하는지 구분해야 한다.
+
+```text
+실행 환경(Runtime Environment)
+→ 프로그램이 실행되는 전체 환경
+
+Runtime Support / Library
+→ 시작·종료, 표준 Library 등 실행 지원
+
+Language Execution Runtime
+→ JVM, Wasm Runtime처럼
+  중간 표현을 실제 실행으로 이어 주는 실행 계층
+```
+
+모든 프로그램에는 어떤 형태로든 **실행 환경**이 필요하지만, 모든 프로그램에 JVM 같은 **Language Execution Runtime**이 필요한 것은 아니다.
+
+> **Native의 핵심은 Runtime이 없다는 것이 아니라, Application Machine Code를 CPU가 직접 실행한다는 것이다.**
+
 ## 3. Java - JVM이 중간 실행 계층을 맡는다
 
 ```text
