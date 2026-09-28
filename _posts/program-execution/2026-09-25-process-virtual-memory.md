@@ -14,7 +14,7 @@ tags: [process, virtual-memory, paging, page-table, mmu, tlb, page-fault]
 
 > **프로그램이 사용하는 주소는 실제 RAM의 어느 위치를 가리키는가?**
 
-처음에는 프로세스가 RAM의 특정 영역을 직접 사용하는 것처럼 생각하기 쉽다. 현대 운영체제에서는 보통 그 사이에 **Virtual 메모리(가상 메모리)**라는 주소 추상화가 있다.
+처음에는 프로세스가 RAM의 특정 영역을 직접 사용하는 것처럼 생각하기 쉽다. 현대 운영체제에서는 보통 그 사이에 **가상 메모리(가상 메모리)**라는 주소 추상화가 있다.
 
 ## 1. 프로세스가 보는 주소와 RAM 주소는 다를 수 있다
 
@@ -222,11 +222,11 @@ Frame 부족
 
 ## 7. 주소 변환은 누가 하고, 정책은 누가 결정할까
 
-Virtual 메모리에서는 하드웨어와 OS가 함께 동작한다.
+가상 메모리에서는 하드웨어와 OS가 함께 동작한다.
 
 ```text
 CPU / MMU / TLB
-→ 주소 변환을 빠르게 수행하는 Hardware Mechanism
+→ 주소 변환을 빠르게 수행하는 하드웨어 메커니즘
 
 OS
 → Process별 주소 공간과 Page Table 관리
@@ -235,7 +235,7 @@ OS
 → Replacement 정책 수행
 ```
 
-이 경계를 구분하면 컴퓨터 구조와 운영체제에서 Virtual 메모리를 모두 다루는 이유도 보인다.
+이 경계를 구분하면 컴퓨터 구조와 운영체제에서 가상 메모리를 모두 다루는 이유도 보인다.
 
 ```text
 Computer Architecture 관점
@@ -247,9 +247,9 @@ Operating System 관점
 → Address Space / Frame / Page Fault / Replacement
 ```
 
-같은 Virtual 메모리를 보지만 질문이 다르다.
+같은 가상 메모리를 보지만 질문이 다르다.
 
-## 8. Loader와 Virtual 메모리를 다시 연결한다
+## 8. Loader와 가상 메모리를 다시 연결한다
 
 앞선 글에서 Loader가 실행 파일을 프로세스의 주소 공간에서 실행 가능한 상태로 준비한다고 했다.
 
@@ -271,7 +271,7 @@ MMU가 Virtual Address를 Physical Address로 변환
 CPU가 Instruction / Data 접근
 ```
 
-즉 **Load = 실행 파일 전체를 RAM에 통째로 복사**라고 이해하면 Virtual 메모리가 들어갈 자리가 사라진다.
+즉 **Load = 실행 파일 전체를 RAM에 통째로 복사**라고 이해하면 가상 메모리가 들어갈 자리가 사라진다.
 
 실제로는 File과 Virtual Address Space를 매핑하고, 필요한 Physical Page가 실행 과정에서 준비될 수 있다.
 
