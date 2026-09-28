@@ -15,7 +15,7 @@ tags: [abi, api, calling-convention, binary-interface, linker]
 
 ## 1. API만 맞으면 되는 것 아닐까
 
-소스 코드에서 라이브러리 함수를 사용할 때는 API(애플리케이션 Programming 인터페이스)를 본다.
+소스 코드에서 라이브러리 함수를 사용할 때는 API(Application Programming Interface)를 본다.
 
 ```c
 int add(int a, int b);
@@ -29,7 +29,7 @@ API 관점에서는 함수 이름, Parameter, Return Type처럼 소스 수준에
 Argument는 어느 Register에 둘까?
 Return Value는 어디에 둘까?
 어떤 Register를 누가 보존할까?
-Data Type은 Memory에 어떻게 배치할까?
+데이터 타입은 Memory에 어떻게 배치할까?
 Symbol은 Binary에서 어떻게 표현할까?
 ```
 
@@ -42,7 +42,7 @@ API
 = Source Code 수준의 사용 약속
 
 ABI
-= Compile된 Binary 사이의 상호작용 약속
+= 컴파일된 Binary 사이의 상호작용 약속
 ```
 
 API가 같아도 ABI가 다르면 기존 바이너리를 그대로 연결하지 못하고 다시 컴파일해야 할 수 있다.
@@ -175,7 +175,7 @@ Host OS / CPU
 
 ```text
 API
-= Source 수준의 사용 약속
+= 소스 수준의 사용 약속
 
 ABI
 = Binary 수준의 상호작용 약속
