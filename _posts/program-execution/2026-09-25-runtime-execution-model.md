@@ -125,7 +125,7 @@ Native Code
 CPU
 ```
 
-Bytecode는 실제 CPU ISA가 아니라 JVM이 이해하는 Instruction Set이다.
+Bytecode는 실제 CPU ISA가 아니라 JVM이 이해하는 Instruction Set이다. CPU의 ISA와 Instruction Set의 관계는 [기계어는 CPU에서 어떻게 실행되는가 - ISA와 Instruction Cycle](./2026-09-25-cpu-isa-execution.md)에서 별도로 다룬다.
 
 Platform마다 JVM 구현이 있으면 같은 Bytecode를 실행할 수 있다.
 
