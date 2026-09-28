@@ -7,7 +7,7 @@ tags: [runtime, jvm, go-runtime, javascript-engine, wasm-runtime, jit]
 
 > [Program Execution 전체 지도](./2026-09-25-index.md)
 
-지금까지는 Native Program을 기준으로 컴파일, 링크, Load, 프로세스, Virtual 메모리, System Call을 따라왔다. 그런데 Java, Go, JavaScript, WebAssembly를 보면 실행 구조가 서로 다르다.
+지금까지는 네이티브 프로그램을 기준으로 컴파일, 링크, Load, 프로세스, 가상 메모리, System Call을 따라왔다. 그런데 Java, Go, JavaScript, WebAssembly를 보면 실행 구조가 서로 다르다.
 
 > **Runtime이 있다는 말은 정확히 무엇이며, 언어마다 Runtime은 어디에서 어떤 일을 맡는가?**
 
@@ -79,7 +79,7 @@ Native 실행의 핵심은 **애플리케이션의 Machine 코드를 CPU가 직�
 
 하지만 프로그램 실행을 돕는 Runtime 지원까지 사라지는 것은 아니다. C/C++ 환경에서는 구현과 빌드 방식에 따라 CRT(C Runtime, 프로그램 시작·종료 등을 지원하는 코드)와 표준 라이브러리 등이 실행을 지원할 수 있다.
 
-이 지원 코드와 라이브러리가 **반드시 모두 실행 파일 파일 안에 들어 있어야 하는 것도 아니다.** 빌드·링크 방식에 따라 필요한 코드를 정적으로 포함하거나, 실행 시 외부 Shared 라이브러리에 동적으로 의존할 수 있다. 이 차이는 [컴파일러와 링커](./2026-09-25-compiler-object-linker.md)의 Static/Dynamic Linking과 연결된다.
+이 지원 코드와 라이브러리가 **반드시 모두 실행 파일 안에 들어 있어야 하는 것도 아니다.** 빌드·링크 방식에 따라 필요한 코드를 정적으로 포함하거나, 실행 시 외부 공유 라이브러리에 동적으로 의존할 수 있다. 이 차이는 [컴파일러와 링커](./2026-09-25-compiler-object-linker.md)의 Static/Dynamic Linking과 연결된다.
 
 ```text
 Application Machine Code ─────────────→ CPU
@@ -131,7 +131,7 @@ Native Code
 CPU
 ```
 
-Bytecode는 실제 CPU ISA가 아니라 JVM이 이해하는 명령어 Set이다. CPU의 ISA와 명령어 Set의 관계는 [기계어는 CPU에서 어떻게 실행되는가 - ISA와 명령어 Cycle](./2026-09-25-cpu-isa-execution.md)에서 별도로 다룬다.
+Bytecode는 실제 CPU ISA가 아니라 JVM이 이해하는 Instruction Set이다. CPU의 ISA와 Instruction Set의 관계는 [기계어는 CPU에서 어떻게 실행되는가 - ISA와 Instruction Cycle](./2026-09-25-cpu-isa-execution.md)에서 별도로 다룬다.
 
 Platform마다 JVM 구현이 있으면 같은 Bytecode를 실행할 수 있다.
 
@@ -245,7 +245,7 @@ Java = JIT
 Runtime Profile을 사용하는가?
 ```
 
-JIT(Just-In-Time Compilation)는 실행 중 필요한 코드를 Native 코드로 컴파일하는 전략이고, AOT(Ahead-Of-Time Compilation)는 실행 전에 코드를 미리 컴파일하는 전략이다.
+JIT(Just-In-Time Compilation)는 실행 중 필요한 코드를 네이티브 코드로 컴파일하는 전략이고, AOT(Ahead-Of-Time Compilation)는 실행 전에 코드를 미리 컴파일하는 전략이다.
 
 하나의 Runtime이 Interpreter, Baseline JIT, Optimizing JIT, AOT를 조합할 수도 있다.
 
@@ -269,7 +269,7 @@ CPU
 
 Runtime Scheduler는 Runtime 수준의 실행 단위를 어떤 OS Thread에서 실행할지 관리한다. 커널 Scheduler는 OS가 관리하는 실행 단위를 실제 CPU에 언제 배치할지 결정한다.
 
-Runtime이 File, Socket, Thread 같은 OS Resource가 필요하면 결국 OS API와 System Call 경계를 사용한다.
+Runtime이 File, Socket, Thread 같은 OS 자원가 필요하면 결국 OS API와 System Call 경계를 사용한다.
 
 ## 9. Runtime을 두면 무엇이 달라지는가
 
