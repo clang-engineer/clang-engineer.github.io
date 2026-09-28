@@ -47,6 +47,22 @@ ABI
 
 API가 같아도 ABI가 다르면 기존 Binary를 그대로 연결하지 못하고 다시 Compile해야 할 수 있다.
 
+Application 개발자는 보통 ABI 규칙을 하나씩 직접 맞추지 않는다. 네이티브 언어의 **Compiler·Runtime·Linker 같은 구현 계층이 Target Platform의 ABI를 따르도록 구현**되고, 그 결과 생성된 Binary가 Library와 OS의 Binary 경계에 맞는다.
+
+```text
+Application 개발자
+      ↓ Source Code 작성
+Programming Language
+      ↓
+Compiler / Runtime / Linker
+      ↓ Target ABI에 맞게 구현·생성
+Binary
+      ↓
+Library / OS와 상호작용
+```
+
+따라서 ABI는 Application 개발자에게 보이지 않는 경우가 많지만, Compiler나 Runtime처럼 언어 구현체를 만드는 개발자에게는 직접 다뤄야 하는 규약이다.
+
 ## 3. Calling Convention은 함수 호출의 약속이다
 
 Caller와 Callee가 같은 규칙을 알아야 함수 호출이 성립한다.
@@ -101,7 +117,7 @@ C++에서는 Name Mangling 같은 언어 기능도 Binary 호환성에 관계할
 CPU Architecture가 같다고 ABI까지 반드시 같은 것은 아니다.
 
 ```text
-ISA
+[ISA(Instruction Set Architecture)](./2026-09-25-cpu-isa-execution.md)
 → CPU가 어떤 Instruction과 Register를 제공하는가
 
 ABI
