@@ -159,7 +159,7 @@ Memory
 
 Compiler는 ISA와 ABI 규칙을 고려해 어떤 값을 Register에 둘지 결정한다.
 
-여기서 앞서 살펴본 ABI와 ISA가 만난다.
+여기서 앞서 살펴본 [ABI](./2026-09-25-abi-platform-boundary.md)와 ISA가 만난다.
 
 ```text
 ISA
@@ -242,7 +242,7 @@ CPU
 
 Runtime 자체도 Native Program이며, 필요한 Code를 해석하거나 Native Code로 변환하여 실제 CPU에서 실행한다.
 
-## 9. 전체 시리즈를 한 번에 연결한다
+## 9. 다시 큰 그림으로 돌아간다
 
 ```text
 Source Code
