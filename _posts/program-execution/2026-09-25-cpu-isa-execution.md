@@ -37,7 +37,7 @@ ISA에 맞는 Machine Instruction
 CPU 구현
 ```
 
-## 2. 명령어, 명령어 Set, ISA
+## 2. 명령어, Instruction Set, ISA
 
 먼저 세 용어를 구분한다.
 
@@ -55,14 +55,14 @@ ISA (Instruction Set Architecture)
   따라야 하는 전체 명령어 수준의 규약
 ```
 
-즉 명령어 Set은 ISA의 일부다.
+즉 Instruction Set은 ISA의 일부다.
 
 ```text
 ISA
 ├─ Instruction Set
 ├─ Register
 ├─ Instruction Encoding
-├─ Data Type / 크기 규칙
+├─ 데이터 타입 / 크기 규칙
 ├─ Memory Addressing
 └─ 기타 Software-visible CPU 규칙
 ```
@@ -109,7 +109,7 @@ Software는 ISA라는 공통 경계를 기준으로 실행되고, CPU 제조사�
 
 ## 4. CPU는 명령어을 어떻게 실행할까
 
-가장 단순한 모델은 명령어 Cycle이다.
+가장 단순한 모델은 Instruction Cycle이다.
 
 ```text
 Fetch
@@ -172,7 +172,7 @@ Compiler
 → 두 규칙에 맞춰 Machine Code 생성
 ```
 
-## 6. Virtual 메모리와 CPU도 여기서 만난다
+## 6. 가상 메모리와 CPU도 여기서 만난다
 
 CPU가 명령어을 실행하다 메모리에 접근하면 Program이 사용하는 주소는 일반적으로 Virtual Address다.
 
@@ -186,11 +186,11 @@ Physical Address
 Cache / RAM
 ```
 
-따라서 앞서 본 Virtual 메모리는 운영체제만의 추상 개념으로 끝나지 않는다. 실제 명령어 실행 중 CPU의 메모리 접근 경로에 들어간다.
+따라서 앞서 본 가상 메모리는 운영체제만의 추상 개념으로 끝나지 않는다. 실제 명령어 실행 중 CPU의 메모리 접근 경로에 들어간다.
 
 ## 7. 실제 CPU는 한 명령어씩 단순하게 기다리지 않는다
 
-기본 명령어 Cycle은 이해를 위한 출발점이다.
+기본 Instruction Cycle은 이해를 위한 출발점이다.
 
 현대 CPU는 성능을 높이기 위해 여러 명령어의 단계를 겹쳐 처리하는 Pipeline을 사용할 수 있다.
 
@@ -240,7 +240,7 @@ CPU
 
 중간 실행 계층이 있다는 것은 CPU가 Bytecode나 JavaScript 소스를 직접 이해한다는 뜻이 아니다.
 
-Runtime 자체도 Native Program이며, 필요한 코드를 해석하거나 Native 코드로 변환하여 실제 CPU에서 실행한다.
+Runtime 자체도 네이티브 프로그램이며, 필요한 코드를 해석하거나 네이티브 코드로 변환하여 실제 CPU에서 실행한다.
 
 ## 9. 다시 큰 그림으로 돌아간다
 
