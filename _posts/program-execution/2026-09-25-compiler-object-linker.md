@@ -301,7 +301,19 @@ Linux의 `.so`, Windows의 `.dll`, macOS의 `.dylib` 등이 대표적이다.
 
 이 경우 일부 연결 작업은 프로그램 실행 시점까지 이어진다.
 
-따라서 실행 파일을 만든다고 해서 모든 코드가 반드시 그 파일 안에 들어 있는 것은 아니다.
+따라서 실행 파일을 만든다고 해서 모든 코드가 반드시 그 파일 안에 들어 있는 것은 아니다. 실행 환경에 필요한 Shared Library가 없거나 호환되는 버전을 찾지 못하면 프로그램 시작 단계에서 실행이 실패할 수도 있다.
+
+```text
+Executable
+   ↓ 실행
+Dynamic Loader
+   ↓
+필요한 Shared Library 검색
+   ├─ 찾음 → Mapping / Symbol 연결 → 실행
+   └─ 없음 → 실행 실패
+```
+
+이 실행 시점의 연결 과정은 [실행 파일은 어떻게 프로세스가 되는가 - Loader와 Process](./2026-09-25-executable-loader-process.md)에서 다시 이어서 본다.
 
 ## 9. Header와 Library는 역할이 다르다
 
