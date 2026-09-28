@@ -106,7 +106,7 @@ Process
 ├─ 실행 Code / Data Mapping
 ├─ Stack
 ├─ Heap을 확장할 수 있는 영역
-├─ 열린 File 등 OS Resource 상태
+├─ 열린 File 등 OS 자원 상태
 └─ 실행을 관리하기 위한 Kernel 정보
 ```
 
@@ -122,7 +122,7 @@ Process
 
 프로세스와 Thread의 세부 차이는 운영체제 주제에서 더 깊게 다룰 수 있다. 여기서는 **실행 파일이 운영체제가 관리하는 실행 상태로 바뀐다는 것**이 핵심이다.
 
-## 5. Virtual 메모리가 여기서 등장한다
+## 5. 가상 메모리가 여기서 등장한다
 
 프로세스가 보는 주소는 일반적으로 실제 RAM의 물리 주소와 동일하지 않다.
 
@@ -176,7 +176,7 @@ Virtual Address Space
 Physical Memory
 ```
 
-이 지점에서 Loader와 Virtual 메모리가 만난다.
+이 지점에서 Loader와 가상 메모리가 만난다.
 
 즉 **Load = 실행 파일 전체를 RAM으로 복사**라고 외우기보다, 실행 파일의 필요한 부분을 프로세스 주소 공간에서 사용할 수 있도록 준비한다고 이해하는 편이 정확하다.
 
@@ -186,7 +186,7 @@ Physical Memory
 
 Static Linking은 필요한 라이브러리 코드를 Build 시점에 실행 파일 쪽에 포함하는 방식이다.
 
-Dynamic Linking에서는 일부 구현이 실행 파일 밖의 Shared 라이브러리에 남아 있다.
+Dynamic Linking에서는 일부 구현이 실행 파일 밖의 공유 라이브러리에 남아 있다.
 
 ```text
 Executable
@@ -195,7 +195,7 @@ Executable
 Shared Library
 ```
 
-따라서 실행 시점에는 필요한 Shared 라이브러리를 찾고 프로세스의 주소 공간에 연결하는 과정이 추가될 수 있다.
+따라서 실행 시점에는 필요한 공유 라이브러리를 찾고 프로세스의 주소 공간에 연결하는 과정이 추가될 수 있다.
 
 ```text
 Executable
