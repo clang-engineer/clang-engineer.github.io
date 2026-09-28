@@ -49,7 +49,7 @@ User Mode
 
 Kernel Mode
 → OS Kernel 실행
-→ 보호된 System Resource 관리
+→ 보호된 시스템 자원 관리
 ```
 
 여기서 User는 사람을 뜻하는 것이 아니라 **제한된 권한으로 애플리케이션이 실행되는 영역**을 의미한다.
@@ -72,7 +72,7 @@ File System / Driver
 Storage
 ```
 
-System Call은 User Space Program이 커널 Service를 요청하기 위한 공식 경계다.
+System Call은 User Space 프로그램이 커널 Service를 요청하기 위한 공식 경계다.
 
 따라서 다음 둘을 구분해야 한다.
 
@@ -136,7 +136,7 @@ System Call Instruction
 Kernel Mode
 System Call Handler
       ↓
-Kernel Service 수행
+커널 서비스 수행
       ↓
 결과 반환
       ↓
@@ -277,7 +277,7 @@ Driver / Hardware
 함수 Argument는 어디에 둘까?
 Return Value는 어디에 둘까?
 Register는 누가 보존할까?
-Data Type은 Memory에 어떻게 배치할까?
+데이터 타입은 Memory에 어떻게 배치할까?
 Symbol 이름은 어떻게 표현할까?
 Executable / Object 형식은 무엇을 사용할까?
 ```
@@ -293,10 +293,10 @@ User Mode
 = 일반 Application이 제한된 권한으로 실행
 
 Kernel Mode
-= Kernel이 보호된 System Resource를 관리
+= Kernel이 보호된 시스템 자원를 관리
 
 System Call
-= User Space에서 Kernel Service를 요청하는 경계
+= User Space에서 커널 서비스를 요청하는 경계
 
 Library API
 = Application이 사용하기 쉬운 Interface 제공
@@ -307,4 +307,4 @@ Context Switch
 
 핵심은 다음 한 줄이다.
 
-> **애플리케이션은 하드웨어와 커널 내부 기능을 마음대로 직접 다루는 대신 User Mode에서 실행하고, 보호된 OS Resource가 필요할 때 System Call이라는 정해진 경계를 통해 커널에 서비스를 요청한다.**
+> **애플리케이션은 하드웨어와 커널 내부 기능을 마음대로 직접 다루는 대신 User Mode에서 실행하고, 보호된 OS 자원가 필요할 때 System Call이라는 정해진 경계를 통해 커널에 서비스를 요청한다.**
