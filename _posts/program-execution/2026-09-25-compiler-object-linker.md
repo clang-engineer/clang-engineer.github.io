@@ -224,7 +224,7 @@ nm main.o
 
 **그 이름을 나중에 linker가 해결할 수 있도록 남겨두는 것**이다.
 
-## 6. Linker는 무엇을 연결하는가
+## 6. 링커는 무엇을 연결하는가
 
 이제 linker가 등장한다.
 
@@ -234,7 +234,7 @@ main.o ─┐
 add.o  ─┘
 ```
 
-link는 서로 떨어진 대상을 연결한다는 뜻이다. 링커(Linker)는 여러 오브젝트 파일과 라이브러리 사이에서 필요한 Symbol과 실제 정의를 찾아 연결한다.
+link는 서로 떨어진 대상을 연결한다는 뜻이다. 링커(링커)는 여러 오브젝트 파일과 라이브러리 사이에서 필요한 Symbol과 실제 정의를 찾아 연결한다.
 
 ```text
 main.o
@@ -301,7 +301,7 @@ Linux의 `.so`, Windows의 `.dll`, macOS의 `.dylib` 등이 대표적이다.
 
 이 경우 일부 연결 작업은 프로그램 실행 시점까지 이어진다.
 
-따라서 실행 파일을 만든다고 해서 모든 코드가 반드시 그 파일 안에 들어 있는 것은 아니다. 실행 환경에 필요한 Shared Library가 없거나 호환되는 버전을 찾지 못하면 프로그램 시작 단계에서 실행이 실패할 수도 있다.
+따라서 실행 파일을 만든다고 해서 모든 코드가 반드시 그 파일 안에 들어 있는 것은 아니다. 실행 환경에 필요한 Shared 라이브러리가 없거나 호환되는 버전을 찾지 못하면 프로그램 시작 단계에서 실행이 실패할 수도 있다.
 
 ```text
 Executable
@@ -313,9 +313,9 @@ Dynamic Loader
    └─ 없음 → 실행 실패
 ```
 
-이 실행 시점의 연결 과정은 [실행 파일은 어떻게 프로세스가 되는가 - Loader와 Process](./2026-09-25-executable-loader-process.md)에서 다시 이어서 본다.
+이 실행 시점의 연결 과정은 [실행 파일은 어떻게 프로세스가 되는가 - Loader와 프로세스](./2026-09-25-executable-loader-process.md)에서 다시 이어서 본다.
 
-## 9. Header와 Library는 역할이 다르다
+## 9. Header와 라이브러리는 역할이 다르다
 
 ```c
 #include <stdio.h>
@@ -323,9 +323,9 @@ Dynamic Loader
 
 를 했다고 `printf()` 구현이 소스에 복사되는 것은 아니다.
 
-전통적인 C/C++의 `#include`는 Module Import가 아니라 **전처리기가 Header Text를 포함하는 방식**이다. Header는 Compiler가 함수와 Type을 올바르게 사용할 수 있도록 선언과 Interface 정보를 제공한다.
+전통적인 C/C++의 `#include`는 Module Import가 아니라 **전처리기가 Header Text를 포함하는 방식**이다. Header는 컴파일러가 함수와 Type을 올바르게 사용할 수 있도록 선언과 인터페이스 정보를 제공한다.
 
-실제 구현 Code는 별도의 Object File이나 Library에 존재할 수 있다.
+실제 구현 코드는 별도의 Object File이나 라이브러리에 존재할 수 있다.
 
 ```text
 Header
@@ -370,9 +370,9 @@ util.cpp     → util.o
 
 변경된 소스만 다시 컴파일하고 마지막에 object file들을 다시 link할 수 있다.
 
-파일과 Target이 많아지면 어떤 Source를 다시 Compile하고 어떤 Object File을 다시 Link해야 하는지 관리할 필요가 생긴다. Make·Ninja 같은 Build 도구와 CMake 같은 Build 구성 도구는 이 과정을 자동화한다.
+파일과 타깃이 많아지면 어떤 소스를 다시 컴파일하고 어떤 Object File을 다시 링크해야 하는지 관리할 필요가 생긴다. Make·Ninja 같은 Build 도구와 CMake 같은 Build 구성 도구는 이 과정을 자동화한다.
 
-## 11. 같은 Source인데 왜 플랫폼별 결과물이 달라질까
+## 11. 같은 소스인데 왜 플랫폼별 결과물이 달라질까
 
 컴파일러는 target을 기준으로 코드를 생성한다.
 
