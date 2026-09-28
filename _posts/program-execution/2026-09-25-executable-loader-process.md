@@ -30,7 +30,7 @@ tags: [executable, loader, process, virtual-memory, elf, pe, mach-o]
 
 실행 파일은 디스크에 저장된 **프로그램의 실행 가능한 표현**이다.
 
-프로세스(Process)는 그 프로그램을 실제로 실행하기 위해 운영체제가 관리하는 **실행 인스턴스**다.
+프로세스(프로세스)는 그 프로그램을 실제로 실행하기 위해 운영체제가 관리하는 **실행 인스턴스**다.
 
 같은 실행 파일을 여러 번 실행하면 여러 프로세스가 만들어질 수 있다.
 
@@ -70,13 +70,13 @@ Executable
 
 파일 형식의 세부 Header를 외우는 것이 핵심은 아니다.
 
-중요한 점은 **운영체제가 실행 파일을 해석할 수 있도록 Code와 Data의 배치 정보를 구조화해 둔 파일**이라는 것이다.
+중요한 점은 **운영체제가 실행 파일을 해석할 수 있도록 코드와 Data의 배치 정보를 구조화해 둔 파일**이라는 것이다.
 
 ## 3. 왜 Loader가 필요한가
 
 CPU가 디스크의 실행 파일을 그대로 실행할 수는 없다.
 
-CPU가 명령을 실행하려면 실행에 필요한 Code와 Data가 프로세스의 주소 공간에서 접근 가능한 상태가 되어야 한다.
+CPU가 명령을 실행하려면 실행에 필요한 코드와 Data가 프로세스의 주소 공간에서 접근 가능한 상태가 되어야 한다.
 
 그래서 Loader가 필요하다.
 
@@ -92,11 +92,11 @@ Entry Point에서 실행 시작
 
 `load`는 말 그대로 **실행할 프로그램을 실행 가능한 상태로 올린다**는 의미로 이해하면 된다.
 
-여기서 Loader는 파일을 RAM에 통째로 복사하는 단순한 복사 프로그램으로 이해하면 안 된다. 현대 운영체제에서는 가상 메모리와 Memory Mapping을 이용하므로 실제 Physical Page는 필요할 때 준비될 수도 있다.
+여기서 Loader는 파일을 RAM에 통째로 복사하는 단순한 복사 프로그램으로 이해하면 안 된다. 현대 운영체제에서는 가상 메모리와 메모리 매핑을 이용하므로 실제 Physical Page는 필요할 때 준비될 수도 있다.
 
-## 4. Process를 만들 때 무엇이 생기는가
+## 4. 프로세스를 만들 때 무엇이 생기는가
 
-운영체제 관점에서 Process는 Code만을 의미하지 않는다.
+운영체제 관점에서 프로세스는 코드만을 의미하지 않는다.
 
 개념적으로 다음과 같은 실행 상태가 필요하다.
 
@@ -120,9 +120,9 @@ Process
     └─ CPU에서 실제 Instruction 흐름을 실행
 ```
 
-Process와 Thread의 세부 차이는 운영체제 주제에서 더 깊게 다룰 수 있다. 여기서는 **실행 파일이 운영체제가 관리하는 실행 상태로 바뀐다는 것**이 핵심이다.
+프로세스와 Thread의 세부 차이는 운영체제 주제에서 더 깊게 다룰 수 있다. 여기서는 **실행 파일이 운영체제가 관리하는 실행 상태로 바뀐다는 것**이 핵심이다.
 
-## 5. Virtual Memory가 여기서 등장한다
+## 5. Virtual 메모리가 여기서 등장한다
 
 프로세스가 보는 주소는 일반적으로 실제 RAM의 물리 주소와 동일하지 않다.
 
@@ -162,7 +162,7 @@ OS가 Memory를 유연하게 배치·관리
 
 꼭 그렇지는 않다.
 
-실행 파일의 영역을 프로세스의 가상 주소 공간에 Mapping해 두고, 실제 Page가 필요해질 때 Physical Memory에 준비하는 방식이 가능하다.
+실행 파일의 영역을 프로세스의 가상 주소 공간에 매핑해 두고, 실제 Page가 필요해질 때 Physical 메모리에 준비하는 방식이 가능하다.
 
 개념적으로 보면:
 
@@ -176,17 +176,17 @@ Virtual Address Space
 Physical Memory
 ```
 
-이 지점에서 Loader와 Virtual Memory가 만난다.
+이 지점에서 Loader와 Virtual 메모리가 만난다.
 
 즉 **Load = 실행 파일 전체를 RAM으로 복사**라고 외우기보다, 실행 파일의 필요한 부분을 프로세스 주소 공간에서 사용할 수 있도록 준비한다고 이해하는 편이 정확하다.
 
-## 7. Dynamic Library는 언제 연결되는가
+## 7. Dynamic 라이브러리는 언제 연결되는가
 
 앞선 글에서 Static Linking과 Dynamic Linking을 구분했다.
 
-Static Linking은 필요한 Library Code를 Build 시점에 실행 파일 쪽에 포함하는 방식이다.
+Static Linking은 필요한 라이브러리 코드를 Build 시점에 실행 파일 쪽에 포함하는 방식이다.
 
-Dynamic Linking에서는 일부 구현이 실행 파일 밖의 Shared Library에 남아 있다.
+Dynamic Linking에서는 일부 구현이 실행 파일 밖의 Shared 라이브러리에 남아 있다.
 
 ```text
 Executable
@@ -195,7 +195,7 @@ Executable
 Shared Library
 ```
 
-따라서 실행 시점에는 필요한 Shared Library를 찾고 프로세스의 주소 공간에 연결하는 과정이 추가될 수 있다.
+따라서 실행 시점에는 필요한 Shared 라이브러리를 찾고 프로세스의 주소 공간에 연결하는 과정이 추가될 수 있다.
 
 ```text
 Executable
@@ -209,7 +209,7 @@ Shared Library Mapping
 실행 가능 상태
 ```
 
-Compile Time의 선언, Link Time의 Symbol Resolution, Load/Runtime 시점의 Dynamic Linking은 서로 같은 단계가 아니다.
+컴파일 Time의 선언, 링크 Time의 Symbol Resolution, Load/Runtime 시점의 Dynamic Linking은 서로 같은 단계가 아니다.
 
 ## 8. Entry Point는 왜 필요한가
 
@@ -304,4 +304,4 @@ Entry Point
 
 핵심은 다음 한 줄이다.
 
-> **실행 파일을 실행한다는 것은 파일을 그대로 CPU에 던지는 것이 아니라, 운영체제가 실행 파일을 해석해 주소 공간과 실행 상태를 준비하고 그 위에서 Instruction 실행을 시작하게 만드는 과정이다.**
+> **실행 파일을 실행한다는 것은 파일을 그대로 CPU에 던지는 것이 아니라, 운영체제가 실행 파일을 해석해 주소 공간과 실행 상태를 준비하고 그 위에서 명령어 실행을 시작하게 만드는 과정이다.**
