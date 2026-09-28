@@ -134,6 +134,66 @@ List<Order> findAll();
 
 여러 프록시를 하나씩 조회하지 않고 지정한 크기 단위로 묶어 조회한다.
 
+## 7. 연관관계를 객체 참조로 둘 것인가
+
+JPA에서는 다른 엔티티를 연관관계로 직접 매핑할 수도 있고, 외래 키 값만 일반 필드로 보관할 수도 있다.
+
+```text
+객체 참조
+→ @ManyToOne / @OneToOne 등으로 엔티티 관계를 표현
+→ 객체 그래프 탐색과 JPA 연관관계 기능 사용
+
+ID 간접 참조
+→ teamId 같은 FK 값만 일반 필드로 보관
+→ 다른 엔티티 조회와 생명주기를 명시적으로 분리
+```
+
+어느 방식이 항상 우월한 것은 아니다. 같은 객체 그래프에서 함께 탐색해야 하는 관계인지, 서로 독립된 경계를 ID로 연결하는 편이 나은지에 따라 선택한다.
+
+## 8. 2차 캐시는 영속성 컨텍스트의 1차 캐시와 다르다
+
+1차 캐시는 영속성 컨텍스트마다 존재하며 같은 컨텍스트 안에서 엔티티 동일성을 보장한다. 반면 Hibernate의 2차 캐시는 여러 영속성 컨텍스트 사이에서 데이터를 재사용하기 위한 선택적 캐시다.
+
+```text
+1차 캐시
+→ 영속성 컨텍스트 범위
+→ JPA 실행 모델의 기본 요소
+
+2차 캐시
+→ 여러 영속성 컨텍스트 사이에서 공유 가능
+→ 별도 설정이 필요한 선택 기능
+```
+
+따라서 둘을 단순히 같은 캐시의 1단계·2단계로 이해하지 않는다.
+
+## 9. @ElementCollection은 값 컬렉션을 매핑한다
+
+`@ElementCollection`은 독립 엔티티가 아니라 **소유 엔티티의 생명주기에 종속되는 값 컬렉션**을 별도 테이블에 매핑할 때 사용한다.
+
+```java
+@Entity
+class Member {
+    @Id @GeneratedValue
+    private Long id;
+
+    @ElementCollection
+    @CollectionTable(
+        name = "member_favorite_food",
+        joinColumns = @JoinColumn(name = "member_id")
+    )
+    @Column(name = "food_name")
+    private Set<String> favoriteFoods = new HashSet<>();
+}
+```
+
+```text
+@Entity 관계
+→ 독립적인 식별자와 생명주기를 가진 객체
+
+@ElementCollection
+→ 소유 엔티티에 종속된 값의 모음
+```
+
 ## 정리
 
 JPA를 이해할 때 핵심은 다음 흐름이다.
