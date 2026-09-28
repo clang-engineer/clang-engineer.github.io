@@ -37,7 +37,35 @@ ISA에 맞는 Machine Instruction
 CPU 구현
 ```
 
-## 2. ISA는 CPU와 Software 사이의 약속이다
+## 2. Instruction, Instruction Set, ISA
+
+먼저 세 용어를 구분한다.
+
+```text
+Instruction
+→ CPU가 수행할 수 있는 하나의 명령
+  예: 더하기, 값 이동, 분기
+
+Instruction Set
+→ CPU가 이해하고 실행할 수 있는 Instruction들의 집합
+
+ISA (Instruction Set Architecture)
+→ Instruction Set을 포함해 Register, Instruction Encoding,
+  Memory Addressing 등 Software가 CPU를 사용하기 위해
+  따라야 하는 전체 명령어 수준의 규약
+```
+
+즉 Instruction Set은 ISA의 일부다.
+
+```text
+ISA
+├─ Instruction Set
+├─ Register
+├─ Instruction Encoding
+├─ Data Type / 크기 규칙
+├─ Memory Addressing
+└─ 기타 Software-visible CPU 규칙
+```
 
 ISA는 CPU가 Software에 보여주는 명령어 수준의 Interface다.
 
