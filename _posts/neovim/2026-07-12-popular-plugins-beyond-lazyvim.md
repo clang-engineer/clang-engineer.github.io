@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 이 글은 [Neovim 로드맵](./2026-06-16-neovim-roadmap.md)의 **부록 A(비교·생태계)** 다. LazyVim이 *기본으로* 켜는 플러그인의 키맵·역할은 [LazyVim 주요 플러그인 정리](./2026-06-07-lazyvim-plugins-overview.md)와 [기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md)에서 다뤘다. 이 글은 그 **밖의** 인기 플러그인 — 기본값을 갈아탈 때의 대안과, 기본에 아예 없는 인기템이다.
+> 이 글은 [Neovim 로드맵](./2026-06-16-neovim-roadmap.md)의 **부록 A(비교·생태계)** 다. LazyVim이 *기본으로* 켜는 플러그인의 키맵·역할은 [LazyVim 주요 플러그인 정리](./2026-06-07-lazyvim-feature-plugin-map.md)와 [기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md)에서 다뤘다. 이 글은 그 **밖의** 인기 플러그인 — 기본값을 갈아탈 때의 대안과, 기본에 아예 없는 인기템이다.
 {: .prompt-tip }
 
 LazyVim을 쓰면 인기 플러그인 대부분이 이미 깔려 있다 — snacks·blink·neo-tree·gitsigns·flash·conform… 그래서 "인기 Neovim 플러그인" 카탈로그를 또 나열하면 대부분 이미 아는 것이다. 가치 있는 질문은 다르다: **"기본값 대신 뭘 얹나, 그리고 왜 갈아타나."** 이 글은 그 각도로 정리한다. (별 개수는 2026-07 실측, 정착도는 dotfyle의 실 사용 config 수·커뮤니티 반응 기준.)
