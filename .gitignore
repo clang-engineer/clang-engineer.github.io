@@ -33,7 +33,10 @@ Thumbs.db
 nohup.out
 
 # Obsidian vault artifacts (repo opened as an Obsidian vault locally)
-.obsidian/
+.obsidian/*
+!.obsidian/snippets/
+.obsidian/snippets/*
+!.obsidian/snippets/code-horizontal-scroll.css
 
 # Claude Code personal/local overrides
 .claude/settings.local.json
