@@ -1,6 +1,6 @@
 ---
 title       : "Neovim 로드맵 — Vim 바닥에서 LazyVim과 Plugin 개발까지"
-description : "Vim/Neovim/배포판 계층을 먼저 잡고, 편집 기본기 → 필요한 만큼의 Lua → LazyVim 구조 이해까지를 사용자 학습의 핵심 경로로 둔다. Plugin 개발은 별도 Branch, LSP·DAP·PKM·비교·Troubleshooting은 대표 진입점만 둔 부록으로 분리한다."
+description : "Vim/Neovim/배포판 계층을 먼저 잡고, 편집 기본기 → 필요한 만큼의 Lua → LazyVim 구조 이해까지를 사용자 학습의 핵심 경로로 둔다. Plugin 개발은 별도 Branch, LSP·DAP·PKM·비교는 필요할 때 들어가는 별도 Branch와 부록으로 분리한다."
 date        : 2026-06-16 23:00:00 +0900
 updated     : 2026-09-06 13:35:00 +0900
 categories  : [neovim, "개요·인덱스"]
@@ -29,7 +29,7 @@ Plugin 구조·언어 경계
 Test·Document·Distribution
 
 [필요할 때]
-LSP / DAP / PKM / 비교 / Troubleshooting
+LSP / DAP / PKM / 비교
 ```
 
 Plugin을 만들지 않는다면 **LazyVim 구조 이해에서 핵심 경로가 끝난다.** LSP·DAP 같은 IDE 기능도 모두 순서대로 배울 필요는 없고, 문제가 생기거나 직접 구성할 때 해당 Branch로 들어간다.
@@ -44,7 +44,7 @@ Plugin을 만들지 않는다면 **LazyVim 구조 이해에서 핵심 경로가 
 | 3. Distro 구조 | LazyVim이 Plugin spec을 어떻게 조합하나 | 사용자의 핵심 |
 | Branch A | Neovim Plugin은 어떤 Runtime API 위에 만들어지나 | 제작자용 |
 | Branch B | LSP·DAP 같은 IDE 기능은 어떤 계층으로 연결되나 | 필요할 때 |
-| Appendix | PKM·다른 Editor·Plugin 생태계·Troubleshooting | 다른 축 |
+| Appendix | PKM·다른 Editor·Plugin 생태계 | 다른 축 |
 
 ## 0. Vim → Neovim → Distro 계층
 
@@ -161,10 +161,7 @@ Roadmap이 50여 개 글의 전체 목차가 되지 않도록 대표 Hub만 둔�
 | LazyVim 밖의 Plugin 생태계 | [LazyVim 밖에서 많이 쓰는 Plugin](./2026-07-12-popular-plugins-beyond-lazyvim.md) |
 | PKM / Obsidian / Org mode | [Neovim PKM 지형](./2026-07-12-neovim-pkm-obsidian-orgmode.md) |
 | 다른 Editor와의 경계 | [Neovim 사용자가 본 Emacs](./2026-07-03-neovim-user-view-of-emacs.md) |
-| LSP가 특정 프로젝트에서 이상함 | [Kotlin Language Server stale DB](../troubleshooting/2026-06-16-neovim-kotlin-lsp-stale-db.md) |
-| AI Plugin/Model 장애 | [CopilotChat model not found](../troubleshooting/2026-06-05-neovim-copilotchat-model-not-found.md) |
 
-개별 Troubleshooting은 학습 순서에 넣지 않고 **증상 기준 검색**으로 들어간다.
 
 ## 다른 Roadmap과의 경계
 
