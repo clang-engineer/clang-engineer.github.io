@@ -538,13 +538,91 @@ Growing Phase
 → Lock 획득 O
 → Lock 해제 X
 
-       ↓ 최초 Lock 해제
+       ↓ 마지막 Lock 획득
+       Lock Point
 
 Shrinking Phase
 → Lock 획득 X
 → Lock 해제 O
 ```
 
+`Lock Point`는 **해당 Transaction이 필요한 Lock을 마지막으로 획득한 시점**이다. 이 시점 이후에는 새 Lock을 잡을 수 없다.
+
+왜 이것이 중요한지 Conflict 관계로 다시 연결해보자.
+
+```text
+A에서 T1 → T2
+B에서도 T1 → T2
+
+→ 전체를 T1 → T2라는
+  하나의 Serial 순서로 설명 가능
+```
+
+반대로 다음처럼 선후관계가 서로 모순되면:
+
+```text
+A에서 T1 → T2
+B에서 T2 → T1
+
+→ T1 → T2로도 설명 불가
+→ T2 → T1로도 설명 불가
+→ Conflict 관계에 Cycle
+→ Conflict Serializability 깨짐
+```
+
+따라서 목표는 **모든 Conflict의 순서를 무조건 동일하게 만드는 것**이 아니라, Conflict들의 선후관계가 서로 모순되지 않아 **하나의 Serial 순서로 정렬될 수 있게 하는 것**이다.
+
+2PL은 `Lock을 풀기 시작한 뒤 새 Lock을 다시 획득하는 것`을 금지해 선후관계가 뒤집히는 실행을 막는다.
+
+```text
+2PL이 없다면
+
+T1: Lock(A)
+    A 작업
+    Unlock(A)
+
+                 T2가 B 작업
+
+T1: Lock(B)       ← 다시 새 Lock 획득
+    B 작업
+
+→ A에서는 T1 → T2
+→ B에서는 T2 → T1
+→ 순서가 뒤집힐 수 있음
+```
+
+```text
+2PL에서는
+
+Growing
+Lock(A)
+Lock(B)      ← Lock Point
+   ↓
+Shrinking
+Unlock(A)
+Unlock(B)
+
+→ Unlock을 시작한 뒤
+  새로운 Lock 획득 금지
+```
+
+그래서 Transaction들의 **Lock Point 순서에 대응하는 Serial 순서**를 잡을 수 있고, 결과적으로 2PL을 따르는 Schedule은 Conflict Serializable하다.
+
+```text
+2PL
+ ↓
+Growing 동안 필요한 Lock 획득
+ ↓
+Lock Point
+ ↓
+Shrinking 진입 후 새 Lock 획득 금지
+ ↓
+Conflict 선후관계의 Cycle 방지
+ ↓
+하나의 Serial 순서로 정렬 가능
+ ↓
+Conflict Serializable
+```
 기억법:
 
 > **잡을 때는 잡기만, 풀기 시작했으면 다시 잡지 않는다.**
