@@ -488,18 +488,49 @@ Lock 방식
 
 ### 왜 필요한가
 
-각 순간 S/X Lock의 공유·독점 규칙을 지켜도 Transaction 전체에서 Lock을 마음대로 잡고 풀면 Conflict의 선후관계가 뒤집힐 수 있다.
+S/X Lock의 호환성 규칙은 **같은 시점에 같은 Data를 충돌하게 접근하는 것**을 막는다. 하지만 Transaction이 Lock을 자유롭게 풀고 나중에 다른 Lock을 다시 잡을 수 있다면, Data마다 Transaction의 선후관계가 뒤집힐 수 있다.
+
+예를 들어 T1과 T2가 A와 B를 모두 수정한다고 하자.
 
 ```text
-A에서는
-T1 → T2
+T1                         T2
 
-B에서는
-T2 → T1
+X Lock(A)
+A 수정
+X Lock(A) 해제
+                           X Lock(A)
+                           A 수정
+
+                           X Lock(B)
+                           B 수정
+                           X Lock(B) 해제
+X Lock(B)
+B 수정
+X Lock(B) 해제
 ```
 
-이렇게 되면 전체 Schedule을 `T1 → T2` 또는 `T2 → T1` 같은 하나의 Serial 순서로 설명하기 어려워진다.
+각 순간에는 같은 Data에 두 Transaction이 동시에 X Lock을 가진 적이 없으므로 S/X 호환성 규칙을 지켰다.
 
+하지만 전체 순서를 보면:
+
+```text
+A에서는 T1 → T2
+B에서는 T2 → T1
+
+서로 다른 선후관계가 생김
+```
+
+하나의 Serial 순서로는 설명할 수 없다.
+
+```text
+T1 → T2라고 보면
+→ A는 맞지만 B는 맞지 않음
+
+T2 → T1이라고 보면
+→ B는 맞지만 A는 맞지 않음
+```
+
+즉 **S/X Lock은 한 시점의 충돌을 막고, 2PL은 Transaction 전체에서 Conflict의 선후관계가 뒤집히지 않도록 Lock 획득·해제 순서를 통제한다.**
 2PL은 Lock 획득과 해제 시기를 두 단계로 분리한다.
 
 ```text
