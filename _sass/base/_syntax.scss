@@ -24,6 +24,9 @@
     margin-bottom: 0;
     font-size: v.$code-font-size;
     line-height: 1.4rem;
+    white-space: pre;
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
   table {
