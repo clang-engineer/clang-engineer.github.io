@@ -23,29 +23,33 @@ Lock / MVCC
 ## 1. 가장 먼저 잡을 전체 구조
 
 ```text
-[문제]
-여러 Transaction을 동시에 실행
+[정확성 기준]
+여러 Transaction을 병행 실행
         ↓
-같은 Data를 함께 접근
+연산이 서로 섞임
         ↓
-Conflict 가능
+어떤 Serial 순서와도 동등하지 않은 결과 가능
         ↓
-잘못 제어하면 이상 현상 발생
-- Dirty Read
-- Non-repeatable Read
-- Phantom Read
-- Lost Update 등
+Serializability
+= 안전한 병행 실행을 판단하는 강한 기준
+
+[관찰되는 문제]
+동시성 이상 현상
+├─ Dirty Read
+├─ Non-repeatable Read
+├─ Phantom Read
+└─ Lost Update 등
 
 [보장 수준]
 Isolation Level
-RU → RC → RR → Serializable
+= 병행 실행에서 어디까지 격리할 것인가
 
 [구현 수단]
 Concurrency Control
 ├─ Lock
-│   ├─ S / X Lock       : Lock 종류
-│   ├─ Row / Range      : 어디까지 잠글 것인가
-│   └─ 2PL              : 언제 획득·해제할 것인가
+│   ├─ S / X        : 어떤 Lock인가
+│   ├─ Row / Range  : 어디를 보호하는가
+│   └─ 2PL          : 언제 획득·해제하는가
 │
 └─ MVCC
     ├─ 여러 Version 유지
@@ -56,7 +60,6 @@ Concurrency Control
 > **Isolation Level = 무엇을 보장할지, Lock/MVCC = 그 보장을 어떻게 구현할지**
 
 ---
-
 ## 2. 동시 실행에서 왜 문제가 생기는가
 
 Transaction의 실행 순서에 따라 결과가 달라지는 것 자체는 문제가 아니다. **정상적인 Serial 실행도 Transaction 순서가 다르면 서로 다른 결과를 만들 수 있다.**
@@ -242,6 +245,16 @@ Lost Update
 
 ## 4. Isolation Level 4단계
 
+Isolation Level의 본질은 **병행 실행에서 다른 Transaction의 영향을 어디까지 허용할 것인가**를 정하는 것이다. Dirty / Non-repeatable / Phantom은 그 차이를 관찰하기 위한 고전적인 학습 기준이다.
+
+```text
+Isolation Level
+= 허용할 병행 실행의 범위
+        ↓
+관찰되는 대표 현상으로 비교
+Dirty / Non-repeatable / Phantom
+```
+
 SQL 표준의 고전적인 학습표는 다음과 같다.
 
 | Isolation Level | Dirty Read | Non-repeatable Read | Phantom Read |
@@ -312,7 +325,61 @@ RR = MVCC        X
 
 ---
 
-## 6. Lock 방식으로 Isolation Level을 구현한다면
+## 6. Lock의 기본: S / X와 보호 범위
+
+### S Lock(Shared Lock)
+
+Read를 위한 공유 Lock이다.
+
+```text
+T1: X에 S Lock
+→ T1은 X 읽기 가능
+
+T2: X에 S Lock
+→ 같이 읽기 가능
+```
+
+### X Lock(Exclusive Lock)
+
+Write를 위한 독점 Lock이다.
+
+```text
+T1: X에 X Lock
+→ T1은 읽기/쓰기 가능
+
+T2: 같은 X에 S 또는 X Lock 요청
+→ 대기
+```
+
+중요한 점은 `X Lock = 읽기/쓰기 불가`가 아니라, **X Lock을 가진 Transaction은 읽기/쓰기가 가능하고 다른 Transaction이 같은 대상에 S/X Lock을 함께 가질 수 없다는 것**이다.
+
+같은 대상에서는 S Lock끼리만 함께 보유할 수 있다.
+
+```text
+S + S → 같이 가능
+S + X → 한쪽 대기
+X + S → 한쪽 대기
+X + X → 한쪽 대기
+```
+
+이것은 별도로 외울 새로운 개념이라기보다 `S = Shared`, `X = Exclusive`라는 Lock의 성질에서 자연스럽게 따라온다.
+
+---
+
+### Lock은 종류·대상·시간을 나눠 본다
+
+```text
+Lock
+├─ 종류  → S / X
+├─ 대상  → Row / Range 등
+└─ 시간  → 언제 획득·해제할 것인가
+            → 2PL과 연결
+```
+
+이 세 축을 섞지 않으면 `S/X`, `Range Lock`, `2PL`의 역할을 구분하기 쉽다.
+
+---
+## 7. Lock 방식으로 Isolation Level을 구현한다면
 
 Lock 방식에서는 **어디에 Lock을 걸고, 얼마나 오래 유지하느냐**를 조정해 필요한 Isolation Level을 구현할 수 있다.
 
@@ -380,47 +447,6 @@ SER → Row를 넘어 범위까지 보호
 ```
 
 단, 이것은 **Lock 기반 구현을 이해하기 위한 전형적인 모델**이다. Isolation Level의 정의 자체가 Lock의 강도라는 뜻은 아니다.
-
----
-
-## 7. S Lock과 X Lock
-
-### S Lock(Shared Lock)
-
-Read를 위한 공유 Lock이다.
-
-```text
-T1: X에 S Lock
-→ T1은 X 읽기 가능
-
-T2: X에 S Lock
-→ 같이 읽기 가능
-```
-
-### X Lock(Exclusive Lock)
-
-Write를 위한 독점 Lock이다.
-
-```text
-T1: X에 X Lock
-→ T1은 읽기/쓰기 가능
-
-T2: 같은 X에 S 또는 X Lock 요청
-→ 대기
-```
-
-중요한 점은 `X Lock = 읽기/쓰기 불가`가 아니라, **X Lock을 가진 Transaction은 읽기/쓰기가 가능하고 다른 Transaction이 같은 대상에 S/X Lock을 함께 가질 수 없다는 것**이다.
-
-같은 대상에서는 S Lock끼리만 함께 보유할 수 있다.
-
-```text
-S + S → 같이 가능
-S + X → 한쪽 대기
-X + S → 한쪽 대기
-X + X → 한쪽 대기
-```
-
-이것은 별도로 외울 새로운 개념이라기보다 `S = Shared`, `X = Exclusive`라는 Lock의 성질에서 자연스럽게 따라온다.
 
 ---
 
@@ -503,20 +529,142 @@ Row / Range Lock
 
 ---
 
-## 9. MVCC
+## 9. MVCC는 읽을 Version을 선택해 동시성을 높인다
 
-MVCC(Multi-Version Concurrency Control)는 **하나의 Data에 여러 Version을 유지하고 각 Transaction에 보여줄 Version을 선택**하는 방식이다.
+MVCC(Multi-Version Concurrency Control)는 **하나의 Data에 여러 Version을 유지하고, 각 Transaction이나 Statement가 볼 수 있는 Version을 선택하는 동시성 제어 방식**이다.
 
 ```text
-X Version
+같은 Data X
 
-v1 = 100
-v2 = 200
-v3 = 300
+v1 = 100   ← 과거 Version
+v2 = 200   ← 이후 Version
+v3 = 300   ← 더 최신 Version
 ```
 
-Transaction마다 Data 전체를 별도로 복사하는 것이 아니다.
+Transaction마다 Data 전체를 따로 복사하는 것이 아니다. 변경에 따라 여러 Version이 존재하고, 읽는 쪽은 자신의 Snapshot과 Visibility 규칙에 맞는 Version을 본다.
 
 ```text
-        공유된 여러 Version
-        v1  
+                여러 Version
+             v1   v2   v3
+              │    │    │
+       ┌──────┴────┴────┴──────┐
+       │                       │
+Snapshot A                 Snapshot B
+       │                       │
+       ▼                       ▼
+   v1이 보임                 v2가 보임
+```
+
+핵심은 **다른 Transaction이 새 Version을 만들고 있어도 Reader가 자신에게 보이는 기존 Version을 읽을 수 있다는 것**이다. 그래서 전통적인 Lock-only 방식보다 Read와 Write가 서로 기다리는 상황을 줄일 수 있다. PostgreSQL은 MVCC에서 각 SQL Statement가 Snapshot을 보며, 일반적인 읽기 Lock과 쓰기 Lock의 충돌을 줄이는 것을 주요 장점으로 설명한다. MySQL InnoDB도 consistent nonlocking read에서 Snapshot을 사용한다.
+
+### Snapshot과 Visibility
+
+```text
+Snapshot
+= 이 읽기가 바라볼 논리적 시점
+
+Visibility
+= 여러 Version 중
+  이 Snapshot에서 어떤 Version을 볼 수 있는지 판단하는 규칙
+```
+
+따라서 MVCC를 단순히 `과거 값을 저장한다`로만 이해하면 부족하다.
+
+```text
+여러 Version 유지
+        +
+Snapshot
+        +
+Visibility 판단
+        ↓
+Reader가 볼 Version 선택
+```
+
+Isolation Level에 따라 Snapshot을 잡고 갱신하는 방식은 DBMS마다 다를 수 있다. 예를 들어 InnoDB의 consistent read는 `READ COMMITTED`에서 읽기마다 새 Snapshot을 만들고, `REPEATABLE READ`에서는 같은 Transaction의 consistent read들이 첫 읽기에서 잡은 Snapshot을 공유한다.
+
+### MVCC도 Write 충돌을 없애는 것은 아니다
+
+```text
+MVCC
+├─ Read ↔ Write 충돌을 줄이는 데 강점
+└─ Write ↔ Write 충돌
+    → 여전히 조정 필요
+```
+
+MVCC를 `Lock을 전혀 사용하지 않는 방식`으로 이해하면 안 된다. 실제 DBMS는 MVCC와 Lock을 함께 사용할 수 있고, Update나 locking read 같은 작업에서는 별도의 Lock·충돌 처리가 필요할 수 있다.
+
+```text
+Isolation Level
+= 어떤 관찰 결과와 병행 실행을 허용할 것인가
+
+Lock
+= 충돌하는 접근을 기다리게 하여 제어
+
+MVCC
+= 여러 Version 중 보이는 Version을 선택해
+  불필요한 Read/Write 대기를 줄임
+```
+
+즉 `Lock vs MVCC`를 완전한 양자택일로 보지 않는다.
+
+---
+
+## 10. 전체 관계를 다시 연결한다
+
+```text
+병행 실행
+  ↓
+어떤 Serial 순서와도 동등하지 않은 결과 가능
+  ↓
+Serializability
+  │
+  └─ Conflict
+      = 어떤 연산의 선후관계가 중요한가
+
+실제로 관찰되는 이상 현상
+Dirty / Non-repeatable / Phantom / Lost Update
+  ↓
+Isolation Level
+= 어디까지 허용·차단할 것인가
+  ↓
+Concurrency Control
+├─ Lock
+│   ├─ S / X       → 어떤 Lock?
+│   ├─ Row / Range → 어디를 보호?
+│   └─ 2PL         → 언제 잡고 풀까?
+│
+└─ MVCC
+    ├─ Version
+    ├─ Snapshot
+    └─ Visibility  → 어떤 Version을 보여줄까?
+```
+
+가장 중요한 경계는 다음 세 줄이다.
+
+```text
+Serializability = 병행 실행의 정확성 기준
+Isolation Level = 사용자에게 제공할 격리 보장 수준
+Lock / MVCC     = 그 보장을 구현하는 동시성 제어 수단
+```
+
+## 11. 기억·인출 흐름
+
+```text
+왜 동시성 제어가 필요한가?
+→ 병행 결과가 어떤 Serial 순서와도 동등하지 않을 수 있어서
+
+Conflict는 무엇인가?
+→ 순서를 바꾸면 안 되는 연산 관계
+
+Isolation Level은 무엇인가?
+→ 병행 실행에서 어디까지 격리할지 정하는 보장 수준
+
+Lock의 세 축은?
+→ 어떤 Lock(S/X) / 어디에(Row/Range) / 언제(2PL)
+
+MVCC의 핵심은?
+→ Version + Snapshot + Visibility
+
+Lock과 MVCC의 관계는?
+→ 대체재로만 보지 않음. 실제 DBMS는 함께 사용할 수 있음
+```
