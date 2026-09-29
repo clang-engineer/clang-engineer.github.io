@@ -104,7 +104,7 @@ lazy.nvim
 | [lazy.nvim Plugin spec 필드](./2026-06-19-lazy-nvim-plugin-spec-fields.md) | load trigger·configuration·dependency 필드를 실행 의미로 정리하는 Reference/Concept |
 | [LazyVim spec merge와 의존성 계층](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) | core→extras→user override가 합쳐지는 실제 구조를 설명하는 Architecture |
 
-개별 Plugin 목록이나 Keymap은 필요할 때 [주요 Plugin 정리](./2026-06-07-lazyvim-plugins-overview.md), [Which-Key](./2025-10-04-whichkey.md), [Git Plugin 구성](./2026-06-09-lazyvim-git-plugins.md)으로 Zoom-in한다.
+개별 Plugin 목록이나 Keymap은 필요할 때 [주요 Plugin 정리](./2026-06-07-lazyvim-feature-plugin-map.md), [Which-Key](./2025-10-04-whichkey.md), [Git Plugin 구성](./2026-06-09-lazyvim-git-plugins.md)으로 Zoom-in한다.
 
 ## Branch A — Plugin 개발
 
