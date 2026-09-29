@@ -312,7 +312,21 @@ _posts/
    └─ neovim-<problem>.md
 ```
 
-Troubleshooting 내부에서는 하위 폴더를 다시 만들지 않고 **파일명 prefix가 원래 기술 영역을 보존**한다.
+일반 기술 영역은 `_posts/<영역>/` 한 단계 깊이를 유지한다. 다만 여러 기술에서 문서를 수집하는 횡단 영역인 `troubleshooting/`과 `engineering/`만 예외적으로 **한 단계의 하위 분류를 추가**할 수 있다.
+
+```text
+troubleshooting/
+├─ neovim/
+├─ git/
+├─ db/
+└─ ...
+
+engineering/
+├─ open-source/
+└─ code-quality/
+```
+
+Troubleshooting은 **원래 기술 영역**으로, Engineering은 **개발 활동 유형**으로 나눈다. 이 예외 아래에서 다시 하위 폴더를 늘리지 않는다. 하위 폴더가 이미 문맥을 제공하므로 파일명에서 동일 prefix를 반복하지 않는다.
 
 분류 기준은 파일에 등장하는 기술명이 아니라 문서의 Primary Purpose다.
 
