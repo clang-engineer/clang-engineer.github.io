@@ -73,8 +73,8 @@ dotfiles Roadmap
 
 | 글 | 증상 |
 |---|---|
-| [brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때](./2026-06-07-homebrew-cleanup-java-symlink-broken.md) | JDK Symlink가 깨져 Version 탐색이 꼬인 경우 |
-| [Docker 실행 시 Operation not permitted](./2023-12-16-docker-operation-not-permitted.md) | macOS File/Folder 접근 권한 문제 |
+| [brew cleanup 후 java_home이 엉뚱한 버전을 반환할 때](../troubleshooting/2026-06-07-macos-homebrew-java-symlink.md) | JDK Symlink가 깨져 Version 탐색이 꼬인 경우 |
+| [Docker 실행 시 Operation not permitted](../troubleshooting/2023-12-16-macos-docker-operation-not-permitted.md) | macOS File/Folder 접근 권한 문제 |
 
 Troubleshooting은 셋업 학습의 다음 단계가 아니라 **같은 증상이 생겼을 때만 들어오는 분기**다.
 
@@ -179,7 +179,7 @@ Rectangle 기능을 Code로 통합하고 싶다
 
 | 글 | 증상 |
 |---|---|
-| [AeroSpace 단축키가 갑자기 안 될 때 — Secure Input](./2026-06-07-aerospace-secure-input-hotkey-blocked.md) | 특정 App/보안 입력 상태에서 Global Hotkey가 차단되는 문제 |
+| [AeroSpace 단축키가 갑자기 안 될 때 — Secure Input](../troubleshooting/2026-06-07-macos-aerospace-secure-input.md) | 특정 App/보안 입력 상태에서 Global Hotkey가 차단되는 문제 |
 
 ## 다른 Roadmap과의 경계
 
