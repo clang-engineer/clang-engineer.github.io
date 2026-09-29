@@ -101,9 +101,7 @@ JVM
 └─ Native Interface
 ```
 
-현재 이 축은 **전용 Java 문서가 비어 있다.** 일반 Runtime의 위치는 [Runtime은 무엇을 하는가](../program-execution/2026-09-25-runtime-execution-model.md)에서 전체 좌표를 잡고, JVM 내부 구조는 Java 영역에서 별도로 Zoom-in한다.
-
-따라서 JVM 구조·실행 원리는 앞으로 Java 영역에서 채울 핵심 빈칸이다.
+일반 Runtime의 위치는 [Runtime은 무엇을 하는가](../program-execution/2026-09-25-runtime-execution-model.md)에서 전체 좌표를 잡고, JVM 내부는 [JVM 구조와 작동 원리](./2026-09-29-java-jvm-structure-execution.md)에서 Class Loading·Runtime Data Areas·Interpreter/JIT·GC의 실행 흐름으로 Zoom-in한다.
 
 ## 3. Standard Library — 언어 위의 공통 도구
 
@@ -229,10 +227,11 @@ Language
 └─ Annotation
 
 JVM
-├─ Class Loading
-├─ Runtime Data Areas
-├─ Interpreter / JIT
-└─ GC
+└─ 구조와 작동 원리 ← 작성됨
+   ├─ Class Loading
+   ├─ Runtime Data Areas
+   ├─ Interpreter / JIT
+   └─ GC 세부는 추가 Zoom-in 가능
 
 Standard Library
 ├─ Collection Framework 전체
