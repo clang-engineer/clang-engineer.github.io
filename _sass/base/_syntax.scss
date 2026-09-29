@@ -36,6 +36,9 @@
   }
 
   table {
+    width: max-content;
+    min-width: 100%;
+
     td {
       &:first-child {
         display: inline-block;
@@ -49,7 +52,9 @@
 
       pre {
         overflow: visible; /* Fixed iOS safari overflow-x */
-        word-break: normal; /* Fixed iOS safari linenos code break */
+        white-space: pre !important;
+        overflow-wrap: normal !important;
+        word-break: normal !important; /* Fixed iOS safari linenos code break */
       }
     }
   }
