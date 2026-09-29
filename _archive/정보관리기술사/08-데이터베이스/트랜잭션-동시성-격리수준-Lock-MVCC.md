@@ -312,7 +312,7 @@ RR = MVCC        X
 
 ---
 
-## 5. Lock 방식으로 Isolation Level을 구현한다면
+## 6. Lock 방식으로 Isolation Level을 구현한다면
 
 Lock 방식에서는 **어디에 Lock을 걸고, 얼마나 오래 유지하느냐**를 조정해 필요한 Isolation Level을 구현할 수 있다.
 
@@ -383,7 +383,7 @@ SER → Row를 넘어 범위까지 보호
 
 ---
 
-## 5. S Lock과 X Lock
+## 7. S Lock과 X Lock
 
 ### S Lock(Shared Lock)
 
@@ -424,7 +424,7 @@ X + X → 한쪽 대기
 
 ---
 
-## 5. 2PL은 Lock 운용 Protocol이다
+## 8. 2PL은 Lock 운용 Protocol이다
 
 S/X는 Lock의 종류이고 2PL(Two-Phase Locking)은 **그 Lock을 언제 획득하고 해제할지 정하는 Protocol**이다.
 
@@ -503,7 +503,7 @@ Row / Range Lock
 
 ---
 
-## 5. MVCC
+## 9. MVCC
 
 MVCC(Multi-Version Concurrency Control)는 **하나의 Data에 여러 Version을 유지하고 각 Transaction에 보여줄 Version을 선택**하는 방식이다.
 
