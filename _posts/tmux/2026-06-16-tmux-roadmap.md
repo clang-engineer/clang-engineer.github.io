@@ -18,10 +18,10 @@ tmux는 **Terminal Session을 오래 유지하고 여러 Shell 작업공간을 �
 구조·기본 조작
    ↓
 매일 쓰는 설정
-   ↓
-플러그인 사용
-   ↓
-세션 워크플로 자동화
+
+[필요할 때 확장]
+├─ Plugin 사용
+└─ Session workflow
 
 [선택 Branch]
 ├─ Plugin 제작
@@ -38,7 +38,7 @@ Terminal·PTY 자체의 원리는 [Terminal 로드맵](../terminal/2026-09-05-te
 |---|---|---|
 | 1. 구조 | session·window·pane은 무엇이고 Process와 어떻게 연결되나 | 필수 |
 | 2. 설정 | 기본값 중 무엇을 바꾸면 일상 사용성이 좋아지나 | 필수 |
-| 3. Plugin 사용 | tmux 자체 기능 밖의 확장을 어떻게 얹나 | 필수에 가까운 선택 |
+| 3. Plugin 사용 | tmux 자체 기능 밖의 확장을 어떻게 얹나 | 필요할 때 |
 | 4. Session workflow | 반복되는 작업공간을 어떻게 재현하고 다시 들어가나 | 필요할 때 |
 | Branch A | Plugin은 내부에서 어떻게 만들어지나 | 제작자용 |
 | Branch B | 여러 AI Agent 상태를 tmux에서 어떻게 관제하나 | 응용 |
@@ -156,4 +156,4 @@ AI 도구 자체의 사용 흐름은 [AI 로드맵](../ai/2026-07-03-ai-roadmap.
 - **AI Coding Agent 자체의 사용·MCP·API** → [AI](../ai/2026-07-03-ai-roadmap.md)
 - **dotfiles로 `.tmux.conf`를 재현하는 문제** → [dotfiles](../shell/2026-07-08-dotfiles-roadmap.md)
 
-> **tmux의 핵심 경로는 구조 → 설정 → Plugin 사용 → 필요할 때 Session workflow다. 제작·AI 관제·피커는 그 위의 독립 Branch이지 필수 진도가 아니다.**
+> **tmux의 핵심은 session·window·pane 구조와 일상 설정이다. Plugin과 Session workflow는 필요가 생겼을 때 확장하고, 제작·AI 관제·피커는 그 위의 독립 Branch로 본다.**
