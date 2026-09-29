@@ -1,21 +1,30 @@
-/* Keep code blocks unwrapped, horizontally scrollable, and monospaced in Obsidian. */
+/* Keep code blocks unwrapped and horizontally scrollable in Obsidian mobile. */
 
-/* Reading View */
-.markdown-rendered pre,
-.markdown-rendered pre code,
-.markdown-source-view.mod-cm6 .cm-line.HyperMD-codeblock {
+/* Reading view */
+.markdown-rendered code,
+.markdown-preview-view pre code {
+  text-wrap-mode: nowrap !important;
   white-space: pre !important;
   overflow-wrap: normal !important;
   word-break: normal !important;
-  font-family:
-    "SFMono-Regular",
-    "Menlo",
-    "Monaco",
-    "Cascadia Mono",
-    "Noto Sans Mono CJK KR",
-    monospace !important;
 }
 
-.markdown-rendered pre {
+/* Live Preview / Source */
+.markdown-source-view.mod-cm6
+.HyperMD-codeblock-bg:not(
+  .HyperMD-codeblock-begin,
+  .HyperMD-codeblock-end
+) {
+  display: block !important;
+  overflow-x: auto !important;
+  text-wrap-mode: nowrap !important;
+  white-space: pre !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+/* Reading view container scroll */
+.markdown-rendered pre,
+.markdown-preview-view pre {
   overflow-x: auto !important;
 }
