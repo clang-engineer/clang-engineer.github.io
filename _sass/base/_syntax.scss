@@ -24,21 +24,9 @@
     margin-bottom: 0;
     font-size: v.$code-font-size;
     line-height: 1.4rem;
-    white-space: pre !important;
-    overflow-wrap: normal !important;
-    word-break: normal !important;
-  }
-
-  pre code {
-    white-space: pre !important;
-    overflow-wrap: normal !important;
-    word-break: normal !important;
   }
 
   table {
-    width: max-content;
-    min-width: 100%;
-
     td {
       &:first-child {
         display: inline-block;
@@ -52,9 +40,7 @@
 
       pre {
         overflow: visible; /* Fixed iOS safari overflow-x */
-        white-space: pre !important;
-        overflow-wrap: normal !important;
-        word-break: normal !important; /* Fixed iOS safari linenos code break */
+        word-break: normal; /* Fixed iOS safari linenos code break */
       }
     }
   }
