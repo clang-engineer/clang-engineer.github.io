@@ -59,13 +59,76 @@ Concurrency Control
 
 ## 2. 동시 실행에서 왜 문제가 생기는가
 
-두 Transaction이 같은 Data에 접근할 때 순서에 따라 결과가 달라질 수 있다.
+Transaction의 실행 순서에 따라 결과가 달라지는 것 자체는 문제가 아니다. **정상적인 Serial 실행도 Transaction 순서가 다르면 서로 다른 결과를 만들 수 있다.**
 
-### Conflict
+문제는 병행 실행에서 여러 Transaction의 연산이 섞이면서 **어떤 Serial 순서로도 만들 수 없는 결과**가 생길 수 있다는 것이다.
 
-Conflict는 **병행 실행에서 순서가 중요한 연산 관계**다.
+예를 들어 초기값이 `A=100`, `B=100`이고 다음 두 Transaction이 있다고 하자.
 
-서로 다른 Transaction이 같은 Data Item에 접근하고, 둘 중 하나 이상이 Write이면 Conflict다.
+```text
+T1: A와 B를 각각 ×2
+T2: A와 B에 각각 +10
+```
+
+Serial하게 실행하면 가능한 결과는 두 가지다.
+
+```text
+T1 → T2
+A: 100 → 200 → 210
+B: 100 → 200 → 210
+결과 = (210, 210)
+
+T2 → T1
+A: 100 → 110 → 220
+B: 100 → 110 → 220
+결과 = (220, 220)
+```
+
+둘은 결과가 다르지만 모두 정상적인 Serial 실행이다.
+
+병행 실행에서는 Data마다 선후관계가 뒤집힐 수 있다.
+
+```text
+A에서는 T1 → T2  → A = 210
+B에서는 T2 → T1  → B = 220
+
+병행 결과 = (210, 220)
+```
+
+이 결과는 `T1 → T2`로 전체를 실행해도, `T2 → T1`로 전체를 실행해도 만들 수 없다.
+
+```text
+정상적인 Serial 결과
+├─ T1 → T2 → (210, 210)
+└─ T2 → T1 → (220, 220)
+
+병행 실행
+└─ (210, 220)
+   → 어떤 Serial 순서와도 동등하지 않음
+```
+
+그래서 동시성 제어의 핵심 질문은 다음과 같다.
+
+> **동시에 실행하더라도 결과를 어떤 Serial 실행과 동등하게 만들 수 있는가?**
+
+이 기준이 `Serializability`다.
+
+```text
+Serial
+= 실제로 Transaction을 하나씩 실행
+
+Serializable
+= 실제로는 섞어 실행하지만
+  결과는 어떤 Serial 순서와 동등
+```
+
+Serializable이 모든 실행에서 항상 같은 결과를 만들라는 뜻은 아니다. **가능한 Serial 순서 중 하나와 동등하면 된다.**
+
+### Conflict는 순서를 분석하기 위한 관계다
+
+그렇다면 병행 Schedule이 하나의 Serial 순서로 설명될 수 있는지 보려면 **어떤 연산의 순서가 중요한지** 알아야 한다. 여기서 Conflict가 나온다.
+
+서로 다른 Transaction이 같은 Data Item에 접근하고 둘 중 하나 이상이 Write이면 Conflict다.
 
 ```text
 R-R → Conflict 없음
@@ -74,35 +137,25 @@ W-R → Conflict 있음
 W-W → Conflict 있음
 ```
 
-`R-R`만 Conflict가 아닌 이유는 순서를 바꿔도 결과에 영향이 없기 때문이다.
+`R-R`은 순서를 바꿔도 서로의 결과에 영향을 주지 않는다.
+
+반면 `R-W`, `W-R`, `W-W`는 순서를 바꾸면 읽는 값이나 최종 값이 달라질 수 있으므로 순서를 함부로 바꿀 수 없다.
+
+> **Conflict = 오류 그 자체가 아니라, Serializability를 판단할 때 선후관계를 보존해야 하는 연산 관계**
 
 ```text
-T1: R(X)
-T2: R(X)
-
-순서를 바꿔도 결과 동일
+병행 실행
+  ↓
+Conflict 연산의 선후관계 확인
+  ↓
+하나의 일관된 Serial 순서로 설명 가능한가?
+  ↓
+Conflict Serializability
 ```
 
-반면 `R-W`는 순서가 달라지면 읽는 값이 달라질 수 있다.
-
-```text
-X = 100
-
-T1: R(X)       → 100
-T2: W(X=200)
-```
-
-순서를 바꾸면:
-
-```text
-T2: W(X=200)
-T1: R(X)       → 200
-```
-
-> **Conflict = 오류 그 자체가 아니라, 순서를 함부로 바꾸면 안 되는 관계**
+Conflict Serializability의 세부 판정법은 별도 학습 주제로 둔다.
 
 ---
-
 ## 3. 대표적인 동시성 이상 현상
 
 ### Dirty Read
@@ -234,118 +287,7 @@ SER  : D X / N X / P X
 
 ---
 
-## 5. Serializable과 Serializability
-
-### Serial
-
-Transaction을 실제로 하나씩 순차 실행한다.
-
-```text
-T1 전부 실행
-      ↓
-T2 전부 실행
-```
-
-안전하지만 동시성이 낮다.
-
-### Serializable
-
-실제로는 Transaction을 섞어 실행하더라도 **결과가 어떤 Serial 실행과 동등**하도록 보장한다.
-
-```text
-실제 실행
-T1 ─┐
-    ├─ 섞여 실행
-T2 ─┘
-
-결과
-= T1 → T2로 순차 실행한 결과와 동등
-```
-
-```text
-Serial
-= 실제로 하나씩 실행
-
-Serializable
-= 동시에 실행해도
-  결과는 하나씩 실행한 것과 동등
-```
-
-여기서 중요한 점은 **Serial 실행도 Transaction의 순서에 따라 결과가 달라질 수 있다는 것**이다. Serializable이 모든 실행에서 항상 같은 결과를 만들라는 뜻은 아니다.
-
-예를 들어 초기값이 `A=100`, `B=100`이고 다음 두 Transaction이 있다고 하자.
-
-```text
-T1
-→ A와 B를 각각 ×2
-
-T2
-→ A와 B에 각각 +10
-```
-
-Serial하게 `T1 → T2`로 실행하면:
-
-```text
-A: 100 → 200 → 210
-B: 100 → 200 → 210
-
-결과 = (210, 210)
-```
-
-반대로 `T2 → T1`로 실행하면:
-
-```text
-A: 100 → 110 → 220
-B: 100 → 110 → 220
-
-결과 = (220, 220)
-```
-
-두 결과는 다르지만 **둘 다 정상적인 Serial 실행 결과**다.
-
-문제는 병행 실행 과정에서 Data마다 선후관계가 뒤집히는 경우다.
-
-```text
-A에서는 T1 → T2
-→ A = 210
-
-B에서는 T2 → T1
-→ B = 220
-
-결과 = (210, 220)
-```
-
-이 결과는 `T1 → T2`로 전체를 실행해도, `T2 → T1`로 전체를 실행해도 만들 수 없다.
-
-```text
-T1 → T2  → (210, 210)  정상
-T2 → T1  → (220, 220)  정상
-
-병행 실행 → (210, 220)
-          → 어떤 Serial 순서와도 동등하지 않음
-```
-
-> **Serializability의 핵심은 결과를 항상 하나로 만드는 것이 아니라, 병행 실행 결과가 가능한 Serial 순서 중 하나의 결과와 동등하도록 만드는 것이다.**
-
-Serializable Isolation Level의 이름이 여기서 나온다.
-
-> **Serializability = 안전한 병행 실행을 판단하는 강한 정확성 기준**
-
-Conflict는 이런 Schedule의 순서를 분석하기 위한 기초 개념이다.
-
-```text
-Conflict
-= 순서가 중요한 연산 관계
-
-Conflict의 순서가 서로 모순되면
-→ 하나의 Serial 순서로 설명하기 어려움
-```
-
-Conflict Serializability의 세부 판정법은 별도 학습 주제로 둔다.
-
----
-
-## 6. Isolation Level과 구현 방식은 별개다
+## 5. Isolation Level과 구현 방식은 별개다
 
 Isolation Level은 **보장 수준**이고 Lock/MVCC는 **구현 수단**이다.
 
@@ -370,7 +312,7 @@ RR = MVCC        X
 
 ---
 
-## 7. Lock 방식으로 Isolation Level을 구현한다면
+## 5. Lock 방식으로 Isolation Level을 구현한다면
 
 Lock 방식에서는 **어디에 Lock을 걸고, 얼마나 오래 유지하느냐**를 조정해 필요한 Isolation Level을 구현할 수 있다.
 
@@ -441,7 +383,7 @@ SER → Row를 넘어 범위까지 보호
 
 ---
 
-## 8. S Lock과 X Lock
+## 5. S Lock과 X Lock
 
 ### S Lock(Shared Lock)
 
@@ -482,7 +424,7 @@ X + X → 한쪽 대기
 
 ---
 
-## 9. 2PL은 Lock 운용 Protocol이다
+## 5. 2PL은 Lock 운용 Protocol이다
 
 S/X는 Lock의 종류이고 2PL(Two-Phase Locking)은 **그 Lock을 언제 획득하고 해제할지 정하는 Protocol**이다.
 
@@ -561,7 +503,7 @@ Row / Range Lock
 
 ---
 
-## 10. MVCC
+## 5. MVCC
 
 MVCC(Multi-Version Concurrency Control)는 **하나의 Data에 여러 Version을 유지하고 각 Transaction에 보여줄 Version을 선택**하는 방식이다.
 
