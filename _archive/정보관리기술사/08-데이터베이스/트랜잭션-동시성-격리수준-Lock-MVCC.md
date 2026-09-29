@@ -329,42 +329,67 @@ RR = MVCC        X
 
 ### S Lock(Shared Lock)
 
-Read를 위한 공유 Lock이다.
+S Lock은 Read를 위한 공유 Lock이다. **S Lock을 보유한 Transaction은 읽을 수 있고, 다른 Transaction도 S Lock이라면 동시에 읽을 수 있다.**
 
 ```text
-T1: X에 S Lock
-→ T1은 X 읽기 가능
+T1: S Lock 보유 → Read O
+T2: S Lock 요청 → 획득 O → Read O
 
-T2: X에 S Lock
-→ 같이 읽기 가능
+S + S
+→ 둘 다 읽기 가능
 ```
 
 ### X Lock(Exclusive Lock)
 
-Write를 위한 독점 Lock이다.
+X Lock은 Write를 위한 독점 Lock이다. **X Lock을 획득한 Transaction 자신은 읽기와 쓰기가 가능하지만, 다른 Transaction과 Lock을 공유하지 않는다.**
 
 ```text
-T1: X에 X Lock
-→ T1은 읽기/쓰기 가능
+T1: X Lock 보유
+→ T1: Read O / Write O
 
-T2: 같은 X에 S 또는 X Lock 요청
-→ 대기
+T2: S Lock 요청 → 대기
+T2: X Lock 요청 → 대기
 ```
 
-중요한 점은 `X Lock = 읽기/쓰기 불가`가 아니라, **X Lock을 가진 Transaction은 읽기/쓰기가 가능하고 다른 Transaction이 같은 대상에 S/X Lock을 함께 가질 수 없다는 것**이다.
+여기서 중요한 것은 **Lock을 이미 보유한 Transaction의 권한**과 **다른 Transaction이 새 Lock을 획득할 수 있는지**를 구분하는 것이다.
 
-같은 대상에서는 S Lock끼리만 함께 보유할 수 있다.
+예를 들어 T1이 S Lock을 보유한 상태에서 T2가 X Lock을 요청하면:
 
 ```text
-S + S → 같이 가능
-S + X → 한쪽 대기
-X + S → 한쪽 대기
-X + X → 한쪽 대기
+T1: S Lock 보유
+        ↓
+T2: X Lock 요청
+        ↓
+S ↔ X 호환되지 않음
+        ↓
+T2는 X Lock을 획득하지 못하고 대기
+        ↓
+T2는 아직 접근하지 못함
+Read X / Write X
 ```
 
-이것은 별도로 외울 새로운 개념이라기보다 `S = Shared`, `X = Exclusive`라는 Lock의 성질에서 자연스럽게 따라온다.
+즉 **X Lock 자체가 읽기를 금지하는 것이 아니라, X Lock을 아직 획득하지 못했기 때문에 T2가 읽거나 쓸 수 없는 것**이다.
 
----
+### Lock 호환성
+
+같은 대상에 서로 다른 Transaction이 Lock을 잡을 때는 **S끼리만 동시에 보유할 수 있고, X가 하나라도 포함되면 함께 보유할 수 없다.**
+
+```text
+          요청 Lock
+          S     X
+보유 S    O     X
+Lock X    X     X
+```
+
+따라서 결과만 압축하면:
+
+```text
+S + S → 공존 가능
+
+S + X ┐
+X + S ├→ 공존 불가 → 요청한 Transaction 대기
+X + X ┘
+```
 
 ### Lock은 종류·대상·시간을 나눠 본다
 
