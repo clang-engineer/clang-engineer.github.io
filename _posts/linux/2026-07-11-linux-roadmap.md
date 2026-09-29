@@ -61,6 +61,12 @@ hidden      : false
 | [특수 권한 비트: SUID, SGID, Sticky Bit](./2026-07-11-special-permission-bits-suid-sgid-sticky.md) | SUID·SGID·Sticky Bit의 역할과 보안 의미 |
 | [비밀번호 정책과 PAM: 만료·최소 길이·복잡도·잠금](./2026-07-11-password-policy-pam.md) | 비밀번호 정책과 PAM 인증 흐름의 기본 구조 |
 
+계정과 권한을 정리했으면, 다음은 애플리케이션을 일회성 명령이 아니라 **운영되는 서비스**로 만드는 단계다.
+
+## 3단계 — 서비스
+
+서버 운영에서는 프로그램을 직접 실행하는 것보다 누가 시작하고, 실패하면 어떻게 다시 띄우고, 부팅 후 어떻게 복구할지가 중요하다. Linux에서는 systemd가 이 실행 생명주기의 중심에 있다.
+
 | 글 | 핵심 |
 |---|---|
 | [systemd 서비스 관리: systemctl, 유닛 파일, 부팅 등록과 타이머](./2026-07-11-systemd-service-management.md) | systemd Unit·start/enable·journal·timer의 서비스 운영 흐름 |
