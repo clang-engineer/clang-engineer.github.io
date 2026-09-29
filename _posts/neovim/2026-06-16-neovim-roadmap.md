@@ -161,8 +161,8 @@ Roadmap이 50여 개 글의 전체 목차가 되지 않도록 대표 Hub만 둔�
 | LazyVim 밖의 Plugin 생태계 | [LazyVim 밖에서 많이 쓰는 Plugin](./2026-07-12-popular-plugins-beyond-lazyvim.md) |
 | PKM / Obsidian / Org mode | [Neovim PKM 지형](./2026-07-12-neovim-pkm-obsidian-orgmode.md) |
 | 다른 Editor와의 경계 | [Neovim 사용자가 본 Emacs](./2026-07-03-neovim-user-view-of-emacs.md) |
-| LSP가 특정 프로젝트에서 이상함 | [Kotlin Language Server stale DB](./2026-06-16-kotlin-language-server-stale-kls-database.md) |
-| AI Plugin/Model 장애 | [CopilotChat model not found](./2026-06-05-copilotchat-model-not-found.md) |
+| LSP가 특정 프로젝트에서 이상함 | [Kotlin Language Server stale DB](../troubleshooting/2026-06-16-neovim-kotlin-lsp-stale-db.md) |
+| AI Plugin/Model 장애 | [CopilotChat model not found](../troubleshooting/2026-06-05-neovim-copilotchat-model-not-found.md) |
 
 개별 Troubleshooting은 학습 순서에 넣지 않고 **증상 기준 검색**으로 들어간다.
 
