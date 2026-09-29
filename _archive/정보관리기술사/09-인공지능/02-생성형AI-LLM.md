@@ -2,7 +2,7 @@
 
 이 문서는 [[00-전체|인공지능 전체 개념지도]]에서 Foundation Model·생성형 AI·LLM(Large Language Model, 대규모 언어 모델) 가지를 선택했을 때, **LLM 내부와 활용 기술을 주변으로 파고들기 위한 하위 지도**다.
 
-세부 구현과 내부 Algorithm은 `./`에서 다룬다.
+세부 구현과 내부 Algorithm은 `./`에서 다룬다. 이 지도에서는 **Prompt·RAG·Fine-tuning·Agent 같은 대표 활용 Mechanism의 위치와 관계가 복원되는 수준**까지만 펼친다.
 
 ---
 
@@ -243,10 +243,7 @@ RAG
 └─ Retrieval
     ├─ Keyword / BM25(Best Matching 25, 단어 빈도 기반 대표 검색 점수)
     ├─ Vector Search
-    │   ├─ Exact Search
-    │   └─ ANN(Approximate Nearest Neighbor, 근사 최근접 이웃 검색)
-    │       ├─ HNSW(Hierarchical Navigable Small World, 그래프 기반 ANN)
-    │       └─ IVF(Inverted File, 벡터 공간을 구역으로 나눠 탐색하는 ANN 계열)
+    │   └─ Exact / ANN
     ├─ Hybrid Search
     └─ Re-ranking
         ↓
@@ -265,8 +262,8 @@ Embedding
 └─ Chunk / Query Vector
 
 Retrieval
-├─ Similarity
-├─ ANN
+├─ Similarity / Vector Search
+├─ Keyword / Hybrid Search
 ├─ Metadata / 권한 Filter
 └─ Re-ranking
 ```
@@ -348,12 +345,7 @@ Agent
 ├─ Memory
 ├─ Agentic RAG
 └─ Runtime / Harness
-    ├─ Rules / Context
-    ├─ Skills
-    ├─ Hooks
-    ├─ Tool / Permission
-    ├─ Workflow
-    └─ Orchestration
+    → Context · Tool · Permission · Workflow를 운영·통제
 ```
 
 세부학습: [[Agent-Harness|Agent Harness]], [[에이전트와-MCP|Agent와 MCP]]
@@ -446,10 +438,7 @@ Text2SQL
 ├─ Rule / Template
 ├─ 전용 ML / Seq2Seq(Sequence-to-Sequence, 입력 Sequence를 출력 Sequence로 변환)
 └─ LLM 기반
-    ├─ Metadata / Schema Retrieval
-    ├─ Schema Linking
-    ├─ SQL Generation
-    └─ Validation
+    → Schema 이해 · SQL 생성 · 검증
 ```
 
 Text2SQL은 Task이고, LLM은 이를 구현하는 방법 중 하나다. RAG·Agent는 LLM 기반 Text2SQL을 구성할 때 조합할 수 있다.
