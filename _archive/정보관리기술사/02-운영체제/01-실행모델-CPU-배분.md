@@ -46,6 +46,49 @@ CPU / Memory / Device
 
 Application은 보호된 Hardware 자원을 직접 제어하지 않고 System Call을 통해 Kernel 서비스를 요청한다.
 
+실행 단위와 Kernel 경계를 한 그림에 놓으면 다음처럼 볼 수 있다.
+
+```text
+                 User Space
+
+Program
+  ↓ 실행
+Process
+  ├─ Address Space / Resource
+  └─ Thread A · Thread B · ...
+           │
+           │ 실행 가능한 Thread들이 CPU를 경쟁
+           ▼
+──────────────────────────────────── OS 경계
+           │
+       Scheduler
+           │ CPU 배분
+           ▼
+          CPU
+           ▲
+           │ System Call / Interrupt
+           │
+         Kernel
+      ┌────┼─────┐
+      ▼    ▼     ▼
+   Memory File  Device
+
+                 Kernel Space
+```
+
+여기서 두 관계를 구분한다.
+
+```text
+Scheduling
+= 여러 실행 주체 중 누가 CPU에서 실행될지 결정
+
+System Call
+= 실행 중인 Application이 Kernel 기능을 요청하는 경계
+
+Kernel
+= CPU · Memory · I/O 같은 보호된 자원을 관리
+```
+
 Kernel 구조는 이 호출 경계와 자원관리 기능을 어떻게 배치하는가의 비교축이다.
 
 ```text
