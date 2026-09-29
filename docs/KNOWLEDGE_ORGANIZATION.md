@@ -295,52 +295,66 @@ YYYY-MM-DD-<subject>-<specific-topic>.md
 
 `basics`, `guide`, `tips` 같은 역할어는 보조적으로 사용할 수 있지만, 그것만으로 실제 주제를 대신하지 않는다.
 
-### Troubleshooting은 기술 영역과 같은 레벨의 공통 영역에 둔다
+### Reference는 핵심 개념과 분리된 실용 지식 영역으로 둔다
 
-실제 장애 해결 기록은 원래 기술 폴더의 학습 문서와 섞지 않고 `_posts/troubleshooting/`에 모은다.
+`_posts/`의 일반 영역은 Roadmap 포함 여부와 무관하게 **핵심 개념·주제 자체를 설명하는 문서 영역**으로 본다.
+
+반면 학습 흐름이나 핵심 개념 축에 직접 넣기 어렵지만, 개발 과정에서 다시 찾아볼 가치가 있는 실용 지식은 `_posts/reference/` 아래에 둔다.
 
 ```text
 _posts/
 ├─ java/
 ├─ gradle/
-├─ neovim/
-├─ linux/
-└─ troubleshooting/
-   ├─ gradle-<problem>.md
-   ├─ linux-<problem>.md
-   ├─ macos-<problem>.md
-   └─ neovim-<problem>.md
+├─ terminal/
+├─ program-execution/
+└─ reference/
+   ├─ troubleshooting/
+   ├─ code-quality/
+   ├─ open-source/
+   ├─ tools/
+   └─ blog/
 ```
 
-일반 기술 영역은 `_posts/<영역>/` 한 단계 깊이를 유지한다. 다만 여러 기술에서 문서를 수집하는 횡단 영역인 `troubleshooting/`과 `engineering/`만 예외적으로 **한 단계의 하위 분류를 추가**할 수 있다.
+`reference/`의 기준은 **Roadmap 포함 여부가 아니라 문서의 역할**이다.
 
 ```text
-troubleshooting/
-├─ neovim/
-├─ git/
-├─ db/
-└─ ...
+핵심 개념·원리·구조 자체를 이해한다
+→ _posts/<영역>/
 
-engineering/
+문제 해결, 실무 기법, 도구 사용, 운영 경험, 활동 기록처럼
+필요할 때 다시 찾아보는 성격이 강하다
+→ _posts/reference/<분류>/
+```
+
+따라서 Roadmap에 직접 들어가지 않더라도 중요한 핵심 개념이면 일반 영역에 남긴다. 반대로 특정 문제 해결 기록, 반복적으로 활용하는 실무 방법, 도구 중심 사용 기록처럼 독립적인 참고 가치가 있는 문서는 `reference/`로 분리한다.
+
+`reference/` 아래의 1단계 폴더는 자료의 성격을 구분하는 경계로 사용한다.
+
+- `troubleshooting/` — 증상·진단·원인·해결을 추적한 기록
+- `code-quality/` — 정적 분석, 리팩터링 후보, 품질 관리 관련 기록
+- `open-source/` — Contribution, PR, Adapter 개발 등 오픈소스 활동 기록
+- `tools/` — 독립 Roadmap까지 필요하지 않은 도구 중심 자료
+- `blog/` — Jekyll/Chirpy 등 블로그 자체의 운영·구성 관련 자료
+
+새 분류는 실제로 여러 문서를 묶는 재사용 가능한 성격이 생겼을 때만 추가한다. `misc/`, `etc/`처럼 기준이 불명확한 임시 분류는 만들지 않는다.
+
+`reference/` 아래도 기본적으로 **`reference/<분류>/문서` 깊이를 유지**한다. 분류 폴더 아래에 기술명·플랫폼명 등의 하위 폴더를 반복해서 만들지 않는다. 세부 기술 구분은 파일명과 category/tag가 담당한다.
+
+예:
+
+```text
+reference/
+├─ troubleshooting/
+│  ├─ 2026-07-03-oracle-ora-12514.md
+│  ├─ 2026-06-07-su-authentication-failure.md
+│  └─ 2026-05-08-treesitter-kotlin-query.md
 ├─ open-source/
+│  └─ 2026-08-31-harlequin-h2-adapter.md
 └─ code-quality/
+   └─ 2026-09-05-code-refactoring-candidates-static-analysis.md
 ```
 
-Troubleshooting은 **원래 기술 영역**으로, Engineering은 **개발 활동 유형**으로 나눈다. 이 예외 아래에서 다시 하위 폴더를 늘리지 않는다. 하위 폴더가 이미 문맥을 제공하므로 파일명에서 동일 prefix를 반복하지 않는다.
-
-분류 기준은 파일에 등장하는 기술명이 아니라 문서의 Primary Purpose다.
-
-```text
-정상 동작의 구조·개념·사용법을 이해한다
-→ 원래 기술 영역
-
-고장난 상태에서 증상·진단·원인·해결을 추적한다
-→ troubleshooting
-```
-
-따라서 `go-error-handling`처럼 언어의 오류 처리 모델을 설명하는 Concept는 Go 영역에 남고, 특정 `Model not found` 오류를 진단·복구한 기록은 Troubleshooting으로 이동한다.
-
-Troubleshooting 문서는 Roadmap의 기본 학습 순서에 넣지 않는다. 필요한 경우 Roadmap의 Troubleshooting/증상 섹션이나 관련 Concept·How-to에서 **문제 발생 시 진입하는 링크**로 연결한다.
+분류 기준은 파일에 등장하는 기술명이 아니라 **Primary Purpose**다. 같은 기술을 다루더라도 개념 설명은 일반 영역에, 실제 장애 해결 기록은 `reference/troubleshooting/`에 둘 수 있다.
 
 ### 물리 구조를 바꿀 때는 링크와 공개 URL을 별도로 본다
 
