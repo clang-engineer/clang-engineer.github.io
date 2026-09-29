@@ -270,6 +270,39 @@ YYYY-MM-DD-<subject>-<specific-topic>.md
 
 `basics`, `guide`, `tips` 같은 역할어는 보조적으로 사용할 수 있지만, 그것만으로 실제 주제를 대신하지 않는다.
 
+### Troubleshooting은 기술 영역과 같은 레벨의 공통 영역에 둔다
+
+실제 장애 해결 기록은 원래 기술 폴더의 학습 문서와 섞지 않고 `_posts/troubleshooting/`에 모은다.
+
+```text
+_posts/
+├─ java/
+├─ gradle/
+├─ neovim/
+├─ linux/
+└─ troubleshooting/
+   ├─ gradle-<problem>.md
+   ├─ linux-<problem>.md
+   ├─ macos-<problem>.md
+   └─ neovim-<problem>.md
+```
+
+Troubleshooting 내부에서는 하위 폴더를 다시 만들지 않고 **파일명 prefix가 원래 기술 영역을 보존**한다.
+
+분류 기준은 파일에 등장하는 기술명이 아니라 문서의 Primary Purpose다.
+
+```text
+정상 동작의 구조·개념·사용법을 이해한다
+→ 원래 기술 영역
+
+고장난 상태에서 증상·진단·원인·해결을 추적한다
+→ troubleshooting
+```
+
+따라서 `go-error-handling`처럼 언어의 오류 처리 모델을 설명하는 Concept는 Go 영역에 남고, 특정 `Model not found` 오류를 진단·복구한 기록은 Troubleshooting으로 이동한다.
+
+Troubleshooting 문서는 Roadmap의 기본 학습 순서에 넣지 않는다. 필요한 경우 Roadmap의 Troubleshooting/증상 섹션이나 관련 Concept·How-to에서 **문제 발생 시 진입하는 링크**로 연결한다.
+
 ### 물리 구조를 바꿀 때는 링크와 공개 URL을 별도로 본다
 
 폴더 이동은 Source의 물리 위치를 바꾸는 작업이다. 이동 전에 상대경로 Markdown link가 깨지는지 확인하고, 공개 permalink 호환이 필요한 경우 기존 `redirect_from` 정책을 유지한다.
