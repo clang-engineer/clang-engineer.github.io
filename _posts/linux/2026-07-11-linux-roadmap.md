@@ -62,7 +62,7 @@ hidden      : false
 | [특수 권한 비트: SUID, SGID, Sticky Bit](./2026-07-11-special-permission-bits-suid-sgid-sticky.md) | SUID·SGID·Sticky Bit의 역할과 보안 의미 |
 | [비밀번호 정책과 PAM: 만료·최소 길이·복잡도·잠금](./2026-07-11-password-policy-pam.md) | 비밀번호 정책과 PAM 인증 흐름의 기본 구조 |
 
-> 계정을 막 만들었는데 `su`가 거부된다면 → [passwd 직후 su 인증 점검 순서](./2026-06-07-rocky-linux-chage-su-authentication-failure.md). PAM 로그에서 시작해 잠금·만료·접근 정책·로그인 셸을 구분한다. (부록 B에도 실어 둠)
+> 계정을 막 만들었는데 `su`가 거부된다면 → [passwd 직후 su 인증 점검 순서](../troubleshooting/2026-06-07-linux-su-authentication-failure.md). PAM 로그에서 시작해 잠금·만료·접근 정책·로그인 셸을 구분한다. (부록 B에도 실어 둠)
 {: .prompt-tip }
 
 계정과 권한이 잡혔으면, 이제 그 위에서 내 애플리케이션을 "서비스"로 띄울 차례다.
@@ -116,7 +116,7 @@ hidden      : false
 | 글 | 핵심 |
 |---|---|
 | [폐쇄망 환경에서 서비스 운영을 위한 환경 구축](./2025-01-14-offline-runtime-enviroment.md) | 폐쇄망에서 Package·Runtime 의존성을 반입하고 설치하기 |
-| [passwd 직후 su 인증이 실패할 때 점검 순서](./2026-06-07-rocky-linux-chage-su-authentication-failure.md) | su 인증 실패를 PAM·잠금·만료·정책 순서로 좁히기 |
+| [passwd 직후 su 인증이 실패할 때 점검 순서](../troubleshooting/2026-06-07-linux-su-authentication-failure.md) | su 인증 실패를 PAM·잠금·만료·정책 순서로 좁히기 |
 
 ---
 
