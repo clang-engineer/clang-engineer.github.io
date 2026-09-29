@@ -81,7 +81,7 @@ LazyVim 기본은 **conform.nvim**(5.3k⭐, 포맷) + **nvim-lint**(2.8k⭐)다.
 
 ## C. AI 지형 — 인기와 정착이 가장 어긋나는 곳
 
-별과 실사용이 가장 벌어지는 영역이라 따로 뗐다. 블로그는 지금까지 [CopilotChat 에러](./2026-06-17-copilotchat-copilot-business-model-not-found.md) 정도만 다뤘다.
+별과 실사용이 가장 벌어지는 영역이라 따로 뗐다. 블로그는 지금까지 [CopilotChat 에러](../troubleshooting/2026-06-17-neovim-copilot-business-model.md) 정도만 다뤘다.
 
 | 도구 | 별 | 정착 | 평가 |
 |---|---|---|---|
