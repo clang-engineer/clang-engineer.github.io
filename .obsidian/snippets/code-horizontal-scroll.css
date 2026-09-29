@@ -1,0 +1,18 @@
+/* Keep code blocks unwrapped and horizontally scrollable in Obsidian. */
+
+/* Reading View */
+.markdown-rendered pre,
+.markdown-rendered pre code {
+  white-space: pre !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.markdown-rendered pre {
+  overflow-x: auto !important;
+}
+
+/* Live Preview */
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-codeblock {
+  white-space: pre !important;
+}
