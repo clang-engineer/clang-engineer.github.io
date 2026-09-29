@@ -25,7 +25,6 @@ hidden      : false
 | 3단계 | 서비스 — systemd로 앱을 띄우고 부팅에 걸기 | 줄기 |
 | 4단계 | 로그 — 수집(syslog)·감사(로그인 기록)·회전(logrotate) | 줄기 |
 | 부록 A | 네트워크 — 진단(ip·ss·DNS)·방화벽(firewalld·ufw) | 곁가지 |
-| 부록 B | 특수 상황·트러블슈팅 — 폐쇄망 배포·chage 트랩 | 곁가지 |
 
 ## 시작 — 리눅스 박스에 들어가기
 
@@ -61,15 +60,6 @@ hidden      : false
 | [su vs sudo, 그리고 wheel 그룹 — 권한 상승 제대로](./2026-07-11-sudo-su-wheel.md) | su·sudo·wheel과 권한 상승 경계 |
 | [특수 권한 비트: SUID, SGID, Sticky Bit](./2026-07-11-special-permission-bits-suid-sgid-sticky.md) | SUID·SGID·Sticky Bit의 역할과 보안 의미 |
 | [비밀번호 정책과 PAM: 만료·최소 길이·복잡도·잠금](./2026-07-11-password-policy-pam.md) | 비밀번호 정책과 PAM 인증 흐름의 기본 구조 |
-
-> 계정을 막 만들었는데 `su`가 거부된다면 → [passwd 직후 su 인증 점검 순서](../troubleshooting/2026-06-07-linux-su-authentication-failure.md). PAM 로그에서 시작해 잠금·만료·접근 정책·로그인 셸을 구분한다. (부록 B에도 실어 둠)
-{: .prompt-tip }
-
-계정과 권한이 잡혔으면, 이제 그 위에서 내 애플리케이션을 "서비스"로 띄울 차례다.
-
-## 3단계 — 서비스
-
-내 앱을 터미널에서 손으로 실행하는 걸 넘어, 부팅 시 자동으로 뜨고 죽으면 되살아나는 **서비스**로 만드는 단계. 리눅스에서 무언가를 상시 돌린다는 건 결국 systemd 유닛을 다루는 일이다.
 
 | 글 | 핵심 |
 |---|---|
@@ -109,14 +99,6 @@ hidden      : false
 | [리눅스 네트워크 기초: ip, ss로 갈아타기 + DNS 진단](./2026-07-11-network-basics-ip-ss.md) | IP·Port·Route·DNS를 기준으로 통신 문제를 진단하기 |
 | [리눅스 방화벽 기초: firewalld와 ufw, 그리고 nftables](./2026-07-11-firewalld-ufw-basics.md) | firewalld·ufw와 하위 Firewall 계층의 역할 구분 |
 
-## 부록 B — 특수 상황·트러블슈팅 (곁가지)
-
-평소엔 안 만나지만 특정 상황에서 직행하게 되는 글들.
-
-| 글 | 핵심 |
-|---|---|
-| [폐쇄망 환경에서 서비스 운영을 위한 환경 구축](./2025-01-14-offline-runtime-enviroment.md) | 폐쇄망에서 Package·Runtime 의존성을 반입하고 설치하기 |
-| [passwd 직후 su 인증이 실패할 때 점검 순서](../troubleshooting/2026-06-07-linux-su-authentication-failure.md) | su 인증 실패를 PAM·잠금·만료·정책 순서로 좁히기 |
 
 ---
 
