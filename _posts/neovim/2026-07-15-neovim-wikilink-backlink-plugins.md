@@ -97,5 +97,4 @@ daily notes·템플릿·frontmatter 관리 같은 machinery가 딸려오지만 �
 - 도구를 고를 땐 스타 수보다 **config 수·릴리스 최신성**으로 모멘텀을 본다. 원작자 방치 후 커뮤니티 포크가 활발하면 그게 정착의 증거다.
 - 백링크는 꼭 노트 전용 플러그인이 있어야 얻는 게 아니다 — **LSP의 참조 찾기로도** 된다. 가장 적게 늘리는 길이다.
 
-> LazyVim 기본 너머의 플러그인 지형은 [LazyVim 너머 인기 플러그인](./2026-07-12-popular-plugins-beyond-lazyvim.md)도 함께 참고.
 {: .prompt-info }
