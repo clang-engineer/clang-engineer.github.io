@@ -748,7 +748,52 @@ Visibility 판단
 Reader가 볼 Version 선택
 ```
 
-Isolation Level에 따라 Snapshot을 잡고 갱신하는 방식은 DBMS마다 다를 수 있다. 예를 들어 InnoDB의 consistent read는 `READ COMMITTED`에서 읽기마다 새 Snapshot을 만들고, `REPEATABLE READ`에서는 같은 Transaction의 consistent read들이 첫 읽기에서 잡은 Snapshot을 공유한다.
+Isolation Level에 따라 **MVCC 자체가 다른 기술로 바뀌는 것이 아니라, Snapshot과 Visibility를 운용하는 방식이 달라질 수 있다.**
+
+```text
+                 Isolation Level
+                 "무엇을 보장할까?"
+                        │
+              ┌─────────┴─────────┐
+              ▼                   ▼
+            Lock                 MVCC
+              │                   │
+      Lock 범위·유지시간      Snapshot·Visibility
+          등을 조절              등을 조절
+              │                   │
+              └─────────┬─────────┘
+                        ▼
+             원하는 격리 수준 구현
+```
+
+예를 들어 InnoDB의 consistent read에서는 다음처럼 볼 수 있다.
+
+```text
+READ COMMITTED
+Statement 1 → Snapshot A → v1
+                    │
+              다른 T가 v2 Commit
+                    │
+Statement 2 → Snapshot B → v2
+
+→ 읽기마다 새 Snapshot
+→ Non-repeatable Read 가능
+```
+
+```text
+REPEATABLE READ
+Transaction
+   ↓
+Snapshot A
+   ├─ SELECT 1 → v1
+   ├─ 다른 T가 v2 Commit
+   └─ SELECT 2 → v1
+
+→ 같은 Transaction의 consistent read가 Snapshot을 공유
+→ 같은 Data를 반복해서 읽을 때 같은 Version을 볼 수 있음
+```
+
+따라서 **MVCC를 사용한다는 사실만으로 Dirty / Non-repeatable / Phantom이 모두 사라지는 것은 아니다.** 어떤 Version을 보이게 할지는 Isolation Level과 DBMS의 Snapshot/Visibility 규칙에 달려 있다.
 
 ### MVCC도 Write 충돌을 없애는 것은 아니다
 
