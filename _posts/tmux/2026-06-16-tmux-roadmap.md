@@ -1,6 +1,6 @@
 ---
 title       : "tmux 로드맵 — 세션 관리의 핵심과 선택 확장"
-description : "tmux의 세션·윈도우·패널 구조에서 시작해 기본 설정, 플러그인 사용, 세션 워크플로까지 핵심 경로를 잡고, 플러그인 제작·AI 에이전트 관제·세션 피커·트러블슈팅은 독립 Branch로 분리한 학습 지도."
+description : "tmux의 세션·윈도우·패널 구조에서 시작해 기본 설정, 플러그인 사용, 세션 워크플로까지 핵심 경로를 잡고, 플러그인 제작·AI 에이전트 관제·세션 피커는 독립 Branch로 분리한 학습 지도."
 date        : 2026-06-16 15:00:00 +0900
 updated     : 2026-09-06 12:35:00 +0900
 categories  : [tmux, "개요·인덱스"]
@@ -28,9 +28,6 @@ tmux는 **Terminal Session을 오래 유지하고 여러 Shell 작업공간을 �
 ├─ AI Agent 관제
 ├─ 즉석 Session Picker
 └─ 완성형 배포판 채택
-
-[Troubleshooting]
-└─ Clipboard / attach / True Color / hook / pane 동작
 ```
 
 Terminal·PTY 자체의 원리는 [Terminal 로드맵](../terminal/2026-09-05-terminal-roadmap.md), Shell의 Job·Process 생존은 [셸 로드맵](../shell/2026-07-03-shell-roadmap.md)에서 다룬다.
@@ -46,7 +43,6 @@ Terminal·PTY 자체의 원리는 [Terminal 로드맵](../terminal/2026-09-05-te
 | Branch A | Plugin은 내부에서 어떻게 만들어지나 | 제작자용 |
 | Branch B | 여러 AI Agent 상태를 tmux에서 어떻게 관제하나 | 응용 |
 | Branch C | Directory·repo를 즉석 Session으로 어떻게 전환하나 | Tool |
-| Appendix | 특정 증상을 어떻게 해결하나 | Troubleshooting |
 
 ## 1. 구조 — session·window·pane부터
 
@@ -152,17 +148,6 @@ AI 도구 자체의 사용 흐름은 [AI 로드맵](../ai/2026-07-03-ai-roadmap.
 
 `sesh`는 smug와 경쟁하는 “다음 버전”이 아니다. **Layout 재현 ↔ 목적지 선택**이라는 다른 축이다.
 
-## Appendix — Troubleshooting
-
-다음 글은 학습 순서가 아니라 같은 증상을 만났을 때 바로 들어간다.
-
-| 문제 | 글 |
-|---|---|
-| System Clipboard·OSC52·pbcopy·한글 | [tmux 시스템 클립보드](./2026-06-10-tmux-clipboard-osc52-pbcopy-hangul.md) |
-| Terminal을 열 때마다 새 Session 생성 | [auto attach 함정](./2026-07-03-tmux-auto-attach-new-session-every-time.md) |
-| `repeat` key binding이 pane 이동을 삼킴 | [repeat flag 문제](./2026-07-14-tmux-repeat-flag-swallows-pane-nav.md) |
-| True Color 감지·`TERM` 경계 | [True Color 감지](./2026-07-14-tmux-truecolor-detection.md) |
-| Hook·Window ID·kill-pane 동작 | [Hook과 Window ID](./2026-07-11-tmux-hook-window-id-and-kill-pane.md) |
 
 ## 다른 Roadmap과의 경계
 
