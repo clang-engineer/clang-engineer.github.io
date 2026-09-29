@@ -46,4 +46,4 @@ rm kls_database.db kls_database.db.lock 2>/dev/null
 
 ## 참고
 
-- 트래킹 메모: 같은 함정으로 #600 documentHighlight 크래시(`textDocument/documentHighlight: -32603 Internal error`)와 헷갈리기 쉬움 — 크래시 알림은 자주 안 뜨지만, "인식 안 됨" 증상은 거의 항상 classpath/캐시 문제. 그 크래시 자체를 막으려면 [특정 LSP capability 한 줄로 끄기](./2026-06-16-lazyvim-disable-lsp-server-capability.md) 참고.
+- 트래킹 메모: 같은 함정으로 #600 documentHighlight 크래시(`textDocument/documentHighlight: -32603 Internal error`)와 헷갈리기 쉬움 — 크래시 알림은 자주 안 뜨지만, "인식 안 됨" 증상은 거의 항상 classpath/캐시 문제. 그 크래시 자체를 막으려면 [특정 LSP capability 한 줄로 끄기](../neovim/2026-06-16-lazyvim-disable-lsp-server-capability.md) 참고.
