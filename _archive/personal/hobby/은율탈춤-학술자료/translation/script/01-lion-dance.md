@@ -1,5 +1,8 @@
 # Scene 1: Saja-chum (사자춤) — Lion Dance
 
+**Source:** [8] 은율탈춤의 연희본 — Scene 1.
+> Page ranges will be added only after they are verified against the PDF pagination; no page numbers are inferred here.
+
 ## Characters
 
 - **Saja (사자)** — a large white lion operated by three performers
