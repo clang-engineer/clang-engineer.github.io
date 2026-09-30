@@ -1,5 +1,8 @@
 # Gilnori (길놀이) — Opening Procession
 
+**Source:** [8] 은율탈춤의 연희본 — Opening procession preceding Scene 1.
+> Page ranges will be added only after they are verified against the PDF pagination; no page numbers are inferred here.
+
 ## Participants
 
 In procession order:
