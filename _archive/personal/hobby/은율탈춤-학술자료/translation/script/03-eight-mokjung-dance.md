@@ -19,11 +19,11 @@ The Mokjung wear **deogeori (더거리)**, with blue and red upper-leg ties, yel
 
 **JAEBI:** Oi.
 
-**FIRST MOKJUNG:** I live where broad fields spread out and farmland is plentiful. I set off to see the world. Here comes the *bullim*.
+**FIRST MOKJUNG:** I come from a place of broad fields and rich farmland. I set out to see the world. Now for the *bullim*.
 
 *Still seated, he continues in a singing tone.*
 
-I saw Gyeongpodae in Gangneung, Naksansa in Yangyang, Mangyangjeong in Uljin, Jukseoru in Samcheok, Samilpo in Goseong, Chongseokjeong in Tongcheon, Wolsongjeong in Pyeonghae, and Cheongganjeong in Ganseong. After seeing all the famed sights, I reached Pyeongyang and found Yeongwangjeong magnificent.
+I saw Gyeongpodae in Gangneung, Naksansa in Yangyang, Mangyangjeong in Uljin, Jukseoru in Samcheok, Samilpo in Goseong, Chongseokjeong in Tongcheon, Wolsongjeong in Pyeonghae, and Cheongganjeong in Ganseong. Having taken in those celebrated sights, I reached Pyeongyang, where Yeongwangjeong stood magnificent.
 
 The waters flowing from Deokcheon, Yangdeok, Maengsan, Samsu, and Gapsan wind their way around the blue-green cliffs by Bubyeongnu and become the Daedong River. Moranbong rises where the three mountains fall away, and Neungnado lies where the two waters divide.
 
@@ -31,7 +31,7 @@ I climbed Bubyeongnu, Yeongmyeongsa, and Eulmildae, visited the shrine of Gija, 
 
 Leaving there, I passed Chilsongmun, stopped at Mansudae, and reached Botongmun. At Songbaekjeong, the sorrow of parting from one's beloved seemed to linger. Looking again toward the Daedong River, fishermen cast their lines into the water, while young women washed clothes along the bank. One maiden was especially splendid: her washing club rose and fell over her shoulder, and her beauty recalled the celebrated beauties Janggang and Xi Shi, with the figure of Lady Suk.
 
-Looking and looking, my heart grew restless. I could stay no longer. I left it all behind, turned my steps toward Hwanghae Province, saw Yongyeon Falls at Guwolsan in Eunyul, and came down to Masup. Hearing the music ringing out, I thought: I too shall enjoy myself before I go.
+The longer I looked, the more restless my heart became. I could stay no longer. I left it all behind, turned my steps toward Hwanghae Province, saw Yongyeon Falls at Guwolsan in Eunyul, and came down to Masup. Hearing the music ringing out, I thought: I too shall enjoy myself before I go.
 
 **BULLIM:** *“Blue pine and green bamboo—the integrity of the gentleman!”*
 
@@ -53,7 +53,7 @@ Looking and looking, my heart grew restless. I could stay no longer. I left it a
 
 **JAEBI:** Oi.
 
-**SECOND MOKJUNG:** Do all that lies within human power, and only then await Heaven's decree; honor the ancestral rites, and only then receive your guests. I have come here after circling Gaegol in the east, Guwolsan in the west, Jirisan in the south, and Hyangsan in the north, and then making my way through Gyeonggi Province. Fine performers are dancing here. Does a wild goose that has seen water fear the fisherman? Does a butterfly that has seen flowers fear a person? Does a bee that has tasted honey fear a beast? Play well and you are a *hallyang*; play poorly and you are only a passing guest. I too shall offer a *bullim*.
+**SECOND MOKJUNG:** Do all that lies within human power, and only then await Heaven's decree; honor the ancestral rites, and only then receive your guests. I have come here after circling Gaegol in the east, Guwolsan in the west, Jirisan in the south, and Hyangsan in the north, and then making my way through Gyeonggi Province. Fine performers are dancing here. Does a wild goose that has seen water fear the fisherman? Does a butterfly that has seen flowers fear a person? Does a bee that has tasted honey fear a beast? Play well and you are a *hallyang*; play poorly and you are only a passing guest. I too shall give a *bullim*.
 
 **BULLIM:** *“Under the clear blue sky and bright sun, purple clouds arise.”*
 
