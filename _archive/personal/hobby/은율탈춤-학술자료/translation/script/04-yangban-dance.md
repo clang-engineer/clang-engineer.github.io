@@ -24,7 +24,7 @@
 
 ## Malttugi's Travel Speech
 
-**MALTTUGI:** Era, swi—! I am Malttugi, the famous Malttugi of old, from long, long ago. I set out to see the Eight Provinces.
+**MALTTUGI:** Era, swi—! I'm Malttugi—the Malttugi you've heard of since way back when! I set out to see the Eight Provinces.
 
 **MALTTUGI:** I went to see Taebaeksan in Gyeongsang Province and looked around the Nakdong River at Sangju. The Songpa River is famous—was it there, they say, that beautiful women and talented young men were born? At Jirisan in Jeolla Province, they say, appeared the **Haedong Yongma**, the “Dragon Horse of the Eastern Land,” a figure of extraordinary ability.
 
@@ -40,7 +40,7 @@ Leaving there, I went around Jangsu-san in Jaeryeong and reached Suyangsan in Ha
 
 I passed Bakseoksan at the three-way junction of Jangyeon and Songhwa, stopped at Wonilsan in Sincheon, and reached Guwolsan in Munhwa. I climbed to its summit, sat down, and looked in all four directions. Seoul's Namdaemun seemed to flicker before my eyes. Satgatbong stood beside me; Chodaebong was the Blue Dragon to the left, Jugaebong the White Tiger to the right. Meoksan in Eunyul and Wondusan in Pungcheon faced me across the land.
 
-I climbed Guwangsan, saw Guwang Cave, and came here. Seeing these bright-faced performers at play, I too shall enjoy a round before I go.
+I climbed Guwangsan, saw Guwang Cave, and came here. And here I find all these fine performers at play. I might as well have a round of fun myself before I go!
 
 **BULLIM:** *“Kwaengchang, kwaengchang, kwae-gwaengchang—!”*
 
@@ -72,9 +72,9 @@ I climbed Guwangsan, saw Guwang Cave, and came here. Seeing these bright-faced p
 
 *He bounds in and lashes the First Yangban across the face with his whip.*
 
-**FIRST YANGBAN:** *Recoiling, then stepping forward angrily.* You wretch! When a Yangban calls, you should bow politely and answer, “Did you call this humble servant?” What kind of manners are these?
+**FIRST YANGBAN:** *Recoiling, then stepping forward angrily.* You wretch! When a Yangban calls, you should bow politely and answer, “Did you call this humble servant?” What kind of answer is that?
 
-**MALTTUGI:** *As though nothing happened, he rests the whip on his shoulder and strolls from side to side, then turns toward the First Yangban.* Yes, forgive me. It has been so long since I saw you that I was overcome with joy and confusion—and before I knew it, I had struck you over the head with this whip.
+**MALTTUGI:** *As though nothing happened, he rests the whip on his shoulder and strolls from side to side, then turns toward the First Yangban.* Forgive me, my lord. It's been so long since I saw you that I was beside myself with joy—and before I knew it, I'd cracked you over the head with my whip.
 
 *He exits.*
 
@@ -92,7 +92,7 @@ I climbed Guwangsan, saw Guwang Cave, and came here. Seeing these bright-faced p
 
 **FIRST YANGBAN:** What in the world happened?
 
-**MALTTUGI:** *Laughing loudly.* Ha ha ha! I could never live as a Yangban. If you saw a real *daenggo*, you would surely faint!
+**MALTTUGI:** *Laughing loudly.* Ha ha ha! Ha! I could never be a Yangban. If you saw a real *daenggo*, you would surely faint!
 
 *He exits.*
 
