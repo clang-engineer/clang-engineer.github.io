@@ -15,7 +15,7 @@ No-seung wears a **songnak**, a **108-bead rosary (baekpal yeomju)**, a **moktak
 
 ## Performance Script
 
-*No-seung has spent his life in a temple studying Buddhist teachings and preparing for the life to come. Wanting to see the world, he leaves the temple. After drinking chrysanthemum wine to intoxication, he descends from the mountains, wanders through the secular world, and, on his way toward Cheongnyongsa at Gwangdeoksan, staggers into the performance ground and collapses.*
+*No-seung has spent his life in a temple studying Buddhist teachings and preparing for the life to come. At last, wishing to see the world beyond the temple, he sets out. After drinking chrysanthemum wine to intoxication, he descends from the mountains, wanders through the secular world, and, on his way toward Cheongnyongsa at Gwangdeoksan, staggers into the performance ground and collapses.*
 
 *Entering to Jungjungmori jangdan, he sings **Jung Taryeong (중타령)**.*
 
@@ -23,7 +23,7 @@ No-seung wears a **songnak**, a **108-bead rosary (baekpal yeomju)**, a **moktak
 
 *Drunk, he staggers and collapses near the center. Suddenly the sound of* samhyun-yukgak *instrumental music rings out. He comes to his senses and dances to Yeongsan Dodeuri jangdan. Still prone, he raises his head and looks to both sides. Gradually recovering his strength, he dances while surveying the world around him, then sighs deeply.*
 
-**NO-SEUNG:** When shall I ever reach Cheongnyongsa at Gwangdeoksan by the Western Sea?
+**NO-SEUNG:** When will I ever reach Cheongnyongsa on Gwangdeoksan, by the Western Sea?
 
 *He sits, strikes the moktak, and recites passages from the* **Cheonsugyeong (천수경, Thousand Hands Sutra)**.
 
@@ -39,7 +39,7 @@ No-seung wears a **songnak**, a **108-bead rosary (baekpal yeomju)**, a **moktak
 
 *While No-seung is reciting, Malttugi and Choegwari enter and mock him.*
 
-**MALTTUGI:** Swi—! Hey, hey! Look at that monk. He's no ordinary fellow. Let's bring our Saemaeksi out and have some fun with him.
+**MALTTUGI:** Swi—! Hey, hey! Look at that monk. He's no ordinary monk. Let's bring out Saemaeksi and have a little fun with him.
 
 **CHOEGWARI:** That's a fine idea.
 
@@ -127,7 +127,7 @@ even a monk is helpless before Saemaeksi!
 
 *He runs around the ground and exits. Choegwari, furious, steps into the center.*
 
-**CHOEGWARI:** Era, swi—! That monk from the back temple is tough indeed! He ate bracken and fern shoots, bellflower root and deodeok, and drank the water from rotting wild ginseng on Guwolsan—no wonder he's tough! Hey, monk! This time let's go to Jeongbang Fortress in Hwangju!
+**CHOEGWARI:** Era, swi—! That back-temple monk is a tough one! He ate bracken and fern shoots, bellflower root and deodeok, and drank the water from rotting wild ginseng on Guwolsan—no wonder he's tough! Hey, monk! This time let's go to Jeongbang Fortress in Hwangju!
 
 **BULLIM:** *“Under the clear blue sky and bright sun, purple clouds arise.”*
 
@@ -153,7 +153,7 @@ even a monk is helpless before Saemaeksi!
 
 *Saemaeksi now dances with every manner of coquettish gesture. Choegwari laughs in satisfaction.*
 
-**CHOEGWARI:** Swi—! That's more like it. You can't resist forever—not when it's Choegwari! Well then, you're my wife now. Let's have ourselves a proper dance.
+**CHOEGWARI:** Swi—! That's more like it. You can't hold out forever—not against Choegwari! Well then, you're my wife now. Let's have ourselves a proper dance.
 
 **BULLIM:** *“Kwaengchang, kwaengchang, kwae-gwaengchang—!”*
 
