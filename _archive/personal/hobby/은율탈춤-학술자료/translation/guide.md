@@ -4,6 +4,27 @@ This guide is intended for readers who are unfamiliar with Korean mask dance dra
 
 Korean terms that do not have an exact English equivalent are generally retained in romanized form. A short English description is provided to help readers understand the term without replacing its Korean cultural meaning.
 
+## Quick Reference
+
+| Term | Korean | Short meaning | Category |
+|---|---|---|---|
+| Eunyul Talchum | 은율탈춤 | Mask dance drama of Eunyul | Performance |
+| Sangjwa | 상좌 | Young Buddhist acolyte | Character |
+| Mokjung | 목중 | Monk character | Character |
+| Yangban | 양반 | Member of the traditional elite | Character / social role |
+| Malttugi | 말뚝이 | Servant and comic challenger | Character |
+| No-seung | 노승 | Old Buddhist monk | Character |
+| Mudang | 무당 | Korean shaman | Character / ritual |
+| Hansam | 한삼 | Long sleeve extensions | Costume |
+| Gokkal | 고깔 | Conical ceremonial hat | Costume |
+| Jangdan | 장단 | Rhythmic cycle / framework | Music |
+| Bullim | 불림 | Performer's call to musicians | Performance / music |
+| Chumsawi | 춤사위 | Dance movement or phrase | Dance |
+| Byeoksa | 벽사 | Ritual expulsion of harmful influences | Ritual |
+| Gut | 굿 | Korean shamanic ritual | Ritual |
+| Gongsu | 공수 | Spirit message delivered through a mudang | Ritual |
+| Gilnori | 길놀이 | Opening procession | Performance |
+
 ## 1. About Eunyul Talchum
 
 **Eunyul Talchum (은율탈춤)** is a Korean mask dance drama associated with Eunyul in Hwanghae Province. Its performance combines masked characters, dance, dialogue, song, instrumental music, satire, and ritual elements.
@@ -25,53 +46,79 @@ The English descriptions below are explanatory glosses, not replacements for the
 
 ### Sangjwa (상좌) — Young Buddhist Acolyte
 
+**Appears in:** Scene 2 — Heotmok (Sangjwa) Dance
+
 A youthful Buddhist figure appearing in the second scene, also called **Heotmok (헛목)** in Eunyul Talchum. The character wears white clothing and performs a largely dance-centered scene.
 
 ### Mokjung (목중) — Monk Character
+
+**Appears in:** Scene 3 — Eight Mokjung Dance
 
 One of eight masked monk characters appearing in the third scene. The Eight Mokjung scene combines individual entrances, dance, calls to the musicians, and comic dialogue. The term is retained as *Mokjung* rather than reduced simply to “monk,” since it denotes a specific stock character of Korean mask dance drama.
 
 ### Yangban (양반) — Member of the Traditional Elite
 
+**Appears in:** Scene 4 — Yangban Dance
+
 A character representing the *yangban*, the elite social class of premodern Korea. Eunyul Talchum features three Yangban brothers. Their scene forms part of the mask drama’s satire of social hierarchy.
 
 ### Malttugi (말뚝이) — Servant Character
+
+**Appears in:** Scenes 4–5
 
 A servant associated with the Yangban scene. Although outwardly serving the Yangban, Malttugi uses comic speech and verbal maneuvering to mock and undermine their authority.
 
 ### No-seung (노승) — Old Buddhist Monk
 
+**Appears in:** Scene 5 — No-seung Dance
+
 An old Buddhist monk character appearing in the fifth scene. His costume and props visibly identify him with Buddhist monastic life, while the drama places him within a comic and worldly situation.
 
 ### Saemaeksi (새맥시) — Young Woman Character
+
+**Appears in:** Scenes 4–5
 
 A young female character who appears in the performance, notably in connection with the No-seung scene. The Korean character name is retained because a simple translation such as “young woman” does not fully represent her role as a named mask-drama type.
 
 ### Choegwari (최괄이)
 
+**Appears in:** Scenes 4–6
+
 A distinctive male character of Eunyul Talchum. The name is retained in romanization. His mask is especially striking, with multiple protruding lumps, and he appears in the later comic action of the performance.
 
 ### Yeonggam (영감) — Elderly Husband
+
+**Appears in:** Scene 6 — Miyal Halmi and Yeonggam Dance
 
 An older male character in the final scene and the husband of Halmi. Here *Yeonggam* is a character designation rather than a generic English “old man,” so the Korean term is retained.
 
 ### Halmi / Miyal Halmi (할미 / 미얄할미) — Old Woman
 
+**Appears in:** Scene 6 — Miyal Halmi and Yeonggam Dance
+
 The elderly wife of Yeonggam in the final scene. Conflict between the elderly couple and a younger woman develops into the final dramatic action. The character is also associated with the ritual conclusion of the performance.
 
 ### Mudang (무당) — Korean Shaman
+
+**Appears in:** Scene 6 — Miyal Halmi and Yeonggam Dance
 
 A ritual specialist in Korean shamanic tradition. A *mudang* appears in the final part of Eunyul Talchum, where ritual performance follows the dramatic action. The term is retained because “shaman” alone does not convey its specifically Korean cultural context.
 
 ### Saja (사자) — Lion
 
+**Appears in:** Scene 1 — Lion Dance
+
 The lion of the opening scene is a large white performance figure operated by three performers. Unlike lion scenes in some other Korean mask dramas, the Eunyul lion appears at the beginning of the performance and functions as a ritual purifier of the performance ground.
 
 ### Mabu (마부) — Handler / Groom
 
+**Appears in:** Gilnori / opening performance context
+
 A character associated with the lion in the opening procession and performance context. The exact English rendering may vary with the dramatic context; *Mabu* is therefore retained when used as a character designation.
 
 ### Jaebi (잽이) — Musician
+
+**Appears throughout:** musical accompaniment and performer–musician exchanges
 
 A musician who accompanies the mask dance. The *jaebi* are not merely background accompanists: performers may directly call to or exchange words with them as part of the performance.
 
