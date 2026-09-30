@@ -32,7 +32,7 @@ The script is not intended as an abridged adaptation. Songs, geographic catalogu
 
 The complete performance structure is represented from **Gilnori through Scene 6**, and every scene now includes a verified source-page range from the Korean performance text.
 
-The translation has undergone terminology review and source-alignment passes, but it should still be treated as a **scholarly working translation rather than a critical edition**. Difficult dialectal, archaic, ritual, literary, and orally transmitted expressions are preserved or annotated where a single English equivalent cannot be established securely.
+The translation has undergone source-alignment, terminology, English-register, and cross-document consistency passes. It is suitable as a **scholarly reading translation**, while not claiming the status of a philological critical edition. Difficult dialectal, archaic, ritual, literary, and orally transmitted expressions are preserved or annotated where a single English equivalent cannot be established securely.
 
 ### Verified source ranges
 
@@ -44,7 +44,7 @@ The translation has undergone terminology review and source-alignment passes, bu
 - **05 No-seung Dance** — pp. 156–165
 - **06 Miyal Halmi and Yeonggam Dance** — pp. 166–176
 
-Further revision should improve individual translation choices and annotations without changing the established document structure.
+The document structure and core terminology are now stable. Future revision should focus on newly discovered textual evidence, specialist review of difficult ritual or dialectal passages, and individual translation choices rather than structural reworking.
 
 ## Romanization and Uncertainty
 
