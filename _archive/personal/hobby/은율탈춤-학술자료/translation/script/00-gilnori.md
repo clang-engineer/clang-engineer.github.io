@@ -8,7 +8,7 @@ In procession order:
 
 - **Heotmok (Sangjwa)** — young Buddhist acolyte
 - **Saja** — lion
-- **Mabu** — lion handler / groom
+- **Mabu** — lion handler
 - **Jaebi** — musicians
 - **Eight Mokjung** — eight monk characters
 - **Three Yangban Brothers** — members of the traditional elite
@@ -23,7 +23,7 @@ In procession order:
 
 ## Performance
 
-*All of the masked performers gather at Masup, where they prepare their costumes and masks. The procession then sets out in the order listed above. It makes a circuit through the town of Eunyul, passes through the upper marketplace performance ground, and enters the lower marketplace performance ground, where the mask-dance performance begins.*
+*The masked performers gather at Masup to put on their costumes and masks. The procession then sets out in the order listed above. The procession circles Eunyul, passes through the upper-market performance ground, and enters the lower-market performance ground, where the mask dance begins.*
 
 > **Cultural note:** Before the performance, all members of the troupe participate in a **gosa (고사)**, a ritual offering addressed to **Cheonji Sinmyeong (천지신명)**, the divine or spiritual powers of heaven and earth.
 
