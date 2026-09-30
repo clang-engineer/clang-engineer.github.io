@@ -30,17 +30,21 @@ The script is not intended as an abridged adaptation. Songs, geographic catalogu
 
 ## Translation Status
 
-The files are currently a **working scholarly translation**.
+The complete performance structure is represented from **Gilnori through Scene 6**, and every scene now includes a verified source-page range from the Korean performance text.
 
-- **00 Gilnori** — draft / review required
-- **01 Lion Dance** — draft / review required
-- **02 Heotmok (Sangjwa) Dance** — draft / review required
-- **03 Eight Mokjung Dance** — source-alignment in progress
-- **04 Yangban Dance** — source-alignment in progress
-- **05 No-seung Dance** — source-alignment in progress
-- **06 Miyal Halmi and Yeonggam Dance** — source-alignment in progress
+The translation has undergone terminology review and source-alignment passes, but it should still be treated as a **scholarly working translation rather than a critical edition**. Difficult dialectal, archaic, ritual, literary, and orally transmitted expressions are preserved or annotated where a single English equivalent cannot be established securely.
 
-A scene is not final until it has been checked line by line against the Korean performance text and culturally significant terminology has been reviewed against the supporting materials.
+### Verified source ranges
+
+- **00 Gilnori** — pp. 135–136
+- **01 Lion Dance** — p. 137
+- **02 Heotmok (Sangjwa) Dance** — pp. 137–138
+- **03 Eight Mokjung Dance** — pp. 139–145
+- **04 Yangban Dance** — pp. 146–155
+- **05 No-seung Dance** — pp. 156–165
+- **06 Miyal Halmi and Yeonggam Dance** — pp. 166–176
+
+Further revision should improve individual translation choices and annotations without changing the established document structure.
 
 ## Romanization and Uncertainty
 
