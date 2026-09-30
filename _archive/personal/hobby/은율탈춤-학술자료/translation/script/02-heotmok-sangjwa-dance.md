@@ -4,7 +4,7 @@
 
 ## Character
 
-- **Heotmok (Sangjwa) (헛목/상좌)** — a young Buddhist acolyte character whose scene is centered on dance rather than dialogue
+- **Heotmok (Sangjwa) (헛목/상좌)** — young Buddhist acolyte; this scene is centered on dance rather than dialogue
 
 ## Costume
 
@@ -15,7 +15,7 @@ Heotmok wears:
 - a floral **gasa (가사)** draped over both shoulders;
 - white trousers.
 
-These Buddhist-associated costume elements visually establish the character before the dance begins.
+These Buddhist-associated garments establish the character visually before the dance begins.
 
 ## Music
 
@@ -31,7 +31,7 @@ The Korean rhythmic names are retained rather than replaced with approximate Wes
 
 *Heotmok enters wearing a white* jangsam *and white* gokkal, *with a floral* gasa *draped over both shoulders and white trousers.*
 
-*Upon entering, Heotmok performs* **baerye (배례)** *toward the four directions. The dance then begins.*
+*Upon entering, Heotmok makes* **baerye (배례)** *—formal bows—toward the four directions. The dance then begins.*
 
 *He dances in sequence to* Yeombul, Neut Taryeong, *and* Jajin Taryeong *before exiting the performance ground.*
 
@@ -39,7 +39,7 @@ The Korean rhythmic names are retained rather than replaced with approximate Wes
 
 ### Baerye (배례) — Formal Bows
 
-**Baerye** literally refers to making formal bows or paying respects. Here, Heotmok bows toward the four directions before beginning the dance. Because the action occurs within a Buddhist-associated masked role and at the opening of the scene, the Korean term is retained while its physical action is stated explicitly.
+**Baerye** refers to formal bowing or paying respects. Here, Heotmok bows toward the four directions before beginning the dance. Because the action occurs within a Buddhist-associated masked role and at the opening of the scene, the Korean term is retained while its physical action is stated explicitly.
 
 ### Heotmok and Sangjwa
 
@@ -47,4 +47,4 @@ The source titles the scene **Heotmok (Sangjwa) Dance**, indicating that *Heotmo
 
 ### A Dance-Centered Scene
 
-Unlike later scenes containing extended comic dialogue and verbal exchanges, this scene is described through costume, bows, rhythmic progression, and dance. The translation therefore preserves its concise, action-centered form instead of expanding it into narrative prose.
+Unlike later scenes containing extended comic dialogue and verbal exchanges, this scene is described through costume, bows, rhythmic progression, and dance. The translation therefore keeps the scene concise and action-centered rather than expanding it into narrative prose.
