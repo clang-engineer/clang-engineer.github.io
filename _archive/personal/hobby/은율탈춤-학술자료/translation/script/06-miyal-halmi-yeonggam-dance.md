@@ -15,13 +15,13 @@
 
 *Yeonggam enters in white trousers and jacket with a white* durumagi, *a* manggeon *and* gat *on his head, a mountain-shaped bundle on his back, a short tobacco pipe in his left hand, and a fan resting on his right shoulder. He dances into the center to Neut Taryeong jangdan.*
 
-**YEONGGAM:** Era, swii—! I lived in Jeju, not far from the rock at Hallasan from which Go, Bu, and Yang—the Three Surnames—emerged. But life confined to an island became stifling, so I set out to see the Eight Provinces.
+**YEONGGAM:** Era, swii—! I lived in Jeju, not far from the rock at Hallasan from which Go, Bu, and Yang—the Three Surnames—emerged. But island life grew stifling, so I set out to see the Eight Provinces.
 
 **YEONGGAM:** I saw Taebaeksan and the Namgang River in Gyeongsang Province; Jirisan and the Nakdong River in Jeolla Province; Gyeryongsan and the Dongjin River in Chungcheong Province; Samgaksan and the Imjin River in Gyeonggi Province; the twelve thousand peaks of Geumgangsan, its eighty thousand and nine hermitages, and Yujeomsa in Gangwon Province; Durisan and the Tumen River in Hamgyeong Province; Jamosan and the Daedong River in Pyeongan Province; and Guwolsan and Samhyeongje Falls in Hwanghae Province.
 
 Then I came down to Bonguisan in Eunyul, saw the dolmen there, and arrived here—what a splendid sound of music fills the air!
 
-**YEONGGAM:** The music is ringing out here! In my younger days I too loved music and merriment. I should dance a round before I go. The leaves may have died—but surely the stalk is not dead as well!
+**YEONGGAM:** Listen to that music! In my younger days I loved music and merrymaking myself. I ought to dance a round before I go. The leaves may have died—but surely the stalk is not dead as well!
 
 **BULLIM:** *“White-haired and idle among the cold mountains, yet the heart does not grow old.”*
 
@@ -94,7 +94,7 @@ aigo, how truly glad I am!
 
 **MALTTUGI:** Come on, Halmi. Tell us.
 
-**HALMI:** Ah—our Yeonggam... *hesitating* th-that... that thing. Below his navel there's a mole the size of a bean, and right in the middle of it grows exactly one white hair.
+**HALMI:** Ah—our Yeonggam... *hesitating* th-that... you know... that thing. Below his navel there's a mole the size of a bean, and right in the middle of it grows exactly one white hair.
 
 **CHOEGWARI & MALTTUGI:** *Rushing toward Yeonggam.* Yeonggam, let's have a look!
 
@@ -120,7 +120,7 @@ aigo, how truly glad I am!
 
 *To Ttungttanjijip.*
 
-Dear wife, my first wife is dead. Even death leaves no room for enmity. Poor Halmi—bring a *mudang* and have a *gut* performed so that she may go to a good place in the Pure Land.
+Dear wife, my first wife is dead. Even death leaves no room for enmity. Poor Halmi. Bring a *mudang* and have a *gut* performed, so she may be sent onward to a good place in the Pure Land.
 
 *Ttungttanjijip exits and returns carrying a ritual table. Malttugi and Choegwari carry Halmi's body out. Mudang enters behind Ttungttanjijip, performs bows to the four directions, and faces front.*
 
@@ -173,7 +173,7 @@ Where mountains are high, carry her over them; where waters are deep, ferry her 
 
 *Toward Ttungttanjijip.*
 
-Heuk-heuk—Aigo, how bitter! Yeonggam, I will go on ahead. When we meet again in the other world, we shall talk of the steep ridges of great mountains, of the old tale of *Sukhyangjeon*, and of the stories from the *Romance of the Three Kingdoms*. Heuk-heuk—Yeonggam, this white cloth opens the road for me, and I shall go to a good place.
+Heuk-heuk—Aigo, how bitter my heart is! Yeonggam, I will go on ahead. When we meet again in the other world, we shall talk of the steep ridges of great mountains, of the old tale of *Sukhyangjeon*, and of the stories from the *Romance of the Three Kingdoms*. Heuk-heuk—Yeonggam, this white cloth opens the road for me, and I shall go to a good place.
 
 *The Mudang dances with the white cloth and strikes Ttungttanjijip with it. She brings Ttungttanjijip before the ritual table and has her bow, then gives her words of blessing for a good life.*
 
