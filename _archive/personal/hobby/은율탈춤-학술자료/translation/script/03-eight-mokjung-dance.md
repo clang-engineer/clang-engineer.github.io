@@ -1,5 +1,8 @@
 # Scene 3: Eight Mokjung Dance — 팔목중춤
 
+**Source:** [8] 은율탈춤의 연희본 — Scene 3.
+> Page ranges will be added only after they are verified against the PDF pagination; no page numbers are inferred here.
+
 ## Characters
 
 - **First through Eighth Mokjung (목중)** — eight masked monk characters
