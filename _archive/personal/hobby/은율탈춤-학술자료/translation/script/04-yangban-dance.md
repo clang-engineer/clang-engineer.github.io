@@ -1,5 +1,8 @@
 # Scene 4: Yangban Dance — 양반춤
 
+**Source:** [8] 은율탈춤의 연희본 — Scene 4.
+> Page ranges will be added only after they are verified against the PDF pagination; no page numbers are inferred here.
+
 ## Characters
 
 - **Malttugi (말뚝이)** — servant and comic challenger of the Yangban
