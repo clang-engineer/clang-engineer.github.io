@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-labelledby="title">
+<title id="title">샘플 3 — 키보드에 기대어 졸고 있는 고양이</title>
+<defs><pattern id="keys" width="13" height="13" patternUnits="userSpaceOnUse"><rect x="1" y="1" width="11" height="11" rx="2" fill="#faf8f1" stroke="#bdbbb1" stroke-width=".7"/></pattern><clipPath id="circle"><circle cx="120" cy="120" r="120"/></clipPath></defs>
+<g clip-path="url(#circle)" stroke-linecap="round" stroke-linejoin="round">
+<path fill="#ece6ee" d="M0 0h240v240H0z"/>
+<ellipse cx="125" cy="188" rx="96" ry="18" fill="#d8cfdb"/>
+<!-- Low, tucked body seen diagonally from behind. -->
+<path d="M35 157q-4-39 30-48 32-8 49 27l19 42q-22 28-65 22-28-3-33-21Z" fill="#343d43" stroke="#293238" stroke-width="3.5"/>
+<path d="M66 186q-35 15-40-7-5-20 12-23" fill="none" stroke="#293238" stroke-width="15"/>
+<path d="M66 186q-35 15-40-7-5-20 12-23" fill="none" stroke="#465158" stroke-width="9"/>
+<g transform="matrix(.82 -.23 .3 .69 86 129)">
+<rect y="5" width="151" height="72" rx="5" fill="#b9b9af" stroke="#293238" stroke-width="3"/>
+<rect width="151" height="70" rx="5" fill="#e9e5d9" stroke="#293238" stroke-width="3"/>
+<rect x="5" y="5" width="141" height="51" rx="2" fill="url(#keys)"/>
+<rect x="5" y="5" width="12" height="12" rx="2" fill="#d85e51"/>
+<rect x="5" y="44" width="23" height="11" rx="2" fill="#527fa8"/>
+<g fill="#faf8f1" stroke="#bdbbb1" stroke-width=".8"><rect x="19" y="59" width="13" height="7" rx="2"/><rect x="35" y="59" width="13" height="7" rx="2"/><rect x="51" y="59" width="64" height="7" rx="2"/><rect x="118" y="59" width="12" height="7" rx="2"/></g>
+</g>
+<path d="M101 140q17-22 32-18 9 2 8 9-2 7-17 9l-14 12" fill="#faf7ef" stroke="#293238" stroke-width="3"/>
+<g transform="rotate(14 104 113)">
+<path d="M57 99 54 67q0-7 6-3l25 16q19-4 36 2l22-19q5-4 6 3l1 32q17 11 17 27-2 25-45 30-42 4-60-17-15-17-5-39Z" fill="#343d43" stroke="#293238" stroke-width="3.5"/>
+<path d="m138 80 6-7 1 20Z" fill="#b68f85"/>
+<path d="M138 123q12 8 24-1-1 19-32 26Z" fill="#faf7ef"/>
+<path d="M132 113q8 7 17-1" fill="none" stroke="#e3d7b9" stroke-width="3"/>
+<path d="m161 120 6 1-3 4Z" fill="#bc9287"/>
+<path d="m155 135 16 2" stroke="#293238" stroke-width="2"/>
+</g>
+<path d="M94 164q21-3 32-2 12 1 10 9-3 9-19 8l-17 1" fill="#faf7ef" stroke="#293238" stroke-width="3"/>
+<path d="m122 168 1 7m6-7 1 6" stroke="#293238" stroke-width="1.5"/>
+</g>
+</svg>

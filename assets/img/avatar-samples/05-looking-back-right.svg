@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-labelledby="title">
+<title id="title">샘플 5 — 오른쪽에서 돌아보는 고양이와 포인트 키캡</title>
+<defs><pattern id="keys" width="13" height="13" patternUnits="userSpaceOnUse"><rect x="1" y="1" width="11" height="11" rx="2" fill="#faf8f1" stroke="#bdbbb1" stroke-width=".7"/></pattern><clipPath id="circle"><circle cx="120" cy="120" r="120"/></clipPath></defs>
+<g clip-path="url(#circle)" stroke-linecap="round" stroke-linejoin="round" transform="translate(240 0) scale(-1 1)">
+<path fill="#e5ece8" d="M0 0h240v240H0z"/>
+<ellipse cx="125" cy="194" rx="94" ry="16" fill="#ccd8d1"/>
+<g transform="matrix(.81 -.27 .34 .69 86 113) translate(151 0) scale(-1 1)">
+<rect y="5" width="151" height="72" rx="5" fill="#b9b9af" stroke="#293238" stroke-width="3"/>
+<rect width="151" height="70" rx="5" fill="#e9e5d9" stroke="#293238" stroke-width="3"/>
+<rect x="5" y="5" width="141" height="51" rx="2" fill="url(#keys)"/>
+<rect x="5" y="5" width="12" height="12" rx="2" fill="#d85e51"/>
+<rect x="5" y="44" width="23" height="11" rx="2" fill="#527fa8"/>
+<g fill="#faf8f1" stroke="#bdbbb1" stroke-width=".8"><rect x="19" y="59" width="13" height="7" rx="2"/><rect x="35" y="59" width="13" height="7" rx="2"/><rect x="51" y="59" width="64" height="7" rx="2"/><rect x="118" y="59" width="12" height="7" rx="2"/></g>
+</g>
+<path d="M104 141q20-22 34-18 11 4 4 11l-27 16" fill="#faf7ef" stroke="#293238" stroke-width="3"/>
+<path d="M58 119q-19 22-18 62 0 31 40 31 35-1 41-24 9-33-20-60Z" fill="#343d43" stroke="#293238" stroke-width="3.5"/>
+<path d="M60 200q-41 9-33-21 3-12 12-9" fill="none" stroke="#293238" stroke-width="13"/>
+<path d="M60 200q-41 9-33-21 3-12 12-9" fill="none" stroke="#465158" stroke-width="7"/>
+<!-- Looking over the left shoulder exposes the face without reversing the keyboard. -->
+<g transform="rotate(-12 80 100)">
+<path d="M32 86 32 49q0-7 6-3l25 20q18-5 36 1l22-20q6-4 6 3l2 36q13 15 10 29-5 27-51 29-45 0-58-23-9-16 2-35Z" fill="#343d43" stroke="#293238" stroke-width="3.5"/>
+<path d="m40 58 2 23 14-9Zm78 2-13 13 15 7Z" fill="#b68f85"/>
+<path d="M34 112q18 8 35-5l11-19 10 24q23 11 44-2-3 27-47 28-40 0-53-26Z" fill="#faf7ef"/>
+<path d="M45 94h22q-1 16-12 13Zm48 0h22q-2 16-13 13Z" fill="#ded4aa"/>
+<path d="M44 94h24m24 0h24m-59 5v5m46-5v5" fill="none" stroke="#293238" stroke-width="3"/>
+<path d="m74 118 10 0-5 5Z" fill="#bc9287"/>
+<path d="m79 123 0 5 6 1m-38-10-17-3m79 3 18-2" fill="none" stroke="#293238" stroke-width="2"/>
+</g>
+<path d="M108 155q17-7 29-5 11 3 7 11-4 7-17 7l-13 4" fill="#faf7ef" stroke="#293238" stroke-width="3"/>
+<path d="m132 155 1 8m5-8 1 7" stroke="#293238" stroke-width="1.5"/>
+</g>
+</svg>
