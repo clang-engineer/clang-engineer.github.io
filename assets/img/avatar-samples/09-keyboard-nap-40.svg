@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-labelledby="title">
+<title id="title">샘플 9 — 40% 배열 · 오른쪽에서 졸고 있는 고양이와 포인트 키캡</title>
+<defs><clipPath id="circle"><circle cx="120" cy="120" r="120"/></clipPath></defs>
+<g clip-path="url(#circle)" stroke-linecap="round" stroke-linejoin="round" transform="translate(240 0) scale(-1 1)">
+<path fill="#ece6ee" d="M0 0h240v240H0z"/>
+<ellipse cx="125" cy="188" rx="96" ry="18" fill="#d8cfdb"/>
+<!-- Low, tucked body seen diagonally from behind. -->
+<path d="M35 157q-4-39 30-48 32-8 49 27l19 42q-22 28-65 22-28-3-33-21Z" fill="#343d43" stroke="#293238" stroke-width="3.5"/>
+<path d="M66 186q-35 15-40-7-5-20 12-23" fill="none" stroke="#293238" stroke-width="15"/>
+<path d="M66 186q-35 15-40-7-5-20 12-23" fill="none" stroke="#465158" stroke-width="9"/>
+<g transform="matrix(.82 -.23 .3 .69 86 129) translate(151 0) scale(-1 1)">
+<rect y="5" width="151" height="72" rx="5" fill="#b9b9af" stroke="#293238" stroke-width="3"/>
+<rect width="151" height="70" rx="5" fill="#e9e5d9" stroke="#293238" stroke-width="3"/>
+<!-- Photo-based 40% layout: no number row, staggered letters, split spacebars. -->
+<g stroke="#bdbbb1" stroke-width=".7">
+<rect x="5" y="5" width="10.25" height="13" rx="1.6" fill="#d85e51"/>
+<rect x="16.75" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="28.5" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="40.25" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="52" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="63.75" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="75.5" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="87.25" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="99" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="110.75" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="122.5" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="134.25" y="5" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="5" y="20" width="13.1875" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="19.6875" y="20" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="31.4375" y="20" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="43.1875" y="20" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="54.9375" y="20" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="66.6875" y="20" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="78.4375" y="20" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="90.1875" y="20" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="101.938" y="20" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="113.688" y="20" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="125.438" y="20" width="19.0625" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="5" y="35" width="19.0625" height="13" rx="1.6" fill="#527fa8"/>
+<rect x="25.5625" y="35" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="37.3125" y="35" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="49.0625" y="35" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="60.8125" y="35" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="72.5625" y="35" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="84.3125" y="35" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="96.0625" y="35" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="107.812" y="35" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="119.562" y="35" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="131.312" y="35" width="13.1875" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="19.6875" y="50" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="31.4375" y="50" width="13.1875" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="46.125" y="50" width="30.8125" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="78.4375" y="50" width="30.8125" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="110.75" y="50" width="13.1875" height="13" rx="1.6" fill="#faf8f1"/>
+<rect x="125.438" y="50" width="10.25" height="13" rx="1.6" fill="#faf8f1"/>
+</g>
+<g fill="#737873" font-family="sans-serif" font-size="5.5" text-anchor="middle">
+<text x="21.875" y="14">Q</text>
+<text x="33.625" y="14">W</text>
+<text x="45.375" y="14">E</text>
+<text x="57.125" y="14">R</text>
+<text x="68.875" y="14">T</text>
+<text x="80.625" y="14">Y</text>
+<text x="92.375" y="14">U</text>
+<text x="104.125" y="14">I</text>
+<text x="115.875" y="14">O</text>
+<text x="127.625" y="14">P</text>
+<text x="139.375" y="14">←</text>
+<text x="24.8125" y="29">A</text>
+<text x="36.5625" y="29">S</text>
+<text x="48.3125" y="29">D</text>
+<text x="60.0625" y="29">F</text>
+<text x="71.8125" y="29">G</text>
+<text x="83.5625" y="29">H</text>
+<text x="95.3125" y="29">J</text>
+<text x="107.062" y="29">K</text>
+<text x="118.812" y="29">L</text>
+<text x="134.969" y="29">↵</text>
+<text x="30.6875" y="44">Z</text>
+<text x="42.4375" y="44">X</text>
+<text x="54.1875" y="44">C</text>
+<text x="65.9375" y="44">V</text>
+<text x="77.6875" y="44">B</text>
+<text x="89.4375" y="44">N</text>
+<text x="101.188" y="44">M</text>
+<text x="112.938" y="44">,</text>
+<text x="124.688" y="44">.</text>
+</g>
+</g>
+<path d="M101 140q17-22 32-18 9 2 8 9-2 7-17 9l-14 12" fill="#faf7ef" stroke="#293238" stroke-width="3"/>
+<g transform="rotate(14 104 113)">
+<path d="M57 99 54 67q0-7 6-3l25 16q19-4 36 2l22-19q5-4 6 3l1 32q17 11 17 27-2 25-45 30-42 4-60-17-15-17-5-39Z" fill="#343d43" stroke="#293238" stroke-width="3.5"/>
+<path d="m138 80 6-7 1 20Z" fill="#b68f85"/>
+<path d="M138 123q12 8 24-1-1 19-32 26Z" fill="#faf7ef"/>
+<path d="M132 113q8 7 17-1" fill="none" stroke="#e3d7b9" stroke-width="3"/>
+<path d="m161 120 6 1-3 4Z" fill="#bc9287"/>
+<path d="m155 135 16 2" stroke="#293238" stroke-width="2"/>
+</g>
+<path d="M94 164q21-3 32-2 12 1 10 9-3 9-19 8l-17 1" fill="#faf7ef" stroke="#293238" stroke-width="3"/>
+<path d="m122 168 1 7m6-7 1 6" stroke="#293238" stroke-width="1.5"/>
+</g>
+</svg>
