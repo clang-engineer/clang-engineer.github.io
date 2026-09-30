@@ -1,7 +1,6 @@
 # Scene 2: Heotmok (Sangjwa) Dance — 헛목(상좌)춤
 
-**Source:** [8] 은율탈춤의 연희본 — Scene 2.
-> Page ranges will be added only after they are verified against the PDF pagination; no page numbers are inferred here.
+**Source:** [8] 은율탈춤의 연희본 — Scene 2, pp. 137–138 (PDF pp. 3–4).
 
 ## Character
 
