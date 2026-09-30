@@ -52,7 +52,7 @@ echo $PATH            # /usr/sbin, /sbin 포함 — 관리 명령 정상
 > **root로 전환할 땐 거의 항상 `su -`를 쓰세요.** 그냥 `su`는 원래 유저의 `PATH`를 물려받아 `/sbin`·`/usr/sbin`의 관리 명령(`useradd`·`ip`·`shutdown` 등)이 "command not found"로 안 잡히는 함정에 빠집니다. `-`가 있어야 root의 진짜 로그인 환경이 됩니다.
 {: .prompt-warning }
 
-> `passwd` 직후 `su - user`가 "Authentication failure"로 거부된다면 메시지만으로 원인을 단정하지 마세요. [비밀번호 직후 su 인증 실패 글](../troubleshooting/2026-06-07-linux-su-authentication-failure.md)의 순서대로 PAM 로그, 계정 잠금, 만료, 접근 정책과 로그인 셸을 확인합니다.
+> `passwd` 직후 `su - user`가 "Authentication failure"로 거부된다면 메시지만으로 원인을 단정하지 마세요. [비밀번호 직후 su 인증 실패 글](../reference/troubleshooting/2026-06-07-su-authentication-failure.md)의 순서대로 PAM 로그, 계정 잠금, 만료, 접근 정책과 로그인 셸을 확인합니다.
 {: .prompt-tip }
 
 ---

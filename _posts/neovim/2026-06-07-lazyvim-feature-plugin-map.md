@@ -218,7 +218,7 @@ vim-dadbod-ui           ← 사이드바 UI (DBUI)
 vim-dadbod-completion   ← SQL 자동완성 (blink.cmp source)
 ```
 
-`extras lang.sql` 을 켜면 셋 다 들어온다. 더 깊은 이야기는 [vim-dadbod 인증 함정](./2026-05-06-vim-dadbod-pgpass-windows.md), [dbout 레이아웃 커스터마이징](./2026-05-06-vim-dadbod-dbout-layout.md) 글 참고.
+`extras lang.sql` 을 켜면 셋 다 들어온다. 더 깊은 이야기는 [vim-dadbod 인증 함정](../reference/troubleshooting/2026-05-06-dadbod-pgpass-windows.md), [dbout 레이아웃 커스터마이징](./2026-05-06-vim-dadbod-dbout-layout.md) 글 참고.
 
 ## 정리 — "이 기능이 안 먹어" 일 때 어디부터 보는가
 

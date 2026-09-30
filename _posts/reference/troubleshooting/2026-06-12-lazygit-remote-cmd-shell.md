@@ -12,7 +12,7 @@ redirect_from:
   - /posts/neovim/lazygit-nvim-remote-cmd-shell-missing/
 ---
 
-> 워크어라운드 자체는 [Windows에서 Neovim 내 Lazygit 'e' 키 에러 해결](./2026-03-13-neovim-lazygit-windows-edit.md)에서 다룬다. 이 글은 해결 명령보다 **문제가 어느 프로젝트의 어느 경계에서 생겼는지 본체까지 추적해 OSS 이슈로 만든 기록**이다.
+> 워크어라운드 자체는 [Windows에서 Neovim 내 Lazygit 'e' 키 에러 해결](./2026-03-13-lazygit-windows-edit.md)에서 다룬다. 이 글은 해결 명령보다 **문제가 어느 프로젝트의 어느 경계에서 생겼는지 본체까지 추적해 OSS 이슈로 만든 기록**이다.
 
 ## 출발점 — 워크어라운드 뒤에 남은 질문
 

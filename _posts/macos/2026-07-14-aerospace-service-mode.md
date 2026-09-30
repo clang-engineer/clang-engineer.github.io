@@ -98,4 +98,4 @@ floating 토글을 서비스 모드 `f`에 둘지, 아니면 메인으로 끌어
 ## 관련 글
 
 - [AeroSpace 기본 — 워크스페이스·단축키·on-window-detected](./2026-07-03-aerospace-basics.md)
-- [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](../troubleshooting/2026-06-07-macos-aerospace-secure-input.md) — 서비스 모드 키가 안 먹힐 때 의심해볼 시스템 레벨 원인
+- [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](../reference/troubleshooting/2026-06-07-aerospace-secure-input.md) — 서비스 모드 키가 안 먹힐 때 의심해볼 시스템 레벨 원인

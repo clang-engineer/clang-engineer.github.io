@@ -202,7 +202,7 @@ Java Source
            └─ Packaging
 ```
 
-따라서 Gradle 문서는 [Gradle 영역](../gradle/)에서 독립적으로 관리한다.
+따라서 Gradle 문서는 [Gradle 영역]({{ '/categories/gradle/' | relative_url }})에서 독립적으로 관리한다.
 
 Java와 Gradle이 만나는 지점은 Toolchain·Bytecode target·Application JVM 같은 **경계**이고, 그 경계에서 필요할 때 서로 링크한다.
 

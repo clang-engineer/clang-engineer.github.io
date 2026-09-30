@@ -232,4 +232,4 @@ LEFT JOIN 의미·중복 검증
 | [질의최적화와 JOIN 실행전략](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/08-데이터베이스/질의최적화와-JOIN-실행전략.md) | 논리 JOIN과 물리 Join Algorithm의 관계 |
 | [쿼리 옵티마이저·통계·카디널리티·실행계획](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/08-데이터베이스/쿼리-옵티마이저-통계-카디널리티-실행계획.md) | 실행계획과 추정/실제 Row를 읽는 일반 원리 |
 | **Vertica OR JOIN 성능 저하 (현재 글)** | OR 조건이 Join Filter로 빠지는 사례와 의미 보존 재작성 |
-| [RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선](./2026-06-09-preload-record-id-to-level-table.md) | 조회 시 JOIN 자체를 줄인 설계 사례 |
+| [RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선](../../db/2026-06-09-preload-record-id-to-level-table.md) | 조회 시 JOIN 자체를 줄인 설계 사례 |

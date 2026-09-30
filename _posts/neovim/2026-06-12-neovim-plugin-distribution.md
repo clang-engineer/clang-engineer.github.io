@@ -83,7 +83,7 @@ git push -u origin add-my-plugin
 gh pr create --title "Add owner/repo to Database section" --body "..."
 ```
 
-> CONTRIBUTING.md 규칙(백틱 PR 제목, 줄 끝 `.`, 금지어)과 실제 마주친 함정까지 단계별로는 [awesome-neovim에 PR 보내기 — gh CLI로 한 번에](./2026-06-12-awesome-neovim-pr-walkthrough.md)에서 다룬다.
+> CONTRIBUTING.md 규칙(백틱 PR 제목, 줄 끝 `.`, 금지어)과 실제 마주친 함정까지 단계별로는 [awesome-neovim에 PR 보내기 — gh CLI로 한 번에](../reference/open-source/2026-06-12-awesome-neovim-pr.md)에서 다룬다.
 
 ## 3. Dotfyle
 

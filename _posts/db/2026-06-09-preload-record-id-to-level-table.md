@@ -76,6 +76,6 @@ SELECT LVL.IMAGE_RECORD_ID, LVL.VIDEO_RECORD_ID FROM ...
 | 글 | 다루는 것 |
 | --- | --- |
 | [질의최적화와 JOIN 실행전략](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/08-데이터베이스/질의최적화와-JOIN-실행전략.md) | 조인 알고리즘과 옵티마이저의 전략 선택 |
-| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](./2026-04-15-vertica-or-join-kills-performance.md) | OR 조건이 Join Filter로 빠지는 문제와 의미를 보존한 매칭 쌍 분리 해법 |
+| [Vertica에서 OR 조건 JOIN은 성능을 죽인다](../reference/troubleshooting/2026-04-15-vertica-or-join-performance.md) | OR 조건이 Join Filter로 빠지는 문제와 의미를 보존한 매칭 쌍 분리 해법 |
 | [정규화·함수종속·정규형·반정규화](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/08-데이터베이스/정규화-함수종속-정규형-반정규화.md) | 이 사례가 속한 역정규화의 이론과 판단 기준 |
 | **RECORD_ID를 레벨 테이블에 사전 적재하여 조회 성능 개선 (현재 글)** | INSERT 시점에 컬럼을 옮겨 조회 JOIN 자체를 제거 |

@@ -44,7 +44,7 @@ hidden      : false
 - Hammerspoon: Privacy & Security → Accessibility에서 접근 권한 허용
 - AeroSpace 등 단축키 기반 도구도 마찬가지로 Accessibility 권한이 필요하다.
 
-> 단축키가 갑자기 안 먹는다면 권한 문제일 수 있다. [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](../troubleshooting/2026-06-07-macos-aerospace-secure-input.md)도 함께 참고.
+> 단축키가 갑자기 안 먹는다면 권한 문제일 수 있다. [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](../reference/troubleshooting/2026-06-07-aerospace-secure-input.md)도 함께 참고.
 {: .prompt-tip }
 
 ## 터미널에서 vim 스크롤이 안 될 때

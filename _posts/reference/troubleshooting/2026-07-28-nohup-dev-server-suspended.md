@@ -62,5 +62,5 @@ rm -f /tmp/rexnova-dev.log
 nohup npm run dev -- --host 0.0.0.0 --port 9000 </dev/null >/tmp/rexnova-dev.log 2>&1 &
 ```
 
-관련 글: [셸 백그라운드 잡: &, nohup, disown, tmux의 차이](../shell/2026-06-16-background-jobs-and-session.md),
-[프로세스 찾고 종료하기: pgrep, pkill, pidof, lsof, kill](../linux/2026-06-16-process-find-and-kill.md).
+관련 글: [셸 백그라운드 잡: &, nohup, disown, tmux의 차이](../../shell/2026-06-16-background-jobs-and-session.md),
+[프로세스 찾고 종료하기: pgrep, pkill, pidof, lsof, kill](../../linux/2026-06-16-process-find-and-kill.md).

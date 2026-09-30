@@ -11,7 +11,7 @@ redirect_from:
   - /posts/ai/2025-11-07-serena-mcp/
 ---
 
-> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **MCP** 갈래 · 개념은 [MCP 개념 정리](./2025-10-23-mcp.md) · 장애 대응은 [Serena 트러블슈팅](../troubleshooting/2026-08-22-ai-serena.md)
+> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **MCP** 갈래 · 개념은 [MCP 개념 정리](./2025-10-23-mcp.md) · 장애 대응은 [Serena 트러블슈팅](../reference/troubleshooting/2026-08-22-serena.md)
 
 Serena는 코드베이스의 **심볼과 구조를 이해해 검색·편집할 수 있도록 돕는 코딩 에이전트 도구**다. 기본적으로 언어 서버(Language Server)를 사용해 심볼 단위로 코드를 읽고 고치며, Claude Code·Codex·OpenCode 같은 MCP 클라이언트와 연결할 수 있다.
 
@@ -165,7 +165,7 @@ opencode mcp list
 
 여러 에이전트가 같은 저장소를 동시에 편집한다면 MCP 프로세스 분리와 Git 작업 분리를 구분해야 한다. 독립 작업은 branch·worktree로 나눠 변경 충돌을 줄이는 편이 안전하다.
 
-대시보드 오류, 남은 Serena 프로세스, Java/JDTLS 작업공간 문제처럼 운영 중 생기는 문제는 [Serena 트러블슈팅](../troubleshooting/2026-08-22-ai-serena.md)에서 별도로 다룬다.
+대시보드 오류, 남은 Serena 프로세스, Java/JDTLS 작업공간 문제처럼 운영 중 생기는 문제는 [Serena 트러블슈팅](../reference/troubleshooting/2026-08-22-serena.md)에서 별도로 다룬다.
 
 ## 8. 주요 명령어
 

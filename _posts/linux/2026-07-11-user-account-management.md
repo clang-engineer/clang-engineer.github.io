@@ -47,7 +47,7 @@ sudo grep zero /etc/shadow
 #          └ $6$ = SHA-512 해시 (비었으면 로그인 불가, ! 나 * 면 잠김)
 ```
 
-`/etc/shadow`의 날짜·주기 컬럼은 비밀번호 변경·만료 정책을 담습니다. 만든 계정의 인증이 거부되면 [passwd 직후 su 인증 점검 순서](../troubleshooting/2026-06-07-linux-su-authentication-failure.md)에서 PAM 로그, 잠금, 만료와 접근 정책을 구분해 확인하세요.
+`/etc/shadow`의 날짜·주기 컬럼은 비밀번호 변경·만료 정책을 담습니다. 만든 계정의 인증이 거부되면 [passwd 직후 su 인증 점검 순서](../reference/troubleshooting/2026-06-07-su-authentication-failure.md)에서 PAM 로그, 잠금, 만료와 접근 정책을 구분해 확인하세요.
 
 > **파일을 직접 편집하지 마세요.** `/etc/passwd`·`/etc/shadow`를 `vim`으로 여는 대신 항상 아래 명령을 씁니다. 꼭 손봐야 하면 `vipw`(passwd) / `vipw -s`(shadow) — 편집 중 잠금을 걸고 문법을 검사해 줍니다.
 {: .prompt-warning }
