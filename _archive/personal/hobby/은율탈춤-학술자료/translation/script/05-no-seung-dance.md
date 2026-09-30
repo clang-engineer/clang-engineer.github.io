@@ -1,7 +1,6 @@
 # Scene 5: No-seung Dance — 노승춤
 
-**Source:** [8] 은율탈춤의 연희본 — Scene 5.
-> Page ranges will be added only after they are verified against the PDF pagination; no page numbers are inferred here.
+**Source:** [8] 은율탈춤의 연희본 — Scene 5, pp. 156–165 (PDF pp. 22–31).
 
 ## Characters
 
