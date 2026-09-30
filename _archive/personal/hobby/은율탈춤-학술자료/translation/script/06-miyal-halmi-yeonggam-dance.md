@@ -1,5 +1,8 @@
 # Scene 6: Miyal Halmi and Yeonggam Dance — 미얄할미 영감춤
 
+**Source:** [8] 은율탈춤의 연희본 — Scene 6.
+> Page ranges will be added only after they are verified against the PDF pagination; no page numbers are inferred here.
+
 ## Characters
 
 - **Yeonggam (영감)** — elderly husband
