@@ -34,6 +34,21 @@ ls .git/hooks
 
 예를 들어 `.git/hooks/pre-commit` 파일이 실행 가능 상태로 있으면, `git commit` 시점에 Git이 이 파일을 실행한다.
 
+여기서 `pre-commit`은 임의로 붙인 파일명이 아니라 Git이 정해 둔 hook 이름이다. Git 이벤트 이름과 hook 파일 이름이 대응된다.
+
+```text
+pre-commit  → commit 생성 직전
+commit-msg  → commit 메시지 작성 후, commit 생성 전
+pre-push    → push 직전
+post-merge  → merge 완료 후
+```
+
+Git은 각 시점마다 hook 경로에서 같은 이름의 실행 파일을 찾고, 있으면 실행한다. 기본 hook 경로는 `.git/hooks/`지만 `core.hooksPath`를 설정하면 다른 디렉터리를 hook 경로로 사용할 수도 있다.
+
+```sh
+git config --global core.hooksPath
+```
+
 가장 단순한 예시는 이렇다.
 
 ```sh
@@ -101,6 +116,28 @@ npm exec lint-staged
   }
 }
 ```
+
+여기서 헷갈리기 쉬운 점은 `.husky/pre-commit` 파일 자체를 Git이 직접 실행하는 것은 아니라는 점이다. Git이 직접 보는 파일은 여전히 `.git/hooks/pre-commit`이다.
+
+Husky는 `husky install` 단계에서 `.git/hooks/pre-commit`에 wrapper를 설치하고, 그 wrapper가 저장소에 커밋된 `.husky/pre-commit`을 다시 실행하게 만든다.
+
+```text
+npm install
+  ↓
+prepare: husky install
+  ↓
+.git/hooks/pre-commit wrapper 생성
+  ↓
+git commit
+  ↓
+Git이 .git/hooks/pre-commit 실행
+  ↓
+wrapper가 .husky/pre-commit 실행
+  ↓
+lint-staged 실행
+```
+
+그래서 팀이 실제로 관리하고 커밋하는 파일은 `.husky/pre-commit`이고, `.git/hooks/pre-commit`은 각 개발자 로컬에서 Husky가 만들어 주는 연결 지점이다.
 
 `lint-staged` 설정은 staged 파일만 대상으로 명령을 실행한다.
 
