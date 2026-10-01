@@ -2,7 +2,7 @@
 layout: page
 icon: fas fa-sitemap
 order: 3
-title: Command Map
+title: CLI 지도
 ---
 
 <link rel="stylesheet" href="{{ '/cmdtreemap/app.css' | relative_url }}">
