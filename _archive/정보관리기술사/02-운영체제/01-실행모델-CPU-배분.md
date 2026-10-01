@@ -1,6 +1,6 @@
 # 실행 모델과 CPU 배분 개념지도
 
-이 지도는 [[00-전체|운영체제 전체 개념지도]]에서 **프로그램이 실행 단위가 되고, 여러 실행 주체가 한정된 CPU를 나누어 쓰는 관계**를 함께 본다.
+이 지도는 [운영체제 전체 개념지도](00-전체.md)에서 **프로그램이 실행 단위가 되고, 여러 실행 주체가 한정된 CPU를 나누어 쓰는 관계**를 함께 본다.
 
 세부 Algorithm 계산보다 `실행 단위 → Kernel 경계 → CPU 경쟁 → Scheduling → 전환 비용`의 위치와 비교축을 잡는 것이 목적이다.
 
@@ -108,7 +108,7 @@ Hybrid Kernel
 
 특정 Kernel의 구현 상세보다 **어디까지 Kernel 내부에 두는가에 따른 Trade-off**를 기억한다.
 
-→ [[_보충학습/커널-구조-모놀리틱-마이크로-하이브리드|커널 구조: Monolithic / Microkernel / Hybrid]]
+→ [커널 구조: Monolithic / Microkernel / Hybrid](커널-구조-모놀리틱-마이크로-하이브리드.md)
 
 ## 3. Process와 Thread의 경계를 먼저 잡는다
 
@@ -143,7 +143,7 @@ Thread가 자원을 공유
   ↓
 Race Condition / Critical Section
   ↓
-[[02-동시성-자원공유|동시성과 자원 공유]]로 연결
+[동시성과 자원 공유](02-동시성-자원공유.md)로 연결
 ```
 
 ## 4. 실행 가능한 Task가 CPU보다 많으면 Scheduling이 필요하다
@@ -251,7 +251,7 @@ Priority Inversion
   ↓
 Priority Inheritance / Priority Ceiling 등으로 완화
   ↓
-[[02-동시성-자원공유|동시성과 자원 공유]]와 연결
+[동시성과 자원 공유](02-동시성-자원공유.md)와 연결
 ```
 
 ## 8. Context Switch는 Scheduling 결정의 실행 비용이다
