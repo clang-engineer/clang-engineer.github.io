@@ -1,6 +1,6 @@
 # 인공지능 ML·DL 개념지도
 
-이 문서는 [[00-전체|인공지능 전체 개념지도]]에서 ML(Machine Learning, 데이터에서 패턴을 학습하는 기계학습) 가지를 선택했을 때, **학습 신호를 구분하고 → 문제에 맞는 Algorithm을 선택하고 → 더 복잡한 표현은 신경망·DL(Deep Learning, 다층 신경망 기반 학습)로 확장하고 → 마지막에 평가·검증하는 흐름**으로 주변 개념을 파고들기 위한 하위 지도다.
+이 문서는 [인공지능 전체 개념지도](00-전체.md)에서 ML(Machine Learning, 데이터에서 패턴을 학습하는 기계학습) 가지를 선택했을 때, **학습 신호를 구분하고 → 문제에 맞는 Algorithm을 선택하고 → 더 복잡한 표현은 신경망·DL(Deep Learning, 다층 신경망 기반 학습)로 확장하고 → 마지막에 평가·검증하는 흐름**으로 주변 개념을 파고들기 위한 하위 지도다.
 
 세부 Algorithm의 내부 동작·수식·Parameter는 `./`에서 다룬다.
 
@@ -284,9 +284,9 @@ CNN·RNN·Transformer는 단순한 발전 순서가 아니다. Data 구조와 �
 
 Transformer는 생성형 AI·LLM 쪽으로 이어지는 중요한 연결점이다.
 
-→ [[02-생성형AI-LLM|생성형 AI·LLM 개념지도]]
+→ [생성형 AI·LLM 개념지도](02-생성형AI-LLM.md)
 
-세부학습: [[딥러닝-대표구조-CNN-RNN-Transformer-GAN|CNN·RNN·Transformer 등 대표 DL 구조]]
+세부학습: [CNN·RNN·Transformer 등 대표 DL 구조](딥러닝-대표구조-CNN-RNN-Transformer-GAN.md)
 
 ---
 
