@@ -9,7 +9,8 @@ _posts/**
 └─ GitHub
 
 _archive/정보관리기술사/**
-└─ Obsidian 중심 Knowledge Base
+├─ Obsidian
+└─ GitHub 직접 탐색
 ```
 
 따라서 링크 문법은 **어디에서 읽는 문서인가**를 기준으로 선택한다.
@@ -141,34 +142,35 @@ GitHub의 다른 Repository나 외부 Project도 절대 URL을 사용한다.
 
 ## 6. 기술사 Knowledge (`_archive/정보관리기술사/**`)
 
-정보관리기술사 영역은 현재 **Obsidian 중심 Knowledge Base**다.
+정보관리기술사 영역은 **Obsidian과 GitHub에서 같은 Markdown 원본을 직접 탐색**한다.
 
-따라서 내부 Knowledge 탐색에서는 Wiki Link를 사용할 수 있다.
-
-```markdown
-[[02-동시성-자원공유|동시성과 자원 공유]]
-```
-
-또는 위치 관계가 중요하면 상대 경로를 포함한 Wiki Link를 사용한다.
+따라서 내부 문서 링크도 Blog와 마찬가지로 **실제 `.md` 파일을 가리키는 Markdown 상대경로**를 기본으로 한다.
 
 ```markdown
-[[../_archive/정보관리기술사/02-운영체제/02-동시성-자원공유|동시성과 자원 공유]]
+[동시성과 자원 공유](02-동시성-자원공유.md)
 ```
 
-기술사 Knowledge는 현재 Jekyll의 공개 Collection이 아니므로 Blog와 같은 링크 제약을 억지로 적용하지 않는다.
+다른 영역으로 연결할 때도 현재 파일 위치에서 실제 상대경로를 계산한다.
 
-즉 링크 정책은 다음처럼 구분한다.
+```markdown
+[컴퓨터 구조의 메모리 지도](../01-컴퓨터-구조/02-메모리-계층-가상메모리.md)
+```
+
+이 형식은 다음 두 환경에서 같은 링크로 동작한다.
 
 ```text
-_posts/**
-→ Markdown 상대경로
-→ Jekyll + Obsidian + GitHub 공용
-
-_archive/정보관리기술사/**
-→ Obsidian Wiki Link 허용
-→ Knowledge 탐색성 우선
+Obsidian → 실제 Markdown 파일로 이동
+GitHub   → 저장소의 실제 Markdown 파일로 이동
 ```
 
+`_archive/정보관리기술사/**`는 현재 Jekyll 공개 Collection이 아니므로 웹 permalink 변환은 요구하지 않는다.
+
+새 기술사 문서에서는 Obsidian 전용 Wiki Link를 기본 링크 형식으로 사용하지 않는다.
+
+```markdown
+피함
+[[02-동시성-자원공유|동시성과 자원 공유]]
+```
 ## 7. Blog와 Knowledge 사이의 경계
 
 Blog에서 기술사 Knowledge로 일반 개념이 이동하더라도 Blog 글이 Knowledge 파일의 로컬 경로를 직접 공개 링크처럼 사용하지 않는다.
@@ -230,11 +232,11 @@ redirect_from
 [ ] /posts/... Jekyll 전용 내부 링크를 새로 만들지 않았는가?
 [ ] Blog에서 [[Wiki Link]]를 사용하지 않았는가?
 [ ] 외부 사이트는 절대 URL인가?
-[ ] Knowledge 내부 Wiki Link의 대상이 실제 존재하는가?
+[ ] 기술사 Knowledge 내부 링크가 실제 `.md` 상대경로인가?
 [ ] 파일 이동 시 참조 링크도 함께 수정했는가?
 [ ] Jekyll build와 html-proofer가 통과하는가?
 ```
 
 ## 한 줄 원칙
 
-> **Blog는 실제 Markdown 파일 관계를 Source of Truth로 삼아 상대경로로 연결하고, Jekyll이 이를 웹 permalink로 변환한다. 기술사 Knowledge는 Obsidian 탐색을 우선해 Wiki Link를 사용할 수 있다.**
+> **Blog와 기술사 Knowledge 모두 실제 Markdown 파일 관계를 Source of Truth로 삼아 상대경로로 연결한다. Blog는 Jekyll이 이를 웹 permalink로 변환하고, 기술사 Knowledge는 Obsidian과 GitHub가 같은 `.md` 링크를 직접 사용한다.**
