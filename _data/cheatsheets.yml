@@ -61,6 +61,27 @@ groups:
         official:
           - {label: Zsh documentation, url: https://zsh.sourceforge.io/Doc/}
         custom: {label: devkit Zsh Cheatsheet, url: https://github.com/clang-engineer/devkit/blob/main/cheatsheets/zsh.md}
+      - slug: atuin
+        name: Atuin
+        desc: 구조화된 shell history 검색과 Ctrl-R 대체.
+        tldr: common/atuin
+        official:
+          - {label: Atuin documentation, url: https://docs.atuin.sh/}
+        custom: {label: devkit Atuin Cheatsheet, url: https://github.com/clang-engineer/devkit/blob/main/cheatsheets/atuin.md}
+      - slug: fzf
+        name: fzf
+        desc: 파일, 디렉터리, 브랜치 목록을 고르는 범용 fuzzy finder.
+        tldr: common/fzf
+        official:
+          - {label: fzf repository, url: https://github.com/junegunn/fzf}
+        custom: {label: devkit fzf Cheatsheet, url: https://github.com/clang-engineer/devkit/blob/main/cheatsheets/fzf.md}
+      - slug: zoxide
+        name: zoxide
+        desc: 방문 이력을 학습해 디렉터리로 빠르게 점프한다.
+        tldr: common/zoxide
+        official:
+          - {label: zoxide repository, url: https://github.com/ajeetdsouza/zoxide}
+        custom: {label: devkit zoxide Cheatsheet, url: https://github.com/clang-engineer/devkit/blob/main/cheatsheets/zoxide.md}
       - slug: powershell
         name: PowerShell
         desc: Bash와 다른 객체 Pipeline, 서비스 관리, Windows 운영 명령.
@@ -119,6 +140,13 @@ groups:
         official:
           - {label: Git documentation, url: https://git-scm.com/docs}
         custom: {label: devkit Git Cheatsheet, url: https://github.com/clang-engineer/devkit/blob/main/cheatsheets/git.md}
+      - slug: git-delta
+        name: git-delta
+        desc: Git diff와 show 출력을 읽기 쉽게 만드는 syntax-highlighting pager.
+        tldr: common/delta
+        official:
+          - {label: delta repository, url: https://github.com/dandavison/delta}
+        custom: {label: devkit git-delta Cheatsheet, url: https://github.com/clang-engineer/devkit/blob/main/cheatsheets/git-delta.md}
       - slug: chezmoi
         name: chezmoi
         desc: dotfiles를 source/target 모델로 선언적으로 관리한다.
@@ -146,6 +174,13 @@ groups:
         official:
           - {label: mise documentation, url: https://mise.jdx.dev/}
         custom: {label: devkit mise Cheatsheet, url: https://github.com/clang-engineer/devkit/blob/main/cheatsheets/mise.md}
+      - slug: uv
+        name: uv
+        desc: Python 패키지, 가상환경, lockfile, tool 실행을 빠르게 관리한다.
+        tldr: common/uv
+        official:
+          - {label: uv documentation, url: https://docs.astral.sh/uv/}
+        custom: {label: devkit uv Cheatsheet, url: https://github.com/clang-engineer/devkit/blob/main/cheatsheets/uv.md}
       - slug: taskwarrior
         name: Taskwarrior
         desc: CLI 기반 태스크 관리, 필터, 날짜, JSON export.
