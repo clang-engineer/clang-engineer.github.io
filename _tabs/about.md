@@ -55,11 +55,19 @@ order: 7
 ---
 ## 주요 저장소
 - [harlequin-h2](https://github.com/clang-engineer/harlequin-h2) — Harlequin용 H2 JDBC community adapter · PyPI 배포 · 공식 Harlequin 문서 등록
-- [harlequin-odbc-vertica](https://github.com/clang-engineer/harlequin-odbc-vertica) — Harlequin용 Vertica ODBC community adapter · PyPI 배포 · 공식 문서 PR #163 진행 중
+- [harlequin-odbc-vertica](https://github.com/clang-engineer/harlequin-odbc-vertica) — Harlequin용 Vertica ODBC community adapter · PyPI 배포 · 공식 문서 PR 진행 중
 - [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) — Neovim 플러그인 · jdtls/Gradle JDK 환경 분리 · awesome-neovim 등록
 - [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) — vim-dadbod Vertica 어댑터 + dadbod-ui schema-tree 통합 · awesome-neovim 등록
-- [dotfiles](https://github.com/clang-engineer/dotfiles) — Neovim·zsh·tmux 등 개발환경 설정
+- [pi-extensions](https://github.com/clang-engineer/pi-extensions) — Pi coding agent extension 모음 · `@clang.engineer/pi-notify` npm 배포
+- [dotfiles](https://github.com/clang-engineer/dotfiles) — Neovim·zsh·tmux·Pi 등 개발환경 설정
 - [devkit](https://github.com/clang-engineer/devkit) — cheatsheets·templates 모음
+
+---
+## 외부 기여
+- [anomalyco/opentui#1460](https://github.com/anomalyco/opentui/pull/1460) — tmux terminal capability reply가 요청한 pane에 머물도록 수정
+- [tconbeer/harlequin-web#162](https://github.com/tconbeer/harlequin-web/pull/162) — Harlequin H2 community adapter 공식 문서 등록
+- [rockerBOO/awesome-neovim#2355](https://github.com/rockerBOO/awesome-neovim/pull/2355), [#2365](https://github.com/rockerBOO/awesome-neovim/pull/2365) — `dadbod-vertica.nvim`, `jvm-env.nvim` 등록
+- [Dking08/textual-vim-textarea#2](https://github.com/Dking08/textual-vim-textarea/pull/2) — word/quote text object 추가
 
 ---
 ## 주요 글
