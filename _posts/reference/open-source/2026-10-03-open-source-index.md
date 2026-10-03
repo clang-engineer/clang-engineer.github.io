@@ -1,6 +1,6 @@
 ---
-title       : "오픈소스 기여 기록"
-description : "직접 만든 공개 패키지와 upstream에 보낸 PR을 한곳에 관리하는 개인 오픈소스 활동 로그."
+title       : "오픈소스 활동 인덱스"
+description : "직접 만든 공개 패키지와 upstream PR, 관련 회고 글을 한곳에 모아둔 오픈소스 활동 허브."
 date        : 2026-10-03 13:00:00 +0900
 categories  : [reference, "open-source"]
 tags        : [open-source, github, contribution, log]
@@ -8,7 +8,7 @@ pin         : false
 hidden      : false
 ---
 
-공개 저장소와 upstream PR을 한곳에서 관리하기 위한 개인 기록이다. GitHub profile이나 About에 PR을 길게 나열하면 과해 보이므로, 상세 이력은 이 글에 모아둔다.
+공개 저장소와 upstream PR, 관련 회고 글을 한곳에서 관리하기 위한 오픈소스 활동 인덱스다. GitHub profile이나 About에 PR을 길게 나열하면 과해 보이므로, 상세 이력은 이 글에 모아둔다.
 
 ## 직접 만든 공개 패키지
 
@@ -34,4 +34,8 @@ hidden      : false
 
 ## 관련 글
 
+- [Harlequin용 H2 JDBC 어댑터를 만들어 PyPI에 배포하기](./2026-08-31-harlequin-h2-adapter.md)
+- [Harlequin용 Vertica ODBC 어댑터를 만들어 PyPI에 배포하기](./2026-08-31-harlequin-vertica-odbc-adapter.md)
+- [jvm-env.nvim 발행 회고](./2026-06-17-jvm-env-nvim-retrospective.md)
+- [awesome-neovim에 내 플러그인 PR 보내기](./2026-06-12-awesome-neovim-pr.md)
 - [작은 Pi extension을 만들고 npm에 배포하기](./2026-10-03-pi-notify-extension.md)
