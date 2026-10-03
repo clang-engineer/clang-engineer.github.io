@@ -63,12 +63,5 @@ order: 7
 - [devkit](https://github.com/clang-engineer/devkit) — cheatsheets·templates 모음
 
 ---
-## 외부 기여
-- [anomalyco/opentui#1460](https://github.com/anomalyco/opentui/pull/1460) — tmux terminal capability reply가 요청한 pane에 머물도록 수정
-- [tconbeer/harlequin-web#162](https://github.com/tconbeer/harlequin-web/pull/162) — Harlequin H2 community adapter 공식 문서 등록
-- [rockerBOO/awesome-neovim#2355](https://github.com/rockerBOO/awesome-neovim/pull/2355), [#2365](https://github.com/rockerBOO/awesome-neovim/pull/2365) — `dadbod-vertica.nvim`, `jvm-env.nvim` 등록
-- [Dking08/textual-vim-textarea#2](https://github.com/Dking08/textual-vim-textarea/pull/2) — word/quote text object 추가
-
----
 ## 주요 글
 - [Neovim 실력 향상 로드맵](/posts/neovim/2026-06-16-neovim-roadmap/) — vim·neovim·lazyvim 글 단계별 큐레이션
