@@ -390,6 +390,31 @@ new Thread(r).start();
 
 즉 `Runnable`은 **"나중에 실행할 코드"를 객체로 전달하던 오래된 Java 패턴**의 대표적인 예다.
 
+#### Runnable과 Consumer는 뭐가 다른가?
+
+둘 다 반환값이 없다는 점은 비슷하지만 함수 모양은 다르다.
+
+```text
+Runnable       () -> void
+Consumer<T>    T -> void
+```
+
+`Runnable`은 입력 없이 작업을 실행하고,
+
+```java
+Runnable r = () -> System.out.println("run");
+r.run();
+```
+
+`Consumer<T>`는 값을 하나 받아서 처리한다.
+
+```java
+Consumer<String> printer = s -> System.out.println(s);
+printer.accept("hello");
+```
+
+따라서 `Runnable`은 `java.util.function`의 4대 인터페이스 중 정확히 대응되는 타입은 없고, 개념적으로는 **"인자 없는 Consumer"**에 가깝다.
+
 ---
 
 ### Callable<V> — 결과를 반환하는 작업
@@ -549,9 +574,55 @@ list.sort((a, b) -> Integer.compare(a, b));
 
 여기서 중요한 점은 `list.sort(...)`가 람다를 "아무 코드 조각"으로 받는 것이 아니라, 파라미터 타입이 `Comparator<? super E>`이므로 그 람다를 `Comparator`의 `compare()` 구현으로 해석한다는 것이다.
 
+#### Comparator와 BiFunction은 뭐가 다른가?
+
+함수 모양만 보면 둘은 비슷하다.
+
+```text
+Comparator<T>              (T, T) -> int
+BiFunction<T, T, Integer>   (T, T) -> Integer
+```
+
+하지만 의미는 다르다.
+
+`Comparator<T>`의 반환값은 단순한 숫자 결과가 아니라 **정렬 순서에 대한 계약**을 가진다.
+
+```text
+음수  -> 첫 번째 값이 앞
+0     -> 같은 순서
+양수  -> 두 번째 값이 앞
+```
+
+예를 들어:
+
+```java
+Comparator<String> byLength =
+        (a, b) -> Integer.compare(a.length(), b.length());
+```
+
+반면 `BiFunction<T, U, R>`은 두 값을 받아 결과 하나를 계산하는 일반 함수다.
+
+```java
+BiFunction<Integer, Integer, Integer> add =
+        (a, b) -> a + b;
+```
+
+즉 함수의 입출력 모양이 비슷하더라도 인터페이스가 나타내는 **도메인 의미와 API 계약**은 다를 수 있다.
+
 ---
 
 ### Java 8에서 바뀐 것은 인터페이스가 아니라 표현 방식이다
+
+세 인터페이스를 `java.util.function` 계열과 비교하면 다음처럼 정리할 수 있다.
+
+| 기존 인터페이스 | 함수 모양 | 비슷한 표준 함수형 인터페이스 | 핵심 차이 |
+| --- | --- | --- | --- |
+| `Runnable` | `() -> void` | 정확한 대응 없음 | 입력 없는 실행 작업 |
+| `Callable<T>` | `() -> T` | `Supplier<T>` | task 의미 + checked exception 가능 |
+| `Comparator<T>` | `(T, T) -> int` | `BiFunction<T, T, Integer>`와 형태 유사 | 반환값에 정렬 의미가 있음 |
+
+> **함수 모양이 같거나 비슷하다고 같은 인터페이스인 것은 아니다.**
+> 함수형 인터페이스는 입출력 시그니처뿐 아니라 API가 기대하는 의미와 사용 문맥도 계약으로 표현한다.
 
 이 세 인터페이스는 람다 때문에 생긴 것이 아니다.
 
