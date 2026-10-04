@@ -132,6 +132,8 @@ pwa:
   cache:
     enabled: true
     deny_paths:
+      # Always fetch devkit reference data from the source repository.
+      - /clang-engineer/devkit/
 
 paginate: 10
 

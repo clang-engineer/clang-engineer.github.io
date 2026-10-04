@@ -1,4 +1,4 @@
-const assetBase = window.CMDTREEMAP_BASE || './';
+const catalogUrl = 'https://raw.githubusercontent.com/clang-engineer/devkit/main/reference/cli/catalog.json';
 const root = document.querySelector('#cmdtreemap-root');
 
 if (!root) {
@@ -8,6 +8,7 @@ if (!root) {
 root.classList.add('cmdtreemap-app');
 root.innerHTML = `
   <p class="cmdtreemap-status" data-status>데이터를 불러오는 중...</p>
+  <button type="button" data-retry hidden>다시 시도</button>
   <input class="cmdtreemap-search" data-search type="search" placeholder="도구, 관계, 문제를 검색..." autocomplete="off">
   <div class="cmdtreemap-layout">
     <nav class="cmdtreemap-tree" data-tree aria-label="명령어 관계 tree"></nav>
@@ -27,6 +28,7 @@ const tree = root.querySelector('[data-tree]');
 const detail = root.querySelector('[data-detail]');
 const search = root.querySelector('[data-search]');
 const status = root.querySelector('[data-status]');
+const retry = root.querySelector('[data-retry]');
 
 function escapeHtml(value = '') {
   return String(value)
@@ -256,14 +258,21 @@ function selectCommand(id) {
 }
 
 async function start() {
+  retry.hidden = true;
+  search.disabled = true;
+  status.textContent = '데이터를 불러오는 중...';
   try {
-    const response = await fetch(root.dataset.source || `${assetBase}catalog.json`);
+    const response = await fetch(root.dataset.source || catalogUrl, { cache: 'no-store', signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error('commands request failed');
-    state.data = await response.json();
+    const data = await response.json();
+    if (!Array.isArray(data.categories) || data.categories.some(category => !Array.isArray(category.relations) || !Array.isArray(category.commands))) throw new Error('Invalid catalog');
+    state.data = data;
+    search.disabled = false;
     status.textContent = state.data.categories.length + '개 카테고리 · 관계를 선택하면 개선점과 한계를 볼 수 있습니다. 화살표는 관계를 뜻하며 출시 순서를 뜻하지 않습니다.';
     renderTree();
   } catch {
-    status.textContent = 'catalog.json을 불러오지 못했습니다.';
+    status.textContent = '데이터를 불러오지 못했습니다. 다시 시도해 주세요.';
+    retry.hidden = false;
     tree.innerHTML = '<p class="cmdtreemap-error">데이터 로드 실패</p>';
   }
 }
@@ -287,5 +296,6 @@ search.addEventListener('input', (event) => {
   renderTree();
 });
 
+retry.addEventListener('click', start);
 start();
 

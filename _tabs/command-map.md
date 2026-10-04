@@ -12,7 +12,6 @@ title: CLI 지도
 
 <p><a href="https://github.com/clang-engineer/devkit/blob/main/reference/cli/README.md">지도 읽는 법</a> — 도구의 변화, 사용 환경, 호환성과 선택 기준</p>
 
-<div id="cmdtreemap-root"></div>
+<div id="cmdtreemap-root" data-source="https://raw.githubusercontent.com/clang-engineer/devkit/main/reference/cli/catalog.json"></div>
 
-<script>window.CMDTREEMAP_BASE = "{{ '/cmdtreemap/' | relative_url }}";</script>
 <script type="module" src="{{ '/cmdtreemap/app.js' | relative_url }}"></script>
