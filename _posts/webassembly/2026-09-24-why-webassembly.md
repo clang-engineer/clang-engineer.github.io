@@ -315,6 +315,68 @@ WASI         = 시스템 인터페이스 추상화
 Wasm Runtime = Wasm을 실제 OS와 CPU에서 실행하는 구현체
 ```
 
+## 브라우저 밖에서는 어떻게 쓰일까 - Zellij Plugin
+
+브라우저 밖에서 Wasm을 사용하는 실제 사례로 Zellij의 Plugin System을 볼 수 있다.
+
+Zellij 본체는 Rust로 작성되어 있지만 Plugin은 WebAssembly/WASI Module로 Load된다.
+
+```text
+Plugin Source
+Rust / C / C++ / Zig / ...
+        |
+        v
+   Wasm Target
+        |
+        v
+   plugin.wasm
+        |
+        v
+Zellij Plugin Host
+        |
+        v
+Zellij API / Host 기능
+```
+
+여기서 중요한 점은 **C++ 대신 Wasm을 쓰는 것이 아니라, C++이나 Rust 같은 Source Language를 Wasm이라는 공통 실행 Target으로 Compile한다는 것**이다.
+
+Native Plugin이라면 보통 Platform별 Binary와 ABI를 직접 맞춰야 한다.
+
+```text
+C++ Plugin
+   |
+   +--> Linux x86-64 .so
+   +--> macOS ARM64 .dylib
+   +--> Windows x86-64 .dll
+```
+
+반면 Wasm을 Plugin 경계로 두면 Host는 `.wasm` Module을 Load하고, Plugin은 Host가 제공하는 API를 통해 기능을 사용한다.
+
+```text
+Zellij
+  |
+  +-- Wasm Plugin Runtime
+         |
+         +-- plugin.wasm
+                |
+                +-- Zellij가 제공하는 Event / Command / Permission
+```
+
+이 구조에서 Wasm을 선택하는 이유는 크게 세 가지로 볼 수 있다.
+
+1. **언어 독립적인 Plugin 경계**  
+   Zellij 내부 구현 언어인 Rust ABI에 Plugin 생태계를 직접 묶지 않는다. Wasm을 Target으로 만들 수 있는 언어라면 같은 실행 형식으로 연결할 수 있다.
+
+2. **Host와 Plugin 사이의 명시적인 실행 경계**  
+   Plugin이 Zellij 내부 구현에 직접 연결되는 대신, Event와 Command 등 정해진 Plugin API를 통해 상호작용한다.
+
+3. **배포 단위의 이식성**  
+   Platform별 Native Library를 각각 배포하는 대신 하나의 `.wasm` Module을 공유하기 쉬워진다.
+
+Zellij 공식 문서는 Plugin System을 WebAssembly/WASI 기반이라고 설명하며, 여러 언어로 Plugin을 작성할 수 있는 구조를 목표로 한다. 다만 현재 공식 SDK와 개발 지원은 Rust가 가장 잘 갖춰져 있다.
+
+따라서 Zellij 사례는 Wasm이 단순히 **"브라우저에서 C/C++ 코드를 실행하는 기술"**이 아니라, **애플리케이션 내부에서 확장 코드를 실행하는 공통 Plugin Runtime 경계**로도 사용할 수 있음을 보여 준다.
+
 ## 결국 WebAssembly가 해결하려던 것은
 
 WebAssembly를 단순히 "JavaScript보다 빠른 기술"로 이해하면 왜 필요한지 애매해진다.
