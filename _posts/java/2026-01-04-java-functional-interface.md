@@ -441,6 +441,62 @@ Callable<V>  () -> V
 
 또한 `Callable.call()`은 checked exception을 던질 수 있다는 차이도 있다.
 
+#### Callable과 Supplier는 뭐가 다른가?
+
+함수의 모양만 보면 둘은 거의 같다.
+
+```text
+Callable<V>   () -> V
+Supplier<T>   () -> T
+```
+
+차이는 **용도와 계약**이다.
+
+```java
+public interface Callable<V> {
+    V call() throws Exception;
+}
+```
+
+```java
+public interface Supplier<T> {
+    T get();
+}
+```
+
+- `Callable`은 보통 **실행할 작업(task)** 을 표현한다.
+- `Supplier`는 보통 **필요할 때 값을 제공하는 로직**을 표현한다.
+- `Callable.call()`은 checked exception을 던질 수 있다.
+- `Supplier.get()`은 checked exception을 직접 선언할 수 없다.
+
+예를 들어 `Callable`은 실행기에 넘기는 식으로 자주 사용한다.
+
+```java
+Callable<Integer> task = () -> 10;
+Future<Integer> future = executor.submit(task);
+```
+
+반면 `Supplier`는 값을 지연해서 만들거나 제공하는 데 자주 사용한다.
+
+```java
+Supplier<Integer> supplier = () -> 10;
+Integer value = supplier.get();
+```
+
+```java
+optional.orElseGet(() -> createValue());
+```
+
+즉 둘 다 `() -> T` 형태지만,
+
+> **Callable = 결과를 반환하는 작업**
+>
+> **Supplier = 값을 공급하는 함수**
+
+라고 보면 이해하기 쉽다.
+
+이 차이는 함수형 인터페이스가 단순히 "함수 모양"만 표현하는 것이 아니라, **API가 기대하는 의미와 사용 문맥까지 계약으로 드러낼 수 있다**는 좋은 예다.
+
 ---
 
 ### Comparator<T> — 두 값을 비교하는 동작
