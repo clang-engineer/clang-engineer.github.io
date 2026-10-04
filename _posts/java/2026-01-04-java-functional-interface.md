@@ -329,14 +329,23 @@ Function / Predicate / Consumer / Supplier 등을 표준화
 
 ## Java 8 이전에도 존재했던 Functional Interface
 
-람다가 Java 8에서 추가되었지만, **함수형 인터페이스 자체는 그 이전부터 존재**했다.
-대표적인 예가 바로 `Runnable`, `Comparator` 등이다.
+람다가 Java 8에서 추가되었지만, **추상 메서드 하나를 가진 인터페이스 자체는 그 이전부터 널리 사용**되고 있었다.
 
-### Runnable
+대표적인 예가 `Runnable`, `Callable`, `Comparator`다.
 
-```java
-Runnable r = () -> System.out.println("run");
-```
+| 인터페이스 | 추상 메서드 | 함수 모양 | 대표 용도 |
+| --- | --- | --- | --- |
+| `Runnable` | `void run()` | `() -> void` | 실행할 작업 |
+| `Callable<V>` | `V call()` | `() -> V` | 결과를 반환하는 작업 |
+| `Comparator<T>` | `int compare(T a, T b)` | `(T, T) -> int` | 두 값의 순서 비교 |
+
+이들은 Java 8 이전에는 주로 익명 클래스 형태로 사용했고, Java 8 이후에는 같은 인터페이스를 람다의 타겟 타입으로 사용할 수 있게 됐다.
+
+---
+
+### Runnable — 입력도 반환도 없는 작업
+
+`Runnable`의 핵심 메서드는 다음과 같다.
 
 ```java
 public interface Runnable {
@@ -344,17 +353,101 @@ public interface Runnable {
 }
 ```
 
-* 추상 메서드가 **1개** → 함수형 인터페이스
-* Java 1.0부터 존재
-* Java 8에서 람다의 대표적인 타겟 타입이 됨
+함수 모양으로 보면 다음과 같다.
+
+```text
+() -> void
+```
+
+Java 8 이전에는 익명 클래스로 구현했다.
+
+```java
+Runnable r = new Runnable() {
+    @Override
+    public void run() {
+        System.out.println("작업 실행");
+    }
+};
+```
+
+Java 8 이후에는 같은 구현을 람다로 줄일 수 있다.
+
+```java
+Runnable r = () -> System.out.println("작업 실행");
+```
+
+호출은 여전히 인터페이스의 메서드를 사용한다.
+
+```java
+r.run();
+```
+
+대표적으로 스레드에 실행할 작업을 전달할 때 사용한다.
+
+```java
+new Thread(r).start();
+```
+
+즉 `Runnable`은 **"나중에 실행할 코드"를 객체로 전달하던 오래된 Java 패턴**의 대표적인 예다.
 
 ---
 
-### Comparator<T>
+### Callable<V> — 결과를 반환하는 작업
+
+`Callable<V>`는 `Runnable`과 비슷하지만 결과값을 반환할 수 있다.
 
 ```java
-Comparator<Integer> comp = (a, b) -> a - b;
+public interface Callable<V> {
+    V call() throws Exception;
+}
 ```
+
+함수 모양은 다음과 같다.
+
+```text
+() -> V
+```
+
+Java 8 이전에는 다음처럼 사용했다.
+
+```java
+Callable<Integer> task = new Callable<Integer>() {
+    @Override
+    public Integer call() throws Exception {
+        return 10 + 20;
+    }
+};
+```
+
+Java 8 이후에는 다음처럼 표현할 수 있다.
+
+```java
+Callable<Integer> task = () -> 10 + 20;
+```
+
+`Callable`은 보통 `ExecutorService`에 작업을 넘기고 결과를 `Future`로 받을 때 사용한다.
+
+```java
+Future<Integer> future = executor.submit(task);
+Integer result = future.get();
+```
+
+`Runnable`과 비교하면 차이가 명확하다.
+
+```text
+Runnable     () -> void
+Callable<V>  () -> V
+```
+
+또한 `Callable.call()`은 checked exception을 던질 수 있다는 차이도 있다.
+
+---
+
+### Comparator<T> — 두 값을 비교하는 동작
+
+`Comparator<T>`는 두 값을 받아 정렬 순서를 결정한다.
+
+핵심 메서드는 다음과 같다.
 
 ```java
 public interface Comparator<T> {
@@ -362,35 +455,90 @@ public interface Comparator<T> {
 }
 ```
 
-* 두 값을 비교하는 함수형 인터페이스
-* 정렬, 우선순위 로직에 핵심적으로 사용
+함수 모양으로 보면 다음과 같다.
+
+```text
+(T, T) -> int
+```
+
+Java 8 이전에는 익명 클래스로 작성했다.
 
 ```java
-list.sort((a, b) -> b - a);
+Comparator<Integer> comp = new Comparator<Integer>() {
+    @Override
+    public int compare(Integer a, Integer b) {
+        return Integer.compare(a, b);
+    }
+};
 ```
+
+Java 8 이후에는 람다로 줄일 수 있다.
+
+```java
+Comparator<Integer> comp =
+        (a, b) -> Integer.compare(a, b);
+```
+
+그리고 정렬 API에 전달한다.
+
+```java
+list.sort(comp);
+```
+
+또는 람다를 직접 전달할 수도 있다.
+
+```java
+list.sort((a, b) -> Integer.compare(a, b));
+```
+
+여기서 중요한 점은 `list.sort(...)`가 람다를 "아무 코드 조각"으로 받는 것이 아니라, 파라미터 타입이 `Comparator<? super E>`이므로 그 람다를 `Comparator`의 `compare()` 구현으로 해석한다는 것이다.
 
 ---
 
-### 핵심 포인트
+### Java 8에서 바뀐 것은 인터페이스가 아니라 표현 방식이다
 
-> **Java 람다는 기존의 SAM 인터페이스에 동작을 제공하는 코드를 간결하게 표현한다.**
+이 세 인터페이스는 람다 때문에 생긴 것이 아니다.
 
-* Java 8 이전: 익명 클래스
-* Java 8 이후: 람다 표현식
+Java 8 이전에도 이미 다음과 같은 패턴이 존재했다.
+
+```text
+인터페이스
+    ↓
+추상 메서드 하나
+    ↓
+익명 클래스가 그 메서드를 구현
+    ↓
+구현 객체를 API에 전달
+```
+
+Java 8의 람다는 이 구조를 없앤 것이 아니라, **단일 추상 메서드의 구현을 더 간결하게 적을 수 있게 만든 것**이다.
 
 ```java
 // Java 7
-new Runnable() {
+Runnable r = new Runnable() {
     @Override
     public void run() {
         System.out.println("run");
     }
 };
+
+// Java 8+
+Runnable r = () -> System.out.println("run");
 ```
 
-```java
-// Java 8+
-() -> System.out.println("run");
+즉 역사적으로 보면 흐름은 다음과 같다.
+
+```text
+Java 8 이전
+Runnable / Callable / Comparator 같은 SAM 패턴이 이미 존재
+        ↓
+동작을 익명 클래스 객체로 전달
+
+Java 8
+기존 SAM 인터페이스를 람다의 target type으로 활용
+        +
+Function / Predicate / Consumer / Supplier 같은
+범용 함수형 인터페이스 추가
 ```
 
 ---
