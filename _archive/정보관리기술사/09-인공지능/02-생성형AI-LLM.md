@@ -4,6 +4,65 @@
 
 세부 구현과 내부 Algorithm은 `./`에서 다룬다. 이 지도에서는 **Prompt·RAG·Fine-tuning·Agent 같은 대표 활용 Mechanism의 위치와 관계가 복원되는 수준**까지만 펼친다.
 
+## 권장 학습 경로
+
+처음 이 가지를 공부할 때는 **기반 원리 → 실제 추론 → 실행 환경 → 활용 방식 → 응용** 순으로 내려가면 각 문서의 역할이 자연스럽게 연결된다.
+
+```text
+1. 생성형 AI와 Multimodal
+   → 생성형 AI 전체에서 LLM의 위치를 잡는다.
+        ↓
+2. Foundation Model과 AI 활용 계층
+   → Foundation Model과 Model 활용 계층을 구분한다.
+        ↓
+3. LLM의 동작 원리
+   → Token / Embedding / Transformer / Attention을 이해한다.
+        ↓
+4. LLM 추론과 Token 생성
+   → Hidden Vector가 실제 다음 Token으로 바뀌는 흐름을 본다.
+        ↓
+5. LLM 내부 운영과 GPU Memory
+   → 위 계산을 Hardware에서 어떻게 실행하는지 연결한다.
+        ↓
+6. 이후 목적에 따라 병렬로 Zoom-in
+   ├─ Prompt / Context
+   ├─ RAG
+   ├─ Fine-tuning
+   └─ Agent / MCP / Harness
+        ↓
+7. Text2SQL 등 실제 업무 Task에 적용
+```
+
+특히 3~5번은 선후관계가 비교적 강하다.
+
+- [LLM의 동작 원리](LLM의-동작원리.md)  
+  → Transformer 내부에서 무엇이 계산되는지 이해한다.
+- [LLM 추론과 Token 생성](LLM-추론과-Token-생성.md)  
+  → 그 계산 결과가 Logit·Softmax·Decoding을 거쳐 Token으로 나오는 과정을 본다.
+- [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)  
+  → Parameter·VRAM·KV Cache·분산 실행이 왜 필요한지 연결한다.
+
+그 뒤의 Prompt·RAG·Fine-tuning·Agent는 하나의 필수 발전 순서가 아니다. **서로 다른 문제를 해결하는 병렬 활용 가지**이므로 목적에 따라 선택하거나 조합한다.
+
+```text
+                         LLM
+                          │
+        ┌─────────────────┼─────────────────┐
+        ▼                 ▼                 ▼
+     지시·Context        외부 지식            행동
+   Prompt / Few-shot        RAG          Tool / Agent
+                                               │
+                                               └─ MCP / Harness
+
+반복적인 Model 행동 자체를 바꾸고 싶음
+→ Fine-tuning
+```
+
+평가·검증은 마지막 단계가 아니라 전 학습 흐름을 가로지른다.
+
+→ [AI 평가 · Golden Set · Red Teaming](99-AI-평가-Golden-Set과-Red-Teaming.md)  
+Model, Prompt, RAG, Fine-tuning, Agent, 실제 Application이 바뀔 때마다 품질과 실패 경계를 다시 확인한다.
+
 ---
 
 ## 1. Foundation Model과 생성형 AI의 좌표
