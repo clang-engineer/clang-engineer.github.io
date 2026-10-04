@@ -2,7 +2,7 @@
 title       : Java `java.util.function` 핵심 정리
 description : "람다의 타겟 타입인 java.util.function 패키지를 Runnable·Comparator 배경부터 Function·Predicate·Consumer·Supplier 4대장까지 정리한다."
 date        : 2026-01-04 12:20:48 +0900
-updated     : 2026-01-04 12:28:39 +0900
+updated     : 2026-10-04 12:01:00 +0900
 categories  : [java, "언어·런타임"]
 tags        : [lambda, functional-interface, stream]
 pin         : false
@@ -180,7 +180,103 @@ Task task = () -> System.out.println("hello");
 
 ---
 
-### 6. 그래서 `java.util.function`이 추가됐다
+### 6. C++ 람다와 비교하면 무엇이 다른가?
+
+C++에서는 람다를 하나 작성하면 컴파일러가 그 람다 전용의 **고유한 closure type**을 만든다고 이해할 수 있다.
+
+```cpp
+auto f = [](int x) {
+    return x + 1;
+};
+```
+
+개념적으로는 다음과 비슷하다.
+
+```cpp
+class /* unnamed */ {
+public:
+    int operator()(int x) const {
+        return x + 1;
+    }
+};
+```
+
+그래서 C++에서는 람다 객체 자체가 호출 가능한 객체(callable object)이고,
+
+```cpp
+f(10);
+```
+
+처럼 호출할 수 있다.
+
+반면 Java는 두 가지 점에서 접근이 다르다.
+
+첫째, Java에는 사용자가 `operator()` 같은 호출 연산자를 오버로딩하는 기능이 없다. 따라서 객체를 C++처럼 `f(x)` 형태로 호출하는 모델을 그대로 사용할 수 없다.
+
+둘째, 더 본질적으로 Java 람다는 C++처럼 **람다마다 고유한 closure type을 소스 수준의 타입으로 직접 다루는 모델을 채택하지 않았다.**
+
+그래서 다음 코드는 허용되지 않는다.
+
+```java
+var f = x -> x + 1; // 컴파일 오류
+```
+
+Java의 `var`가 타입 추론 기능이 없어서가 아니다. 람다 표현식은 애초에 **타겟 타입이 필요한 표현식**이기 때문이다.
+
+반드시 다음처럼 함수형 인터페이스가 먼저 주어져야 한다.
+
+```java
+Function<Integer, Integer> f = x -> x + 1;
+```
+
+여기서 `Function<Integer, Integer>`는 세 가지 역할을 동시에 한다.
+
+1. 이 람다를 어떤 타입으로 볼지 정한다.
+2. 람다가 구현해야 할 단일 추상 메서드가 `apply()`임을 정한다.
+3. API 입장에서 이 동작이 `Integer -> Integer` 형태라는 계약을 표현한다.
+
+즉 `operator()`가 있었다면 Java도 호출 문법을 `f.apply(10)` 대신 `f(10)`처럼 설계할 수 있었을 가능성은 있다.
+
+하지만 그것만으로는 충분하지 않다. 여전히 **이 람다를 어떤 타입으로 받을지**, 그리고 **API가 어떤 형태의 동작을 요구하는지**를 타입 시스템에서 표현해야 한다.
+
+예를 들어 `Stream.map()`은 단순히 "아무 람다"를 받는 것이 아니라 `T -> R` 형태의 동작을 요구한다.
+
+```java
+<R> Stream<R> map(Function<? super T, ? extends R> mapper)
+```
+
+여기서 `Function`은 단순한 호출 편의가 아니라 **API 계약을 표현하는 타입**이다.
+
+정리하면 다음과 같다.
+
+```text
+C++
+람다
+  ↓
+고유 closure type 생성
+  ↓
+operator()를 가진 callable object
+  ↓
+auto로 타입 추론 가능
+  ↓
+f(x) 호출
+
+Java
+SAM 인터페이스가 먼저 존재
+  ↓
+람다가 그 인터페이스를 target type으로 삼음
+  ↓
+단일 추상 메서드 구현으로 해석
+  ↓
+apply()/test()/run() 등으로 호출
+```
+
+> **Java의 핵심 차이는 단순히 `operator()`가 없다는 것이 아니라,
+> 람다를 독립적인 고유 함수 타입으로 다루기보다 기존 인터페이스 타입 시스템에 맞춰 해석하도록 설계했다는 점이다.**
+
+---
+
+### 7. 그래서 `java.util.function`이 추가됐다
 
 `Runnable`, `Comparator`, `Callable`처럼 기존에도 함수형 인터페이스는 있었지만, 범용적인 함수 형태를 표현하기에는 부족했다.
 
@@ -215,9 +311,13 @@ Java는 원래 독립 함수보다 객체 + 메서드 중심
         ↓
 Java 8에서 람다 표현식 도입
         ↓
-하지만 별도의 함수 타입 문법은 만들지 않음
+하지만 별도의 함수 타입 문법이나
+C++식 고유 closure type 모델을 소스 수준에 도입하지 않음
         ↓
-추상 메서드 하나짜리 인터페이스를 람다의 타입으로 사용
+추상 메서드 하나짜리 인터페이스(SAM)를
+람다의 target type으로 사용
+        ↓
+SAM이 람다의 타입 + 호출 메서드 + API 계약을 제공
         ↓
 Function / Predicate / Consumer / Supplier 등을 표준화
 ```
