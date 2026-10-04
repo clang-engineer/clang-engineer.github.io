@@ -1,7 +1,8 @@
 ---
 layout: page
 icon: fas fa-book-open
-order: 3
+order: 93
+hidden: true
 title: 치트시트
 ---
 

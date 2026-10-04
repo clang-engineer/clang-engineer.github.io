@@ -1,7 +1,8 @@
 ---
 layout: page
 icon: fas fa-sitemap
-order: 4
+order: 94
+hidden: true
 title: CLI 지도
 ---
 
