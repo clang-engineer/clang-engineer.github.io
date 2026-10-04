@@ -13,7 +13,8 @@ title: Browse
 {% assign sorted_categories = site.categories | sort %}
 {% for category in sorted_categories %}
   {% assign category_name = category[0] %}
-  <a class="browse-chip" href="{{ '/categories/' | append: category_name | slugify | append: '/' | relative_url }}">
+  {% assign category_slug = category_name | slugify %}
+  <a class="browse-chip" href="{{ '/categories/' | append: category_slug | append: '/' | relative_url }}">
     <span>{{ category_name }}</span>
     <small>{{ category[1].size }}</small>
   </a>
@@ -26,7 +27,8 @@ title: Browse
 {% assign sorted_tags = site.tags | sort %}
 {% for tag in sorted_tags %}
   {% assign tag_name = tag[0] %}
-  <a class="browse-chip" href="{{ '/tags/' | append: tag_name | slugify | append: '/' | relative_url }}">
+  {% assign tag_slug = tag_name | slugify %}
+  <a class="browse-chip" href="{{ '/tags/' | append: tag_slug | append: '/' | relative_url }}">
     <span>{{ tag_name }}</span>
     <small>{{ tag[1].size }}</small>
   </a>
