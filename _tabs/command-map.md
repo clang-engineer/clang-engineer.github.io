@@ -10,6 +10,8 @@ title: CLI 지도
 
 <p>CLI 도구가 어떤 문제를 해결하며 서로 어떤 대안·보완 관계에 있는지 탐색한다.</p>
 
+<p><a href="https://github.com/clang-engineer/devkit/blob/main/reference/cli/README.md">지도 읽는 법</a> — 도구의 변화, 사용 환경, 호환성과 선택 기준</p>
+
 <div id="cmdtreemap-root"></div>
 
 <script>window.CMDTREEMAP_BASE = "{{ '/cmdtreemap/' | relative_url }}";</script>
