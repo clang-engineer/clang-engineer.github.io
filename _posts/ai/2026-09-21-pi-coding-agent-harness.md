@@ -2,7 +2,7 @@
 title       : "Claude Code에서 OpenCode를 거쳐 pi까지 — AI 코딩 하네스를 점점 얇게 만든 기록"
 description : "Claude Code·Codex CLI에서 OpenCode와 oh-my-opencode를 거쳐 pi로 이동하며, 완제품 에이전트보다 얇은 하네스와 직접 조립하는 워크플로가 더 맞아진 과정을 정리한다."
 date        : 2026-09-21 22:30:00 +0900
-updated     : 2026-09-22 00:00:00 +0900
+updated     : 2026-10-04 23:00:00 +0900
 categories  : [ai, "코딩 에이전트"]
 tags        : [pi, jev, claude-code, codex, opencode, ai-coding, agent-skills, harness, plan-mode, pi-package]
 pin         : false
@@ -136,7 +136,7 @@ write → 새 파일 생성
 
 여기에 pi는 프로젝트의 `AGENTS.md`나 `CLAUDE.md`를 컨텍스트 파일로 읽고, skill과 prompt template을 별도 자원으로 붙인다. 특히 skill은 `~/.agents/skills/`나 프로젝트 `.agents/skills/` 아래의 `SKILL.md`를 발견하고, 시작 시에는 이름과 설명만 시스템 컨텍스트에 넣는다. 실제 작업에 필요할 때 전체 skill을 읽는 구조다. 즉 모든 지침을 항상 밀어 넣기보다, 필요한 순간에 펼치는 progressive disclosure 방식이다.
 
-내 환경에서는 여기에 `pi-jev` extension도 붙어 있었다. Jev는 pi core가 아니라 확장으로 들어온 보조 판단 도구에 가깝다. 애매한 분류, 선택, skill/tool 탐색처럼 "텍스트를 길게 생성"하기보다 빠르게 판정해야 하는 곳에 붙일 수 있다.
+내 환경에서는 여기에 `pi-jev` extension도 붙어 있었다. Jev 자체는 판단 모델이고, `pi-jev`는 이를 pi에 연결하는 확장이다. 자세한 역할과 활용 경계는 [Jev — 생성하는 LLM 옆에 판단 모델을 두는 이유](./2026-10-04-jev-decision-model.md)에서 다룬다. 애매한 분류, 선택, skill/tool 탐색처럼 "텍스트를 길게 생성"하기보다 빠르게 판정해야 하는 곳에 붙일 수 있다.
 
 ## 얇아진다는 것은 성능이 낮아진다는 뜻이 아니다
 

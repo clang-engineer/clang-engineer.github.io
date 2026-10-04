@@ -2,6 +2,7 @@
 title       : "Pi coding agent — 얇은 하네스를 Package와 Extension으로 조립하기"
 description : "Pi를 완제품 에이전트가 아니라 얇은 코딩 하네스로 보고, Package와 Extension으로 필요한 능력을 붙이는 방식을 정리한다."
 date        : 2026-10-02 00:30:00 +0900
+updated     : 2026-10-04 23:30:00 +0900
 categories  : [ai, "코딩 에이전트"]
 tags        : [pi, pi-package, pi-extension, ai-agent, ai-coding, coding-agent, harness]
 pin         : false
@@ -74,12 +75,25 @@ Pi의 Package는 npm을 통해 배포되는 확장 단위로 볼 수 있다. 직
 | `pi-web-access` | 웹 검색, URL fetch, 외부 문서 확인 |
 | `pi-memory` | long-term memory, daily log, semantic search |
 | `pi-mcp-adapter` | MCP Server 연결 |
-| `pi-jev` | 판단·분류·tool discovery 보조 |
+| `pi-jev` | 판단·분류·도구/스킬 탐색 보조. [Jev의 역할과 활용 경계](./2026-10-04-jev-decision-model.md) 참고 |
 | `@eko24ive/pi-ask` | TUI에서 구조화된 선택 질문 |
 | `@plannotator/pi-extension` | Plan/code review에 주석을 다는 리뷰 워크플로 |
 | `@henryqw/pi-add-dir` | 현재 작업 디렉터리 밖의 폴더를 세션에 추가 |
 
 이 목록에서 보이듯 Pi Package는 단순한 편의 기능보다, 에이전트가 사용할 수 있는 능력 자체를 늘리는 경우가 많다.
+
+### Pi Durable은 Extension이 아니라 앱용 하네스 라이브러리다
+
+이름 때문에 Pi CLI의 auto mode나 장기 실행 옵션처럼 보일 수 있지만, `@earendil-works/pi-durable`은 기존 `pi` 명령에 붙는 Extension Package가 아니다. 별도 Node/TypeScript 애플리케이션에서 `Harness.open()`으로 하네스를 구성하고, 대화·모델 호출·도구 호출·상태를 저장해 중단 후 재개할 수 있게 하는 라이브러리다.
+
+따라서 평소 `pi`를 더 자동으로 돌리고 싶은 목적이라면 직접적인 답이 아니다. 복구 가능한 에이전트 런타임을 앱 안에 넣고 싶을 때 의미가 있다.
+
+예를 들면 다음과 같은 경우다.
+
+- 웹 채팅 UI 뒤에서 에이전트 실행 상태를 보존한다.
+- 서버가 재시작돼도 진행 중인 모델 응답이나 도구 호출을 이어간다.
+- 사용자별 대화와 앱 고유 상태를 함께 저장한다.
+- 자체 코딩 에이전트나 백그라운드 작업 에이전트의 실행 기록을 관리한다.
 
 ```text
 기본 Pi
