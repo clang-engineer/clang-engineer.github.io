@@ -257,7 +257,7 @@ function selectCommand(id) {
 
 async function start() {
   try {
-    const response = await fetch(root.dataset.source || `${assetBase}commands.json`);
+    const response = await fetch(root.dataset.source || `${assetBase}catalog.json`);
     if (!response.ok) throw new Error('commands request failed');
     state.data = await response.json();
     status.innerHTML = '<span>' + state.data.categories.length + '개 카테고리 · 도구의 관계 흐름을 펼쳐보세요.</span>' +
@@ -266,7 +266,7 @@ async function start() {
       '</span>';
     renderTree();
   } catch {
-    status.textContent = 'commands.json을 불러오지 못했습니다.';
+    status.textContent = 'catalog.json을 불러오지 못했습니다.';
     tree.innerHTML = '<p class="cmdtreemap-error">데이터 로드 실패</p>';
   }
 }
@@ -291,3 +291,4 @@ search.addEventListener('input', (event) => {
 });
 
 start();
+

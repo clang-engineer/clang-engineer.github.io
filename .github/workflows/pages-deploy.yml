@@ -12,6 +12,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+  schedule:
+    - cron: "17 */6 * * *"
+
 permissions:
   contents: read
   pages: write
@@ -34,6 +37,9 @@ jobs:
           # submodules: true
           # If using the 'assets' git submodule from Chirpy Starter, uncomment above
           # (See: https://github.com/cotes2020/chirpy-starter/tree/main/assets)
+
+      - name: Import devkit reference data
+        run: python3 tools/sync-devkit.py
 
       - name: Setup Pages
         id: pages
@@ -71,3 +77,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
