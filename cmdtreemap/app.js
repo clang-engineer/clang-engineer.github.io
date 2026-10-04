@@ -260,10 +260,7 @@ async function start() {
     const response = await fetch(root.dataset.source || `${assetBase}catalog.json`);
     if (!response.ok) throw new Error('commands request failed');
     state.data = await response.json();
-    status.innerHTML = '<span>' + state.data.categories.length + '개 카테고리 · 도구의 관계 흐름을 펼쳐보세요.</span>' +
-      '<span class="cmdtreemap-legend" aria-label="관계 유형 범례">' +
-      Object.entries(relationTypes).map(([type, meta]) => '<span class="cmdtreemap-legend-item">' + relationBadge(type) + '<span>' + escapeHtml(meta.description) + '</span></span>').join('') +
-      '</span>';
+    status.textContent = state.data.categories.length + '개 카테고리 · 관계를 선택하면 개선점과 한계를 볼 수 있습니다. 화살표는 관계를 뜻하며 출시 순서를 뜻하지 않습니다.';
     renderTree();
   } catch {
     status.textContent = 'catalog.json을 불러오지 못했습니다.';
