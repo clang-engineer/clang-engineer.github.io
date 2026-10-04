@@ -183,7 +183,7 @@ deploy ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart myapp
 
 마지막 예시가 `sudo`의 진가입니다. 배포 계정에게 root 전권을 주는 대신, **`systemctl restart myapp` 딱 하나만, 비밀번호 없이** 허용합니다. CI/CD 스크립트가 다른 위험한 명령은 절대 못 돌리게 최소 권한으로 묶는 표준 패턴입니다.
 
-> 📎 **치트시트** · [linux](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/linux.md#sudo-권한-부여) — sudo 그룹 부여 vs sudoers 최소 권한 명시 빠른 참조 (GitHub)
+> 📎 **치트시트** · [linux](https://github.com/clang-engineer/devkit/blob/9b42649d702f3b9f5c30b28bad56693f6513dde9/cheatsheets/linux.md#sudo-권한-부여) — sudo 그룹 부여 vs sudoers 최소 권한 명시 빠른 참조 (GitHub)
 {: .prompt-tip }
 
 ---

@@ -10,6 +10,9 @@
 }
 
 .cmdtreemap-status { margin: 0 0 .75rem; color: var(--cmd-muted); }
+.cmdtreemap-status > span:first-child { display: block; }
+.cmdtreemap-relation-badge { display: inline; margin-left: .45rem; color: var(--cmd-muted); font-size: .75rem; font-weight: 400; white-space: nowrap; }
+.cmdtreemap-relation-description { color: var(--cmd-muted); }
 .cmdtreemap-search { width: 100%; padding: .7rem .85rem; border: 1px solid var(--cmd-line); border-radius: 6px; background: var(--cmd-panel); color: var(--cmd-text); font: inherit; }
 .cmdtreemap-layout { display: grid; grid-template-columns: minmax(240px, .8fr) minmax(0, 1.5fr); gap: 1.5rem; margin-top: 1.5rem; align-items: start; }
 .cmdtreemap-tree, .cmdtreemap-detail { min-width: 0; }

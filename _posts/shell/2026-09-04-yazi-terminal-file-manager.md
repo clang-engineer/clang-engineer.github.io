@@ -119,7 +119,7 @@ ya pkg add yazi-rs/flavors:dracula
 ya pkg upgrade
 ```
 
-설치 버전은 `package.toml`에 기록된다. dotfiles에 이 파일을 두면 새 환경에서 `ya pkg install`로 잠긴 버전을 복원할 수 있다. 실제 설정 예시와 전체 키맵은 별도 [Yazi 치트시트](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/yazi.md)에서 관리한다.
+설치 버전은 `package.toml`에 기록된다. dotfiles에 이 파일을 두면 새 환경에서 `ya pkg install`로 잠긴 버전을 복원할 수 있다. 실제 설정 예시와 전체 키맵은 별도 [Yazi 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/yazi.md)에서 관리한다.
 
 ## 언제 쓰면 좋은가
 
@@ -148,6 +148,6 @@ Yazi의 장점은 기능이 많다는 사실보다, **눈으로 탐색하는 파
 - [Yazi Quick Start](https://yazi-rs.github.io/docs/quick-start/)
 - [Yazi Plugin](https://yazi-rs.github.io/docs/plugins/overview/)
 - [Yazi Flavor](https://yazi-rs.github.io/docs/flavors/overview/)
-- [Yazi 치트시트](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/yazi.md)
+- [Yazi 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/yazi.md)
 
 이 글의 명령과 기능은 Yazi `26.9.1` 공식 문서를 기준으로 확인했다.

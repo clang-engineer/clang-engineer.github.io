@@ -63,7 +63,7 @@ Plugin을 만들지 않는다면 **LazyVim 구조 이해에서 핵심 경로가 
 | 글/자료 | 역할 |
 |---|---|
 | [Vim/Neovim 레지스터](./2025-09-24-vim-register.md) | yank/delete/change가 값을 어디에 보관하는지 Zoom-in |
-| [vim cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/vim.md) | motion·operator·mode 빠른 Reference |
+| [vim cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/vim.md) | motion·operator·mode 빠른 Reference |
 
 `operator + motion/text object`, dot-repeat, macro 등은 `vimtutor`·*Practical Vim* 같은 외부 학습 자료로 보완한다. Roadmap은 이 빈칸을 숨기지 않는다.
 

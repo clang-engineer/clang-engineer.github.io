@@ -11,7 +11,7 @@ hidden      : false
 
 낯선 셸 스크립트는 위에서 아래로 문법을 해석하기 전에 **어느 셸이, 어떤 옵션으로, 어떻게 실행하는지**부터 확인해야 한다. 같은 줄도 Bash, Zsh, POSIX `sh`에서 다르게 동작하고, 파일을 실행했는지 `source`로 현재 셸에 불러왔는지에 따라 변수와 `cd`의 생존 범위까지 달라진다.
 
-> 반복해서 찾는 `${...}` 문법표, heredoc, 배열, 반복문, 리다이렉션과 잡 관리 레시피는 **[devkit Shell Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/shell.md)**에서 관리한다. 이 글은 그 표를 복제하지 않고, 실제 스크립트를 읽을 때 무엇을 먼저 의심해야 하는지 설명한다.
+> 반복해서 찾는 `${...}` 문법표, heredoc, 배열, 반복문, 리다이렉션과 잡 관리 레시피는 **[devkit Shell Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/shell.md)**에서 관리한다. 이 글은 그 표를 복제하지 않고, 실제 스크립트를 읽을 때 무엇을 먼저 의심해야 하는지 설명한다.
 {: .prompt-info }
 
 이 글의 목표는 문법을 모두 외우는 것이 아니다. 다음 세 질문으로 코드를 좁혀 읽는 것이다.
@@ -296,7 +296,7 @@ trap 'rm -f "$tmp"' EXIT
 9. Bash와 Zsh의 word splitting, glob 불일치, 배열 인덱스 차이를 의심한다.
 10. POSIX 이식성이 목표라면 Bash에서 실행됐다는 사실 대신 전용 문법이 없는지 확인한다.
 
-문법의 전체 목록이 필요할 때는 [devkit Shell Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/shell.md)를 옆에 둔다. 이 글의 읽기 순서와 함께 쓰면 `${...}` 하나를 외우는 데서 끝나지 않고, 그 확장이 실제 명령과 실패 흐름을 어떻게 바꾸는지까지 추적할 수 있다.
+문법의 전체 목록이 필요할 때는 [devkit Shell Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/shell.md)를 옆에 둔다. 이 글의 읽기 순서와 함께 쓰면 `${...}` 하나를 외우는 데서 끝나지 않고, 그 확장이 실제 명령과 실패 흐름을 어떻게 바꾸는지까지 추적할 수 있다.
 
 ---
 

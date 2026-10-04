@@ -1,464 +1,307 @@
 # 인공지능 생성형 AI·LLM 개념지도
 
-이 문서는 [인공지능 전체 개념지도](00-전체.md)에서 Foundation Model·생성형 AI·LLM(Large Language Model, 대규모 언어 모델) 가지를 선택했을 때, **LLM 내부와 활용 기술을 주변으로 파고들기 위한 하위 지도**다.
+이 문서는 [인공지능 전체 개념지도](00-전체.md)에서 Foundation Model·생성형 AI·LLM(Large Language Model) 가지를 선택했을 때, **개념 위치 → Training / Inference → LLM 내부 → 활용 방식 → Agent / MCP → 응용**의 관계를 더 촘촘히 보는 하위 지도다.
 
-세부 구현과 내부 Algorithm은 `./`에서 다룬다. 이 지도에서는 **Prompt·RAG·Fine-tuning·Agent 같은 대표 활용 Mechanism의 위치와 관계가 복원되는 수준**까지만 펼친다.
+세부 구현과 내부 Algorithm은 개별 세부학습 문서로 내린다.
 
----
+## 1. Foundation Model · 생성형 AI · LLM의 위치
 
-## 1. Foundation Model과 생성형 AI의 좌표
-
-```text
-대규모 Data
- ↓
-Pre-training
- ↓
+~~~text
+[Model 범용성]
 Foundation Model
-├─ Language Foundation Model
-│   └─ LLM
+├─ Language Foundation Model → LLM
 ├─ Vision Foundation Model
 ├─ Multimodal Foundation Model
 └─ Domain Foundation Model
-```
 
-```text
+[생성 목적]
 Generative AI
 ├─ Text
-│   └─ LLM
-│       └─ Autoregressive Token 생성
 ├─ Image
-│   ├─ GAN(Generative Adversarial Network, 생성자와 판별자가 경쟁하며 학습)
-│   └─ Diffusion
 ├─ Audio / Video
 └─ Multimodal
-```
 
-`Foundation Model`, `Generative AI`, `LLM`, `Transformer`, `GAN`, `Diffusion`, `Multimodal`은 같은 계층의 용어가 아니다.
+[Architecture]
+Transformer
+└─ LLM의 대표 기반 Architecture
+~~~
 
-세부학습: [생성형 AI와 Multimodal](생성형-AI와-멀티모달.md), [Foundation Model과 AI 활용 계층](Foundation-Model과-AI-활용계층.md)
+`Foundation Model`, `Generative AI`, `LLM`, `Transformer`는 같은 계층의 용어가 아니다.
 
----
+→ [생성형 AI와 Multimodal](생성형-AI와-멀티모달.md)  
+생성형 AI를 Text·Image·Audio/Video·Multimodal 관점에서 보고 LLM의 위치를 잡는다.
 
-## 2. Model을 만드는 층과 활용하는 층
+→ [Foundation Model과 AI 활용 계층](Foundation-Model과-AI-활용계층.md)  
+Foundation Model이 무엇인지와 Model을 만드는 층·활용하는 층의 경계를 본다.
 
-```text
+## 2. Model을 만드는 층과 사용하는 층을 구분한다
+
+~~~text
 [Model을 만드는 층]
 대규모 Data
- ↓
+  ↓
 Pre-training
- ↓
+  ↓
 Foundation Model
- ↓
+  ↓
 Post-training / Fine-tuning
- ↓
+  ↓
 Serving
 
-[Model을 활용하는 층]
+[Model을 사용하는 층]
 Foundation Model / LLM
- ↓
+  ↓
 Prompt · Context · Retrieval · Tool
- ↓
+  ↓
 업무 Service
-```
+~~~
 
-Fine-tuning은 Model을 추가 학습하는 쪽이고, Prompt·RAG(Retrieval-Augmented Generation, 검색한 외부 지식을 LLM에 함께 제공하는 방식)·Tool은 주로 이미 만들어진 Model을 활용하는 쪽에서 만난다.
+Fine-tuning은 Model을 추가 학습하는 쪽이고, Prompt·RAG·Tool은 주로 이미 만들어진 Model을 활용하는 쪽에서 만난다.
 
-세부학습: [Foundation Model과 AI 활용 계층](Foundation-Model과-AI-활용계층.md), [Fine-tuning과 PEFT·LoRA](Fine-tuning과-PEFT-LoRA.md)
+## 3. Training과 Inference는 Weight 관점에서 구분한다
 
----
-
-## 3. Training과 Inference를 먼저 구분한다
-
-```text
+~~~text
 Training
 Text
  ↓
-다음 Token 예측
- ↓
-정답 Token과 비교
+Prediction
  ↓
 Loss
  ↓
 Backpropagation
  ↓
-Model Weight 수정
-```
+Weight Update
 
-```text
 Inference
-사용자 Context
+Context
  ↓
 학습된 Weight 사용
  ↓
 다음 Token 생성
  ↓
 Context에 추가
- └──────── 반복
-```
+ └──── 반복
+~~~
 
-핵심 구분은 다음과 같다.
+핵심 경계:
 
-```text
+~~~text
 Training  → Weight를 학습·수정
 Inference → 학습된 Weight를 사용
-```
+~~~
 
-이 구분을 잡아야 Prompt·RAG와 Fine-tuning의 차이가 자연스럽게 연결된다.
+이 경계를 이해해야 Prompt·RAG와 Fine-tuning을 혼동하지 않는다.
 
-세부학습: [LLM의 동작 원리](LLM의-동작원리.md), [LLM 추론과 Token 생성](LLM-추론과-Token-생성.md)
+## 4. LLM 내부는 Token 생성 흐름으로 본다
 
----
-
-## 4. LLM 내부: Token에서 다음 Token까지
-
-```text
+~~~text
 Text
  ↓
 Tokenization
  ↓
 Token ID
  ↓
-Token Embedding
+Embedding
  ↓
-Transformer
-├─ Attention
-│   ├─ Query
-│   ├─ Key
-│   └─ Value
-├─ Multi-head Attention
-└─ Feed Forward
+Transformer / Attention
  ↓
-다음 Token 확률분포
+Hidden Representation
  ↓
-Decoding
+LM Head
  ↓
-Token 생성
+Logit
+ ↓
+Softmax / Decoding
+ ↓
+다음 Token
  ↓
 Context에 추가
- └──────── 반복
-```
+ └──── 반복
+~~~
 
-Inference에서 이어지는 꼭지:
+Inference에서 함께 연결되는 대표 Node:
 
-```text
+~~~text
 Inference
 ├─ Context Window
 ├─ Autoregressive Generation
-├─ Decoding
-├─ KV Cache(Key-Value Cache, 이전 Attention 계산 결과를 재사용하는 Cache)
-└─ GPU(Graphics Processing Unit, 대규모 병렬 연산 장치) Memory / Serving
-```
+├─ Prefill / Decode
+├─ KV Cache
+└─ GPU / VRAM / Serving
+~~~
 
-세부학습: [LLM의 동작 원리](LLM의-동작원리.md), [LLM 추론과 Token 생성](LLM-추론과-Token-생성.md), [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)
+학습 경로:
 
----
+1. [LLM의 동작 원리](LLM의-동작원리.md)  
+   → Token·Embedding·Transformer·Attention이 내부에서 어떻게 계산되는지 본다.
+2. [LLM 추론과 Token 생성](LLM-추론과-Token-생성.md)  
+   → Transformer 결과가 Logit·Softmax·Decoding을 거쳐 실제 Token으로 나오는 흐름을 본다.
+3. [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)  
+   → Parameter·VRAM·KV Cache·분산 실행이 왜 필요한지 Hardware 실행 관점으로 연결한다.
 
-## 5. LLM 활용: 무엇이 부족한가에 따라 갈라진다
+이 세 문서는 선후관계가 비교적 강하다.
 
-```text
-                         LLM
-                          │
-        ┌─────────────────┼─────────────────┐
-        ↓                 ↓                 ↓
-      지시·예제           외부 지식            행동
-        │                 │                 │
-Prompt / Few-shot         RAG          Tool Calling
-                          │                 │
-                     Embedding             Agent
-                     Retrieval              │
-                                           MCP
+## 5. LLM 활용은 부족한 것이 무엇인지에 따라 갈라진다
 
-Model 행동 자체를 반복적으로 조정
+~~~text
+                           LLM
+                            │
+       ┌────────────────────┼────────────────────┐
+       ▼                    ▼                    ▼
+   지시 · Context          외부 지식               행동
+Prompt / Few-shot           RAG             Tool / Agent
+
+반복적인 Model 행동 자체를 바꾸고 싶음
 → Fine-tuning
-```
+~~~
 
-MCP(Model Context Protocol, AI Client가 외부 Tool·Resource를 발견하고 호출하는 공통 Protocol)는 Agent가 외부 기능과 연결되는 지점에서 만난다.
+대표 선택 기준:
 
-Prompt·RAG·Fine-tuning·Agent는 같은 문제를 해결하는 단순 대체재가 아니다.
+~~~text
+역할·규칙·예제를 넣고 싶다
+→ Prompt / Few-shot
 
-세부학습: [LLM Prompt와 Context 제어](LLM-프롬프트와-Context-제어.md), [Embedding·Vector Search·RAG](임베딩-벡터검색-RAG.md), [Fine-tuning과 PEFT·LoRA](Fine-tuning과-PEFT-LoRA.md), [Agent와 MCP](에이전트와-MCP.md)
+최신·사내 지식이 필요하다
+→ RAG
 
----
+반복적인 Model 행동 자체를 조정하고 싶다
+→ Fine-tuning
 
-## 6. Prompt · Few-shot · RAG · Tool 결과는 Context에서 만난다
+외부 조회·실행이 필요하다
+→ Tool / Agent
+~~~
 
-```text
-System Prompt ───────────┐
-User Prompt ─────────────┤
-Few-shot Example ────────┤
-Retrieved Context ───────┼→ Context Window → LLM Inference
-Tool Result / Observation┤
-이전 대화 ───────────────┘
-```
+Prompt·RAG·Fine-tuning·Agent는 필수 발전 순서가 아니라 **서로 다른 문제를 해결하는 병렬 활용 가지**다.
 
-LLM 입장에서는 모두 현재 Inference에 들어온 Context다. 차이는 **무엇을 넣느냐**다.
+병렬 Zoom-in:
 
-```text
-System Prompt      → 역할·규칙
-Few-shot           → 입력·출력 예제
-RAG                → 검색한 외부 지식
-Tool Result        → 실제 외부 실행·조회 결과
-User Prompt        → 현재 사용자 요청
-```
+- [LLM Prompt와 Context 제어](LLM-프롬프트와-Context-제어.md)  
+  → System Prompt·Few-shot·Context Window가 Inference에 어떻게 들어가는지 본다.
+- [Embedding · Vector Search · RAG](임베딩-벡터검색-RAG.md)  
+  → 외부 지식을 Chunking·Embedding·Retrieval로 찾아 Context에 넣는 흐름을 본다.
+- [Fine-tuning과 PEFT · LoRA](Fine-tuning과-PEFT-LoRA.md)  
+  → Weight를 바꾸는 학습과 SFT·PEFT·LoRA의 서로 다른 분류축을 본다.
+- [Agent와 MCP](에이전트와-MCP.md)  
+  → LLM이 Tool을 호출하고 Observation을 받아 재판단하는 실행 Loop와 외부 기능 연결 방식을 본다.
 
-Prompt·Few-shot·RAG는 기본 Model Weight를 바꾸지 않는다.
+## 6. Context에 들어오는 정보와 Weight 변경을 구분한다
 
-세부학습: [LLM Prompt와 Context 제어](LLM-프롬프트와-Context-제어.md)
-
----
-
-## 7. 어떤 방법을 선택할 것인가
-
-```text
-무엇을 해결하려는가?
- ↓
-최신·사내 지식이 필요한가?
-├─ 예 → RAG
-└─ 아니오
-    ↓
-몇 개 예제로 Pattern을 보여주면 되는가?
-├─ 예 → Few-shot
-└─ 아니오
-    ↓
-반복적인 Model 행동 자체를 조정해야 하는가?
-├─ 예 → Fine-tuning 검토
-└─ 아니오 → System Prompt / Prompt 설계
-```
-
-외부 세계에서 실제 조회·실행까지 필요하면 별도의 축으로 `Tool / Agent`를 검토한다.
-
-이 선택지는 배타적이지 않다. 실제 시스템에서는 `Prompt + RAG + Fine-tuning + Agent`를 조합할 수 있다.
-
----
-
-## 8. RAG: 외부 지식 가지를 따라간다
-
-```text
-RAG
-├─ 지식 준비
-│   ├─ Chunking
-│   ├─ Embedding
-│   └─ Vector DB
-│
-└─ Retrieval
-    ├─ Keyword / BM25(Best Matching 25, 단어 빈도 기반 대표 검색 점수)
-    ├─ Vector Search
-    │   └─ Exact / ANN
-    ├─ Hybrid Search
-    └─ Re-ranking
+~~~text
+[Inference Context]
+System Prompt
+User Prompt
+Few-shot Example
+Retrieved Context
+Tool Result / Observation
+이전 대화
         ↓
-      관련 원문
+   Context Window
         ↓
-      LLM Context
-```
+      LLM
 
-검색용 Vector는 관련 원문을 찾기 위한 의미적 검색 표현이다.
-
-RAG에서 더 파고들 꼭지:
-
-```text
-Embedding
-├─ Token 표현
-└─ Chunk / Query Vector
-
-Retrieval
-├─ Similarity / Vector Search
-├─ Keyword / Hybrid Search
-├─ Metadata / 권한 Filter
-└─ Re-ranking
-```
-
-세부학습: [Embedding·Vector Search·RAG](임베딩-벡터검색-RAG.md)
-
----
-
-## 9. Fine-tuning
-
-Fine-tuning은 이미 학습된 Model을 목적에 맞게 추가 학습하는 상위 개념이다. 여기서 `무엇을 학습 신호로 쓰는가`와 `어떤 Parameter를 갱신하는가`는 서로 다른 분류축이다.
-
-```text
+[Training]
 Fine-tuning
-├─ [학습 신호 관점]
-│   ├─ SFT(Supervised Fine-Tuning, 입력-정답 Pair로 지도학습)
-│   └─ Preference / RL 계열
-│       └─ 선호·보상 신호를 이용
-└─ [Parameter 업데이트 관점]
-    ├─ Full Fine-tuning
-    └─ PEFT(Parameter-Efficient Fine-Tuning, 적은 학습 Parameter로 효율적으로 조정)
-        └─ LoRA(Low-Rank Adaptation, 기존 Weight를 고정하고 저랭크 행렬을 추가 학습하는 대표 PEFT 기법)
-```
+        ↓
+Weight 또는 추가 학습 Parameter 변경
+~~~
 
-두 축은 독립적이므로 다음 조합이 가능하다.
+Prompt·Few-shot·RAG·Tool Result는 기본 Model Weight를 바꾸지 않는다. Fine-tuning은 Training을 수행해 Weight 또는 추가 학습 Parameter를 바꾼다.
 
-```text
-SFT + Full Fine-tuning
-SFT + LoRA
-Preference / RL 계열 + PEFT
-```
+## 7. Agent · MCP · Harness는 역할을 나눠 본다
 
-> **SFT와 LoRA는 대체 관계가 아니다. SFT는 학습 신호의 관점이고, LoRA는 Parameter를 효율적으로 조정하는 방법이므로 함께 사용할 수 있다.**
-
-```text
-Prompt / Few-shot / RAG
-→ Inference Context 변경
-→ 기본 Model Weight 변경 없음
-
-Fine-tuning
-→ Training 수행
-→ Weight 또는 추가 학습 Parameter 변경
-```
-
-세부학습: [Fine-tuning과 PEFT·LoRA](Fine-tuning과-PEFT-LoRA.md)
-
----
-
-## 10. Agent: 판단에서 행동으로
-
-```text
+~~~text
 사용자 목표
- ↓
-LLM 판단
- ↓
-Tool이 필요한가?
-├─ 아니오 → 답변 / 종료
-└─ 예
-    ↓
-  Tool Call
-    ↓
-  Tool 실행
-    ↓
-  Observation
-    ↓
-  Context에 반영
-    ↓
-  LLM 재판단
-    └────── 반복
-```
+   ↓
+  Agent
+LLM → Tool Call → Observation → LLM
+   │
+   ├─ Tool 연결 규격 → MCP
+   └─ 운영 · 통제   → Harness
+                      ├─ Context
+                      ├─ Rule / Skill
+                      ├─ Permission
+                      └─ Workflow / Orchestration
+~~~
 
-Agent를 잡으면 주변으로 다음을 파고든다.
+대표 경계:
 
-```text
-Agent
-├─ LLM
-├─ Tool
-├─ Observation / Context
-├─ Memory
-├─ Agentic RAG
-└─ Runtime / Harness
-    → Context · Tool · Permission · Workflow를 운영·통제
-```
-
-세부학습: [Agent Harness](Agent-Harness.md), [Agent와 MCP](에이전트와-MCP.md)
-
----
-
-## 11. MCP: 외부 기능 연결 규격
-
-```text
-Agent / AI Client
- ↓
-MCP
-├─ Tools
-├─ Resources
-└─ Prompts
- ↓
-MCP Server
- ↓
-API(Application Programming Interface, 프로그램 간 기능을 호출하는 인터페이스)
-DB(Database, 데이터 저장·조회 시스템)
-File / 외부 System
-```
-
-MCP가 없어도 Agent가 Tool을 직접 호출할 수 있다. MCP는 Agent 자체나 Tool 자체가 아니라 외부 기능을 발견·호출하는 공통 Protocol이다.
-
-```text
+~~~text
 RAG
 = 필요한 정보를 찾는 구조
 
 MCP
-= 외부 기능·Resource를 연결하는 Protocol
+= 외부 Tool · Resource를 연결하는 Protocol
 
 Agent
 = 판단과 행동을 반복하는 실행 주체
 
 Harness
-= Agent를 둘러싼 운영·통제 체계
-```
+= Agent를 둘러싼 운영 · 통제 체계
+~~~
 
-세부학습: [Agent와 MCP](에이전트와-MCP.md), [Agent Harness](Agent-Harness.md)
+→ [Agent와 MCP](에이전트와-MCP.md)  
+먼저 Agent의 실행 Loop와 MCP의 연결 역할을 이해한다.
 
----
+→ [Agent Harness](Agent-Harness.md)  
+그다음 Agent를 Context·Rule·Skill·Permission·Workflow로 어떻게 운영하고 통제하는지 본다.
 
-## 12. RAG와 MCP는 실제로 함께 쓸 수 있다
+RAG와 MCP는 대체 관계가 아니다. MCP로 제공되는 Tool 내부에서 RAG를 사용할 수도 있다.
 
-```text
-Agent
- ↓
-MCP
- ↓
-search_metadata Tool
- ↓
-Embedding / Retrieval
- ↓
-Vector DB
- ↓
-관련 Metadata 반환
- ↓
-Agent
-```
+## 8. 실제 업무 Task로 내려간다
 
-이 구조에서는 계층이 다르다.
-
-```text
-바깥 Interface / 연결 규격 → MCP
-Tool 내부 검색 방식       → RAG
-```
-
-따라서 `RAG vs MCP`가 아니라 **MCP로 제공되는 Tool 내부에서 RAG를 사용할 수 있다**고 이해하는 편이 정확하다.
-
----
-
-## 13. LLM 기반 응용으로 내려간다
-
-```text
+~~~text
 LLM
  ↓
-업무 Task
+Application / Task
 ├─ Chatbot
 ├─ Search / RAG
 ├─ Coding
 ├─ Text2SQL
 └─ Agentic Automation
-```
+~~~
 
-Text2SQL 예:
+Text2SQL은 Task이고 LLM은 이를 구현하는 방법 중 하나다. RAG·Agent는 LLM 기반 Text2SQL과 조합할 수 있다.
 
-```text
-Text2SQL
-├─ Rule / Template
-├─ 전용 ML / Seq2Seq(Sequence-to-Sequence, 입력 Sequence를 출력 Sequence로 변환)
-└─ LLM 기반
-    → Schema 이해 · SQL 생성 · 검증
-```
+→ [Text2SQL과 Schema Linking](Text2SQL과-스키마-링킹.md)  
+Metadata Retrieval·Schema Linking·SQL Generation·Validation이 실제 업무 Task에서 어떻게 연결되는지 본다.
 
-Text2SQL은 Task이고, LLM은 이를 구현하는 방법 중 하나다. RAG·Agent는 LLM 기반 Text2SQL을 구성할 때 조합할 수 있다.
+## 9. 평가 · 통제는 전 과정을 가로지른다
 
-세부학습: [Text2SQL과 Schema Linking](Text2SQL과-스키마-링킹.md)
-
----
-
-## 14. 횡단 통제
-
-생성형 AI·LLM도 AI 전체의 통제 축을 그대로 받는다.
-
-```text
+~~~text
 LLM Application
 ├─ Data / 개인정보
 ├─ Hallucination / 품질
 ├─ Prompt Injection 등 보안
 ├─ Bias / Fairness
-├─ 설명·감사
-└─ 운영 Monitoring / Rollback
-```
+├─ 설명 · 감사
+└─ Monitoring / Rollback
+~~~
 
-이 통제는 LLM 활용 기술과 별도 부록이 아니라 Prompt·RAG·Agent·Serving 전반에 교차한다.
+→ [AI 평가 · Golden Set · Red Teaming](99-AI-평가-Golden-Set과-Red-Teaming.md)  
+Model, Prompt, RAG, Fine-tuning, Agent, Application이 바뀔 때마다 품질과 실패 경계를 반복 검증한다.
+
+## 10. 권장 학습 경로
+
+~~~text
+1. 생성형 AI와 Multimodal
+   → 생성형 AI 전체에서 LLM의 위치
+        ↓
+2. Foundation Model과 AI 활용 계층
+   → Model 범용성과 활용 계층
+        ↓
+3. LLM의 동작 원리
+        ↓
+4. LLM 추론과 Token 생성
+        ↓
+5. LLM 내부 운영과 GPU Memory
+        ↓
+6. 목적에 따라 병렬 Zoom-in
+   ├─ Prompt / Context
+   ├─ RAG
+   ├─ Fine-tuning
+   └─ Agent / MCP → Harness
+        ↓
+7. Text2SQL 등 Application
+~~~
+
+평가·검증은 마지막 한 단계가 아니라 이 경로 전체에 반복 적용한다.

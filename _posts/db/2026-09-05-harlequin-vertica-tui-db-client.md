@@ -172,4 +172,4 @@ Harlequin
 ## 관련 글
 
 - [Harlequin용 Vertica ODBC 어댑터를 만들어 PyPI에 배포하기](../reference/open-source/2026-08-31-harlequin-vertica-odbc-adapter.md) - 범용 ODBC에서 발생한 Vertica Data Catalog 문제와 전용 어댑터 구현 과정
-- [Harlequin Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/harlequin.md) - profile·keymap·기본 사용법
+- [Harlequin Cheatsheet](https://github.com/clang-engineer/devkit/blob/b1fbdbf9c07e6556c8c08c932f06e4bf8e06ba70/cheatsheets/harlequin.md) - profile·keymap·기본 사용법

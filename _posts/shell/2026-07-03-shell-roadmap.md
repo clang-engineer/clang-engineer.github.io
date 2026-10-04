@@ -82,7 +82,7 @@ Quote는 어떤 확장을 막거나 보존하는가?
 
 낯선 Script를 읽을 때도 Interpreter → Quote → Expansion → Exit Status 순으로 추적하면 실행 의미를 놓치지 않는다.
 
-> 📎 **치트시트** · [shell](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/shell.md) · [zsh](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/zsh.md)
+> 📎 **치트시트** · [shell](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/shell.md) · [zsh](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/zsh.md)
 {: .prompt-tip }
 
 ## 3. CLI 설계 — Script를 작은 도구로 만든다

@@ -1,4 +1,6 @@
-const assetBase = window.CMDTREEMAP_BASE || './';
+import { escapeHtml, fetchCatalog } from '../assets/js/reference-data.js';
+
+const catalogUrl = 'https://raw.githubusercontent.com/clang-engineer/devkit/main/reference/cli/catalog.json';
 const root = document.querySelector('#cmdtreemap-root');
 
 if (!root) {
@@ -8,26 +10,27 @@ if (!root) {
 root.classList.add('cmdtreemap-app');
 root.innerHTML = `
   <p class="cmdtreemap-status" data-status>데이터를 불러오는 중...</p>
+  <button type="button" data-retry hidden>다시 시도</button>
   <input class="cmdtreemap-search" data-search type="search" placeholder="도구, 관계, 문제를 검색..." autocomplete="off">
   <div class="cmdtreemap-layout">
     <nav class="cmdtreemap-tree" data-tree aria-label="명령어 관계 tree"></nav>
     <article class="cmdtreemap-detail" data-detail aria-live="polite" hidden></article>
   </div>`;
 
+const relationTypes = {
+  alternative: { label: '대안', description: '같은 문제를 다른 방식으로 해결하는 선택지' },
+  replacement: { label: '대체', description: '기존 도구의 역할을 대부분 대신할 수 있는 선택지' },
+  complement: { label: '보완', description: '기존 도구와 함께 써서 사용성을 확장하는 관계' },
+  wrapper: { label: '래퍼', description: '기존 도구 위에 더 편한 인터페이스를 제공하는 관계' },
+  specialized: { label: '특화', description: '특정 상황이나 작업에 더 집중한 도구' },
+};
+
 const state = { data: null, query: '', selected: null };
 const tree = root.querySelector('[data-tree]');
 const detail = root.querySelector('[data-detail]');
 const search = root.querySelector('[data-search]');
 const status = root.querySelector('[data-status]');
-
-function escapeHtml(value = '') {
-  return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
-}
+const retry = root.querySelector('[data-retry]');
 
 function improvementSummary(solution = '') {
   const summary = [...solution.split(',').map(part => part.trim()).filter(Boolean).slice(0, 2).join(' · ')];
@@ -38,13 +41,24 @@ function commandByName(category, name) {
   return (category.commands || []).find((command) => command.name === name);
 }
 
+function relationMeta(type = 'alternative') {
+  return relationTypes[type] || { label: type, description: '도구 사이의 관계' };
+}
+
+function relationBadge(type) {
+  if (!type) return '';
+  const meta = relationMeta(type);
+  return '<span class="cmdtreemap-relation-badge cmdtreemap-relation-badge--' + escapeHtml(type) + '" title="' + escapeHtml(meta.description) + '">' + escapeHtml(meta.label) + '</span>';
+}
+
 function matches(relation, category) {
   const query = state.query.trim().toLowerCase();
   if (!query) return true;
   const from = commandByName(category, relation.from);
   const to = commandByName(category, relation.to);
   return [
-    relation.from, relation.to, relation.group, relation.why, relation.problem, relation.solution,
+    relation.from, relation.to, relation.group, relation.relation, relation.why, relation.problem, relation.solution,
+    relationMeta(relation.relation).label, relationMeta(relation.relation).description,
     from?.description, to?.description,
   ]
     .filter(Boolean)
@@ -111,7 +125,7 @@ function renderTree() {
       const button = `<button class="cmdtreemap-item${selected ? ' is-selected' : ''}"
         data-relation="${id}" aria-pressed="${selected}" type="button"
         aria-label="${escapeHtml(`${relation.from} → ${relation.to}`)}">
-        <strong>${escapeHtml(node.name)}${node.cycle ? ' ↩' : ''}</strong>${improvementSummary(relation.solution) ? `<span class="cmdtreemap-improvement"> — ${escapeHtml(improvementSummary(relation.solution))}</span>` : ''}
+        <strong>${escapeHtml(node.name)}${node.cycle ? ' ↩' : ''}</strong>${relationBadge(relation.relation)}${improvementSummary(relation.solution) ? `<span class="cmdtreemap-improvement"> — ${escapeHtml(improvementSummary(relation.solution))}</span>` : ''}
       </button>`;
       return `<li>${button}${children ? `<ul>${children}</ul>` : ''}</li>`;
     }
@@ -188,7 +202,7 @@ function selectRelation(id) {
     <p class="cmdtreemap-eyebrow">${escapeHtml(category.name)} / ${escapeHtml(relation.group || '기타')}</p>
     <h2>${escapeHtml(relation.from)} <span>→</span> ${escapeHtml(relation.to)}</h2>
     <dl class="cmdtreemap-facts">
-      ${relation.relation ? `<div><dt>관계 유형</dt><dd>${escapeHtml(relation.relation)}</dd></div>` : ''}
+      ${relation.relation ? `<div><dt>관계 유형</dt><dd>${relationBadge(relation.relation)} <span class="cmdtreemap-relation-description">${escapeHtml(relationMeta(relation.relation).description)}</span></dd></div>` : ''}
       <div><dt>${escapeHtml(relation.from)}의 문제</dt><dd>${escapeHtml(relation.problem || relation.why || '—')}</dd></div>
       <div><dt>${escapeHtml(relation.to)}의 개선점</dt><dd>${escapeHtml(relation.solution || '—')}</dd></div>
       ${relation.boundary ? `<div><dt>남은 한계</dt><dd>${escapeHtml(relation.boundary)}</dd></div>` : ''}
@@ -216,8 +230,8 @@ function selectCommand(id) {
   history.replaceState(null, '', `#${encodeURIComponent(name)}`);
   updateSelection('[data-command]', id);
 
-  const relationItems = outgoing.map((relation) => `<li><strong>${escapeHtml(relation.to)}</strong>${relation.solution ? ` — ${escapeHtml(improvementSummary(relation.solution))}` : ''}</li>`).join('');
-  const incomingItems = incoming.map((relation) => `<li>${escapeHtml(relation.from)} <span>→</span> <strong>${escapeHtml(name)}</strong></li>`).join('');
+  const relationItems = outgoing.map((relation) => `<li><strong>${escapeHtml(relation.to)}</strong> ${relationBadge(relation.relation)}${relation.solution ? ` — ${escapeHtml(improvementSummary(relation.solution))}` : ''}</li>`).join('');
+  const incomingItems = incoming.map((relation) => `<li>${escapeHtml(relation.from)} <span>→</span> <strong>${escapeHtml(name)}</strong> ${relationBadge(relation.relation)}</li>`).join('');
 
   detail.hidden = false;
   detail.innerHTML = `
@@ -237,14 +251,19 @@ function selectCommand(id) {
 }
 
 async function start() {
+  retry.hidden = true;
+  search.disabled = true;
+  status.textContent = '데이터를 불러오는 중...';
   try {
-    const response = await fetch(root.dataset.source || `${assetBase}commands.json`);
-    if (!response.ok) throw new Error('commands request failed');
-    state.data = await response.json();
-    status.textContent = `${state.data.categories.length}개 카테고리 · 도구의 관계 흐름을 펼쳐보세요. 출시 연대순이 아닌 대안·보완 관계입니다.`;
+    const data = await fetchCatalog(root.dataset.source || catalogUrl);
+    if (!Array.isArray(data.categories) || data.categories.some(category => !Array.isArray(category.relations) || !Array.isArray(category.commands))) throw new Error('Invalid catalog');
+    state.data = data;
+    search.disabled = false;
+    status.textContent = state.data.categories.length + '개 카테고리 · 관계를 선택하면 개선점과 한계를 볼 수 있습니다. 화살표는 관계를 뜻하며 출시 순서를 뜻하지 않습니다.';
     renderTree();
   } catch {
-    status.textContent = 'commands.json을 불러오지 못했습니다.';
+    status.textContent = '데이터를 불러오지 못했습니다. 다시 시도해 주세요.';
+    retry.hidden = false;
     tree.innerHTML = '<p class="cmdtreemap-error">데이터 로드 실패</p>';
   }
 }
@@ -268,4 +287,6 @@ search.addEventListener('input', (event) => {
   renderTree();
 });
 
+retry.addEventListener('click', start);
 start();
+

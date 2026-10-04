@@ -250,7 +250,7 @@ lazydocker  → Docker container 상태 / logs / restart / exec
 
 `btop`으로 "누가 자원을 쓰고 있는지" 찾고, 해당 프로세스가 systemd unit이나 container라면 로그 도구로 넘어가는 흐름이 자연스럽다.
 
-> 📎 **치트시트** · [linux-process](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/linux-process.md) — 프로세스 조회·signal·background job 등 빠른 참조 (GitHub)
+> 📎 **치트시트** · [linux-process](https://github.com/clang-engineer/devkit/blob/9b42649d702f3b9f5c30b28bad56693f6513dde9/cheatsheets/linux-process.md) — 프로세스 조회·signal·background job 등 빠른 참조 (GitHub)
 {: .prompt-tip }
 
 ## 정리

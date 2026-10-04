@@ -268,4 +268,4 @@ Conventional Commits
 ## 참고
 
 - [Conventional Commits 1.0.0](https://www.conventionalcommits.org/ko/v1.0.0/)
-- [cheatsheet — git](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/git.md) — Git 명령어 빠른 참조
+- [cheatsheet — git](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/git.md) — Git 명령어 빠른 참조

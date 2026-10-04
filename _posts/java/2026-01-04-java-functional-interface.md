@@ -2,7 +2,7 @@
 title       : Java `java.util.function` 핵심 정리
 description : "람다의 타겟 타입인 java.util.function 패키지를 Runnable·Comparator 배경부터 Function·Predicate·Consumer·Supplier 4대장까지 정리한다."
 date        : 2026-01-04 12:20:48 +0900
-updated     : 2026-01-04 12:28:39 +0900
+updated     : 2026-10-04 12:01:00 +0900
 categories  : [java, "언어·런타임"]
 tags        : [lambda, functional-interface, stream]
 pin         : false
@@ -20,75 +20,40 @@ redirect_from:
 
 ## 왜 `java.util.function`이 필요한가?
 
-Java에서 **람다는 단독으로 존재할 수 없다**.
-반드시 **함수형 인터페이스(추상 메서드 1개)** 를 타겟 타입으로 가져야 한다.
+### 1. Java에는 독립적인 함수가 없다
+
+Java는 기본적으로 **클래스와 객체, 그리고 그 안에 속한 메서드(method)** 를 중심으로 설계된 언어다.
+
+예를 들어 다음처럼 클래스 밖에 독립적인 함수를 선언할 수 없다.
 
 ```java
-x -> x * 2   // 타입 없음 (단독 사용 불가)
-```
-
-```java
-Function<Integer, Integer> f = x -> x * 2; // 정상
-```
-
-→ `java.util.function`은 **람다의 표준 타겟 타입**을 제공하기 위해 만들어졌다.
-
----
-
-## Java 8 이전에도 존재했던 Functional Interface
-
-람다가 Java 8에서 추가되었지만, **함수형 인터페이스 자체는 그 이전부터 존재**했다.
-대표적인 예가 바로 `Runnable`, `Comparator` 등이다.
-
-### Runnable
-
-```java
-Runnable r = () -> System.out.println("run");
-```
-
-```java
-public interface Runnable {
-    void run();
+int add(int a, int b) {
+    return a + b;
 }
 ```
 
-* 추상 메서드가 **1개** → 함수형 인터페이스
-* Java 1.0부터 존재
-* Java 8에서 람다의 대표적인 타겟 타입이 됨
-
----
-
-### Comparator<T>
+반드시 클래스 안의 메서드여야 한다.
 
 ```java
-Comparator<Integer> comp = (a, b) -> a - b;
-```
-
-```java
-public interface Comparator<T> {
-    int compare(T o1, T o2);
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
 }
 ```
 
-* 두 값을 비교하는 함수형 인터페이스
-* 정렬, 우선순위 로직에 핵심적으로 사용
-
-```java
-list.sort((a, b) -> b - a);
-```
+즉 전통적인 Java에서 **동작은 독립적인 값이라기보다 객체가 가진 메서드**였다.
 
 ---
 
-### 핵심 포인트
+### 2. Java 8 이전에는 "동작"을 객체로 감싸서 전달했다
 
-> **람다는 새로운 개념이 아니라, 기존 인터페이스 구현 문법을 간결하게 만든 것**
+그렇다면 다른 코드에 "나중에 실행할 동작"을 넘기고 싶을 때는 어떻게 했을까?
 
-* Java 8 이전: 익명 클래스
-* Java 8 이후: 람다 표현식
+Java 8 이전에는 그 동작을 가진 객체를 만들어 전달했다.
 
 ```java
-// Java 7
-new Runnable() {
+Runnable r = new Runnable() {
     @Override
     public void run() {
         System.out.println("run");
@@ -96,9 +61,611 @@ new Runnable() {
 };
 ```
 
+실제로 전달되는 것은 `run()` 메서드 자체가 아니라 **`Runnable`을 구현한 객체**다.
+
+```text
+동작을 전달하고 싶다
+        ↓
+그 동작을 메서드로 가진 객체를 만든다
+        ↓
+그 객체를 전달한다
+```
+
+`Runnable`, `Comparator`, `Callable` 같은 인터페이스가 Java 8 이전부터 널리 사용된 이유도 여기에 있다.
+
+---
+
+### 3. Java 8에서 람다 표현식이 추가됐다
+
+Java 8에서는 위와 같은 익명 클래스 코드를 더 간단하게 표현할 수 있도록 람다가 도입됐다.
+
 ```java
+Runnable r = () -> System.out.println("run");
+```
+
+하지만 여기서 중요한 점이 있다.
+
+Java는 람다를 도입하면서 별도의 **함수 타입 문법**을 새로 만들지 않았다.
+
+개념적으로 다음과 같은 함수 모양이 있다고 해보자.
+
+```text
+(int) -> int
+(String) -> boolean
+() -> String
+```
+
+일부 언어에서는 이런 "입력 타입 → 반환 타입" 자체를 함수 타입으로 표현할 수 있지만, Java에서는 다음과 같은 타입 선언 문법이 없다.
+
+```java
+(int -> int) f = x -> x + 1;   // Java 문법 아님
+```
+
+Java에서 변수의 타입은 여전히 클래스나 인터페이스 타입이어야 한다.
+
+---
+
+### 4. 그래서 기존 인터페이스를 람다의 타입으로 사용한다
+
+Java는 새로운 함수 타입 체계를 만드는 대신, **추상 메서드가 하나인 인터페이스를 람다의 타겟 타입(target type)으로 사용**하기로 했다.
+
+```java
+Function<Integer, Integer> f = x -> x + 1;
+```
+
+`Function<T, R>`의 핵심 메서드는 다음과 같다.
+
+```java
+R apply(T t);
+```
+
+따라서
+
+```java
+Function<Integer, Integer> f = x -> x + 1;
+```
+
+에서 컴파일러는 왼쪽의 `Function<Integer, Integer>`를 보고 람다를 다음 메서드의 구현으로 해석한다.
+
+```java
+Integer apply(Integer x) {
+    return x + 1;
+}
+```
+
+즉 `x -> x + 1`이 처음부터 `Function<Integer, Integer>`라는 독립적인 함수 타입을 가지고 있는 것이 아니다.
+
+**주변 문맥의 타겟 타입이 람다의 의미를 결정한다.**
+
+이 때문에 다음 코드는 사용할 수 없다.
+
+```java
+var f = x -> x + 1; // 컴파일 오류
+```
+
+람다만 보고는 그것이 `Function`인지, 아니면 같은 형태의 다른 함수형 인터페이스인지 결정할 수 없기 때문이다.
+
+---
+
+### 5. 왜 추상 메서드가 하나여야 하는가?
+
+다음 인터페이스를 생각해보자.
+
+```java
+interface Something {
+    void foo();
+    void bar();
+}
+```
+
+여기에 다음 람다를 대입한다면,
+
+```java
+Something s = () -> System.out.println("hello");
+```
+
+이 람다가 `foo()`를 구현하는 것인지 `bar()`를 구현하는 것인지 결정할 수 없다.
+
+반대로 추상 메서드가 하나뿐이면 대응 관계가 명확하다.
+
+```java
+interface Task {
+    void run();
+}
+
+Task task = () -> System.out.println("hello");
+```
+
+이러한 인터페이스를 **SAM(Single Abstract Method) 인터페이스**, Java에서는 일반적으로 **함수형 인터페이스(Functional Interface)** 라고 부른다.
+
+---
+
+### 6. C++ 람다와 비교하면 무엇이 다른가?
+
+C++에서는 람다를 하나 작성하면 컴파일러가 그 람다 전용의 **고유한 closure type**을 만든다고 이해할 수 있다.
+
+```cpp
+auto f = [](int x) {
+    return x + 1;
+};
+```
+
+개념적으로는 다음과 비슷하다.
+
+```cpp
+class /* unnamed */ {
+public:
+    int operator()(int x) const {
+        return x + 1;
+    }
+};
+```
+
+그래서 C++에서는 람다 객체 자체가 호출 가능한 객체(callable object)이고,
+
+```cpp
+f(10);
+```
+
+처럼 호출할 수 있다.
+
+반면 Java는 두 가지 점에서 접근이 다르다.
+
+첫째, Java에는 사용자가 `operator()` 같은 호출 연산자를 오버로딩하는 기능이 없다. 따라서 객체를 C++처럼 `f(x)` 형태로 호출하는 모델을 그대로 사용할 수 없다.
+
+둘째, 더 본질적으로 Java 람다는 C++처럼 **람다마다 고유한 closure type을 소스 수준의 타입으로 직접 다루는 모델을 채택하지 않았다.**
+
+그래서 다음 코드는 허용되지 않는다.
+
+```java
+var f = x -> x + 1; // 컴파일 오류
+```
+
+Java의 `var`가 타입 추론 기능이 없어서가 아니다. 람다 표현식은 애초에 **타겟 타입이 필요한 표현식**이기 때문이다.
+
+반드시 다음처럼 함수형 인터페이스가 먼저 주어져야 한다.
+
+```java
+Function<Integer, Integer> f = x -> x + 1;
+```
+
+여기서 `Function<Integer, Integer>`는 세 가지 역할을 동시에 한다.
+
+1. 이 람다를 어떤 타입으로 볼지 정한다.
+2. 람다가 구현해야 할 단일 추상 메서드가 `apply()`임을 정한다.
+3. API 입장에서 이 동작이 `Integer -> Integer` 형태라는 계약을 표현한다.
+
+즉 `operator()`가 있었다면 Java도 호출 문법을 `f.apply(10)` 대신 `f(10)`처럼 설계할 수 있었을 가능성은 있다.
+
+하지만 그것만으로는 충분하지 않다. 여전히 **이 람다를 어떤 타입으로 받을지**, 그리고 **API가 어떤 형태의 동작을 요구하는지**를 타입 시스템에서 표현해야 한다.
+
+예를 들어 `Stream.map()`은 단순히 "아무 람다"를 받는 것이 아니라 `T -> R` 형태의 동작을 요구한다.
+
+```java
+<R> Stream<R> map(Function<? super T, ? extends R> mapper)
+```
+
+여기서 `Function`은 단순한 호출 편의가 아니라 **API 계약을 표현하는 타입**이다.
+
+정리하면 다음과 같다.
+
+```text
+C++
+람다
+  ↓
+고유 closure type 생성
+  ↓
+operator()를 가진 callable object
+  ↓
+auto로 타입 추론 가능
+  ↓
+f(x) 호출
+
+Java
+SAM 인터페이스가 먼저 존재
+  ↓
+람다가 그 인터페이스를 target type으로 삼음
+  ↓
+단일 추상 메서드 구현으로 해석
+  ↓
+apply()/test()/run() 등으로 호출
+```
+
+> **Java의 핵심 차이는 단순히 `operator()`가 없다는 것이 아니라,
+> 람다를 독립적인 고유 함수 타입으로 다루기보다 기존 인터페이스 타입 시스템에 맞춰 해석하도록 설계했다는 점이다.**
+
+---
+
+### 7. 그래서 `java.util.function`이 추가됐다
+
+`Runnable`, `Comparator`, `Callable`처럼 기존에도 함수형 인터페이스는 있었지만, 범용적인 함수 형태를 표현하기에는 부족했다.
+
+예를 들어 다음과 같은 형태가 반복해서 필요하다.
+
+```text
+T -> R
+T -> boolean
+T -> void
+() -> T
+```
+
+Java 8은 이들을 표준 인터페이스로 제공했다.
+
+| 함수의 형태 | 표준 인터페이스 | 핵심 메서드 |
+| --- | --- | --- |
+| `T -> R` | `Function<T, R>` | `R apply(T t)` |
+| `T -> boolean` | `Predicate<T>` | `boolean test(T t)` |
+| `T -> void` | `Consumer<T>` | `void accept(T t)` |
+| `() -> T` | `Supplier<T>` | `T get()` |
+
+따라서 `java.util.function`은 단순히 "람다를 담는 상자"라기보다,
+
+> **Java의 기존 객체/인터페이스 타입 시스템 안에서 람다를 일관되게 사용할 수 있도록 자주 쓰는 함수의 모양을 표준화한 인터페이스 모음이다.**
+
+---
+
+### 핵심 정리
+
+```text
+Java는 원래 독립 함수보다 객체 + 메서드 중심
+        ↓
+Java 8에서 람다 표현식 도입
+        ↓
+하지만 별도의 함수 타입 문법이나
+C++식 고유 closure type 모델을 소스 수준에 도입하지 않음
+        ↓
+추상 메서드 하나짜리 인터페이스(SAM)를
+람다의 target type으로 사용
+        ↓
+SAM이 람다의 타입 + 호출 메서드 + API 계약을 제공
+        ↓
+Function / Predicate / Consumer / Supplier 등을 표준화
+```
+
+> **Java의 람다는 독립적인 함수 타입을 새로 만든 것이 아니라,
+> 함수형 인터페이스의 단일 추상 메서드 구현을 간결하게 표현하는 방식이다.**
+
+---
+
+## Java 8 이전에도 존재했던 Functional Interface
+
+람다가 Java 8에서 추가되었지만, **추상 메서드 하나를 가진 인터페이스 자체는 그 이전부터 널리 사용**되고 있었다.
+
+대표적인 예가 `Runnable`, `Callable`, `Comparator`다.
+
+| 인터페이스 | 추상 메서드 | 함수 모양 | 대표 용도 |
+| --- | --- | --- | --- |
+| `Runnable` | `void run()` | `() -> void` | 실행할 작업 |
+| `Callable<V>` | `V call()` | `() -> V` | 결과를 반환하는 작업 |
+| `Comparator<T>` | `int compare(T a, T b)` | `(T, T) -> int` | 두 값의 순서 비교 |
+
+이들은 Java 8 이전에는 주로 익명 클래스 형태로 사용했고, Java 8 이후에는 같은 인터페이스를 람다의 타겟 타입으로 사용할 수 있게 됐다.
+
+---
+
+### Runnable — 입력도 반환도 없는 작업
+
+`Runnable`의 핵심 메서드는 다음과 같다.
+
+```java
+public interface Runnable {
+    void run();
+}
+```
+
+함수 모양으로 보면 다음과 같다.
+
+```text
+() -> void
+```
+
+Java 8 이전에는 익명 클래스로 구현했다.
+
+```java
+Runnable r = new Runnable() {
+    @Override
+    public void run() {
+        System.out.println("작업 실행");
+    }
+};
+```
+
+Java 8 이후에는 같은 구현을 람다로 줄일 수 있다.
+
+```java
+Runnable r = () -> System.out.println("작업 실행");
+```
+
+호출은 여전히 인터페이스의 메서드를 사용한다.
+
+```java
+r.run();
+```
+
+대표적으로 스레드에 실행할 작업을 전달할 때 사용한다.
+
+```java
+new Thread(r).start();
+```
+
+즉 `Runnable`은 **"나중에 실행할 코드"를 객체로 전달하던 오래된 Java 패턴**의 대표적인 예다.
+
+#### Runnable과 Consumer는 뭐가 다른가?
+
+둘 다 반환값이 없다는 점은 비슷하지만 함수 모양은 다르다.
+
+```text
+Runnable       () -> void
+Consumer<T>    T -> void
+```
+
+`Runnable`은 입력 없이 작업을 실행하고,
+
+```java
+Runnable r = () -> System.out.println("run");
+r.run();
+```
+
+`Consumer<T>`는 값을 하나 받아서 처리한다.
+
+```java
+Consumer<String> printer = s -> System.out.println(s);
+printer.accept("hello");
+```
+
+따라서 `Runnable`은 `java.util.function`의 4대 인터페이스 중 정확히 대응되는 타입은 없고, 개념적으로는 **"인자 없는 Consumer"**에 가깝다.
+
+---
+
+### Callable<V> — 결과를 반환하는 작업
+
+`Callable<V>`는 `Runnable`과 비슷하지만 결과값을 반환할 수 있다.
+
+```java
+public interface Callable<V> {
+    V call() throws Exception;
+}
+```
+
+함수 모양은 다음과 같다.
+
+```text
+() -> V
+```
+
+Java 8 이전에는 다음처럼 사용했다.
+
+```java
+Callable<Integer> task = new Callable<Integer>() {
+    @Override
+    public Integer call() throws Exception {
+        return 10 + 20;
+    }
+};
+```
+
+Java 8 이후에는 다음처럼 표현할 수 있다.
+
+```java
+Callable<Integer> task = () -> 10 + 20;
+```
+
+`Callable`은 보통 `ExecutorService`에 작업을 넘기고 결과를 `Future`로 받을 때 사용한다.
+
+```java
+Future<Integer> future = executor.submit(task);
+Integer result = future.get();
+```
+
+`Runnable`과 비교하면 차이가 명확하다.
+
+```text
+Runnable     () -> void
+Callable<V>  () -> V
+```
+
+또한 `Callable.call()`은 checked exception을 던질 수 있다는 차이도 있다.
+
+#### Callable과 Supplier는 뭐가 다른가?
+
+함수의 모양만 보면 둘은 거의 같다.
+
+```text
+Callable<V>   () -> V
+Supplier<T>   () -> T
+```
+
+차이는 **용도와 계약**이다.
+
+```java
+public interface Callable<V> {
+    V call() throws Exception;
+}
+```
+
+```java
+public interface Supplier<T> {
+    T get();
+}
+```
+
+- `Callable`은 보통 **실행할 작업(task)** 을 표현한다.
+- `Supplier`는 보통 **필요할 때 값을 제공하는 로직**을 표현한다.
+- `Callable.call()`은 checked exception을 던질 수 있다.
+- `Supplier.get()`은 checked exception을 직접 선언할 수 없다.
+
+예를 들어 `Callable`은 실행기에 넘기는 식으로 자주 사용한다.
+
+```java
+Callable<Integer> task = () -> 10;
+Future<Integer> future = executor.submit(task);
+```
+
+반면 `Supplier`는 값을 지연해서 만들거나 제공하는 데 자주 사용한다.
+
+```java
+Supplier<Integer> supplier = () -> 10;
+Integer value = supplier.get();
+```
+
+```java
+optional.orElseGet(() -> createValue());
+```
+
+즉 둘 다 `() -> T` 형태지만,
+
+> **Callable = 결과를 반환하는 작업**
+>
+> **Supplier = 값을 공급하는 함수**
+
+라고 보면 이해하기 쉽다.
+
+이 차이는 함수형 인터페이스가 단순히 "함수 모양"만 표현하는 것이 아니라, **API가 기대하는 의미와 사용 문맥까지 계약으로 드러낼 수 있다**는 좋은 예다.
+
+---
+
+### Comparator<T> — 두 값을 비교하는 동작
+
+`Comparator<T>`는 두 값을 받아 정렬 순서를 결정한다.
+
+핵심 메서드는 다음과 같다.
+
+```java
+public interface Comparator<T> {
+    int compare(T o1, T o2);
+}
+```
+
+함수 모양으로 보면 다음과 같다.
+
+```text
+(T, T) -> int
+```
+
+Java 8 이전에는 익명 클래스로 작성했다.
+
+```java
+Comparator<Integer> comp = new Comparator<Integer>() {
+    @Override
+    public int compare(Integer a, Integer b) {
+        return Integer.compare(a, b);
+    }
+};
+```
+
+Java 8 이후에는 람다로 줄일 수 있다.
+
+```java
+Comparator<Integer> comp =
+        (a, b) -> Integer.compare(a, b);
+```
+
+그리고 정렬 API에 전달한다.
+
+```java
+list.sort(comp);
+```
+
+또는 람다를 직접 전달할 수도 있다.
+
+```java
+list.sort((a, b) -> Integer.compare(a, b));
+```
+
+여기서 중요한 점은 `list.sort(...)`가 람다를 "아무 코드 조각"으로 받는 것이 아니라, 파라미터 타입이 `Comparator<? super E>`이므로 그 람다를 `Comparator`의 `compare()` 구현으로 해석한다는 것이다.
+
+#### Comparator와 BiFunction은 뭐가 다른가?
+
+함수 모양만 보면 둘은 비슷하다.
+
+```text
+Comparator<T>              (T, T) -> int
+BiFunction<T, T, Integer>   (T, T) -> Integer
+```
+
+하지만 의미는 다르다.
+
+`Comparator<T>`의 반환값은 단순한 숫자 결과가 아니라 **정렬 순서에 대한 계약**을 가진다.
+
+```text
+음수  -> 첫 번째 값이 앞
+0     -> 같은 순서
+양수  -> 두 번째 값이 앞
+```
+
+예를 들어:
+
+```java
+Comparator<String> byLength =
+        (a, b) -> Integer.compare(a.length(), b.length());
+```
+
+반면 `BiFunction<T, U, R>`은 두 값을 받아 결과 하나를 계산하는 일반 함수다.
+
+```java
+BiFunction<Integer, Integer, Integer> add =
+        (a, b) -> a + b;
+```
+
+즉 함수의 입출력 모양이 비슷하더라도 인터페이스가 나타내는 **도메인 의미와 API 계약**은 다를 수 있다.
+
+---
+
+### Java 8에서 바뀐 것은 인터페이스가 아니라 표현 방식이다
+
+세 인터페이스를 `java.util.function` 계열과 비교하면 다음처럼 정리할 수 있다.
+
+| 기존 인터페이스 | 함수 모양 | 비슷한 표준 함수형 인터페이스 | 핵심 차이 |
+| --- | --- | --- | --- |
+| `Runnable` | `() -> void` | 정확한 대응 없음 | 입력 없는 실행 작업 |
+| `Callable<T>` | `() -> T` | `Supplier<T>` | task 의미 + checked exception 가능 |
+| `Comparator<T>` | `(T, T) -> int` | `BiFunction<T, T, Integer>`와 형태 유사 | 반환값에 정렬 의미가 있음 |
+
+> **함수 모양이 같거나 비슷하다고 같은 인터페이스인 것은 아니다.**
+> 함수형 인터페이스는 입출력 시그니처뿐 아니라 API가 기대하는 의미와 사용 문맥도 계약으로 표현한다.
+
+이 세 인터페이스는 람다 때문에 생긴 것이 아니다.
+
+Java 8 이전에도 이미 다음과 같은 패턴이 존재했다.
+
+```text
+인터페이스
+    ↓
+추상 메서드 하나
+    ↓
+익명 클래스가 그 메서드를 구현
+    ↓
+구현 객체를 API에 전달
+```
+
+Java 8의 람다는 이 구조를 없앤 것이 아니라, **단일 추상 메서드의 구현을 더 간결하게 적을 수 있게 만든 것**이다.
+
+```java
+// Java 7
+Runnable r = new Runnable() {
+    @Override
+    public void run() {
+        System.out.println("run");
+    }
+};
+
 // Java 8+
-() -> System.out.println("run");
+Runnable r = () -> System.out.println("run");
+```
+
+즉 역사적으로 보면 흐름은 다음과 같다.
+
+```text
+Java 8 이전
+Runnable / Callable / Comparator 같은 SAM 패턴이 이미 존재
+        ↓
+동작을 익명 클래스 객체로 전달
+
+Java 8
+기존 SAM 인터페이스를 람다의 target type으로 활용
+        +
+Function / Predicate / Consumer / Supplier 같은
+범용 함수형 인터페이스 추가
 ```
 
 ---
@@ -113,11 +680,11 @@ interface MyFilter<T> { boolean check(T t); }
 interface MyCreator<T> { T create(); }
 ```
 
-* API 간 람다 호환 불가
-* 타입 불일치 빈번
-* 다형성 활용 불가
+* 같은 함수 모양을 표현하는 인터페이스 이름이 API마다 달라짐
+* 이미 만들어진 인터페이스 객체는 서로 다른 SAM 타입 사이에서 직접 호환되지 않음
+* 공통 조합 API를 제공하기 어려움
 
-→ **결과적으로 람다는 문법 설탕에 그치고 생태계는 붕괴**
+→ **표준 함수형 인터페이스가 있으면 API들이 같은 함수의 모양과 조합 규칙을 공유할 수 있다.**
 
 ---
 
@@ -299,7 +866,7 @@ Predicate<Order>         // 조합(and/or)이 필요하면 특히 표준
 ```
 
 - 시그니처가 표준으로 표현되고, 도메인 이름이 굳이 필요 없다면 커스텀은 순수 비용이다.
-- `Stream`·`Optional` 등 표준 API에 넘길 값이면 반드시 표준 타입이어야 한다.
+- `Stream`·`Optional` 등의 메서드는 파라미터 타입으로 `Function`, `Predicate` 같은 표준 인터페이스를 요구한다. 람다 표현식을 직접 넘기면 그 호출 문맥의 파라미터 타입이 람다의 타겟 타입이 된다.
 
 > 판단은 "도메인 의미가 있는가 + 표준으로 시그니처가 표현되는가" 두 축이다. 이름값이 크고 표준으로 안 되면 커스텀, 아니면 표준.
 

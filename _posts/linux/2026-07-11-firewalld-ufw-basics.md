@@ -128,7 +128,7 @@ sudo firewall-cmd --permanent --add-service=http  # 재부팅 후에도
 > **`--reload`는 런타임 규칙을 permanent 기준으로 통째로 다시 씁니다.** 그래서 `--permanent` 없이 넣어둔 런타임 임시 규칙이 있으면 `--reload` 순간 모두 사라집니다. "잘 되던 규칙이 reload 후 없어졌다"면 십중팔구 permanent에 저장을 안 한 것입니다. 무엇이 permanent에 있는지는 `--permanent --list-all`로 따로 확인하세요.
 {: .prompt-warning }
 
-> 📎 **치트시트** · [rocky-linux](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/rocky-linux.md) — firewalld·SELinux·nginx 리버스 프록시 서버 구축 빠른 참조 (GitHub)
+> 📎 **치트시트** · [rocky-linux](https://github.com/clang-engineer/devkit/blob/d3c0dbe464b3113417c9ebaead9b21842070feb1/cheatsheets/rocky-linux.md) — firewalld·SELinux·nginx 리버스 프록시 서버 구축 빠른 참조 (GitHub)
 {: .prompt-tip }
 
 ---
@@ -228,7 +228,7 @@ getenforce                                        # Enforcing 이면 SELinux 활
 sudo semanage port -a -t http_port_t -p tcp 8080  # 8080을 http 포트로 SELinux에 등록
 ```
 
-자세한 건 범위 밖이라 짧게만 짚습니다 — [rocky-linux 치트시트](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/rocky-linux.md)의 SELinux 절에 nginx 리버스 프록시에서 502가 나던 실제 사례가 있습니다. "방화벽은 열었는데 안 된다"면 SELinux를 의심하세요.
+자세한 건 범위 밖이라 짧게만 짚습니다 — [rocky-linux 치트시트](https://github.com/clang-engineer/devkit/blob/d3c0dbe464b3113417c9ebaead9b21842070feb1/cheatsheets/rocky-linux.md)의 SELinux 절에 nginx 리버스 프록시에서 502가 나던 실제 사례가 있습니다. "방화벽은 열었는데 안 된다"면 SELinux를 의심하세요.
 
 ---
 

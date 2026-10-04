@@ -205,7 +205,7 @@ git:
 
 delta는 Git 동작을 바꾸지 않으면서 매일 보는 diff의 정보 밀도를 높인다. 처음부터 스타일을 세세하게 조정하기보다 `navigate`, `line-numbers`, 맞는 테마만 켜고, `side-by-side`는 사용하는 터미널 폭에 따라 고르는 것이 좋다.
 
-명령만 빠르게 다시 볼 때는 [modern CLI 치트시트의 delta 절](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/modern-cli.md#delta--git-diff-페이저)을 참고한다.
+명령만 빠르게 다시 볼 때는 [modern CLI 치트시트의 delta 절](https://github.com/clang-engineer/devkit/blob/af9ef5cfea727cb82e0879474218b2aa0d194575/cheatsheets/modern-cli.md#delta--git-diff-페이저)을 참고한다.
 
 ## 참고
 

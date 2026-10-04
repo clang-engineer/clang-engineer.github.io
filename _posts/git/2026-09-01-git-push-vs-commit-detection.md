@@ -263,4 +263,4 @@ behind
 
 ## 참고
 
-- [cheatsheet — git](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/git.md) — Git 명령어 빠른 참조
+- [cheatsheet — git](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/git.md) — Git 명령어 빠른 참조

@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **Claude Code** 갈래 2단계(매일 쓰기) · 빠른 명령 참조는 [devkit의 Claude Code cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/claude-code.md)에서 관리한다.
+> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **Claude Code** 갈래 2단계(매일 쓰기) · 빠른 명령 참조는 [devkit의 Claude Code cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/claude-code.md)에서 관리한다.
 
 Claude Code의 슬래시 명령은 전부 외우는 대상이 아니다. `/help`가 항상 최신 목록을 보여 주고, 명령 세부는 버전에 따라 바뀐다. 블로그 글에는 전체 사전보다 **어떤 역할의 명령이 있는지**, 그리고 **언제 커스텀 명령으로 빼야 하는지**를 남기는 편이 오래 간다.
 
@@ -157,7 +157,7 @@ allowed-tools: Bash(git diff:*)
 
 ## 참고
 
-- 빠른 명령 참조: [devkit Claude Code cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/claude-code.md)
+- 빠른 명령 참조: [devkit Claude Code cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/claude-code.md)
 - 전체 개요·설치·작동 모드: [Claude Code 정리](./2025-10-24-claude-code.md)
 - 메모리 시스템: [Claude Code 메모리 시스템](./2026-03-12-claude-code-memory.md)
 - 실전 자동화: [Claude Code 실전 워크플로](./2026-07-03-claude-code-workflow.md)

@@ -177,7 +177,7 @@ Build Tool 숙련
 | 글/자료 | 역할 |
 |---|---|
 | [cpplint·clang-format](./2024-10-22-cpplint-clangformat.md) | 팀 Style을 Tool로 강제하는 별도 운영 축 |
-| [gdb cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/gdb.md) | Debug 명령 빠른 Reference |
+| [gdb cheatsheet](https://github.com/clang-engineer/devkit/blob/af9ef5cfea727cb82e0879474218b2aa0d194575/cheatsheets/gdb.md) | Debug 명령 빠른 Reference |
 
 ## 일반 Concept과의 경계
 
