@@ -122,6 +122,6 @@ pane 단위로 하나씩, 위 명령을 **반복**해야 한다. 그리고 —
 tmux에서 "merge를 못 찾겠다"는 막힘은, 사실 pane이 프로세스라는 사실을 아직
 안 봤다는 신호였던 셈이다.
 
-> 📎 **치트시트** · [tmux](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/tmux.md) —
+> 📎 **치트시트** · [tmux](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/tmux.md) —
 > `join-pane` 옵션(`-s`/`-t`/`-h`/`-v`)·타겟 문법·stash 토글 빠른 참조
 {: .prompt-tip }

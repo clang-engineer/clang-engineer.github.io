@@ -11,7 +11,7 @@ hidden      : false
 
 chezmoi를 처음 쓰면 `~/.zshrc`를 고쳤는데 왜 원본이 바뀌지 않는지, 반대로 저장소의 파일을 고쳤는데 왜 홈에는 바로 반영되지 않는지 헷갈리기 쉽다. chezmoi는 파일을 양방향으로 동기화하는 도구가 아니다. **원본으로부터 이 머신의 결과를 계산하고, 그 결과를 홈에 적용하는 도구**다.
 
-> 명령·파일명 규칙·템플릿 함수의 전체 목록은 [devkit chezmoi Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/chezmoi.md)에서 계속 관리한다. 이 글은 목록 대신 source에서 destination으로 가는 흐름과 그 이유에 집중한다.
+> 명령·파일명 규칙·템플릿 함수의 전체 목록은 [devkit chezmoi Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/chezmoi.md)에서 계속 관리한다. 이 글은 목록 대신 source에서 destination으로 가는 흐름과 그 이유에 집중한다.
 
 선택 기준이 먼저 필요하다면 [chezmoi vs 심링크](./2026-07-08-chezmoi-vs-symlink-dotfiles.md)를 참고하자.
 
@@ -130,4 +130,4 @@ chezmoi init --apply <repo>
 - destination 직접 편집은 source를 바꾸지 않는다. 다음 apply가 덮는 것은 단방향 상태 적용 모델의 의도된 결과다.
 - 템플릿을 source에 보존하면 같은 저장소로 머신마다 다른 destination을 재현할 수 있다.
 
-전체 명령과 속성, 시크릿, 자동화 스크립트, 삭제 절차가 필요할 때는 [devkit chezmoi Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/chezmoi.md)를 기준으로 확인하자.
+전체 명령과 속성, 시크릿, 자동화 스크립트, 삭제 절차가 필요할 때는 [devkit chezmoi Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/chezmoi.md)를 기준으로 확인하자.

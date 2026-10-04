@@ -13,7 +13,7 @@ hidden      : false
 
 이 글은 SSH로 **들어가는 법**(클라이언트·키 인증)과 그 문을 **안전하게 잠그는 법**(`sshd_config` 하드닝)을, 특히 잠기지 않는 순서에 초점을 맞춰 정리합니다.
 
-> 📎 **치트시트** · [ssh](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/ssh.md) — ~/.ssh/config·키 생성·keepalive 빠른 참조 (GitHub)
+> 📎 **치트시트** · [ssh](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/ssh.md) — ~/.ssh/config·키 생성·keepalive 빠른 참조 (GitHub)
 {: .prompt-tip }
 
 ---

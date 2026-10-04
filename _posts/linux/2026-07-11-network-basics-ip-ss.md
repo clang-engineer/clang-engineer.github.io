@@ -215,7 +215,7 @@ sudo ss -tlnp | grep :443
 
 ---
 
-> 📎 **치트시트** · [linux](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/linux.md) — ip·ss·dig 네트워크 진단 빠른 참조 (GitHub)
+> 📎 **치트시트** · [linux](https://github.com/clang-engineer/devkit/blob/9b42649d702f3b9f5c30b28bad56693f6513dde9/cheatsheets/linux.md) — ip·ss·dig 네트워크 진단 빠른 참조 (GitHub)
 {: .prompt-tip }
 
 ---

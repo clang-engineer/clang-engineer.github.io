@@ -106,7 +106,7 @@ Remote / Cloud Task
 | [Claude Code 슬래시 명령어 사전](./2025-10-24-claude-code-slash-commands.md) | Slash Command Reference와 Custom Command |
 | [Claude Code 메모리 시스템 정리](./2026-03-12-claude-code-memory.md) | `CLAUDE.md`와 지속 Context의 역할 분리 |
 
-> 📎 **치트시트** · [claude-code](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/claude-code.md) — 반복 명령 빠른 참조
+> 📎 **치트시트** · [claude-code](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/claude-code.md) — 반복 명령 빠른 참조
 {: .prompt-tip }
 
 Reference를 모두 외우는 것이 아니라:

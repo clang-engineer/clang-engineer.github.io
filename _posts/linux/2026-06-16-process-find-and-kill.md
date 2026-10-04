@@ -11,7 +11,7 @@ hidden      : false
 
 서버를 다시 띄우려는데 포트가 이미 사용 중이거나, 오래전에 실행한 작업이 남아 있는 일은 흔합니다. 이때 중요한 것은 명령어를 많이 아는 게 아니라 **무엇을 종료할지 먼저 확인하고, 정상 종료를 요청한 뒤, 결과를 검증하는 순서**입니다.
 
-이 글은 그 판단과 작업 흐름에 집중합니다. 명령·옵션·시그널의 전체 목록이 필요하다면 [devkit Linux Process Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/cheatsheets/linux-process.md)를 참고하세요.
+이 글은 그 판단과 작업 흐름에 집중합니다. 명령·옵션·시그널의 전체 목록이 필요하다면 [devkit Linux Process Cheatsheet](https://github.com/clang-engineer/devkit/blob/9b42649d702f3b9f5c30b28bad56693f6513dde9/cheatsheets/linux-process.md)를 참고하세요.
 
 ---
 
