@@ -1,3 +1,5 @@
+import { escapeHtml, fetchCatalog } from '../assets/js/reference-data.js';
+
 const catalogUrl = 'https://raw.githubusercontent.com/clang-engineer/devkit/main/reference/cli/catalog.json';
 const root = document.querySelector('#cmdtreemap-root');
 
@@ -29,15 +31,6 @@ const detail = root.querySelector('[data-detail]');
 const search = root.querySelector('[data-search]');
 const status = root.querySelector('[data-status]');
 const retry = root.querySelector('[data-retry]');
-
-function escapeHtml(value = '') {
-  return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
-}
 
 function improvementSummary(solution = '') {
   const summary = [...solution.split(',').map(part => part.trim()).filter(Boolean).slice(0, 2).join(' · ')];
@@ -262,9 +255,7 @@ async function start() {
   search.disabled = true;
   status.textContent = '데이터를 불러오는 중...';
   try {
-    const response = await fetch(root.dataset.source || catalogUrl, { cache: 'no-store', signal: AbortSignal.timeout(15000) });
-    if (!response.ok) throw new Error('commands request failed');
-    const data = await response.json();
+    const data = await fetchCatalog(root.dataset.source || catalogUrl);
     if (!Array.isArray(data.categories) || data.categories.some(category => !Array.isArray(category.relations) || !Array.isArray(category.commands))) throw new Error('Invalid catalog');
     state.data = data;
     search.disabled = false;

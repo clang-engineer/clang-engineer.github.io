@@ -1,11 +1,9 @@
+import { escapeHtml, fetchCatalog } from './reference-data.js';
+
 const browser = document.querySelector('.cheatsheet-browser');
 const catalogStatus = document.querySelector('#cheatsheet-search-status');
 const retry = document.querySelector('#cheatsheet-retry');
 const searchInput = document.querySelector('#cheatsheet-search-input');
-
-function escapeHtml(value = '') {
-  return String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
-}
 
 function linkHtml(link) {
   if (!link?.url) return '';
@@ -58,10 +56,6 @@ function initializeBrowser() {
     const placeholder = document.querySelector('#cheatsheet-detail-placeholder');
     const loaded = new Set();
     const tldrBaseUrl = 'https://raw.githubusercontent.com/tldr-pages/tldr/main/pages/';
-
-    function escapeHtml(value) {
-      return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-    }
 
     function renderTldr(markdown) {
       const lines = markdown.split('\n');
@@ -195,9 +189,7 @@ async function loadCatalog() {
   searchInput.disabled = true;
   catalogStatus.textContent = '목록을 불러오는 중...';
   try {
-    const response = await fetch(browser.dataset.source, { cache: 'no-store', signal: AbortSignal.timeout(15000) });
-    if (!response.ok) throw new Error('Catalog request failed');
-    renderCatalog(await response.json());
+    renderCatalog(await fetchCatalog(browser.dataset.source));
     searchInput.disabled = false;
     initializeBrowser();
   } catch {

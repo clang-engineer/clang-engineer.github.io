@@ -4,6 +4,8 @@ icon: fas fa-sitemap
 order: 94
 hidden: true
 title: CLI 지도
+redirect_from:
+  - /cmdtreemap/
 ---
 
 <link rel="stylesheet" href="{{ '/cmdtreemap/app.css' | relative_url }}">

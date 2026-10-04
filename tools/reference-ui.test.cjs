@@ -6,6 +6,11 @@ const { resolve } = require('node:path');
 const base = resolve(__dirname, '..');
 const cheatSource = readFileSync(resolve(base, 'assets/js/cheatsheets.js'), 'utf8');
 const cliSource = readFileSync(resolve(base, 'cmdtreemap/app.js'), 'utf8');
+const sharedSource = readFileSync(resolve(base, 'assets/js/reference-data.js'), 'utf8').replace(/^export /gm, '');
+function runUI(source, context) {
+  vm.runInContext(sharedSource, context);
+  vm.runInContext(source.replace(/^import .*;\n/gm, ''), context);
+}
 const remote = 'https://raw.githubusercontent.com/clang-engineer/devkit/main/reference/';
 function node() {
   return { innerHTML: '', textContent: '', hidden: false, disabled: false, dataset: {}, listeners: {}, classList: {add(){}, toggle(){}},
@@ -17,7 +22,7 @@ function cheatSetup(fetch) {
   get('.cheatsheet-browser').dataset.source = remote + 'cheatsheets/catalog.json';
   get('.cheatsheet-browser').querySelector = get;
   const context = vm.createContext({ document:{querySelector:get}, fetch, URL, AbortSignal });
-  vm.runInContext(cheatSource.replace('loadCatalog();\n',''),context);
+  runUI(cheatSource.replace('loadCatalog();\n',''),context);
   vm.runInContext('initializeBrowser = () => {};',context);
   return {context,elements,get};
 }
@@ -58,7 +63,7 @@ function cliSetup(fetch){
   const get=selector=>{if(!elements.has(selector))elements.set(selector,node());return elements.get(selector);};
   const root=node();root.querySelector=get;
   const context=vm.createContext({window:{},document:{querySelector:()=>root},fetch,AbortSignal});
-  vm.runInContext(cliSource.replace('start();\n',''),context);
+  runUI(cliSource.replace('start();\n',''),context);
   return {context,get};
 }
 test('CLI loads remote data and recovers from an offline request with retry', async()=>{
