@@ -58,7 +58,7 @@ order: 6
 - [harlequin-odbc-vertica](https://github.com/clang-engineer/harlequin-odbc-vertica) — Harlequin용 Vertica ODBC community adapter · PyPI 배포 · 공식 문서 PR 진행 중
 - [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) — Neovim 플러그인 · jdtls/Gradle JDK 환경 분리 · awesome-neovim 등록
 - [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) — vim-dadbod Vertica 어댑터 + dadbod-ui schema-tree 통합 · awesome-neovim 등록
-- [pi-extensions](https://github.com/clang-engineer/pi-extensions) — Pi coding agent extension 모음 · `@clang.engineer/pi-notify` npm 배포
+- [pi-extensions](https://github.com/clang-engineer/pi-extensions) — Pi coding agent extension 모음 · `@clang.engineer/pi-notify`, `@clang.engineer/pi-workloop` npm 배포
 - [dotfiles](https://github.com/clang-engineer/dotfiles) — Neovim·zsh·tmux·Pi 등 개발환경 설정
 - [devkit](https://github.com/clang-engineer/devkit) — cheatsheets·templates 모음
 

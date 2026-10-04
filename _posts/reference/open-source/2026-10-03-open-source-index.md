@@ -18,7 +18,7 @@ hidden      : false
 | [harlequin-odbc-vertica](https://github.com/clang-engineer/harlequin-odbc-vertica) | Harlequin용 Vertica ODBC community adapter | [PyPI](https://pypi.org/project/harlequin-odbc-vertica/), [공식 문서 PR](https://github.com/tconbeer/harlequin-web/pull/163) 진행 중 |
 | [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) | Neovim에서 jdtls·Gradle용 JDK 경로를 분리해 주입하는 plugin | [awesome-neovim PR](https://github.com/rockerBOO/awesome-neovim/pull/2365) merged |
 | [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) | vim-dadbod용 Vertica adapter | [awesome-neovim PR](https://github.com/rockerBOO/awesome-neovim/pull/2355) merged |
-| [pi-extensions](https://github.com/clang-engineer/pi-extensions) | Pi coding agent extension monorepo | [`@clang.engineer/pi-notify`](https://www.npmjs.com/package/@clang.engineer/pi-notify) npm 배포 |
+| [pi-extensions](https://github.com/clang-engineer/pi-extensions) | Pi coding agent extension monorepo | [`@clang.engineer/pi-notify`](https://www.npmjs.com/package/@clang.engineer/pi-notify), [`@clang.engineer/pi-workloop`](https://www.npmjs.com/package/@clang.engineer/pi-workloop) npm 배포 |
 
 ## Upstream PR
 
