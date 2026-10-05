@@ -183,7 +183,109 @@ Java Virtual Thread
 
 다만 Java Virtual Thread는 JVM의 구체적인 현대 구현이므로 고전적인 Many-to-Many 운영체제 모델과 완전히 동일한 구현으로 등치하지 않는다.
 
-## 9. 기억·인출
+## 9. 다른 Runtime과 비교
+
+Java Virtual Thread만 특수한 아이디어는 아니다. 여러 Runtime은 **많은 논리 실행 단위를 적은 수의 OS 실행 자원 위에서 효율적으로 처리**하려고 서로 다른 방식을 사용한다.
+
+### Go goroutine
+
+Go Runtime은 많은 goroutine을 여러 OS Thread 위에서 Scheduling한다.
+
+~~~text
+Goroutine 다수
+      ↓
+Go Runtime Scheduler
+      ↓
+OS Thread 여러 개
+      ↓
+Kernel Scheduler
+      ↓
+CPU
+~~~
+
+Go Runtime 내부에서는 보통 다음 세 요소로 설명한다.
+
+~~~text
+G = Goroutine
+M = OS Thread
+P = Go Code를 실행하기 위한 Scheduler Resource
+
+G + P + M
+→ 실제 Go Code 실행
+~~~
+
+따라서 goroutine은 고전적인 관점에서 **User-level 실행 단위**, OS Thread는 **Kernel-scheduled 실행 단위**에 대응하며, 전체 구조는 M:N Scheduling의 대표적인 현대 사례로 볼 수 있다.
+
+### Node.js
+
+Node.js는 goroutine이나 Virtual Thread처럼 많은 User-level Thread를 M:N으로 Mapping하는 모델이 중심은 아니다.
+
+~~~text
+JavaScript Callback / Task 다수
+        ↓
+Event Loop
+= 주로 하나의 JavaScript 실행 Thread에서 순차 실행
+
+일부 Blocking / Expensive 작업
+        ↓
+libuv Worker Pool
+        ↓
+OS Thread
+~~~
+
+즉 Node.js의 핵심은 **많은 Thread를 만드는 대신 Event Loop로 많은 I/O 작업을 조율하고, 필요한 작업만 Worker Pool에 넘기는 Event-driven 모델**이다.
+
+따라서 Node.js를 단순히 `Many-to-One Thread Mapping`이라고 외우기보다:
+
+~~~text
+많은 비동기 Task
+→ Event Loop가 조율
+
+일부 Blocking / CPU성 작업
+→ Worker Pool의 OS Thread로 Offload
+~~~
+
+로 이해하는 편이 정확하다.
+
+### Python
+
+Python은 어떤 동시성 도구를 사용하느냐에 따라 구조가 달라진다.
+
+~~~text
+Python concurrency
+├─ threading
+│   └─ OS Thread 사용
+│
+├─ asyncio
+│   └─ Event Loop 위에서 많은 Coroutine / Task를 협력적으로 실행
+│
+└─ multiprocessing
+    └─ 여러 OS Process 사용
+~~~
+
+일반적인 CPython의 `threading`은 OS Thread를 사용하지만, 기본 GIL-enabled Build에서는 한 시점에 하나의 Thread만 Python Bytecode를 실행한다. I/O 대기 중에는 GIL이 풀릴 수 있다.
+
+`asyncio`는 Thread Mapping Model이라기보다 **하나의 Event Loop가 많은 Coroutine / Task를 Scheduling하는 협력적 동시성 모델**에 가깝다.
+
+`multiprocessing`은 Thread Mapping이 아니라 Process 자체를 여러 개 사용하는 방식이다.
+
+참고로 CPython은 3.13부터 GIL을 비활성화할 수 있는 Free-threaded Build도 지원하므로, `Python = 항상 GIL 때문에 병렬 실행 불가`라고 고정해서 외우지는 않는다.
+
+## 10. 한눈에 비교
+
+| Runtime / Model | Application-level 실행 단위 | OS 실행 자원과의 관계 | 핵심 방식 |
+|---|---|---|---|
+| Java Platform Thread | Platform Thread | 거의 1:1 OS Thread | One-to-One 성격 |
+| Java Virtual Thread | Virtual Thread | 여러 Carrier / OS Thread에 다중화 | M:N 성격 |
+| Go | Goroutine | 여러 OS Thread에 Runtime Scheduling | M:N |
+| Node.js | Callback / Task | Event Loop + Worker Pool | Event-driven |
+| Python threading | Python Thread | OS Thread | Native Thread 기반 |
+| Python asyncio | Coroutine / Task | Event Loop | Cooperative Async |
+| Python multiprocessing | Process | OS Process | Process Parallelism |
+
+핵심은 **모든 Runtime을 Many-to-One / One-to-One / Many-to-Many 세 칸에 억지로 넣지 않는 것**이다. 이 세 분류는 ULT↔KLT Mapping을 설명할 때 유용하고, Node.js Event Loop나 Python asyncio처럼 다른 동시성 모델은 별도의 축으로 본다.
+
+## 11. 기억·인출
 
 ~~~text
 Platform Thread
