@@ -216,6 +216,52 @@ G + P + M
 
 따라서 goroutine은 고전적인 관점에서 **User-level 실행 단위**, OS Thread는 **Kernel-scheduled 실행 단위**에 대응하며, 전체 구조는 M:N Scheduling의 대표적인 현대 사례로 볼 수 있다.
 
+
+### Java Virtual Thread와 Go 전환을 KLT 관점에서 보면
+
+Kernel Thread 분배 관점만 놓고 보면 Java Virtual Thread와 Go goroutine은 큰 구조가 비슷하다.
+
+~~~text
+Java Virtual Thread
+많은 Virtual Thread
+        ↓ JVM Scheduler
+여러 Carrier / OS Thread
+        ↓
+Kernel Scheduler
+        ↓
+CPU
+
+Go goroutine
+많은 Goroutine
+        ↓ Go Runtime Scheduler
+여러 OS Thread
+        ↓
+Kernel Scheduler
+        ↓
+CPU
+~~~
+
+즉 둘 다 **많은 User-level 실행 단위를 여러 Kernel-scheduled Thread 위에 다중화하는 M:N 계열**이다.
+
+따라서:
+
+> **"Java는 Thread가 무거우니 Kernel Thread를 아끼기 위해 Go로 전환한다"는 이유는 Java Virtual Thread를 사용하는 환경에서는 설득력이 크게 줄어든다.**
+
+언어·Runtime 전환의 가치는 이 관점 밖에서 판단해야 한다.
+
+~~~text
+Java ↔ Go 선택
+├─ Runtime / Scheduler 구현 차이
+├─ GC와 Memory 특성
+├─ Startup / 배포 형태
+├─ Latency 특성
+├─ Ecosystem
+├─ 언어 생산성 / 안전성
+└─ 운영 환경
+~~~
+
+즉 **KLT 분배 효율만으로 Java Virtual Thread와 Go를 구분하지 않는다.**
+
 ### Node.js
 
 Node.js는 goroutine이나 Virtual Thread처럼 많은 User-level Thread를 M:N으로 Mapping하는 모델이 중심은 아니다.
