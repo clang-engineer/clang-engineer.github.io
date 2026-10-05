@@ -130,7 +130,7 @@ CNN·RNN·Transformer가 각각 어떤 관계를 잘 표현하는지와 구조�
 
 Transformer는 Foundation Model·LLM으로 이어지는 연결점이다.
 
-→ [생성형 AI·LLM 개념지도](02-생성형AI-LLM.md)  
+→ 생성형 AI·LLM 개념지도  
 Transformer 이후 Foundation Model·LLM이 어디에 위치하고, 생성형 AI 활용 기술로 어떻게 이어지는지 본다.
 
 ## 6. Model을 만들었으면 평가 · 검증한다
