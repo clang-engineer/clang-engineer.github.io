@@ -44,7 +44,11 @@ Machine Learning
 │   └─ Association Rule
 │
 └─ Reinforcement Learning
-    └─ MDP → Q-Learning → DQN
+    └─ MDP(Markov Decision Process, 상태·행동·보상으로 순차 의사결정을 표현)
+        ↓
+       Q-Learning(행동가치 Q를 학습)
+        ↓
+       DQN(Deep Q-Network, Q-Learning에 Neural Network를 결합)
 ~~~
 
 대표 인출 좌표:
@@ -54,6 +58,35 @@ Machine Learning
 - Reinforcement: MDP, Q-Learning, DQN
 
 이 이름들은 하나의 발전 사슬이 아니라 **각 문제군에서 비교·선택하는 대표 Algorithm**이다.
+
+성안당·학습등급표에서 반복되는 다른 대표 문제군도 위치만 함께 잡는다.
+
+~~~text
+대표 문제 · 방법
+├─ 시계열 예측
+│   └─ ARIMA
+│      → 과거 값과 오차의 Pattern으로 시계열을 예측
+│
+├─ 확률 추론
+│   └─ Bayes
+│      → 사전 정보와 관측 결과로 확률을 갱신
+│
+├─ 숨은 상태를 가진 순차 Data
+│   └─ HMM
+│      → 직접 보이지 않는 상태의 전이를 관측값으로 추정
+│
+├─ 탐색
+│   └─ MCTS
+│      → Simulation을 반복하며 유망한 선택 경로를 탐색
+│
+└─ Text 표현
+    ├─ Tokenization / N-gram
+    │   → Text를 처리 가능한 단위와 연속 Pattern으로 표현
+    └─ Word2Vec
+        → 단어의 의미 관계를 Vector로 표현
+~~~
+
+이 Node들은 현재 지도에서 **기술사 범위의 위치와 역할을 복원하기 위한 인출 좌표**까지만 둔다. 세부 수식·계산·Algorithm 단계는 필요할 때만 세부학습으로 내려간다.
 
 ## 3. Algorithm은 판단 원리와 함께 묶어 본다
 
