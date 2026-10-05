@@ -237,76 +237,23 @@ Many-to-Many
 
 ---
 
-## 9. Java에 대입하면 더 쉽다
+## 9. 현대 Runtime에 대입
 
-### 일반 Platform Thread
+고전 Mapping Model을 현대 Runtime에 대입하면 다음 정도만 기억한다.
 
 ~~~text
-Application
-   ↓
 Java Platform Thread
-   ↓ 거의 1:1
-OS Native Thread / KLT
-   ↓
-Kernel Scheduler
-   ↓
-CPU
+≈ One-to-One 성격
+
+Java Virtual Thread
+≈ 많은 Virtual Thread를 여러 Carrier Platform Thread 위에 다중화
+≈ Many-to-Many 성격
 ~~~
 
-Application/JVM이 Thread를 만들도록 **요청**하고 Thread Pool 크기를 정할 수는 있지만, 실제 KLT의 관리·Scheduling 주체는 Kernel이다.
+여기서는 **고전 Thread Mapping Model과의 연결점만 확인**한다. JVM Scheduler, Carrier Thread, Virtual Thread의 실제 실행 구조와 Blocking 동작은 별도 보충학습으로 내려간다.
 
-~~~text
-Application / JVM
-├─ Thread 생성 요청
-├─ Thread Pool 크기 결정
-└─ 작업 배치
-        ↓
-Kernel
-├─ 실제 OS Thread(KLT) 관리
-└─ CPU Scheduling
-~~~
-
-그래서 일반 Java Thread / ThreadPool worker는 **One-to-One 성격**이 강하다.
-
-### Java Virtual Thread
-
-Virtual Thread를 쓰면 User-level 실행 단위가 하나 더 생긴다.
-
-~~~text
-Application Task
-      ↓
-Virtual Thread
-= JVM이 관리하는 경량 실행 단위
-      ↓
-JVM Scheduler
-      ↓
-Carrier Platform Thread
-      ↓ 거의 1:1
-OS Native Thread / KLT
-      ↓
-Kernel Scheduler
-      ↓
-CPU
-~~~
-
-역할을 나누면:
-
-~~~text
-Virtual Thread
-→ JVM이 관리
-
-Carrier / Platform Thread
-→ Virtual Thread를 실제로 실행시키는 JVM 측 실행 자원
-
-OS Native Thread / KLT
-→ Kernel이 관리·Scheduling
-~~~
-
-즉 Java Virtual Thread는 **많은 User-level 실행 흐름을 여러 Kernel-scheduled Thread 위에 다중화한다는 점에서 Many-to-Many 성격**으로 이해할 수 있다.
-
-다만 고전적인 Many-to-Many 모델과 Java Virtual Thread 구현을 완전히 같은 것으로 등치하지는 않는다.
-
----
+→ [Java Virtual Thread · Carrier Thread · JVM Scheduling](Java-Virtual-Thread-Carrier-JVM-Scheduling.md)  
+고전 ULT/KLT Mapping이 Java Virtual Thread 구조에 실제로 어떻게 대응되는지 더 깊게 볼 때 읽는다.
 
 ## 10. Blocking 관점에서 보면 차이가 더 잘 보인다
 
@@ -396,11 +343,9 @@ One-to-One
 Many-to-Many
 = 여러 ULT → 여러 KLT
 
-Java Platform Thread
-≈ One-to-One 성격
-
-Java Virtual Thread
-≈ Many-to-Many 성격
+현대 Runtime 예
+Java Platform Thread ≈ One-to-One 성격
+Java Virtual Thread  ≈ Many-to-Many 성격
 ~~~
 
 가장 중요한 문장:
