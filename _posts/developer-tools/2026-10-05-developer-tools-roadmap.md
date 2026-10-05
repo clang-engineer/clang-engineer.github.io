@@ -5,6 +5,8 @@ date        : 2026-10-05 18:30:00 +0900
 updated     : 2026-10-05 18:40:00 +0900
 categories  : [developer-tools, "개요·인덱스"]
 tags        : [developer-tools, roadmap, editor, terminal, shell, cli, tui, vcs]
+redirect_from:
+  - /posts/developer-tools/2026-10-05-development-environment-tool-map/
 pin         : false
 hidden      : false
 ---
@@ -57,9 +59,12 @@ Developer Tools
    └─ Raycast / Alfred / Spotlight
 ```
 
-역할 자체를 먼저 보고 싶다면 아래 글부터 읽는다.
+이 Roadmap이 전체 입구다. 세부 관계는 아래 지도로 내려간다.
 
-- [개발 환경 도구 지도 — 편집기·터미널·CLI를 한눈에]({% post_url developer-tools/2026-10-05-development-environment-tool-map %})
+- [Editor Map — Vim·Neovim·Emacs·Helix·Zed의 관계]({% post_url developer-tools/2026-10-05-editor-map %})
+- [VCS Map — SVN·Git·Jujutsu와 lazygit·jjui의 레이어]({% post_url developer-tools/2026-10-05-vcs-map %})
+- [Window Management Map — i3·sway·AeroSpace·yabai·Rectangle의 관계]({% post_url developer-tools/2026-10-05-window-management-map %})
+- Terminal/TUI는 기존 [Terminal Roadmap]({% post_url terminal/2026-09-05-terminal-roadmap %})이 이미 관계도 역할을 한다.
 
 ## 1. Editors
 
@@ -74,15 +79,12 @@ Editor
 └─ Sublime     빠른 전통적 GUI editor
 ```
 
-현재 글:
+관계는 [Editor Map]({% post_url developer-tools/2026-10-05-editor-map %})에서 먼저 본다.
+
+깊이 있는 글:
 
 - [LazyVim 사용자가 본 Emacs — 에디터가 아니라 Elisp 런타임]({% post_url developer-tools/2026-07-03-neovim-user-view-of-emacs %})
 - [Neovim Roadmap]({% post_url neovim/2026-06-16-neovim-roadmap %})
-
-추가해서 보기 좋은 주제:
-
-- Helix — Vim 계열과 다른 selection-first modal editing
-- Zed — native GUI editor가 개발 기능을 어디까지 통합하는가
 
 ## 2. Terminal / Session / TUI
 
@@ -144,7 +146,7 @@ Harlequin 자체는 개발 도구지만 현재 글은 Vertica 비교가 중심�
 
 ## 5. Version Control
 
-여기서는 **VCS 자체와 그 UI를 분리해서** 본다.
+먼저 [VCS Map]({% post_url developer-tools/2026-10-05-vcs-map %})에서 **VCS 자체와 그 UI 레이어**를 분리해서 본다.
 
 ```text
 Git                  Jujutsu
@@ -158,13 +160,18 @@ Git                  Jujutsu
 - [Git Roadmap]({% post_url git/2026-10-01-git-roadmap %})
 - [Git delta pager]({% post_url git/2026-08-12-git-delta-pager %})
 
-추가해서 보기 좋은 주제:
+## 6. Window Management
 
-- Jujutsu — Git과 다른 revision/change 중심 VCS 모델
-- jjui — Jujutsu를 조작하는 TUI
-- lazygit — Git CLI 위의 TUI라는 레이어 정리
+창 관리 도구도 같은 이름 아래 여러 레이어가 섞인다.
 
-## 6. Productivity / Extensible Tools
+- [Window Management Map — i3·sway·AeroSpace·yabai·Rectangle의 관계]({% post_url developer-tools/2026-10-05-window-management-map %})
+- [AeroSpace 기본]({% post_url macos/2026-07-03-aerospace-basics %})
+- [Hammerspoon 기본]({% post_url macos/2026-07-03-hammerspoon-basics %})
+- [Rectangle.app 기본]({% post_url macos/2026-07-03-rectangle-app-basics %})
+
+관계도에서는 i3/sway/AeroSpace/yabai 같은 tiling 계열과 Rectangle 같은 placement utility, Hammerspoon 같은 automation runtime을 분리한다.
+
+## 7. Productivity / Extensible Tools
 
 코딩만 하는 도구는 아니지만 개발자의 작업 환경을 구성하거나 확장 플랫폼 역할을 하는 도구들이다.
 
@@ -208,9 +215,9 @@ Emacs     → developer-tools에 저장
 
 처음 들어왔다면 다음 정도면 충분하다.
 
-1. [개발 환경 도구 지도]({% post_url developer-tools/2026-10-05-development-environment-tool-map %}) — 전체 레이어를 본다.
-2. 관심 있는 레이어의 Roadmap으로 이동한다.
-3. 같은 레이어의 대안을 비교한다.
-4. 필요할 때 개별 도구 글로 내려간다.
+1. 이 Developer Tools Roadmap에서 전체 레이어를 본다.
+2. Editor / VCS / Window Management 같은 관계도로 내려간다.
+3. 같은 레이어의 대안과 장단점을 비교한다.
+4. 실제 사용법이 필요할 때 개별 도구 글로 내려간다.
 
 이 구조를 유지하면 디렉터리를 깊게 만들지 않고도 글이 늘어날수록 관계가 더 잘 보인다.
