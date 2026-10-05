@@ -66,18 +66,10 @@ Process ↔ Thread
 └─ 생성 · 전환 비용
 ~~~
 
-Thread가 같은 Process의 Memory를 공유하면 협업 비용은 줄일 수 있지만 동시 접근 문제가 생긴다.
-
-~~~text
-Thread Resource 공유
-      ↓
-동시 접근 가능
-      ↓
-Race Condition / Synchronization
-~~~
+Thread가 같은 Process의 Resource를 공유한다는 점까지만 여기서 잡는다. 공유로 인해 생기는 Race Condition·Synchronization·Deadlock은 동시성 지도가 중심 소유한다.
 
 → [동시성과 자원 공유 개념지도](02-동시성-자원공유.md)  
-공유가 왜 Race Condition을 만들고 Synchronization·Deadlock 문제로 이어지는지 본다.
+Thread 공유가 실제로 어떤 동시성 문제를 만드는지 필요할 때 내려간다.
 
 Thread를 User / Kernel 수준에서 어떻게 매핑하는지는 별도 구현 축이다.
 
@@ -159,10 +151,10 @@ Priority + Shared Resource
 └─ Priority Inversion
 ~~~
 
-Priority Inversion은 Scheduling과 Synchronization이 만나는 경계다.
+Priority Inversion은 Scheduling과 공유 자원이 만나는 **교차 지점**이다. 여기서는 문제의 존재만 확인하고, 발생 구조와 완화 원리는 동시성 지도가 중심 소유한다.
 
 → [동시성과 자원 공유 개념지도](02-동시성-자원공유.md)  
-Priority Inheritance·Priority Ceiling 같은 완화 원리가 왜 필요한지 연결해서 본다.
+Priority Inversion의 발생 구조와 Priority Inheritance / Priority Ceiling을 더 볼 때 내려간다.
 
 ## 7. Context Switch는 Scheduling의 실행 비용이다
 
@@ -224,8 +216,8 @@ Long / Medium / Short-term Scheduler는 우열 관계가 아니라 **어느 시�
 4. Context Switch
    → 정책 결정이 실제 전환 비용으로 어떻게 나타나는가
         ↓
-5. 공유 자원 문제가 생기면
-   → 본문의 Thread 공유 / Priority Inversion 접점에서 동시성 지도로 연결
+5. 공유 자원 문제가 보이면
+   → 동시성 · 자원공유 지도로 이동
 ~~~
 
 세부 Zoom-in:
