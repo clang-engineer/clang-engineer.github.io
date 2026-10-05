@@ -225,7 +225,7 @@ Long / Medium / Short-term Scheduler는 우열 관계가 아니라 **어느 시�
    → 정책 결정이 실제 전환 비용으로 어떻게 나타나는가
         ↓
 5. 공유 자원 문제가 생기면
-   → 동시성 · 자원공유 지도
+   → 본문의 Thread 공유 / Priority Inversion 접점에서 동시성 지도로 연결
 ~~~
 
 세부 Zoom-in:
@@ -234,7 +234,4 @@ Long / Medium / Short-term Scheduler는 우열 관계가 아니라 **어느 시�
   → Kernel 내부 서비스 배치의 Trade-off가 궁금할 때 본다.
 - [Thread 실행 모델](스레드-실행모델-User-Kernel-Mapping.md)  
   → User / Kernel Thread 매핑과 실제 Scheduling 경계를 더 보고 싶을 때 본다.
-- [동시성과 자원 공유](02-동시성-자원공유.md)  
-  → Thread 공유가 Race Condition·Synchronization 문제로 이어지는 지점에서 내려간다.
-
 Scheduling Algorithm의 반복 대기시간 계산과 RM·EDF 계산은 이 지도에서 펼치지 않는다.
