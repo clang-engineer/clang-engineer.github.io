@@ -68,7 +68,7 @@ Process ↔ Thread
 
 Thread가 같은 Process의 Resource를 공유한다는 점까지만 여기서 잡는다. 공유로 인해 생기는 Race Condition·Synchronization·Deadlock은 동시성 지도가 중심 소유한다.
 
-→ [동시성과 자원 공유 개념지도](02-동시성-자원공유.md)  
+→ 동시성과 자원 공유 개념지도  
 Thread 공유가 실제로 어떤 동시성 문제를 만드는지 필요할 때 내려간다.
 
 Thread를 User / Kernel 수준에서 어떻게 매핑하는지는 별도 구현 축이다.
@@ -153,7 +153,7 @@ Priority + Shared Resource
 
 Priority Inversion은 Scheduling과 공유 자원이 만나는 **교차 지점**이다. 여기서는 문제의 존재만 확인하고, 발생 구조와 완화 원리는 동시성 지도가 중심 소유한다.
 
-→ [동시성과 자원 공유 개념지도](02-동시성-자원공유.md)  
+→ 동시성과 자원 공유 개념지도  
 Priority Inversion의 발생 구조와 Priority Inheritance / Priority Ceiling을 더 볼 때 내려간다.
 
 ## 7. Context Switch는 Scheduling의 실행 비용이다
