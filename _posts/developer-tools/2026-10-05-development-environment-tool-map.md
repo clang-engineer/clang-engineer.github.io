@@ -125,7 +125,7 @@ Emacs는 같은 편집기 레이어에 있지만 방향은 더 독특하다. Eli
 
 Neovim 관점에서 Emacs의 구조는 별도 글에서 정리했다.
 
-- [LazyVim 사용자가 본 Emacs — 에디터가 아니라 Elisp 런타임]({% post_url 2026-07-03-neovim-user-view-of-emacs %})
+- [LazyVim 사용자가 본 Emacs — 에디터가 아니라 Elisp 런타임]({% post_url developer-tools/2026-07-03-neovim-user-view-of-emacs %})
 
 ### Sublime Text — 빠르고 완성된 전통적 GUI 편집기
 
