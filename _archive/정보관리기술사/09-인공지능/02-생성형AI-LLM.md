@@ -126,7 +126,9 @@ Inference
 ├─ Context Window
 ├─ Autoregressive Generation
 ├─ Prefill / Decode
+│  → Prefill: 입력 Context를 한꺼번에 처리 / Decode: 이후 Token을 하나씩 생성
 ├─ KV Cache
+│  → 이전 Attention 계산 결과를 재사용하는 Cache
 └─ GPU / VRAM / Serving
 ~~~
 
@@ -230,13 +232,13 @@ RAG
 = 필요한 정보를 찾는 구조
 
 MCP
-= 외부 Tool · Resource를 연결하는 Protocol
+= 외부 Tool · Resource를 연결하는 공통 Protocol
 
 Agent
 = 판단과 행동을 반복하는 실행 주체
 
 Harness
-= Agent를 둘러싼 운영 · 통제 체계
+= Context · Rule · Permission · Workflow 등으로 Agent 실행을 운영 · 통제하는 체계
 ~~~
 
 → [Agent와 MCP](에이전트와-MCP.md)  
