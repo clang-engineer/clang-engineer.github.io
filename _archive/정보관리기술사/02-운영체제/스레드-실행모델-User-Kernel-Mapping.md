@@ -75,21 +75,22 @@ OS Scheduler
 
 ```text
 Runtime
-= User-level 실행 단위 관리
-= OS가 제공한 Thread 자원을 사용
-= ULT를 사용 가능한 KLT 위에 배치
+= User-level 실행 단위(ULT) 관리·Scheduling
+= 필요하면 OS에 Thread 생성을 요청
+= 이미 Kernel이 제공·관리하는 KLT를 실행 자원으로 사용
+= ULT를 어떤 KLT 위에서 실행할지 결정
 
 Kernel
 = KLT 실제 생성·관리
 = KLT 상태 관리
-= CPU Scheduling
+= KLT를 CPU에 언제 올릴지 Scheduling
 ```
 
 따라서 **Runtime이 Kernel을 Scheduling하는 것이 아니다.**
 
 ```text
 Runtime Scheduler
-ULT → 어떤 KLT에서 실행할지 결정
+ULT → 어떤 사용 가능한 KLT 위에서 실행할지 결정
 
 Kernel Scheduler
 KLT → 어떤 CPU에서 언제 실행할지 결정
@@ -398,6 +399,23 @@ Many-to-Many
 
 ## 9. 현대 Runtime에 연결하기
 
+먼저 일반적인 Java Thread / Thread Pool의 책임 경계를 분명히 한다.
+
+```text
+Application / JVM
+├─ Thread 생성 요청
+├─ Thread Pool 크기 결정
+└─ 어떤 작업을 어떤 Worker에 맡길지 관리
+        ↓
+OS / Kernel
+├─ 실제 OS Thread(KLT) 생성·상태 관리
+└─ CPU Scheduling
+```
+
+즉 Application이나 JVM이 Thread 수를 정하거나 생성을 요청할 수는 있어도, **KLT 자체의 관리·Scheduling 주체는 Kernel**이다.
+
+
+
 고전 ULT/KLT Mapping Model은 현대 Runtime을 이해하는 기준점으로 사용할 수 있다. 다만 현대 구현을 고전 모델과 완전히 동일시하지 않는다.
 
 ### Java Platform Thread
@@ -430,10 +448,12 @@ Java에서는 JVM이 User Space Runtime 역할을 한다.
 Virtual Thread 여러 개
         ↓
 JVM Scheduler
+= 어떤 Carrier/OS Thread에서 실행할지 결정
         ↓
-여러 OS Native / Kernel-scheduled Thread 위에 다중화
+Kernel이 관리하는 OS Native / Kernel-scheduled Thread
         ↓
 OS Scheduler
+= 그 Thread를 언제 어떤 CPU에 올릴지 결정
         ↓
 CPU
 ```
@@ -448,7 +468,7 @@ JVM Scheduler
 ≈ User-space Thread Runtime / Scheduler 역할
 
 OS Native / Kernel-scheduled Thread
-≈ Kernel-level Thread 쪽 실행 단위
+≈ Kernel이 생성·관리·Scheduling하는 KLT 쪽 실행 단위
 ```
 
 즉 Java Virtual Thread는 **많은 User-level 실행 흐름을 여러 Kernel-scheduled Thread 위에 다중화한다는 점에서 Many-to-Many 성격**으로 이해할 수 있다.
@@ -569,10 +589,10 @@ CPU Cores
 
 ```text
 각 Runtime 내부
-ULT → 자기 Process가 사용하는 KLT에 Mapping
+ULT → Kernel이 제공한 KLT를 실행 자원으로 사용
 
 Kernel 전체
-모든 Process의 KLT → CPU Core에 Scheduling
+모든 Process의 KLT → Kernel Scheduler가 CPU Core에 Scheduling
 ```
 
 이를 일반화하면:
