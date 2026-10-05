@@ -1,8 +1,11 @@
-> A personal tech blog by clang.engineer
+> A technical blog by clang.engineer
 
 # clang.engineer
 
-컴파일되지 않는 생각들 — 개발하며 부딪힌 것들을 기록합니다.
+코드 너머의 원리를 기록합니다.
+
+백엔드, 시스템, 데이터베이스, 개발 도구를 직접 만들고 파고들며 배운 것을 정리합니다.  
+단순한 사용법보다 **왜 그렇게 동작하는지**, 그리고 실제 개발에서 **어떻게 연결되는지**를 이해하는 데 초점을 둡니다.
 
 https://clang-engineer.github.io
 
