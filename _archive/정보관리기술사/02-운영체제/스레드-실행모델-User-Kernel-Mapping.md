@@ -45,27 +45,19 @@ CPU
 
 ```text
 User-level Thread (ULT)
-= User Space의 Library / Runtime이 관리하는 Thread
-
-Kernel-level Thread (KLT)
-= OS Kernel이 직접 Scheduling하는 Thread
-```
-
-여기서 `User-level Thread`의 `User`는 **사용자(person)**가 아니라 **User Space**를 의미한다.
-
-```text
-User-level Thread
 = User Space의 Runtime / Library가 관리하는 실행 단위
 
-Kernel-level Thread
-= OS Kernel이 직접 Scheduling하는 실행 단위
+Kernel-level Thread (KLT)
+= OS Kernel이 직접 관리·Scheduling하는 실행 단위
 ```
 
-따라서 구분 기준은 **Application 코드에서 직접 생성했는가가 아니라, 해당 실행 단위를 User Space Runtime이 관리하는가, Kernel이 직접 Scheduling하는가**다.
+여기서 `User-level`의 `User`는 **사용자(person)**가 아니라 **User Space**를 뜻한다. 또한 이 문서의 `KLT`는 **Kernel이 Scheduling 대상으로 관리하는 Thread**라는 교과서적 의미로 사용하며, Kernel 내부 작업만 수행하는 별도 Kernel Worker Thread와 같은 뜻으로 한정하지 않는다.
+
+따라서 구분 기준은 **Application 코드에서 직접 생성했는가가 아니라, 해당 실행 단위의 관리·Scheduling 책임이 User Space Runtime과 Kernel 중 어디에 있는가**다.
 
 ### Runtime과 Kernel의 책임 경계
 
-Runtime이 Kernel Thread를 직접 만들거나 통제하는 것은 아니다. Runtime이 OS Thread가 필요하면 **OS가 제공하는 API / System Call을 통해 요청**하고, 실제 Thread의 생성·상태 관리·CPU Scheduling은 Kernel이 담당한다.
+Runtime이 Kernel Scheduling 단위를 직접 통제하는 것은 아니다. OS Thread가 필요하면 **OS가 제공하는 API / System Call을 통해 요청**하고, 실제 생성·상태 관리·CPU Scheduling은 Kernel이 담당한다.
 
 ```text
 Runtime / Thread Library
@@ -198,6 +190,14 @@ Many-to-Many
 ```
 
 이 세 방식은 발전 순서가 아니라 **비용·병렬성·Blocking 영향 범위 사이의 서로 다른 선택**이다.
+
+```text
+Runtime의 관심
+= ULT를 어떤 KLT 위에서 실행할 것인가
+
+Kernel의 관심
+= KLT를 어떤 CPU에서 언제 실행할 것인가
+```
 
 여기서 중요한 점은 **Runtime이 실행 중에 마음대로 Mapping 방식을 고른다는 뜻이 아니라는 것**이다.
 
@@ -612,35 +612,29 @@ Virtual Thread
 ## 12. 기억·인출
 
 ```text
-User-level Thread
-= Runtime / Library가 관리하는 실행 단위
+관리 주체
+ULT → User Space Runtime / Library
+KLT → OS Kernel Scheduler
 
-Kernel-level Thread
-= OS Kernel이 실제 Scheduling하는 실행 단위
+Mapping
+Many-to-One  = 여러 ULT → 하나의 KLT
+One-to-One   = ULT 하나 → KLT 하나
+Many-to-Many = 여러 ULT → 여러 KLT
 
-Many-to-One
-= 여러 ULT → 하나의 KLT
+핵심 Trade-off
+ULT 수를 가볍게 늘림
+        ↕
+Kernel Scheduling 단위 증가 비용
+        ↕
+Multi-core 병렬성 / Blocking 격리
 
-One-to-One
-= ULT 하나 → KLT 하나
-
-Many-to-Many
-= 여러 ULT → 여러 KLT
-
-Platform Thread
-≈ One-to-One 성격
-
-Virtual Thread
-≈ Many-to-Many 성격의 현대 Runtime 사례
-
-Kernel Thread 수 관점
-Many-to-One  = 가장 적게 사용할 수 있지만 병렬성 제약
-One-to-One   = 실행 흐름 증가와 함께 KLT도 증가
-Many-to-Many = 많은 ULT를 상대적으로 적은 여러 KLT에 다중화
+현대 Runtime 연결
+Platform Thread → One-to-One 성격
+Virtual Thread  → Many-to-Many 성격의 사례
 ```
 
 가장 중요한 문장:
 
-> **OS는 Kernel-level Thread라는 실제 Scheduling 단위를 제공·관리하고, Runtime은 그 위에서 User-level 실행 단위를 구성한다. Thread Mapping Model은 이 두 계층이 어떤 구조로 연결되는지를 설명한다.**
+> **OS는 Kernel이 Scheduling할 실행 단위를 제공·관리하고, Runtime은 그 위에서 User-level 실행 단위를 구성한다. Thread Mapping Model은 이 두 계층의 대응 구조를 설명한다.**
 
-따라서 `Many-to-One / One-to-One / Many-to-Many`를 볼 때는 **Runtime이 Kernel을 통제한다**고 이해하지 않고, **OS가 제공한 KLT를 Runtime이 어떤 구조로 활용하느냐**를 본다.
+따라서 `Many-to-One / One-to-One / Many-to-Many`를 볼 때는 **Runtime이 Kernel을 Scheduling한다고 이해하지 않고**, Runtime Scheduler와 Kernel Scheduler의 책임 경계를 분리해서 본다.
