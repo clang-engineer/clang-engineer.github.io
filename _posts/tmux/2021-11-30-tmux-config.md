@@ -1,26 +1,32 @@
 ---
-title       : 🧷 tmux 정리본 (Cheat Sheet + 사용 가이드)
-description : "터미널 멀티플렉서 tmux의 세션·윈도우·패널 구조와 설치, ~/.tmux.conf 설정, 자주 쓰는 단축키를 한 번에 찾아볼 수 있는 Cheat Sheet 형식으로 정리한다."
+title       : "tmux 기본 조작 Cheat Sheet — session·window·pane"
+description : "tmux의 session·window·pane 구조, attach/detach, 기본 키, copy-mode, target 문법을 빠르게 확인하는 입문용 조작 Reference. 설정·플러그인은 별도 글로 분리한다."
 date        : 2021-11-30 22:50:30 +0900
-updated     : 2026-06-19 00:00:00 +0900
-categories  : [tmux, "설정·옵션"]
-tags        : [terminal]
+updated     : 2026-10-07 00:00:00 +0900
+categories  : [tmux, "구조·개념"]
+tags        : [terminal, cheatsheet]
 pin         : false
 hidden      : false
 ---
 
-tmux는 여러 개의 터미널 세션을 생성하고 관리할 수 있게 해주는 **터미널 멀티플렉서**이다.
-한 세션 안에 여러 개의 **윈도우(window) → 패널(pane)** 을 둘 수 있다.
+tmux는 하나의 terminal 안에서 여러 작업 공간을 유지하는 **terminal multiplexer**다. 기본 구조는 아래처럼 잡으면 된다.
 
-구조:
-**세션(Session) > 윈도우(Window) > 패널(Pane)**
+```text
+session
+└─ window
+   └─ pane
+```
 
-> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **입문** 단계다. 설정·플러그인·자동화로 이어지는 전체 학습 경로는 로드맵에서.
+- **session**: tmux가 유지하는 작업 묶음. detach해도 background에 남는다.
+- **window**: session 안의 탭 같은 단위.
+- **pane**: window 안에서 분할된 실제 shell/process 영역.
+
+> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **입문 Reference**다. `.tmux.conf` 설정은 [tmux 유용한 설정 정리](./2026-02-21-tmux-tips.md), TPM 플러그인은 [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md), 세션 자동화는 [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md)에서 이어진다.
 {: .prompt-tip }
 
 ---
 
-## 1. 설치
+## 설치와 설정 파일
 
 ```bash
 brew install tmux         # macOS
@@ -28,12 +34,7 @@ sudo apt-get install tmux # Ubuntu
 sudo yum install tmux     # CentOS
 ```
 
----
-
-## 2. 설정 파일
-
-tmux 설정은 `~/.tmux.conf` 에 작성한다.
-tmux 실행 시 자동 로드되며, 재로드는 아래 명령어로 가능:
+설정 파일은 보통 `~/.tmux.conf`에 둔다. 현재 server에 다시 읽히려면 다음을 실행한다.
 
 ```bash
 tmux source-file ~/.tmux.conf
@@ -41,206 +42,180 @@ tmux source-file ~/.tmux.conf
 
 ---
 
-## 3. 세션(Session)
+## session
 
-### ● 세션 생성
+### 생성
 
 ```bash
 tmux
 tmux new
 tmux new-session
-tmux new -s sessionname
+tmux new -s work
 ```
 
-### ● 세션 접속
+### 접속 / 분리
 
 ```bash
 tmux attach
 tmux attach-session
 tmux a
-tmux a -t sessionname
+tmux a -t work
 ```
 
-### ● 세션 종료
+| 키 | 설명 |
+|---|---|
+| `Ctrl+b` `d` | 현재 session detach |
+| `Ctrl+b` `$` | session 이름 변경 |
+| `Ctrl+b` `)` | 다음 session |
+| `Ctrl+b` `(` | 이전 session |
+| `Ctrl+b` `w` | session/window 목록 |
+
+### 종료
 
 ```bash
 tmux kill-session
-tmux kill-session -t sessionname
+tmux kill-session -t work
 ```
 
-### ● 자주 쓰는 단축키
-
-| 단축키            | 설명          |
-| -------------- | ----------- |
-| `Ctrl+b` + `$` | 세션 이름 변경    |
-| `Ctrl+b` + `d` | 세션 detach   |
-| `Ctrl+b` + `)` | 다음 세션       |
-| `Ctrl+b` + `(` | 이전 세션       |
-| `Ctrl+b` + `w` | 세션/창 리스트 보기 |
-
----
-
-## 4. 윈도우(Window)
-
-브라우저 탭처럼 하나의 세션 안에서 여러 창을 사용할 수 있다.
-
-### ● 단축키
-
-| 단축키            | 설명                    |
-| -------------- | --------------------- |
-| `Ctrl+b` + `c` | 새 윈도우 생성              |
-| `Ctrl+b` + `n` | 다음 윈도우                |
-| `Ctrl+b` + `p` | 이전 윈도우                |
-| `Ctrl+b` + `l` | 마지막으로 사용한 윈도우         |
-| `Ctrl+b` + 숫자  | 번호로 이동                |
-| `Ctrl+b` + `'` | 이름으로 검색하여 이동          |
-| `Ctrl+b` + `,` | 윈도우 이름 변경             |
-| `Ctrl+b` + `.` | 윈도우 번호 변경             |
-| `Ctrl+b` + `&` | 윈도우 종료                |
-| `Ctrl+b` + `f` | 윈도우 검색                |
-| `Ctrl+b` + `z` | 패널 확대/축소(toggle zoom) |
-
-### ● 윈도우 합치기/분리 등
-
-(`Ctrl+b` + `:` 로 명령창 열기)
-
-```sh
-join-pane -s 2 -t 1      # 2번을 집어서 → 1번 옆에 합치기 (2가 이동)
-join-pane -h -s 2 -t 1   # 오른쪽에 붙이기(-h) / -v면 아래에 붙이기
-join-pane -b -s 2 -t 1   # -b(before): 반대쪽(왼쪽/위)에 붙이기
-break-pane -s 1 -t 2     # 1번 윈도우를 2번 윈도우로 분리
-swap-pane -s 1 -t 2      # 두 패널 자리 교환
-swap-window -s 1 -t 2    # 두 윈도우 자리 교환
-move-window -s 1 -t 5    # 윈도우 1을 빈 번호 5로 옮기기(교환 아님)
-move-window -r           # 윈도우 번호 빈칸 없이 재정렬(0,3,7 → 0,1,2)
-```
-
-> **`-s`/`-t`가 매번 헷갈린다면** — 이게 join/swap의 핵심이자 tmux 명령 전반의 공통 문법이다.
->
-> - **`-s`(source)는 움직이는 것, `-t`(target)는 도착지.** source가 target 쪽으로 간다. (`swap`은 자리 교환이라 방향이 대칭)
-> - 값은 그냥 숫자가 아니라 주소다. 형식은 왼쪽부터 큰 단위 → **`세션:윈도우.패널`** (`work:2.1`). 생략한 자리는 "현재"로 채워진다: `-t 1`=현재 세션의 윈도우 1, `-t .1`=현재 윈도우의 패널 1. **점(`.`)이 있으면 패널, 없으면 윈도우.**
-> - **각 자리엔 이름·번호 둘 다 되지만, 실무 조합은 정해져 있다** — 강제 규칙이 아니라 "번호가 있고 화면에 보이느냐"의 차이다:
->   - **세션**: 애초에 번호가 없으니 **이름** (`tmux new -s work`로 붙인 그 이름).
->   - **윈도우**: 상태 바에 `2:logs`로 번호·이름 다 보이니 아무거나. `-t 2`도 `-t logs`도 동작 (짧은 번호가 편함).
->   - **패널**: 이름이 없고 번호도 안 보이니, `Ctrl+b` + `q`로 확인 후 **번호**. → 그래서 `work:2.1`(이름:번호.번호)이 가장 흔한 꼴.
-> - `-s`를 **생략하면 현재(또는 마크된) 패널**이 source다. 의도치 않게 딸려가니 스크립트·바인딩에선 `-s`를 명시.
-> - `join-pane`에서 **현재 윈도우를 source로 지정하면 에러**. source는 다른 윈도우여야 한다.
-> - **세션 경계도 넘는다.** 주소 앞에 `세션:`을 붙이면 `join-pane`·`swap-window`가 다른 세션으로도 동작한다: `join-pane -s work:2 -t home:1`.
-> - 번호가 헷갈리면 `Ctrl+b` + `q`로 패널 번호를 화면에 띄워 확인.
-{: .prompt-tip }
-
----
-
-## 5. 패널(Pane)
-
-윈도우 내부를 여러 영역으로 나누어 사용할 수 있다.
-
-### ● 패널 분리(split)
-
-| 단축키            | 설명                 |
-| -------------- | ------------------ |
-| `Ctrl+b` + `%` | 세로 분할 (vertical)   |
-| `Ctrl+b` + `"` | 가로 분할 (horizontal) |
-
-### ● 패널 이동
-
-| 단축키                      | 설명            |
-| ------------------------ | ------------- |
-| `Ctrl+b` + ← / → / ↑ / ↓ | 방향키로 이동       |
-| `Ctrl+b` + `o`           | 다음 패널         |
-| `Ctrl+b` + `;`           | 이전 패널         |
-| `Ctrl+b` + `{` / `}`     | 패널 위치 이동      |
-| `Ctrl+b` + `!`           | 패널을 새 윈도우로 분리 |
-| `Ctrl+b` + `x`           | 패널 종료         |
-| `Ctrl+b` + `Ctrl+o`      | 패널 순환(swap)   |
-
-### ● 패널 크기 조절
-
-(`Ctrl+b` + `:` 명령창에서 실행)
+전체 tmux server를 종료하려면 다음을 쓴다.
 
 ```bash
-resize-pane -D
-resize-pane -U
-resize-pane -L
-resize-pane -R
+tmux kill-server
+```
 
-resize-pane -D 10  # 10칸 변경
+---
+
+## window
+
+window는 session 안의 탭 같은 단위다.
+
+| 키 | 설명 |
+|---|---|
+| `Ctrl+b` `c` | 새 window 생성 |
+| `Ctrl+b` `n` | 다음 window |
+| `Ctrl+b` `p` | 이전 window |
+| `Ctrl+b` `l` | 마지막으로 사용한 window |
+| `Ctrl+b` `0`~`9` | 번호로 이동 |
+| `Ctrl+b` `'` | 번호/이름 입력 후 이동 |
+| `Ctrl+b` `,` | window 이름 변경 |
+| `Ctrl+b` `.` | window 번호 변경 |
+| `Ctrl+b` `&` | window 종료 |
+| `Ctrl+b` `f` | window 검색 |
+| `Ctrl+b` `z` | 현재 pane 확대/축소 |
+
+---
+
+## pane
+
+pane은 window 안에서 분할된 실제 process 영역이다.
+
+| 키 | 설명 |
+|---|---|
+| `Ctrl+b` `%` | 좌우 분할 |
+| `Ctrl+b` `"` | 상하 분할 |
+| `Ctrl+b` 방향키 | pane 이동 |
+| `Ctrl+b` `o` | 다음 pane |
+| `Ctrl+b` `;` | 이전 pane |
+| `Ctrl+b` `{` / `}` | pane 위치 이동 |
+| `Ctrl+b` `!` | pane을 새 window로 분리 |
+| `Ctrl+b` `x` | pane 종료 |
+| `Ctrl+b` `q` | pane 번호 표시 |
+
+크기 조절은 명령 프롬프트(`Ctrl+b` `:`)에서 실행할 수 있다.
+
+```tmux
+resize-pane -D 10
 resize-pane -U 10
 resize-pane -L 10
 resize-pane -R 10
-
-ctrl + b 를 누르고 option + 방향키로 사이즈 조절 (macOS)
 ```
 
 ---
 
-## 6. 복사/붙여넣기(Copy Mode)
+## copy-mode와 scroll
 
-### ● 진입/종료
+| 키 | 설명 |
+|---|---|
+| `Ctrl+b` `[` | copy-mode 진입 / scroll 시작 |
+| `Ctrl+b` `]` | paste buffer 붙여넣기 |
+| `q` | copy-mode 종료 |
 
-* `Ctrl+b` + `[` : 복사모드 진입
-* `Ctrl+b` + `]` : 붙여넣기
-
-### ● 복사모드 단축키
-
-아래 표는 vi 키 기준이다. tmux 기본은 emacs 키맵이므로, `h/j/k/l`·`g/G` 같은 vi 이동을 쓰려면 `~/.tmux.conf`에 한 줄이 필요하다.
+vi 스타일 copy-mode를 쓰려면 설정에 아래 한 줄을 둔다.
 
 ```tmux
 setw -g mode-keys vi
 ```
 
-| 키       | 설명              |
-| ------- | --------------- |
-| Space   | 선택 시작           |
-| Enter   | 선택 복사           |
-| Esc     | 선택 취소           |
-| g / G   | 위/아래 끝 이동       |
-| h/j/k/l | 방향 이동           |
-| /       | 검색              |
-| #       | paste buffer 목록 |
-| q       | 종료              |
+vi key 기준 기본 조작은 다음과 같다.
 
----
+| 키 | 설명 |
+|---|---|
+| `Space` | 선택 시작 |
+| `Enter` | 선택 복사 |
+| `Esc` | 선택 취소 |
+| `h`/`j`/`k`/`l` | 이동 |
+| `g` / `G` | 위/아래 끝 이동 |
+| `/` | 검색 |
+| `#` | paste buffer 목록 |
 
-## 7. 스크롤
+마우스 scroll과 pane 선택이 필요하면 설정에 다음을 추가한다.
 
-* 키보드로: `Ctrl+b` + `[` → ↑/↓
-* 마우스로 스크롤하려면 `.tmux.conf`에 추가:
-
-```bash
+```tmux
 set -g mouse on
 ```
 
 ---
 
-## 8. Tmux Plugin Manager (TPM)
+## target 문법: `session:window.pane`
 
-플러그인 설치·구성과 대표 플러그인별 설명, 복붙용 `.tmux.conf` 블록은 별도 글에 정리해두었다:
-[Tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md)
+`join-pane`, `swap-pane`, `move-window` 같은 명령은 대상을 주소로 지정한다.
+
+```text
+session:window.pane
+```
+
+예를 들어 `work:2.1`은 `work` session의 2번 window, 1번 pane을 뜻한다. 생략한 자리는 현재 위치로 채워진다.
+
+```text
+-t 1      현재 session의 window 1
+-t .1     현재 window의 pane 1
+-t work:2 work session의 window 2
+```
+
+핵심은 `-s`와 `-t`다.
+
+- `-s`는 **source**, 움직이는 대상이다.
+- `-t`는 **target**, 도착지다.
+- `swap-*` 계열은 자리 교환이라 방향성이 약하지만, 그래도 source/target 주소를 명시하면 실수가 줄어든다.
 
 ---
 
-## 9. Resurrect/Continuum 팁
+## window·pane 이동 명령
 
-세션을 `kill`했는데도 다시 살아나는 경우가 있다면 `tmux-resurrect` + `tmux-continuum`의
-자동 복원 기능 때문이다. `@continuum-restore 'on'` 상태에서는 tmux 시작 시점에
-마지막 저장 상태를 자동으로 복원한다.
+명령 프롬프트(`Ctrl+b` `:`)나 shell에서 실행할 수 있다.
 
-### ● 복원 데이터 저장 위치
-
-```bash
-~/.local/share/tmux/resurrect/
+```tmux
+join-pane -s 2 -t 1      # window 2의 pane을 window 1로 이동
+join-pane -h -s 2 -t 1   # 오른쪽에 붙이기(-h). -v는 아래
+join-pane -b -s 2 -t 1   # before: 반대쪽에 붙이기
+break-pane -s 1 -t 2     # pane을 다른 window로 분리
+swap-pane -s 1 -t 2      # pane 자리 교환
+swap-window -s 1 -t 2    # window 자리 교환
+move-window -s 1 -t 5    # window 1을 빈 번호 5로 이동
+move-window -r           # window 번호를 빈칸 없이 재정렬
 ```
 
-### ● 복원 데이터 삭제(초기화)
+> pane을 "합친다"고 말하기 쉽지만, 실제로는 살아 있는 process를 다른 window로 **이동**하는 것이다. 이 정신 모델은 [tmux엔 왜 pane '병합(merge)'이 없을까](./2026-07-13-tmux-pane-is-a-process-no-merge.md)에서 더 자세히 다룬다.
+{: .prompt-info }
 
-```bash
-tmux kill-server
-rm -rf ~/.local/share/tmux/resurrect/*
-```
+---
 
-### ● 자동 복원 끄기
+## 다음에 볼 글
 
-```bash
-set -g @continuum-restore 'off'
-```
+| 목적 | 글 |
+|---|---|
+| 체감 설정 정리 | [tmux 유용한 설정 정리](./2026-02-21-tmux-tips.md) |
+| TPM과 필수 플러그인 | [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md) |
+| 추가 플러그인 선택 | [필수 그다음 — 요즘 얹는 tmux 플러그인](./2026-07-11-tmux-plugins-beyond-essentials.md) |
+| 세션 자동 생성 | [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md) |
+| 전체 학습 순서 | [tmux 로드맵](./2026-06-16-tmux-roadmap.md) |

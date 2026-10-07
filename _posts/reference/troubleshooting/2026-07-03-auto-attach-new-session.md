@@ -139,6 +139,6 @@ tmux new-session -A -s default
 - 고정 세션 하나만 원하면 `tmux new-session -A -s <이름>` 한 줄이 더 명확하다.
 
 > **관련 글**
-> - 세션·윈도우·패널 기본기와 attach 명령들: [tmux 정리본 (Cheat Sheet + 사용 가이드)](../../tmux/2021-11-30-tmux-config.md)
+> - 세션·윈도우·패널 기본기와 attach 명령들: [tmux 기본 조작 Cheat Sheet](../../tmux/2021-11-30-tmux-config.md)
 > - 여러 세션을 한 번에 세팅하기: [tmux 세션 부트스트랩 — 세션 매니저와 그 속살(셸)](../../tmux/2026-02-21-tmux-bootstrap.md)
 {: .prompt-info }

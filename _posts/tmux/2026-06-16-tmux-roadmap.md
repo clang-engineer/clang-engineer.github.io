@@ -58,7 +58,7 @@ tmux server
 
 | 글 | 역할 |
 |---|---|
-| [tmux 정리본 — Cheat Sheet + 사용 가이드](./2021-11-30-tmux-config.md) | 구조·설치·기본 조작·target 문법을 한 장에서 잡는 입문 Reference |
+| [tmux 기본 조작 Cheat Sheet](./2021-11-30-tmux-config.md) | 구조·설치·기본 조작·target 문법을 한 장에서 잡는 입문 Reference |
 | [tmux엔 왜 pane 병합이 없을까](./2026-07-13-tmux-pane-is-a-process-no-merge.md) | pane을 단순 화면 조각이 아니라 Process가 붙은 실행 단위로 보는 정신 모델 |
 
 > 📎 빠른 단축키 참조는 [tmux cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/tmux.md)를 사용한다. Roadmap은 키 목록보다 구조와 이동 경로를 설명한다.
