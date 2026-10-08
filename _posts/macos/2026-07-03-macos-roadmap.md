@@ -2,7 +2,7 @@
 title       : "macOS 로드맵 — 셋업·런처·창 관리의 세 갈래"
 description : "macOS 개발환경 글을 시스템 셋업, 런처·생산성, 창 관리·자동화라는 세 독립 축으로 나눈다. 새 Mac에서는 시스템 셋업을 먼저 권장하지만, 세 축을 얕은→깊은 학습 단계로 보지 않는다."
 date        : 2026-07-03 17:30:00 +0900
-updated     : 2026-09-06 19:00:00 +0900
+updated     : 2026-10-08 00:00:00 +0900
 categories  : [macos, "개요·인덱스"]
 tags        : [roadmap, macos, aerospace, hammerspoon, window-manager]
 pin         : false
@@ -38,6 +38,8 @@ macOS를 개발환경으로 다듬을 때 만나는 문제는 하나의 학습 �
 새 Mac Day-1 추천
 System Setup
 → 필요한 Tool 설치
+→ 인증·Secret·Identity 복원
+→ 동작 검증
 → 필요하면 Launcher / Window Manager 추가
 
 개념 관계
@@ -48,7 +50,7 @@ System Setup   Launcher   Window Management
 
 ## 1. 시스템 셋업 — Machine을 개발 가능한 상태로 만든다
 
-이 갈래는 실제 Day-1 작업 순서가 있다.
+이 갈래는 실제 Day-1 작업 순서가 있다. Package와 dotfiles를 설치한 뒤에는 완료했다고 간주하지 말고, 인증·Secret·Identity까지 복원됐는지 확인한다. 특히 SSH key 파일명과 SSH config의 `IdentityFile` 경로가 어긋나면 GitHub 인증만 실패할 수 있으므로 Day-1 검증에 포함한다.
 
 | 글 | 핵심 |
 |---|---|

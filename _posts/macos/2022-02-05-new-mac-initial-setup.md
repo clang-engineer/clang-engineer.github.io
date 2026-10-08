@@ -2,7 +2,7 @@
 title       : "새 Mac 개발 환경 초기 설정 — 시스템 → Homebrew → Dotfiles → Git"
 description : "새 Mac을 개발 환경으로 만들 때 시스템 설정, Homebrew와 Brewfile, dotfiles 복원, Git 인증·identity를 어떤 순서로 구성할지 정리한 day-1 셋업 런북."
 date        : 2022-02-05 09:32:27 +0900
-updated     : 2026-09-05 20:20:00 +0900
+updated     : 2026-10-08 00:00:00 +0900
 categories  : [macos, "시스템 운영"]
 redirect_from:
   - /posts/etc/2022-02-05-new-mac-initial-setup/
@@ -152,10 +152,11 @@ Commit 작성자
 
 ### SSH를 사용하는 경우
 
-현재 key를 확인한다.
+현재 key와 SSH config를 확인한다.
 
 ```bash
 ls -la ~/.ssh
+ls -la ~/.ssh/config.d 2>/dev/null
 ```
 
 새 key가 필요하다면:
@@ -169,6 +170,8 @@ GitHub에 public key를 등록한 뒤 실제 인증을 확인한다.
 ```bash
 ssh -T git@github.com
 ```
+
+여러 GitHub 계정이나 Host alias를 사용한다면 key가 존재하는지만 보지 말고, SSH config의 `IdentityFile` 경로가 실제 key 파일명과 맞는지도 확인한다. 파일명과 config가 어긋나면 dotfiles와 secrets가 복원되어 있어도 `Permission denied (publickey)`가 날 수 있다.
 
 ### Commit Identity 확인
 
@@ -194,6 +197,13 @@ which tmux
 git --version
 nvim --version
 tmux -V
+```
+
+SSH config가 실제로 어떤 key를 선택하는지까지 확인하면 key 파일명 변경이나 secrets overlay 누락을 빨리 발견할 수 있다.
+
+```bash
+ssh -G github.com | grep -E '^(hostname|user|identityfile|identitiesonly) '
+ssh -T git@github.com
 ```
 
 Shell 환경도 새 login shell을 열어 다시 확인한다.
