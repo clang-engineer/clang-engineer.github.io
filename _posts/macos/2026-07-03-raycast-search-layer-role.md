@@ -60,6 +60,54 @@ Raycast를 주 런처로 사용하려면 기본 Spotlight와 `⌘ + Space` 단�
 
 이 작업은 **Spotlight의 호출 단축키를 바꾸는 것**이지 Spotlight 검색 인덱스를 삭제하거나 시스템 검색 기능을 완전히 끄는 것이 아니다. Raycast가 파일 검색 등에 시스템 인덱스를 활용할 수 있으므로 Spotlight 자체를 무리하게 비활성화할 필요는 없다.
 
+## Safari 웹앱을 Raycast에서 실행하기
+
+Safari에서는 웹사이트를 독립적인 앱 창으로 사용할 수 있다.
+
+1. Safari에서 원하는 웹사이트를 연다.
+2. 메뉴 막대에서 **파일 → Dock에 추가**를 선택한다(macOS Sonoma 14 이상).
+3. 이름을 지정하고 추가하면 Dock에서 웹앱을 실행할 수 있다.
+
+### 사용자별 앱 폴더와 시스템 앱 폴더
+
+| 위치 | 범위 |
+|---|---|
+| `/Applications` | 일반적으로 시스템의 여러 사용자에게 제공되는 앱 |
+| `~/Applications` | 현재 사용자 계정의 앱 |
+
+Safari 웹앱은 `~/Applications`에 생성될 수 있다. 이를 무조건 `/Applications`로 옮길 필요는 없다.
+
+### 사례: Dock에는 있지만 Raycast 검색에 안 나타남
+
+macOS 재설정 후 Safari로 설치한 ChatGPT 웹앱이 Dock에서는 실행되지만 Raycast의 Applications 검색 결과에 나타나지 않았다.
+
+확인한 경로:
+
+```shell
+find ~/Applications /Applications -iname '*ChatGPT*.app' 2>/dev/null
+# /Users/clang/Applications/ChatGPT.app
+```
+
+메타데이터 확인:
+
+```shell
+mdls -name kMDItemContentType -name kMDItemCFBundleIdentifier ~/Applications/ChatGPT.app
+# kMDItemCFBundleIdentifier = "com.apple.Safari.WebApp"
+# kMDItemContentType = "com.apple.application-bundle"
+```
+
+이 결과는 Safari 웹앱이 실제 `.app` 번들로 존재한다는 뜻이다. **Bundle ID가 `com.apple.Safari.WebApp`인 사실만으로 Raycast가 모든 Safari 웹앱을 지원하지 않는다고 단정할 수는 없다.**
+
+진단 순서:
+
+1. `open ~/Applications/ChatGPT.app`으로 해당 웹앱이 직접 실행되는지 확인한다.
+2. Raycast의 **Settings → Applications → Search Scopes**에서 `~/Applications`를 검색 범위에 포함할 수 있는지 확인한다. 메뉴와 검색 범위 설정은 Raycast 버전에 따라 다를 수 있다.
+3. 앱 검색에 여전히 나타나지 않으면 Raycast의 앱 검색 범위·인덱싱·필터링 문제를 구분해 확인한다.
+4. 우회 방법으로 Raycast Script Command에서 `open "$HOME/Applications/ChatGPT.app"`을 실행하도록 구성할 수 있다. 이 방법은 앱 검색 인덱싱 자체를 고치는 것은 아니다.
+
+> **사례 상태:** 웹앱의 위치와 Bundle ID, Raycast에서 검색되지 않는 현상까지 확인했다. Search Scopes에 디렉터리를 추가하려는 시도는 실패했고, Script Command 등 우회 방법의 최종 성공 여부는 확인되지 않았다. Quicklink에 셸 명령을 직접 입력하면 실행된다고 가정하지 않는다.
+{: .prompt-warning }
+
 ## 1단계: Raycast의 창 관리 기능을 끈다
 
 가장 먼저 할 일은 충돌원 제거다. 타일링 WM이나 Hammerspoon으로 창을 배치하고 있다면, Raycast의 Window Management는 **완전히 비활성화**한다.
