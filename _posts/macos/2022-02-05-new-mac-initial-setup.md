@@ -180,7 +180,33 @@ git config --global --get user.name
 git config --global --get user.email
 ```
 
-개인·회사 계정을 함께 사용한다면 SSH Host alias와 Git `includeIf`를 사용해 인증과 identity를 독립적으로 전환할 수 있다.
+개인·회사 계정을 함께 사용한다면 SSH Host alias와 Git `includeIf`를 사용해 인증과 identity를 독립적으로 전환한다. 이때 두 설정은 같은 문제가 아니다.
+
+```text
+SSH Host alias
+→ remote URL이 어떤 GitHub 계정으로 인증할지 결정
+→ 예: git@github.com-work:org/repo.git
+
+Git includeIf
+→ 특정 workspace 아래 commit의 user.name / user.email 결정
+→ 예: ~/workspace/company/ 아래 repo는 회사 email 사용
+```
+
+복원 절차는 다음 순서로 확인한다.
+
+```bash
+# 1. SSH alias가 올바른 key를 보는지 확인
+ssh -G github.com | grep -E '^(hostname|user|identityfile|identitiesonly) '
+ssh -T git@github.com
+
+# 2. workspace별 commit identity 파일 생성 또는 복원
+# 예: dotfiles에 helper script가 있다면 workspace path/name/email을 지정한다.
+./scripts/add-workspace-user.sh ~/workspace/company "Your Name" "you@company.example"
+
+# 3. 해당 workspace 안에서 실제 author 확인
+cd ~/workspace/company/some-repo
+git var GIT_AUTHOR_IDENT
+```
 
 관련 글: [GitHub 다중 계정 — SSH 인증과 Commit Identity를 분리해서 관리하기](../git/2025-10-03-git-multiple-config.md)
 
@@ -199,11 +225,12 @@ nvim --version
 tmux -V
 ```
 
-SSH config가 실제로 어떤 key를 선택하는지까지 확인하면 key 파일명 변경이나 secrets overlay 누락을 빨리 발견할 수 있다.
+SSH config가 실제로 어떤 key를 선택하는지까지 확인하면 key 파일명 변경이나 secrets overlay 누락을 빨리 발견할 수 있다. workspace별 Git identity를 쓴다면 해당 workspace 안에서 `git var GIT_AUTHOR_IDENT`도 함께 확인한다.
 
 ```bash
 ssh -G github.com | grep -E '^(hostname|user|identityfile|identitiesonly) '
 ssh -T git@github.com
+git var GIT_AUTHOR_IDENT
 ```
 
 Shell 환경도 새 login shell을 열어 다시 확인한다.

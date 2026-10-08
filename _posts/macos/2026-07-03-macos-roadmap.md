@@ -52,6 +52,20 @@ System Setup   Launcher   Window Management
 
 이 갈래는 실제 Day-1 작업 순서가 있다. Package와 dotfiles를 설치한 뒤에는 완료했다고 간주하지 말고, 인증·Secret·Identity까지 복원됐는지 확인한다. 특히 SSH key 파일명과 SSH config의 `IdentityFile` 경로가 어긋나면 GitHub 인증만 실패할 수 있으므로 Day-1 검증에 포함한다.
 
+GitHub 계정을 여러 개 쓰는 경우에는 두 축을 분리해서 본다.
+
+```text
+인증 계정
+→ SSH Host alias와 IdentityFile
+→ 어떤 GitHub 계정으로 push/pull 할 것인가
+
+Commit Identity
+→ Git user.name / user.email
+→ commit 작성자가 누구로 남을 것인가
+```
+
+새 Mac 복원에서는 SSH alias가 동작하는지 확인한 뒤, workspace별 `includeIf`로 commit email이 올바르게 바뀌는지까지 검증한다.
+
 | 글 | 핵심 |
 |---|---|
 | [새 맥 초기 설정 — 셋업 순서](./2022-02-05-new-mac-initial-setup.md) | 시스템 설정 → Homebrew → dotfiles → Git 인증·Identity로 이어지는 Runbook |
