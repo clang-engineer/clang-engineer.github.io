@@ -50,6 +50,16 @@ Raycast를 설치하고 나면 흔히 부딪히는 문제가 있다. **이미 �
 
 AeroSpace·Hammerspoon 두 축을 실제로 엮는 방법은 이 블로그의 [창 관리 시리즈](./2026-07-03-aerospace-hammerspoon-window-reflow.md)에서 다뤘다. 이 글은 세 번째 축인 **Raycast = 검색 계층**에 집중한다.
 
+## 시작하기: Spotlight 호출 단축키를 Raycast로 넘기기
+
+Raycast를 주 런처로 사용하려면 기본 Spotlight와 `⌘ + Space` 단축키가 충돌하지 않도록 한다.
+
+1. **시스템 설정 → 키보드 → 키보드 단축키 → Spotlight**에서 Spotlight 검색 호출에 할당된 `⌘ + Space`를 해제하거나 다른 조합으로 변경한다.
+2. **Raycast → Settings → General**에서 Raycast Hotkey를 `⌘ + Space`로 설정한다.
+3. `⌘ + Space`를 눌러 Raycast가 실행되는지 확인한다. macOS 버전에 따라 메뉴 명칭은 달라질 수 있다.
+
+이 작업은 **Spotlight의 호출 단축키를 바꾸는 것**이지 Spotlight 검색 인덱스를 삭제하거나 시스템 검색 기능을 완전히 끄는 것이 아니다. Raycast가 파일 검색 등에 시스템 인덱스를 활용할 수 있으므로 Spotlight 자체를 무리하게 비활성화할 필요는 없다.
+
 ## 1단계: Raycast의 창 관리 기능을 끈다
 
 가장 먼저 할 일은 충돌원 제거다. 타일링 WM이나 Hammerspoon으로 창을 배치하고 있다면, Raycast의 Window Management는 **완전히 비활성화**한다.
