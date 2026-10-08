@@ -39,6 +39,7 @@ macOS를 개발환경으로 다듬을 때 만나는 문제는 하나의 학습 �
 System Setup
 → 필요한 Tool 설치
 → 인증·Secret·Identity 복원
+→ 시간·시간대·기본 설정 확인
 → 동작 검증
 → 필요하면 Launcher / Window Manager 추가
 
@@ -50,7 +51,9 @@ System Setup   Launcher   Window Management
 
 ## 1. 시스템 셋업 — Machine을 개발 가능한 상태로 만든다
 
-이 갈래는 실제 Day-1 작업 순서가 있다. Package와 dotfiles를 설치한 뒤에는 완료했다고 간주하지 말고, 인증·Secret·Identity까지 복원됐는지 확인한다. 특히 SSH key 파일명과 SSH config의 `IdentityFile` 경로가 어긋나면 GitHub 인증만 실패할 수 있으므로 Day-1 검증에 포함한다.
+이 갈래는 실제 Day-1 작업 순서가 있다. Package와 dotfiles를 설치한 뒤에는 완료했다고 간주하지 말고, 인증·Secret·Identity와 macOS 기본 설정까지 복원됐는지 확인한다. 특히 SSH key 파일명과 SSH config의 `IdentityFile` 경로가 어긋나면 GitHub 인증만 실패할 수 있으므로 Day-1 검증에 포함한다.
+
+시간 설정도 이 단계에서 같이 본다. 자동 시간 동기화와 시간대는 별개이므로, 새 Machine에서는 `time.apple.com` 같은 Network Time Server 사용 여부뿐 아니라 `Asia/Seoul`처럼 실제 사용 지역의 Time Zone이 맞는지도 확인한다. 시간이 맞지 않으면 인증, 빌드 로그, 예약 작업, Git commit 시각을 해석할 때 불필요한 혼란이 생길 수 있다.
 
 GitHub 계정을 여러 개 쓰는 경우에는 두 축을 분리해서 본다.
 
@@ -69,7 +72,7 @@ Commit Identity
 | 글 | 핵심 |
 |---|---|
 | [새 맥 초기 설정 — 셋업 순서](./2022-02-05-new-mac-initial-setup.md) | 시스템 설정 → Homebrew → dotfiles → Git 인증·Identity로 이어지는 Runbook |
-| [macOS 시스템 설정](./2026-07-03-macos-system-settings.md) | 입력·Trackpad·Mission Control·Terminal·Accessibility 등 OS 자체 설정 |
+| [macOS 시스템 설정](./2026-07-03-macos-system-settings.md) | 입력·Trackpad·Mission Control·날짜와 시간·Terminal·Accessibility 등 OS 자체 설정 |
 | [macOS CLI 개발 도구 모음](./2026-07-03-macos-cli-toolkit-brewfile.md) | bat·eza·fd·ripgrep·fzf·lazygit 등 CLI Tool의 역할 지도 |
 | [새 맥에 더 얹을 보조 유틸](./2026-07-03-macos-extra-utilities.md) | Menu Bar·Monitoring·Screenshot·Display·Terminal 등 선택적 Utility |
 
