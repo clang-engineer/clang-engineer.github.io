@@ -19,11 +19,32 @@ hidden      : false
 - 독 위치 조정 (System Settings → Desktop & Dock)
 - 세벌식 입력 소스 추가
 - 자동 대소문자 전환 끄기 (System Settings → Keyboard → Text → Capitalize words automatically)
-- Caps Lock으로 대소문자 전환 활성화 (System Settings → Keyboard → Input Sources)
+- Caps Lock으로 한영 전환 설정 (아래 세벌식 390 절 참고)
 - 세 손가락 드래그 활성화
   + System Settings → 손쉬운 사용(Accessibility) → 포인터 제어기 → 트랙패드 옵션
   + 드래그 활성화에서 "세 손가락으로 드래그하기" 선택
 - vim에서 `Ctrl + ↑/↓/←/→`를 사용하려면 Mission Control 단축키와 충돌을 없애야 한다 (Mission Control → 단축키 → Mission Control → '이동' 항목 체크 해제)
+
+### 세벌식 390과 Caps Lock 한영 전환
+
+1. 시스템 설정 → 키보드 → 텍스트 입력 → 편집에서 **한국어 세벌식 390**과 **영어 ABC** 입력 소스를 추가한다.
+2. 같은 화면에서 **Caps Lock 키로 ABC 입력 소스와 이전 입력 소스 간 전환** 옵션을 켠다.
+3. Caps Lock으로 한국어와 영어가 전환되는지 확인한다. macOS 버전에 따라 메뉴 이름은 조금 다를 수 있다.
+
+> Caps Lock을 입력 소스 전환에 쓰는 설정과 일반 Caps Lock(대문자 고정) 동작은 구분한다. 위 문서의 'Caps Lock으로 대소문자 전환' 항목은 한영 전환을 의미하지 않으므로 혼동하지 않는다.
+{: .prompt-info }
+
+### 포맷 후 ZMK 외장 키보드에서 `~`, `\`, `§`, `±`가 이상하게 입력될 때
+
+**사례:** 포맷 전에는 정상 작동하던 ZMK 커스텀 키보드에서 포맷 후 `&kp GRAVE`를 눌렀을 때 `~` 대신 `±` 또는 `§` 등이 입력되었다. 영어 ABC에서도 같은 증상이 발생했고, macOS의 키보드 종류를 **ISO에서 ANSI로 다시 설정하자 해결**되었다.
+
+1. 먼저 영어 **ABC** 입력 소스로 바꿔 같은 키를 테스트한다. 영어에서도 재현된다면 세벌식 390만의 문제로 단정하지 않는다.
+2. 시스템 설정 → 키보드 → **키보드 종류 변경…**(표시되는 경우)을 실행해 외장 키보드 식별을 다시 진행한다.
+3. 실제 키보드의 물리 배열에 맞춰 **ANSI / ISO / JIS**를 선택한다. 이 사례에서는 ANSI가 올바른 설정이었다.
+4. ZMK의 `&kp GRAVE`는 그대로 두고, ANSI/ABC 기준으로 `GRAVE` → 백틱(`\``), `Shift + GRAVE` → 물결표(`~`)가 나오는지 확인한다.
+
+> **주의:** 모든 외장 키보드를 ANSI로 설정하라는 뜻은 아니다. 실제 배열이 ISO/JIS라면 해당 타입을 사용해야 한다. 이전에 잘 작동하던 펌웨어라면 키맵을 바꾸기 전에 macOS의 키보드 종류부터 점검한다.
+{: .prompt-tip }
 
 ## 터미널 테마
 
