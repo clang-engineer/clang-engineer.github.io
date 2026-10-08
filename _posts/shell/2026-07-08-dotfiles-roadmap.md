@@ -2,7 +2,7 @@
 title       : "dotfiles 로드맵 — 설정을 코드로 재현하는 방법"
 description : "dotfiles를 Git에 두는 공통 원칙에서 출발해 홈에 배치하는 방식(심링크·bare git/yadm·chezmoi), 머신별 값과 시크릿 처리, macOS 패키지 재현(Brewfile)을 서로 다른 축으로 구분한 학습 지도."
 date        : 2026-07-08 12:00:00 +0900
-updated     : 2026-09-06 12:45:00 +0900
+updated     : 2026-10-08 00:00:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, dotfiles, chezmoi, symlink]
 pin         : false
@@ -38,7 +38,7 @@ Machine마다 다른 값·Secret은 어떻게 처리할까?
 | 3. Machine 차이 | Host별 값·Secret을 언제/어디서 확정할까 | 설계 선택 |
 | 4. 설치 재현 | 설정이 기대하는 Package도 어떻게 맞출까 | 보완 축 |
 | Branch A | Project Directory별 환경값은 어디에 둘까 | Tool |
-| Branch B | SSH 계정·Credential은 어떻게 분리할까 | 운영 |
+| Branch B | SSH 인증·Commit Identity·Credential은 어떻게 분리할까 | 운영 |
 | Runbook | 새 Mac 전체 셋업에서 dotfiles는 어디에 들어가나 | How-to |
 
 ## 1. Git을 설정의 정본으로 둔다
@@ -87,6 +87,22 @@ Git source → template/render → Home의 실제 파일
 | 글 | 역할 |
 |---|---|
 | [chezmoi 사용법 — source와 apply 흐름](./2026-07-08-chezmoi-usage-source-apply.md) | source state → template/data → apply라는 실제 동작 모델과 일상 명령을 설명 |
+
+현재 dotfiles 구현은 이 모델을 기본으로 둔다.
+
+```text
+chezmoi source
+→ 대부분의 dotfile을 Home에 render/apply
+
+nvim / hammerspoon
+→ 큰 live-edited directory는 symlink
+
+packages
+→ Brewfile / Windows installer로 보완
+
+private secrets companion
+→ 실제 SSH host, key, DB connection, local env를 overlay
+```
 
 ## 3. Machine별 값과 Secret — 차이는 언제 확정할까
 
@@ -139,13 +155,30 @@ Application이 직접 읽는 환경 파일
 
 셋은 저장 위치가 비슷해 보여도 Scope가 다르다.
 
-## Branch B — SSH 계정과 Credential
+## Branch B — SSH 인증과 Commit Identity
 
 | 글 | 역할 |
 |---|---|
 | [GitHub 다중 계정 관리](../git/2025-10-03-git-multiple-config.md) | `~/.ssh/config` Host alias로 개인/회사 계정을 분리하고 Key는 저장소 밖에 두는 운영 패턴 |
 
 SSH config 자체는 dotfiles로 관리할 수 있지만 **Private Key와 Credential은 별도 보안 자산**이다.
+
+GitHub 계정을 여러 개 쓰면 인증과 commit 작성자를 분리해서 본다.
+
+```text
+SSH Host alias + IdentityFile
+→ remote URL이 어떤 GitHub 계정으로 인증할지 결정
+→ fetch / pull / push 문제
+
+Git includeIf + workspace config
+→ repo 위치에 따라 user.name / user.email 결정
+→ commit author 문제
+
+private secrets companion
+→ 실제 key, host alias overlay, token, machine-local env 보관
+```
+
+새 Machine에서는 key 파일이 존재하는지만 확인하지 말고, SSH config의 `IdentityFile`이 실제 파일명과 맞는지, workspace 안에서 `git var GIT_AUTHOR_IDENT`가 기대한 email을 보여주는지까지 확인한다.
 
 ## Runbook — 새 Mac 전체 셋업
 
