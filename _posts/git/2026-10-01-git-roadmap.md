@@ -222,22 +222,20 @@ Git을 잘 쓰려면 변경을 잘 읽어야 한다. `delta`는 Git의 의미를
 
 Git의 index·HEAD·branch 모델과 대비해 변경의 정체성, 수정 가능한 revision graph를 이해하고 싶다면 [Jujutsu(jj) 소개]({% post_url git/2026-10-10-jujutsu-git-alternative %})를 읽는다. Git의 대체를 강요하는 글이 아니라 작업 모델의 설계 차이를 비교한 글이다.
 
+## Git 내부 모델 — 객체·참조·이력 재작성
+
+[Git 내부 모델 — Object·Index·Ref와 History Rewrite]({% post_url git/2026-10-10-git-object-model-and-history %})에서 blob·tree·commit·tag의 관계와 HEAD·branch·Index의 책임을 구분하고, merge·rebase·reset·restore가 어떤 상태를 움직이는지 확인한다.
+
 ## 아직 비어 있는 영역
 
 현재 글 묶음에는 다음 주제가 상대적으로 비어 있다.
 
 ```text
-Git object 내부 구조
-→ blob / tree / commit / tag
-
-merge와 rebase의 정확한 차이
-→ commit graph를 어떻게 바꾸는가
-
-reset / restore / checkout 비교
-→ working tree, index, HEAD 중 무엇을 움직이는가
-
 tag와 release 운영
 → Git tag와 GitHub Release의 경계
+
+추가 심화
+→ packfile / garbage collection / reflog expiry 등 저장 및 회수 과정
 ```
 
 이 영역은 나중에 별도 글이 생기면 로드맵에 연결한다.
