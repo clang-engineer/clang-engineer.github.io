@@ -218,6 +218,10 @@ Git을 잘 쓰려면 변경을 잘 읽어야 한다. `delta`는 Git의 의미를
 
 이미 Git 명령어를 쓰고 있다면 모든 글을 순서대로 볼 필요는 없다. 막힌 문제가 로컬 변경, history, remote, GitHub 플랫폼, 자동화 중 어디에 속하는지 먼저 고르면 된다.
 
+## Git과 다른 버전 관리 모델
+
+Git의 index·HEAD·branch 모델과 대비해 변경의 정체성, 수정 가능한 revision graph를 이해하고 싶다면 [Jujutsu(jj) 소개]({% post_url git/2026-10-10-jujutsu-git-alternative %})를 읽는다. Git의 대체를 강요하는 글이 아니라 작업 모델의 설계 차이를 비교한 글이다.
+
 ## 아직 비어 있는 영역
 
 현재 글 묶음에는 다음 주제가 상대적으로 비어 있다.
