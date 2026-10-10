@@ -48,6 +48,28 @@ jj:   Working copy = 수정 가능한 working-copy commit (@)
 
 그렇다고 '파일을 타이핑할 때마다 원격에 커밋된다'는 뜻은 아니다. 로컬 작업 상태를 jj가 관리하는 방식과, 공유할 이력을 북마크로 지정해 원격에 보내는 과정은 별개다.
 
+## 변경을 고르는 방식: `git add -p`와 `jj split`
+
+Git의 Index는 단순히 없애야 할 복잡성이 아니다. 한 파일에서 버그 수정과 리팩터링이 함께 발생했더라도 `git add -p`로 일부 hunk만 staging하고, 나머지는 Working Tree에 남길 수 있다. **어떤 수정을 확정할지 명시적으로 결정하는 경계**라는 장점이 있다.
+
+Jujutsu는 별도 staging area를 중심에 두지 않지만 선택적 변경 기록 자체를 포기하지 않는다. `jj split`은 한 change의 변경을 대화형으로 골라 둘로 분할한다. 선택한 부분을 앞선 commit에, 나머지를 후속 commit에 두는 방식이다.
+
+```text
+Git: Working Tree(A+B) → Index(A) → commit(A), Working Tree(B)는 유지
+jj:  working-copy change(A+B) → jj split → change(A) → change(B)
+```
+
+| 판단 기준 | Git | Jujutsu |
+|---|---|---|
+| 커밋 전 부분 선택 | `git add -p` | `jj split`으로 변경 분할 |
+| 남긴 변경 | Working Tree에 미스테이징 | 다른 change에 유지 |
+| 이미 만든 변경 수정 | amend·fixup·rebase | edit·squash·rebase |
+| 익숙한 검토 단위 | staged diff | revision별 diff |
+
+두 명령은 1:1 치환이 아니다. 특히 `jj split`은 스테이징 상태를 만드는 대신 **revision graph를 변경**한다. Git의 부분 스테이징에 익숙한 사람이라면 단축 명령 수보다 이 작업 모델이 실제로 더 편한지 검증해야 한다.
+
+Git 측 원리는 [hunk와 부분 스테이징]({% post_url git/2026-07-12-git-hunk-and-interactive-staging %}), 객체와 Index의 책임은 [Git 내부 모델]({% post_url git/2026-10-10-git-object-model-and-history %})에서 다룬다.
+
 ## Change ID와 Commit ID
 
 Git에서는 commit의 내용이나 부모가 달라지면 commit hash도 바뀐다. rebase나 amend 후 같은 논리적 변경을 추적할 때 hash가 달라져 불편할 수 있다.
