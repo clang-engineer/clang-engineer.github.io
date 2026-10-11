@@ -531,7 +531,7 @@ I/O 완료
 
 ---
 
-## 10. Event Loop
+## 9. Event Loop
 
 이 과정을 반복하는 Application 실행 구조가 Event Loop다.
 
