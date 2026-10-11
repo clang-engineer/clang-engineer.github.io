@@ -184,7 +184,7 @@ Roadmap이 50여 개 글의 전체 목차가 되지 않도록 대표 Hub만 둔�
 | 문제축 | 대표 진입점 |
 |---|---|
 | PKM / Obsidian / Org mode | [Neovim PKM 지형](./2026-07-12-neovim-pkm-obsidian-orgmode.md) |
-| 다른 Editor와의 경계 | [Neovim 사용자가 본 Emacs](./2026-07-03-neovim-user-view-of-emacs.md) |
+| 다른 Editor와의 경계 | [Neovim 사용자가 본 Emacs]({% post_url developer-tools/2026-07-03-neovim-user-view-of-emacs %}) |
 
 
 ## 다른 Roadmap과의 경계
