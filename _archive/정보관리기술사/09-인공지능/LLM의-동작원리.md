@@ -605,53 +605,20 @@ Context가 길다고 모든 정보를 동일하게 잘 활용하는 것도 아�
 
 ---
 
-## 10. 입력 Token과 출력 Token 모두 연산을 사용한다
+## 10. 추론과 Token 생성으로 이어진다
 
-처음에는 입력만 큰 연산을 사용할 것처럼 느껴지지만 출력도 매우 중요하다.
-
-### 입력 처리: Prefill
-
-입력 Token들은 여러 위치를 병렬적으로 계산할 수 있는 여지가 크다.
+Transformer가 Context를 반영한 표현을 만들면, 추론 단계에서는 그 표현을 바탕으로 다음 Token을 선택하고 이를 반복해 출력을 생성한다.
 
 ```text
-[입력 Token 1 ... Token N]
-        ↓
-Transformer로 Context 처리
-        ↓
-KV Cache 생성
+Tokenization → Embedding → Transformer
+                              ↓
+                         다음 Token 선택
+                              ↓
+                         Context에 추가
+                              ↺
 ```
 
-### 출력 처리: Decode
-
-출력은 앞 Token이 결정되어야 다음 Token을 만들 수 있다.
-
-```text
-Token 1 생성
-   ↓
-Token 2 생성
-   ↓
-Token 3 생성
-   ↓
-...
-```
-
-따라서 본질적으로 순차적인 부분이 있다.
-
-KV Cache는 이미 처리한 Token의 Attention 계산 일부를 재사용해 중복 연산을 줄인다. 그렇다고 새 출력 Token이 공짜가 되는 것은 아니다. 새 Token 하나를 생성할 때마다 여러 Transformer Layer를 통과하는 추론이 필요하다.
-
-이 때문에 긴 출력은 응답시간과 계산량을 크게 늘린다.
-
----
-
-## 11. 답변 생성과 Decoding
-
-Transformer가 다음 Token의 확률분포를 만들면 실제로 어떤 Token을 선택할지 Decoding 정책이 결정한다.
-
-- Temperature: 확률분포를 얼마나 평평하거나 뾰족하게 볼지 조절
-- Top-k: 상위 k개 후보 안에서 선택
-- Top-p: 누적확률 p 범위 안에서 선택
-
-따라서 LLM은 단순히 항상 최고 확률 Token만 고르는 시스템으로만 동작하는 것은 아니다.
+입력 Context를 처리하는 Prefill, 출력 Token을 생성하는 Decode, LM Head·Softmax·Decoding·KV Cache의 동작은 [LLM 추론과 Token 생성](LLM-추론과-Token-생성.md)에서 이어서 본다. 이 문서에서는 Transformer가 입력을 어떻게 표현하고 문맥화하는지에 집중한다.
 
 ---
 
