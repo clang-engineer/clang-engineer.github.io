@@ -137,7 +137,7 @@ Task 실행을 위임
 
 ---
 
-## 6. ExecutorService — 실행 관리 기능을 확장한다
+## 5. ExecutorService — 실행 관리 기능을 확장한다
 
 `ExecutorService`는 `Executor`를 확장해 **Task 제출 결과, Lifecycle, 여러 Task 관리**까지 다룬다.
 
