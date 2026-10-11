@@ -10,7 +10,7 @@
 
 ## 이 문서의 위치
 
-이 문서는 [`비동기-실행-모델.md`](비동기-실행-모델.md)에서 정리한 **언어 공통의 비동기 실행 원리**를 Java/JVM/Spring 생태계에 대입하는 Zoom-in 문서다.
+이 문서는 Java/JVM/Spring에서 **Task·Executor·Future·Virtual Thread가 어떤 역할을 담당하는지** 자체적으로 설명한다. 언어 공통의 Callback·Coroutine·Event Loop 비교는 [비동기 실행 모델](비동기-실행-모델.md)을 선택적으로 참고한다.
 
 ```text
 거시
