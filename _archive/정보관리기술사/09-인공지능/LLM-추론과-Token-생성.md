@@ -2,7 +2,7 @@
 
 ## 이 문서의 역할
 
-이 문서는 [LLM 입력 표현과 Transformer](LLM-입력표현과-Transformer.md)에서 본 `Token → Embedding → Transformer / Attention` 다음 단계만 Zoom-in한다.
+이 문서는 **Transformer의 출력 표현에서 실제 다음 Token을 선택하고 생성하는 과정**을 독립적으로 설명한다. 입력을 문맥화하는 원리는 [LLM 입력 표현과 Transformer](LLM-입력표현과-Transformer.md)에서 별도로 다루지만, 여기서는 필요한 입력 경계를 짚고 추론 과정 자체를 완결한다.
 
 핵심 질문은 하나다.
 
@@ -60,7 +60,7 @@ Prefill
 → Autoregressive Generation
 ```
 
-Hardware 실행·Serving까지 더 내려가고 싶다면 다음 문서로 Zoom-in한다.
+GPU·VRAM·Serving은 Token 선택 원리의 필수 다음 단계가 아니라 **실행 인프라라는 별도 학습 주제**다. 필요할 때 다음 문서를 참고한다.
 
 → [LLM 실행 인프라와 GPU Memory](LLM-실행인프라와-GPU-메모리.md)  
 Parameter · VRAM · KV Cache · 분산 실행이 실제 추론 비용과 어떻게 연결되는지 본다.
