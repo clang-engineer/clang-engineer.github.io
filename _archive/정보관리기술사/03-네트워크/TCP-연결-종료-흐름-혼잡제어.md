@@ -12,7 +12,7 @@ IP / Routing
 HTTP · RPC 등 Application Protocol
 ```
 
-본문에서는 연결 설정·종료, 신뢰성, 흐름 제어, 혼잡 제어와 상위 계층의 연결 재사용 관계까지 다룬다. `Socket · FD · Application Thread · Blocking/Non-blocking · I/O Multiplexing`처럼 **OS/Application 실행 구조로 내려가는 내용은 `_보충학습`에서 이어서 다룬다.**
+본문에서는 연결 설정·종료, 신뢰성, 흐름 제어, 혼잡 제어와 상위 계층의 연결 재사용 관계까지 다룬다. `Socket · FD · Application Thread · Blocking/Non-blocking · I/O Multiplexing · Completion I/O`처럼 **OS/Application 실행 구조로 내려가는 내용은 `_보충학습`에서 이어서 다룬다.**
 
 ## 이 문서의 목적
 
@@ -206,45 +206,63 @@ Sliding Window는 매번 하나 보내고 ACK를 기다리는 대신 Window 범�
 
 TCP는 연결 직후 Network가 얼마나 감당할 수 있는지 모른다. 작은 혼잡 Window에서 시작해 전송 가능량을 탐색한다.
 
+이 절은 **RFC 5681의 고전적인 Reno 계열 기본 모델**로 이해한다. 현대 TCP의 모든 혼잡 제어 Algorithm과 손실 복구 방식이 아래 순서·수치를 그대로 사용하는 것은 아니다.
+
 ### Slow Start
 
 이름은 Slow지만 ACK가 정상적으로 돌아오는 동안 Window는 비교적 빠르게 증가한다. **작은 값에서 출발한다**는 의미에 가깝다.
 
 ```text
-1 → 2 → 4 → 8 → 16 ...
+정상 ACK가 돌아오는 성장 예시
+cwnd: 1 → 2 → 4 → 8 → 16 ...
+      └─ 출발값을 1로 단순화한 예시
 ```
+
+위 숫자는 성장 모양을 보여주기 위한 예시이며, 모든 연결의 초기 Window가 반드시 1 Segment라는 뜻은 아니다.
 
 ### Congestion Avoidance
 
-임계 영역 이후에는 증가 속도를 완만하게 해 Network의 한계를 조심스럽게 탐색한다.
+임계 영역 이후에는 증가 속도를 완만하게 해 Network의 한계를 조심스럽게 탐색한다. `ssthresh`는 Slow Start와 Congestion Avoidance를 나누는 기준이다.
 
 ### Fast Retransmit
 
-중복 ACK가 반복되면 특정 Segment가 손실됐다고 추정해 Timeout 전에 재전송한다.
+기본 모델에서는 **중복 ACK 3회**를 손실 신호로 보고 특정 Segment가 손실됐다고 추정해 Timeout 전에 재전송한다.
 
 ### Fast Recovery
 
 손실 하나가 발생했다고 Network 전체가 완전히 막힌 것은 아닐 수 있다. 전송량을 무조건 처음 수준까지 내리지 않고 줄인 뒤 다시 회복한다.
 
+정상 ACK에 따른 성장과 손실 감지 후 복구를 나누면 다음과 같다. 아래 화살표는 **상태 전환**을 뜻한다.
+
 ```text
-작은 cwnd에서 시작
-        ↓
+[정상 ACK에 따른 성장]
 Slow Start
-빠르게 증가
-        ↓
+  │ cwnd가 ssthresh에 도달·초과
+  ▼
 Congestion Avoidance
-완만하게 증가
-        ↓
-손실 신호?
-├─ 없음 → 계속 Congestion Avoidance
-└─ 중복 ACK
+  └─ 혼잡 신호 없이 ACK 수신 → 완만한 증가
+
+[성장 중 손실 감지]
+Slow Start / Congestion Avoidance
+  │
+  ├─ 중복 ACK 3회
+  │   ↓
+  │  Fast Retransmit
+  │   ↓
+  │  Fast Recovery
+  │   ↓ 새 데이터를 확인하는 ACK 수신
+  │  Congestion Avoidance로 복귀
+  │
+  └─ 재전송 Timeout
       ↓
-   Fast Retransmit
+     ssthresh 조정 · cwnd를 1 SMSS로 축소
       ↓
-   Fast Recovery
+     손실 Segment 재전송
       ↓
-Congestion Avoidance로 복귀
+     Slow Start로 다시 탐색
 ```
+
+`SMSS`는 송신자가 보내는 최대 Segment의 데이터 크기다. **중복 ACK는 뒤쪽 Segment가 도착하고 있다는 단서지만, Timeout에서는 같은 단서를 기대하기 어려우므로 더 보수적으로 다시 시작한다.** Timeout은 Fast Recovery 중에도 발생할 수 있다. 위 그림은 두 손실 감지 경로의 차이를 드러내기 위해 정상 성장 중 분기를 중심으로 그렸다.
 
 세부 TCP Algorithm마다 수치와 동작은 다르지만 기술사 학습에서는 먼저 이 원리를 잡는다.
 
@@ -333,3 +351,7 @@ Handshake, Window, Keep-Alive, TIME_WAIT는 서로 무관한 암기 항목이 �
 - FIN은 연결을 처음 시작한 주체만 보내는 것이 아니다.
 - 4-Way 종료는 양방향 전송을 각각 닫기 때문에 필요하다.
 - TIME_WAIT는 쓸모없이 남은 연결이 아니라 마지막 ACK 유실과 이전 연결의 지연 Segment를 안전하게 처리하기 위해 일정 시간 상태를 유지하는 과정이다.
+
+## 참고 자료
+
+- [RFC 5681 — TCP Congestion Control](https://www.rfc-editor.org/rfc/rfc5681.html): 3.1절의 Timeout 후 Slow Start와 3.2절의 Fast Retransmit/Fast Recovery를 비교한다.

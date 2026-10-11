@@ -85,19 +85,36 @@ Inner Index Lookup 1,000,000회
 
 ## 4. Hash Join — Build + Probe
 
-Equality Join에서는 한쪽 입력으로 Hash Table을 만들고 다른 입력을 Probe할 수 있다.
+Equality Join에서는 한쪽 입력으로 Hash Table을 만들고 다른 입력을 Probe할 수 있다. 아래 화살표는 **구성·조회·결과 생성**을 나타낸다. 두 입력은 독립적이며, Hash Table에서 Probe Input이 만들어지는 것이 아니다.
 
 ```text
-Build Input
-   ↓
-Hash Table
-   ↓
-Probe Input
-   ↓
-Hash Lookup
-   ↓
-Matching Row
+Build Input                 Probe Input
+     │                           │
+     │ 구성                      │ Join Key로 조회
+     ▼                           │
+[Hash Table] ◀────────────────────┘
+     │
+     │ Key 일치 확인 · Row 결합
+     ▼
+ Matching Rows
 ```
+
+작은 Inner Join 예제로 실제 데이터의 변화를 보면 다음과 같다.
+
+```text
+Build: customers(id, name)
+  (1, A), (2, B)
+       ↓ Hash Table 구성
+  Key 1 → (1, A)
+  Key 2 → (2, B)
+
+Probe: orders(order_id, customer_id)
+  (o1, 2) → Key 2 조회 → (o1, B) 출력
+  (o2, 2) → Key 2 조회 → (o2, B) 출력
+  (o3, 3) → 일치하는 Key 없음 → 출력 없음
+```
+
+이 예제에서는 고객 ID가 유일하다고 가정한다. Hash 값이 같다는 것만으로 결합하지 않고 실제 Join Key도 비교한다. 핵심은 **한쪽이 조회할 구조를 만들고, 다른 쪽의 각 Row가 그 구조를 조회한다**는 역할 분담이다.
 
 평균적인 Hash Lookup을 상수 시간에 가깝다고 보면 Build와 Probe를 한 번씩 수행하므로 큰 입력을 반복 Lookup하는 것보다 유리할 수 있다.
 
@@ -128,10 +145,20 @@ Temporary Disk I/O
 A: 1 2 4 7 9
 B: 1 3 4 4 8
 
-두 Cursor를 비교하며 전진
+현재 A / B    비교 후 움직임
+    1 / 1    일치 → 결합하고 양쪽 전진
+    2 / 3    A가 작음 → A만 전진
+    4 / 3    B가 작음 → B만 전진
+    4 / 4    일치 → B의 두 4와 각각 결합
+    7 / 8    A가 작음 → A만 전진
+    9 / 8    B가 작음 → B 전진, B 끝
+
+결과: (1, 1), (4, 첫 번째 4), (4, 두 번째 4)
 ```
 
-정렬이 이미 되어 있다면 Merge 자체는 선형적으로 진행할 수 있다. 정렬이 없다면 Sort 비용이 선행된다.
+작은 값을 가진 쪽을 전진시키면 이미 지나간 값으로 되돌아갈 필요가 줄어든다. 다만 **중복 Key는 하나만 결합하고 넘기지 않는다.** 양쪽에 중복이 있으면 해당 그룹의 모든 일치 조합을 출력해야 한다.
+
+정렬이 이미 되어 있다면 입력을 병합 탐색하는 비용은 선형적으로 볼 수 있지만, 결과 Row를 생성하는 비용은 별도다. 정렬이 없다면 Sort 비용이 선행된다.
 
 ```text
 Sort A + Sort B
@@ -308,3 +335,7 @@ Optimizer가 Cost 비교
 ```
 
 > **JOIN 성능의 핵심은 알고리즘 이름을 외우는 것이 아니라 현재 입력에서 왜 그 전략이 싸다고 계산됐는지 확인하는 것이다.**
+
+## 참고 자료
+
+- [PostgreSQL — Using EXPLAIN](https://www.postgresql.org/docs/current/using-explain.html): Nested Loop·Hash·Merge Join의 실행계획과 두 입력의 역할을 확인한다.

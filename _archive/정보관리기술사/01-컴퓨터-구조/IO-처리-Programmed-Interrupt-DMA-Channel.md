@@ -126,28 +126,21 @@ CPU가 Busy Polling을 하지 않아도 된다는 장점이 있다.
 
 DMA는 **Device와 Memory 사이의 데이터 전송을 CPU 대신 수행하는 메커니즘**이다.
 
-CPU는 전송에 필요한 정보를 설정하고 작업을 시작시킨 뒤 다른 일을 할 수 있다.
+CPU는 전송에 필요한 정보를 설정하고 작업을 시작시킨 뒤 다른 일을 할 수 있다. Driver가 Source / Destination, Transfer Size, Direction을 설정하며, **제어·완료 통지와 실제 데이터 전송은 서로 다른 경로**다.
 
 ```text
-CPU
-↓
-DMA 설정
-- Source / Destination
-- Transfer Size
-- Direction
-↓
-DMA 시작
+[제어·완료 통지: -->]
+CPU --(1) 주소·크기·방향 설정 / 시작--> DMA Engine
+CPU <--(3) 완료 Interrupt------------ DMA Engine
 
-DMA Controller / Device
-↓
-Device ↔ Memory 데이터 전송
-
-완료
-↓
-Interrupt
-↓
-CPU
+[실제 데이터 전송: ==>]
+Device ==(2) 데이터 전송==> RAM Buffer
+          위 DMA Engine이 수행
 ```
+
+번호는 시간 순서다. (1) 이후 CPU는 다른 작업을 할 수 있고, (2)의 Bulk Data는 CPU가 바이트/워드마다 읽어 RAM에 다시 쓰는 경로를 거치지 않는다. (3)에서 CPU가 완료 상태를 확인하고 후속 처리를 한다.
+
+여기서 DMA Engine은 별도 DMA Controller 또는 Device 내부의 DMA 기능을 뜻한다. 그림은 **Device → Memory 읽기와 Interrupt 완료 통지**를 선택한 예시다. 쓰기는 데이터 방향이 반대이며, 완료 확인에 Polling을 사용하는 구조도 가능하다. DMA를 사용한다고 CPU의 설정·동기화·완료 처리까지 없어지는 것은 아니다.
 
 ### 핵심
 
@@ -361,3 +354,7 @@ Completion = 완료 통지 / 실행 모델
 핵심 문장:
 
 > **I/O 처리 구조의 발전 방향은 CPU가 장치 상태 확인과 데이터 전송에 직접 개입하는 범위를 줄이고, I/O 전용 하드웨어가 더 많은 책임을 맡게 하는 것이다.**
+
+## 참고 자료
+
+- [Linux Kernel — Dynamic DMA mapping Guide](https://docs.kernel.org/core-api/dma-api-howto.html): Driver가 Buffer를 준비하고 Device의 DMA 전송을 설정하는 역할을 확인한다.
