@@ -64,6 +64,9 @@ AI 개발 지형
 
 ## 0. 도구 지형 — 먼저 선택 좌표를 잡는다
 
+코드를 직접 수정하는 **Coding Agent**(Claude Code·Codex·OpenCode·pi)와 여러 세션을 관찰·전환하는 **Agent Workspace**(cmux·Herdr·Superset)는 역할이 다르다. 두 역할은 한 제품에 통합될 수도 있다. 터미널·멀티플렉서·워크스페이스의 전체 관계는 [Developer Tools Roadmap]({% post_url developer-tools/2026-10-05-developer-tools-roadmap %})에서 확인한다.
+
+
 | 글 | 핵심 |
 |---|---|
 | [AI 코딩 도구 지형도](./2026-07-03-ai-coding-tools-landscape.md) | Claude Code·OpenCode·pi·Cursor·Copilot·Codex·Aider를 사용 환경, 모델 종속성, 과금, Open Source 여부로 비교 |
