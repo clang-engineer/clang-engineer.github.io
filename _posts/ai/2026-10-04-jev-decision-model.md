@@ -8,7 +8,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [Pi coding agent — 얇은 하네스를 Package와 Extension으로 조립하기](./2026-10-02-pi-extensible-coding-agent-harness.md)
+> 관련: [Pi coding agent — 얇은 하네스를 Package와 Extension으로 조립하기](./2026-09-21-pi-coding-agent-harness.md)
 
 Jev를 Pi에서 처음 접하면 “판단·분류·도구 탐색을 보조하는 확장” 정도로 이해하기 쉽다. 하지만 그것은 Jev를 붙인 **`pi-jev`의 사용 맥락**이다. Jev 자체는 TypeSafe AI가 제공하는 판단 모델이며, Pi 없이도 소프트웨어의 분류·라우팅·평가에 사용할 수 있다.
 
