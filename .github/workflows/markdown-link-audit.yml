@@ -6,11 +6,13 @@ on:
     paths:
       - '**/*.md'
       - 'scripts/check_markdown_links.py'
+      - '.github/workflows/markdown-link-audit.yml'
   push:
     branches: [main]
     paths:
       - '**/*.md'
       - 'scripts/check_markdown_links.py'
+      - '.github/workflows/markdown-link-audit.yml'
 
 permissions:
   contents: read
@@ -21,6 +23,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check local Markdown links
-        # First run is an audit: surface existing broken links without blocking deploys.
-        continue-on-error: true
-        run: python3 scripts/check_markdown_links.py
+        id: audit
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/check_markdown_links.py > markdown-link-audit.txt 2>&1
+          status=$?
+          cat markdown-link-audit.txt
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: markdown-link-audit
+          path: markdown-link-audit.txt
+          retention-days: 14
+      - name: Summarize audit
+        if: always()
+        shell: bash
+        run: |
+          echo '## Markdown link audit' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Audit-only: link failures do not block deployment.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Exit code: ${{ steps.audit.outputs.exit_code }}' >> "$GITHUB_STEP_SUMMARY"
+          echo 'See the uploaded markdown-link-audit artifact for full details.' >> "$GITHUB_STEP_SUMMARY"
