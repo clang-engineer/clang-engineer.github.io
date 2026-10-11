@@ -334,113 +334,29 @@ Vision Transformer(ViT)처럼 Image를 Patch 단위로 나누고 Transformer로 
 
 ---
 
-## 10. GAN: Generator와 Discriminator의 경쟁
+## 10. GAN · Diffusion은 Network Architecture와 다른 분류축이다
 
-GAN은 생성 Model을 학습시키는 대표적인 구조다.
-
-두 Network가 경쟁한다.
+CNN·RNN·Transformer는 주로 Data를 처리하는 Network 구조를 설명한다. 반면 GAN·Diffusion은 **Data를 생성하도록 Model을 구성·학습하는 방식**을 구분할 때 등장한다.
 
 ```text
-Random Noise
-    ↓
-Generator
-    ↓
-가짜 Image
-    ↓
-                 ┌───────────────┐
-실제 Image ─────→│ Discriminator │
-가짜 Image ─────→│               │
-                 └───────────────┘
-                         ↓
-                   Real / Fake 판단
+Network Architecture
+├─ CNN
+├─ RNN / LSTM / GRU
+└─ Transformer
+
+생성 Model · 방식
+├─ GAN       → Generator ↔ Discriminator 경쟁
+└─ Diffusion → Noise에서 Data를 복원
 ```
 
-- Generator: 진짜처럼 보이는 Data를 생성
-- Discriminator: 실제 Data와 생성 Data를 구분
+따라서 GAN은 CNN의 다음 세대가 아니다. GAN의 Generator·Discriminator에 CNN 계열 Network를 사용할 수도 있다. Diffusion 역시 특정 Network Architecture와 동일한 분류축이 아니다.
 
-Training이 반복되면 Generator는 Discriminator를 속이기 위해 더 실제 같은 Data를 만들도록 학습된다.
-
-```text
-Generator 개선
-      ↕ 경쟁
-Discriminator 개선
-```
-
-GAN은 Image 생성에서 큰 성공을 거두었지만 Training 불안정성, Mode Collapse 등의 문제가 있을 수 있다.
-
-상세: `생성형-AI와-멀티모달.md`
+→ [생성형 AI와 Multimodal](생성형-AI와-멀티모달.md)  
+GAN의 경쟁 학습, Diffusion의 Noise 복원, 두 방식의 차이는 이 문서에서 이어서 본다.
 
 ---
 
-## 11. GAN은 CNN의 다음 세대가 아니다
-
-이 부분을 특히 조심해야 한다.
-
-CNN은 주로 **Network Architecture의 특징**을 설명하고 GAN은 **Generator와 Discriminator를 경쟁시키는 생성 학습 구조**를 설명한다.
-
-GAN의 Generator나 Discriminator 내부에 CNN 계열 구조를 사용할 수도 있다.
-
-```text
-GAN
-├─ Generator
-│   └─ CNN 계열 Network를 사용할 수 있음
-│
-└─ Discriminator
-    └─ CNN 계열 Network를 사용할 수 있음
-```
-
-따라서:
-
-```text
-CNN → GAN
-```
-
-이 아니라:
-
-```text
-GAN이라는 생성 구조 안에
-CNN Architecture를 사용할 수도 있다
-```
-
-가 더 정확한 관계다.
-
----
-
-## 12. Diffusion: Noise에서 Data를 복원한다
-
-Diffusion 계열 생성 Model은 Data에 Noise를 점차 추가하는 과정을 학습하고, 생성 시에는 Noise에서 출발해 이를 단계적으로 제거하며 Data를 만든다.
-
-```text
-[학습 개념]
-원본 Image
- ↓
-Noise 추가
- ↓
-더 많은 Noise
- ↓
-거의 Noise
-
-[생성]
-Noise
- ↓
-Noise 제거
- ↓
-조금 더 구조화
- ↓
-반복
- ↓
-생성 Image
-```
-
-직관적으로:
-
-> **GAN이 Generator와 Discriminator의 경쟁으로 생성 능력을 학습한다면, Diffusion은 Noise를 어떻게 제거해 Data 구조를 복원할지를 학습한다.**
-
-GAN 이후 Image 생성 분야에서 Diffusion 계열이 크게 주목받았지만 `GAN → Diffusion` 역시 모든 AI Architecture의 일렬 발전 관계를 뜻하지 않는다.
-
----
-
-## 13. Autoregressive 생성과 GAN · Diffusion
+## 11. Autoregressive 생성과 GAN · Diffusion
 
 LLM에서 익숙한 Autoregressive 방식도 생성 방식의 하나다.
 
@@ -524,7 +440,7 @@ GPT(Generative Pre-trained Transformer)류 LLM의 실행 흐름
 
 ---
 
-## 14. 기술사에서 용어를 만났을 때 분류하는 방법
+## 12. 기술사에서 용어를 만났을 때 분류하는 방법
 
 새로운 AI 용어를 만났을 때 먼저 다음 질문을 던진다.
 
@@ -551,7 +467,7 @@ GPT(Generative Pre-trained Transformer)류 LLM의 실행 흐름
 
 ---
 
-## 15. 흐름으로 기억하기
+## 13. 흐름으로 기억하기
 
 역사적 흐름을 아주 단순화하면 다음처럼 이해할 수 있다.
 
