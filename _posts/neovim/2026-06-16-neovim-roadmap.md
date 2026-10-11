@@ -7,6 +7,9 @@ categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : false
 hidden      : false
+redirect_from:
+  - /posts/neovim/2026-06-08-vim-neovim-lazyvim-feature-layers/
+  - /posts/lazyvim/2026-06-08-vim-neovim-lazyvim-feature-layers/
 ---
 
 Neovim을 배우는 흐름에는 **사용자가 잘 쓰기 위한 경로**와 **Plugin 제작자가 내부로 내려가는 경로**가 섞이기 쉽다. 둘을 먼저 분리한다.
@@ -48,13 +51,35 @@ Plugin을 만들지 않는다면 **LazyVim 구조 이해에서 핵심 경로가 
 
 ## 0. Vim → Neovim → Distro 계층
 
-| 글 | 역할 |
-|---|---|
-| [Vim vs Neovim vs 배포판 — 기능 계층](./2026-06-08-vim-neovim-lazyvim-feature-layers.md) | Vim core, Neovim 확장, LazyVim 같은 Distro의 책임 경계를 한 장으로 잡는 Concept |
-| [Vanilla / kickstart.nvim / LazyVim 비교](./2026-06-16-neovim-starting-point-comparison.md) | 어디에서 시작할지를 학습비용·제어범위라는 축으로 고르는 Comparison |
-| [Vim & Neovim 작동 원리](./2025-10-04-vim-core-engine.md) | mode·buffer·window·tab·command 흐름을 이해하는 기반 Concept |
+같은 기능처럼 보여도 **어느 계층이 실제로 구현하고 누가 기본값을 조립하는지**를 구분해야 한다.
 
-이 세 글을 통해 “내가 보는 기능이 Vim core인지, Neovim API인지, Distro Plugin인지”를 먼저 구분한다.
+| 계층 | 책임 | 대표 예 |
+|---|---|---|
+| Vim | 편집 모델·기본 명령 | mode, operator, motion, register, macro |
+| Neovim | 확장 가능한 runtime·API | Lua API, LSP client, diagnostic, async/RPC |
+| Plugin | 구체 기능 구현 | completion, picker, formatter 연동, UI |
+| Distro (LazyVim 등) | 플러그인 조합·기본값·키맵 | lazy.nvim spec, extras, user overrides |
+
+```text
+Vim 편집 모델
+  ↓
+Neovim runtime / API
+  ↓
+Plugin이 구체 기능 구현
+  ↓
+Distro가 조립하고 기본값 제공
+  ↓
+User config가 최종 override
+```
+
+예를 들어 LazyVim에서 LSP 기능을 호출하는 키를 눌렀다고 해서 LSP 기능 자체가 LazyVim 구현인 것은 아니다. **Neovim core → Plugin → Distro 설정 → 사용자 override** 순으로 기능의 출처를 추적한다.
+
+| 더 알아볼 질문 | 문서 |
+|---|---|
+| Vanilla / kickstart.nvim / LazyVim 중 어디서 시작할까 | [시작점 비교](./2026-06-16-neovim-starting-point-comparison.md) |
+| 편집기 내부의 mode·buffer·window 구조는? | [Vim & Neovim 작동 원리](./2025-10-04-vim-core-engine.md) |
+| LazyVim은 어떤 플러그인을 어떻게 조립하나 | [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md) |
+| spec과 override가 합쳐지는 규칙은? | [LazyVim spec merge](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) |
 
 ## 1. 편집 기본기 — Distro 아래의 Vim 문법
 
