@@ -281,7 +281,7 @@ LLM Application
 └─ Monitoring / Rollback
 ~~~
 
-→ [AI 평가 · Golden Set · Red Teaming](99-AI-평가-Golden-Set과-Red-Teaming.md)  
+→ [AI 평가 · Golden Set · Red Teaming](AI-평가-Golden-Set과-Red-Teaming.md)  
 Model, Prompt, RAG, Fine-tuning, Agent, Application이 바뀔 때마다 품질과 실패 경계를 반복 검증한다.
 
 ## 10. 학습 경로 요약

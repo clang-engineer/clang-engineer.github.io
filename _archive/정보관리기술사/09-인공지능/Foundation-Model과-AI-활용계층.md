@@ -141,7 +141,7 @@ Model의 Parameter 규모, 입력·출력 Token, 동시 사용자 수와 Agent�
 
 ---
 
-## 6. 대부분의 기업은 Foundation Model을 직접 만들 필요가 없다
+## 5. 대부분의 기업은 Foundation Model을 직접 만들 필요가 없다
 
 일반 기업의 목적은 최고 성능의 범용 Model 자체를 만드는 것이 아니라 **자기 업무 문제를 해결하는 것**이다.
 
@@ -186,7 +186,7 @@ DB 자연어 조회
 
 ---
 
-## 7. Foundation Model 층과 활용 계층
+## 6. Foundation Model 층과 활용 계층
 
 전체 AI 시스템을 두 층으로 단순화하면 지금까지 공부한 개념들이 깔끔하게 정리된다.
 
@@ -222,7 +222,7 @@ Evaluation
 
 ---
 
-## 8. 왜 활용 계층이 기업 전략에서 중요해지는가
+## 7. 왜 활용 계층이 기업 전략에서 중요해지는가
 
 Foundation Model이 강력해질수록 Application 개발자는 Model 내부 Weight를 직접 바꾸지 않고도 많은 문제를 해결할 수 있다.
 
@@ -254,7 +254,7 @@ Foundation Model이 강력해질수록 Application 개발자는 Model 내부 Wei
 
 ---
 
-## 9. 직접 Hosting과 Foundation Model 개발은 다르다
+## 8. 직접 Hosting과 Foundation Model 개발은 다르다
 
 여기서 자주 혼동하는 부분이 있다.
 
@@ -289,7 +289,7 @@ Model 크기와 사용자 규모에 따라 비용이 크게 달라진다. 작은
 
 ---
 
-## 10. Open Weight Model이 의미 있는 이유
+## 9. Open Weight Model이 의미 있는 이유
 
 Foundation Model 경쟁의 진입장벽이 높다고 해서 모든 기업이 폐쇄형 API만 사용할 수 있는 것은 아니다.
 
@@ -314,7 +314,7 @@ Domain 적용
 
 ---
 
-## 11. 현재 생성형 AI를 보는 실용적인 관점
+## 10. 현재 생성형 AI를 보는 실용적인 관점
 
 개발자나 일반 기업 입장에서는 다음 순서로 생각하는 것이 현실적이다.
 
@@ -338,7 +338,7 @@ Domain 적용
 
 ---
 
-## 12. 지금까지 배운 개념을 산업 구조에 연결하기
+## 11. 지금까지 배운 개념을 산업 구조에 연결하기
 
 ```text
                  [Model을 만드는 층]
@@ -377,7 +377,7 @@ System Prompt       │            │
 
 ---
 
-## 13. 처음 헷갈리기 쉬운 부분
+## 12. 처음 헷갈리기 쉬운 부분
 
 ```text
 Foundation Model = LLM?
@@ -403,7 +403,7 @@ Tool 실행 결과를 다시 LLM Context에 넣고 LLM을 반복 호출하면서
 
 ---
 
-## 14. 기억 흐름
+## 13. 기억 흐름
 
 ```text
 과거

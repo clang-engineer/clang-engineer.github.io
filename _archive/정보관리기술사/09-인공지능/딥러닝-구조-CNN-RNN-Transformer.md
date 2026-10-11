@@ -1,4 +1,4 @@
-# 딥러닝 대표 구조: CNN · RNN · Transformer · GAN
+# 딥러닝 구조: CNN · RNN · Transformer
 
 이 문서는 기술사 학습 중 반복해서 등장하는 CNN(Convolutional Neural Network, 공간적 특징을 합성곱으로 추출하는 신경망), RNN(Recurrent Neural Network, 순서 정보를 반복 상태로 처리하는 신경망), LSTM(Long Short-Term Memory, 장기 의존성 학습을 보완한 RNN), Transformer, GAN(Generative Adversarial Network, 생성자와 판별자가 경쟁하며 학습하는 생성 구조), Diffusion을 **서로 같은 종류의 용어처럼 외우지 않고 전체 AI 지도에서 각각 어디에 위치하는지** 이해하는 데 목적이 있다.
 

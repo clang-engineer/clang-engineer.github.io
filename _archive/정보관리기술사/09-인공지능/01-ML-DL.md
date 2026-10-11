@@ -158,7 +158,7 @@ Perceptron·Activation Function·Backpropagation·Gradient Descent는 신경망 
 
 CNN·RNN·Transformer는 단순한 세대 순서가 아니라 **Data 구조와 처리 방식에 따른 Architecture 선택지**다.
 
-→ [CNN · RNN · Transformer 등 대표 DL 구조](딥러닝-대표구조-CNN-RNN-Transformer-GAN.md)  
+→ [CNN · RNN · Transformer 등 대표 DL 구조](딥러닝-구조-CNN-RNN-Transformer.md)  
 CNN·RNN·Transformer가 각각 어떤 관계를 잘 표현하는지와 구조적 차이를 더 깊게 본다.
 
 Transformer는 Foundation Model·LLM으로 이어지는 연결점이다.
@@ -193,7 +193,7 @@ Evaluation
 
 Accuracy·Precision·Recall·F1은 발전 순서가 아니라 오류 비용에 따라 선택하는 동급 지표다.
 
-→ [AI 평가 · Golden Set · Red Teaming](99-AI-평가-Golden-Set과-Red-Teaming.md)  
+→ [AI 평가 · Golden Set · Red Teaming](AI-평가-Golden-Set과-Red-Teaming.md)  
 기본 ML 평가에서 더 나아가 AI Application의 반복 검증과 실패 경계 탐색으로 확장한다.
 
 ## 7. 학습 경로
