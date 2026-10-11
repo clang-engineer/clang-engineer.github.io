@@ -4,7 +4,7 @@
 >
 > 핵심은 **Application이 Network 자원을 직접 관리하지 않는다는 것**이다. OS가 TCP 연결·Socket·Buffer·실제 송수신을 관리하고, Application Thread는 Socket API로 자기 OS에 필요한 작업을 요청한다.
 >
-> 이 문서에서는 Socket I/O의 기반과 I/O Multiplexing의 출발점까지만 잡는다. **Readiness · Multiplexing 호출 Thread의 대기/재개 · Event Loop · Reactor Pattern**은 `IO-Multiplexing-EventLoop-Reactor.md`에서 이어서 다룬다.
+> 이 문서만으로 **Socket의 주체·TCP 서버 호출 흐름·Blocking/Non-blocking·Multiplexing의 목적**까지 이해를 완결한다. Readiness와 Reactor의 내부 실행 구조는 독립적인 운영체제 학습 주제로, 필요할 때 [I/O Multiplexing · Event Loop · Reactor](../../02-운영체제/IO-Multiplexing-EventLoop-Reactor.md)를 참고한다.
 
 ## 1. 먼저 주체를 분리한다
 
