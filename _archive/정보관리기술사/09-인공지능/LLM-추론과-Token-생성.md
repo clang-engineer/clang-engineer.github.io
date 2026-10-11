@@ -60,7 +60,7 @@ Prefill
 → Autoregressive Generation
 ```
 
-다음 문서에서는 이 계산이 실제 Hardware와 Memory 위에서 어떻게 실행되는지 본다.
+Hardware 실행·Serving까지 더 내려가고 싶다면 다음 문서로 Zoom-in한다.
 
 → [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)  
 Parameter · VRAM · KV Cache · 분산 실행이 실제 추론 비용과 어떻게 연결되는지 본다.
