@@ -183,8 +183,7 @@ Prompt·RAG·Fine-tuning·Agent는 필수 발전 순서가 아니라 **서로 �
   → 외부 지식을 Chunking·Embedding·Retrieval로 찾아 Context에 넣는 흐름을 본다.
 - [Fine-tuning과 PEFT · LoRA](Fine-tuning과-PEFT-LoRA.md)  
   → Weight를 바꾸는 학습과 SFT·PEFT·LoRA의 서로 다른 분류축을 본다.
-- [Agent와 MCP](에이전트와-MCP.md)  
-  → LLM이 Tool을 호출하고 Observation을 받아 재판단하는 실행 Loop와 외부 기능 연결 방식을 본다.
+Agent·MCP의 실행 구조와 세부학습 링크는 7절에서 이어서 본다.
 
 ## 6. Context에 들어오는 정보와 Weight 변경을 구분한다
 
@@ -284,26 +283,34 @@ Model, Prompt, RAG, Fine-tuning, Agent, Application이 바뀔 때마다 품질�
 
 ## 10. 권장 학습 경로
 
+이 경로는 **필수 선수과목 순서가 아니라, 지도에서 필요한 부분을 선택해 내려가는 탐색 순서**다.
+
 ~~~text
-1. 생성형 AI와 Multimodal
-   → 생성형 AI 전체에서 LLM의 위치
+[기본 인출]
+Foundation Model · 생성형 AI · LLM의 위치
         ↓
-2. Foundation Model과 AI 활용 계층
-   → Model 범용성과 활용 계층
+Training ↔ Inference
         ↓
-3. LLM의 동작 원리
+LLM 동작 원리
         ↓
-4. LLM 추론과 Token 생성
+LLM 추론 · Token 생성
         ↓
-5. LLM 내부 운영과 GPU Memory
-        ↓
-6. 목적에 따라 병렬 Zoom-in
-   ├─ Prompt / Context
-   ├─ RAG
-   ├─ Fine-tuning
-   └─ Agent / MCP → Harness
-        ↓
-7. Text2SQL 등 Application
+[목적에 따른 병렬 Zoom-in]
+├─ Prompt / Context
+├─ RAG
+├─ Fine-tuning
+└─ Agent / MCP
+     └─ Harness (운영·통제가 필요할 때)
+
+[선택적 확장]
+├─ GPU Memory / Serving
+├─ Multimodal · GAN · Diffusion
+└─ Text2SQL 등 업무 Application
+
+[전 과정 횡단]
+평가 · 안전 · Governance
 ~~~
 
-평가·검증은 마지막 한 단계가 아니라 이 경로 전체에 반복 적용한다.
+`GPU Memory / Serving`은 추론 원리와 연결되지만 Prompt·RAG를 공부하기 위한 필수 선행 단계는 아니다. Multimodal과 Text2SQL도 현재 관심과 학습 범위에 따라 선택적으로 내려간다.
+
+평가·검증은 마지막 단계가 아니라 Model·Prompt·RAG·Agent·Application을 변경할 때마다 반복 적용한다.
