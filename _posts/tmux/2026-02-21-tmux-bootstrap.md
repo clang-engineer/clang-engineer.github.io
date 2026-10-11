@@ -7,6 +7,8 @@ categories  : [tmux, "스크립트·플러그인"]
 tags        : [terminal, tpm, plugin]
 pin         : false
 hidden      : false
+redirect_from:
+  - /posts/tmux/2026-07-11-smug-minimal-tmux-session-manager/
 ---
 
 같은 작업 환경(세션·윈도우·패널)을 매번 손으로 세팅하지 않으려면 **세션 부트스트랩**이 답이다. 그런데 이건 이미 해결된 문제다 — [tmuxinator](https://github.com/tmuxinator/tmuxinator)(2011~)·[tmuxp](https://github.com/tmux-python/tmuxp)·[smug](https://github.com/ivaaaan/smug) 같은 **세션 매니저**가 YAML 한 장으로 레이아웃을 선언하면 알아서 띄워준다. **결론부터: 이걸 써라.** 매번 셸로 직접 짜는 건 바퀴 재발명이다.
@@ -58,7 +60,7 @@ windows:
 2. **무의존·이식성이 최우선(서버·컨테이너 오감)이면 smug** — 런타임 0, 단일 바이너리. 활동은 낮지만 설정이 단순해 깨질 게 별로 없다.
 3. **레퍼런스·예제가 많아야 하면 tmuxinator** — 스타 1위·자료 최다지만 Ruby 의존에 저활동이라 지금 새로 시작할 결정적 이유는 약하다.
 
-> smug를 골랐다면 — 실전 config와 **프리셋에 없는 커스텀 레이아웃 잡는 법**은 [smug 심화 글](./2026-07-11-smug-minimal-tmux-session-manager.md)에서 이어진다.
+> smug 실전 설정과 **프리셋에 없는 커스텀 레이아웃**은 아래 `smug 실전 가이드`에서 이어진다.
 {: .prompt-tip }
 
 ---
@@ -169,3 +171,143 @@ tmux send-keys -t "$MAIN_SESSION":1 "cd ~/project" C-m
 * **선언형 3종은 다 성숙기 — 요즘 모멘텀은 다른 범주다.** [sesh](https://github.com/joshmedeski/sesh) 같은 **온디맨드 세션 스위처**(fzf·zoxide로 디렉토리에서 즉석 세션 생성)로 실력자들이 옮겨가는 중이다 — 생성 2.5년에 ★2.7k, 나이 대비 성장률이 이 셋보다 높다. 고정 레이아웃을 *선언*하는 이 글과 목적이 달라 스코프 밖이지만, 방향은 알아둘 것. → 이 피커 범주의 설치·바인딩·실전은 [sesh — 즉석 tmux 세션 전환](./2026-07-12-sesh-tmux-session-picker.md)에서 이어진다.
 * `tmux has-session`은 세션 존재 여부만 확인한다. 도구의 "이미 있으면 attach"가 이걸 대신한다.
 * 셸로 직접 짜는 게 유일해지는 건 **바이너리 하나도 못 까는 극한 환경**(락다운된 서버, 임시 컨테이너) 정도다. 그 외엔 세션 매니저가 상위호환이다.
+
+
+---
+
+# Appendix — smug 실전 가이드
+
+> 기존 `smug` 독립 글을 이 문서에 통합했다. 세션 매니저의 선택·원리·smug 사용법을 한곳에서 읽을 수 있다.
+
+세션 매니저를 여러 개 비교한 끝에 **smug**를 골랐다면, 이 글은 그다음 실전이다. smug의 자리는 한마디로 **"무의존·미니멀"** — Ruby(tmuxinator)나 Python(tmuxp) 런타임 없이 도는 **Go 단일 바이너리**다. YAML로 세션·윈도우·패널을 선언하면 그대로 띄워 준다.
+
+> 세션 매니저 3종(smug·tmuxp·tmuxinator)의 **비교·선택**과, 이 도구들이 내부에서 부르는 tmux 명령의 **셸 해부**는 [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md) 글에 있다. 이 글은 그중 smug를 골랐다는 전제에서 출발한다. 전체 학습 순서는 [tmux 로드맵](./2026-06-16-tmux-roadmap.md) 3단계.
+{: .prompt-tip }
+
+## 설치
+
+Homebrew 한 줄이면 끝난다. 런타임 의존이 없어 서버·컨테이너엔 바이너리 하나만 복사해도 돈다.
+
+```bash
+brew install smug
+# 또는: go install github.com/ivaaaan/smug@latest
+```
+
+## 기본 — 세션을 YAML로 선언
+
+config는 `~/.config/smug/<이름>.yml`에 둔다. 파일 하나 = 세션 하나다.
+
+```yaml
+# ~/.config/smug/dev.yml
+session: dev
+root: ~/projects/app        # 모든 윈도우·패널의 시작 디렉토리
+windows:
+  - name: editor
+    commands:
+      - nvim                # 이 윈도우의 첫 패널에서 실행
+  - name: server
+    layout: main-vertical   # 좌 1 + 우 2 분할
+    panes:                  # 암묵적 base 패널 1개 + 아래 2개 = 총 3패널
+      - commands: [npm run dev]
+      - commands: [npm run test:watch]
+```
+
+```bash
+smug start dev     # 이 세션을 띄우고 attach. `smug dev`로 줄여도 됨(기본 명령이 start)
+```
+
+핵심 키만 짚으면:
+
+- **`session`** — 세션 이름. **`root`** — 시작 디렉토리(세션·윈도우·패널별로 각각 지정 가능하고, 없으면 상위 것을 상속).
+- **`windows`** — 각 윈도우는 `name`·`layout`·`commands`·`panes`를 가진다.
+- **`panes`** — 여기서 개수 감각이 중요하다. 윈도우는 **암묵적으로 패널 1개로 시작**하고, `panes` 항목 하나마다 분할이 하나 추가된다. 즉 **항목 2개 = 총 3패널**이다.
+- **`commands`** — 해당 윈도우/패널에서 시작 시 실행할 명령. `nvim`·개발 서버를 자동 기동하는 부분이다.
+
+**이미 떠 있는 세션이면 새로 만들지 않고 그대로 attach**한다. 셸 스크립트로 직접 짤 때 손으로 넣던 `has-session` 분기가 기본 동작으로 들어 있는 셈이다.
+
+단, **tmux 안에서 실행할 땐 주의**할 게 하나 있다. `smug start dev`는 세션을 만들어(또는 확인해) 두기만 하고, **화면을 그 세션으로 전환하지 않는다** — 새 세션이든 이미 떠 있던 세션이든 마찬가지다. tmux 밖에서는 attach라 자연히 전환처럼 보이지만, 안에서는 중첩 attach가 안 되니 아무 일도 안 일어난 것처럼 느껴진다. 안에서 그 세션으로 넘어가려면 `smug switch dev`(= `start -a`)를 쓴다 — 이때 tmux `switch-client`가 돈다. `-a`의 help 설명이 "**Force** switch client"인 데서 보이듯, 전환은 기본이 아니라 명시적으로 요청해야 하는 동작이다.
+
+## 프리셋에 없는 레이아웃 — layout 문자열로 고정
+
+`layout`에는 tmux 표준 프리셋명(`main-vertical`·`main-horizontal`·`tiled`·`even-horizontal`·`even-vertical`)을 쓴다. 그런데 원하는 배치가 프리셋에 **없을 때**가 있다. 예를 들어 **위는 좌/우 2분할, 아래는 전체폭 1개** 같은 배치:
+
+```
+┌───────┬───────┐
+│ pane0 │ pane1 │
+├───────┴───────┤
+│     pane2     │
+└───────────────┘
+```
+
+이건 `main-horizontal`(위 1 + 아래 N)의 상하 반대라 어떤 프리셋으로도 안 나온다. 해법은 **tmux 레이아웃 문자열을 `layout`에 직접 넣는 것**이다 — smug는 이 값을 `tmux select-layout`에 그대로 넘기므로, 프리셋명이든 raw 문자열이든 다 받는다.
+
+문자열은 **원하는 배치를 tmux에서 한 번 손으로 만든 뒤** 뽑아낸다:
+
+```bash
+# 1) 임시 tmux에서 원하는 배치를 만든다 (설정 간섭 없이 -f /dev/null)
+tmux -L cap -f /dev/null new-session -d -x 220 -y 50
+tmux -L cap split-window -v            # 위/아래
+tmux -L cap select-pane -t 0           # 위 선택
+tmux -L cap split-window -h -t 0       # 위를 좌/우로
+
+# 2) 그 배치의 레이아웃 문자열을 캡처
+tmux -L cap list-windows -F '#{window_layout}'
+# → 60d1,220x50,0,0[220x25,0,0{110x25,0,0,0,109x25,111,0,2},220x24,0,26,1]
+
+tmux -L cap kill-server                # 임시 서버 정리
+```
+
+뽑은 문자열을 그대로 `layout`에 박는다:
+
+```yaml
+  - name: server
+    # 위 좌/우 2 + 아래 전체폭 1 (프리셋에 없어 레이아웃 문자열로 고정)
+    layout: 60d1,220x50,0,0[220x25,0,0{110x25,0,0,0,109x25,111,0,2},220x24,0,26,1]
+    panes:                  # 빈 pane 2개 = 총 3패널. 반드시 '- {}' — bare '-'는 YAML null로 조용히 드롭됨
+      - {}
+      - {}
+```
+
+두 가지만 알면 된다:
+
+- 문자열 앞의 `220x50`은 **캡처 당시 크기**지만, `select-layout`이 실제 터미널 크기에 **비율로 리스케일**하므로 창 크기가 달라도 배치는 유지된다. 앞 4자리(`60d1`)는 tmux가 계산하는 체크섬이라, **직접 타이핑하지 말고 반드시 캡처한 문자열을 통째로** 써야 한다.
+- 패널 **개수만 맞으면 된다**. 문자열이 3패널이니 `panes`에 `- {}` 2개(= base 1 + 2)로 3패널을 만들어 두면, 마지막에 문자열이 배치를 확정한다. (빈 pane을 bare `-`로 쓰면 null로 드롭돼 개수가 안 맞고, 그러면 이 layout 문자열도 무시된다.)
+
+이 트릭은 smug뿐 아니라 **tmuxinator·tmuxp에서도 그대로 통한다** — 셋 다 `layout`을 tmux `select-layout`에 넘기기 때문이다.
+
+## smug가 하는 것 / 안 하는 것
+
+smug의 범위는 **"세션 하나를 통째로 선언 → 그대로 띄우기"**에 완결돼 있다.
+
+**한다:**
+
+- 세션·윈도우·패널 선언과 생성, `layout`(프리셋 + 문자열)
+- 패널별 시작 디렉토리(`root`)와 시작 명령(`commands`)
+- 훅 — `before_start`(세션 생성 전), `stop`(내릴 때)
+- 환경변수(`env`), 이미 있으면 attach, 선택 실행(`smug start dev -w server`로 특정 윈도우만)
+- **freeze** — `smug print`로 지금 떠 있는 tmux 세션을 거꾸로 YAML config로 역추출한다 (`smug print > ~/.config/smug/dev.yml`). tmuxp 전유물로 오해하기 쉽지만 smug도 된다.
+
+**안 한다 (경계 밖):**
+
+- **프로그래머블 제어** — [libtmux](https://github.com/tmux-python/libtmux) 같은 API나 파이썬 콘솔은 없다.
+- 다른 도구 config import, 플러그인 시스템도 없다.
+
+이 경계 밖 — 특히 tmux를 파이썬으로 스크립팅(libtmux)하거나 프로그래머블 제어가 필요해지면 — 그때 [tmuxp](https://github.com/tmux-python/tmuxp)로 넘어가면 된다. 기본 레이아웃 YAML이 서로 거의 1:1이라 전환 비용이 작다. 반대로 "정해진 레이아웃을 반복 로드"가 전부라면 smug의 이 범위가 **정확히 필요한 만큼**이다 — 모자라지도, 안 쓰는 기능으로 무겁지도 않다.
+
+## 자주 쓰는 명령
+
+```bash
+smug start dev        # 세션 시작(+attach). `smug dev`로 축약 가능
+smug start dev -w server  # 특정 윈도우만
+smug stop dev         # 세션 종료 (stop 훅 실행)
+smug new dev          # 새 config 파일 생성 후 편집기로 열기
+smug edit dev         # 기존 config 편집
+smug list             # config 목록
+```
+
+## 정리
+
+smug는 **"세션을 선언하고 띄운다"** 한 가지를 의존성 없이 깔끔하게 하는 도구다. 레이아웃은 프리셋으로 대부분 되고, 안 되는 배치는 tmux 레이아웃 문자열을 캡처해 박으면 그만이다. 딱 그 용도라면 최적이고, 파이썬 제어(libtmux)가 필요해지는 날 tmuxp로 옮겨도 늦지 않다.
+
+> 반대로 **레이아웃 선언은 필요 없고 여러 프로젝트를 빠르게 오가는 게 목적**이라면, smug가 아니라 다른 범주 — fzf·zoxide 기반 피커 [sesh](./2026-07-12-sesh-tmux-session-picker.md)가 맞다. 내 config가 실은 부트스트랩이 아니라 세션 점프였음을 깨닫고 옮긴 기록도 그 글에 있다.
+{: .prompt-tip }
