@@ -9,6 +9,7 @@ pin         : false
 hidden      : false
 redirect_from:
   - /posts/shell/nohup-dev-server-suspended-fix/
+  - /posts/shell/2026-07-28-nohup-dev-server-suspended-fix/
 ---
 
 `nohup npm run dev &`로 띄웠는데 브라우저가 안 열리고, `curl localhost:9000`도 실패하는데 `ps`에는 프로세스가 보이는 경우가 있다.
