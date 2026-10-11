@@ -25,6 +25,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      page_artifact_name: ${{ steps.page_artifact.outputs.name }}
 
     steps:
       - name: Checkout
@@ -76,9 +78,14 @@ jobs:
             \-\-disable-external \
             \-\-ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
 
+      - name: Select Pages artifact name
+        id: page_artifact
+        run: echo "name=github-pages-${{ github.run_id }}-${{ github.run_attempt }}" >> "$GITHUB_OUTPUT"
+
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v5
         with:
+          name: ${{ steps.page_artifact.outputs.name }}
           path: "_site${{ steps.pages.outputs.base_path }}"
 
   deploy:
@@ -91,3 +98,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+        with:
+          artifact_name: ${{ needs.build.outputs.page_artifact_name }}
