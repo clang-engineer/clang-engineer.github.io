@@ -1,75 +1,69 @@
 # LLM 추론과 Token 생성
 
-## 이 문서의 위치
+## 이 문서의 역할
 
-이 문서는 `LLM의-동작원리.md`에서 잡은 **Token → Embedding → Transformer** 흐름 다음에, Transformer의 출력이 실제 다음 Token으로 바뀌고 반복 생성되는 과정을 Zoom-in한다.
+이 문서는 [LLM의 동작 원리](LLM의-동작원리.md)에서 본 `Token → Embedding → Transformer / Attention` 다음 단계만 Zoom-in한다.
+
+핵심 질문은 하나다.
+
+> **Transformer가 만든 Hidden Vector가 어떻게 실제 다음 Token 하나로 바뀌고, 그 과정이 어떻게 반복되는가?**
+
+복습할 때는 먼저 아래 흐름만 복원하면 된다.
 
 ```text
-LLM의 동작 원리
-Token → Embedding → Transformer
-        ↓
-현재 문서
+Transformer
+    ↓
+마지막 위치 Hidden Vector
+    ↓
+LM Head
+    ↓
+Vocabulary Logit
+    ↓
+Decoding
+    ↓
+다음 Token 선택
+    ↓
+Context에 추가
+    ↓
+반복 생성
+```
+
+그리고 반복을 실제로 효율화하는 핵심이 `Prefill / Decode / KV Cache`다.
+
+```text
+Prompt
+  ↓
+Prefill
+  ↓
+첫 Token 예측
+  ↓
+Decode 반복
+  ├─ 새 Token만 Transformer 통과
+  ├─ 이전 K/V는 KV Cache 재사용
+  └─ EOS / Stop 조건까지 반복
+```
+
+즉 이 문서는 크게 두 덩어리다.
+
+```text
+[Token 선택]
 Hidden Vector
 → LM Head
 → Logit
-→ Decoding
-→ 다음 Token
-→ KV Cache를 이용해 반복
-        ↓
-LLM 내부 운영과 GPU · Memory
+→ Softmax / Decoding
+→ Token
+
+[반복 생성]
+Prefill
+→ Decode
+→ KV Cache
+→ Autoregressive Generation
 ```
 
-위 화살표는 LLM 추론의 개념적 처리 흐름과 학습 Zoom-in 관계를 나타낸다.
+다음 문서에서는 이 계산이 실제 Hardware와 Memory 위에서 어떻게 실행되는지 본다.
 
-LLM(Large Language Model, 대규모 언어 모델)의 Transformer 이후 과정을 더 자세히 다룬다. 특히 **문맥화된 Token Vector가 어떻게 실제 다음 Token으로 바뀌는지**, 그리고 **Prefill · Causal Attention · KV Cache(Key-Value Cache, 이전 Attention의 K/V 계산 결과를 재사용하는 Cache) · Decode · EOS(End Of Sequence, 생성 종료를 나타내는 특수 Token)가 어떻게 하나의 흐름으로 연결되는지**를 이해하는 데 목적이 있다.
-
-가장 먼저 잡을 전체 흐름은 다음과 같다.
-
-```text
-사용자 Prompt
- ↓
-Tokenization / Embedding
- ↓
-Transformer Prefill
- ↓
-각 위치의 문맥화 Hidden Vector
- ↓
-마지막 위치의 Hidden Vector
- ↓
-LM Head
- ↓
-Vocabulary 전체 Logit
- ↓
-필요 시 Softmax
- ↓
-Decoding
- ↓
-다음 Token 선택
- ↓
-Context 뒤에 추가
- ↓
-새 Token이 Transformer Layer들을 통과
-(기존 Token의 K/V는 Cache 재사용)
- ↓
-다음 Token 생성 반복
- ↓
-EOS 또는 다른 종료 조건
- ↓
-응답 종료
-```
-
-이 전체 반복 구조를 Autoregressive Generation으로 이해하면 된다.
-
-```text
-Autoregressive Generation
-= 현재까지의 Token을 조건으로
-  다음 Token 분포를 계산하고
-  Decoding으로 Token 하나를 선택한 뒤
-  선택 Token을 다시 Context에 포함해
-  다음 Token 생성을 반복하는 방식
-```
-
-따라서 Autoregressive Generation은 Transformer와 Decoding 바깥에 따로 붙은 작은 후처리 단계라기보다, **Transformer · LM Head · Decoding · Context 누적을 사용해 긴 Sequence를 만드는 전체 생성 방식**이다.
+→ [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)  
+Parameter · VRAM · KV Cache · 분산 실행이 실제 추론 비용과 어떻게 연결되는지 본다.
 
 ---
 
