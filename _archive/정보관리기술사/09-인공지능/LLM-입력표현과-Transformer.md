@@ -1,4 +1,4 @@
-# LLM의 동작 원리
+# LLM 입력 표현과 Transformer
 
 ## 이 문서의 위치
 

@@ -134,7 +134,7 @@ Inference
 
 학습 경로:
 
-1. [LLM의 동작 원리](LLM의-동작원리.md)  
+1. [LLM 입력 표현과 Transformer](LLM-입력표현과-Transformer.md)  
    → Token·Embedding·Transformer·Attention이 내부에서 어떻게 계산되는지 본다.
 2. [LLM 추론과 Token 생성](LLM-추론과-Token-생성.md)  
    → Transformer 결과가 Logit·Softmax·Decoding을 거쳐 실제 Token으로 나오는 흐름을 본다.
@@ -143,7 +143,7 @@ Inference
 
 선택적 Zoom-in:
 
-- [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)  
+- [LLM 실행 인프라와 GPU Memory](LLM-실행인프라와-GPU-메모리.md)  
   → 위 계산이 실제 Hardware·VRAM·Serving Runtime에서 어떻게 실행되는지 더 내려가고 싶을 때 본다.
 
 ## 5. LLM 활용은 부족한 것이 무엇인지에 따라 갈라진다

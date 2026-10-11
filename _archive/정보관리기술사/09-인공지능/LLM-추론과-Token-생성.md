@@ -2,7 +2,7 @@
 
 ## 이 문서의 역할
 
-이 문서는 [LLM의 동작 원리](LLM의-동작원리.md)에서 본 `Token → Embedding → Transformer / Attention` 다음 단계만 Zoom-in한다.
+이 문서는 [LLM 입력 표현과 Transformer](LLM-입력표현과-Transformer.md)에서 본 `Token → Embedding → Transformer / Attention` 다음 단계만 Zoom-in한다.
 
 핵심 질문은 하나다.
 
@@ -62,7 +62,7 @@ Prefill
 
 Hardware 실행·Serving까지 더 내려가고 싶다면 다음 문서로 Zoom-in한다.
 
-→ [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)  
+→ [LLM 실행 인프라와 GPU Memory](LLM-실행인프라와-GPU-메모리.md)  
 Parameter · VRAM · KV Cache · 분산 실행이 실제 추론 비용과 어떻게 연결되는지 본다.
 
 ---

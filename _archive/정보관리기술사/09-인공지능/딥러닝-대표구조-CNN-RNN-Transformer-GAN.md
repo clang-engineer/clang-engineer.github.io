@@ -311,7 +311,7 @@ LLM
 
 Transformer는 Architecture이고, LLM은 대규모 언어 Data로 학습된 Language Model이다. LLM이 Transformer Architecture를 사용하는 경우가 매우 많다고 이해해야 한다.
 
-상세한 내부 동작은 `LLM의-동작원리.md`를 참고한다.
+상세한 내부 동작은 `LLM-입력표현과-Transformer.md`를 참고한다.
 
 ---
 

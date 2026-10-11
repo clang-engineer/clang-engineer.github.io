@@ -1,4 +1,4 @@
-# LLM 내부 운영과 GPU · Memory
+# LLM 실행 인프라와 GPU · Memory
 
 ## 이 문서의 위치
 
