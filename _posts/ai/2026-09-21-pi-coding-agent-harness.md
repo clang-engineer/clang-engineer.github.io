@@ -7,6 +7,8 @@ categories  : [ai, "코딩 에이전트"]
 tags        : [pi, jev, claude-code, codex, opencode, ai-coding, agent-skills, harness, plan-mode, pi-package]
 pin         : false
 hidden      : false
+redirect_from:
+  - /posts/ai/2026-10-02-pi-extensible-coding-agent-harness/
 ---
 
 > 관련: [AI 코딩 도구 지형도](./2026-07-03-ai-coding-tools-landscape.md)의 터미널 에이전트 비교에서 이어지는 개인 사용 기록이다.
@@ -277,3 +279,107 @@ plan mode
 Claude Code와 Codex CLI는 좋은 완제품 에이전트다. OpenCode는 provider와 model의 자유도를 열어 준다. oh-my-opencode 같은 개인 레이어를 얹기 시작하면, 결국 관심은 제품 자체보다 내 작업 방식으로 이동한다. pi는 그 지점에서 재미있다. 처음부터 많은 것을 제공하기보다, 필요한 것만 붙일 수 있게 비워 둔다.
 
 그래서 pi는 "더 강한 Claude Code"라기보다, 직접 조립하는 에이전트 셸에 가깝다. 불편함이 생길 때마다 하나씩 붙이면 된다. 매번 반복해서 말하는 것이 생겼다면, 그것이 다음에 하네스에 넣을 후보다.
+
+
+---
+
+## Pi Package·Extension 실전 구조
+
+앞의 선택 과정과 달리, 이 절은 Pi를 채택했을 때 **무엇을 어떻게 확장하는가**에 집중한다. Package는 재사용·배포 단위이고 Extension은 Pi 런타임 안에서 동작을 추가하는 코드다. Package가 Extension을 포함할 수 있으므로 둘은 상호 배타적인 제품 유형이 아니다.
+
+## Package — 재사용 가능한 확장 단위
+
+Pi의 Package는 npm을 통해 배포되는 확장 단위로 볼 수 있다. 직접 Extension을 작성하지 않아도, 이미 만들어진 Package를 설정에 추가해서 기능을 붙일 수 있다.
+
+내가 현재 관심 있게 보는 Package들은 다음 축으로 나뉜다.
+
+| Package | 역할 |
+|---|---|
+| `pi-web-access` | 웹 검색, URL fetch, 외부 문서 확인 |
+| `pi-memory` | long-term memory, daily log, semantic search |
+| `pi-mcp-adapter` | MCP Server 연결 |
+| `pi-jev` | 판단·분류·도구/스킬 탐색 보조. [Jev의 역할과 활용 경계](./2026-10-04-jev-decision-model.md) 참고 |
+| `@eko24ive/pi-ask` | TUI에서 구조화된 선택 질문 |
+| `@plannotator/pi-extension` | Plan/code review에 주석을 다는 리뷰 워크플로 |
+| `@henryqw/pi-add-dir` | 현재 작업 디렉터리 밖의 폴더를 세션에 추가 |
+
+이 목록에서 보이듯 Pi Package는 단순한 편의 기능보다, 에이전트가 사용할 수 있는 능력 자체를 늘리는 경우가 많다.
+
+### Pi Durable은 Extension이 아니라 앱용 하네스 라이브러리다
+
+이름 때문에 Pi CLI의 auto mode나 장기 실행 옵션처럼 보일 수 있지만, `@earendil-works/pi-durable`은 기존 `pi` 명령에 붙는 Extension Package가 아니다. 별도 Node/TypeScript 애플리케이션에서 `Harness.open()`으로 하네스를 구성하고, 대화·모델 호출·도구 호출·상태를 저장해 중단 후 재개할 수 있게 하는 라이브러리다.
+
+따라서 평소 `pi`를 더 자동으로 돌리고 싶은 목적이라면 직접적인 답이 아니다. 복구 가능한 에이전트 런타임을 앱 안에 넣고 싶을 때 의미가 있다.
+
+예를 들면 다음과 같은 경우다.
+
+- 웹 채팅 UI 뒤에서 에이전트 실행 상태를 보존한다.
+- 서버가 재시작돼도 진행 중인 모델 응답이나 도구 호출을 이어간다.
+- 사용자별 대화와 앱 고유 상태를 함께 저장한다.
+- 자체 코딩 에이전트나 백그라운드 작업 에이전트의 실행 기록을 관리한다.
+
+```text
+기본 Pi
+  ↓
+web access 추가
+  ↓
+memory 추가
+  ↓
+ask_user 추가
+  ↓
+MCP 연결
+  ↓
+review workflow 추가
+```
+
+결과적으로 Pi는 설치 직후보다, 어떤 Package를 붙였는지에 따라 전혀 다른 작업 환경이 된다.
+
+## Extension — Pi 안에서 동작을 직접 바꾸는 방법
+
+Pi Extension은 TypeScript 또는 JavaScript module로 작성한다. Extension은 Pi process 안에서 실행되며, Tool, Command, Event handler, Model provider, Terminal UI 등을 추가할 수 있다.
+
+공식 Extension API의 주요 진입점은 다음처럼 볼 수 있다.
+
+```text
+Pi Extension
+├─ registerTool()      # 모델이 호출할 수 있는 Tool 추가
+├─ registerCommand()   # /command 추가
+├─ registerShortcut()  # Shortcut 추가
+├─ registerFlag()      # CLI flag 추가
+├─ registerProvider()  # Model provider 추가
+├─ on()                # lifecycle/event hook
+└─ ctx.ui              # TUI interaction
+```
+
+작은 예로는 `/hello` 같은 command를 추가할 수 있고, 더 크게는 특정 Tool 호출을 감시하거나, 위험한 명령을 막거나, session event에 반응해 context를 보강할 수 있다.
+
+중요한 점은 Extension이 Pi process 안에서 같은 OS 권한으로 돈다는 것이다. 파일, prompt, tool call, session history, credential에 접근할 수 있으므로 신뢰할 수 있는 Extension만 로드해야 한다.
+
+## 내 작업 흐름에서의 Pi 조립 방식
+
+Pi를 쓸 때 나는 “기본 에이전트 하나를 고른다”기보다 “작업별 능력을 붙인다”는 식으로 본다.
+
+예를 들면 블로그 글을 쓰거나 도구를 조사할 때는 다음 능력이 필요하다.
+
+```text
+글쓰기 / 조사 작업
+├─ 파일 읽기·수정
+├─ 기존 글 검색
+├─ 외부 문서 확인
+├─ 관련 기억 검색
+└─ 애매한 선택지 질문
+```
+
+그러면 Pi에는 다음 조합이 자연스럽다.
+
+```text
+기본 read/edit/bash
++ pi-web-access
++ pi-memory
++ ask_user
++ blog skill
+```
+
+반대로 코드 리뷰나 계획 검토가 중심이면 `@plannotator/pi-extension` 같은 리뷰 흐름이 더 중요해진다. 외부 Tool 생태계를 붙이고 싶으면 `pi-mcp-adapter`가 중심이 된다.
+
+즉 Pi의 핵심은 “모든 기능을 항상 켠다”가 아니라, 현재 작업에 맞는 능력을 선택적으로 붙이는 것이다.
