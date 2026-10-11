@@ -125,104 +125,19 @@ Foundation Model
 
 ---
 
-## 4. Training만 비싼 것이 아니라 Serving도 비싸다
+## 4. Training과 Serving은 서로 다른 비용 문제다
 
-Model을 한 번 학습했다고 운영 비용이 사라지는 것은 아니다.
-
-LLM Inference에서는 사용자의 요청마다 거대한 Model을 반복 실행해야 한다.
+Foundation Model을 학습하는 데에는 대규모 Data·Compute·분산 Training Infrastructure가 필요하다. 하지만 학습이 끝난 뒤에도 사용자의 요청마다 Model을 실행해야 하므로 Serving 비용이 발생한다.
 
 ```text
-사용자 Prompt
-     ↓
-대규모 Transformer
-     ↓
-Token 1 생성
-     ↓
-대규모 Transformer
-     ↓
-Token 2 생성
-     ↓
-...
+Model 개발
+→ Training Compute · Data · 연구 비용
+
+Model 운영
+→ Inference Compute · Memory · 동시 요청 · Latency
 ```
 
-실제 대규모 서비스에서는 이것이 수많은 사용자에게 동시에 발생한다.
-
-```text
-사용자 A ─┐
-사용자 B ─┼→ 대규모 Inference Cluster → Foundation Model
-사용자 C ─┤
-사용자 D ─┘
-```
-
-운영에는 다음 요소가 필요할 수 있다.
-
-- GPU / AI Accelerator
-- GPU Memory
-- 서버 간 고속 Network
-- 전력과 냉각
-- Data Center
-- Model Serving
-- Load Balancing
-- 장애 대응
-- Latency 최적화
-- Batch 처리
-- Monitoring
-
-따라서 **최상위 Foundation Model 사업은 Model 연구뿐 아니라 대규모 Computing Infrastructure 사업의 성격도 가진다.**
-
----
-
-## 5. Agent 시대에는 Inference가 여러 번 발생할 수 있다
-
-일반 Chat은 한 요청에서 한 번의 긴 LLM 응답으로 끝날 수 있다.
-
-```text
-질문
-→ LLM
-→ 답변
-```
-
-Coding Agent 같은 시스템에서는 하나의 사용자 요청이 여러 번의 LLM 호출로 이어질 수 있다.
-
-```text
-사용자 요청
- ↓
-LLM 판단
- ↓
-Code 검색
- ↓
-LLM 재판단
- ↓
-파일 읽기
- ↓
-LLM 재판단
- ↓
-Code 수정
- ↓
-Test 실행
- ↓
-LLM 재판단
- ↓
-추가 수정
- ↓
-...
-```
-
-즉 Agent의 비용은 단순히 최종 출력 Token만으로 설명하기 어렵다.
-
-```text
-Model 크기
-+
-입력 Context 길이
-+
-출력 Token 수
-+
-LLM 호출 횟수
-+
-동시 사용자 수
-```
-
-가 전체 Serving 비용에 영향을 준다.
+Model의 Parameter 규모, 입력·출력 Token, 동시 사용자 수와 Agent의 반복 호출은 운영 비용에 영향을 준다. Agent의 실행 Loop는 [에이전트와 MCP](에이전트와-MCP.md), GPU·VRAM·분산 Serving의 구체적인 제약은 [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)에서 더 자세히 본다.
 
 ---
 
