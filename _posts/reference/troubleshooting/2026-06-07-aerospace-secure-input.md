@@ -6,6 +6,7 @@ updated     : 2026-09-05 20:35:00 +0900
 categories  : [troubleshooting, "macos"]
 redirect_from:
   - /posts/etc/2026-06-07-aerospace-secure-input-hotkey-blocked/
+  - /posts/macos/2026-06-07-aerospace-secure-input-hotkey-blocked/
 tags        : [macos, aerospace, secure-input, hotkey, troubleshooting]
 pin         : false
 hidden      : false
