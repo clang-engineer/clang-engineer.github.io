@@ -27,6 +27,10 @@ Neovim
 
 ## 🖥️ 개발환경
 
+### 개발 도구 전체 관계
+
+- [Developer Tools Roadmap](../_posts/developer-tools/2026-10-05-developer-tools-roadmap.md) — 에디터·터미널·멀티플렉서·에이전트 워크스페이스·코딩 에이전트의 역할과 대체/보완 관계를 먼저 파악하는 통합 입구
+
 ### 시스템에서 터미널 애플리케이션까지
 
 | 로드맵 | 무엇을 위한 지도인가 |
