@@ -181,7 +181,7 @@ tmux send-keys -t "$MAIN_SESSION":1 "cd ~/project" C-m
 
 세션 매니저를 여러 개 비교한 끝에 **smug**를 골랐다면, 이 글은 그다음 실전이다. smug의 자리는 한마디로 **"무의존·미니멀"** — Ruby(tmuxinator)나 Python(tmuxp) 런타임 없이 도는 **Go 단일 바이너리**다. YAML로 세션·윈도우·패널을 선언하면 그대로 띄워 준다.
 
-> 세션 매니저 3종(smug·tmuxp·tmuxinator)의 **비교·선택**과, 이 도구들이 내부에서 부르는 tmux 명령의 **셸 해부**는 [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md) 글에 있다. 이 글은 그중 smug를 골랐다는 전제에서 출발한다. 전체 학습 순서는 [tmux 로드맵](./2026-06-16-tmux-roadmap.md) 3단계.
+> 위 본문에서 세션 매니저 3종의 **비교·선택**과 내부 tmux 명령을 다뤘다. 아래는 smug를 선택했을 때의 실전 설정이다. 전체 학습 순서는 [tmux 로드맵](./2026-06-16-tmux-roadmap.md) 3단계를 참고한다.
 {: .prompt-tip }
 
 ## 설치
