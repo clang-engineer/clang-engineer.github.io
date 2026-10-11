@@ -28,8 +28,13 @@ Developer Tools
 │
 ├─ Terminal / Session
 │  ├─ Terminal Emulator
-│  ├─ tmux
-│  └─ TUI
+│  ├─ Multiplexer: tmux / Zellij / GNU Screen
+│  ├─ Agent Workspace: cmux / Herdr / Superset
+│  └─ CLI / TUI: Neovim / fzf / coding agents
+│
+├─ Coding Agents
+│  ├─ Claude Code / Codex / OpenCode / pi
+│  └─ Agent Workspace와 조합 가능
 │
 ├─ Shell / Environment
 │  ├─ direnv
@@ -90,15 +95,22 @@ Editor
 
 터미널 자체, 세션 관리자, 그 위에서 동작하는 TUI 애플리케이션은 서로 다른 레이어다.
 
+| 역할 | 대표 도구 | 핵심 책임 |
+|---|---|---|
+| Terminal Emulator | Ghostty, Kitty, WezTerm, Alacritty | 터미널 입출력·화면 렌더링 |
+| Multiplexer | tmux, Zellij, GNU Screen | 세션·윈도우·패널 관리 |
+| Agent Workspace | cmux, Herdr, Superset | 여러 에이전트 작업의 실행·전환·상태 관찰 |
+| Coding Agent | Claude Code, Codex, OpenCode, pi | 코드 분석·수정·검증 |
+
+이는 **제품을 배타적으로 나누는 계층이 아니라 역할 분류**다. 예를 들어 cmux는 터미널 기능과 에이전트 워크스페이스 기능이 겹치고, tmux에도 훅/플러그인으로 관제 기능을 추가할 수 있다. Shell은 실행 환경이며, 모든 도구가 위 표의 순서로 중첩 실행되는 것은 아니다.
+
 ```text
-Terminal Emulator
-        ↓
-      Shell
-        ↓
-      tmux
-        ↓
- CLI / TUI Applications
+Ghostty + tmux + Claude Code       터미널·세션·에이전트를 조합
+cmux + 여러 코딩 에이전트           통합 워크스페이스에서 관제
+tmux + agent-status plugin         기존 세션 관리에 상태 관제 확장
 ```
+
+도구 간 관계는 **대체 / 보완 / 확장 / 통합**으로 구분한다. 에이전트 실행 도구 자체의 비교는 [AI 코딩 도구 지형도]({% post_url ai/2026-07-03-ai-coding-tools-landscape %})에 맡기고, [tmux 에이전트 상태 감지]({% post_url tmux/2026-07-09-tmux-ai-agent-status-detection %})는 실전 확장 사례로 둔다.
 
 관련 글:
 
