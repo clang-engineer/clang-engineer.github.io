@@ -9,6 +9,10 @@ pin         : false
 hidden      : false
 ---
 
+> **최신 도구 목록·대안·보완 관계·치트시트는 [Devkit 도구 지도]({{ '/devkit/' | relative_url }})에서 탐색한다.** 이 글은 비교의 맥락과 기존 링크를 보존하는 심화 참고 문서다. 새로운 도구 목록은 여기와 중복 관리하지 않는다.
+{: .prompt-info }
+
+
 창 관리 도구는 모두 "창을 배치한다"는 점 때문에 비슷해 보이지만, 실제로는 **window manager 자체인지, compositor인지, 단순한 배치 utility인지**가 다르다.
 
 ## 전체 관계
