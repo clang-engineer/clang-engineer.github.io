@@ -138,10 +138,13 @@ Inference
    → Token·Embedding·Transformer·Attention이 내부에서 어떻게 계산되는지 본다.
 2. [LLM 추론과 Token 생성](LLM-추론과-Token-생성.md)  
    → Transformer 결과가 Logit·Softmax·Decoding을 거쳐 실제 Token으로 나오는 흐름을 본다.
-3. [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)  
-   → Parameter·VRAM·KV Cache·분산 실행이 왜 필요한지 Hardware 실행 관점으로 연결한다.
 
-이 세 문서는 선후관계가 비교적 강하다.
+이 두 문서는 선후관계가 강하다.
+
+선택적 Zoom-in:
+
+- [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)  
+  → 위 계산이 실제 Hardware·VRAM·Serving Runtime에서 어떻게 실행되는지 더 내려가고 싶을 때 본다.
 
 ## 5. LLM 활용은 부족한 것이 무엇인지에 따라 갈라진다
 
