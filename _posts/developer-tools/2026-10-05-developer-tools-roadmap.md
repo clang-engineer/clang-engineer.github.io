@@ -116,7 +116,7 @@ tmux + agent-status plugin         기존 세션 관리에 상태 관제 확장
 
 - [Terminal Roadmap]({% post_url terminal/2026-09-05-terminal-roadmap %})
 - [tmux Roadmap]({% post_url tmux/2026-06-16-tmux-roadmap %})
-- [TUI의 역사와 현대 Framework]({% post_url terminal/2026-09-05-tui-history-and-modern-frameworks %})
+- [TUI의 역사와 현대 Framework]({% post_url terminal/2026-09-05-terminal-roadmap %}#appendix--tui의-역사)
 - [현대 TUI Framework의 추상화]({% post_url terminal/2026-09-05-modern-tui-frameworks-abstraction %})
 - [Neovim을 TUI Platform으로 보기]({% post_url terminal/2026-09-05-neovim-as-tui-platform %})
 
