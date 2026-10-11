@@ -70,7 +70,7 @@ tmux server
 
 | 글 | 역할 |
 |---|---|
-| [tmux 유용한 설정 정리](./2026-02-21-tmux-tips.md) | ESC delay·True Color·mouse·path 유지·vi copy mode처럼 체감이 큰 설정 |
+| [tmux 유용한 설정 정리](./2025-11-17-tmux-tpm.md) | ESC delay·True Color·mouse·path 유지·vi copy mode처럼 체감이 큰 설정 |
 
 완성형 설정 배포판을 통째로 채택하고 싶다면 직접 조립과 다른 선택지다.
 
