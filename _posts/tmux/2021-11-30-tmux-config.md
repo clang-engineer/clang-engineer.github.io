@@ -21,7 +21,7 @@ session
 - **window**: session 안의 탭 같은 단위.
 - **pane**: window 안에서 분할된 실제 shell/process 영역.
 
-> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **입문 Reference**다. `.tmux.conf` 설정은 [tmux 유용한 설정 정리](./2026-02-21-tmux-tips.md), TPM 플러그인은 [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md), 세션 자동화는 [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md)에서 이어진다.
+> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **입문 Reference**다. `.tmux.conf` 설정은 [tmux 유용한 설정 정리](./2025-11-17-tmux-tpm.md), TPM 플러그인은 [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md), 세션 자동화는 [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md)에서 이어진다.
 {: .prompt-tip }
 
 ---
@@ -214,7 +214,7 @@ move-window -r           # window 번호를 빈칸 없이 재정렬
 
 | 목적 | 글 |
 |---|---|
-| 체감 설정 정리 | [tmux 유용한 설정 정리](./2026-02-21-tmux-tips.md) |
+| 체감 설정 정리 | [tmux 유용한 설정 정리](./2025-11-17-tmux-tpm.md) |
 | TPM과 필수 플러그인 | [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md) |
 | 추가 플러그인 선택 | [필수 그다음 — 요즘 얹는 tmux 플러그인](./2026-07-11-tmux-plugins-beyond-essentials.md) |
 | 세션 자동 생성 | [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md) |
