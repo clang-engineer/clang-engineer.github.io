@@ -107,7 +107,7 @@ Session을 오래 유지한다
 | 글 | 역할 |
 |---|---|
 | [tmux 세션 부트스트랩 — 세션 매니저와 그 속살](./2026-02-21-tmux-bootstrap.md) | 선언형 Session Manager가 해결하는 문제와 내부 tmux 명령을 함께 이해 |
-| [smug — 미니멀 tmux 세션 매니저](./2026-07-11-smug-minimal-tmux-session-manager.md) | smug를 선택했을 때의 실제 구성 Tool 문서 |
+| [tmux 세션 부트스트랩의 smug 실전 가이드](./2026-02-21-tmux-bootstrap.md#appendix--smug-실전-가이드) | 설치·YAML·커스텀 레이아웃까지 통합 |
 
 이 단계는 모든 사용자의 필수 진도가 아니다. **동일 작업공간을 반복해서 만드는 문제가 생겼을 때** 들어온다.
 
