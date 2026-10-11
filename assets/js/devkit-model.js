@@ -16,9 +16,17 @@ export function safeUrl(value) {
 }
 export function validateCatalog(data, key) {
   if (!data || !Array.isArray(data[key])) throw new Error('Invalid ' + key + ' catalog');
+  const slugs = new Set();
   for (const group of data[key]) {
+    if (!group || typeof group !== 'object') throw new Error('Invalid group');
     if (key === 'categories' && (!Array.isArray(group.commands) || !Array.isArray(group.relations))) throw new Error('Invalid category');
-    if (key === 'groups' && !Array.isArray(group.items)) throw new Error('Invalid cheatsheet group');
+    if (key === 'groups') {
+      if (!Array.isArray(group.items)) throw new Error('Invalid cheatsheet group');
+      for (const item of group.items) {
+        if (!item || !/^[a-z0-9_-]+$/.test(item.slug || '') || typeof item.name !== 'string' || slugs.has(item.slug)) throw new Error('Invalid or duplicate cheatsheet tool');
+        slugs.add(item.slug);
+      }
+    }
   }
   return data;
 }
