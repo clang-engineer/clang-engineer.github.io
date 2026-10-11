@@ -7,6 +7,9 @@ categories  : [neovim, "원리·언어"]
 tags        : [lua, api]
 pin         : false
 hidden      : false
+redirect_from:
+  - /posts/reference/troubleshooting/2026-07-08-multiline-notify-hit-enter/
+  - /posts/neovim/nvim-multiline-notify-hit-enter/
 ---
 
 Neovim 플러그인을 Lua로 짜다 보면 `vim.opt`, `vim.api.nvim_*`, `vim.fn.*`, `vim.keymap.set` 같은 `vim.xxx` 호출이 끝없이 나온다. 이게 다 뭐고 언제 어떤 걸 쓰는지 한 장으로 정리한다. 문법(Lua 자체)이 아니라 **`vim`이라는 전역 객체의 지도**가 이 글의 주제다.
@@ -172,6 +175,17 @@ vim.uv.fs_stat(path)              -- libuv 직행 (옛 vim.loop)
 | `vim.ui` | `select`/`input` (다른 플러그인이 오버라이드 가능) |
 | `vim.keymap` | 키매핑 |
 | `vim.uv` | libuv 비동기 I/O (구 `vim.loop`) |
+
+## 메시지 출력의 함정 — `vim.notify`와 hit-enter
+
+기본 메시지 UI에서 여러 줄의 `vim.notify`·`echomsg`가 명령줄 높이를 넘으면 `Press ENTER or type command to continue`가 나타날 수 있다. 기본 `cmdheight=1` 환경에서는 특히 쉽게 재현된다.
+
+```lua
+-- 여러 줄 메시지가 잦은 환경에서 명령줄 높이 조정
+vim.o.cmdheight = 2
+```
+
+`cmdheight`를 키우는 것은 화면 공간을 사용하는 우회책이다. 플러그인을 만든다면 간단한 알림은 한 줄로 줄이고, 긴 내용은 `:messages`나 별도 버퍼로 안내하는 방법도 있다. noice.nvim·nvim-notify 같은 별도 메시지 UI를 사용하면 표시 방식이 달라진다. 참고: `:help hit-enter`, `:help 'cmdheight'`.
 
 ## 함정 정리
 
