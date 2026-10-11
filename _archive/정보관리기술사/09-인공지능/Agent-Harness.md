@@ -22,25 +22,16 @@ Harness
 
 이 문서는 Agent Harness를 별도의 새로운 AI 기술로 외우기보다, **Agent를 원하는 방식으로 운용하기 위해 주변에 붙는 실행·운영 체계**로 이해하는 데 목적이 있다.
 
-## 1. 먼저 Agent의 핵심부터 잡는다
+## 1. Agent의 실행 Loop에서 한 단계 바깥으로
 
-LLM(Large Language Model, 대규모 언어 모델) Agent의 핵심은 LLM이 Tool을 사용하고 그 결과를 다시 관찰하면서 목표를 수행하는 반복 Loop다.
+Agent의 기본 실행 흐름은 다음과 같다.
 
 ```text
-사용자 목표
-→ LLM이 다음 행동 판단
-→ Tool 선택·호출
-→ Tool 실행 결과 관찰
-→ 결과를 Context에 반영
-→ LLM 재판단
-→ 추가 행동 또는 종료
+LLM 판단 → Tool 실행 → 결과 관찰 → 재판단
+                           ↺
 ```
 
-즉 Agent의 본질은 다음과 같이 압축할 수 있다.
-
-> **Agent = LLM + Tool + Observation의 자율적 반복 Loop**
-
-Tool을 선택하고, 파일을 읽고, 결과를 다시 보고 다음 행동을 결정하는 것까지 Agent의 역할이다.
+이 Loop 자체와 MCP의 연결 역할은 [에이전트와 MCP](에이전트와-MCP.md)에서 다룬다. 여기서는 **Loop를 반복 설명하기보다, 그 실행을 어떤 Context·Rule·Permission·Workflow로 구성하고 통제하는가**에 집중한다.
 
 ---
 
