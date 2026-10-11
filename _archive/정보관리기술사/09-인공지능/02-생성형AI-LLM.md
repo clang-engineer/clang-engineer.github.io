@@ -183,7 +183,7 @@ Prompt·RAG·Fine-tuning·Agent는 필수 발전 순서가 아니라 **서로 �
   → 외부 지식을 Chunking·Embedding·Retrieval로 찾아 Context에 넣는 흐름을 본다.
 - [Fine-tuning과 PEFT · LoRA](Fine-tuning과-PEFT-LoRA.md)  
   → Weight를 바꾸는 학습과 SFT·PEFT·LoRA의 서로 다른 분류축을 본다.
-Agent·MCP의 실행 구조와 세부학습 링크는 7절에서 이어서 본다.
+- Agent / MCP / Harness → 실행·연결·운영의 관계는 7절에서 Zoom-in한다.
 
 ## 6. Context에 들어오는 정보와 Weight 변경을 구분한다
 
@@ -281,9 +281,9 @@ LLM Application
 → [AI 평가 · Golden Set · Red Teaming](99-AI-평가-Golden-Set과-Red-Teaming.md)  
 Model, Prompt, RAG, Fine-tuning, Agent, Application이 바뀔 때마다 품질과 실패 경계를 반복 검증한다.
 
-## 10. 권장 학습 경로
+## 10. 학습 경로 요약
 
-이 경로는 **필수 선수과목 순서가 아니라, 지도에서 필요한 부분을 선택해 내려가는 탐색 순서**다.
+앞의 관계를 다시 인출하는 탐색 경로다. **모든 가지를 순서대로 학습할 필요는 없다.**
 
 ~~~text
 [기본 인출]
