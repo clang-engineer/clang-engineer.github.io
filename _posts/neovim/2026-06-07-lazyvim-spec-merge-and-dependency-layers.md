@@ -7,6 +7,8 @@ categories  : [lazyvim, "구조·설정"]
 tags        : [neovim, lazy-nvim]
 pin         : false
 hidden      : false
+redirect_from:
+  - /posts/neovim/2026-05-07-lazyvim-extra-override-merge-deps/
 ---
 
 LazyVim 을 쓰다 보면 "이 플러그인은 어디서 들어온 거지?", "내가 override 한 게 왜 안 먹지?" 같은 질문이 자주 생긴다. 답을 알려면 LazyVim 이 **하나의 단일 플러그인 매니저가 아니라**, lazy.nvim 위에 spec 들을 층층이 쌓아 올린 구조라는 점을 봐야 한다.
@@ -80,7 +82,7 @@ require("lazy").setup({
 -- → 최종: event 유지 + opts 는 deep merge
 ```
 
-> **이게 [이전 글에서 다룬](./2026-05-07-lazyvim-extra-override-merge-deps.md) "extra spec 에 dependencies 만 보강하기" 가 가능한 이유.** 같은 이름으로 빈껍데기처럼 다시 작성해도 dependencies 만 더해진다.
+> **이게 [아래 실제 장애 사례에서 다루는] "extra spec 에 dependencies 만 보강하기" 가 가능한 이유.** 같은 이름으로 빈껍데기처럼 다시 작성해도 dependencies 만 더해진다.
 
 ## 3. LazyVim 의 진입점 — `init.lua → config.lazy`
 
@@ -196,21 +198,28 @@ return {
 
 여기서 `snacks.nvim` 은 LazyVim core 가 이미 priority/lazy 설정과 함께 가져온 플러그인이다. 사용자가 빈 `opts.lazygit` 만 덧붙이면 나머지는 그대로 두고 그 키만 deep-merge 된다.
 
-### (b) extras 가 만든 spec 의 의존성만 보강
+### (b) extras가 만든 spec의 의존성만 보강 — 실제 장애 사례
 
-이전 글에서 다룬 케이스 — extras 의 spec 에 dependencies 만 더하기:
+`lazyvim.plugins.extras.editor.refactoring` 사용 중 `refactoring.nvim/lua/refactoring.lua:45: module 'async' not found` 오류가 발생했던 사례가 있다. 당시 extra가 `lewis6991/async.nvim` 의존성을 아직 포함하지 않아 사용자 spec으로 보강했다([관련 이슈](https://github.com/LazyVim/LazyVim/issues/7130)).
 
 ```lua
--- plugins/refactoring.lua  (예시)
+-- lua/plugins/refactoring.lua
 return {
   {
-    "ThePrimeagen/refactoring.nvim",  -- 어떤 extra 가 만든 spec
-    dependencies = { "nvim-lua/plenary.nvim" },  -- 추가 의존성만
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = { "lewis6991/async.nvim" },
   },
 }
 ```
 
-`dependencies` 는 deep merge 대상 테이블이라 누락이 아니라 보강이 된다.
+```vim
+:Lazy sync
+:Lazy reload refactoring.nvim
+```
+
+**핵심은 기존 extra를 복사하거나 fork하지 않고, 같은 플러그인 이름의 spec을 추가해 `dependencies`만 머지한다는 점**이다. 기존 설정과 의존성은 유지되며 새 의존성만 보강한다. 이는 `event`·`cmd`·`keys` 같은 필드의 추가/변경에도 응용할 수 있지만 필드별 병합 규칙은 구분해야 한다.
+
+> 이 오류는 LazyVim [#7124](https://github.com/LazyVim/LazyVim/pull/7124)에서 이미 수정되어 최신 버전에서는 해당 override가 필요하지 않다. 위 코드는 **spec merge 원리를 설명하는 과거 장애 사례**로만 남긴다.
 
 ### (c) 순수 신규 플러그인
 
