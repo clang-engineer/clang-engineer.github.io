@@ -1,6 +1,6 @@
 # B-Tree 계열과 Clustered / Non-clustered Index
 
-이 문서는 B-Tree·B+Tree와 Clustered·Non-clustered Index가 왜 비슷해 보이면서도 서로 다른 개념인지 이해하기 위한 문서다.
+이 문서는 B-Tree·B+Tree와 Clustered·Non-clustered Index가 왜 비슷해 보이면서도 서로 다른 개념인지 이해하기 위한 문서다. **Tree의 균형·Split/Merge 자체**보다 **Index Entry와 실제 Row의 저장 관계, Row Locator, Covering 여부**를 중심으로 이해를 완결한다.
 
 설명은 학습 흐름을 살리기 위해 SQL Server의 B+Tree 계열 구조를 중심으로 한다. DBMS마다 구현과 용어가 다르므로 마지막에 차이를 구분한다.
 
