@@ -70,7 +70,6 @@ AI, C++, CSS, DB, Design Pattern, Docker, Git, Gradle, Java, JavaScript, LazyVim
 
 - 이전 기록 이력을 유지하기 위해 테마를 fork하지 않고 파일 복사 방식으로 구성했습니다.
 - 처음 시작하는 경우 [chirpy starter](https://github.com/cotes2020/chirpy-starter)를 fork해서 사용하는 것을 권장합니다.
-- chirpy 테마 원본 README는 [`README_chirpy_original.md`](README_chirpy_original.md)에 보관되어 있습니다.
 
 ## 관련 저장소
 
