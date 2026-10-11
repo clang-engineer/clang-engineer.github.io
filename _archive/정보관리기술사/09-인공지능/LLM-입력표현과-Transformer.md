@@ -12,7 +12,7 @@ LLM
 현재 문서
 Text → Token → Embedding → Transformer / Attention → 다음 Token 예측
         ↓
-LLM-추론과-Token-생성.md
+별도 학습 주제: 추론과 Token 생성
 LM Head / Logit / Decoding / KV Cache
 ```
 
@@ -618,7 +618,7 @@ Tokenization → Embedding → Transformer
                               ↺
 ```
 
-입력 Context를 처리하는 Prefill, 출력 Token을 생성하는 Decode, LM Head·Softmax·Decoding·KV Cache의 동작은 [LLM 추론과 Token 생성](LLM-추론과-Token-생성.md)에서 이어서 본다. 이 문서에서는 Transformer가 입력을 어떻게 표현하고 문맥화하는지에 집중한다.
+여기까지의 학습 목표는 **입력을 Token과 Vector로 표현하고 Transformer가 문맥을 반영하는 원리**를 이해하는 것이다. 다음 Token을 실제로 선택하는 LM Head·Decoding과 KV Cache는 이 원리와 연결되는 별도 학습 주제이며, [LLM 추론과 Token 생성](LLM-추론과-Token-생성.md)에서 필요할 때 살펴본다.
 
 ---
 
