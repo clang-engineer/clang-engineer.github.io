@@ -137,7 +137,7 @@ Model 운영
 → Inference Compute · Memory · 동시 요청 · Latency
 ```
 
-Model의 Parameter 규모, 입력·출력 Token, 동시 사용자 수와 Agent의 반복 호출은 운영 비용에 영향을 준다. Agent의 실행 Loop는 [에이전트와 MCP](에이전트와-MCP.md), GPU·VRAM·분산 Serving의 구체적인 제약은 [LLM 내부 운영과 GPU Memory](LLM-내부운영과-GPU-메모리.md)에서 더 자세히 본다.
+Model의 Parameter 규모, 입력·출력 Token, 동시 사용자 수와 Agent의 반복 호출은 운영 비용에 영향을 준다. Agent의 실행 Loop는 [에이전트와 MCP](에이전트와-MCP.md), GPU·VRAM·분산 Serving의 구체적인 제약은 [LLM 실행 인프라와 GPU Memory](LLM-실행인프라와-GPU-메모리.md)에서 더 자세히 본다.
 
 ---
 
