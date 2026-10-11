@@ -40,3 +40,7 @@ nohup.out
 
 # Claude Code personal/local overrides
 .claude/settings.local.json
+
+# Devkit build dependency and generated runtime (never edited or committed here)
+/_devkit/
+/assets/devkit-runtime/
