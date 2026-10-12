@@ -109,7 +109,6 @@ Chirpy의 기존 PWA 캐시 설정은 빌드 시각을 이름에 포함한다.
 
 - [GitHub Actions — schedule 이벤트](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
 - [블로그 배포 workflow](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/.github/workflows/pages-deploy.yml)
-- [devkit CLI 데이터 원본](https://github.com/clang-engineer/devkit/blob/main/reference/cli/catalog.json)
-- [devkit 치트시트 카탈로그](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/catalog.json)
+- [devkit 공통 카탈로그](https://github.com/clang-engineer/devkit/blob/main/reference/catalog.json)
 
 예약 실행의 제약과 시간대 지원은 2026-10-04 공식 문서 기준이다.
