@@ -1,18 +1,18 @@
 ---
 title       : "필수 그다음 — 요즘 얹는 tmux 플러그인 (테마·추출·퍼지)"
-description : "tmux-tpm의 필수 6종 위에 얹는 층. catppuccin으로 상태바 현대화(방치된 themepack 대체), tmux-yank·extrakto로 복사·추출, tmux-fzf 계열 퍼지까지 — 별 개수·정착도를 실측 근거와 함께."
+description : "TPM 기반 기본 구성 위에 얹는 층. catppuccin으로 상태바 현대화(방치된 themepack 대체), tmux-yank·extrakto로 복사·추출, tmux-fzf 계열 퍼지까지 — 별 개수·정착도를 실측 근거와 함께."
 date        : 2026-07-11 16:00:00 +0900
-updated     : 2026-07-12 11:00:00 +0900
+updated     : 2026-10-12 08:50:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [plugin, catppuccin, extrakto]
 pin         : false
 hidden      : false
 ---
 
-> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **2단계(플러그인으로 확장) > 쓰기** 연장선이다. tpm 설치와 **필수 6종**(sensible·resurrect·continuum·vim-tmux-navigator)은 [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md)에서 이미 다뤘다. 이 글은 그 **필수 그다음 층** — 요즘 실력자들이 얹는 플러그인이다.
+> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **2단계(플러그인으로 확장) > 쓰기** 연장선이다. TPM 설치와 **TPM 기반 기본 구성**(sensible·resurrect·continuum·vim-tmux-navigator)은 [tmux 설정과 TPM 플러그인](./2025-11-17-tmux-tpm.md)에서 이미 다뤘다. 이 글은 그 **기본 구성 다음 층** — 요즘 실력자들이 얹는 플러그인이다.
 {: .prompt-tip }
 
-필수 6종은 "tmux를 쓸 만하게" 만든다. 그 위에 얹는 층은 취향과 워크플로에 가깝다 — 상태바를 현대적으로 바꾸고, 복사·붙여넣기 마찰을 줄이고, 화면의 텍스트를 퍼지로 집어낸다. [awesome-tmux](https://github.com/rothgar/awesome-tmux) 목록은 방대하지만, 이 글은 **별 개수와 실제 정착도**를 근거로 "지금 얹을 만한 것"만 추렸다.
+TPM 기반 기본 구성은 "tmux를 쓸 만하게" 만든다. 그 위에 얹는 층은 취향과 워크플로에 가깝다 — 상태바를 현대적으로 바꾸고, 복사·붙여넣기 마찰을 줄이고, 화면의 텍스트를 퍼지로 집어낸다. [awesome-tmux](https://github.com/rothgar/awesome-tmux) 목록은 방대하지만, 이 글은 **별 개수와 실제 정착도**를 근거로 "지금 얹을 만한 것"만 추렸다.
 
 ## 한눈에 — 무엇을 왜 얹나
 
@@ -101,11 +101,11 @@ set -g @plugin 'laktak/extrakto'
 
 ## 얹는 게 아니라 통째로 받기 — Oh My Tmux! (다른 축)
 
-지금까지가 "필수 6종 위에 취향껏 **얹는**" 이야기였다면, 정반대 노선도 있다 — 잘 짜인 `.tmux.conf`를 **통째로 받는** 것. **Oh My Tmux!**(`gpakosz/.tmux`, "oh-my-zsh의 tmux판")가 이 카테고리의 사실상 유일한 강자다. **25.2k⭐**로 이 글의 어떤 플러그인보다 별이 많지만 성격이 다르다 — 플러그인이 아니라 **완성형 config 배포판**이다.
+지금까지가 "TPM 기반 기본 구성 위에 취향껏 **얹는**" 이야기였다면, 정반대 노선도 있다 — 잘 짜인 `.tmux.conf`를 **통째로 받는** 것. **Oh My Tmux!**(`gpakosz/.tmux`, "oh-my-zsh의 tmux판")가 이 카테고리의 사실상 유일한 강자다. **25.2k⭐**로 이 글의 어떤 플러그인보다 별이 많지만 성격이 다르다 — 플러그인이 아니라 **완성형 config 배포판**이다.
 
 구조는 2파일: `.tmux.conf`(본체, 건드리지 않음) + `.tmux.conf.local`(내 override). 세련된 powerline 상태바, **SSH/Mosh 접속 시 원격 호스트·유저 자동 표시**(로컬일 땐 숨김), prefix·mouse·synchronize 토글 표시등을 즉시 준다. 같은 카테고리에 samoshkin/tmux-config(2.3k⭐, 2024 방치)·tony/tmux-config(1.9k⭐, 예제 성격)도 있지만 살아있는 건 사실상 OMT뿐이다.
 
-**그런데 왜 "얹지 않았나".** 이 블로그의 노선은 필수 6종에서 시작해 필요한 것만 손으로 얹는 **hand-craft**다. 완성형 배포판을 상속하면 (1) 안 쓰는 기능까지 딸려오고, (2) 손수 다듬은 설정을 OMT의 `.tmux.conf.local` override 방식에 다시 맞춰야 하며, (3) 무엇보다 **스스로 조립하며 배우는 과정**이 사라진다. oh-my-zsh를 통째로 쓰다 결국 자기 zsh를 직접 짜게 되는 것과 같은 흐름이다.
+**그런데 왜 "얹지 않았나".** 이 블로그의 노선은 TPM 기반 기본 구성에서 시작해 필요한 것만 손으로 얹는 **hand-craft**다. 완성형 배포판을 상속하면 (1) 안 쓰는 기능까지 딸려오고, (2) 손수 다듬은 설정을 OMT의 `.tmux.conf.local` override 방식에 다시 맞춰야 하며, (3) 무엇보다 **스스로 조립하며 배우는 과정**이 사라진다. oh-my-zsh를 통째로 쓰다 결국 자기 zsh를 직접 짜게 되는 것과 같은 흐름이다.
 
 > 💡 **채택보다 "레퍼런스로 훔치기".** OMT의 `.tmux.conf`를 열어 탐나는 아이디어만 내 config로 가져오는 게 실속 있다 — 특히 **SSH/Mosh 접속 시 원격 호스트·유저를 자동 표시하는 상태바**와 **prefix/mouse/synchronize-panes 토글 표시등**. 통째 채택은 이미 curate한 config가 있다면 오히려 후퇴다.
 {: .prompt-tip }
@@ -121,13 +121,13 @@ set -g @plugin 'laktak/extrakto'
 
 ---
 
-## 얹은 뒤 `.tmux.conf` (필수 6종 + 이 글의 층)
+## 얹은 뒤 `.tmux.conf` (기본 구성 + 이 글의 층)
 
 ```tmux
 # --- TPM ---
 set -g @plugin 'tmux-plugins/tpm'
 
-# --- 필수 6종 (tmux-tpm 글) ---
+# --- TPM 기반 기본 구성 (tmux-tpm 글) ---
 set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'

@@ -2,9 +2,9 @@
 title       : 🧷 tmux 세션 부트스트랩 — 세션 매니저와 그 속살(셸 스크립트)
 description : 같은 세션/윈도우/패널을 매번 손으로 세팅하지 않으려면 세션 매니저(tmuxp·smug·tmuxinator)가 정석. 그 도구가 내부에서 부르는 tmux 명령을 셸로 해부해 원리까지 잡는다.
 date        : 2026-02-21 10:05:00 +0900
-updated     : 2026-07-11 10:00:00 +0900
+updated     : 2026-10-12 08:50:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
-tags        : [terminal, tpm, plugin]
+tags        : [terminal, session-manager, tmuxp, smug, tmuxinator]
 pin         : false
 hidden      : false
 redirect_from:

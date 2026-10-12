@@ -2,14 +2,14 @@
 title       : 🧩 tmux 플러그인은 어떻게 만드나 — CLI가 곧 API
 description : "tmux 플러그인엔 런타임도 SDK도 없다. TPM이 실행하는 .tmux 셸 스크립트가 tmux CLI를 호출하는 게 전부. 진입 스크립트 구조·설정형/상호작용형·hooks·배포까지."
 date        : 2026-07-09 10:40:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-10-12 08:50:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [plugin, guide]
 pin         : false
 hidden      : false
 ---
 
-> 이 글은 **플러그인을 직접 만드는 법**이다. 기존 플러그인을 *쓰는* 법(TPM으로 sensible·resurrect·themepack 설치·설정)은 [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md)에, 입문부터 자동화까지 전체 경로는 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)에 있다.
+> 이 글은 **플러그인을 직접 만드는 법**이다. 기존 플러그인을 *쓰는* 법(TPM으로 sensible·resurrect·themepack 설치·설정)은 [tmux 설정과 TPM 플러그인](./2025-11-17-tmux-tpm.md)에, 입문부터 자동화까지 전체 경로는 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)에 있다.
 {: .prompt-tip }
 
 ## 핵심 한 줄

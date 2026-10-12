@@ -2,7 +2,7 @@
 title       : "tmux 로드맵 — 세션 관리의 핵심과 선택 확장"
 description : "tmux의 세션·윈도우·패널 구조에서 시작해 기본 설정, 플러그인 사용, 세션 워크플로까지 핵심 경로를 잡고, 플러그인 제작·AI 에이전트 관제·세션 피커는 독립 Branch로 분리한 학습 지도."
 date        : 2026-06-16 15:00:00 +0900
-updated     : 2026-09-06 12:35:00 +0900
+updated     : 2026-10-12 08:50:00 +0900
 categories  : [tmux, "개요·인덱스"]
 tags        : [roadmap, terminal]
 pin         : false
@@ -18,6 +18,7 @@ tmux는 **Terminal Session을 오래 유지하고 여러 Shell 작업공간을 �
 구조·기본 조작
    ↓
 매일 쓰는 설정
+   └─ 직접 구성 ↔ 완성형 배포판(OMT)
 
 [필요할 때 확장]
 ├─ Plugin 사용
@@ -26,8 +27,7 @@ tmux는 **Terminal Session을 오래 유지하고 여러 Shell 작업공간을 �
 [선택 Branch]
 ├─ Plugin 제작
 ├─ AI Agent 관제
-├─ 즉석 Session Picker
-└─ 완성형 배포판 채택
+└─ 즉석 Session Picker
 ```
 
 Terminal·PTY 자체의 원리는 [Terminal 로드맵](../terminal/2026-09-05-terminal-roadmap.md), Shell의 Job·Process 생존은 [셸 로드맵](../shell/2026-07-03-shell-roadmap.md)에서 다룬다.
@@ -43,6 +43,7 @@ Terminal·PTY 자체의 원리는 [Terminal 로드맵](../terminal/2026-09-05-te
 | Branch A | Plugin은 내부에서 어떻게 만들어지나 | 제작자용 |
 | Branch B | 여러 AI Agent 상태를 tmux에서 어떻게 관제하나 | 응용 |
 | Branch C | Directory·repo를 즉석 Session으로 어떻게 전환하나 | Tool |
+| 설정 대안 | 직접 구성 대신 완성형 config 배포판을 상속할 것인가 | 선택 |
 
 ## 1. 구조 — session·window·pane부터
 
@@ -70,7 +71,7 @@ tmux server
 
 | 글 | 역할 |
 |---|---|
-| [tmux 유용한 설정 정리](./2025-11-17-tmux-tpm.md) | ESC delay·True Color·mouse·path 유지·vi copy mode처럼 체감이 큰 설정 |
+| [tmux 설정과 TPM 플러그인](./2025-11-17-tmux-tpm.md) | ESC delay·True Color·mouse·path 유지·vi copy mode처럼 체감이 큰 설정과 TPM 기본 구성 |
 
 완성형 설정 배포판을 통째로 채택하고 싶다면 직접 조립과 다른 선택지다.
 
@@ -84,7 +85,7 @@ Plugin을 쓴다는 것은 tmux 학습의 새로운 계층이라기보다 **기�
 
 | 글 | 역할 |
 |---|---|
-| [tmux 설정 & 플러그인 설명](./2025-11-17-tmux-tpm.md) | TPM 설치와 대표 Plugin을 사용하는 기본 경로 |
+| [tmux 설정과 TPM 플러그인](./2025-11-17-tmux-tpm.md) | TPM 설치와 대표 Plugin을 사용하는 기본 경로 |
 | [필수 그다음 — 요즘 얹는 tmux 플러그인](./2026-07-11-tmux-plugins-beyond-essentials.md) | 테마·추출·yank 등 추가 Plugin을 목적별로 고르는 Tool/Comparison |
 
 여기까지만 알아도 대부분의 tmux 사용에는 충분하다. **Plugin 제작은 필수 후속 단계가 아니다.**
