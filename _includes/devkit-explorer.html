@@ -1,9 +1,13 @@
-<link rel="stylesheet" href="{{ '/assets/css/devkit.css' | relative_url }}">
-<section id="devkit-root" data-devkit data-default-view="{{ include.view | default: 'map' }}"
-  data-catalog="https://raw.githubusercontent.com/clang-engineer/devkit/main/reference/catalog.json"
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@clang.engineer/reference-explorer@0.1.0/src/styles/explorer.css">
+<style>
+  body:has(.dk-app) #panel-wrapper { display: none !important; }
+  body:has(.dk-app) main { max-width: 100%; flex: 1 1 100%; }
+</style>
+<reference-explorer id="devkit-root" default-view="{{ include.view | default: 'map' }}"
+  src="https://raw.githubusercontent.com/clang-engineer/devkit/main/reference/catalog.json"
   aria-label="Devkit 도구 탐색">
   <p>Devkit 데이터를 불러오는 중...</p>
-</section>
+</reference-explorer>
 <noscript><p>도구 지도에는 JavaScript가 필요합니다. <a href="https://github.com/clang-engineer/devkit/tree/main/reference/cheatsheets">치트시트 원본 목록</a>에서 문서를 확인할 수 있습니다.</p></noscript>
 <p class="small text-muted"><a href="https://github.com/clang-engineer/devkit/blob/main/reference/tool-map.md">지도 읽는 법</a> · <a href="https://github.com/clang-engineer/devkit">Devkit 원본 저장소</a></p>
-<script type="module" src="{{ '/assets/js/devkit.js' | relative_url }}"></script>
+<script defer type="module" src="https://cdn.jsdelivr.net/npm/@clang.engineer/reference-explorer@0.1.0/src/element.js"></script>

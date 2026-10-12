@@ -1,4 +1,0 @@
-/* UI styles come from Devkit; only Chirpy host layout is owned here. */
-@import url('../devkit-runtime/styles/explorer.css');
-body:has(.dk-app) #panel-wrapper { display: none !important; }
-body:has(.dk-app) main { max-width: 100%; flex: 1 1 100%; }

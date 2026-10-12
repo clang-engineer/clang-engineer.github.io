@@ -37,19 +37,6 @@ jobs:
           # If using the 'assets' git submodule from Chirpy Starter, uncomment above
           # (See: https://github.com/cotes2020/chirpy-starter/tree/main/assets)
 
-      - name: Checkout shared Devkit UI
-        uses: actions/checkout@v7
-        with:
-          repository: clang-engineer/devkit
-          ref: main
-          path: _devkit
-          persist-credentials: false
-
-      - name: Prepare shared Devkit runtime
-        run: node tools/prepare-devkit.cjs _devkit
-
-      - name: Test reference UI
-        run: node --test tools/reference-ui.test.cjs tools/prepare-devkit.test.cjs
 
       - name: Setup Pages
         id: pages
@@ -66,11 +53,6 @@ jobs:
         env:
           JEKYLL_ENV: "production"
 
-      - name: Verify shared runtime reached the site
-        run: |
-          test -s "_site${{ steps.pages.outputs.base_path }}/assets/devkit-runtime/index.js"
-          test -s "_site${{ steps.pages.outputs.base_path }}/assets/devkit-runtime/styles/explorer.css"
-          test -s "_site${{ steps.pages.outputs.base_path }}/assets/devkit-runtime/source.json"
 
       - name: Test site
         run: |

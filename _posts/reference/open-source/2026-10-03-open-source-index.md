@@ -19,6 +19,7 @@ hidden      : false
 | [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) | Neovim에서 jdtls·Gradle용 JDK 경로를 분리해 주입하는 plugin | [awesome-neovim PR](https://github.com/rockerBOO/awesome-neovim/pull/2365) merged |
 | [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) | vim-dadbod용 Vertica adapter | [awesome-neovim PR](https://github.com/rockerBOO/awesome-neovim/pull/2355) merged |
 | [pi-extensions](https://github.com/clang-engineer/pi-extensions) | Pi coding agent extension monorepo | [`@clang.engineer/pi-notify`](https://www.npmjs.com/package/@clang.engineer/pi-notify), [`@clang.engineer/pi-workloop`](https://www.npmjs.com/package/@clang.engineer/pi-workloop) npm 배포 |
+| reference-explorer | Devkit reference catalog를 탐색하는 Web Component viewer | [`@clang.engineer/reference-explorer`](https://www.npmjs.com/package/@clang.engineer/reference-explorer) npm 배포 |
 
 ## Upstream PR
 
@@ -39,3 +40,4 @@ hidden      : false
 - [jvm-env.nvim 발행 회고](./2026-06-17-jvm-env-nvim-retrospective.md)
 - [awesome-neovim에 내 플러그인 PR 보내기](./2026-06-12-awesome-neovim-pr.md)
 - [작은 Pi extension을 만들고 npm에 배포하기](./2026-10-03-pi-notify-extension.md)
+- [npm 패키지를 블로그에서 쓰는 두 가지 방식](./2026-10-12-reference-explorer-npm-usage.md)
