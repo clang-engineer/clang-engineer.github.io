@@ -8,11 +8,11 @@ function fixture(t) {
   const base = fs.mkdtempSync(path.join(os.tmpdir(),'devkit-host-'));
   t.after(()=>fs.rmSync(base,{recursive:true,force:true}));
   const source=path.join(base,'source'), dest=path.join(base,'host/assets/devkit-runtime');
-  fs.mkdirSync(path.join(source,'src/styles'),{recursive:true});
-  fs.writeFileSync(path.join(source,'src/index.js'),"export const version = 1;\n");
-  fs.writeFileSync(path.join(source,'src/styles/explorer.css'),'.dk-app {}\n');
+  fs.mkdirSync(path.join(source,'explorer/styles'),{recursive:true});
+  fs.writeFileSync(path.join(source,'explorer/index.js'),"export const version = 1;\n");
+  fs.writeFileSync(path.join(source,'explorer/styles/explorer.css'),'.dk-app {}\n');
   const manifest={api_version:1,entry:'index.js',style:'styles/explorer.css',files:['index.js','styles/explorer.css']};
-  const save=()=>fs.writeFileSync(path.join(source,'src/manifest.json'),JSON.stringify(manifest));save();
+  const save=()=>fs.writeFileSync(path.join(source,'explorer/manifest.json'),JSON.stringify(manifest));save();
   return {base,source,dest,manifest,save};
 }
 test('copies only manifest UI assets and records checksums, never catalogs',t=>{
@@ -37,10 +37,10 @@ test('rejects traversal, symlinks and missing module dependencies',t=>{
   assert.throws(()=>prepare(f.source,f.dest),/Unsafe/);
   f.manifest.files.pop();f.manifest.files.push('outside.js');f.save();
   fs.writeFileSync(path.join(f.base,'outside.js'),'');
-  fs.symlinkSync(path.join(f.base,'outside.js'),path.join(f.source,'src/outside.js'));
+  fs.symlinkSync(path.join(f.base,'outside.js'),path.join(f.source,'explorer/outside.js'));
   assert.throws(()=>prepare(f.source,f.dest),/escapes/);
   f.manifest.files.pop();f.save();
-  fs.writeFileSync(path.join(f.source,'src/index.js'),"import {x} from './missing.js';");
+  fs.writeFileSync(path.join(f.source,'explorer/index.js'),"import {x} from './missing.js';");
   assert.throws(()=>prepare(f.source,f.dest),/Missing module/);
 });
 test('rebuild removes stale generated files without touching host files',t=>{

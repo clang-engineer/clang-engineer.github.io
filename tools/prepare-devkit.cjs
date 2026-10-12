@@ -6,9 +6,9 @@ const { createHash } = require('node:crypto');
 
 function prepare(source, destination) {
   const root = fs.realpathSync(source);
-  const src = fs.realpathSync(path.join(root, 'src'));
-  if (!src.startsWith(root + path.sep)) throw Error('Source directory escapes checkout');
-  const manifest = JSON.parse(fs.readFileSync(path.join(src, 'manifest.json'), 'utf8'));
+  const explorer = fs.realpathSync(path.join(root, 'explorer'));
+  if (!explorer.startsWith(root + path.sep)) throw Error('Explorer directory escapes checkout');
+  const manifest = JSON.parse(fs.readFileSync(path.join(explorer, 'manifest.json'), 'utf8'));
   if (manifest.api_version !== 1 || manifest.entry !== 'index.js' || manifest.style !== 'styles/explorer.css' ||
       !Array.isArray(manifest.files) || !manifest.files.includes(manifest.entry) || !manifest.files.includes(manifest.style) ||
       new Set(manifest.files).size !== manifest.files.length) throw Error('Unsupported Devkit manifest');
@@ -16,8 +16,8 @@ function prepare(source, destination) {
   const files = manifest.files.map(file => {
     if (typeof file !== 'string' || !/^[a-zA-Z0-9_./-]+\.(js|css)$/.test(file) ||
         path.posix.isAbsolute(file) || file.split('/').some(part => !part || part === '.' || part === '..')) throw Error('Unsafe asset path');
-    const input = fs.realpathSync(path.join(src, file));
-    if (!input.startsWith(src + path.sep) || !fs.statSync(input).isFile()) throw Error('Asset escapes source');
+    const input = fs.realpathSync(path.join(explorer, file));
+    if (!input.startsWith(explorer + path.sep) || !fs.statSync(input).isFile()) throw Error('Asset escapes explorer');
     return { file, bytes: fs.readFileSync(input) };
   });
   for (const {file, bytes} of files) {
@@ -28,7 +28,7 @@ function prepare(source, destination) {
     }
   }
   const dest = path.resolve(destination);
-  if (dest === root || dest === src || root.startsWith(dest + path.sep) || dest.startsWith(src + path.sep)) throw Error('Unsafe destination');
+  if (dest === root || dest === explorer || root.startsWith(dest + path.sep) || dest.startsWith(explorer + path.sep)) throw Error('Unsafe destination');
   const parent = path.dirname(dest);
   fs.mkdirSync(parent, {recursive:true});
   const temp = fs.mkdtempSync(path.join(parent, '.devkit-build-'));
