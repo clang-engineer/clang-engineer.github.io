@@ -4,8 +4,8 @@
   body:has(.dk-app) #main-wrapper > .container { max-width: none; height: 100dvh; }
   body:has(.dk-app) #main-wrapper > .container > .row { min-height: 0; }
   body:has(.dk-app) #panel-wrapper { display: none !important; }
-  body:has(.dk-app) main,
-  body:has(.dk-app) #tail-wrapper { max-width: 100%; flex: 1 1 100%; }
+  body:has(.dk-app) main { max-width: 100%; flex: 1 1 100%; }
+  body:has(.dk-app) #tail-wrapper { display: none !important; }
   body:has(.dk-app) main { display: flex; flex-direction: column; min-height: 0; }
   body:has(.dk-app) reference-explorer { flex: 1 1 auto; min-height: 0; }
   body:has(.dk-app) .dk-app { display: flex; flex-direction: column; height: 100%; min-height: 0; }
