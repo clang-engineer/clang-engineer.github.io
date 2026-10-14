@@ -23,6 +23,17 @@
   body:has(.dk-app) .dk-app .dk-edge.is-wrapper .dk-edge-line { stroke-dasharray: 6 5; }
   body:has(.dk-app) .dk-app .dk-edge.is-alternative .dk-edge-line,
   body:has(.dk-app) .dk-app .dk-edge.is-specialized .dk-edge-line { stroke-dasharray: none; }
+
+  @media (max-width: 768px) {
+    body:has(.dk-app) #main-wrapper > .container { height: auto; min-height: 100dvh; overflow: visible; }
+    body:has(.dk-app) main,
+    body:has(.dk-app) reference-explorer,
+    body:has(.dk-app) .dk-app,
+    body:has(.dk-app) .dk-app .dk-layout,
+    body:has(.dk-app) .dk-app .dk-sidebar,
+    body:has(.dk-app) .dk-app .dk-explorer,
+    body:has(.dk-app) .dk-app .dk-panel-host { overflow: visible; }
+  }
 </style>
 <reference-explorer id="devkit-root" default-view="{{ include.view | default: 'map' }}"
   src="https://raw.githubusercontent.com/clang-engineer/devkit/main/reference/catalog.json"
