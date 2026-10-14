@@ -2,7 +2,7 @@
 title       : "AeroSpace + Hammerspoon — 창을 한 번에 제자리로 재정렬하기"
 description : "macOS 타일링 WM AeroSpace와 자동화 런타임 Hammerspoon을 URL scheme으로 엮어, 손으로 잘못 옮긴 창들을 단축키 하나로 각자 지정 워크스페이스에 되돌리는 스크립트를 만든다. 두 도구의 분업 구조와 bash 3.2 함정까지."
 date        : 2026-07-03 16:00:00 +0900
-updated     : 2026-07-03 16:00:00 +0900
+updated     : 2026-10-14 11:20:00 +0900
 categories  : [macos, "창 관리"]
 tags        : [aerospace, hammerspoon, macos, tiling, window-manager, bash, guide]
 pin         : false
@@ -145,7 +145,7 @@ open -g "hammerspoon://aerospace-reflowed?moved=${moved}"
 alt-shift-0 = ['exec-and-forget ~/.hammerspoon/modules/aerospace-reflow.sh']  # re-home all windows
 ```
 
-> `[mode.main.binding]`은 AeroSpace의 **기본 키맵을 전부 덮어쓴다.** 그래서 `alt-h`(focus left) 같은 기본 키도 직접 나열해야 하고, 반대로 기본에 없던 `alt-shift-0`은 충돌 없이 자유롭게 쓸 수 있다. (AeroSpace 기본은 `alt-shift-1`~`9`만 잡는다.)
+> `[mode.main.binding]`은 기본 키맵을 병합하지 않고 대체한다. 기본 키까지 함께 나열해야 한다는 점은 [AeroSpace 기본](./2026-07-03-aerospace-basics.md)과 [서비스 모드 글](./2026-07-14-aerospace-service-mode.md)에 정리했다.
 {: .prompt-tip }
 
 설정 반영:
@@ -190,15 +190,6 @@ hs.ipc.cliInstall() -- `hs` CLI 활성화
 ```
 
 단, 이 줄 자체도 최초 한 번은 메뉴바에서 수동 reload를 해야 적용된다(닭-달걀 문제). 그 뒤로는 `hs -c "hs.reload()"`로 원격 reload가 가능하다.
-
-## AeroSpace를 고른 이유 — yabai와의 비교
-
-같은 목적의 대안은 **yabai + skhd** 조합이다. 짚고 넘어갈 만한 트레이드오프:
-
-- **yabai**: 진짜 BSP 트리 기반이라 타일링이 더 강력하지만, 일부 기능에 **SIP(System Integrity Protection) 비활성화**가 필요하고 macOS 업데이트마다 깨지기 쉽다.
-- **AeroSpace**: **SIP를 건드리지 않는 것**이 핵심 철학이다. 자체 가상 워크스페이스를 구현해 macOS의 네이티브 Spaces를 우회하므로, OS 업데이트에 강하고 설정이 안정적이다.
-
-강력함보다 안정성·유지보수성을 택한다면 AeroSpace가 합리적이고, 여기에 Hammerspoon을 알림·자동화 레이어로 얹으면 각 도구의 강점만 쓰는 조합이 된다.
 
 ## 정리
 

@@ -2,13 +2,14 @@
 title       : AeroSpace 서비스 모드 — 저빈도·위험 동작을 별도 모드로 격리하는 설계
 description : "AeroSpace의 서비스 모드(alt-shift-;)에 어떤 기능이 있고, 왜 floating 토글·레이아웃 리셋·창 대량 닫기를 메인 키맵이 아닌 별도 모드에 뒀는지 설계 철학을 vim·i3 계보와 함께 정리한다. 바인딩이 병합이 아니라 대체라는 함정도 다룬다."
 date        : 2026-07-14 14:00:00 +0900
+updated     : 2026-10-14 11:20:00 +0900
 categories  : [macos, "창 관리"]
 tags        : [aerospace, window-manager, tiling, service-mode, guide]
 pin         : false
 hidden      : false
 ---
 
-[AeroSpace](https://github.com/nikitabobko/AeroSpace) 기본 키맵을 보면 포커스 이동·창 이동·워크스페이스 전환은 `Alt` 조합 하나로 바로 되는데, **floating↔tiling 토글이나 레이아웃 리셋은 메인 키맵에 아예 없다.** 대신 **서비스 모드(service mode)**라는 별도 모드 안에 숨어 있다. 이 글은 서비스 모드에 무엇이 있고, 왜 이렇게 나눴는지를 설계 관점에서 정리한다. 설치·기본 키맵은 [AeroSpace 기본](./2026-07-03-aerospace-basics.md)에서 다뤘다.
+[AeroSpace](https://github.com/nikitabobko/AeroSpace) 기본 키맵을 보면 포커스 이동·창 이동·워크스페이스 전환은 `Alt` 조합 하나로 바로 되는데, **floating↔tiling 토글이나 레이아웃 리셋은 메인 키맵에 아예 없다.** 대신 **서비스 모드(service mode)**라는 별도 모드 안에 숨어 있다. 이 글은 서비스 모드에 무엇이 있고, 왜 이렇게 나눴는지를 설계 관점에서 정리한다. 설치·기본 키맵은 [AeroSpace 기본](./2026-07-03-aerospace-basics.md)에서 다뤘고, 최신 키맵·CLI 레퍼런스는 [AeroSpace Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/aerospace.md)를 기준으로 본다.
 
 ## 서비스 모드란
 
@@ -97,5 +98,6 @@ floating 토글을 서비스 모드 `f`에 둘지, 아니면 메인으로 끌어
 
 ## 관련 글
 
+- [AeroSpace Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/aerospace.md) — 키맵·CLI·설정 스니펫의 canonical reference
 - [AeroSpace 기본 — 워크스페이스·단축키·on-window-detected](./2026-07-03-aerospace-basics.md)
 - [AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input](../reference/troubleshooting/2026-06-07-aerospace-secure-input.md) — 서비스 모드 키가 안 먹힐 때 의심해볼 시스템 레벨 원인
