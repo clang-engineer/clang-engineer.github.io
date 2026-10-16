@@ -21,7 +21,7 @@ jobs:
   markdown-links:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Check local Markdown links
         id: audit
         shell: bash
@@ -34,7 +34,7 @@ jobs:
           exit 0
       - name: Upload audit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: markdown-link-audit
           path: markdown-link-audit.txt
