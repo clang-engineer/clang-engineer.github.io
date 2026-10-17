@@ -205,37 +205,12 @@ SSH Host Identity 확인
 
 SSH에서 흔히 사용하는 TOFU(Trust On First Use)는 첫 연결에서 본 Host Key를 저장하고 이후 연결에서 변경 여부를 확인하는 방식이다.
 
-## 8. 기술사 관점 핵심 경계
+## 8. 이해 복원
 
-```text
-TLS
-→ 기존 Application 통신에 보안 채널 제공
+1. TLS는 HTTP 같은 Application Protocol에 어떤 보안 기능을 제공하는가?
+2. ClientHello·ServerHello, Key Exchange, Certificate 검증, Finished는 각각 어떤 역할인가?
+3. 공유 Secret과 Application Traffic Key는 왜 구분하며, 실제 데이터 보호에 대칭키를 쓰는 이유는?
+4. Key Exchange만 성공해도 상대 Server를 신뢰할 수 있는가?
+5. TLS와 SSH는 제공 목적과 Server 신뢰 모델이 어떻게 다른가?
 
-Handshake
-→ 통신 조건 협상
-→ 상대 인증
-→ Key Exchange
-→ Traffic Key 도출
-
-Application Data
-→ 도출된 대칭키 기반으로 보호
-```
-
-TLS를 "HTTPS에 쓰는 암호화"로만 외우지 않고 **보안 채널을 수립하는 과정과 그 위에서 Application Data가 흐르는 구조**로 이해한다.
-
-## 기억·인출 장치
-
-```text
-TLS
-협상
- ↓
-인증
- ↓
-Key 공유 기반 마련
- ↓
-Traffic Key
- ↓
-암호화 통신
-```
-
-먼저 **Handshake는 보안 채널을 만들기 위한 과정이고, 실제 Application Data 통신은 그 뒤**라는 경계를 떠올린다.
+**Handshake는 보안 채널을 수립하는 과정이고, 이후 Application Data는 도출한 Traffic Key로 보호한다.** 막히는 단계만 다시 읽는다.
