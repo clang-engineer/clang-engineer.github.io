@@ -286,68 +286,11 @@ Runtime이 다른 ULT를 다른 KLT에서 실행할 수 있는가?
 
 ---
 
-## 11. 전체 그림
+## 11. 이해 복원
 
-~~~text
-Application / Runtime
-        ↓
-ULT
-        ↓
-Runtime Scheduler
-        ↓
-Mapping Model
-├─ Many-to-One
-├─ One-to-One
-└─ Many-to-Many
-        ↓
-KLT
-        ↓
-Kernel Scheduler
-        ↓
-CPU
-~~~
+1. ULT와 KLT는 각각 누가 관리하고 Scheduling하는가?
+2. Many-to-One·One-to-One·Many-to-Many에서 ULT와 KLT의 수는 어떻게 대응하는가?
+3. KLT가 Blocking되면 각 Mapping Model의 다른 ULT는 어떤 영향을 받는가?
+4. Java Virtual Thread를 고전 Mapping Model과 비교할 때 어디까지 유사하고 무엇은 별도로 확인해야 하는가?
 
-책임 경계는 끝까지 같다.
-
-~~~text
-ULT 관리·Scheduling
-= Runtime / Thread Library
-
-KLT 관리·CPU Scheduling
-= Kernel
-~~~
-
----
-
-## 12. 기억·인출
-
-~~~text
-ULT
-= Runtime이 관리
-
-KLT
-= Kernel이 관리
-
-ULT → KLT
-= Runtime이 Mapping
-
-KLT → CPU
-= Kernel Scheduler
-
-Many-to-One
-= 여러 ULT → KLT 1개
-
-One-to-One
-= ULT 1개 → KLT 1개
-
-Many-to-Many
-= 여러 ULT → 여러 KLT
-
-현대 Runtime 예
-Java Platform Thread ≈ One-to-One 성격
-Java Virtual Thread  ≈ Many-to-Many 성격
-~~~
-
-가장 중요한 문장:
-
-> **Runtime은 자기 ULT를 어떤 KLT 위에서 실행할지 관리하고, Kernel은 KLT를 실제 CPU에 Scheduling한다.**
+**Runtime은 ULT를 KLT에 배치하고, Kernel은 KLT를 CPU에 Scheduling한다.** 실제 Java 실행 구조는 [Java Virtual Thread·Carrier Thread](Java-Virtual-Thread-Carrier-JVM-Scheduling.md)에서 확인한다.
