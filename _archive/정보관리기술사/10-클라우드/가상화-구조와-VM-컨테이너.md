@@ -82,39 +82,32 @@ VM 기반 Hardware Virtualization
 
 **Type 1 = 전가상화, Type 2 = 반가상화가 아니다.** 두 축은 일대일로 대응하지 않는다.
 
-### Type 1과 Type 2 — Hypervisor의 배치 위치
+### Type 1과 Type 2 — Hypervisor의 실행 위치
 
-#### Type 1: Bare-metal
-
-Hypervisor가 범용 Host OS 없이 물리 하드웨어에서 직접 실행된다. 주로 서버·데이터센터에 사용한다.
+Hypervisor는 물리 자원을 가상화해 여러 VM에 가상 하드웨어를 제공한다. **Type 1/2는 이 Hypervisor가 범용 Host OS 없이 실행되는지, Host OS 위에서 실행되는지를 구분**한다.
 
 ```text
-VM / Guest OS       VM / Guest OS
-       \                /
-            Hypervisor
-                |
-             Hardware
+Type 1 (Bare-metal)             Type 2 (Hosted)
+
+VM / Guest OS                   VM / Guest OS
+      |                               |
+Hypervisor                      Hypervisor
+      |                               |
+물리 하드웨어                   Host OS
+                                      |
+                                물리 하드웨어
 ```
 
-대표 사례는 VMware ESXi다.
+- **Type 1 (Bare-metal):** Hypervisor가 범용 Host OS 없이 물리 하드웨어에서 직접 실행된다. 서버·데이터센터에서 주로 사용하며 VMware ESXi가 대표 사례다.
+- **Type 2 (Hosted):** Windows·Linux·macOS 같은 Host OS 위에서 Hypervisor가 실행된다. 개발·테스트 환경에서 흔히 사용하며 VirtualBox와 VMware Workstation이 대표 사례다.
 
-#### Type 2: Hosted
+| 비교 기준 | Type 1 | Type 2 |
+|---|---|---|
+| Hypervisor 실행 위치 | 물리 하드웨어 위 | 범용 Host OS 위 |
+| 범용 Host OS | 필요 없음 | 필요 |
+| 대표 사용 환경 | 서버·데이터센터 | 개인 PC·개발·테스트 |
 
-Windows·macOS·Linux 같은 Host OS 위에서 Hypervisor가 실행된다. 주로 데스크톱·개발·시험 환경에 사용한다.
-
-```text
-VM / Guest OS       VM / Guest OS
-       \                /
-            Hypervisor
-                |
-             Host OS
-                |
-             Hardware
-```
-
-대표 사례는 VirtualBox와 VMware Workstation이다.
-
-**구분 기준: Hypervisor 아래에 범용 Host OS가 있는가?**
+**핵심 질문: Hypervisor 아래에 범용 Host OS가 있는가?** 이는 Hypervisor의 **배치 구조**에 대한 구분이다. 이어지는 전가상화/반가상화는 **Guest OS와 Hypervisor의 상호작용 방식**이므로 다른 분류축이다.
 
 ### 전가상화와 반가상화 — Guest OS의 가상화 방식
 
