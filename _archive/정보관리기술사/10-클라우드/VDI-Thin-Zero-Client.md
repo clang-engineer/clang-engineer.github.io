@@ -2,7 +2,7 @@
 
 > [클라우드 전체 개념지도](00-전체.md) → 데스크톱 제공 → 접속 단말
 >
-> **목적:** 중앙 Desktop에 접속할 때 일반 PC·Thin Client·Zero Client의 로컬 기능과 운영 부담을 비교한다. VDI·RDS·CCI·DaaS의 제공 방식은 [데스크톱 가상화](데스크톱-가상화-VDI-RDS-CCI-DaaS.md)에서 다룬다.
+> **목적:** 중앙 Desktop에 접속할 때 일반 PC·Thin Client·Zero Client의 로컬 기능과 운영 부담을 비교한다. VDI는 중앙 Desktop 제공 방식이고 Thin·Zero Client는 그 환경에 접속하는 단말 유형이다.
 
 ## 1. 중앙 Desktop과 접속 단말
 
@@ -26,7 +26,7 @@ VDI는 중앙에서 Desktop을 실행하는 구조이고, Thin/Zero Client는 �
 
 이 둘을 같은 계층으로 보면 헷갈린다.
 
-## 1. Thin Client
+## 2. Thin Client
 
 Thin Client는 일반 PC보다 Local 기능을 줄인 경량 단말이다.
 
@@ -60,7 +60,7 @@ Thin Client
 
 장점은 일반 PC보다 Local Data와 관리 복잡도를 줄일 수 있다는 점이다.
 
-## 2. Zero Client
+## 3. Zero Client
 
 Zero Client는 범용 Local OS와 Storage를 최소화하고 VDI 접속 기능에 집중한 단말이다.
 
@@ -92,7 +92,7 @@ Zero Client
 - 특정 VDI Solution·Protocol 의존 가능
 - Local 독립 작업이 어려움
 
-## 3. Thin Client와 Zero Client 경계는 완전히 고정돼 있는가
+## 4. Thin Client와 Zero Client 경계는 완전히 고정돼 있는가
 
 제품마다 경계가 다를 수 있다.
 
@@ -114,7 +114,7 @@ Offline 작업이 가능한가?
 
 실제 구분은 제품별 OS·Storage·Protocol·오프라인 지원을 확인한다.
 
-## 4. Zero PC는 무엇인가
+## 5. Zero PC는 무엇인가
 
 `Zero PC`는 VDI, Thin Client처럼 하나의 엄격한 표준 기술 분류로 보기 어렵다.
 
@@ -136,7 +136,7 @@ Desktop은 어디서 실행되는가?
 어떤 Protocol로 중앙에 접속하는가?
 ```
 
-## 5. 단말 선택 시 고려사항
+## 6. 단말 선택 시 고려사항
 
 - 로컬 OS·Storage·Application 및 오프라인 작업 필요성
 - Remote Display Protocol과 주변기기 호환성
@@ -144,9 +144,9 @@ Desktop은 어디서 실행되는가?
 - 인증·MFA·Clipboard·파일 전송 및 로컬 데이터 정책
 - 네트워크·중앙 Desktop 장애 시 업무 영향
 
-중앙 VDI의 Compute·Storage 병목과 가용성 설계는 [데스크톱 가상화](데스크톱-가상화-VDI-RDS-CCI-DaaS.md)를 참고한다.
+중앙 Desktop의 Compute·Storage 병목이나 장애는 접속 단말 종류와 별개로 발생할 수 있다. 단말 선택에서는 네트워크 의존성과 장애 시 업무 영향을 확인한다.
 
-## 6. 이해 복원
+## 7. 이해 복원
 
 - VDI와 Thin/Zero Client가 서로 다른 분류축인 이유는?
 - Thin과 Zero의 로컬 기능·관리 부담·중앙 의존성은 어떻게 다른가?
