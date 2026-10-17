@@ -193,25 +193,13 @@ Desktop을 Cloud Service로 소비하는가?
 
 예를 들어 강한 사용자 격리와 개인화가 중요하면 VDI가 적합할 수 있고, 많은 사용자가 표준화된 업무환경을 공유한다면 RDS가 비용 효율적일 수 있다.
 
-## 10. 헷갈리기 쉬운 경계
+## 10. 이해 복원
 
-### VDI = 데스크톱 가상화 전체인가?
+1. VDI·RDS·CCI는 각각 사용자에게 어떤 실행 자원을 할당하는가?
+2. DaaS는 왜 VDI와 같은 구현 기술의 분류가 아닌가?
+3. 사용자 격리·자원 효율·운영 책임을 기준으로 어떤 방식을 선택할 것인가?
 
-아니다. VDI는 대표적인 구현 방식 중 하나다. RDS·CCI·DaaS처럼 다른 방식도 있다.
-
-### RDS는 VDI의 가벼운 버전인가?
-
-아니다. 사용자별 VM과 Session 공유는 격리 단위 자체가 다르다.
-
-### DaaS는 VDI와 경쟁 기술인가?
-
-축이 다르다. DaaS는 서비스 제공 모델이고 내부 구현으로 VDI를 사용할 수 있다.
-
-### 서버 가상화가 있으면 데스크톱 가상화가 완성되는가?
-
-아니다. VDI에서는 Hypervisor가 기반이지만 Connection Broker, 화면 전송, Desktop Pool, 사용자 정책이 추가로 필요하다.
-
-접속 단말의 로컬 기능 수준은 [VDI·Thin·Zero Client](VDI-Thin-Zero-Client.md)에서 별도로 비교한다.
+접속 단말의 로컬 기능은 [VDI·Thin·Zero Client](VDI-Thin-Zero-Client.md)에서 비교한다.
 
 ## 기억·인출 장치
 
