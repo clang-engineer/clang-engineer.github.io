@@ -209,64 +209,23 @@ Container Image는 애플리케이션과 Library를 묶어 배포 일관성을 �
 
 ### 컨테이너에는 왜 Hypervisor가 없는가?
 
-VM과 컨테이너의 차이를 이해할 때 가장 먼저 잡아야 하는 질문이다.
-
-**일반적인 컨테이너 자체에는 Hypervisor가 필요하지 않다.** Hypervisor는 물리 Hardware를 가상화하여 VM마다 독립적인 가상 Hardware를 제공하는 계층이다. 반면 컨테이너는 Hardware를 가상화하지 않고, 이미 실행 중인 Host Kernel의 기능을 이용하여 Process와 OS 자원을 격리한다.
+**컨테이너 자체에는 Hypervisor가 필요하지 않다.** VM은 Hypervisor가 가상 하드웨어를 제공하고 Guest Kernel을 따로 부팅하지만, 컨테이너는 Host Kernel의 Namespace와 cgroup으로 프로세스의 가시 범위와 자원 사용량을 격리한다.
 
 ```text
-VM 방식
-Application
-   ↓
-Guest OS + Guest Kernel
-   ↓
-Hypervisor
-   ↓
-Physical Hardware
+VM 방식                          Container 방식
 
-Container 방식
-Application + Library
-   ↓
-Container Runtime
-   ↓
-Host OS + Shared Kernel
-   ↓
-Physical Hardware
+Application                      Application + Library
+     |                                   |
+Guest OS + Guest Kernel          격리된 Process
+     |                                   |
+가상 Hardware                    Namespace / cgroup
+     |                                   |
+Hypervisor                       Host Kernel (공유)
+     |                                   |
+Physical Hardware                Physical Hardware
 ```
 
-VM에서는 각 Guest OS가 자신만의 Hardware가 있다고 생각할 수 있도록 Hypervisor가 CPU·Memory·Disk·NIC 등을 가상화한다.
-
-반면 컨테이너는 별도의 가상 Hardware와 Guest Kernel을 만들지 않는다. Host Kernel 위에서 실행되는 Process를 격리하여 각각 독립적인 실행환경처럼 보이게 한다.
-
-```text
-VM
-Hardware
-   ↓
-Hypervisor       ← Hardware 가상화
-   ↓
-Virtual Hardware
-   ↓
-Guest Kernel
-   ↓
-Application
-
-Container
-Hardware
-   ↓
-Host Kernel      ← 하나의 Kernel 공유
-   ↓
-Namespace / cgroup
-   ↓
-격리된 Process
-   ↓
-Application
-```
-
-따라서 다음처럼 기억하면 된다.
-
-- **VM = Hypervisor 기반 Hardware Virtualization**
-- **Container = Host Kernel 기반 OS-level Virtualization**
-
-이 차이 때문에 컨테이너에는 VM처럼 Guest OS와 Guest Kernel을 부팅하는 과정이 없고, Image가 작고 시작이 빠르며 동일한 Hardware에서 더 많은 실행환경을 운영하기 쉽다.
+**VM은 Guest Kernel이 독립적이고, 컨테이너는 Host Kernel을 공유한다.** 이 구조적 차이로 컨테이너는 일반적으로 시작이 빠르고 자원 사용량이 적지만, Host Kernel 취약점이 격리 경계에 영향을 줄 수 있다. 여기서 비교하는 것은 컨테이너 자체의 구조이며, 실제 배포에서는 컨테이너가 VM 안에서 실행될 수도 있다.
 
 ### 실제 클라우드에서 VM과 Container는 어떻게 사용되는가?
 
@@ -331,22 +290,6 @@ VM / Container
 
 PaaS나 SaaS에서는 하부 Infrastructure가 사용자에게 추상화되므로, 서비스 제공자가 내부적으로 VM·Container 등 여러 기술을 조합하여 구현할 수 있다.
 
-### 구조로 비교하기
-
-```text
-VM 방식                         Container 방식
-
-App                             App + Library
- |                                   |
-Guest OS + Kernel               Container Runtime
- |                                   |
-Hypervisor                      Host OS + Shared Kernel
- |                                   |
-Hardware                        Hardware
-```
-
-그림에서 가장 중요한 차이는 **VM에는 Guest Kernel이 따로 있지만 Container는 Host Kernel을 공유한다**는 점이다. 이 차이에서 시작속도, Image 크기, 자원 밀도, 이기종 OS 지원, 보안 경계의 차이가 파생된다.
-
 ## 비교 기준
 
 - 격리 단위: VM은 가상 하드웨어, 컨테이너는 Process·OS 자원
@@ -359,21 +302,16 @@ Hardware                        Hardware
 
 ## 서버 가상화와 데스크톱 가상화
 
-서버 가상화는 여러 서버 업무를 물리 서버에 통합하는 Infrastructure 기술이다. 데스크톱 가상화는 사용자의 Desktop 환경을 중앙에서 제공하고 단말과 분리하는 서비스 구조다. 데스크톱 가상화가 VM을 사용할 수는 있지만 목적과 사용자가 다르다.
+서버 가상화는 Web·DB·WAS 같은 서버 업무를 물리 자원 위에 통합·격리하는 기술이다. 데스크톱 가상화는 사용자별 Desktop 실행환경을 중앙에서 제공하고 단말과 분리하는 방식이다. 둘 다 VM을 사용할 수 있지만, **서버 업무를 제공하는가, 사용자 업무환경을 제공하는가**라는 목적이 다르다.
 
-둘의 차이는 기반 기술보다 **무엇을 누구에게 제공하느냐**에 있다. 서버 가상화는 Web·DB 같은 서버 업무의 실행환경을 나누는 것이 목적이고, 데스크톱 가상화는 사용자의 화면·업무환경을 중앙에서 제공하는 것이 목적이다. VDI가 내부적으로 서버 가상화를 이용하더라도 같은 용어가 아닌 이유다.
+상세 구조와 VDI·RDS·CCI·DaaS의 차이는 [데스크톱 가상화 — VDI·RDS·CCI·DaaS](데스크톱-가상화-VDI-RDS-CCI-DaaS.md)에서 다룬다.
 
-```text
-[서버 가상화]
+## 이해 복원 — 문서를 덮고 답해보기
 
-물리 서버 + Hypervisor
-├─ VM : Web Server
-├─ VM : DB Server
-└─ VM : WAS
+처음의 질문을 다시 보되, 다음 세 관계는 문서를 보지 않고 설명해본다.
 
+1. **분류축**: Type 1/2는 무엇을 기준으로 나누고, 전가상화/반가상화는 무엇을 기준으로 나누는가?
+2. **구조와 결과**: VM과 컨테이너의 Kernel 구조 차이에서 시작속도·자원 밀도·격리 경계의 차이가 왜 생기는가?
+3. **실제 조합**: 클라우드 VM 안에서 컨테이너를 실행할 때 Hypervisor와 Container Runtime은 각각 무엇을 담당하는가?
 
-[데스크톱 가상화 / VDI]
-
-중앙 Infrastructure
-├─ 사용자 A의 Windows Desktop VM ← 화면·입력 → 사용자 단말 A
-└─ 사용자 B
+막히는 질문이 있다면 해당 Section만 다시 읽는다. 세 질문을 설명할 수 있다면 이 문서의 학습을 마치고 상위 개념지도로 돌아간다.
