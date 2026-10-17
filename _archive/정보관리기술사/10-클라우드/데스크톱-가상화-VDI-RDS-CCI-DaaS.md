@@ -72,6 +72,14 @@ VDI에는 보통 다음 요소가 함께 필요하다.
 
 즉 **서버 가상화 기술만 있다고 VDI가 완성되는 것은 아니다.** Hypervisor는 VDI의 기반일 뿐이고, 사용자 연결·Desktop 수명주기 관리가 더 필요하다.
 
+### VDI Desktop 할당 방식
+
+VDI는 사용자마다 영구적으로 고정된 VM을 소유한다는 뜻이 아니다. **Persistent Desktop**은 사용자에게 전용 Desktop을 지속 할당해 설정을 유지하기 쉽고, **Non-persistent Desktop**은 Pool에서 VM을 배정하고 회수·초기화해 표준화와 중앙 관리에 유리하다.
+
+### VDI 중앙화의 운영상 Trade-off
+
+Desktop 실행과 데이터 처리를 중앙에 모으면 Image·Patch·보안 정책을 일관되게 관리하고 단말의 로컬 데이터 잔존을 줄일 수 있다. 반면 네트워크 지연·Packet Loss, 중앙 인증 장애, Storage IOPS·GPU 부족, 동시 로그인 집중이 사용자 경험에 직접 영향을 준다. 설계 시 Network·Compute·Storage 용량, Profile 관리, HA·DR, 단말의 Offline 업무 필요성을 함께 검토한다.
+
 ## 4. RDS — 하나의 Server OS를 Session 단위로 공유
 
 RDS(Remote Desktop Services)는 사용자마다 VM을 하나씩 만드는 대신 하나의 Server OS를 여러 사용자가 Session 단위로 공유한다.
@@ -202,6 +210,8 @@ Desktop을 Cloud Service로 소비하는가?
 ### 서버 가상화가 있으면 데스크톱 가상화가 완성되는가?
 
 아니다. VDI에서는 Hypervisor가 기반이지만 Connection Broker, 화면 전송, Desktop Pool, 사용자 정책이 추가로 필요하다.
+
+접속 단말의 로컬 기능 수준은 [VDI·Thin·Zero Client](VDI-Thin-Zero-Client.md)에서 별도로 비교한다.
 
 ## 기억·인출 장치
 
