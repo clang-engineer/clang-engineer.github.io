@@ -331,29 +331,14 @@ I/O Channel
 
 ---
 
-## 9. 한 번에 다시 떠올리기
+## 9. 이해 복원
 
-```text
-Programmed I/O
-= CPU가 직접 상태 확인 + I/O 처리
+1. Programmed I/O와 Interrupt-driven I/O는 CPU가 장치 상태를 확인하는 방식이 어떻게 다른가?
+2. DMA는 데이터 이동에서 CPU의 어떤 역할을 줄이는가?
+3. I/O Channel은 DMA보다 어떤 처리 책임을 더 맡는가?
+4. DMA와 Completion I/O는 왜 서로 다른 계층의 개념인가?
 
-Interrupt-driven I/O
-= 장치가 CPU에 Event 통지
-
-DMA
-= Device ↔ Memory 데이터 전송을 CPU 대신 수행
-
-I/O Channel
-= I/O 명령 처리까지 더 독립적으로 수행
-
-DMA vs Completion I/O
-DMA        = 데이터 이동 방식
-Completion = 완료 통지 / 실행 모델
-```
-
-핵심 문장:
-
-> **I/O 처리 구조의 발전 방향은 CPU가 장치 상태 확인과 데이터 전송에 직접 개입하는 범위를 줄이고, I/O 전용 하드웨어가 더 많은 책임을 맡게 하는 것이다.**
+**하드웨어 I/O 방식은 CPU의 장치 제어·데이터 전송 부담을 어떻게 나누는지**에 관한 것이다. 소프트웨어의 Readiness/Completion 모델과 구분한다.
 
 ## 참고 자료
 
