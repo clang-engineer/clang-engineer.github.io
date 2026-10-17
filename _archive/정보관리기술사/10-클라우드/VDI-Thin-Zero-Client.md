@@ -46,148 +46,9 @@ Thin Client / Zero Client
 
 ---
 
-# 2. VDI란 무엇인가
+# 2. 접속 단말의 선택 기준
 
-VDI(Virtual Desktop Infrastructure)는 사용자 Desktop을 중앙 Data Center나 Cloud의 VM에서 실행하고, 사용자 단말에는 화면과 입력을 전달하는 구조다.
-
-사용자가 단말에서 Windows Application을 실행하는 것처럼 보여도 실제로는 중앙 VM에서 실행될 수 있다.
-
-```text
-사용자 Keyboard / Mouse 입력
-        ↓ Network
-중앙 Virtual Desktop
-        ↓ Application 실행·Data 처리
-화면 변화
-        ↓ Network
-사용자 단말에 표시
-```
-
-즉 VDI는 단순 Remote File 저장이 아니다.
-
-> **Desktop의 실행 위치 자체를 사용자 PC에서 중앙 Infrastructure로 옮긴다.**
-
-## 사용자별로 VM을 하나씩 제공하는가?
-
-전형적인 VDI를 이해할 때는 **중앙 가상화 Infrastructure에 사용자용 Desktop VM을 만들어 제공한다**고 생각하면 된다.
-
-```text
-Physical Server
-      ↓
-Hypervisor
-      ↓
-VDI Platform
-├─ User A Desktop VM → 사용자 A
-├─ User B Desktop VM → 사용자 B
-└─ User C Desktop VM → 사용자 C
-```
-
-이때 사용자는 자신의 단말에서 VM 자체를 직접 다루는 것이 아니라, Remote Display Protocol을 통해 중앙 Desktop에 접속한다.
-
-다만 `사용자 1명 = 항상 고정된 VM 1개`라고 단정하면 안 된다. VDI의 Desktop 할당 방식은 크게 다음처럼 볼 수 있다.
-
-```text
-Persistent Desktop
-→ 특정 사용자에게 전용 Desktop VM을 지속적으로 할당
-→ 개인 설정과 설치 상태를 유지하기 쉬움
-
-Non-persistent Desktop
-→ 로그인 시 Desktop Pool에서 VM을 할당
-→ 로그아웃 후 회수·초기화할 수 있음
-→ 표준화와 중앙 관리에 유리
-```
-
-따라서 VDI의 핵심은 **사용자마다 영구 VM을 한 대씩 소유하게 하는 것**이 아니라, 중앙의 가상 Desktop 실행환경을 사용자에게 제공하는 것이다.
-
----
-
-# 3. VDI와 Server 가상화는 같은가
-
-같지 않다.
-
-Server 가상화는 하나의 물리 Server 위에 여러 Server VM을 운영하여 Server Resource를 통합하고 효율화하는 기술이다.
-
-```text
-Physical Server
-├─ Web Server VM
-├─ DB Server VM
-└─ Batch Server VM
-```
-
-VDI도 가상화 Infrastructure를 사용할 수 있지만 목적은 사용자별 Desktop 제공이다.
-
-```text
-VDI Platform
-├─ User A Desktop VM
-├─ User B Desktop VM
-└─ User C Desktop VM
-```
-
-따라서 관계는:
-
-```text
-Server 가상화
-= VDI를 구현하는 기반 기술이 될 수 있음
-
-VDI
-= 사용자 Desktop 중앙화가 목적
-```
-
-이라고 이해하면 된다.
-
----
-
-# 4. VDI의 장점은 왜 생기는가
-
-Desktop 실행과 Data가 중앙에 있기 때문에 다음 장점이 생긴다.
-
-## 중앙 관리
-
-```text
-개별 PC마다 Patch
-→ 관리 대상 분산
-
-VDI
-→ 중앙 Image / 정책 관리
-→ 표준화 쉬움
-```
-
-## Data의 Local 잔존 감소
-
-업무 Data를 중앙에서 처리하면 단말에 Data를 많이 남기지 않는 구조를 만들 수 있다.
-
-그래서 단말 분실 시 Data 유출 위험을 줄이는 데 도움이 될 수 있다.
-
-## 사용자 환경 표준화
-
-Desktop Image, Application, 권한을 중앙에서 통제할 수 있어 환경 편차를 줄일 수 있다.
-
----
-
-# 5. 대신 왜 Network와 중앙 Infrastructure 의존성이 커지는가
-
-일반 PC에서는 Application이 Local에서 실행되므로 Network가 잠시 불안정해도 일부 작업은 계속할 수 있다.
-
-VDI에서는:
-
-```text
-단말
-→ Network
-→ 중앙 Desktop
-```
-
-구조가 항상 필요하다.
-
-따라서 다음 문제가 사용자 체감에 직접 영향을 준다.
-
-- Network 지연
-- Packet Loss
-- 중앙 Server 장애
-- Storage IOPS 부족
-- GPU 부족
-- 동시 로그인 집중
-- 중앙 인증 장애
-
-즉 VDI는 관리와 Data를 중앙화하는 대신 **장애와 성능 영향도 중앙으로 집중**될 수 있다.
+VDI의 제공 구조·Desktop Pool·중앙 운영 고려사항은 [데스크톱 가상화 — VDI·RDS·CCI·DaaS](데스크톱-가상화-VDI-RDS-CCI-DaaS.md)에서 다룬다. 이 문서는 일반 PC·Thin Client·Zero Client의 **로컬 실행 기능과 중앙 의존성**을 비교한다.
 
 ---
 
@@ -351,52 +212,15 @@ VDI Architecture를 사용할 때
 
 ---
 
-# 11. 설계 고려사항
+# 11. 단말 선택 시 고려사항
 
-VDI는 중앙화의 장점만 보는 것이 아니라 병목과 장애 집중을 함께 봐야 한다.
+- 로컬 OS·Storage·Application 및 오프라인 작업 필요성
+- Remote Display Protocol과 주변기기 호환성
+- 단말 Patch·Firmware·접속 Client 관리 부담
+- 인증·MFA·Clipboard·파일 전송 및 로컬 데이터 정책
+- 네트워크·중앙 Desktop 장애 시 업무 영향
 
-## Network
-
-- 지연
-- 대역폭
-- Packet Loss
-- 끊김
-
-## Compute
-
-- 동시 사용자 CPU·Memory
-- GPU 요구
-- Login 집중 부하
-
-## Storage
-
-- Boot Storm
-- Login Storm
-- 사용자 Profile
-- Storage IOPS
-
-## 운영
-
-- Desktop Image
-- Patch
-- Application 배포
-- 사용자 Profile 관리
-
-## 보안
-
-- 인증
-- MFA
-- 단말 통제
-- Clipboard·File 전송 정책
-- Local Data 통제
-
-## 가용성
-
-중앙 Infrastructure 장애 시 많은 사용자가 동시에 영향을 받을 수 있으므로 HA·DR이 중요하다.
-
-## 업무 특성
-
-Offline 업무가 필요한 사용자라면 중앙 의존성이 높은 구조가 적합하지 않을 수 있다.
+중앙 VDI의 Compute·Storage 병목과 가용성 설계는 [데스크톱 가상화](데스크톱-가상화-VDI-RDS-CCI-DaaS.md)를 참고한다.
 
 ---
 
@@ -430,30 +254,10 @@ VDI를 쓰면 Network가 덜 중요해지는가?
 
 ---
 
-# 13. 기억 흐름
+# 13. 이해 복원
 
-```text
-사용자 PC마다 Desktop과 Data가 분산됨
-        ↓
-관리·보안·표준화 부담
-        ↓
-Desktop 실행환경을 중앙으로 이동
-        ↓
-VDI
-        ↓
-사용자용 Desktop VM / Pool 구성
-        ↓
-사용자는 Network를 통해 화면과 입력만 주고받음
-        ↓
-접속 단말의 Local 기능을 얼마나 남길까?
-        ↓
-일반 PC / Thin Client / Zero Client
-        ↓
-Local 기능을 줄일수록 중앙 의존성은 커짐
-        ↓
-Network·Compute·Storage·HA 설계 중요
-```
+- VDI와 Thin/Zero Client가 서로 다른 분류축인 이유는?
+- Thin과 Zero의 로컬 기능·관리 부담·중앙 의존성은 어떻게 다른가?
+- Zero PC라는 명칭만으로 구조를 판단하면 안 되는 이유는?
 
-가장 중요한 한 문장:
-
-> **VDI는 Desktop을 중앙에서 실행하는 Architecture이고, Thin Client와 Zero Client는 그 VDI에 접속하는 단말의 Local 기능 수준을 구분하는 개념이다.**
+[클라우드 전체 개념지도](00-전체.md)로 돌아가 단말 선택이 어디에 위치하는지 확인한다.
