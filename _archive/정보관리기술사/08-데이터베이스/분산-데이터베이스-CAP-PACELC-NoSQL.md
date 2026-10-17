@@ -9,7 +9,7 @@
 - Document·Key-Value·Wide-Column·Graph는 어떤 문제에 각각 강한가?
 - RDB와 NoSQL을 무엇을 기준으로 선택해야 하는가?
 
-## 1. 먼저 위치를 잡는다
+## 1. 두 질문을 구분한다 — 분산 일관성과 데이터 모델
 
 단일 DB의 용량·처리량·가용성 한계를 넘으면 데이터를 여러 Node에 복제하거나 분할하는 분산 구조를 검토한다.
 
@@ -26,7 +26,9 @@
 CAP Trade-off
 ```
 
-분산 구조의 핵심 비용은 **Node가 서로 항상 같은 상태라고 가정할 수 없다는 것**이다. CAP은 이 장애 상황의 일관성·가용성 선택을 설명하고, PACELC는 정상 상황의 지연시간·일관성 선택까지 확장해서 본다.
+분산 구조에서는 **Node가 항상 같은 상태라고 가정할 수 없다.** CAP은 네트워크 분할 중 일관성·가용성 선택을, PACELC는 정상 상황의 지연시간·일관성 선택까지 설명한다.
+
+**NoSQL의 Document·Key-Value·Wide-Column·Graph 분류는 별개의 질문**, 즉 데이터를 어떤 모델로 저장하고 접근할 것인가에 관한 것이다. 분산 시스템의 Trade-off와 데이터 모델을 같은 분류축에 놓지 않는다.
 
 ## 2. CAP — 파티션이 나면 C와 A를 동시에 지킬 수 없다
 
@@ -218,25 +220,12 @@ Eventual Consistency는 새 Write가 더 이상 없다면 시간이 지나 복�
 
 규모가 작고 관계형 요구가 명확하다면 PostgreSQL 같은 RDB 하나로 해결하는 편이 운영 복잡성이 낮을 수 있다. NoSQL은 `더 최신 기술`이 아니라 **특정 데이터 모델과 확장 요구에 맞는 대안**이다.
 
-## 13. 한 번에 다시 떠올리기
+## 13. 이해 복원
 
-```text
-분산
- ↓
-Network Partition 가능
- ↓
-CAP
-├─ CP : 최신값 우선, 응답 일부 포기
-└─ AP : 응답 우선, 즉시 일관성 완화
+1. 네트워크 Partition이 발생하면 왜 Consistency와 Availability를 동시에 보장할 수 없는가?
+2. PACELC는 Partition이 없는 평상시에 어떤 선택을 추가하는가?
+3. CAP의 Consistency와 ACID의 Consistency는 어떻게 다른가?
+4. Document·Key-Value·Wide-Column·Graph는 각각 어떤 접근 패턴에 적합한가?
+5. NoSQL을 CAP의 AP와 동일시하거나 RDB를 ACID, NoSQL을 BASE로 고정하면 왜 안 되는가?
 
-정상 상황까지 확대
-→ PACELC : Latency ↔ Consistency
-
-저장 모델 선택
-├─ Document
-├─ Key-Value
-├─ Wide-Column
-└─ Graph
-```
-
-> **CAP은 분산 장애 상황의 선택을, PACELC는 정상 상황의 비용까지 설명한다. NoSQL은 하나의 기술이 아니라 서로 다른 데이터 모델과 Trade-off의 묶음이다.**
+**분산 일관성의 선택과 데이터 모델의 선택은 서로 다른 문제**다. 막히는 부분만 다시 읽고 [데이터베이스 전체 개념지도](00-전체.md)로 돌아간다.
