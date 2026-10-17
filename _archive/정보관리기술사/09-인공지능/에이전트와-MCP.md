@@ -465,19 +465,12 @@ Agent는 실제 행동을 수행할 수 있으므로 일반 Chat보다 운영 �
 
 ---
 
-## 15. 기억 흐름
+## 15. 이해 복원
 
-```text
-사용자 목표
-→ LLM이 다음 행동 판단
-→ Agent Runtime이 Tool Call 처리
-→ MCP가 외부 Tool·Resource의 지도와 호출 규격 제공 가능
-→ Tool이 실제 외부 작업 수행
-→ Tool 결과가 LLM Context로 들어감
-→ LLM이 다시 판단
-→ 목표 완료까지 반복
-```
+1. 일반 LLM 호출과 Agent의 반복 실행 Loop는 무엇이 다른가?
+2. LLM·Agent Runtime·Tool·MCP는 각각 어떤 책임을 맡는가?
+3. MCP는 API나 RAG를 대체하는가, 외부 기능을 연결하는 규격인가?
+4. Tool 결과와 반복 판단이 Context·Token 비용에 미치는 영향은?
+5. 실제 행동을 수행하는 Agent에서 권한·승인·Prompt Injection 방어가 중요한 이유는?
 
-한 문장으로 정리하면 다음과 같다.
-
-> **Agent는 LLM의 판단을 Tool을 통한 실제 행동으로 연결하는 반복 실행 구조이고, MCP는 Agent가 외부 Tool과 Resource를 공통된 방식으로 발견하고 호출할 수 있게 하는 연결 규격이다.**
+**Agent는 판단·실행·관찰을 반복하는 구조이고, MCP는 외부 Tool·Resource를 공통 규격으로 연결한다.**
