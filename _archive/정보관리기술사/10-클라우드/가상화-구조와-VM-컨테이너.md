@@ -96,13 +96,23 @@ Hypervisor                     Hypervisor
 ## 4. VM과 컨테이너 비교 — 구조에서 선택까지
 
 ```text
-VM 방식                         Container 방식
-Application                     Application + Library
-Guest OS + Guest Kernel         격리된 Process
-가상 하드웨어                   Namespace / cgroup
-Hypervisor                      Host Kernel (공유)
-물리 하드웨어                   물리 하드웨어
+[VM: 독립 Guest Kernel]          [Container: Host Kernel 공유]
+┌─────────────────────┐         ┌─────────────────────┐
+│ VM A       VM B     │         │ Container A   B     │
+│ App        App      │         │ App + Lib   App+Lib │
+│ Guest OS   Guest OS │         │ 격리된 Process들    │
+│ Guest K.   Guest K. │         └──────────┬──────────┘
+├─────────────────────┤                    │
+│ 가상 하드웨어 제공   │         ┌──────────▼──────────┐
+├─────────────────────┤         │ Host Kernel (공유)  │
+│ Hypervisor          │         │ Namespace / cgroup  │
+├─────────────────────┤         │ (격리·자원 제어)     │
+│ 물리 하드웨어        │         ├─────────────────────┤
+└─────────────────────┘         │ 물리 하드웨어        │
+                                └─────────────────────┘
 ```
+
+VM은 Hypervisor가 제공하는 가상 하드웨어 위에서 **VM마다 Guest OS·Kernel을 실행**한다. Container는 **별도 Guest Kernel 없이 Host Kernel을 공유**하며, Namespace(보이는 자원 격리)와 cgroup(자원 사용 제어)을 이용한다. Namespace·cgroup은 별도의 OS 계층이 아니라 Kernel의 격리·자원 관리 기능이다. 그림은 대표적인 구조를 단순화한 것으로, Container가 VM 내부에서 실행될 수도 있다.
 
 | 비교 기준 | VM | 컨테이너 |
 |---|---|---|
