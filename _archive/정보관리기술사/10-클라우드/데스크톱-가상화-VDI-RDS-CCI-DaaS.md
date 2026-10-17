@@ -199,7 +199,7 @@ Desktop을 Cloud Service로 소비하는가?
 2. DaaS는 왜 VDI와 같은 구현 기술의 분류가 아닌가?
 3. 사용자 격리·자원 효율·운영 책임을 기준으로 어떤 방식을 선택할 것인가?
 
-접속 단말의 로컬 기능은 [VDI·Thin·Zero Client](VDI-Thin-Zero-Client.md)에서 비교한다.
+접속 단말(일반 PC·Thin·Zero Client)은 중앙 Desktop 제공 방식과 별개의 선택 축이다.
 
 ## 기억·인출 장치
 
