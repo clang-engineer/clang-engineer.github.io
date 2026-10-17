@@ -11,17 +11,15 @@
 
 ## 가상화의 목적
 
-물리 자원을 그대로 사용하면 한 서버에 하나의 운영체제와 업무가 강하게 결합되고, 자원 활용률과 이동성이 낮아진다. 가상화는 CPU·메모리·스토리지·네트워크를 논리 자원으로 추상화해 여러 실행환경이 공유하도록 한다.
+물리 서버에 운영체제와 업무가 종속되면 자원 활용과 이동이 제한된다. 가상화는 CPU·메모리·스토리지·네트워크를 추상화해 여러 실행환경이 공유하도록 한다.
 
-얻는 효과는 서버 통합, 격리, 신속한 생성, Snapshot·이동, 자원 할당 유연성이다. 대신 가상화 계층의 Overhead, Host 장애 영향 확대, 자원 경합, 운영 복잡성이 생긴다.
+서버 통합·격리·신속한 생성·Snapshot·이동·유연한 자원 할당이 가능하지만, 가상화 Overhead·자원 경합·Host 장애 영향 확대·운영 복잡성은 고려해야 한다.
 
-가상화가 CPU와 메모리를 새로 만들어내는 것은 아니다. 실제 물리 자원을 논리적으로 나누어 여러 실행환경이 공유하게 한다. 다만 **VM과 컨테이너는 가상화하는 계층 자체가 다르다.**
+**가상화는 물리 자원을 복제하지 않고 논리적으로 나누어 공유한다.** VM과 컨테이너는 그 방식과 계층이 다르다.
 
-### 먼저 범위를 잡기 — 가상화 전체가 VM과 컨테이너로 양분되는 것은 아니다
+### 가상화의 범위
 
-가상화 전체에는 서버·컴퓨팅 가상화뿐 아니라 스토리지 가상화, 네트워크 가상화, 데스크톱 가상화 등 여러 대상이 있다. 따라서 **`가상화 = VM + Container`라고 일반화하면 범위가 너무 넓다.**
-
-이 문서에서 VM과 Container를 두 갈래로 나누는 것은 **서버의 실행환경을 가상화하는 서버·컴퓨팅 가상화 관점**이다. 이 범위에서는 다음처럼 큰 그림을 잡아도 좋다.
+가상화 대상에는 서버·컴퓨팅, 스토리지, 네트워크, 데스크톱 등이 있다. **VM과 컨테이너의 구분은 이 중 서버·컴퓨팅 실행환경에 관한 것**이다.
 
 ```text
 가상화
@@ -33,12 +31,6 @@
 ├─ 네트워크 가상화
 └─ 데스크톱 가상화 등
 ```
-
-즉 학습할 때는 다음처럼 기억한다.
-
-> **서버·컴퓨팅 가상화 → 크게 VM 방식과 Container 방식으로 구분**
-
-이제 이 범위 안에서 VM과 Container의 내부 구조를 내려가면 된다.
 
 ```text
 서버·컴퓨팅 가상화
@@ -58,19 +50,11 @@
       └─ cgroup → 자원 사용량 제한
 ```
 
-여기서 `Type 1 / Type 2`, `전가상화 / 반가상화`는 모든 가상화 기술에 적용하는 용어가 아니다. 기본적으로 **Hypervisor를 이용하는 VM 기반 Hardware Virtualization**을 설명하는 분류다.
-
-따라서 다음 질문은 분류축이 맞지 않는다.
-
-> Docker는 Type 1인가 Type 2인가?
->
-> 컨테이너는 전가상화인가 반가상화인가?
-
-Type 1/2와 전가상화/반가상화는 **VM을 구성하는 Hypervisor와 Guest OS의 구조를 설명하는 용어**이고, 컨테이너는 별도의 Guest OS와 Hypervisor 없이 Host Kernel을 공유하기 때문이다.
+**Type 1/2와 전가상화/반가상화는 VM 기반 가상화의 분류축**이다. Host Kernel을 공유하는 컨테이너에는 적용하지 않는다.
 
 ## 서버 가상화
 
-Hypervisor가 물리 하드웨어를 여러 VM(Virtual Machine)에 나눈다. 각 VM은 가상 하드웨어와 Guest OS를 가진다.
+Hypervisor는 물리 자원을 여러 VM(Virtual Machine)에 할당한다. 각 VM은 가상 하드웨어와 Guest OS를 가진다.
 
 ```text
 VM 1          VM 2          VM 3
@@ -81,15 +65,9 @@ Guest OS      Guest OS      Guest OS
 물리 서버 (CPU · Memory · Disk · NIC)
 ```
 
-핵심은 **물리 서버가 세 대로 복제되는 것이 아니라, 한 물리 서버의 자원을 여러 VM에 논리적으로 나누어 제공한다**는 것이다.
-
 ### VM 안에서도 다시 두 개의 분류축이 있다
 
-여기서부터의 `Type 1 / Type 2`와 `전가상화 / 반가상화`는 **VM 기반 가상화 안에서의 분류**다. 두 분류가 연이어 등장하기 때문에 다음처럼 잘못 연결하기 쉽다.
-
-> Type 1 = 전가상화, Type 2 = 반가상화?
-
-**아니다. 둘은 VM 가상화 안에서도 서로 다른 질문에 대한 분류다.**
+VM 기반 가상화에는 **Hypervisor의 배치 위치**와 **Guest OS의 상호작용 방식**이라는 서로 다른 분류축이 있다.
 
 ```text
 VM 기반 Hardware Virtualization
@@ -102,18 +80,13 @@ VM 기반 Hardware Virtualization
    └─ 반가상화 (Para Virtualization)
 ```
 
-따라서 기억할 질문은 두 개다.
-
-- **Type 1인가 Type 2인가? → Hypervisor가 어디에 있는가?**
-- **전가상화인가 반가상화인가? → Guest OS와 Hypervisor가 어떤 방식으로 상호작용하는가?**
-
-Type 1이 반드시 전가상화인 것도 아니고 Type 2가 반드시 반가상화인 것도 아니다. 서로 다른 분류축이므로 일대일 대응시키면 안 된다.
+**Type 1 = 전가상화, Type 2 = 반가상화가 아니다.** 두 축은 일대일로 대응하지 않는다.
 
 ### Type 1과 Type 2 — Hypervisor의 배치 위치
 
 #### Type 1: Bare-metal
 
-Hypervisor가 물리 하드웨어에서 직접 실행된다. 범용 Host OS를 먼저 설치하고 그 위에서 Hypervisor를 실행하는 구조가 아니다. 서버·Data Center 환경에 주로 사용한다.
+Hypervisor가 범용 Host OS 없이 물리 하드웨어에서 직접 실행된다. 주로 서버·데이터센터에 사용한다.
 
 ```text
 VM / Guest OS       VM / Guest OS
@@ -123,11 +96,11 @@ VM / Guest OS       VM / Guest OS
              Hardware
 ```
 
-대표적으로 VMware ESXi 같은 구조를 떠올리면 된다.
+대표 사례는 VMware ESXi다.
 
 #### Type 2: Hosted
 
-일반적인 Windows·macOS·Linux 같은 Host OS가 먼저 있고 그 위에서 Hypervisor가 애플리케이션처럼 실행된다. Desktop·개발·시험 환경에 주로 사용한다.
+Windows·macOS·Linux 같은 Host OS 위에서 Hypervisor가 실행된다. 주로 데스크톱·개발·시험 환경에 사용한다.
 
 ```text
 VM / Guest OS       VM / Guest OS
@@ -139,19 +112,17 @@ VM / Guest OS       VM / Guest OS
              Hardware
 ```
 
-VirtualBox나 VMware Workstation 같은 구조를 떠올리면 이해하기 쉽다.
+대표 사례는 VirtualBox와 VMware Workstation이다.
 
-결국 Type 1과 Type 2의 핵심 질문은 단순하다.
-
-> **Hypervisor 아래에 범용 Host OS가 있는가?**
+**구분 기준: Hypervisor 아래에 범용 Host OS가 있는가?**
 
 ### 전가상화와 반가상화 — Guest OS의 가상화 방식
 
-이제 분류 질문 자체가 바뀐다. Hypervisor가 어디 있느냐가 아니라 **Guest OS가 가상환경과 어떻게 상호작용하느냐**를 본다.
+이번에는 **Guest OS가 Hypervisor와 상호작용하는 방식**을 구분한다.
 
 #### 전가상화(Full Virtualization)
 
-Guest OS를 수정하지 않고도 실제 하드웨어와 유사한 가상 하드웨어 환경을 제공한다. Guest OS 입장에서는 자신이 일반적인 하드웨어 위에서 실행되는 것처럼 동작할 수 있다.
+Guest OS를 수정하지 않고 실행할 수 있도록 가상 하드웨어 환경을 제공한다.
 
 ```text
 수정되지 않은 Guest OS
@@ -163,11 +134,9 @@ Guest OS를 수정하지 않고도 실제 하드웨어와 유사한 가상 하�
    Physical Hardware
 ```
 
-즉 핵심은 **Guest OS를 그대로 실행할 수 있도록 Hypervisor가 하드웨어 환경을 가상화해 준다**는 것이다.
-
 #### 반가상화(Para Virtualization)
 
-Guest가 Hypervisor의 존재를 인지하고 Hypervisor와 협력하도록 수정하거나 전용 Driver를 이용한다. 일부 작업을 Hypervisor에게 직접 요청하여 가상화 비용을 줄이는 접근이다.
+Guest OS를 Hypervisor와 협력하도록 수정하거나 전용 Driver를 사용해 일부 작업을 직접 요청함으로써 가상화 비용을 줄인다.
 
 ```text
 Guest OS / Para-virtualized Driver
@@ -179,7 +148,7 @@ Guest OS / Para-virtualized Driver
    Physical Hardware
 ```
 
-현대 가상화에서는 이 둘을 교과서처럼 완전히 분리해서만 사용하지 않는다. Hardware Virtualization 지원을 이용해 Guest OS를 수정하지 않고 실행하면서도, I/O 성능을 높이기 위해 Para-virtualized Driver를 함께 사용하는 식의 혼합이 흔하다.
+실제 환경에서는 수정하지 않은 Guest OS를 실행하면서 I/O에 반가상화 Driver를 사용하는 등 두 방식을 함께 활용한다.
 
 ### 한 번에 정리
 
@@ -189,15 +158,13 @@ Guest OS / Para-virtualized Driver
 | 가상화 방식 | VM 기반 가상화 | Guest OS와 Hypervisor가 어떻게 상호작용하는가? | 전가상화 / 반가상화 |
 | OS 수준 격리 | Container | Host Kernel 자원을 어떻게 격리하는가? | Namespace / cgroup |
 
-**Type 1 ↔ 전가상화, Type 2 ↔ 반가상화로 연결해서 외우지 않으며, 이 분류를 컨테이너에 적용하지도 않는다.**
-
 ## VM과 컨테이너
 
 ### VM
 
 Hardware 수준을 가상화한다. VM마다 Guest OS와 Kernel이 있어 서로 다른 OS를 실행할 수 있고 격리가 강하다. 대신 Image가 크고 시작시간과 자원 사용량이 증가한다.
 
-VM을 실행한다는 것은 물리 서버 안에 작은 물리 서버가 실제로 생기는 것이 아니라, CPU·Memory·Disk·NIC처럼 보이는 가상 장치를 제공하고 그 위에서 Guest OS를 부팅하는 것이다. Guest Kernel까지 따로 있으므로 Linux Host 위에서 Windows VM처럼 다른 OS 계열을 실행할 수 있다.
+Hypervisor가 CPU·메모리·디스크·NIC 등의 가상 장치를 제공하므로 Guest OS를 독립적으로 부팅할 수 있다. 예를 들어 Linux Host에서 Windows VM을 실행할 수 있다.
 
 ### 컨테이너
 
@@ -205,11 +172,9 @@ Process와 OS 자원을 격리하지만 Host Kernel을 공유한다. Namespace�
 
 Container Image는 애플리케이션과 Library를 묶어 배포 일관성을 높인다. Kernel을 공유하므로 가볍고 빠르지만, Host Kernel 취약점과 격리 경계를 더 주의해야 한다.
 
-컨테이너 안에서 별도 OS처럼 보이는 파일과 Process 공간이 있어도 Kernel까지 새로 부팅하는 것은 아니다. Host Kernel 하나가 Namespace로 “보이는 범위”를 다르게 보여주고 cgroup으로 “사용 가능한 양”을 제한한다. 그래서 빠르지만 Kernel 문제가 여러 컨테이너에 함께 영향을 줄 수 있다.
-
 ### 컨테이너에는 왜 Hypervisor가 없는가?
 
-**컨테이너 자체에는 Hypervisor가 필요하지 않다.** VM은 Hypervisor가 가상 하드웨어를 제공하고 Guest Kernel을 따로 부팅하지만, 컨테이너는 Host Kernel의 Namespace와 cgroup으로 프로세스의 가시 범위와 자원 사용량을 격리한다.
+**컨테이너 자체에는 Hypervisor가 필요하지 않다.** 별도 Guest Kernel을 부팅하지 않고 Host Kernel의 격리 기능을 이용하기 때문이다.
 
 ```text
 VM 방식                          Container 방식
@@ -225,13 +190,11 @@ Hypervisor                       Host Kernel (공유)
 Physical Hardware                Physical Hardware
 ```
 
-**VM은 Guest Kernel이 독립적이고, 컨테이너는 Host Kernel을 공유한다.** 이 구조적 차이로 컨테이너는 일반적으로 시작이 빠르고 자원 사용량이 적지만, Host Kernel 취약점이 격리 경계에 영향을 줄 수 있다. 여기서 비교하는 것은 컨테이너 자체의 구조이며, 실제 배포에서는 컨테이너가 VM 안에서 실행될 수도 있다.
+Guest Kernel을 별도로 부팅하지 않는 컨테이너는 일반적으로 시작이 빠르고 자원 사용량이 적다. 다만 Host Kernel 취약점이 여러 컨테이너의 격리에 영향을 줄 수 있다. 실제 배포에서는 VM 안에서 컨테이너를 실행하기도 한다.
 
 ### 실제 클라우드에서 VM과 Container는 어떻게 사용되는가?
 
-일반적인 IaaS 환경에서는 CSP(Cloud Service Provider)가 Hypervisor를 이용해 VM 인스턴스를 제공한다.
-
-사용자는 할당받은 VM을 일반 서버처럼 사용할 수 있다. Guest OS에 Tomcat·DB 같은 애플리케이션을 직접 설치할 수도 있고, 필요하면 Docker나 containerd 같은 Container Runtime을 설치하여 컨테이너를 운영할 수도 있다.
+IaaS에서는 클라우드 제공자(CSP)가 Hypervisor로 VM을 제공한다. 사용자는 VM에 애플리케이션을 직접 설치하거나 Docker·containerd 같은 Container Runtime으로 컨테이너를 실행할 수 있다.
 
 ```text
 1. VM만 사용하는 경우
@@ -264,31 +227,9 @@ Container
 Application
 ```
 
-즉 **컨테이너를 사용하기 때문에 Hypervisor가 필요한 것이 아니다.** 일반적인 IaaS에서는 이미 Hypervisor가 VM을 제공하고 있으며, Container는 사용자가 필요에 따라 그 VM 내부에서 추가로 사용할 수 있는 실행환경이다.
+**Hypervisor는 VM을 제공하고, Container Runtime은 컨테이너 실행을 관리한다.** 컨테이너 때문에 Hypervisor가 필요한 것은 아니다.
 
-따라서 역할을 다음처럼 분리해서 본다.
-
-```text
-Hypervisor
-└─ Physical Hardware를 가상화하여 VM 제공
-
-Container Runtime
-└─ OS Kernel을 기반으로 Application 실행환경 격리
-```
-
-또한 `IaaS / PaaS / SaaS`와 `VM / Container`는 서로 다른 분류 기준이다.
-
-```text
-IaaS / PaaS / SaaS
-→ 어디까지 서비스를 제공하는가
-→ Cloud Service Model
-
-VM / Container
-→ 실행환경을 어떻게 가상화·격리하는가
-→ 구현 기술
-```
-
-PaaS나 SaaS에서는 하부 Infrastructure가 사용자에게 추상화되므로, 서비스 제공자가 내부적으로 VM·Container 등 여러 기술을 조합하여 구현할 수 있다.
+**IaaS/PaaS/SaaS는 서비스 제공 범위**, **VM/컨테이너는 실행환경 구현 방식**에 관한 분류다. PaaS·SaaS도 내부적으로 VM과 컨테이너를 조합할 수 있다.
 
 ## 비교 기준
 
@@ -308,10 +249,10 @@ PaaS나 SaaS에서는 하부 Infrastructure가 사용자에게 추상화되므�
 
 ## 이해 복원 — 문서를 덮고 답해보기
 
-처음의 질문을 다시 보되, 다음 세 관계는 문서를 보지 않고 설명해본다.
+다음 세 관계를 문서를 덮고 설명해본다.
 
 1. **분류축**: Type 1/2는 무엇을 기준으로 나누고, 전가상화/반가상화는 무엇을 기준으로 나누는가?
 2. **구조와 결과**: VM과 컨테이너의 Kernel 구조 차이에서 시작속도·자원 밀도·격리 경계의 차이가 왜 생기는가?
 3. **실제 조합**: 클라우드 VM 안에서 컨테이너를 실행할 때 Hypervisor와 Container Runtime은 각각 무엇을 담당하는가?
 
-막히는 질문이 있다면 해당 Section만 다시 읽는다. 세 질문을 설명할 수 있다면 이 문서의 학습을 마치고 상위 개념지도로 돌아간다.
+막히는 부분만 다시 읽고 상위 개념지도로 돌아간다.
