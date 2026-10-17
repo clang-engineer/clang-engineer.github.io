@@ -27,35 +27,6 @@ TCP 등 종단 간 전송
 - BGP는 왜 단순히 가장 짧은 경로를 선택하지 않는가?
 - 무한에 가까운 Internet 경로마다 어떻게 정책을 정할 수 있는가?
 
-## 왜 이 순서로 학습하는가
-
-Routing Protocol 이름을 따로 외우기보다 **Network 규모와 관리 범위가 커지는 흐름**으로 보면 이해하기 쉽다.
-
-```text
-길을 어떻게 찾지?
-→ Routing Algorithm
-
-전체 지도 없이 이웃의 거리만 이용하면?
-→ Distance Vector / Bellman-Ford / RIP
-
-전체 Link 상태로 지도를 만들면?
-→ Link State / Dijkstra / OSPF
-
-그런데 Internet 전체 지도를 모두 가질 수 있나?
-→ 규모상 부담이 너무 크다
-
-Internet은 애초에 한 조직이 관리하나?
-→ 아니다
-
-관리 주체별 Network로 추상화
-→ AS
-
-AS와 AS 사이의 경로 선택
-→ BGP / Path Vector / Policy
-```
-
-즉 **RIP → OSPF → BGP**는 단순 Protocol 나열이 아니라, 내부 Network의 경로 계산에서 Internet 규모의 조직 간 경로 선택으로 시야가 확장되는 과정이다.
-
 ## 라우팅이 필요한 이유
 
 같은 Link 안에서는 MAC 주소로 Frame을 전달하지만 다른 Network로 가려면 Router가 목적지 IP에 맞는 다음 경로를 선택해야 한다.
@@ -301,28 +272,12 @@ BGP Policy는 보통 다음처럼 **묶음 단위**로 적용한다.
 | 정보 관점 | 이웃이 알려주는 거리 | 내부 Topology 지도 | AS 단위 경로 |
 | 핵심 | 단순 | 빠른 수렴·정교한 내부 경로 | 확장성·정책 |
 
-## 기억 흐름
+## 이해 복원
 
-```text
-전체 지도 없이 이웃 거리만 이용
-→ Distance Vector
-→ Bellman-Ford
-→ RIP
+1. Router가 목적지 IP를 보고 다음 Hop을 선택하는 과정과 Routing Protocol의 역할은 어떻게 다른가?
+2. RIP는 왜 이웃의 거리 정보를 사용하고, OSPF는 왜 Link State DB를 만드는가?
+3. 인터넷 전체에 단일 OSPF 방식 대신 AS와 BGP가 필요한 이유는 무엇인가?
+4. BGP가 AS-PATH뿐 아니라 Policy와 Path Attribute를 고려하는 이유는?
+5. BGP 정책을 모든 IP별로 설정하지 않고 Prefix·Community 등 묶음으로 적용하는 이유는?
 
-전체 Link State로 지도 생성
-→ Dijkstra
-→ OSPF
-
-그런데 Internet 전체 지도는 너무 크다
-+ 조직마다 Policy가 다르다
-→ AS로 관리 영역 추상화
-
-AS 내부
-→ IGP
-
-AS 사이
-→ BGP
-→ AS-PATH + Path Attribute + Policy
-```
-
-BGP를 단순히 "Internet에서 쓰는 Routing Protocol"로 외우기보다 **왜 IGP 방식만으로는 Internet을 운영하기 어려운지**에서 출발하면 Path Vector와 Policy 기반 Routing이 자연스럽게 연결된다.
+이 질문을 설명할 수 있으면 [네트워크 개념지도](00-전체.md)에서 Routing의 위치를 다시 확인한다.
