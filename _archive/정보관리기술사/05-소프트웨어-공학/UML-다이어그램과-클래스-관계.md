@@ -52,6 +52,40 @@ Interaction 4종은 행위 Diagram 7종에 포함된다. 따라서 총 14종이�
 
 Class Diagram은 클래스의 구조와 관계를 나타낸다. 메서드 호출의 실제 시간 순서는 Sequence Diagram에서 표현한다.
 
+### 관계의 의미 수준 — 타입 계층과 인스턴스 연결
+
+Class Diagram은 **클래스·타입 등 모델 요소를 그리면서**, 서로 다른 성격의 관계를 함께 표현한다. 특히 상속은 타입 수준에서 성립하고, 연관·합성은 실제 인스턴스 사이의 연결에 적용할 규칙을 클래스 수준에서 정의한다.
+
+```text
+                 UML Class Diagram
+                        │
+          ┌─────────────┴─────────────┐
+          │                           │
+   타입·모델 요소 관계          인스턴스 연결의 규칙
+          │                           │
+   ├─ Generalization           └─ Association
+   │   └─ is-a                     ├─ 일반 연관
+   ├─ Realization                  ├─ Aggregation
+   │   └─ 명세 구현                └─ Composition
+   └─ Dependency                       └─ 전체·부분 / 배타적 소속
+       └─ 사용·변경 영향
+```
+
+```text
+[Class Diagram — 타입의 규칙]
+Dog ─────▷ Animal
+Car ◆──── Engine
+
+[Object Diagram — 특정 시점의 객체와 Link]
+dog1:Dog                 (Dog는 Animal 타입이기도 함)
+car1:Car ── engine1:Engine
+car2:Car ── engine2:Engine
+```
+
+`Dog`가 `Animal`의 하위 타입이라는 **Generalization은 객체가 하나도 생성되지 않아도 성립**한다. `Car ◆──── Engine`은 Car와 Engine 클래스 사이에 그린 Composition이지만, 의미는 **각 Car 인스턴스의 구성 부분으로 연결된 Engine 인스턴스의 배타적 소속**에 적용된다. 같은 `Engine` 클래스로 만든 객체를 다른 Car에서도 각각 사용할 수 있지만, **동일한 Engine 인스턴스가 동시에 두 Car의 합성 부분이 될 수는 없다.**
+
+일반 Association도 인스턴스 간 Link에 관한 규칙을 정의한다. 반면 Dependency는 반드시 객체 간 Link가 있어야 하는 관계는 아니며, 다른 타입을 참조하거나 사용해도 성립할 수 있다. **Object Diagram은 특정 시점의 객체와 Link를 보여주지만, Class Diagram의 합성 마름모를 그대로 복사해 그리는 것은 아니다.**
+
 ### 관계와 선의 의미
 
 ```text
@@ -381,6 +415,8 @@ ER/EER는 업무 데이터의 의미와 제약을, UML Class Diagram은 객체�
 1. UML 14종은 구조·행위 관점에서 어떻게 나뉘는가?
 2. 실선 빈 삼각형과 점선 빈 삼각형의 차이는?
 3. 빈 마름모와 채운 마름모는 어디에 붙는가?
+4. Generalization은 객체 생성 없이 성립하는데 Composition은 어떤 인스턴스 제약을 정의하는가?
+5. 같은 Engine 클래스를 여러 Car가 사용해도 Composition이 가능한 이유는?
 4. Class·Sequence·Activity·State Machine은 각각 어떤 질문에 답하는가?
 5. C++에서 public 상속을 사용해도 Generalization과 Realization을 구분해서 모델링하는 이유는?
 6. 같은 포인터·참조 형태라도 Association과 Aggregation을 구분하려면 무엇을 봐야 하는가?
