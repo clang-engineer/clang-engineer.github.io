@@ -61,11 +61,10 @@ Class 관계
 ├─ Realization    → Interface 등 명세 구현
 │  └─ 점선 ┄┄┄┄▷ (빈 삼각형: 명세)
 ├─ Association    → 구조적 연결·참조
-│  └─ 실선 ─────
-├─ Aggregation    → 느슨한 전체–부분
-│  └─ 실선 ─────◇ (빈 마름모: 전체)
-├─ Composition    → 강한 전체–부분·수명 종속
-│  └─ 실선 ─────◆ (채운 마름모: 전체)
+│  ├─ 실선 ─────  (탐색 방향 미표시)
+│  └─ 실선 ────> (열린 화살표: Navigability 표시)
+│     ├─ Aggregation → 느슨한 전체–부분 (빈 마름모 ◇: 전체)
+│     └─ Composition → 강한 전체–부분 (채운 마름모 ◆: 전체)
 └─ Dependency     → 사용·변경 영향
    └─ 점선 ┄┄┄┄> (열린 화살표: 의존 대상)
 ```
@@ -316,13 +315,33 @@ class Car {
 
 결국 C++의 `unique_ptr`나 Java의 `final` 필드만으로 집약·합성을 확정할 수 없다. **전체·부분 관계의 배타성, 소유 책임, 논리적 수명**을 함께 모델링해야 한다.
 
-### Multiplicity
+### 관계의 종류와 추가 표기를 구분한다
 
 ```text
-Customer 1 ─────── 0..* Order
+[관계 종류]
+Generalization / Realization / Association / Dependency
+                         │
+                         └─ Association의 전체–부분 의미
+                            ├─ Aggregation (◇)
+                            └─ Composition (◆)
+
+[연관 관계에 덧붙이는 정보]
+Association
+├─ Multiplicity → 상대 객체의 개수 (1, 0..1, 0..*, 1..*)
+├─ Navigability → 탐색 가능한 방향 (실선 + 열린 화살표)
+├─ Role Name    → 관계 끝에서 맡는 역할
+└─ Constraint   → 관계에 적용되는 제약
 ```
 
-고객 하나에 주문 0개 이상이 연결될 수 있다는 의미다. Multiplicity는 연결 개수를, Navigability는 관계를 탐색할 수 있는 방향을 표현하므로 구분한다.
+```text
+Customer ───────── Order       : 연관, 탐색 방향 미표시
+Customer ────────> Order       : Customer에서 Order로 탐색 가능
+Customer 1 ───── 0..* Order    : 고객 하나에 주문 0개 이상
+Service  ┄┄┄┄┄┄┄┄> Printer     : 의존 (점선 + 열린 화살표)
+Dog      ─────────▷ Animal    : 일반화 (실선 + 빈 삼각형)
+```
+
+**Navigability는 별도의 최상위 관계 종류가 아니라 Association의 탐색 방향 정보**다. 화살표가 없는 Association은 양방향 탐색을 보장하지 않고, 방향이 표시되지 않았을 수도 있다. 열린 화살표 `>`와 빈 삼각형 `▷`도 구분한다. Multiplicity는 연결 가능한 객체 수이고, Navigability는 탐색 가능 방향이다.
 
 ## 3. 행위 Diagram — 질문별로 구분
 
