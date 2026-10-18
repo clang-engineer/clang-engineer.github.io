@@ -225,6 +225,97 @@ class Car {
 
 **주의:** 포인터·참조·값 멤버·`unique_ptr`의 사용만으로 Aggregation/Composition을 확정할 수 없다. 실제 소유권, 수명, 전체·부분이라는 업무 의미까지 함께 판단한다.
 
+### Java와 C++의 표현 차이
+
+앞의 C++ 예제를 기본으로 두고, **Java에서 같은 UML 관계가 어떤 문법으로 드러나는지**만 비교한다. 특히 C++에서는 상속과 인터페이스 역할을 모두 `public` 상속으로 표현할 수 있지만, Java는 `extends`와 `implements`를 구분한다.
+
+```text
+UML 관계               C++                         Java
+Generalization         public 상속                 extends
+Realization            추상 클래스 구현            implements interface
+Association            멤버 포인터·참조            객체 참조 필드
+Dependency             함수 매개변수 사용          메서드 매개변수 사용
+Aggregation            외부 객체 비소유 참조       외부 객체 참조·컬렉션
+Composition            값 멤버·독점 소유           강한 소유·수명 정책
+```
+
+#### 상속과 구현 — Java에서 더 직접적으로 구분
+
+```java
+class Animal {
+    void eat() {}
+}
+
+interface Runnable {
+    void run();
+}
+
+class Dog extends Animal implements Runnable {
+    @Override
+    public void run() {}
+}
+```
+
+```text
+Dog ─────▷ Animal       Generalization (extends)
+Dog ┄┄┄┄▷ Runnable      Realization (implements)
+```
+
+`extends`는 클래스의 상위·하위 타입 관계를, `implements`는 Interface 계약의 구현을 나타내는 대표 문법이다. **Java의 `interface extends interface`는 인터페이스 사이의 일반화**이므로, `extends`라는 단어만으로 UML 관계를 기계적으로 확정하지 않는다.
+
+#### 연관과 의존 — 필드와 매개변수
+
+```java
+class Customer {}
+
+class Order {
+    private final Customer customer;
+
+    Order(Customer customer) {
+        this.customer = customer;
+    }
+}
+
+class Printer {
+    void print() {}
+}
+
+class ReportService {
+    void report(Printer printer) {
+        printer.print();
+    }
+}
+```
+
+`Order`는 `Customer`를 필드로 보유해 지속적인 연결을 나타내고, `ReportService`는 메서드 실행에서 `Printer`를 사용한다. 각각 Association과 Dependency를 떠올리기 좋은 예제지만 **필드냐 매개변수냐만으로 UML 관계가 결정되지는 않는다.**
+
+#### 집약과 합성 — Java에서는 소유 의미를 확인
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+class Member {}
+
+class Team {
+    private final List<Member> members = new ArrayList<>();
+
+    void add(Member member) {
+        members.add(member); // 외부에서 생성한 Member를 참조
+    }
+}
+
+class Engine {}
+
+class Car {
+    private final Engine engine = new Engine(); // Car 내부에서 생성·관리
+}
+```
+
+`Team`의 `Member`는 외부에서도 독립적으로 존재할 수 있으므로 집약을 연상하는 예제다. `Car`의 `Engine`은 Car의 내부 구성요소로 관리하도록 설계했으므로 합성을 연상할 수 있다. **Java의 Garbage Collection은 객체 메모리 회수 방식이지 UML Composition의 의미 자체가 아니다.** `Car`가 더 이상 사용되지 않아도 `Engine`이 즉시 메모리에서 삭제된다는 뜻은 아니며, 다른 곳에서 참조하고 있는지도 별도로 고려해야 한다.
+
+결국 C++의 `unique_ptr`나 Java의 `final` 필드만으로 집약·합성을 확정할 수 없다. **전체·부분 관계의 배타성, 소유 책임, 논리적 수명**을 함께 모델링해야 한다.
+
 ### Multiplicity
 
 ```text
