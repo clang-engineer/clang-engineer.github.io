@@ -52,26 +52,54 @@ Interaction 4종은 행위 Diagram 7종에 포함된다. 따라서 총 14종이�
 
 Class Diagram은 클래스의 구조와 관계를 나타낸다. 메서드 호출의 실제 시간 순서는 Sequence Diagram에서 표현한다.
 
-### 먼저 기억할 대응 — 일반화는 상속, 실체화는 구현
+### is-a부터 이해하기 — 분류와 타입 호환성
 
-UML Class Diagram을 처음 복습할 때는 **일반화(Generalization) = 상속**, **실체화(Realization) = Interface 등 명세 구현**으로 먼저 구분한다. 둘 다 빈 삼각형을 사용하지만 실선과 점선으로 구별한다.
+`is-a`는 UML 관계선의 공식 이름이 아니라 **A는 B의 한 종류다**라는 직관적 표현이다. 문맥에 따라 두 의미를 구분해야 한다.
 
 ```text
-Dog ─────▷ Animal      일반화(상속)   → Java extends
-Dog ┄┄┄┄▷ Runnable    실체화(구현)   → Java implements
+is-a를 묻는 두 관점
+├─ 개념적 분류 → Dog는 Animal의 한 종류
+└─ 타입 호환성 → Dog 객체를 상위 타입·Interface로 다룰 수 있음
 
-특수화(Specialization)
-  → Animal을 Dog·Cat으로 나누어 보는 관점
-  → 별도의 UML 상속 화살표가 아님
-
-다형성(Polymorphism)
-  → 상위 타입·Interface로 호출해도 실제 구현에 따라 동작
-  → 관계선 종류가 아니라 실행 시 활용되는 성질
+UML 관계의 표현 목적
+├─ Generalization       → 일반 유형과 특수 유형의 관계
+│  ├─ Class 상속          → Dog extends Animal
+│  └─ Interface 상속      → Pet extends Animal
+└─ InterfaceRealization → Class가 Interface 계약을 구현
+   └─ Dog implements Pet
 ```
 
-`Dog extends Animal implements Runnable`이라는 Java 코드에는 일반화와 실체화가 동시에 나타난다. **특수화는 상위에서 하위 유형을 구분하는 관점**이고, **다형성은 상속이나 인터페이스 구현을 활용할 수 있는 동작 성질**이므로 이 두 용어를 새로운 관계선으로 외우지 않는다.
+Java의 `extends`와 `implements`는 이 차이를 떠올리기 좋다.
 
-C++에서는 두 경우 모두 `public` 상속 문법을 사용할 수 있으므로, 코드 문법만으로 UML 관계를 확정하지 않고 **상위 타입 계층인지, 명세를 구현하는지**를 확인한다.
+```java
+interface Animal { void eat(); }
+interface Pet extends Animal { void play(); }
+
+class Dog implements Pet {
+    public void eat() {}
+    public void play() {}
+}
+
+Animal a = new Dog(); // Dog는 Animal 타입으로 취급 가능
+```
+
+```text
+Pet ─────▷ Animal   → Generalization (Interface 상속)
+Dog ┄┄┄┄▷ Pet      → InterfaceRealization (계약 구현)
+```
+
+**두 관계 모두 상위 타입으로의 치환과 다형성에 활용될 수 있다.** 따라서 `is-a이면 반드시 UML Generalization`이라는 역방향 판별은 성립하지 않는다. `is-a`는 관계를 이해하는 출발점이지, **실선·점선 삼각형을 결정하는 유일한 기준은 아니다.**
+
+```text
+헷갈리는 용어의 역할
+├─ Generalization → 상위·하위 유형 관계 (UML 관계)
+├─ Specialization → 상위에서 하위 유형으로 나누는 관점
+├─ Realization    → 명세를 구현하는 관계 (UML 관계)
+├─ Inheritance    → 상위 타입의 특성·동작을 물려받는 메커니즘
+└─ Polymorphism   → 공통 타입으로 서로 다른 구현을 다루는 성질
+```
+
+C++은 클래스 상속과 Interface 역할의 추상 클래스 구현에 모두 `public` 상속 문법을 사용하므로 코드만 보고 UML 일반화와 실체화를 확정할 수 없다. **추상 클래스인지, 순수 가상 함수가 있는지만으로도 결정되지 않는다.** 이 문서에서는 복습을 위해 `일반화 ≈ 상속`, `실체화 ≈ Interface 구현`으로 먼저 연상하되, 이것을 완전한 동치 정의로 사용하지 않는다.
 
 ### 관계의 의미 수준 — 타입 계층과 인스턴스 연결
 
@@ -433,12 +461,13 @@ ER/EER는 업무 데이터의 의미와 제약을, UML Class Diagram은 객체�
 
 ## 5. 이해 복원
 
-1. UML 14종은 구조·행위 관점에서 어떻게 나뉘는가?
-2. 실선 빈 삼각형과 점선 빈 삼각형의 차이는?
-3. 빈 마름모와 채운 마름모는 어디에 붙는가?
-4. Generalization은 객체 생성 없이 성립하는데 Composition은 어떤 인스턴스 제약을 정의하는가?
-5. 같은 Engine 클래스를 여러 Car가 사용해도 Composition이 가능한 이유는?
-4. Class·Sequence·Activity·State Machine은 각각 어떤 질문에 답하는가?
-5. C++에서 public 상속을 사용해도 Generalization과 Realization을 구분해서 모델링하는 이유는?
-6. 같은 포인터·참조 형태라도 Association과 Aggregation을 구분하려면 무엇을 봐야 하는가?
-7. ER Entity와 UML Class는 왜 완전히 같지 않은가?
+1. `is-a`의 개념적 분류와 타입 호환성은 어떻게 다른가?
+2. `interface Pet extends Animal`과 `class Dog implements Pet`은 UML에서 각각 어떤 관계인가?
+3. 둘 다 상위 타입으로 치환할 수 있는데 왜 UML 표기는 다른가?
+4. Generalization과 Specialization은 어떻게 연결되고, Polymorphism은 왜 관계선이 아닌가?
+5. 실선·점선 빈 삼각형과 열린 화살표를 어떻게 구분하는가?
+6. Generalization은 객체 생성 없이 성립하는데 Composition은 어떤 인스턴스 제약을 정의하는가?
+7. 같은 Engine 클래스를 여러 Car가 사용해도 Composition이 가능한 이유는?
+8. Class·Sequence·Activity·State Machine은 각각 어떤 질문에 답하는가?
+9. C++의 `public` 상속만으로 Generalization과 Realization을 확정할 수 없는 이유는?
+10. ER Entity와 UML Class는 왜 완전히 같지 않은가?
