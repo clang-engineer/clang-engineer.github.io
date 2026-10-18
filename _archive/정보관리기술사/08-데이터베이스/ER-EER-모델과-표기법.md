@@ -8,34 +8,41 @@
 - Chen·Crow's Foot·IDEF1X는 모델의 종류인가, 표기법인가?
 - UML Class Diagram과 어디서 겹치고 어디서 다른가?
 
-## 1. 전체 좌표 — 데이터의 의미를 모델로 표현한다
+## 1. 전체 좌표 — 모델링 단계와 표기법을 구분한다
 
-업무 데이터는 Table부터 만드는 것이 아니라, **어떤 대상과 관계를 관리해야 하는지** 먼저 정리한다.
+업무 데이터의 의미를 파악하고 관계형 DB에 구현하기까지는 **모델링의 상세 수준**이 달라진다. Chen·Crow's Foot·IDEF1X는 이 과정에서 사용할 수 있는 **Diagram 표기법**이며, 모델링 단계와 1:1로 대응하지 않는다.
 
 ```text
-현실 업무 · 요구사항
-       ↓
-개념 데이터 모델링
-       │
-       ├─ ER Model ── Entity · Attribute · Relationship
-       │               └─ Cardinality · Participation
-       │
-       └─ EER Model ── ER의 표현력 확장
-                       ├─ Supertype / Subtype
-                       ├─ Specialization / Generalization
-                       └─ Category (Union Type)
-       ↓
-ER / EER Diagram으로 시각화
-       ├─ Chen
-       ├─ Crow's Foot
-       └─ IDEF1X (주로 논리 데이터 모델링에 사용)
-       ↓
-논리 모델링 → Relation · Key · 제약조건
-       ↓
-물리 설계 → Index · 저장·접근 구조
+[무엇을 모델링하는가? — 설계 수준]
+업무 요구사항
+    ↓
+개념 모델 → 업무 Entity · Relationship · 주요 제약
+    ↓
+논리 모델 → Attribute · 식별자 · 정규화 · 관계 제약
+    ↓
+물리 모델 → Table · Column · PK/FK · 자료형 · Index
+
+[어떻게 그리는가? — 표기법]
+Chen        → 사각형 Entity / 마름모 Relationship / 타원 Attribute
+Crow's Foot → 개체 상자 / 갈퀴·원·막대 관계선
+IDEF1X      → Key / 식별·비식별 관계
+
+[무엇을 표현할 수 있는가? — 모델]
+ER  → Entity · Attribute · Relationship · 관계 제약
+EER → ER + Supertype/Subtype · Generalization/Specialization 등
 ```
 
-**ER/EER는 모델의 개념적 표현 범위이고, Chen·Crow's Foot·IDEF1X는 모델을 그리는 표기 방식**이다. 같은 데이터 구조라도 사용하는 표기법에 따라 그림의 모양이 달라진다. ERD는 Entity-Relationship Diagram의 약어로 ER Diagram과 같은 말이다.
+일반적으로 **Chen은 개념 모델링에서**, **Crow's Foot과 IDEF1X는 논리·물리 모델링에서** 자주 보지만, 사용 단계가 고정된 것은 아니다. 실무에서 Table·Column·PK·FK가 보이는 ERD를 흔히 접하는 이유는 논리·물리 설계 산출물을 ERD로 표현하기 때문이다.
+
+### 개념 모델과 ANSI/SPARC 개념 스키마의 경계
+
+```text
+데이터 모델링 산출물             ANSI/SPARC 3-Schema
+개념 → 논리 → 물리 모델          외부 ↔ 개념 ↔ 내부 스키마
+       (설계 상세 수준)              (DB의 추상화 계층)
+```
+
+**개념 데이터 모델(Conceptual Data Model)**은 업무 개체·관계를 높은 추상도로 표현한 설계 산출물이다. 반면 **개념 스키마(Conceptual Schema)**는 ANSI/SPARC에서 DB 전체의 논리적 구조를 기술하는 계층이다. 이름이 비슷해도 서로 다른 분류 체계이므로 `Chen = 개념 스키마`, `Crow's Foot = 논리 스키마`로 외우지 않는다.
 
 ## 2. ER Model의 핵심 구성과 제약
 
@@ -97,19 +104,7 @@ Category(Union Type)는 서로 다른 상위 Entity 집합의 합집합을 기�
 | Crow's Foot | Entity 상자 · 관계선 끝 갈퀴·원·막대 | 관계의 최소·최대 참여 수를 읽기 편함 |
 | IDEF1X | Entity 상자 · 식별/비식별 관계 표기 | Key와 식별 관계 중심의 데이터 모델링 |
 
-```text
-[Chen: 개념적 관계 표현]
-[회원] ── ◇주문한다◇ ── [주문]
-   └─ (회원명)              └─ (주문일)
-
-[Crow's Foot: 관계선의 끝 기호]
-|    → 정확히 하나
-O<   → 0개 이상
-|<   → 1개 이상
-O|   → 0개 또는 1개
-```
-
-위 Crow's Foot 기호는 **한쪽 끝의 최소·최대 개수를 기억하기 위한 텍스트 약식 표현**이다. 실제 Diagram에서는 양쪽 Entity에 연결된 선 끝의 기호를 함께 읽는다. Chen·Crow's Foot·IDEF1X는 하나의 고정된 'ER 모델 종류'가 아니라 서로 다른 표기 관례다.
+Chen의 실제 도형과 Crow's Foot의 관계선 기호는 아래 **하나의 업무 예제**에서 비교한다. 표기법의 차이가 모델의 종류나 설계 단계의 차이를 뜻하지는 않는다.
 
 ### 같은 업무를 세 표기법으로 표현하기
 
@@ -231,6 +226,8 @@ UML의 전체 Diagram 분류와 관계선 표기는 [UML 다이어그램과 클�
 2. 1:N과 전체·부분 참여를 구분해야 하는 이유는?
 3. Specialization과 Generalization은 어느 방향에서 같은 상위·하위 구조를 보는가?
 4. Chen과 Crow's Foot의 그림은 달라도 같은 업무 관계를 표현할 수 있는 이유는?
-5. ER Entity와 UML Class를 단순히 동일시하면 무엇이 빠지는가?
+5. Chen과 Crow's Foot이 각각 자주 쓰이는 단계는 무엇이며, 왜 특정 단계에 고정되지 않는가?
+6. 개념 데이터 모델과 ANSI/SPARC 개념 스키마는 왜 다른가?
+7. ER Entity와 UML Class를 단순히 동일시하면 무엇이 빠지는가?
 
 **ER/EER는 데이터 의미와 제약을 표현하는 모델이고, 표기법은 그것을 그리는 방식이다.** 막히는 부분만 다시 읽는다.
