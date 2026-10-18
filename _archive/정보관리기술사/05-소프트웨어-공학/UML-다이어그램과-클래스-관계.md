@@ -52,6 +52,27 @@ Interaction 4종은 행위 Diagram 7종에 포함된다. 따라서 총 14종이�
 
 Class Diagram은 클래스의 구조와 관계를 나타낸다. 메서드 호출의 실제 시간 순서는 Sequence Diagram에서 표현한다.
 
+### 먼저 기억할 대응 — 일반화는 상속, 실체화는 구현
+
+UML Class Diagram을 처음 복습할 때는 **일반화(Generalization) = 상속**, **실체화(Realization) = Interface 등 명세 구현**으로 먼저 구분한다. 둘 다 빈 삼각형을 사용하지만 실선과 점선으로 구별한다.
+
+```text
+Dog ─────▷ Animal      일반화(상속)   → Java extends
+Dog ┄┄┄┄▷ Runnable    실체화(구현)   → Java implements
+
+특수화(Specialization)
+  → Animal을 Dog·Cat으로 나누어 보는 관점
+  → 별도의 UML 상속 화살표가 아님
+
+다형성(Polymorphism)
+  → 상위 타입·Interface로 호출해도 실제 구현에 따라 동작
+  → 관계선 종류가 아니라 실행 시 활용되는 성질
+```
+
+`Dog extends Animal implements Runnable`이라는 Java 코드에는 일반화와 실체화가 동시에 나타난다. **특수화는 상위에서 하위 유형을 구분하는 관점**이고, **다형성은 상속이나 인터페이스 구현을 활용할 수 있는 동작 성질**이므로 이 두 용어를 새로운 관계선으로 외우지 않는다.
+
+C++에서는 두 경우 모두 `public` 상속 문법을 사용할 수 있으므로, 코드 문법만으로 UML 관계를 확정하지 않고 **상위 타입 계층인지, 명세를 구현하는지**를 확인한다.
+
 ### 관계의 의미 수준 — 타입 계층과 인스턴스 연결
 
 Class Diagram은 **클래스·타입 등 모델 요소를 그리면서**, 서로 다른 성격의 관계를 함께 표현한다. 특히 상속은 타입 수준에서 성립하고, 연관·합성은 실제 인스턴스 사이의 연결에 적용할 규칙을 클래스 수준에서 정의한다.
