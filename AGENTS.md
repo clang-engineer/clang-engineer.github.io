@@ -2,6 +2,23 @@
 
 ## Documentation
 
+### 규칙 탐색 경로 (작업 시작 시)
+
+```text
+AGENTS.md
+  ↓ 저장소 공통 규칙 (docs/)
+WRITING_STYLE · DOCUMENT_TYPES · KNOWLEDGE_ORGANIZATION
+  ↓ 대상 경로·문서 유형 확인
+기술사 Knowledge라면 _archive/정보관리기술사/_meta/
+  ├─ 00-문서작성-공통원칙.md
+  ├─ 개념지도 → 00-개념지도-공통원칙.md
+  └─ 세부학습 → 00-세부학습-작성규칙.md
+  ↓
+대상 원문·관련 문서 확인 → 수정 → Diff·링크·원문 보존 검증
+```
+
+이 경로는 아래의 기존 필수 확인 절차를 찾기 위한 안내이며, 규칙 본문을 읽는 과정을 대체하지 않는다. 링크 정책 등 참조된 공통 규칙과 대상 경로의 추가 규칙도 확인한다.
+
 이 저장소의 한국어 기술 문서를 작성하거나 수정할 때 다음 공통 규칙을 함께 적용한다.
 
 1. [`docs/WRITING_STYLE.md`](docs/WRITING_STYLE.md) — 공통 문체·용어·표기 원칙
