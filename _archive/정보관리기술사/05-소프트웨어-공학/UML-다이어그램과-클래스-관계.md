@@ -83,6 +83,148 @@ ReportService ┄┄> Printer    : 의존
 
 Aggregation과 Composition은 전체–부분 관계지만 Composition은 부분이 동시에 둘 이상의 전체에 속하지 않는 강한 결합을 나타낸다. Aggregation은 의미가 느슨해 단순 Association으로 표현하기도 한다.
 
+### C++로 관계를 복원하기
+
+UML 관계는 **코드 문법 자체가 아니라 설계에서 표현하려는 의미**다. 아래 C++ 예제는 각 관계를 떠올리기 위한 대표 구현이며, 한 문법이 UML 관계 하나에 반드시 대응하는 것은 아니다.
+
+#### 1) 일반화(Generalization) — 상속, is-a
+
+```text
+Dog ─────▷ Animal
+     실선 + 빈 삼각형 (Animal 방향)
+```
+
+```cpp
+class Animal {
+public:
+    virtual ~Animal() = default;
+    virtual void eat() {}
+};
+
+class Dog : public Animal {
+public:
+    void bark() {}
+};
+```
+
+`Dog`는 `Animal`의 하위 타입이다. **Generalization은 상위·하위 타입 관계**이고, Specialization은 상위 타입을 하위 유형으로 구분하는 관점이다. 화살표는 언제나 상위 타입을 가리킨다.
+
+#### 2) 실체화(Realization) — 명세 구현
+
+```text
+Dog ┄┄┄┄┄▷ Runnable
+     점선 + 빈 삼각형 (명세 방향)
+```
+
+```cpp
+struct Runnable {
+    virtual ~Runnable() = default;
+    virtual void run() = 0;
+};
+
+class Dog : public Runnable {
+public:
+    void run() override {}
+};
+```
+
+C++에는 Java의 `interface` 키워드가 없으므로 순수 가상 함수를 가진 추상 클래스를 인터페이스처럼 사용할 수 있다. **C++의 `public` 상속 문법은 같아도 UML에서는 구현하려는 명세·계약의 역할을 강조할 때 Realization으로 모델링**할 수 있다. 점선 자체가 '명세'라는 뜻은 아니며 빈 삼각형과 조합해서 읽는다.
+
+#### 3) 연관(Association) — 객체 사이의 구조적 연결
+
+```text
+Order ───── Customer
+      실선
+```
+
+```cpp
+class Customer {};
+
+class Order {
+    Customer* customer_; // 비소유 참조; 실제 수명은 외부에서 관리
+public:
+    explicit Order(Customer& customer) : customer_(&customer) {}
+};
+```
+
+`Order`가 `Customer`와 연결된 구조를 나타낸다. 실선의 열린 화살표가 있으면 해당 방향의 **Navigability**를 나타낼 수 있다. 포인터 멤버 하나만으로 모든 연관의 의미가 자동 결정되지는 않는다.
+
+#### 4) 의존(Dependency) — 다른 타입을 사용함
+
+```text
+ReportService ┄┄┄┄> Printer
+              점선 + 열린 화살표
+```
+
+```cpp
+class Printer {
+public:
+    void print() const {}
+};
+
+class ReportService {
+public:
+    void report(const Printer& printer) const {
+        printer.print();
+    }
+};
+```
+
+`ReportService`는 동작을 수행할 때 `Printer`를 사용한다. **Dependency는 대상 요소의 변경이 사용 측에 영향을 줄 수 있는 관계**로, 함수 매개변수는 이를 떠올리기 좋은 예제다. 단순히 매개변수면 언제나 Dependency라고 판정하는 규칙은 아니다.
+
+#### 5) 집약(Aggregation) — 느슨한 전체·부분
+
+```text
+Team ◇──── Member
+     빈 마름모는 Team(전체) 쪽
+```
+
+```cpp
+#include <functional>
+#include <vector>
+
+class Member {};
+
+class Team {
+    std::vector<std::reference_wrapper<Member>> members_;
+public:
+    void add(Member& member) {
+        members_.push_back(member);
+    }
+};
+```
+
+`Member`는 `Team` 밖에서 생성·관리되며 Team이 사라져도 별도로 존재할 수 있다. 이는 **비소유 전체·부분 관계**를 연상하는 예시다. 실제 설계에서는 Aggregation 대신 일반 Association으로 표현할 수도 있다.
+
+#### 6) 합성(Composition) — 강한 전체·부분
+
+```text
+Car ◆──── Engine
+    채운 마름모는 Car(전체) 쪽
+```
+
+```cpp
+class Engine {};
+
+class Car {
+    Engine engine_; // Car 객체의 수명에 종속된 값 멤버
+};
+```
+
+`Engine`은 `Car`의 값 멤버이므로 Car가 생성·파괴될 때 함께 생성·파괴된다. **Composition은 부분의 배타적 소속과 전체·부분의 강한 수명 관계**를 표현한다. `std::unique_ptr`로 독점 소유하는 경우에도 설계 의미에 따라 Composition으로 모델링할 수 있다.
+
+```text
+[기호를 보고 C++ 관계를 인출]
+빈 △ + 실선 → 상속 관계           → public 상속
+빈 △ + 점선 → 명세 구현           → 순수 가상 Interface 구현
+실선        → 구조적 연관         → 객체 참조·포인터 멤버
+점선 + >    → 사용·변경 의존      → 매개변수로 타입 사용
+빈 ◇        → 느슨한 전체·부분    → 외부 객체 비소유 참조
+채운 ◆      → 강한 전체·부분      → 값 멤버·독점 소유
+```
+
+**주의:** 포인터·참조·값 멤버·`unique_ptr`의 사용만으로 Aggregation/Composition을 확정할 수 없다. 실제 소유권, 수명, 전체·부분이라는 업무 의미까지 함께 판단한다.
+
 ### Multiplicity
 
 ```text
@@ -128,4 +270,6 @@ ER/EER는 업무 데이터의 의미와 제약을, UML Class Diagram은 객체�
 2. 실선 빈 삼각형과 점선 빈 삼각형의 차이는?
 3. 빈 마름모와 채운 마름모는 어디에 붙는가?
 4. Class·Sequence·Activity·State Machine은 각각 어떤 질문에 답하는가?
-5. ER Entity와 UML Class는 왜 완전히 같지 않은가?
+5. C++에서 public 상속을 사용해도 Generalization과 Realization을 구분해서 모델링하는 이유는?
+6. 같은 포인터·참조 형태라도 Association과 Aggregation을 구분하려면 무엇을 봐야 하는가?
+7. ER Entity와 UML Class는 왜 완전히 같지 않은가?
