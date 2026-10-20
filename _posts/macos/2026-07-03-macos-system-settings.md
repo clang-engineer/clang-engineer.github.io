@@ -2,7 +2,7 @@
 title       : macOS 시스템 설정 — 세벌식·트랙패드·터미널·앱 권한
 description : "새 맥을 개발 환경으로 다듬을 때 손보는 시스템 설정 모음. 세벌식 입력, Caps Lock 전환, 세 손가락 드래그, Mission Control 단축키 충돌부터 터미널 테마, JetBrains, 앱 접근 권한, vim 스크롤까지."
 date        : 2026-07-03 13:30:00 +0900
-updated     : 2026-07-03 13:30:00 +0900
+updated     : 2026-10-20 13:50:00 +0900
 categories  : [macos, "시스템 운영"]
 tags        : [macos, settings, terminal]
 pin         : false
@@ -44,6 +44,23 @@ hidden      : false
 4. ZMK의 `&kp GRAVE`는 그대로 두고, ANSI/ABC 기준으로 `GRAVE` → 백틱(`\``), `Shift + GRAVE` → 물결표(`~`)가 나오는지 확인한다.
 
 > **주의:** 모든 외장 키보드를 ANSI로 설정하라는 뜻은 아니다. 실제 배열이 ISO/JIS라면 해당 타입을 사용해야 한다. 이전에 잘 작동하던 펌웨어라면 키맵을 바꾸기 전에 macOS의 키보드 종류부터 점검한다.
+{: .prompt-tip }
+
+## AeroSpace 전환 시 창이 하나씩 튀어나올 때
+
+**2026-10-20 사례:** AeroSpace 0.21.3-Beta에서 작업공간을 전환할 때 창들이 한꺼번에 배치되지 않고 하나씩 튀어나왔다. 여러 창을 띄워도 분할 화면보다 선택한 창을 번갈아 보여주는 것처럼 보였다.
+
+처음에는 타일·아코디언 레이아웃 문제로 의심했지만, 타일 배치를 다시 지정해도 증상이 재발했고 AeroSpace를 재시작해도 같았다. 이후 **macOS 스테이지 매니저(Stage Manager)가 켜져 있음**을 확인했다. 이를 끄자 작업공간 전환이 정상으로 돌아왔다.
+
+스테이지 매니저는 현재 사용하는 앱을 가운데 보여주고 다른 앱은 화면 옆에 정리하는 macOS 기능이다. AeroSpace와 함께 사용하던 이 환경에서는 창 표시·배치 동작이 간섭하는 것으로 보였다. 이 사례만으로 모든 전환 지연이나 창 겹침의 원인을 스테이지 매니저로 단정하지는 않는다.
+
+1. **제어 센터 → 스테이지 매니저**에서 활성 상태인지 확인한다.
+2. 켜져 있다면 끈 뒤, AeroSpace 작업공간을 여러 번 오가며 증상이 사라지는지 확인한다.
+3. 그대로라면 별도 문제다. 단축키 오입력이나 아코디언 모드로 단정하지 말고 추가로 진단한다.
+
+설정 위치는 **시스템 설정 → 데스크탑 및 Dock → 스테이지 매니저**에서도 찾을 수 있다. macOS 버전에 따라 메뉴 배치는 다를 수 있다. 기능과 설정 경로는 [Apple의 스테이지 매니저 안내](https://support.apple.com/ko-kr/guide/mac-help/mchl534ba392/mac)를 참고한다.
+
+> 이 사례는 스테이지 매니저를 끄는 것만으로 해결했다. AeroSpace 설정 파일이나 키보드 단축키를 바꿀 필요는 없었다. 일반적인 레이아웃·CLI 명령은 [AeroSpace Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/aerospace.md)에서 확인한다.
 {: .prompt-tip }
 
 ## 터미널 테마
