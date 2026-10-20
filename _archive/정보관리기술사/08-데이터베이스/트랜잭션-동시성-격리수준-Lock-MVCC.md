@@ -1,5 +1,39 @@
 # 트랜잭션 동시성 제어 — Isolation Level, Lock, MVCC
 
+## 이 문서의 개념지도
+
+```text
+Transaction — ACID 중 Isolation
+        │ 병행 실행의 간섭을 어디까지 허용할까?
+        ▼
+Isolation Level (보장 수준)
+├─ RU / RC / RR → 특정 읽기 이상 현상의 허용·방지
+└─ Serializable → Transaction 전체의 직렬 가능성 보장
+        │
+        │ 보장을 구현하는 동시성 제어 수단
+        ▼
+Concurrency Control
+├─ Lock 기반
+│   ├─ S / X          → 어떤 접근이 충돌하는가 (Lock 종류)
+│   ├─ Row / Range    → 어디까지 보호하는가 (Lock 범위)
+│   └─ 2PL            → 언제 획득·해제하는가 (Lock Protocol)
+│       └─ Conflict Serializability → Serializability
+└─ MVCC 기반
+    ├─ Version + Snapshot + Visibility → 읽을 Version 선택
+    └─ MVCC만으로 Serializable 보장 X
+        └─ SSI 등 추가적인 직렬성 보장 기법 가능
+
+Conflict = 같은 Data에 대한 서로 다른 Transaction의 연산 중
+           적어도 하나가 Write인 선후관계
+Conflict Serializability = 그 관계를 유지한 채 Serial 순서로 재배열 가능
+
+※ Range 보호는 Phantom 방지 수단이지, 단독으로 직렬성을 보장하지 않는다.
+※ Lock과 MVCC는 배타적이지 않으며 실제 DBMS에서 함께 쓰일 수 있다.
+```
+
+이 지도는 **격리수준(무엇을 보장할까)**과 **동시성 제어(어떻게 보장할까)**를 구분한다. RC·RR에서도 개별 Conflict는 제어하지만 전체 직렬 가능성까지 요구하지는 않는다. Serializable은 Phantom 방지만으로 완성되지 않으며, 2PL은 적절한 Lock 대상과 결합해 충돌 직렬 가능성을 보장하는 대표적인 Protocol이다.
+
+
 이 문서는 여러 Transaction이 동시에 실행될 때 어떤 문제가 생기고, Isolation Level이 무엇을 보장하며, Lock과 MVCC가 그 보장을 어떻게 구현하는지 이해하기 위한 문서다.
 
 핵심은 **문제·보장 수준·구현 수단을 같은 층위로 섞지 않는 것**이다.
