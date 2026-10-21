@@ -1,5 +1,24 @@
 # 탐색트리와 DB Index — B-Tree, B+Tree, B*Tree, T-Tree
 
+## 이 문서의 개념지도
+
+```text
+DB Index가 해결할 문제: 탐색 비용 · Page I/O
+       ↓ 자료구조의 선택
+├─ Binary Search Tree
+│   └─ AVL / Red-Black → 높이 균형
+├─ M-way Search Tree
+│   └─ B-Tree → 높은 Fan-out · Page I/O 감소
+│       ├─ B+Tree → Internal 탐색 / Leaf Entry · 범위 탐색
+│       └─ B*Tree → Node 공간 활용 방식 변형
+└─ T-Tree → Main Memory DB를 고려한 별도 구조
+
+※ Tree의 계보와 DB 저장구조(Clustered 여부)는 별개다.
+```
+
+이 지도는 본문을 읽기 전 핵심 개념의 **위치·관계·구분 기준**을 확인하는 인출 좌표다. 세부 원리와 예외는 아래에서 설명한다.
+
+
 이 문서는 DB Index의 Tree 구조를 `탐색트리의 계보 → B-Tree의 균형 → DB Page와 I/O → B+Tree / B*Tree → Main Memory DB의 T-Tree` 흐름으로 이해하기 위한 문서다.
 
 ---
