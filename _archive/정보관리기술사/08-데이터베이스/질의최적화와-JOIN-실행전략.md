@@ -1,5 +1,25 @@
 # 질의 최적화와 JOIN 실행 전략
 
+## 이 문서의 개념지도
+
+```text
+SQL의 논리 JOIN (무엇을 구할까?)
+       ↓ 물리 실행 후보 (어떻게 결합할까?)
+├─ Nested Loop → 외부 Row마다 내부 탐색 · Index 활용
+├─ Hash Join   → Build / Probe · Hash Table · Memory
+└─ Merge Join  → 정렬된 입력의 순차 결합
+       ↓
+Optimizer: Cardinality · Index · 정렬 · Memory · Cost 비교
+       ↓
+Execution Plan 선택 → 실제 실행 결과와 비교
+
+분산 실행에서는 Data Movement(Broadcast / Shuffle 등) 비용 추가
+※ 세 JOIN은 발전 단계가 아니라 같은 논리 연산의 실행 대안이다.
+```
+
+이 지도는 본문을 읽기 전 핵심 개념의 **위치·관계·구분 기준**을 확인하는 인출 좌표다. 세부 원리와 예외는 아래에서 설명한다.
+
+
 ## 이 문서에서 되짚을 질문
 
 - SQL의 논리 JOIN과 DBMS의 물리 JOIN 알고리즘은 어떻게 다른가?

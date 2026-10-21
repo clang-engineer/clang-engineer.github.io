@@ -1,5 +1,24 @@
 # 분산 데이터베이스, CAP·PACELC와 NoSQL
 
+## 이 문서의 개념지도
+
+```text
+분산 DB를 이해하는 서로 다른 질문
+├─ 데이터를 어디에 배치하는가?
+│   ├─ Replication → 같은 Data 복제
+│   └─ Sharding    → Data 분할
+├─ 네트워크 분할과 지연에서 무엇을 선택하는가?
+│   ├─ CAP    → Partition 시 Consistency / Availability
+│   └─ PACELC → Partition 시 선택 + 정상 시 Latency / Consistency
+└─ 데이터를 어떤 모델로 표현하는가?
+    └─ NoSQL → Key-Value / Document / Wide-Column / Graph
+
+※ 분산 여부·CAP 선택·NoSQL 모델은 서로 다른 분류축이다.
+```
+
+이 지도는 본문을 읽기 전 핵심 개념의 **위치·관계·구분 기준**을 확인하는 인출 좌표다. 세부 원리와 예외는 아래에서 설명한다.
+
+
 ## 이 문서에서 되짚을 질문
 
 - CAP에서 왜 P는 자유롭게 포기하는 선택지가 아닌가?

@@ -1,5 +1,24 @@
 # B-Tree 계열과 Clustered / Non-clustered Index
 
+## 이 문서의 개념지도
+
+```text
+Index를 이해하는 두 독립적인 축
+├─ Tree 구조: B-Tree / B+Tree
+│   └─ 탐색 Key와 Entry를 Node·Leaf에 어떻게 배치하는가?
+└─ Row 저장 관계: Clustered / Non-clustered
+    ├─ Clustered     → Leaf가 실제 Row의 주 저장구조
+    └─ Non-clustered → Leaf의 Locator로 Row를 찾음
+         ├─ Heap → RID
+         └─ Clustered Table → Clustered Key (SQL Server 기준)
+
+두 축의 조합 → 탐색 경로 · Lookup 비용 · Covering 여부
+※ PK 여부, Tree 종류, Clustered 여부는 동일한 분류축이 아니다.
+```
+
+이 지도는 본문을 읽기 전 핵심 개념의 **위치·관계·구분 기준**을 확인하는 인출 좌표다. 세부 원리와 예외는 아래에서 설명한다.
+
+
 이 문서는 B-Tree·B+Tree와 Clustered·Non-clustered Index가 왜 비슷해 보이면서도 서로 다른 개념인지 이해하기 위한 문서다. **Tree의 균형·Split/Merge 자체**보다 **Index Entry와 실제 Row의 저장 관계, Row Locator, Covering 여부**를 중심으로 이해를 완결한다.
 
 설명은 학습 흐름을 살리기 위해 SQL Server의 B+Tree 계열 구조를 중심으로 한다. DBMS마다 구현과 용어가 다르므로 마지막에 차이를 구분한다.
