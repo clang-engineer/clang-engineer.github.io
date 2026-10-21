@@ -1,5 +1,24 @@
 # ER · EER 모델과 Diagram 표기법
 
+## 이 문서의 개념지도
+
+```text
+업무 요구사항
+   ↓ 무엇을 표현하는가?
+ER Model → Entity · Attribute · Relationship
+   ├─ 관계 제약 → Cardinality / Participation
+   └─ 표현 확장 → EER: Supertype / Subtype · ISA
+   ↓ 어느 수준까지 구체화하는가?
+개념 모델 → 논리 모델 → 물리 모델
+
+[별개의 축: 어떻게 그리는가?]
+Chen / Crow's Foot / IDEF1X / UML Class Diagram
+→ 모델링 단계나 ER·EER 자체와 1:1 대응하지 않음
+```
+
+이 지도는 본문을 읽기 전 핵심 개념의 **위치·관계·구분 기준**을 확인하는 인출 좌표다. 세부 원리와 예외는 아래에서 설명한다.
+
+
 ## 이 문서에서 되짚을 질문
 
 - ER Model과 ER Diagram은 어떻게 다른가?
