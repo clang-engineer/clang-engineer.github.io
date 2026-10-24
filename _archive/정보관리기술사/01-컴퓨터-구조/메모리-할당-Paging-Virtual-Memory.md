@@ -457,6 +457,10 @@ DB Page
 
 B-Tree에서 DB Page가 나오는 이유도 B-Tree의 논리적인 Node를 실제 DBMS 저장구조에 구현할 때 Page 단위 저장과 연결되기 때문이다.
 
+DBMS의 Buffer Pool은 DB Page의 내용을 메모리에 캐시하지만, 그 메모리 영역은 여전히 OS의 Virtual Page / Physical Frame 매핑 아래에 있다. **DB Page를 메모리에 읽어 온다고 OS Page로 변환되는 것은 아니다.** 또한 Buffer Pool Miss에 따른 DB 읽기 I/O와 OS Page Fault는 구분해야 한다.
+
+이 관계의 상세한 탐색·I/O 흐름은 [탐색트리와 DB 인덱스의 5절](../08-데이터베이스/탐색트리와-DB인덱스-BTree-BPlusTree-BStarTree-TTree.md)에서 확인한다.
+
 > **OS Page와 DB Page는 직접 같은 개념이 아니라, 서로 다른 계층에서 Page라는 관리 단위를 사용하는 것이다.**
 
 ---
