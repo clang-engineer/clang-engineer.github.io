@@ -17,18 +17,10 @@ Execution Plan 선택 → 실제 실행 결과와 비교
 ※ 세 JOIN은 발전 단계가 아니라 같은 논리 연산의 실행 대안이다.
 ```
 
-이 지도는 본문을 읽기 전 핵심 개념의 **위치·관계·구분 기준**을 확인하는 인출 좌표다. 세부 원리와 예외는 아래에서 설명한다.
+이 지도는 **논리 JOIN → 물리 알고리즘 → 선택 조건 → 실행 진단**의 관계를 보여준다. 세 알고리즘은 발전 순서가 아닌 대안이다.
 
 
-## 이 문서에서 되짚을 질문
-
-- SQL의 논리 JOIN과 DBMS의 물리 JOIN 알고리즘은 어떻게 다른가?
-- Nested Loop·Hash·Merge Join은 무엇을 기준으로 선택되는가?
-- Index, Cardinality, Sort, Memory는 Join 비용에 어떤 영향을 주는가?
-- 실행계획에서 Estimated Row와 Actual Row 차이가 왜 중요한가?
-- 분산 DB에서는 왜 Data Movement가 별도 비용 축이 되는가?
-
-## 1. 논리 연산과 물리 실행을 분리한다
+## 1. 논리 JOIN과 물리 JOIN
 
 SQL에서 JOIN은 두 Relation의 조건이 맞는 Row를 결합하는 **논리 연산**이다. DBMS는 이 논리 연산을 실제로 실행하기 위해 여러 물리 알고리즘 중 하나를 선택한다.
 
@@ -47,17 +39,9 @@ Cost-Based Optimizer가 후보 비용 비교
 
 따라서 JOIN 성능을 볼 때는 SQL 문법 이름보다 **어떤 실행전략이 선택됐고, 현재 입력 특성에 맞는지**를 본다.
 
-## 2. 세 전략은 같은 문제의 대안이다
+## 2. JOIN 알고리즘의 동작
 
-| 전략 | 핵심 아이디어 | 유리한 조건 | 주 비용 |
-|---|---|---|---|
-| Nested Loop | Outer Row마다 Inner에서 매칭 탐색 | Outer가 작고 Inner Lookup이 빠름 | 반복 Lookup |
-| Hash Join | 한쪽으로 Hash Table 생성 후 Probe | Equality Join, 충분한 Memory | Build·Memory·Spill |
-| Merge Join | 정렬된 두 입력을 함께 순회 | 정렬 상태 활용 가능 | Sort + Merge |
-
-세 전략은 상하 관계가 아니라 **같은 Logical JOIN을 실행하는 대안**이다.
-
-## 3. Nested Loop — 반복 Lookup 비용을 본다
+### Nested Loop — 반복 Lookup 비용을 본다
 
 ```text
 Outer Row 1 → Inner Lookup
@@ -80,7 +64,7 @@ Matching Row
 
 ```text
 Nested Loop Cost
-≈ Outer Row 수 × Inner Lookup Cost
+≈ Outer 입력 비용 + Outer Row 수 × Inner 접근 비용
 ```
 
 ### 유리한 경우
@@ -103,7 +87,7 @@ Inner Index Lookup 1,000,000회
 
 이 경우 문제의 본질은 `Nested Loop라는 알고리즘 자체`보다 **Cardinality 추정 오류**일 수 있다.
 
-## 4. Hash Join — Build + Probe
+### Hash Join — Build + Probe
 
 Equality Join에서는 한쪽 입력으로 Hash Table을 만들고 다른 입력을 Probe할 수 있다. 아래 화살표는 **구성·조회·결과 생성**을 나타낸다. 두 입력은 독립적이며, Hash Table에서 Probe Input이 만들어지는 것이 아니다.
 
@@ -155,9 +139,9 @@ Partition / Spill
 Temporary Disk I/O
 ```
 
-따라서 Hash Join이 선택됐다는 사실만으로 빠르다고 판단하지 않고 실제 Spill 여부를 확인한다.
+Hash Table 전체가 Memory에 들어가지 않아도 Hash Join은 Partition 등을 활용해 실행할 수 있다. 다만 Spill이 발생하면 임시 저장장치 I/O가 추가될 수 있다. 따라서 Hash Join이 선택됐다는 사실만으로 빠르다고 판단하지 않고 실제 Spill 여부를 확인한다.
 
-## 5. Merge Join — 정렬된 입력을 이용한다
+### Merge Join — 정렬된 입력을 이용한다
 
 두 입력이 Join Key 순서로 정렬되어 있다면 Cursor를 함께 전진하며 매칭할 수 있다.
 
@@ -166,17 +150,17 @@ A: 1 2 4 7 9
 B: 1 3 4 4 8
 
 현재 A / B    비교 후 움직임
-    1 / 1    일치 → 결합하고 양쪽 전진
+    1 / 1    일치 → 해당 Key 그룹 결합 후 다음 Key로 이동
     2 / 3    A가 작음 → A만 전진
     4 / 3    B가 작음 → B만 전진
-    4 / 4    일치 → B의 두 4와 각각 결합
+    4 / 4    일치 → A의 4와 B의 두 4를 모두 결합
     7 / 8    A가 작음 → A만 전진
     9 / 8    B가 작음 → B 전진, B 끝
 
 결과: (1, 1), (4, 첫 번째 4), (4, 두 번째 4)
 ```
 
-작은 값을 가진 쪽을 전진시키면 이미 지나간 값으로 되돌아갈 필요가 줄어든다. 다만 **중복 Key는 하나만 결합하고 넘기지 않는다.** 양쪽에 중복이 있으면 해당 그룹의 모든 일치 조합을 출력해야 한다.
+작은 값을 가진 쪽을 전진시키면 이미 지나간 값으로 되돌아갈 필요가 줄어든다. 다만 **중복 Key는 하나만 결합하고 넘기지 않는다.** 예를 들어 A에 4가 2건, B에 4가 3건이면 같은 Key 그룹에서 2×3=6개의 조합을 출력해야 한다. 구현은 그룹 시작 위치를 기억하거나 버퍼링해 모든 조합을 만든 다음 다음 Key로 이동할 수 있다.
 
 정렬이 이미 되어 있다면 입력을 병합 탐색하는 비용은 선형적으로 볼 수 있지만, 결과 Row를 생성하는 비용은 별도다. 정렬이 없다면 Sort 비용이 선행된다.
 
@@ -192,7 +176,19 @@ Merge
 - 큰 입력을 순차적으로 처리하는 것이 유리하다.
 - 일부 Range 성격의 조건에서 정렬 관계를 활용할 수 있다.
 
-## 6. 같은 SQL도 전략이 달라진다
+## 3. 세 전략의 비교
+
+| 전략 | 핵심 아이디어 | 유리한 조건 | 주 비용 |
+|---|---|---|---|
+| Nested Loop | Outer Row마다 Inner에서 매칭 탐색 | Outer가 작고 Inner Lookup이 빠름 | 반복 Lookup |
+| Hash Join | 한쪽으로 Hash Table 생성 후 Probe | Equality Join, 충분한 Memory | Build·Memory·Spill |
+| Merge Join | 정렬된 두 입력을 함께 순회 | 정렬 상태 활용 가능 | Sort + Merge |
+
+세 전략은 상하 관계가 아니라 **같은 Logical JOIN을 실행하는 대안**이다.
+
+## 4. Optimizer의 전략 선택
+
+### 같은 SQL도 전략이 달라진다
 
 ```sql
 SELECT *
@@ -216,7 +212,7 @@ SQL은 같아도 실행 조건이 다르면 전략이 바뀔 수 있다.
 
 따라서 `큰 Table이면 Hash Join`처럼 단순 암기하지 않는다.
 
-## 7. Optimizer가 보는 주요 정보
+### Optimizer가 보는 주요 정보
 
 Cost-Based Optimizer는 여러 후보 실행계획의 예상 비용을 비교한다.
 
@@ -256,7 +252,7 @@ Hash Build가 Memory를 넘으면 Spill 비용이 증가한다.
 
 WHERE 조건이 입력을 크게 줄이면 원래 Table 크기보다 Filter 후 Row 수가 더 중요하다.
 
-## 8. 실행계획에서 무엇을 본다
+## 5. 실행계획에서 JOIN 분석
 
 성능 문제에서는 알고리즘 이름 하나만 보지 않는다.
 
@@ -298,7 +294,7 @@ Sort가 추가됐는가?
 
 JOIN Tuning은 무조건 Hint로 알고리즘을 바꾸는 작업이 아니라 **Optimizer가 왜 그 비용을 낮다고 판단했는지 검증하는 작업**이다.
 
-## 9. 분산 환경에서는 Data Movement가 추가된다
+## 6. 분산 JOIN의 추가 비용
 
 단일 Node Join은 CPU·Memory·I/O가 주요 비용이지만 분산 SQL·MPP에서는 Network가 새 비용 축이 된다.
 
@@ -318,9 +314,9 @@ Node A Data      Node B Data
 
 두 입력을 Join Key 기준으로 재분배한다. 입력이 크면 Network 비용이 커질 수 있다.
 
-### Semi-Join / Bloom Filter
+### 데이터 축소 최적화: Semi-Join / Bloom Filter
 
-실제 Join 전에 불필요한 Row를 줄여 Data Movement를 줄일 수 있다.
+실제 Join 전에 불필요한 Row를 줄여 Data Movement를 줄일 수 있다. 이들은 Broadcast·Shuffle처럼 **데이터를 어디로 이동시킬지 결정하는 방식이 아니라, 이동하거나 처리할 데이터량을 줄이는 기법**이다.
 
 중요한 점은 다음이다.
 
@@ -334,27 +330,19 @@ Broadcast / Shuffle
 
 서로 다른 분류축이며 실제 분산 DB에서는 조합될 수 있다.
 
-## 10. 기억 흐름
+## 7. 질문으로 이해 복원하기
 
-```text
-Logical JOIN
-   ↓
-Physical Strategy 선택
-├─ Nested Loop : 반복 Lookup
-├─ Hash        : Build + Probe
-└─ Merge       : 정렬된 입력 동시 순회
-   ↓
-Optimizer가 Cost 비교
-├─ Cardinality
-├─ Index
-├─ Sort
-├─ Memory
-└─ Filter Selectivity
-   ↓
-실행계획에서 예상과 실제 비교
-```
+본문을 가리고 **알고리즘의 동작 → 비용 조건 → 선택 → 진단**을 설명한다.
 
-> **JOIN 성능의 핵심은 알고리즘 이름을 외우는 것이 아니라 현재 입력에서 왜 그 전략이 싸다고 계산됐는지 확인하는 것이다.**
+1. 논리 JOIN 하나를 Nested Loop, Hash, Merge라는 서로 다른 물리 알고리즘으로 실행할 수 있는 이유는 무엇인가?
+2. Nested Loop의 Outer Row 수가 증가하면 어떤 비용이 반복되는가? Inner Index가 있으면 무엇이 달라지는가?
+3. Hash Join에서 Build와 Probe의 역할은 무엇이며, Build Side가 메모리를 넘으면 어떤 추가 비용이 생기는가?
+4. Merge Join에서 A의 Key 4가 2건, B의 Key 4가 3건이면 왜 6개의 결과 조합이 필요한가?
+5. 같은 SQL이라도 Cardinality, Index, 정렬 상태, Memory에 따라 JOIN 전략이 달라지는 이유는 무엇인가?
+6. 실행계획에서 Nested Loop의 Loops, Hash의 Spill, Merge의 Sort를 각각 확인하는 이유는 무엇인가?
+7. Broadcast·Shuffle과 Semi-Join·Bloom Filter는 분산 JOIN에서 서로 어떤 역할 차이가 있는가?
+
+> **JOIN 최적화는 알고리즘의 이름을 외우는 일이 아니라, 입력 특성에 따라 어떤 비용이 발생하고 Optimizer가 왜 해당 실행전략을 선택했는지 이해하는 일이다.**
 
 ## 참고 자료
 
