@@ -537,7 +537,7 @@ B-Tree에서는 Record Entry가 내부 노드에도 존재할 수 있으므로, 
 
 ---
 
-## 12. PK와 Clustered Index
+## 11. PK와 Clustered Index
 
 Primary Key와 Clustered Index는 같은 개념이 아니다.
 
@@ -562,7 +562,7 @@ Clustered Index : created_at
 
 ---
 
-## 13. 일반적으로 별도로 만드는 인덱스
+## 12. 일반적으로 별도로 만드는 인덱스
 
 실무에서 조회 성능을 위해 다음처럼 추가하는 인덱스는 보통 보조(Secondary) 인덱스다. SQL Server에서는 일반적으로 Non-clustered Index다.
 
@@ -587,7 +587,7 @@ Search Key + Row Locator
 
 ---
 
-## 14. Covering Index는 왜 필요한가
+## 13. Covering Index는 왜 필요한가
 
 Non-clustered Index로 찾았다고 해서 항상 조회가 끝나는 것은 아니다.
 
@@ -687,7 +687,7 @@ Index 유지 비용 증가
 
 ---
 
-## 15. DBMS별 차이
+## 14. DBMS별 차이
 
 지금까지의 `Leaf = 실제 Row`, `Heap이면 RID`, `Clustered Table이면 Clustered Key` 설명은 특히 SQL Server 구조를 이해하기 위한 것이다.
 
