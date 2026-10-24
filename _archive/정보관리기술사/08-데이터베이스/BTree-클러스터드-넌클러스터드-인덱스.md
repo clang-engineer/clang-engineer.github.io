@@ -22,6 +22,16 @@ Index를 이해하는 두 독립적인 축
 
 설명은 학습 흐름을 살리기 위해 SQL Server의 B+Tree 계열 구조를 중심으로 한다. DBMS마다 구현과 용어가 다르므로 마지막에 차이를 구분한다.
 
+| 복습 축 | 핵심 구분 |
+|---|---|
+| B-Tree / B+Tree | 결과 Entry가 Internal에도 있는가, Leaf에 집중되는가 |
+| Clustered | 실제 Row의 주 저장구조를 Key로 조직 (SQL Server에서 테이블당 하나) |
+| Non-clustered | 별도 검색 구조 → Row Locator로 원본 Row 조회 |
+| SQL Server Heap / Clustered Table | Locator = RID / Clustered Key |
+| Covering | 특정 Query에 필요한 컬럼이 인덱스에 모두 있으면 추가 Lookup 생략 가능 |
+
+**핵심 관계:** Tree 종류, Clustered 여부, PK 여부는 서로 다른 분류축이다. Covering도 고정된 인덱스 종류가 아니라 **Query별 성질**이다.
+
 ---
 
 ## 1. 가장 먼저 잡을 핵심
