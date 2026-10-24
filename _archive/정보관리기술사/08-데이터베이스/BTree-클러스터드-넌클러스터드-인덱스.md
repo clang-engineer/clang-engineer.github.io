@@ -187,6 +187,8 @@ B+Tree가 Clustered인지 Non-clustered인지에 따라 Leaf Record Entry의 내
 
 SQL Server의 Clustered B+Tree에서는 Leaf Level 자체가 실제 Data Page다.
 
+Clustered Index는 실제 Row의 주 저장구조를 특정 Key 기준으로 조직하므로 **SQL Server에서는 테이블당 하나만 생성할 수 있다.** 단, 하나의 Clustered Index는 여러 컬럼을 묶은 복합 Key를 사용할 수 있다. 이는 Clustered Index의 개수 제한이지 Key 컬럼 수를 하나로 제한한다는 뜻이 아니다.
+
 ```text
               [30 | 50]          ← Internal
               /   |   \
