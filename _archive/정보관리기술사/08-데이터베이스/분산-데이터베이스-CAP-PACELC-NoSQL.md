@@ -16,6 +16,15 @@
 ※ 분산 여부·CAP 선택·NoSQL 모델은 서로 다른 분류축이다.
 ```
 
+| 구분 | 복습할 핵심 |
+|---|---|
+| Replication / Sharding | 같은 데이터 복제 / 데이터 집합 분할 |
+| CAP | Network Partition 중 일관성(C)과 가용성(A)의 충돌 |
+| PACELC | Partition 시 선택 + 정상 상황의 Latency·Consistency Trade-off |
+| NoSQL | Key-Value · Document · Wide-Column · Graph라는 데이터 모델의 축 |
+
+**복습 단서:** CAP의 C는 일반적인 무결성 제약이 아니라 **강한 일관성**의 의미다. NoSQL인지 여부와 분산 시스템의 CAP 선택은 같은 분류가 아니다.
+
 이 지도는 본문을 읽기 전 핵심 개념의 **위치·관계·구분 기준**을 확인하는 인출 좌표다. 세부 원리와 예외는 아래에서 설명한다.
 
 
