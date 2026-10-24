@@ -261,6 +261,24 @@ Node ≈ Page
 
 Node 최소 점유율 유지도 Page를 지나치게 비워두지 않아 Fan-out 활용도를 유지한다.
 
+### DB Page와 OS Page는 다른 계층의 관리 단위다
+
+DBMS는 OS 위에서 동작하는 소프트웨어이며, 테이블·인덱스의 저장공간을 **DB Page**라는 단위로 조직한다. 반면 OS의 **Page**는 프로세스의 가상주소 공간을 관리하고 Physical Frame에 매핑하기 위한 단위다. 이름이 같아도 동일한 객체나 1:1 대응 관계는 아니다.
+
+```text
+DBMS: Database File의 DB Page (저장·인덱스 단위)
+          │ 필요하면 저장장치에서 읽기 I/O
+          ▼
+DBMS: Buffer Pool의 DB Page (메모리에 캐시된 내용)
+          │ 버퍼 풀도 프로세스의 메모리 영역
+          ▼
+OS: Virtual Page → Physical Frame (주소 변환·메모리 관리)
+```
+
+예를 들어 DB Page가 16KB, OS Page가 4KB라면 DB Page의 내용이 메모리에서 여러 OS Page에 걸쳐 있을 수 있다. **DB Page를 읽는 I/O와 OS의 Page Fault는 서로 다른 사건**이며, DB Page가 Buffer Pool에 없다고 해서 반드시 OS Page Fault가 발생한다는 뜻은 아니다.
+
+운영체제의 Page / Frame과 가상메모리 개념은 [메모리 할당·Paging·Virtual Memory](../01-컴퓨터-구조/메모리-할당-Paging-Virtual-Memory.md)에서 이어서 확인한다.
+
 ### Page 접근 수와 물리적 읽기 I/O는 같지 않다
 
 DBMS는 자주 사용하는 Page를 메모리에 보관한다. 예를 들어 InnoDB의 Buffer Pool은 테이블·인덱스 Page를 캐시한다. 필요한 Page가 이미 있으면 저장장치에서 다시 읽지 않고 메모리에서 접근한다. [2]
