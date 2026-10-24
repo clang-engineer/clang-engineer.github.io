@@ -16,8 +16,7 @@ Index를 이해하는 두 독립적인 축
 ※ PK 여부, Tree 종류, Clustered 여부는 동일한 분류축이 아니다.
 ```
 
-이 지도는 본문을 읽기 전 핵심 개념의 **위치·관계·구분 기준**을 확인하는 인출 좌표다. 세부 원리와 예외는 아래에서 설명한다.
-
+이 지도는 Tree 구조와 Row 저장 관계라는 서로 다른 축을 먼저 구분하기 위한 것이다. 구체적인 조회 경로와 예외는 아래에서 설명한다.
 
 이 문서는 B-Tree·B+Tree와 Clustered·Non-clustered Index가 왜 비슷해 보이면서도 서로 다른 개념인지 이해하기 위한 문서다. **Tree의 균형·Split/Merge 자체**보다 **Index Entry와 실제 Row의 저장 관계, Row Locator, Covering 여부**를 중심으로 이해를 완결한다.
 
@@ -139,6 +138,8 @@ Data Page
 ---
 
 ## 3. B-Tree와 B+Tree
+
+여기서는 **Record Entry가 어디에 있는지**만 비교한다. 균형 유지, Split, Fan-out, DB Page의 자세한 원리는 [탐색트리와 DB 인덱스](탐색트리와-DB인덱스-BTree-BPlusTree-BStarTree-TTree.md)를 참고한다.
 
 ### B-Tree
 
@@ -372,15 +373,13 @@ Row Locator
 → 원본 Table이 Heap이면 그 값으로 RID 사용
 ```
 
-즉 **Heap Table 자체의 Locator가 RID라는 뜻이 아니라, Heap Table의 Row를 찾아가야 하는 Non-clustered Index가 Row Locator로 RID를 저장한다.**
-
-RID 목록을 Heap이 별도로 가지고 있는 것이 아니라, **그 Row를 참조해야 하는 Non-clustered Index가 Row Locator로 RID를 저장한다.**
+즉 **RID는 Heap에 별도로 저장된 목록이 아니라, Heap의 Row를 참조하는 Non-clustered Index의 Row Locator로 사용되는 위치 정보**다.
 
 ---
 
 ## 9. Clustered Table의 Row Locator는 Clustered Key
 
-Clustered Table에 별도의 Non-clustered Index를 만들면 Row Locator로 Clustered Key를 사용한다.
+Clustered Table에 별도의 Non-clustered Index를 만들면 Row Locator로 Clustered Key를 사용한다. 단, SQL Server에서 Clustered Index는 반드시 Unique일 필요가 없다. 고유하지 않은 Clustered Key에는 행을 구별하는 내부 `uniqueifier`가 추가될 수 있으며, 이 식별 정보도 Locator에 영향을 준다.
 
 예를 들어 `ID`가 Clustered Key이고 `name`에 Non-clustered Index를 만들었다면:
 
@@ -446,7 +445,7 @@ Non-clustered Index B ─┼→ RID(Page / Slot) → 실제 Row
 Non-clustered Index C ─┘
 ```
 
-RID는 위치 정보이므로 Row의 저장 위치가 바뀌는 상황에서는 이 Locator를 어떻게 유지할지가 문제가 된다. 즉 Heap에서는 **위치 기반 Locator의 안정성**을 고려해야 한다.
+RID는 위치 정보이므로 Row의 저장 위치가 바뀌는 상황에서는 이 Locator를 어떻게 유지할지가 문제가 된다. 다만 SQL Server Heap은 Row가 커져 기존 위치에 들어가지 못할 때 **Forwarding Record**를 남겨 기존 RID를 통한 접근을 유지할 수 있다. 따라서 Row가 이동할 때마다 모든 Non-clustered Index의 RID를 반드시 갱신한다는 뜻은 아니다. Forwarding 경유 접근은 추가 비용이 될 수 있다.
 
 반면 Clustered Table의 Non-clustered Index는 물리적 Page 위치가 아니라 Clustered Key를 Locator로 가진다.
 
@@ -538,32 +537,6 @@ B-Tree에서는 Record Entry가 내부 노드에도 존재할 수 있으므로, 
 
 ---
 
-## 11. Child Pointer와 Row Locator는 다르다
-
-B+Tree + Non-clustered에서는 두 종류의 참조가 보인다.
-
-```text
-Internal
-[Search Key | Child Pointer]
-              ↓
-         다음 Tree Page
-
-Leaf
-[Search Key | Row Locator]
-              ↓
-           원본 Row
-```
-
-```text
-Child Pointer
-→ 트리를 탐색하기 위한 길 안내
-
-Row Locator
-→ 원본 Row를 찾기 위한 길 안내
-```
-
----
-
 ## 12. PK와 Clustered Index
 
 Primary Key와 Clustered Index는 같은 개념이 아니다.
@@ -640,7 +613,7 @@ Leaf Data Page
 
 > **Query에 필요한 Column을 Non-clustered Index에서 전부 얻을 수 있다면 굳이 원본 Row까지 다시 찾아갈 필요가 있을까?**
 
-그럴 필요가 없다. 특정 Query에 필요한 Column이 Index 안에 모두 들어 있어 원본 Row 접근 없이 Query를 처리할 수 있는 Index를 Covering Index라고 한다.
+그럴 필요가 없다. 특정 Query에 필요한 Column이 Index 안에 모두 들어 있어 원본 Row 접근 없이 Query를 처리할 수 있는 경우 그 인덱스가 **해당 Query를 Covering한다**고 한다. Covering은 별도의 Tree 종류가 아니라 **Query에 따라 달라지는 성질**이다.
 
 예를 들어:
 
@@ -682,7 +655,14 @@ Covering Index
 원본 Row Lookup 생략
 ```
 
-중요한 점은 **Covering Index라고 Row Locator가 없어지는 것이 아니라, 해당 Query에서 Row Locator를 따라갈 필요가 없어지는 것**이다.
+예를 들어 `(name, age)` 인덱스가 있다고 하자. 아래 첫 번째 Query는 필요한 컬럼을 인덱스에서 얻을 수 있지만, 두 번째 Query는 `address`가 인덱스에 없으면 원본 Row 조회가 필요하다.
+
+```sql
+SELECT name, age FROM student WHERE name = '철수';
+SELECT name, age, address FROM student WHERE name = '철수';
+```
+
+중요한 점은 **Covering이라고 Row Locator가 없어지는 것이 아니라, 해당 Query에서 Row Locator를 따라갈 필요가 없어지는 것**이다. SQL Server에서 필요한 컬럼을 인덱스에 포함하는 방법은 Key 컬럼뿐 아니라 `INCLUDE` 컬럼도 있다.
 
 ### Covering Index의 Trade-off
 
@@ -762,7 +742,7 @@ Heap Tuple
 
 ---
 
-## 16. 처음 헷갈렸던 질문으로 다시 확인
+## 15. 처음 헷갈렸던 질문으로 다시 확인
 
 ### 노드에 실제 Row가 있으면 Clustered인가
 
@@ -799,40 +779,17 @@ Clustered Table   → Clustered Key   (SQL Server 기준)
 
 ---
 
-## 17. 기억 흐름
+## 16. 질문으로 이해 복원하기
 
-```text
-1. B/B+
-   → Record Entry를 트리 어디에 두는가
+본문을 가리고 다음 질문에 **분류축 → 저장 관계 → 조회 경로 → 비용** 순서로 답해 본다.
 
-2. Clustered/Non-clustered
-   → 실제 Row 저장구조와 Index의 관계는 무엇인가
+1. B-Tree / B+Tree와 Clustered / Non-clustered는 왜 서로 다른 분류축인가?
+2. Clustered Index의 Row가 Key 순서로 조직된다는 말은 왜 물리적 디스크 연속 배치와 다른가?
+3. SQL Server Heap에 Non-clustered Index가 있을 때 RID는 어디에 저장되고, 어떤 정보를 나타내는가?
+4. SQL Server의 Non-clustered Index는 Clustered Table에서 무엇을 Locator로 사용하는가? Clustered Key가 고유하지 않으면 어떤 보완이 필요한가?
+5. Row의 물리적 위치가 변할 때 RID와 Clustered Key 기반 Locator는 어떤 차이를 보이는가? Heap의 Forwarding Record는 무엇을 보완하는가?
+6. Child Pointer와 Row Locator는 각각 어디로 안내하는가?
+7. 같은 인덱스가 어떤 Query에는 Covering이고 다른 Query에는 아닐 수 있는 이유는 무엇인가? 추가 Lookup을 줄이는 대가는 무엇인가?
+8. SQL Server, InnoDB, PostgreSQL의 원본 Row 저장 방식과 보조 인덱스의 참조 방식은 어떻게 다른가?
 
-3. B+Tree + Clustered
-   → Internal = Key + Child Pointer
-   → Leaf = 실제 Row
-
-4. B+Tree + Non-clustered
-   → Internal = Key + Child Pointer
-   → Leaf = Search Key + Row Locator
-
-5. SQL Server의 Row Locator
-   → Heap이면 RID
-   → Clustered Table이면 Clustered Key
-
-6. Locator 성격
-   → RID = 위치 기반
-   → Clustered Key = 논리 Key 기반
-
-7. Non-clustered Lookup 비용
-   → 원본 Row가 필요하면 추가 Lookup 가능
-   → 필요한 Column이 Index에 모두 있으면 Covering Index로 Lookup 생략 가능
-
-8. Clustered의 '순서'
-   → 물리 Disk 연속 배치 X
-   → Key 기준의 논리적 조직 O
-```
-
-시험 답안에서는 다음 표현이 가장 안전하다.
-
-> **Clustered Index는 인덱스 Key를 기준으로 데이터 저장구조 자체가 조직되는 인덱스이고, Non-clustered Index는 별도의 검색구조에서 Row Locator를 통해 원본 Row를 참조하는 인덱스다.**
+> **B/B+는 결과 Entry의 트리 내 위치, Clustered/Non-clustered는 인덱스와 실제 Row 저장구조의 관계다. Non-clustered 조회에서 원본 Row가 더 필요하면 Locator를 따라 추가 Lookup이 생길 수 있고, Query에 필요한 정보가 인덱스에 모두 있으면 이를 생략할 수 있다.**
