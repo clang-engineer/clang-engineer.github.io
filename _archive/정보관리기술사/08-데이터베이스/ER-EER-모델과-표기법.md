@@ -16,6 +16,16 @@ Chen / Crow's Foot / IDEF1X / UML Class Diagram
 → 모델링 단계나 ER·EER 자체와 1:1 대응하지 않음
 ```
 
+| 구분 | 빠른 복습 단서 |
+|---|---|
+| ER | Entity(대상) · Attribute(속성) · Relationship(관계) |
+| 관계 제약 | Cardinality(몇 개와 연결?) · Participation(반드시 참여?) |
+| EER | Supertype / Subtype · ISA로 공통·특수 속성 표현 |
+| 설계 수준 | 개념(업무 의미) → 논리(관계·Key) → 물리(Table·Index) |
+| 표기법 | Chen(도형), Crow's Foot(관계선), IDEF1X(식별 관계) — 모델 자체와 구분 |
+
+**복습 단서:** 모델은 **무엇을 표현하는가**, 모델링 단계는 **얼마나 구체화하는가**, 표기법은 **어떻게 그리는가**의 질문이다.
+
 이 지도는 본문을 읽기 전 핵심 개념의 **위치·관계·구분 기준**을 확인하는 인출 좌표다. 세부 원리와 예외는 아래에서 설명한다.
 
 
