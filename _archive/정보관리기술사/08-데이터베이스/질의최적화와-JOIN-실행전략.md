@@ -3,22 +3,27 @@
 ## 이 문서의 개념지도
 
 ```text
-SQL의 논리 JOIN (무엇을 구할까?)
-       ↓ 물리 실행 후보 (어떻게 결합할까?)
-├─ Nested Loop → 외부 Row마다 내부 탐색 · Index 활용
-├─ Hash Join   → Build / Probe · Hash Table · Memory
-└─ Merge Join  → 정렬된 입력의 순차 결합
-       ↓
-Optimizer: Cardinality · Index · 정렬 · Memory · Cost 비교
-       ↓
-Execution Plan 선택 → 실제 실행 결과와 비교
+Logical JOIN (무엇을 결합할까?)
+        ↓ 물리 실행 대안
+├─ Nested Loop → Outer Row마다 Inner 반복 탐색
+├─ Hash Join   → Build(Hash Table) + Probe
+└─ Merge Join  → 정렬된 입력을 Key 순서로 결합
+        ↓
+Cardinality · Index · 정렬 상태 · Memory
+        ↓ 후보별 Cost 비교
+Execution Plan 선택 → Estimated / Actual 검증
 
-분산 실행에서는 Data Movement(Broadcast / Shuffle 등) 비용 추가
-※ 세 JOIN은 발전 단계가 아니라 같은 논리 연산의 실행 대안이다.
+분산 환경: Broadcast / Shuffle (데이터 이동)
+           Semi-Join / Bloom Filter (데이터 축소)
 ```
 
-이 지도는 **논리 JOIN → 물리 알고리즘 → 선택 조건 → 실행 진단**의 관계를 보여준다. 세 알고리즘은 발전 순서가 아닌 대안이다.
+| 전략 | 유리한 조건 | 핵심 비용·주의점 |
+|---|---|---|
+| Nested Loop | 작은 Outer + 빠른 Inner Index | 반복 Lookup, Outer 추정 오류 |
+| Hash Join | Equality Join + Build에 충분한 Memory | Build / Probe, Spill 시 I/O |
+| Merge Join | Join Key로 정렬된 입력 | Sort 비용, 중복 Key 그룹 처리 |
 
+**복습 단서:** 세 전략은 발전 순서가 아닌 동일한 논리 JOIN의 대안이다. 알고리즘을 고를 때는 입력 Row 수와 접근·정렬·메모리 비용을 함께 비교한다. 자세한 동작 예제와 예외는 본문에서 확인한다.
 
 ## 1. 논리 JOIN과 물리 JOIN
 
