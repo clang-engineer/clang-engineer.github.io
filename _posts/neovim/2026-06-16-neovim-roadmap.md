@@ -2,7 +2,7 @@
 title       : "Neovim 로드맵 — Vim 바닥에서 LazyVim과 Plugin 개발까지"
 description : "Vim/Neovim/배포판 계층을 먼저 잡고, 편집 기본기 → 필요한 만큼의 Lua → LazyVim 구조 이해까지를 사용자 학습의 핵심 경로로 둔다. Plugin 개발은 별도 Branch, LSP·DAP·PKM·비교는 필요할 때 들어가는 별도 Branch와 부록으로 분리한다."
 date        : 2026-06-16 23:00:00 +0900
-updated     : 2026-09-06 13:35:00 +0900
+updated     : 2026-10-25 17:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : false
@@ -61,18 +61,24 @@ Plugin을 만들지 않는다면 **LazyVim 구조 이해에서 핵심 경로가 
 | Distro (LazyVim 등) | 플러그인 조합·기본값·키맵 | lazy.nvim spec, extras, user overrides |
 
 ```text
-Vim 편집 모델
-  ↓
-Neovim runtime / API
-  ↓
-Plugin이 구체 기능 구현
-  ↓
-Distro가 조립하고 기본값 제공
-  ↓
-User config가 최종 override
+Vim에서 이어진 편집 모델 (mode / motion / operator)
+                    │
+             Neovim Core / API
+                    │
+          ┌─────────┴──────────┐
+          │                    │
+      내장 기능          Plugin 확장 기능
+          │                    │
+          └─────────┬──────────┘
+                    │
+        LazyVim: Plugin 조합·기본 설정 (선택)
+                    │
+           사용자 설정·재정의
 ```
 
-예를 들어 LazyVim에서 LSP 기능을 호출하는 키를 눌렀다고 해서 LSP 기능 자체가 LazyVim 구현인 것은 아니다. **Neovim core → Plugin → Distro 설정 → 사용자 override** 순으로 기능의 출처를 추적한다.
+이 그림은 기능의 출처와 설정 책임을 구분한 것이다. Vim은 Neovim 내부에서 실행되는 별도 계층이 아니며, Neovim의 모든 기능이 Plugin을 거치는 것도 아니다. LazyVim은 선택적인 배포판이다.
+
+예를 들어 LazyVim에서 LSP 기능을 호출하는 키를 눌렀다고 해서 LSP 기능 자체가 LazyVim 구현인 것은 아니다. **Neovim 내장 기능인지, Plugin이 제공하는 기능인지, LazyVim과 사용자 설정이 어떻게 연결하는지**를 구분해 추적한다.
 
 | 더 알아볼 질문 | 문서 |
 |---|---|
@@ -116,11 +122,12 @@ Plugin 제작자
 LazyVim을 직접 수정하려면 “어떤 Plugin이 있나”보다 **lazy.nvim spec이 어느 계층에서 합쳐지는지**가 중요하다.
 
 ```text
-lazy.nvim
-→ LazyVim core
-→ optional extras
-→ user spec
-→ 최종 Plugin configuration
+lazy.nvim (Plugin Manager)
+├─ LazyVim 기본 Plugin spec
+├─ 선택한 extras
+└─ 사용자 Plugin spec / override
+         ↓
+   최종 설정 해석·Plugin 로딩
 ```
 
 | 글 | 역할 |
