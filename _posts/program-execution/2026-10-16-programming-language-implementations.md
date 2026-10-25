@@ -102,7 +102,7 @@ Python Bytecode 생성·실행
 
 ## 6. 연결해서 읽기
 
-- [프로그램 실행 전체 지도](./2026-09-25-index.md) — 소스 코드에서 CPU까지의 전체 흐름
+- [프로그램 실행 전체 지도](./2026-09-25-00-program-execution-roadmap.md) — 소스 코드에서 CPU까지의 전체 흐름
 - [컴파일러와 링커](./2026-09-25-compiler-object-linker.md) — 네이티브 코드 생성과 링크
 - [Runtime과 언어별 실행 모델](./2026-09-25-runtime-execution-model.md) — VM, JIT, Runtime의 실행 책임
 - [JVM 구조와 작동 원리](../java/2026-09-29-java-jvm-structure-execution.md) — 바이트코드 실행의 다른 사례
