@@ -2,30 +2,37 @@
 title       : "키보드 로드맵 — 손버릇에서 Firmware·Keymap까지"
 description : "세벌식·HHKB라는 개인 입력 배경에서 출발해 Keymap 용어를 잡고, Firmware(QMK·ZMK), Runtime Configurator(VIA·Vial·ZMK Studio), OS Remap(Karabiner)을 서로 다른 계층으로 구분한 뒤 ZMK 40% 키맵 구현으로 Zoom-in하는 학습 지도."
 date        : 2026-07-03 15:00:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 19:00:00 +0900
 categories  : [keyboard, "개요·인덱스"]
 tags        : [roadmap, keyboard, hhkb, sebeolsik, zmk, qmk, via, vial, karabiner]
 pin         : false
 hidden      : false
 ---
 
-이 로드맵은 커스텀 키보드 하드웨어 전체를 다루지 않는다. **내가 이미 가진 입력 습관을 Keymap으로 어떻게 표현하고 어느 계층에서 바꿀 것인가**가 범위다.
+이 로드맵은 **키 입력이 물리 장치에서 애플리케이션까지 전달되고 변환되는 구조**를 먼저 보여준다. Keymap 설계와 QMK·ZMK 활용은 그 구조에서 필요한 부분만 깊게 보는 사례다.
 
 먼저 **키 입력이 처리되는 위치**와 **설정을 변경하는 도구**를 구분한다.
 
 ```text
-키보드 하드웨어
-      │ 스캔·키 입력 감지
-      ▼
-장치 Firmware (QMK / ZMK 등)
-      │ Layer·Behavior·Keycode 처리
-      │       ▲
-      │       └─ 지원 시 VIA·Vial·ZMK Studio로 설정 변경
-      ▼
-호스트 OS의 입력 처리
-      │ macOS에서는 Karabiner-Elements로 추가 Remap 가능
-      ▼
-애플리케이션
+키 입력 시스템 — 주요 개념
+├─ 물리 장치
+│  ├─ Switch / Matrix / MCU
+│  └─ Scan / Debounce
+├─ Firmware (QMK / ZMK 등)
+│  ├─ Keymap / Layer / Combo / Hold-Tap
+│  └─ Keycode / HID Report 생성
+├─ Host 입력 처리
+│  ├─ USB·Bluetooth HID 입력
+│  ├─ OS Keymap / IME
+│  └─ OS Remap (예: Karabiner)
+└─ Application ── Shortcut / Text Input
+
+설정 경로 (입력 이벤트의 통과 계층이 아님)
+├─ Firmware 빌드·Flash
+└─ 지원되는 Dynamic Configurator (VIA·Vial·ZMK Studio)
+
+관계: 물리 입력 → Firmware → HID → OS → App
+      Layer·Hold-Tap은 Firmware 동작; IME는 문자 조합
 ```
 
 VIA·Vial·ZMK Studio는 입력 이벤트가 매번 통과하는 별도 실행 계층이 아니라, 지원 Firmware의 설정을 변경하는 도구다.
