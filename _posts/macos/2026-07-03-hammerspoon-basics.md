@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-[Hammerspoon](https://www.hammerspoon.org/)은 **Lua 스크립트로 macOS를 제어**하는 자동화 도구다. 창 배치, 단축키, 알림, 외부 명령 실행 등을 코드로 정의한다. 이 글은 설치부터 설정을 모듈로 나누기까지 **기본기**를 다룬다. 창 분할·AeroSpace 연동 같은 실전 활용은 [macOS 로드맵](./2026-07-03-macos-roadmap.md)의 창 관리 갈래에서 이어진다.
+[Hammerspoon](https://www.hammerspoon.org/)은 **Lua 스크립트로 macOS를 제어**하는 자동화 도구다. 창 배치, 단축키, 알림, 외부 명령 실행 등을 코드로 정의한다. 이 글은 설치부터 설정을 모듈로 나누기까지 **기본기**를 다룬다. 창 분할·AeroSpace 연동 같은 실전 활용은 [macOS 로드맵](./2026-07-03-00-macos-roadmap.md)의 창 관리 갈래에서 이어진다.
 
 ## 설치와 권한
 
