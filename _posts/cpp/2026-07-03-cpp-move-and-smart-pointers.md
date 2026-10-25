@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [모던 C++ 학습 로드맵](./2026-07-03-cpp-learning-roadmap.md)의 **고급(값과 소유권)** 단계다. 앞 글: [② 클래스와 자원 관리](./2026-07-03-cpp-class-and-resource-management.md)
+> [모던 C++ 학습 로드맵](./2026-07-03-00-cpp-learning-roadmap.md)의 **고급(값과 소유권)** 단계다. 앞 글: [② 클래스와 자원 관리](./2026-07-03-cpp-class-and-resource-management.md)
 
 앞 글의 Rule of Three는 복사를 안전하게 만드는 법을 다뤘다. 이번에는 **복사할 필요가 없는 객체의 자원을 재사용하는 이동 시맨틱**과 그 위에서 소유 관계를 표현하는 스마트 포인터를 본다.
 
