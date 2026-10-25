@@ -2,7 +2,7 @@
 title       : "dotfiles 로드맵 — 설정을 코드로 재현하는 방법"
 description : "dotfiles를 Git에 두는 공통 원칙에서 출발해 홈에 배치하는 방식(심링크·bare git/yadm·chezmoi), 머신별 값과 시크릿 처리, macOS 패키지 재현(Brewfile)을 서로 다른 축으로 구분한 학습 지도."
 date        : 2026-07-08 12:00:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 19:00:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, dotfiles, chezmoi, symlink]
 pin         : false
@@ -11,15 +11,23 @@ hidden      : false
 
 dotfiles 관리의 목적은 `~/.zshrc`나 `~/.gitconfig`를 예쁘게 모으는 것이 아니라 **설정의 원본과 변경 이력을 Git에 두고, 새 환경에서 다시 재현할 수 있게 만드는 것**이다.
 
-서로 다른 책임을 하나의 도구 선택 문제로 묶지 않는 것이 중요하다.
+서로 다른 책임을 하나의 도구 선택 문제로 묶지 않는 것이 중요하다. **현재 사용하는 도구나 작성된 게시글과 관계없이** 설정 재현의 핵심 개념군을 먼저 살펴본다.
 
 ```text
-개발환경 재현
-├─ 설정의 정본·변경 이력 ── Git repository (일반적인 선택)
-├─ Home 배치 방식 ─────── symlink / Home worktree / chezmoi apply
-├─ Machine별 차이 ─────── 실행 시 분기 / template·data
-├─ Secret 관리 ────────── 저장소 외부의 보안 저장소·로컬 파일
-└─ 도구 설치 재현 ──────── package manifest (예: Brewfile)
+개발환경 재현 — 주요 책임
+├─ 설정의 원본·변경 이력 ── Git 등 버전 관리
+├─ 대상 시스템 배치
+│  ├─ Symlink ── 원본 파일 참조
+│  ├─ Home Worktree ── 대상 위치를 직접 추적
+│  └─ Render / Apply ── 템플릿을 실제 설정으로 생성
+├─ 환경별 차이 ── Host data / 조건부 설정
+├─ 민감 정보 ── 별도 보관·주입 / 접근 제어
+└─ 실행 환경의 재현
+   ├─ Package / Tool Version
+   └─ Bootstrap / 검증 / 복구
+
+관계: 원본 → 배치 → 적용·검증
+      환경별 값·Secret·Package는 별도의 횡단 책임
 ```
 
 배치 모델, Machine별 값, Secret 관리, 패키지 설치는 서로 보완하는 축이다.
