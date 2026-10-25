@@ -2,7 +2,7 @@
 title       : "모던 C++ 학습 로드맵 — 객체 수명에서 모던 C++까지"
 description : "C++ 학습을 컴파일·링크 모델, 참조·객체 수명, RAII, 이동·스마트 포인터, STL·람다, 템플릿, 모던 언어 기능으로 연결하고 동시성·CMake·스타일은 필요에 따라 분기한 학습 지도."
 date        : 2026-07-03 10:00:00 +0900
-updated     : 2026-09-06 13:05:00 +0900
+updated     : 2026-10-25 17:00:00 +0900
 categories  : [cpp]
 tags        : [roadmap, modern-cpp]
 pin         : false
@@ -15,23 +15,20 @@ C++는 문법 목록보다 **객체의 수명과 번역 단위가 어떻게 프�
 
 ```text
 [언어 의미론]
-참조·객체 수명
-   ↓
-class·RAII
-   ↓
-move·ownership 표현
-   ↓
-STL·lambda
-   ↓
-template·modern language
+객체·참조·수명 ── RAII·자원 관리
+        │                │
+        └── move·copy ───┘
+
+표준 라이브러리 ── container / iterator / algorithm
+언어 추상화 ─────── class / template / lambda
+표현·계산 규칙 ──── auto / constexpr / 초기화
 
 [프로그램 구성]
-source / header
-   ↓
-compile / link
-   ↓
-여러 target을 project로 build
-→ CMake
+source / header → translation unit → compile → object
+                                              ↓
+                                         link → 실행 파일
+
+CMake → 여러 target의 빌드 구성을 생성·관리
 ```
 
 컴파일·링킹은 마지막에 배우는 부록이 아니라 **처음부터 C++ 프로그램 구조를 이해하는 바닥**이다. 다만 CMake의 세부 사용은 여러 파일·target을 실제로 다룰 때 Zoom-in한다.
