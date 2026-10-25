@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [QMK로 키맵 짜기](./2026-07-03-qmk-keymap-build.md)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-00-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [QMK로 키맵 짜기](./2026-07-03-qmk-keymap-build.md)
 
 QMK 키맵을 [매번 컴파일](./2026-07-03-qmk-keymap-build.md)하는 건 번거롭다. **VIA·VIAL**은 지원 펌웨어가 올라간 키보드의 키맵을 GUI에서 바꾸는 도구다. 이 글은 펌웨어와 설정 도구의 경계를 잡고 실제 리맵 흐름을 정리한다.
 
