@@ -5,7 +5,7 @@ categories: [Program Execution]
 tags: [compiler, linker, object-file, symbol, static-linking, dynamic-linking]
 ---
 
-> [Program Execution 전체 지도](./2026-09-25-index.md)
+> [Program Execution 전체 지도](./2026-09-25-00-program-execution-roadmap.md)
 
 
 앞선 글에서는 프로그램이 실행되는 전체 흐름을 살펴봤다.
