@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **② 핵심(뼈대, 최우선)** 단계다. 앞 글: [① 문법·불변성·cargo](./2026-07-12-rust-basics-cargo-immutability.md)
+> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **② 핵심(뼈대, 최우선)** 단계다. 앞 글: [① 문법·불변성·cargo](./2026-07-12-rust-basics-cargo-immutability.md)
 
 Rust에서 가장 먼저 오래 붙잡아야 할 구간이다. C++의 RAII·이동 시맨틱·스마트 포인터·댕글링 참조 문제를 알고 있으면 좋은 발판이 된다. 다만 Rust 소유권은 이 도구들을 단순히 "컴파일러가 강제한 버전"으로 합친 것이 아니라, **값의 소유·빌림·수명 관계를 언어의 타입 규칙으로 만든 별도의 모델**이다.
 
