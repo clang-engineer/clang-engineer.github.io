@@ -11,6 +11,22 @@ hidden      : false
 
 셸은 사용자의 명령을 해석하고 프로그램을 실행하며, 파이프·리다이렉션·작업 제어를 제공하는 명령 실행 환경이다. 스크립트는 이 동작을 파일로 작성해 재사용하는 방법이다. 이 로드맵은 **실행·해석·작업 제어·초기화의 실제 개념 관계**를 먼저 보여준다. 게시글 유무는 개념 포함 기준이 아니다.
 
+## 전체 개념지도
+
+```text
+Shell
+├─ 입력·해석 ── Parsing / Quote / Expansion / Globbing
+├─ 실행 ── Builtin / Function / External Command / PATH
+├─ 입출력 ── Pipeline / Redirection
+├─ 제어 ── Exit Status / Condition / Loop / Job / Signal
+└─ 환경 ── Variable / Startup File / Working Directory
+
+입력 → 해석·확장 → 명령 실행 → 종료 상태
+                      │
+                Process / I/O
+별도 영역: PTY·Terminal / tmux / dotfiles
+```
+
 ## 핵심 개념과 관계
 
 ### 명령 해석과 실행
