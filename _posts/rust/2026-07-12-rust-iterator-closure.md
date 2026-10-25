@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **⑦ 관용구(고유)** 단계입니다. 앞 글: [⑥ trait·제네릭](./2026-07-12-rust-trait-generics.md)
+> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **⑦ 관용구(고유)** 단계입니다. 앞 글: [⑥ trait·제네릭](./2026-07-12-rust-trait-generics.md)
 
 **C++ 대응이 흐릿한, Rust에서 새로 배우는 축입니다.** 문법만 알고 여길 건너뛰면 "C++을 Rust 문법으로 옮긴" 코드가 나옵니다. Rust 코드가 실제로 어떻게 생겼는지가 여기서 갈립니다. 클로저의 일반 개념은 [클로저란 무엇인가](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/05-소프트웨어-공학/_보충학습/프로그래밍-언어-의미론.md)에서 다룹니다.
 
