@@ -121,7 +121,7 @@ relative_links:
 다른 Markdown 문서의 Heading을 가리켜야 한다면 파일 상대경로 뒤에 Anchor를 붙인다.
 
 ```markdown
-[동시성 단계](../go/2026-07-12-go-roadmap.md#동시성)
+[동시성 단계](../go/2026-07-12-00-go-roadmap.md#동시성)
 ```
 
 Heading Anchor는 렌더러에 따라 생성 규칙 차이가 있을 수 있으므로, 문서 전체를 가리키는 링크로 충분하면 특정 Heading Anchor에 과도하게 의존하지 않는다.
