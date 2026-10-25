@@ -39,7 +39,7 @@ Shell — 명령 실행 환경
 
 파이프·리다이렉션·글로빙·텍스트 처리 등 일부 기초 영역은 아직 전용 본문이 부족하다. 없는 글을 억지로 연결하지 않고 아래에 빈 영역으로 표시한다.
 
-## 1. 실행 모델 — 첫 스크립트를 실행한다
+## 명령 실행·스크립트
 
 | 글 | 핵심 |
 |---|---|
@@ -57,7 +57,7 @@ Script File
 
 이 바닥이 잡혀야 문법 오류와 실행 환경 오류를 구분할 수 있다.
 
-## 2. 문법·확장 — Bash가 한 줄을 어떻게 읽는가
+## 입력 해석·확장
 
 | 글 | 핵심 |
 |---|---|
@@ -78,7 +78,7 @@ Quote는 어떤 확장을 막거나 보존하는가?
 > 📎 **치트시트** · [shell](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/shell.md) · [zsh](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/zsh.md)
 {: .prompt-tip }
 
-## 3. CLI 설계 — Script를 작은 도구로 만든다
+## CLI 입력 계약
 
 | 글 | 핵심 |
 |---|---|
@@ -97,7 +97,7 @@ Quote는 어떤 확장을 막거나 보존하는가?
 
 여기서 중요한 것은 Bash Parsing Code 자체보다 **입력 계약을 어떤 축으로 나눌지**다.
 
-## 4. Process·Job·Session — 명령을 오래 실행하면 무엇이 남는가
+## 프로세스·작업 제어
 
 | 글 | 핵심 |
 |---|---|
@@ -118,7 +118,7 @@ Shell이 끝나도 Process만 계속 실행
 
 Terminal·PTY·Session 자체를 더 깊게 보면 [Terminal 로드맵](../terminal/2026-09-05-terminal-roadmap.md), tmux 사용 구조는 [tmux 로드맵](../tmux/2026-06-16-tmux-roadmap.md)으로 이어진다.
 
-## Branch A — Directory별 환경변수
+## Directory별 환경변수
 
 | 글 | 핵심 |
 |---|---|
@@ -137,7 +137,7 @@ Application 내부 .env Loading
 → dotenv 계열
 ```
 
-## Branch B — 일상 탐색 마찰 줄이기
+## 일상 탐색 마찰 줄이기
 
 | 글 | 핵심 |
 |---|---|
@@ -192,7 +192,7 @@ Shell Roadmap에서 이 문서들을 다시 단계별로 중복 큐레이션하�
 
 필요성이 생기면 기존 짧은 메모를 되살리는 대신 현재 문서 원칙으로 새로 작성한다.
 
-## 어디서 시작할까
+## 필요할 때 더 살펴보기
 
 ```text
 셸 Script를 처음 만든다
