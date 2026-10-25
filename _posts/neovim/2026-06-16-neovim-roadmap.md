@@ -39,7 +39,7 @@ Neovim — 편집기·확장 시스템
 
 Plugin을 만들지 않는다면 **LazyVim 구조 이해에서 핵심 경로가 끝난다.** LSP·DAP 같은 IDE 기능도 모두 순서대로 배울 필요는 없고, 문제가 생기거나 직접 구성할 때 해당 Branch로 들어간다.
 
-## 한눈에 보기
+## 개념군별 심화 문서
 
 | 구역 | 핵심 질문 | 성격 |
 |---|---|---|
@@ -51,7 +51,7 @@ Plugin을 만들지 않는다면 **LazyVim 구조 이해에서 핵심 경로가 
 | Branch B | LSP·DAP 같은 IDE 기능은 어떤 계층으로 연결되나 | 필요할 때 |
 | Appendix | PKM·다른 Editor·Plugin 생태계 | 다른 축 |
 
-## 0. Vim → Neovim → Distro 계층
+## 편집 모델과 확장 계층
 
 같은 기능처럼 보여도 **어느 계층이 실제로 구현하고 누가 기본값을 조립하는지**를 구분해야 한다.
 
@@ -89,7 +89,7 @@ Vim에서 이어진 편집 모델 (mode / motion / operator)
 | LazyVim은 어떤 플러그인을 어떻게 조립하나 | [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md) |
 | spec과 override가 합쳐지는 규칙은? | [LazyVim spec merge](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) |
 
-## 1. 편집 기본기 — Distro 아래의 Vim 문법
+## 편집 기본기 — Distro 아래의 Vim 문법
 
 현재 블로그에는 편집 기본기 전체를 설명하는 전용 Concept가 아직 부족하다. 없는 내용을 Plugin 문서로 메우지 않는다.
 
@@ -100,7 +100,7 @@ Vim에서 이어진 편집 모델 (mode / motion / operator)
 
 `operator + motion/text object`, dot-repeat, macro 등은 `vimtutor`·*Practical Vim* 같은 외부 학습 자료로 보완한다. Roadmap은 이 빈칸을 숨기지 않는다.
 
-## 2. Lua — 설정을 읽을 만큼 먼저, 깊이는 제작할 때
+## Lua — 설정을 읽을 만큼 먼저, 깊이는 제작할 때
 
 Lua 전체를 다 익힌 뒤 Neovim으로 갈 필요는 없다.
 
@@ -119,7 +119,7 @@ Plugin 제작자
 
 심화가 필요하면 Hub에서 [메타테이블](./2026-06-15-lua-metatables.md), [에러 처리](./2026-06-15-lua-error-handling.md), [Lua vs Vimscript 성능](./2026-06-12-neovim-lua-vs-vimscript-performance.md)으로 내려간다. 기존 Vimscript Plugin을 읽어야 할 때만 [Vimscript 종합 가이드](./2026-06-15-vimscript-syntax-guide.md)를 별도 Reference로 사용한다.
 
-## 3. LazyVim — 기능 목록보다 조립 구조를 이해한다
+## LazyVim — 기능 목록보다 조립 구조를 이해한다
 
 LazyVim을 직접 수정하려면 “어떤 Plugin이 있나”보다 **lazy.nvim spec이 어느 계층에서 합쳐지는지**가 중요하다.
 
@@ -140,7 +140,7 @@ lazy.nvim (Plugin Manager)
 
 개별 Plugin 목록이나 Keymap은 필요할 때 [주요 Plugin 정리](./2026-06-07-lazyvim-feature-plugin-map.md), [Which-Key](./2025-10-04-whichkey.md), [Git Plugin 구성](./2026-06-09-lazyvim-git-plugins.md)으로 Zoom-in한다.
 
-## Branch A — Plugin 개발
+## Plugin 개발
 
 사용자 경로의 다음 단계가 아니라 **역할이 제작자로 바뀌는 Branch**다.
 
@@ -175,7 +175,7 @@ lazy.nvim (Plugin Manager)
 
 Lua/Vimscript 혼용이 실제로 필요할 때만 [두 언어 섞기](./2026-06-12-neovim-plugin-mixing-lua-vimscript.md), 문서 자동화가 필요할 때 [vimdoc·panvimdoc](./2026-06-19-neovim-plugin-vimdoc-panvimdoc.md)로 추가 Zoom-in한다.
 
-## Branch B — IDE 기능 계층
+## IDE 기능 계층
 
 LazyVim이 기본값을 제공하더라도 장애를 진단하거나 직접 구성하려면 계층을 알아야 한다.
 
@@ -186,7 +186,7 @@ LazyVim이 기본값을 제공하더라도 장애를 진단하거나 직접 구�
 
 LSP와 DAP를 “LazyVim 다음 단계”로 두지 않는다. 실제 개발환경에서 해당 기능을 직접 다룰 때 들어간다.
 
-## Appendix — 다른 축의 대표 진입점
+## 다른 축의 대표 진입점
 
 Roadmap이 50여 개 글의 전체 목차가 되지 않도록 대표 Hub만 둔다.
 
@@ -203,7 +203,7 @@ Roadmap이 50여 개 글의 전체 목차가 되지 않도록 대표 Hub만 둔�
 - Lua가 아닌 일반 Programming Concept → 정보관리기술사 Knowledge
 - dotfiles로 Neovim config를 Machine에 배포 → [dotfiles](../shell/2026-07-08-dotfiles-roadmap.md)
 
-## 어디서 시작할까
+## 필요할 때 더 살펴보기
 
 ```text
 Vim/Neovim/LazyVim 관계가 헷갈린다
@@ -221,4 +221,4 @@ LSP/DAP가 문제다
 → IDE 기능 Branch
 ```
 
-> **Neovim 사용자 학습의 핵심은 계층 → 편집 기본기 → 최소 Lua → Distro 구조다. Plugin 개발과 IDE 내부 구성은 별도 Branch이며, Roadmap은 대표 Hub만 남기고 세부는 각 Hub에서 다시 Zoom-in한다.**
+
