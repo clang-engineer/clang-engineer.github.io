@@ -5,7 +5,7 @@ categories: [Program Execution]
 tags: [runtime, jvm, go-runtime, javascript-engine, wasm-runtime, jit]
 ---
 
-> [Program Execution 전체 지도](./2026-09-25-index.md)
+> [Program Execution 전체 지도](./2026-09-25-00-program-execution-roadmap.md)
 
 지금까지는 네이티브 프로그램을 기준으로 컴파일, 링크, Load, 프로세스, 가상 메모리, System Call을 따라왔다. 그런데 Java, Go, JavaScript, WebAssembly를 보면 실행 구조가 서로 다르다.
 
