@@ -59,4 +59,4 @@ Shell의 Job Control은 Foreground·Background 작업과 프로세스 그룹을 
 
 [스크립트 실행](./2026-07-04-first-shell-script.md), [Bash 문법](./2026-07-03-bash-syntax-guide.md), [CLI 인자](./2026-06-10-cli-positional-vs-flag.md), [백그라운드 작업](./2026-06-16-background-jobs-and-session.md)을 참고할 수 있다. 파이프·리다이렉션·셸 초기화처럼 독립 문서가 없는 핵심 개념도 지도에는 유지한다.
 
-[Terminal](../terminal/2026-09-05-00-terminal-roadmap.md)은 PTY와 화면 입출력, [tmux](../tmux/2026-06-16-00-tmux-roadmap.md)는 작업공간, [dotfiles](./2026-07-08-dotfiles-roadmap.md)는 설정 재현을 다룬다. direnv·zoxide는 필요에 따라 사용하는 보조 도구다.
+[Terminal](../terminal/2026-09-05-00-terminal-roadmap.md)은 PTY와 화면 입출력, [tmux](../tmux/2026-06-16-00-tmux-roadmap.md)는 작업공간, [dotfiles](./2026-07-08-00-dotfiles-roadmap.md)는 설정 재현을 다룬다. direnv·zoxide는 필요에 따라 사용하는 보조 도구다.
