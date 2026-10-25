@@ -1,50 +1,35 @@
 ---
 title       : "셸 로드맵 — 실행 모델에서 스크립트와 세션까지"
-description : "첫 스크립트 실행 → Bash 문법 → CLI 인터페이스 → 프로세스·세션으로 이어지는 셸 학습 줄기. dotfiles·Brewfile·chezmoi는 환경 재현이라는 별도 축으로 dotfiles 로드맵에 넘기고, direnv·zoxide는 필요할 때 쓰는 도구 Branch로 분리한다."
+description : "셸의 명령 해석·실행, 스크립팅, 프로세스·작업 제어, CLI 설계와 주변 도구의 관계를 연결하는 로드맵."
 date        : 2026-07-03 14:30:00 +0900
-updated     : 2026-09-06 12:00:00 +0900
+updated     : 2026-10-25 17:00:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, shell, zsh, bash]
 pin         : false
 hidden      : false
 ---
 
-이 로드맵은 셸을 **명령을 해석하고 Process를 실행하며 작은 자동화 도구를 만드는 층**으로 본다.
+셸은 사용자의 명령을 해석하고 프로그램을 실행하며, 파이프·리다이렉션·작업 제어를 제공하는 명령 실행 환경이다. 스크립트는 이 동작을 파일로 작성해 재사용하는 방법이다. 이 로드맵은 **실행·해석·작업 제어의 관계**를 중심으로 개별 문서를 연결한다.
 
-먼저 학습 줄기와 주변 도구를 분리한다.
+## 전체 지도
 
 ```text
-[셸 학습 줄기]
-명령 파일 실행
-   ↓
-Bash 문법·확장 규칙
-   ↓
-CLI 인터페이스 설계
-   ↓
-Process·Job·Session 이해
+Shell
+├─ 명령 해석 ── quote / expansion / glob / redirection / pipeline
+├─ 실행 ── builtin / 외부 프로그램 / PATH / shebang
+├─ 제어 ── exit status / 조건·반복 / job control / signal
+└─ 자동화 ── shell script / 함수 / CLI 인자 계약
 
-[다른 축]
-환경 재현 → dotfiles 로드맵
-Directory 환경변수 → direnv
-탐색 마찰 감소 → zoxide
-터미널 Session 관리 → tmux 로드맵
+별도 활용 축
+├─ 환경·설정 재현 ── dotfiles
+├─ 디렉터리별 환경변수 ── direnv
+├─ 경로 탐색 보조 ── zoxide
+└─ 터미널 작업공간 유지 ── tmux
 ```
 
-`dotfiles → Brewfile → chezmoi`는 셸을 배우는 다음 단계가 아니라 **환경을 재현하는 별도 문제**다. 따라서 이 로드맵에서는 위치만 연결하고 상세 학습은 [dotfiles 로드맵](./2026-07-08-dotfiles-roadmap.md)에 맡긴다.
+위 가지는 서로 연관된 기능군이지 필수 학습 단계가 아니다. 예를 들어 job control은 CLI 인터페이스를 설계한 뒤에야 배울 수 있는 기능이 아니다. 처음 스크립트를 만든다면 실행 모델과 문법부터 읽고, 오래 실행하는 작업이 궁금하다면 프로세스·작업 제어로 바로 이동하면 된다.
 
-파이프·리다이렉션·글로빙·`grep`/`awk` 같은 인터랙티브 셸 기본기는 아직 전용 본문이 충분하지 않다. 없는 글을 다른 문서로 억지로 메우지 않고 빈 영역으로 표시한다.
-
-## 한눈에 보기
-
-| 구역 | 답하는 질문 | 성격 |
-|---|---|---|
-| 1. 실행 모델 | Script File은 어떤 Interpreter로 어떻게 실행되는가 | 줄기 |
-| 2. 문법·확장 | 셸은 한 줄을 어떤 순서로 해석하는가 | 줄기 |
-| 3. CLI 설계 | Script를 다른 사람이 쓸 수 있는 명령으로 어떻게 만든다 | 줄기 |
-| 4. Process·Session | Background 작업과 Shell 종료의 관계는 무엇인가 | 줄기 |
-| Branch A | Directory별 환경변수를 어떻게 관리하나 | Tool |
-| Branch B | 자주 가는 Directory를 어떻게 빨리 찾나 | Tool |
-| 다른 Roadmap | 환경 재현 / Terminal Session | dotfiles / tmux |
+파이프·리다이렉션·글로빙·텍스트 처리 등 일부 기초 영역은 아직 전용 본문이 부족하다. 없는 글을 억지로 연결하지 않고 아래에 빈 영역으로 표시한다.
 
 ## 1. 실행 모델 — 첫 스크립트를 실행한다
 
