@@ -56,12 +56,12 @@ Shell ── 명령 실행·제어      Terminal Emulator ── 화면·키 입
 
 | 로드맵 | 무엇을 위한 지도인가 |
 |------|------|
-| [Program Execution](../_posts/program-execution/2026-09-25-index.md) | Source Code가 Compiler·Linker·Loader를 거쳐 Process가 되고, Virtual Memory·System Call·ABI·Runtime을 지나 최종적으로 ISA와 CPU 실행으로 이어지는 전체 경로 |
+| [Program Execution](../_posts/program-execution/2026-09-25-index.md) | 빌드·로딩·실행 경로와 ABI·Runtime·가상 메모리·시스템 호출의 횡단 관계 |
 
 ## 🔤 언어
 
 | 로드맵 | 무엇을 위한 지도인가 |
 |------|------|
-| [모던 C++](../_posts/cpp/2026-07-03-cpp-learning-roadmap.md) | compile/link 모델을 바닥에 두고 객체 수명 → RAII → move/ownership 표현 → STL·lambda → template·modern language로 진행. CMake·동시성은 Branch |
-| [Go](../_posts/go/2026-07-12-go-roadmap.md) | package/module → struct/interface → core data types → explicit error flow → concurrency → idiom. Tooling은 전 과정에 걸친 축 |
-| [Rust](../_posts/rust/2026-07-12-rust-roadmap.md) | ownership·borrow·lifetime을 중심으로 data model → failure → trait/generic → iterator/closure를 연결. Cargo·concurrency·smart pointer는 역할별 Branch |
+| [모던 C++](../_posts/cpp/2026-07-03-cpp-learning-roadmap.md) | 객체·타입·수명, 추상화·표준 라이브러리, 동시성·예외, 프로그램 생성의 관계 |
+| [Go](../_posts/go/2026-07-12-go-roadmap.md) | 프로그램 구성, 값·타입·인터페이스, 실패·동시성, Runtime과 도구 생태계의 관계 |
+| [Rust](../_posts/rust/2026-07-12-rust-roadmap.md) | 값·타입, 소유권·빌림, 추상화·실패, 동시성·안전성 경계의 관계 |
