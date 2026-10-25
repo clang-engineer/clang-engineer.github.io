@@ -11,7 +11,7 @@ hidden      : false
 
 `sesh`(session의 축약)는 tmux 세션 매니저지만, [smug](./2026-02-21-tmux-bootstrap.md)·tmuxp 같은 **선언형 부트스트래퍼와는 다른 범주**다. 저들이 "이런 레이아웃의 세션을 *만들어라*"라면, sesh는 "지금 있는(또는 필요한) 세션으로 *빠르게 넘어가라*"다. [fzf](https://github.com/junegunn/fzf)(fuzzy finder)와 [zoxide](https://github.com/ajeetdsouza/zoxide)(자주 가는 디렉토리를 학습해 점프)를 엮어, 디렉토리·git repo에서 세션을 **즉석으로 열고 전환**하는 데 특화돼 있다.
 
-> 이 글은 [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md) 글이 "스코프 밖이지만 방향은 알아둘 것"이라며 예고했던 **온디맨드 세션 스위처**의 본편이다. 고정 레이아웃을 *선언*하는 그 글과 목적이 다르다. 전체 학습 순서는 [tmux 로드맵](./2026-06-16-tmux-roadmap.md).
+> 이 글은 [tmux 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md) 글이 "스코프 밖이지만 방향은 알아둘 것"이라며 예고했던 **온디맨드 세션 스위처**의 본편이다. 고정 레이아웃을 *선언*하는 그 글과 목적이 다르다. 전체 학습 순서는 [tmux 로드맵](./2026-06-16-00-tmux-roadmap.md).
 {: .prompt-tip }
 
 ## 두 범주 — 부트스트래퍼 vs 피커
