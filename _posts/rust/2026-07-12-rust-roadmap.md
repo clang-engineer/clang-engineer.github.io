@@ -36,7 +36,7 @@ Rust 언어·프로그램 모델
 
 위 지도는 기존 게시글의 분류를 따라 만든 목차가 아니라, 언어의 주요 개념과 관계를 압축한 것이다. 상세 문서가 없는 개념도 전체 구조를 이해하는 데 필요하면 지도에 남긴다. 아래 링크는 필요한 부분을 더 깊이 살펴볼 때 선택한다.
 
-## 개념군별 심화 탐색
+## 개념별 심화 문서
 
 | 구역 | 핵심 질문 | 우선순위 |
 |---|---|---|
@@ -52,7 +52,7 @@ Rust 언어·프로그램 모델
 | Cross-cutting | Cargo·crate·module Tooling은 언제 쓰나 | 처음부터 계속 |
 | Appendix | macro·unsafe·FFI | 필요할 때 |
 
-## 1. 기초 — expression·immutability·Cargo
+## 기초 — expression·immutability·Cargo
 
 | 글 | 역할 |
 |---|---|
@@ -67,7 +67,7 @@ cargo new
 → dependency·crate 관리
 ```
 
-## 2. ownership·borrow·lifetime — 전체 학습의 뼈대
+## ownership·borrow·lifetime — 전체 학습의 뼈대
 
 | 글 | 역할 |
 |---|---|
@@ -92,7 +92,7 @@ lifetime
 
 C++ `std::move`는 rvalue로 취급하게 하는 cast이고 Rust move는 언어 의미론상의 ownership 이전이므로 같은 연산이 아니다. RAII와 `Drop`도 수명-정리 연결이라는 직관은 공유하지만 Rust의 borrow 규칙까지 포함하는 같은 제도는 아니다.
 
-## 3. struct·enum·match — 상태를 타입으로 표현한다
+## struct·enum·match — 상태를 타입으로 표현한다
 
 | 글 | 역할 |
 |---|---|
@@ -107,7 +107,7 @@ variant마다 다른 data 보유
 → Option / Result 같은 핵심 API의 기반
 ```
 
-## 4. collection·String·&str — owned와 borrowed view
+## collection·String·&str — owned와 borrowed view
 
 | 글 | 역할 |
 |---|---|
@@ -115,7 +115,7 @@ variant마다 다른 data 보유
 
 이 단계는 container 이름을 외우는 것보다 **API가 값을 소유할지 빌릴지**를 읽는 연습이다.
 
-## 5. Result·Option·? — 실패와 부재를 타입으로
+## Result·Option·? — 실패와 부재를 타입으로
 
 | 글 | 역할 |
 |---|---|
@@ -134,7 +134,7 @@ variant마다 다른 data 보유
 
 panic은 `Result`의 더 고급 버전이 아니라 다른 실패 경계다.
 
-## 6. trait·generics — abstraction과 dispatch
+## trait·generics — abstraction과 dispatch
 
 | 글 | 역할 |
 |---|---|
@@ -152,7 +152,7 @@ runtime polymorphism
 → trait object / dynamic dispatch
 ```
 
-## 7. iterator·closure — ownership과 함수 조합
+## iterator·closure — ownership과 함수 조합
 
 | 글 | 역할 |
 |---|---|
@@ -171,7 +171,7 @@ runtime polymorphism
 → into_iter()
 ```
 
-## Branch A — smart pointer와 interior mutability
+## smart pointer와 interior mutability
 
 | 글 | 역할 |
 |---|---|
@@ -179,7 +179,7 @@ runtime polymorphism
 
 `Box`, `Rc`, `RefCell`은 “더 좋은 pointer”의 단계가 아니라 **ownership topology를 바꾸는 서로 다른 도구**다.
 
-## Branch B — concurrency
+## concurrency
 
 | 글 | 역할 |
 |---|---|
@@ -187,7 +187,7 @@ runtime polymorphism
 
 일반 동시성 원리는 Knowledge에 두고 이 문서는 **Rust type system이 thread boundary에서 어떤 계약을 강제하는지**에 집중한다.
 
-## Cross-cutting — Cargo·crate·module Tooling
+## Cargo·crate·module Tooling
 
 | 글 | 역할 |
 |---|---|
@@ -195,7 +195,7 @@ runtime polymorphism
 
 이 문서는 “⑩ 마지막 단계”가 아니다. 1단계부터 계속 사용하고, package/workspace 구조가 복잡해질 때 다시 Zoom-in한다.
 
-## Appendix — macro·unsafe·FFI
+## macro·unsafe·FFI
 
 이 주제들은 Rust를 처음 읽고 쓰는 줄기의 필수 후속 단계가 아니다.
 
@@ -216,7 +216,7 @@ safe abstraction 아래에서 raw pointer·FFI·unchecked operation이 필요하
 
 메모리 관리·값/참조 의미론·다형성·동시성 같은 공통 Concept은 정보관리기술사 Knowledge가 정본이다. Rust Blog 문서는 **ownership·borrow checker·trait·iterator처럼 Rust에서 그 개념이 구체적으로 어떻게 나타나는지**를 다룬다.
 
-## 어디서 시작할까
+## 필요할 때 더 살펴보기
 
 ```text
 Rust가 처음이다
@@ -238,4 +238,4 @@ Cargo 명령이나 crate/module 구조가 헷갈린다
 → Tooling 문서를 그 시점에 참조
 ```
 
-> **Rust의 줄기는 ownership을 중심으로 data model·failure·abstraction·iteration이 연결되는 구조다. C++ 경험은 문제를 알아보는 발판이지만 Rust의 move·borrow·lifetime을 같은 의미론으로 치환하지 않는다. Cargo는 마지막 단계가 아니라 전 과정에 걸친 Tooling이다.**
+
