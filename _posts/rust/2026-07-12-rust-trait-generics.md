@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **⑥ 추상화** 단계입니다. 앞 글: [⑤ error 처리 — Result·Option·?](./2026-07-12-rust-error-handling-result-option.md)
+> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **⑥ 추상화** 단계입니다. 앞 글: [⑤ error 처리 — Result·Option·?](./2026-07-12-rust-error-handling-result-option.md)
 
 C++의 인터페이스·템플릿·concept에 해당하는 축입니다. Rust는 이 셋을 **trait**과 **제네릭**으로 통합합니다. 제네릭 일반론은 [제네릭과 매개변수 다형성](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/05-소프트웨어-공학/_보충학습/프로그래밍-언어-의미론.md)에서 다루고, 여기서는 Rust에서 어떻게 생겼는지에 집중합니다.
 
