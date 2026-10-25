@@ -39,7 +39,7 @@ VIA·Vial·ZMK Studio는 입력 이벤트가 매번 통과하는 별도 실행 �
 
 즉 **QMK와 VIA는 같은 종류의 대안이 아니다.** QMK는 Firmware이고 VIA/Vial은 주로 QMK 계열 Firmware가 제공하는 Dynamic Keymap 기능을 설정하는 상위 도구다. ZMK와 ZMK Studio도 같은 관계로 본다.
 
-## 한눈에 보기
+## 개념군별 심화 문서
 
 | 구역 | 핵심 질문 | 관계 |
 |---|---|---|
@@ -50,7 +50,7 @@ VIA·Vial·ZMK Studio는 입력 이벤트가 매번 통과하는 별도 실행 �
 | Runtime 설정 | Compile 없이 지원 범위 안에서 바꿀 수 있나 | VIA/Vial/ZMK Studio |
 | OS Remap | Firmware를 바꿀 수 없는 장치라면 어디서 바꾸나 | Karabiner |
 
-## 1. 배경 — 무엇을 재현하려는가
+## 입력 습관과 키 배열
 
 세벌식 390과 HHKB는 모든 독자의 선행지식이 아니라 **현재 Keymap 설계를 만든 개인 Context**다. 둘은 독립적으로 읽어도 된다.
 
@@ -59,7 +59,7 @@ VIA·Vial·ZMK Studio는 입력 이벤트가 매번 통과하는 별도 실행 �
 | [세벌식 390 입문](./2026-07-03-sebeolsik-390-intro.md) | 두벌식과 다른 입력 특성·숫자 배열 등 뒤의 Layer 설계에 영향을 준 입력 Context |
 | [HHKB 입문](./2026-07-03-hhkb-intro.md) | Caps 위치의 Ctrl·Fn Layer 등 익숙한 물리 배열과 손버릇을 설명 |
 
-## 2. 공통 개념 — Firmware 이름보다 Keymap 언어를 먼저
+## 공통 개념 — Firmware 이름보다 Keymap 언어를 먼저
 
 Firmware가 달라도 Layer·combo·dual-role 같은 문제는 반복된다.
 
@@ -69,7 +69,7 @@ Firmware가 달라도 Layer·combo·dual-role 같은 문제는 반복된다.
 
 이 문서는 Reference 성격이므로 순서대로 암기하지 않고, 구현 글을 읽다가 낯선 용어를 찾는 용도로 둔다.
 
-## 3. Firmware 지형 — QMK와 ZMK
+## Firmware 지형 — QMK와 ZMK
 
 | 글 | 역할 |
 |---|---|
@@ -87,7 +87,7 @@ Bluetooth / split / Zephyr 기반 무선 보드
 
 실제 지원 여부는 보드 Firmware와 Vendor 구성에 따라 달라지므로 “유선=무조건 QMK, 무선=무조건 ZMK”라는 규칙으로 등치하지 않는다.
 
-## 4. 주 경로 — ZMK에서 내 Keymap 구현
+## ZMK 키맵 구현 사례
 
 현재 문서셋이 가장 깊게 다루는 구현 경로다.
 
@@ -106,7 +106,7 @@ Board의 기존 ZMK config 확보
 
 첫 글은 **작업 수행**, 둘째 글은 **왜 그런 배치를 선택했는지**가 중심이라 역할을 구분한다.
 
-## Branch A — QMK 구현
+## QMK 구현
 
 ZMK의 다음 단계가 아니라 다른 Firmware를 쓰는 보드의 대안 경로다.
 
@@ -116,7 +116,7 @@ ZMK의 다음 단계가 아니라 다른 Firmware를 쓰는 보드의 대안 경
 
 Layer 분리나 dual-role 설계 원칙은 공유할 수 있지만 ZMK Behavior와 QMK Keycode의 세부 의미를 그대로 등치하지 않는다.
 
-## Branch B — Runtime Configurator
+## Runtime Configurator
 
 Firmware를 다시 Compile/Flash하지 않고 **Firmware가 허용한 Dynamic Keymap 범위**를 바꾸는 계층이다.
 
@@ -134,7 +134,7 @@ ZMK + Studio 지원 구성
 
 Configurator는 Firmware를 대체하지 않는다. 보드가 해당 기능을 포함해 빌드되어 있어야 한다.
 
-## Branch C — Firmware를 못 바꾸면 OS에서 Remap
+## Firmware를 못 바꾸면 OS에서 Remap
 
 | 글 | 역할 |
 |---|---|
@@ -158,7 +158,7 @@ Configurator는 Firmware를 대체하지 않는다. 보드가 해당 기능을 �
 
 이 로드맵은 Switch·Keycap·PCB·Case·Mount 방식 같은 **물리 커스텀 키보드 제작**은 다루지 않는다.
 
-## 어디서 시작할까
+## 필요할 때 더 살펴보기
 
 ```text
 용어가 헷갈린다
