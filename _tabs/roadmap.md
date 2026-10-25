@@ -43,7 +43,7 @@ Shell ── 명령 실행·제어      Terminal Emulator ── 화면·키 입
 | [Terminal](../_posts/terminal/2026-09-05-00-terminal-roadmap.md) | TTY·PTY, 프로세스·제어 터미널, termios, ANSI/VT와 터미널 기능 호환성의 관계 |
 | [TUI](../_posts/terminal/2026-10-25-01-tui-roadmap.md) | 이벤트·상태·UI 구성·레이아웃·렌더링 및 구현 추상화의 관계 |
 | [tmux](../_posts/tmux/2026-06-16-tmux-roadmap.md) | server/client와 session/window/pane 관계, 핵심 동작, 설정과 플러그인, 세션 관리 및 선택적 활용 |
-| [Neovim](../_posts/neovim/2026-06-16-neovim-roadmap.md) | 편집 모델·Buffer/Window/Tabpage·Runtime API·확장 및 외부 도구 통합 |
+| [Neovim](../_posts/neovim/2026-06-16-00-neovim-roadmap.md) | 편집 모델·Buffer/Window/Tabpage·Runtime API·확장 및 외부 도구 통합 |
 
 ### 개발환경을 구성하고 재현하는 다른 축
 
