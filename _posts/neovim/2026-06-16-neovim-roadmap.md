@@ -39,158 +39,78 @@ Neovim — 편집기·확장 시스템
 
 Plugin을 만들지 않는다면 **LazyVim 구조 이해에서 핵심 경로가 끝난다.** LSP·DAP 같은 IDE 기능도 모두 순서대로 배울 필요는 없고, 문제가 생기거나 직접 구성할 때 해당 Branch로 들어간다.
 
-## 읽는 경로
+## 개념을 따라 읽기
+
+### 1. 편집 모델에서 편집기 상태로
 
 ```text
-Vim 편집 모델
-    ↓
-Lua 최소 문법
-    ↓
-LazyVim spec·override 이해 ── 사용자 핵심 경로 끝
-    │
-    ├─ Plugin 제작 → Runtime API → 테스트·배포
-    └─ 필요 시     → LSP / DAP / PKM / 다른 Editor
+Mode ── Operator + Motion / Text Object
+  │                 │
+  │             편집 동작
+  │                 ▼
+  └────────── Buffer (문서 내용)
+                    │
+               Window (표시)
+                    │
+               Tabpage (배치)
 ```
 
-Vim은 Neovim 안에서 별도 실행되는 계층이 아니라 편집 모델의 기반이다. Neovim은 내장 API와 확장 기능을 제공하고, LazyVim은 Plugin·설정·키맵을 선택적으로 조립한다. 따라서 LazyVim의 키맵이 호출하는 기능이 반드시 LazyVim 자체의 구현인 것은 아니다.
+Vim의 편집 문법을 먼저 이해하면 Neovim의 상태와 API가 무엇을 조작하는지도 분명해진다. `yank/delete/change`의 저장 위치는 [Register](./2025-09-24-vim-register.md), 모드·상태의 내부 관계는 [Vim & Neovim 작동 원리](./2025-10-04-vim-core-engine.md)를 참고한다. 실제 키 조합은 [Devkit Vim](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/vim.md)에서 확인한다.
 
-| 궁금한 점 | 먼저 읽을 문서 |
-|---|---|
-| Vanilla / kickstart.nvim / LazyVim 중 선택 | [시작점 비교](./2026-06-16-neovim-starting-point-comparison.md) |
-| mode·buffer·window와 실행 모델 | [Vim & Neovim 작동 원리](./2025-10-04-vim-core-engine.md) |
-| LazyVim의 기능과 Plugin 연결 | [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md) |
-| Plugin spec·override 합성 | [LazyVim spec merge](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) |
-
-## 편집 기본기 — Distro 아래의 Vim 문법
-
-현재 블로그에는 편집 기본기 전체를 설명하는 전용 Concept가 아직 부족하다. 없는 내용을 Plugin 문서로 메우지 않는다.
-
-| 글/자료 | 역할 |
-|---|---|
-| [Vim/Neovim 레지스터](./2025-09-24-vim-register.md) | yank/delete/change가 값을 어디에 보관하는지 Zoom-in |
-| [vim cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/vim.md) | motion·operator·mode 빠른 Reference |
-
-`operator + motion/text object`, dot-repeat, macro 등은 `vimtutor`·*Practical Vim* 같은 외부 학습 자료로 보완한다. Roadmap은 이 빈칸을 숨기지 않는다.
-
-## Lua — 설정을 읽을 만큼 먼저, 깊이는 제작할 때
-
-Lua 전체를 다 익힌 뒤 Neovim으로 갈 필요는 없다.
+### 2. 설정 언어에서 Plugin 구성으로
 
 ```text
-설정 사용자
-→ table / function / require / module 정도
-
-Plugin 제작자
-→ metatable / error boundary / Lua-Vimscript interop까지
+Lua: table / function / require
+               │
+               ▼
+       사용자 Config
+               │
+      lazy.nvim Plugin spec
+          ┌────┼─────┐
+          ▼    ▼     ▼
+       기본값 extras override
+          └────┼─────┘
+               ▼
+       Plugin 로딩·설정
 ```
 
-| 글 | 역할 |
-|---|---|
-| [Lua 종합 가이드](./2026-06-15-lua-syntax-guide.md) | Neovim에서 자주 쓰는 Lua 문법의 Hub |
-| [Lua 모듈](./2026-06-15-lua-modules.md) | `require`·`package.path`·`lua/` 구조를 이해하는 핵심 Zoom-in |
+Lua를 전부 배우는 게 아니라 설정 파일을 읽는 데 필요한 [문법](./2026-06-15-lua-syntax-guide.md)과 [모듈·require](./2026-06-15-lua-modules.md)부터 이해한다. 그다음 [Plugin spec의 필드](./2026-06-19-lazy-nvim-plugin-spec-fields.md)가 로딩과 설정을 어떻게 제어하는지, [LazyVim spec merge](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md)가 설정을 어떻게 조합하는지 살펴본다.
 
-심화가 필요하면 Hub에서 [메타테이블](./2026-06-15-lua-metatables.md), [에러 처리](./2026-06-15-lua-error-handling.md), [Lua vs Vimscript 성능](./2026-06-12-neovim-lua-vs-vimscript-performance.md)으로 내려간다. 기존 Vimscript Plugin을 읽어야 할 때만 [Vimscript 종합 가이드](./2026-06-15-vimscript-syntax-guide.md)를 별도 Reference로 사용한다.
+어떤 기능을 어떤 Plugin이 제공하는지 확인할 때만 [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md)로 이동한다. 여기까지가 일반 사용자에게 필요한 핵심 경로다. 시작 구성을 고르는 문제는 [Vanilla·kickstart·LazyVim 비교](./2026-06-16-neovim-starting-point-comparison.md)를 참고한다.
 
-## LazyVim — 기능 목록보다 조립 구조를 이해한다
-
-LazyVim을 직접 수정하려면 “어떤 Plugin이 있나”보다 **lazy.nvim spec이 어느 계층에서 합쳐지는지**가 중요하다.
+### 3. Plugin 제작 — 편집기 상태를 API로 조작하기
 
 ```text
-lazy.nvim (Plugin Manager)
-├─ LazyVim 기본 Plugin spec
-├─ 선택한 extras
-└─ 사용자 Plugin spec / override
-         ↓
-   최종 설정 해석·Plugin 로딩
+Buffer / Window / Extmark
+           ▲
+       vim.api / vim.fn
+           ▲
+    Plugin (Lua / Vimscript)
+       │          │
+       ├─ Event → Autocommand
+       └─ 외부 작업 → Async / Job / RPC
+                       │
+                 Test / Vimdoc
+                       │
+                  Distribution
 ```
 
-| 글 | 역할 |
-|---|---|
-| [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md) | Git·Search·LSP·DAP 등 기능이 어떤 Plugin 조합으로 만들어지는지 보는 Architecture Hub |
-| [lazy.nvim Plugin spec 필드](./2026-06-19-lazy-nvim-plugin-spec-fields.md) | load trigger·configuration·dependency 필드를 실행 의미로 정리하는 Reference/Concept |
-| [LazyVim spec merge와 의존성 계층](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) | core→extras→user override가 합쳐지는 실제 구조를 설명하는 Architecture |
+Plugin은 Runtime API로 편집기 상태를 조작하고 Event에 반응한다. [API 지도](./2026-06-19-neovim-vim-global-api-map.md)를 출발점으로, 필요에 따라 [Buffer·Window·Extmark](./2026-06-19-neovim-buffer-window-extmark.md), [Autocommand](./2026-06-19-neovim-autocommand-events.md), [비동기 실행](./2026-06-19-neovim-async-vim-uv-system.md)을 살펴본다.
 
-개별 Plugin 목록이나 Keymap은 필요할 때 [주요 Plugin 정리](./2026-06-07-lazyvim-feature-plugin-map.md), [Which-Key](./2025-10-04-whichkey.md), [Git Plugin 구성](./2026-06-09-lazyvim-git-plugins.md)으로 Zoom-in한다.
+구현물을 만들 때는 [Plugin 디렉터리와 runtimepath](./2026-06-12-neovim-plugin-conventions.md) → [테스트](./2026-06-18-neovim-plugin-testing-plenary-minitest-busted.md) → [배포](./2026-06-12-neovim-plugin-distribution.md)로 이어진다. [언어 선택](./2026-06-12-neovim-plugin-language-choice.md), [Lua/Vimscript 혼용](./2026-06-12-neovim-plugin-mixing-lua-vimscript.md), [vimdoc](./2026-06-19-neovim-plugin-vimdoc-panvimdoc.md), [RPC 내부 구조](./2026-07-03-neovim-api-rpc-luajit.md)는 필요할 때만 확장한다.
 
-## Plugin 개발
-
-사용자 경로의 다음 단계가 아니라 **역할이 제작자로 바뀌는 Branch**다.
-
-### Runtime API
-
-| 글 | 역할 |
-|---|---|
-| [vim 전역 API 지도](./2026-06-19-neovim-vim-global-api-map.md) | `vim.api`·`vim.fn`·option·utility의 전체 위치를 잡는 Hub |
-| [Buffer·Window·Extmark](./2026-06-19-neovim-buffer-window-extmark.md) | 화면/문서 상태를 직접 조작하는 Runtime Zoom-in |
-| [Autocommand·Event](./2026-06-19-neovim-autocommand-events.md) | Plugin이 Event에 반응하는 구조 |
-| [비동기 — vim.uv / vim.system](./2026-06-19-neovim-async-vim-uv-system.md) | 외부 작업과 Main Loop 경계 |
-
-더 아래 계층이 필요할 때만 [nvim_* API·MessagePack-RPC·LuaJIT](./2026-07-03-neovim-api-rpc-luajit.md)로 내려간다.
-
-### 구조·발행
+### 4. IDE 기능 — 독립적으로 연결되는 프로토콜
 
 ```text
-언어·경계 결정
-→ runtimepath 구조
-→ 구현
-→ test
-→ vimdoc
-→ distribution
+Neovim
+ ├─ LSP Client ── Language Server
+ │                 (분석·진단·완성 지원)
+ └─ nvim-dap ──── Debug Adapter ── Debugger
+                   (디버깅 제어)
 ```
 
-| 글 | 역할 |
-|---|---|
-| [Plugin 언어 선택](./2026-06-12-neovim-plugin-language-choice.md) | Lua/Vimscript를 생태계·유지보수 축으로 선택 |
-| [Plugin 디렉터리 관례](./2026-06-12-neovim-plugin-conventions.md) | `plugin/`·`lua/`·`autoload/`·`doc/`의 자동 로드 경계 |
-| [Plugin 테스트](./2026-06-18-neovim-plugin-testing-plenary-minitest-busted.md) | plenary·mini.test·busted의 역할 비교 |
-| [Plugin 배포](./2026-06-12-neovim-plugin-distribution.md) | GitHub 공개부터 Plugin Manager·awesome-neovim까지의 배포 흐름 |
+LSP·DAP는 Plugin 개발의 후속 단계가 아니라 편집기에 외부 개발 도구를 연결하는 별도 축이다. [LSP 3계층](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md)은 Mason·nvim-lspconfig·`vim.lsp`의 책임을, [DAP 구조](./2026-07-12-nvim-dap-debug-adapter-protocol.md)는 Editor·Adapter·Debugger의 경계를 설명한다.
 
-Lua/Vimscript 혼용이 실제로 필요할 때만 [두 언어 섞기](./2026-06-12-neovim-plugin-mixing-lua-vimscript.md), 문서 자동화가 필요할 때 [vimdoc·panvimdoc](./2026-06-19-neovim-plugin-vimdoc-panvimdoc.md)로 추가 Zoom-in한다.
+## 다른 문제를 만났을 때
 
-## IDE 기능 계층
-
-LazyVim이 기본값을 제공하더라도 장애를 진단하거나 직접 구성하려면 계층을 알아야 한다.
-
-| 글 | 역할 |
-|---|---|
-| [Neovim 0.11+ LSP 3계층](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md) | Mason / nvim-lspconfig / `vim.lsp`의 책임을 분리하는 Architecture |
-| [DAP — Debug Adapter Protocol](./2026-07-12-nvim-dap-debug-adapter-protocol.md) | Editor·nvim-dap·Debug Adapter·Debugger의 연결 구조를 설명하는 Concept/Architecture |
-
-LSP와 DAP를 “LazyVim 다음 단계”로 두지 않는다. 실제 개발환경에서 해당 기능을 직접 다룰 때 들어간다.
-
-## 다른 축의 대표 진입점
-
-Roadmap이 50여 개 글의 전체 목차가 되지 않도록 대표 Hub만 둔다.
-
-| 문제축 | 대표 진입점 |
-|---|---|
-| PKM / Obsidian / Org mode | [Neovim PKM 지형](./2026-07-12-neovim-pkm-obsidian-orgmode.md) |
-| 다른 Editor와의 경계 | [Neovim 사용자가 본 Emacs]({% post_url developer-tools/2026-07-03-neovim-user-view-of-emacs %}) |
-
-
-## 다른 Roadmap과의 경계
-
-- Terminal rendering·PTY·TUI 바닥 → [Terminal](../terminal/2026-09-05-terminal-roadmap.md)
-- tmux Session·Pane → [tmux](../tmux/2026-06-16-tmux-roadmap.md)
-- Lua가 아닌 일반 Programming Concept → 정보관리기술사 Knowledge
-- dotfiles로 Neovim config를 Machine에 배포 → [dotfiles](../shell/2026-07-08-dotfiles-roadmap.md)
-
-## 필요할 때 더 살펴보기
-
-```text
-Vim/Neovim/LazyVim 관계가 헷갈린다
-→ 계층 지도
-
-LazyVim 설정을 직접 고치고 싶다
-→ 최소 Lua
-→ LazyVim feature/spec/merge
-
-Plugin을 직접 만든다
-→ Runtime API Branch
-→ 구조·테스트·배포
-
-LSP/DAP가 문제다
-→ IDE 기능 Branch
-```
-
-
+PKM·Obsidian·Org mode는 [Neovim PKM 지형](./2026-07-12-neovim-pkm-obsidian-orgmode.md), 다른 편집기와의 비교는 [Emacs의 Elisp 런타임]({% post_url developer-tools/2026-07-03-neovim-user-view-of-emacs %})을 참고한다. Terminal의 PTY·렌더링은 [Terminal Roadmap](../terminal/2026-09-05-terminal-roadmap.md), 세션 관리는 [tmux Roadmap](../tmux/2026-06-16-tmux-roadmap.md), 설정 재현은 [dotfiles Roadmap](../shell/2026-07-08-dotfiles-roadmap.md)의 영역이다.
