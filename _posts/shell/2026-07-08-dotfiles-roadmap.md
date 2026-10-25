@@ -34,7 +34,7 @@ dotfiles 관리의 목적은 `~/.zshrc`나 `~/.gitconfig`를 예쁘게 모으는
 
 따라서 `심링크 → Brewfile → chezmoi`를 하나의 진화 단계로 보지 않는다. **Git 정본은 공통 기반이고, 배치 모델과 패키지 재현은 서로 다른 선택축**이다.
 
-## 한눈에 보기
+## 개념군별 심화 문서
 
 | 구역 | 핵심 질문 | 관계 |
 |---|---|---|
@@ -46,7 +46,7 @@ dotfiles 관리의 목적은 `~/.zshrc`나 `~/.gitconfig`를 예쁘게 모으는
 | Branch B | SSH 인증·Commit Identity·Credential은 어떻게 분리할까 | 운영 |
 | Runbook | 새 Mac 전체 셋업에서 dotfiles는 어디에 들어가나 | How-to |
 
-## 1. Git을 설정의 정본으로 둔다
+## Git을 설정의 정본으로 둔다
 
 가장 먼저 결정할 것은 Tool이 아니라 **원본의 위치**다.
 
@@ -63,7 +63,7 @@ Git repository
 
 이 글은 심링크를 사용한다. 다만 bare Git이나 yadm처럼 Home 자체를 작업 트리로 쓰는 방식도 있으므로, 공통 원칙은 **관리할 설정의 정본과 변경 이력을 명확히 한다**는 것이다.
 
-## 2. 배치 모델 — 같은 원본을 Home에 어떻게 보이게 할까
+## 배치 모델 — 같은 원본을 Home에 어떻게 보이게 할까
 
 배치 방식은 발전 단계가 아니라 대안이다.
 
@@ -109,7 +109,7 @@ private secrets companion
 → 실제 SSH host, key, DB connection, local env를 overlay
 ```
 
-## 3. Machine별 값과 Secret — 차이는 언제 확정할까
+## Machine별 값과 Secret — 차이는 언제 확정할까
 
 여러 Machine에서 같은 파일을 쓰다 보면 경로·Email·Tool·Credential이 달라진다. 여기서 중요한 비교축은 **차이를 확정하는 시점**이다.
 
@@ -129,7 +129,7 @@ private secrets companion
 
 Secret을 Git에 넣지 않는다는 원칙과, Host별 일반 설정을 분기하는 방법은 구분한다. 암호화 기능이 있다는 이유만으로 모든 Secret을 dotfiles Tool 안에 넣을 필요도 없다.
 
-## 4. Package 설치 재현 — 설정 파일과 별개의 보완 축
+## Package 설치 재현 — 설정 파일과 별개의 보완 축
 
 설정이 복원돼도 `nvim`, `tmux`, `fzf` 자체가 없으면 환경은 재현되지 않는다. 이 문제는 **dotfile 배치 모델과 별개**다.
 
@@ -141,7 +141,7 @@ Secret을 Git에 넣지 않는다는 원칙과, Host별 일반 설정을 분기�
 
 따라서 Brewfile은 모든 dotfiles 사용자의 2단계가 아니라 **macOS에서 설치 상태까지 재현하려는 경우의 보완 축**이다. Linux라면 다른 Package Manager/Bootstrap 방식이 이 자리를 대신할 수 있다.
 
-## Branch A — Directory별 개발환경은 dotfiles와 분리한다
+## Directory별 개발환경은 dotfiles와 분리한다
 
 | 글 | 역할 |
 |---|---|
@@ -160,7 +160,7 @@ Application이 직접 읽는 환경 파일
 
 셋은 저장 위치가 비슷해 보여도 Scope가 다르다.
 
-## Branch B — SSH 인증과 Commit Identity
+## SSH 인증과 Commit Identity
 
 | 글 | 역할 |
 |---|---|
