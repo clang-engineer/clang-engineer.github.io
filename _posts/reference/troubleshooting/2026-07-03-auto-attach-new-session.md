@@ -11,7 +11,7 @@ redirect_from:
   - /posts/tmux/tmux-auto-attach-new-session-every-time/
 ---
 
-> 이 글은 [tmux 로드맵](../../tmux/2026-06-16-tmux-roadmap.md)의 **트러블슈팅** 편이다. 입문·설정·플러그인·부트스트랩까지 전체 경로는 로드맵에서.
+> 이 글은 [tmux 로드맵](../../tmux/2026-06-16-00-tmux-roadmap.md)의 **트러블슈팅** 편이다. 입문·설정·플러그인·부트스트랩까지 전체 경로는 로드맵에서.
 {: .prompt-tip }
 
 ## 증상
