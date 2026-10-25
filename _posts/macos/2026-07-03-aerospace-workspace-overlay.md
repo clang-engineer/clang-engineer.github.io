@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> **[macOS 로드맵](./2026-07-03-macos-roadmap.md)** — 창 관리(AeroSpace × Hammerspoon) 갈래
+> **[macOS 로드맵](./2026-07-03-00-macos-roadmap.md)** — 창 관리(AeroSpace × Hammerspoon) 갈래
 > 1. [연계 & 창 재정렬](./2026-07-03-aerospace-hammerspoon-window-reflow.md)
 > 2. [Rectangle 대체 — 화면 내 창 분할](./2026-07-03-hammerspoon-window-tiling-rectangle.md)
 > 3. **워크스페이스 정보 오버레이** (현재 글)
