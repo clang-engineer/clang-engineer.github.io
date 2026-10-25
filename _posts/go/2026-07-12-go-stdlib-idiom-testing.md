@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **⑥ 실전** 단계입니다. 앞 글: [⑤ goroutine·channel·context](./2026-07-12-go-concurrency-goroutine-channel.md)
+> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 **⑥ 실전** 단계입니다. 앞 글: [⑤ goroutine·channel·context](./2026-07-12-go-concurrency-goroutine-channel.md)
 
 문법을 뗐으면 이제 실제로 뭔가 만들고, 무엇보다 **Go답게** 쓰는 단계입니다. 문법이 맞아도 관용구를 모르면 "Go 문법으로 쓴 C++/Java" 코드가 나옵니다.
 
