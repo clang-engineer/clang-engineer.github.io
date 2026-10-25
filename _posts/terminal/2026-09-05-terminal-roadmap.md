@@ -2,7 +2,7 @@
 title       : "터미널 로드맵 — TTY·PTY에서 현대 TUI까지"
 description : "터미널을 단순한 명령창이 아니라 하나의 입출력·렌더링 스택으로 이해하기 위한 학습 지도. TTY/PTY, termios, ANSI/VT, terminfo, curses를 거쳐 현대 TUI 프레임워크와 실제 애플리케이션 구조까지 바닥부터 올라간다."
 date        : 2026-09-05 12:30:00 +0900
-updated     : 2026-09-13 21:45:00 +0900
+updated     : 2026-10-25 17:00:00 +0900
 categories  : [terminal]
 tags        : [roadmap, terminal, tty, pty, termios, ansi, vt, terminfo, ncurses, tui]
 pin         : false
@@ -15,20 +15,34 @@ redirect_from:
 
 이 로드맵은 특정 도구의 사용법보다 **그 도구들이 공통으로 기대는 터미널의 원리와, 그 위에 UI 애플리케이션을 만드는 구조**를 다룬다.
 
-큰 흐름은 세 구간으로 보면 가장 쉽다.
+먼저 **입출력 경로와 UI 추상화는 서로 다른 축**이라는 점을 구분한다.
 
 ```text
-1. 터미널 기반 기술
-   TTY / PTY / termios / ANSI·VT / TERM·terminfo
+[입출력 경로 — 대표적인 로컬 PTY 구성]
+키 입력 → Terminal Emulator → PTY master
+                                 │
+                            PTY slave
+                                 │
+                           Shell / TUI App
+                                 │
+출력 표시 ← Terminal Emulator ← PTY ← 출력 바이트
 
-2. 고전적인 터미널 UI 추상화
-   curses / ncurses
+[동작·표현 규칙 — 같은 경로의 서로 다른 책임]
+termios       : 터미널 드라이버의 입력·출력 처리 모드
+ANSI / VT     : Emulator가 해석하는 화면 제어 시퀀스
+TERM/terminfo : 앱이 사용할 터미널 기능을 식별·조회하는 정보
 
-3. 본격적인 TUI 애플리케이션 구조
-   Event / State / UI Structure / Layout / Render / Diff / Framework
+[앱의 UI 추상화 — 선택 가능한 구현 방식]
+직접 제어 시퀀스 처리
+         또는
+curses / ncurses
+         또는
+현대 TUI 라이브러리·프레임워크
+         ↓
+Event / State / Layout / Render를 앱과 라이브러리가 분담
 ```
 
-즉 앞부분은 **터미널 자체가 어떻게 동작하는가**를 이해하는 단계이고, 뒤로 갈수록 **터미널을 하나의 UI 플랫폼처럼 어떻게 사용할 것인가**로 질문이 올라간다.
+세 영역은 하나의 필수 발전 단계가 아니다. 특히 모든 현대 TUI가 curses를 거치는 것은 아니며, 앱이 terminfo를 반드시 사용하는 것도 아니다.
 
 ## 먼저 잡을 다섯 질문
 
@@ -53,9 +67,9 @@ redirect_from:
 
 이 다섯 질문이 이 로드맵의 좌표다.
 
-## 기술 목록이 아니라 책임 이동으로 본다
+## 기술 목록이 아니라 책임의 경계로 본다
 
-이 로드맵을 단일한 역사적 발전 단계처럼 외우면 오히려 헷갈린다. 핵심은 **개발자가 직접 책임지던 범위가 어디까지 공통 계층으로 이동했는가**다.
+각 요소는 입력 처리·출력 표현·호환성·UI 구성 중 서로 다른 책임을 맡는다. 다음은 학습 질문을 묶은 것이며 실제 호출 순서나 반드시 거치는 계층을 뜻하지 않는다.
 
 ```text
 프로세스와 터미널 연결
@@ -407,12 +421,10 @@ SSH가 들어오면 단순 명령 실행과 대화형 PTY 세션을 구분하고
 
 ---
 
----
-
 ## 역사적 맥락 — TUI는 사라졌다가 다시 등장한 것이 아니다
 
 초기 텔레타이프는 명령과 출력이 순차적으로 쌓이는 형태였지만, CRT 문자 터미널은 커서 이동과 화면 일부 갱신을 지원해 메뉴·패널·입력창 같은 대화형 화면을 가능하게 했다. GUI와 웹이 보편화된 뒤에도 서버 관리, 설치 프로그램, 텍스트 편집기, 시스템 모니터링에서는 TUI가 계속 쓰였다.
 
 CLI가 명령 입력과 결과 출력을 중심으로 한다면, TUI는 같은 터미널을 지속적으로 갱신되는 대화형 화면으로 사용한다. 오늘날 lazygit·btop·Yazi·OpenCode가 새롭게 보이는 이유는 TUI 자체의 발명이 아니라, 상태·이벤트·레이아웃·컴포넌트 구조를 공통 프레임워크가 더 많이 맡게 된 변화 때문이다.
 
-역사적 흐름은 이 로드맵의 `termios → ANSI/VT → terminfo → curses → 현대 TUI` 경로로, 구현 세부는 [TUI 엔진의 공통 구조](./2026-09-05-tui-event-loop-state-renderer.md), 제품별 차이는 [현대 TUI 프레임워크 비교](./2026-09-05-modern-tui-frameworks-abstraction.md)에서 이어진다.
+각 기술의 역할과 선택적 추상화 관계는 이 로드맵에서 확인하고, 구현 세부는 [TUI 엔진의 공통 구조](./2026-09-05-tui-event-loop-state-renderer.md), 제품별 차이는 [현대 TUI 프레임워크 비교](./2026-09-05-modern-tui-frameworks-abstraction.md)에서 이어진다.
