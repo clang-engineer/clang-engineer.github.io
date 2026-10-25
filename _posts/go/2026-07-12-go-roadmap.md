@@ -37,7 +37,7 @@ Go 언어·프로그램 모델
 
 위 지도는 기존 게시글의 분류를 따라 만든 목차가 아니라, 언어의 주요 개념과 관계를 압축한 것이다. 상세 문서가 없는 개념도 전체 구조를 이해하는 데 필요하면 지도에 남긴다. 아래 링크는 필요한 부분을 더 깊이 살펴볼 때 선택한다.
 
-## 개념군별 심화 탐색
+## 개념별 심화 문서
 
 | 구역 | 핵심 질문 | 우선순위 |
 |---|---|---|
@@ -50,7 +50,7 @@ Go 언어·프로그램 모델
 | Cross-cutting | `go fmt`·`test`·`vet`·`mod`·build Tool은 언제 쓰나 | 처음부터 계속 |
 | Branch | generics·generic methods는 언제 필요한가 | 나중 |
 
-## 1. 패키지·모듈과 기본 문법
+## 패키지·모듈과 기본 문법
 
 | 글 | 역할 |
 |---|---|
@@ -68,7 +68,7 @@ go toolchain → 빌드·테스트·실행
 
 `go mod`, `go fmt`, `go test`는 마지막에 배우는 별도 Tool이 아니라 이 단계부터 일상적으로 사용한다.
 
-## 2. struct·method·interface — 상속 없는 조합
+## struct·method·interface — 상속 없는 조합
 
 | 글 | 역할 |
 |---|---|
@@ -92,7 +92,7 @@ reuse / composition
 
 Interface 만족은 선언문이 아니라 method set으로 결정된다. C++ 상속 계층을 그대로 재현하려 하지 않는 것이 중요하다.
 
-## 3. slice·map·string — 값처럼 전달되지만 내부 공유를 이해한다
+## slice·map·string — 값처럼 전달되지만 내부 공유를 이해한다
 
 | 글 | 역할 |
 |---|---|
@@ -108,7 +108,7 @@ slice value
 
 따라서 값 전달과 underlying storage 공유를 구분한다.
 
-## 4. error와 defer — 실패·정리 흐름
+## error와 defer — 실패·정리 흐름
 
 | 글 | 역할 |
 |---|---|
@@ -132,7 +132,7 @@ slice value
 
 `defer`는 RAII와 “정리를 놓치지 않는다”는 목적은 비슷하지만 object lifetime 기반 destructor와 동일한 메커니즘은 아니다.
 
-## 5. concurrency — 실행·통신·동기화·취소를 분리한다
+## concurrency — 실행·통신·동기화·취소를 분리한다
 
 | 글 | 역할 |
 |---|---|
@@ -156,7 +156,7 @@ context
 
 Channel을 쓰면 자동으로 race가 사라진다거나, goroutine을 OS thread와 같은 단위로 보지 않는다.
 
-## 6. 표준 라이브러리·관용구·testing — Go다운 설계
+## 표준 라이브러리·관용구·testing — Go다운 설계
 
 | 글 | 역할 |
 |---|---|
@@ -170,7 +170,7 @@ Channel을 쓰면 자동으로 race가 사라진다거나, goroutine을 OS threa
 - table-driven test가 언제 유용한가?
 - 작은 package 경계를 어떻게 잡을까?
 
-## Cross-cutting — Go Tooling은 처음부터 사용한다
+## Go Tooling은 처음부터 사용한다
 
 | 글 | 역할 |
 |---|---|
@@ -207,7 +207,7 @@ Generics는 기본 API를 읽기 위한 첫 관문은 아니지만 현재 Go의 
 
 에러 처리 모델·메모리 관리·다형성·코루틴 같은 언어 공통 Concept의 정본은 정보관리기술사 Knowledge에 둔다. Go 상세 글은 그 공통 개념을 다시 복제하기보다 **Go에서 실제로 어떤 문법·runtime·stdlib contract로 나타나는지**에 집중한다.
 
-## 어디서 시작할까
+## 필요할 때 더 살펴보기
 
 ```text
 Go가 처음이다
@@ -225,4 +225,4 @@ Go가 처음이다
 → generics Branch
 ```
 
-> **Go의 줄기는 package → composition/interface → core data types → explicit error flow → concurrency → idiom이다. Tooling은 마지막 단계가 아니라 전 과정에 걸쳐 사용하고, C++ 대응은 의미론을 등치하지 않는 학습 발판으로만 쓴다.**
+
