@@ -230,6 +230,6 @@ Browser Product만 정리하고 싶다
 → claude.ai Web 지형
 ```
 
-Terminal Agent를 오래 쓰는 경우 셸·Session 환경 자체가 생산성에 영향을 준다. 이 부분은 [셸 로드맵](../shell/2026-07-03-shell-roadmap.md)과 [tmux 로드맵](../tmux/2026-06-16-00-tmux-roadmap.md)의 책임이다.
+Terminal Agent를 오래 쓰는 경우 셸·Session 환경 자체가 생산성에 영향을 준다. 이 부분은 [셸 로드맵](../shell/2026-07-03-00-shell-roadmap.md)과 [tmux 로드맵](../tmux/2026-06-16-00-tmux-roadmap.md)의 책임이다.
 
 > **AI 글은 하나의 필수 학습 사다리가 아니다. 도구 사용, 외부 연결, Application 개발이라는 서로 다른 질문을 분리하고 현재 목적에 필요한 영역만 탐색한다.**
