@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [모던 C++ 학습 로드맵](./2026-07-03-cpp-learning-roadmap.md)의 **중급(객체지향)** 단계입니다. 앞 글: [① 참조자와 동적 할당](./2026-07-03-cpp-reference-and-dynamic-allocation.md)
+> [모던 C++ 학습 로드맵](./2026-07-03-00-cpp-learning-roadmap.md)의 **중급(객체지향)** 단계입니다. 앞 글: [① 참조자와 동적 할당](./2026-07-03-cpp-reference-and-dynamic-allocation.md)
 
 앞 글에서 "직접 `delete`하는 건 위험하다"로 끝냈습니다. 그 해법이 클래스입니다. C++의 객체지향은 단순히 "데이터와 함수를 묶는" 것을 넘어, **자원의 수명을 객체의 수명에 묶는** 도구입니다. 이 관점으로 클래스를 보면 이후 모든 게 연결됩니다.
 
