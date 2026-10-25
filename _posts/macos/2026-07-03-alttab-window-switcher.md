@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [macOS 로드맵](./2026-07-03-macos-roadmap.md)의 창 관리 갈래 · [AeroSpace 기본](./2026-07-03-aerospace-basics.md)
+> 관련: [macOS 로드맵](./2026-07-03-00-macos-roadmap.md)의 창 관리 갈래 · [AeroSpace 기본](./2026-07-03-aerospace-basics.md)
 
 [AeroSpace](./2026-07-03-aerospace-basics.md)로 창을 공간별로 나누고 `alt-hjkl`로 방향 이동까지 익숙해지면, 딱 하나 불편한 게 남는다 — **"여러 워크스페이스에 흩어진 그 창 하나로 바로 가고 싶다"**. 방향 이동은 지금 워크스페이스 안에서만 편하고, 같은 앱 창이 여러 개면 방향키로 집어내기가 애매하다. [AltTab](https://alt-tab.app/)이 그 빈틈을 메운다. **오픈소스**이고 핵심 기능은 무료이며, Windows·리눅스식 **썸네일 창 전환**을 macOS에 더한다.
 
