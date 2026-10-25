@@ -52,4 +52,4 @@ User·Group과 파일 권한은 접근 제어의 기본 축이다. `sudo`는 권
 
 현재 블로그에서는 [프로세스 관측](./2026-08-26-top-htop-btop-system-monitoring.md), [파일시스템·디스크](./2026-07-11-filesystem-disk-management.md), [계정 관리](./2026-07-11-user-account-management.md), [systemd](./2026-07-11-systemd-service-management.md), [로그](./2026-07-11-syslog-journald-logging.md), [네트워크](./2026-07-11-network-basics-ip-ss.md), [방화벽](./2026-07-11-firewalld-ufw-basics.md), [SSH](./2026-07-11-ssh-server-access-hardening.md) 등을 다룬다. Scheduler·Virtual Memory·백업·SELinux 같은 개념은 별도 글이 없어도 전체 지도에서 제외하지 않는다.
 
-셸 언어와 스크립트는 [Shell](../shell/2026-07-03-shell-roadmap.md), 터미널 작업공간은 [tmux](../tmux/2026-06-16-00-tmux-roadmap.md)에서 다룬다.
+셸 언어와 스크립트는 [Shell](../shell/2026-07-03-00-shell-roadmap.md), 터미널 작업공간은 [tmux](../tmux/2026-06-16-00-tmux-roadmap.md)에서 다룬다.
