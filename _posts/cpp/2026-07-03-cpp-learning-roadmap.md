@@ -2,7 +2,7 @@
 title       : "모던 C++ 학습 로드맵 — 객체 수명에서 모던 C++까지"
 description : "C++ 학습을 컴파일·링크 모델, 참조·객체 수명, RAII, 이동·스마트 포인터, STL·람다, 템플릿, 모던 언어 기능으로 연결하고 동시성·CMake·스타일은 필요에 따라 분기한 학습 지도."
 date        : 2026-07-03 10:00:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 18:00:00 +0900
 categories  : [cpp]
 tags        : [roadmap, modern-cpp]
 pin         : false
@@ -14,26 +14,33 @@ C++는 문법 목록보다 **객체의 수명과 번역 단위가 어떻게 프�
 이 Roadmap은 다음 두 축을 구분한다.
 
 ```text
-[언어 의미론]
-객체·참조·수명 ── RAII·자원 관리
-        │                │
-        └── move·copy ───┘
+C++ 언어·프로그램 모델
+├─ 객체와 타입
+│  ├─ 값·참조·포인터 / const / 수명
+│  ├─ class / 생성·소멸 / RAII
+│  └─ copy·move / 소유 관계 표현
+├─ 추상화와 재사용
+│  ├─ 함수·오버로딩·template / constraints
+│  └─ 다형성 / lambda / callable
+├─ 표준 라이브러리
+│  ├─ container·iterator·range·algorithm
+│  └─ smart pointer / 자원 관리
+├─ 실행 중의 동작
+│  ├─ 예외·오류 / 예외 안전
+│  └─ thread·동기화·메모리 모델
+└─ 프로그램 생성
+   ├─ 전처리·translation unit / compile·link
+   └─ ODR·ABI / 빌드 구성(CMake 등)
 
-표준 라이브러리 ── container / iterator / algorithm
-언어 추상화 ─────── class / template / lambda
-표현·계산 규칙 ──── auto / constexpr / 초기화
-
-[프로그램 구성]
-source / header → translation unit → compile → object
-                                              ↓
-                                         link → 실행 파일
-
-CMake → 여러 target의 빌드 구성을 생성·관리
+연결: 객체 수명 ──> RAII / copy·move / 예외 안전
+      타입·template ──> 표준 라이브러리와 generic code
 ```
 
 컴파일·링킹은 마지막에 배우는 부록이 아니라 **처음부터 C++ 프로그램 구조를 이해하는 바닥**이다. 다만 CMake의 세부 사용은 여러 파일·target을 실제로 다룰 때 Zoom-in한다.
 
-## 한눈에 보기
+위 지도는 기존 게시글의 분류를 따라 만든 목차가 아니라, 언어의 주요 개념과 관계를 압축한 것이다. 상세 문서가 없는 개념도 전체 구조를 이해하는 데 필요하면 지도에 남긴다. 아래 링크는 필요한 부분을 더 깊이 살펴볼 때 선택한다.
+
+## 개념군별 심화 탐색
 
 | 구역 | 핵심 질문 | 우선순위 |
 |---|---|---|
