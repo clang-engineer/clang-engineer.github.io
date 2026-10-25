@@ -2,7 +2,7 @@
 title       : "macOS 로드맵 — 셋업·런처·창 관리의 세 갈래"
 description : "macOS 개발환경 글을 시스템 셋업, 런처·생산성, 창 관리·자동화라는 세 독립 축으로 나눈다. 새 Mac에서는 시스템 셋업을 먼저 권장하지만, 세 축을 얕은→깊은 학습 단계로 보지 않는다."
 date        : 2026-07-03 17:30:00 +0900
-updated     : 2026-10-08 00:00:00 +0900
+updated     : 2026-10-25 17:00:00 +0900
 categories  : [macos, "개요·인덱스"]
 tags        : [roadmap, macos, aerospace, hammerspoon, window-manager]
 pin         : false
@@ -12,14 +12,12 @@ hidden      : false
 macOS를 개발환경으로 다듬을 때 만나는 문제는 하나의 학습 사다리가 아니다.
 
 ```text
-시스템 셋업
-→ 새 Machine을 개발 가능한 상태로 만든다
+macOS 개발환경
+├─ 시스템 셋업 ─────── OS 설정·패키지·인증·환경 검증
+├─ 런처·생산성 ─────── 검색·명령 실행·앱 호출
+└─ 창 관리·자동화 ─── Workspace·Window 배치·반복 작업
 
-런처·생산성
-→ App·명령·정보에 빨리 접근한다
-
-창 관리·자동화
-→ Workspace와 Window를 배치하고 반복 동작을 자동화한다
+설정·패키지 재현은 dotfiles Roadmap과 연결
 ```
 
 세 갈래는 서로 영향을 주지만 **독립적인 문제축**이다. 새 Mac을 막 받았다면 시스템 셋업부터 하는 것이 자연스럽지만, 이미 환경이 갖춰져 있다면 런처나 창 관리부터 바로 들어가도 된다.
@@ -102,11 +100,11 @@ dotfiles Roadmap
 검색·명령 진입
 → Spotlight / Alfred / Raycast
 
-Workspace 관리
+Workspace 관리의 한 선택지
 → AeroSpace
 
-Window 배치·자동화
-→ Hammerspoon
+Window 배치·자동화의 한 선택지
+→ Hammerspoon / Rectangle 등
 ```
 
 Raycast의 Window Management 기능을 쓸 수도 있지만, 여러 도구를 함께 쓸 경우 한 기능의 Owner를 하나로 정해야 Shortcut 충돌과 설정 중복이 줄어든다.
