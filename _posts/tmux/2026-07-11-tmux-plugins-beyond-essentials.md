@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 이 글은 [tmux 로드맵](./2026-06-16-tmux-roadmap.md)의 **2단계(플러그인으로 확장) > 쓰기** 연장선이다. TPM 설치와 **TPM 기반 기본 구성**(sensible·resurrect·continuum·vim-tmux-navigator)은 [tmux 설정과 TPM 플러그인](./2025-11-17-tmux-tpm.md)에서 이미 다뤘다. 이 글은 그 **기본 구성 다음 층** — 요즘 실력자들이 얹는 플러그인이다.
+> 이 글은 [tmux 로드맵](./2026-06-16-00-tmux-roadmap.md)의 **2단계(플러그인으로 확장) > 쓰기** 연장선이다. TPM 설치와 **TPM 기반 기본 구성**(sensible·resurrect·continuum·vim-tmux-navigator)은 [tmux 설정과 TPM 플러그인](./2025-11-17-tmux-tpm.md)에서 이미 다뤘다. 이 글은 그 **기본 구성 다음 층** — 요즘 실력자들이 얹는 플러그인이다.
 {: .prompt-tip }
 
 TPM 기반 기본 구성은 "tmux를 쓸 만하게" 만든다. 그 위에 얹는 층은 취향과 워크플로에 가깝다 — 상태바를 현대적으로 바꾸고, 복사·붙여넣기 마찰을 줄이고, 화면의 텍스트를 퍼지로 집어낸다. [awesome-tmux](https://github.com/rothgar/awesome-tmux) 목록은 방대하지만, 이 글은 **별 개수와 실제 정착도**를 근거로 "지금 얹을 만한 것"만 추렸다.
