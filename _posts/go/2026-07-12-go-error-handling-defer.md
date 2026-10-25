@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **④ 실패·정리 흐름** Zoom-in이다. 앞 글: [③ slice·map·string](./2026-07-12-go-slice-map-string.md)
+> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 **④ 실패·정리 흐름** Zoom-in이다. 앞 글: [③ slice·map·string](./2026-07-12-go-slice-map-string.md)
 
 Go에서 `error`, `defer`, `panic`, `recover`는 한 묶음처럼 자주 소개되지만 **해결하는 문제가 다르다.**
 
