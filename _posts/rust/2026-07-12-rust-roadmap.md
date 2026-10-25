@@ -2,7 +2,7 @@
 title       : "Rust 학습 로드맵 — 소유권에서 Rust다운 API까지"
 description : "C++ 경험을 발판으로 쓰되 Rust를 같은 의미론으로 등치하지 않고, 소유권·빌림·수명, enum·match, Result·Option, trait·generics, iterator·closure를 핵심 줄기로 잡고 smart pointer·concurrency·tooling·unsafe를 Branch로 분리한 학습 지도."
 date        : 2026-07-12 11:00:00 +0900
-updated     : 2026-09-06 13:25:00 +0900
+updated     : 2026-10-25 17:00:00 +0900
 categories  : [rust]
 tags        : [roadmap, rust]
 pin         : false
@@ -22,7 +22,7 @@ Rust 학습
 → 그 모델 위에서 API를 설계
 ```
 
-> **검토 기준:** Rust 1.98.x, Edition 2024. 2026년 9월 현재 stable 1.98 계열을 기준으로 하되, 이 Roadmap은 특정 point release보다 stable Rust의 의미론을 중심으로 본다.
+> **버전 주의:** 소유권·빌림 등 기본 의미론을 중심으로 설명한다. 개별 API와 컴파일러 기능은 사용하는 stable Rust 버전과 Edition을 확인한다.
 
 ## 한눈에 보기
 
@@ -64,9 +64,9 @@ cargo new
 이 Zoom-in 문서의 모델을 Roadmap의 기준으로 삼는다.
 
 ```text
-non-Copy value assignment / pass-by-value
-→ ownership move가 일어날 수 있음
-→ 이전 binding의 사용 가능성을 compiler가 추적
+non-Copy 값의 대입 / 값 전달
+→ 일반적으로 소유권 move
+→ 이전 binding은 이동된 값을 더 이상 사용할 수 없음
 
 &T
 → shared borrow
