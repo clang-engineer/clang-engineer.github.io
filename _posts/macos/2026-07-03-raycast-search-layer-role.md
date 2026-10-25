@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> **[macOS 로드맵](./2026-07-03-macos-roadmap.md)** — 창 관리 시리즈에 이어 **런처·생산성** 갈래의 첫 글입니다.
+> **[macOS 로드맵](./2026-07-03-00-macos-roadmap.md)** — 창 관리 시리즈에 이어 **런처·생산성** 갈래의 첫 글입니다.
 > 런처 자체를 고르는 문제(Spotlight·Alfred·Raycast 비교)는 [macOS 생산성 런처 비교](./2025-10-31-productivity-launchers.md)를 먼저 보세요. 이 글은 **이미 Raycast를 쓰기로 정한 뒤**, 창 관리 도구와 어떻게 안 겹치게 배치하느냐를 다룹니다.
 {: .prompt-info }
 
