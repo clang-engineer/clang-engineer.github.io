@@ -2,29 +2,37 @@
 title       : "셸 로드맵 — 실행 모델에서 스크립트와 세션까지"
 description : "셸의 명령 해석·실행, 스크립팅, 프로세스·작업 제어, CLI 설계와 주변 도구의 관계를 연결하는 로드맵."
 date        : 2026-07-03 14:30:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 18:30:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, shell, zsh, bash]
 pin         : false
 hidden      : false
 ---
 
-셸은 사용자의 명령을 해석하고 프로그램을 실행하며, 파이프·리다이렉션·작업 제어를 제공하는 명령 실행 환경이다. 스크립트는 이 동작을 파일로 작성해 재사용하는 방법이다. 이 로드맵은 **실행·해석·작업 제어의 관계**를 중심으로 개별 문서를 연결한다.
+셸은 사용자의 명령을 해석하고 프로그램을 실행하며, 파이프·리다이렉션·작업 제어를 제공하는 명령 실행 환경이다. 스크립트는 이 동작을 파일로 작성해 재사용하는 방법이다. 이 로드맵은 **실행·해석·작업 제어·초기화의 실제 개념 관계**를 먼저 보여준다. 게시글 유무는 개념 포함 기준이 아니다.
 
 ## 전체 지도
 
 ```text
-Shell
-├─ 명령 해석 ── quote / expansion / glob / redirection / pipeline
-├─ 실행 ── builtin / 외부 프로그램 / PATH / shebang
-├─ 제어 ── exit status / 조건·반복 / job control / signal
-└─ 자동화 ── shell script / 함수 / CLI 인자 계약
+Shell — 명령 실행 환경
+├─ 입력·해석
+│  ├─ Token / Quote / Expansion / Globbing
+│  └─ Command / Redirection / Pipeline
+├─ 명령 실행
+│  ├─ Builtin / Function / External Command
+│  ├─ PATH / Environment / Exit Status
+│  └─ Script / Interpreter / Shebang
+├─ 흐름·작업 제어
+│  ├─ Condition / Loop / Function
+│  └─ Process / Job / Signal / Foreground·Background
+└─ 초기화·상태
+   ├─ Login / Interactive / Non-interactive
+   └─ Startup File / Variable / Working Directory
 
-별도 활용 축
-├─ 환경·설정 재현 ── dotfiles
-├─ 디렉터리별 환경변수 ── direnv
-├─ 경로 탐색 보조 ── zoxide
-└─ 터미널 작업공간 유지 ── tmux
+연결: 해석 결과 → 명령 실행 → 종료 상태·제어 흐름
+      Pipeline·Redirection → 프로세스 입출력 연결
+
+별도 영역: Terminal·PTY / tmux / dotfiles / direnv·zoxide
 ```
 
 위 가지는 서로 연관된 기능군이지 필수 학습 단계가 아니다. 예를 들어 job control은 CLI 인터페이스를 설계한 뒤에야 배울 수 있는 기능이 아니다. 처음 스크립트를 만든다면 실행 모델과 문법부터 읽고, 오래 실행하는 작업이 궁금하다면 프로세스·작업 제어로 바로 이동하면 된다.
