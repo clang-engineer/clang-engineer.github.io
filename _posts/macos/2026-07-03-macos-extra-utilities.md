@@ -9,9 +9,9 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [macOS 로드맵](./2026-07-03-macos-roadmap.md) · [새 맥 초기 설정](./2022-02-05-new-mac-initial-setup.md)
+> 관련: [macOS 로드맵](./2026-07-03-00-macos-roadmap.md) · [새 맥 초기 설정](./2022-02-05-new-mac-initial-setup.md)
 
-큰 축은 이미 각각 글로 다뤘다 — 창 관리는 [AeroSpace + Hammerspoon](./2026-07-03-macos-roadmap.md), 키맵은 [Karabiner-Elements](../keyboard/2026-07-03-karabiner-elements-macos-keymap.md), 창 전환은 [AltTab](./2026-07-03-alttab-window-switcher.md), 검색·런처는 [Raycast](./2026-07-03-raycast-search-layer-role.md). 이 글은 그 다음, **"깊게 파진 않지만 깔아두면 삶이 편해지는"** 보조 유틸을 한데 모은 것이다. 각각 무엇을·왜·대안만 짧게.
+큰 축은 이미 각각 글로 다뤘다 — 창 관리는 [AeroSpace + Hammerspoon](./2026-07-03-00-macos-roadmap.md), 키맵은 [Karabiner-Elements](../keyboard/2026-07-03-karabiner-elements-macos-keymap.md), 창 전환은 [AltTab](./2026-07-03-alttab-window-switcher.md), 검색·런처는 [Raycast](./2026-07-03-raycast-search-layer-role.md). 이 글은 그 다음, **"깊게 파진 않지만 깔아두면 삶이 편해지는"** 보조 유틸을 한데 모은 것이다. 각각 무엇을·왜·대안만 짧게.
 
 공통점 하나 — 아래 다섯 중 넷은 **무료·오픈소스**다. 유료 대안이 더 유명한 자리마저 오픈소스 대체제가 충분히 성숙했다.
 
