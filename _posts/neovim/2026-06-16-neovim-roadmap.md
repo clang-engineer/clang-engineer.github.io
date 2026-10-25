@@ -82,7 +82,7 @@ Plugin / User Config
 
 Neovim의 LSP Client는 Language Server와 프로토콜로 통신하고, DAP 연동은 Debug Adapter를 통해 디버거 기능을 제공한다. Treesitter는 구문 트리를 활용하는 별도의 기능군이다. 이들은 플러그인 제작의 후속 단계가 아니라 **편집기 기능을 구성하는 서로 다른 통합 경로**다.
 
-LSP는 [Mason·nvim-lspconfig·vim.lsp의 역할](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md), DAP는 [Debug Adapter Protocol](./2026-07-12-nvim-dap-debug-adapter-protocol.md)에서 더 자세히 다룬다. 터미널 UI의 입출력 구조는 [Terminal 로드맵](../terminal/2026-09-05-terminal-roadmap.md)과 연결된다.
+LSP는 [Mason·nvim-lspconfig·vim.lsp의 역할](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md), DAP는 [Debug Adapter Protocol](./2026-07-12-nvim-dap-debug-adapter-protocol.md)에서 더 자세히 다룬다. 터미널 UI의 입출력 구조는 [Terminal 로드맵](../terminal/2026-09-05-00-terminal-roadmap.md)과 연결된다.
 
 ## 필요한 경우 더 깊이 살펴보기
 
@@ -95,4 +95,4 @@ LSP는 [Mason·nvim-lspconfig·vim.lsp의 역할](./2026-07-08-neovim-lsp-three-
 
 ## 다른 로드맵과의 경계
 
-Neovim의 편집 모델·상태·API는 이 문서에서 다룬다. [Terminal](../terminal/2026-09-05-terminal-roadmap.md)은 PTY·터미널 렌더링, [tmux](../tmux/2026-06-16-tmux-roadmap.md)는 세션·pane 관리, [dotfiles](../shell/2026-07-08-dotfiles-roadmap.md)는 설정 파일의 머신 간 재현을 다룬다. 일반적인 프로그래밍 언어·운영체제 개념은 해당 개념지도에서 확인한다.
+Neovim의 편집 모델·상태·API는 이 문서에서 다룬다. [Terminal](../terminal/2026-09-05-00-terminal-roadmap.md)은 PTY·터미널 렌더링, [tmux](../tmux/2026-06-16-tmux-roadmap.md)는 세션·pane 관리, [dotfiles](../shell/2026-07-08-dotfiles-roadmap.md)는 설정 파일의 머신 간 재현을 다룬다. 일반적인 프로그래밍 언어·운영체제 개념은 해당 개념지도에서 확인한다.
