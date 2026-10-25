@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [세벌식 390 입문](./2026-07-03-sebeolsik-390-intro.md) · [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-00-keyboard-roadmap.md) · [세벌식 390 입문](./2026-07-03-sebeolsik-390-intro.md) · [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)
 
 **HHKB(Happy Hacking Keyboard)**는 프로그래머와 유닉스 사용자 사이에서 오랜 팬층을 가진 미니멀 키보드다. 작은 크기에 비해 비싸고, 방향키도 없는데 왜 인기일까? 이 글은 HHKB의 설계 철학과 배열 특징, 그리고 그게 왜 코딩·터미널 작업과 잘 맞는지를 정리한 입문 글이다.
 
