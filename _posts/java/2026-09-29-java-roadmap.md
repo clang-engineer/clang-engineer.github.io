@@ -208,7 +208,7 @@ Java와 Gradle이 만나는 지점은 Toolchain·Bytecode target·Application JV
 
 ## 다른 Roadmap과의 경계
 
-- 소스가 실행 파일·프로세스·Runtime을 거쳐 CPU까지 내려가는 일반 구조 → [Program Execution](../program-execution/2026-09-25-index.md)
+- 소스가 실행 파일·프로세스·Runtime을 거쳐 CPU까지 내려가는 일반 구조 → [Program Execution](../program-execution/2026-09-25-00-program-execution-roadmap.md)
 - Java Build·Dependency·Toolchain → Gradle 영역
 - OS Process·Virtual Memory·System Call → Program Execution / OS 영역
 - DB 자체의 관계형 모델·SQL → DB 영역
