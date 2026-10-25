@@ -153,7 +153,7 @@ Configurator는 Firmware를 대체하지 않는다. 보드가 해당 기능을 �
 
 ## 다른 Roadmap과의 경계
 
-- macOS 단축키·Window Tool과의 충돌/역할 → [macOS](../macos/2026-07-03-macos-roadmap.md)
+- macOS 단축키·Window Tool과의 충돌/역할 → [macOS](../macos/2026-07-03-00-macos-roadmap.md)
 - Karabiner 설정 파일을 여러 Machine에 배포 → [dotfiles](../shell/2026-07-08-00-dotfiles-roadmap.md)
 - Terminal/Neovim/tmux 자체 Key Binding 체계 → 각 도구 Roadmap
 
