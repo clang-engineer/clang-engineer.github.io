@@ -2,7 +2,7 @@
 title       : "Go 학습 로드맵 — C++ 습관을 내려놓고 Go답게 쓰기"
 description : "C++ 배경에서 Go로 넘어올 때 패키지·타입, interface·composition, slice·map, error·defer, goroutine·channel·context, 표준 라이브러리·관용구를 핵심 줄기로 잡고 Tooling과 generics를 별도 축으로 배치한 학습 지도."
 date        : 2026-07-12 10:00:00 +0900
-updated     : 2026-09-06 13:15:00 +0900
+updated     : 2026-10-25 17:00:00 +0900
 categories  : [go]
 tags        : [roadmap, go]
 pin         : false
@@ -20,7 +20,7 @@ C++에서 익숙한 질문
 → 그 규칙이 실제 API 설계에 어떻게 나타나나?
 ```
 
-> **검토 기준:** Go 1.27. Go 1.27은 2026년 8월 공개됐고 generic method 같은 언어 변화가 포함됐다. 세부 버전보다 Go 1 compatibility 아래의 현재 언어·도구 모델을 기준으로 본다.
+> **버전 주의:** Go 언어 기능은 버전에 따라 달라질 수 있다. Generic method 관련 문법과 지원 여부는 사용하는 버전의 공식 명세를 확인한다.
 
 ## 한눈에 보기
 
@@ -44,11 +44,11 @@ C++에서 익숙한 질문
 Go에서 파일 하나보다 먼저 봐야 할 단위는 package와 module이다.
 
 ```text
-source files
-→ package
-→ module
-→ import graph
-→ go toolchain
+module (의존성·버전 관리 단위)
+└─ package (Go source files의 묶음)
+   └─ import → 다른 package 참조
+
+go toolchain → 빌드·테스트·실행
 ```
 
 `go mod`, `go fmt`, `go test`는 마지막에 배우는 별도 Tool이 아니라 이 단계부터 일상적으로 사용한다.
@@ -182,9 +182,9 @@ Channel을 쓰면 자동으로 race가 사라진다거나, goroutine을 OS threa
 
 각 단계에서 필요할 때 옆에 두고 쓰는 Cross-cutting Tool 문서다.
 
-## Branch — generics와 generic methods
+## Branch — generics와 버전별 제약
 
-Generics는 기본 API를 읽기 위한 첫 관문은 아니지만 현재 Go의 언어 기능이다. Go 1.18에서 type parameter가 들어왔고 Go 1.27에서는 method 자체도 type parameter를 선언할 수 있게 됐다.
+Generics는 기본 API를 읽기 위한 첫 관문은 아니지만 현재 Go의 언어 기능이다. Go 1.18에서 type parameter가 도입됐다. Method의 type parameter 지원 여부는 사용하는 Go 버전의 공식 명세로 확인한다.
 
 처음에는 interface·concrete type·ordinary function으로 충분히 익힌 뒤, **여러 타입에 같은 compile-time algorithm을 표현해야 할 때** Zoom-in하는 편이 좋다.
 
