@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-00-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md)
 
 QMK·ZMK는 **키맵을 보드 펌웨어에 굽는다**. 강력하지만 두 가지 한계가 있다 — 맥북 **내장 키보드**엔 못 올리고, 리플래시할 수 없는 **기성 키보드**도 손댈 수 없다. 이 빈틈을 macOS 쪽에서 메우는 게 [Karabiner-Elements](https://karabiner-elements.pqrs.org/)다. 어떤 키보드가 물려 있든 **OS 레벨에서 키 입력을 가로채 재매핑**한다. 펌웨어가 "판때기의 키맵"이라면 Karabiner는 "맥의 키맵"이다.
 
