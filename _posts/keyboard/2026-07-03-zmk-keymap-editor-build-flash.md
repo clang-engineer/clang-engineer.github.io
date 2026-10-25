@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) · [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-00-keyboard-roadmap.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) · [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)
 
 [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)가 좋은 키맵을 **어떻게 설계할지** 다룬다면, 이 글은 그 앞 단계인 **키맵을 수정해서 실제 보드에 올리는 과정**을 다룬다.
 
