@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 전체 선택지는 [dotfiles 로드맵](./2026-07-08-dotfiles-roadmap.md)에서 먼저 본다. 이 글은 그중 **Git source를 Home에 Link하는 모델과 Render/Apply하는 모델**만 비교한다. Home 자체를 Git worktree로 쓰는 [bare git/yadm](./2026-07-08-dotfiles-bare-git-yadm.md)은 제3의 배치 모델이다.
+> 전체 선택지는 [dotfiles 로드맵](./2026-07-08-00-dotfiles-roadmap.md)에서 먼저 본다. 이 글은 그중 **Git source를 Home에 Link하는 모델과 Render/Apply하는 모델**만 비교한다. Home 자체를 Git worktree로 쓰는 [bare git/yadm](./2026-07-08-dotfiles-bare-git-yadm.md)은 제3의 배치 모델이다.
 
 `symlink`와 `chezmoi`를 비교할 때 “어느 Tool이 더 고급인가”부터 물으면 관계가 흐려진다. 먼저 **Home에 있는 파일의 정체가 무엇인가**를 본다.
 
