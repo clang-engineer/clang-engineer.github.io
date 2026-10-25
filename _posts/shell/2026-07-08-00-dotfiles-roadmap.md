@@ -63,4 +63,4 @@ Host별 설정은 실행 시 분기하거나 배치 시 템플릿으로 생성�
 
 ## 필요한 경우 더 깊이 살펴보기
 
-[Git·Symlink](./2026-07-03-dotfiles-symlink-management.md), [bare Git·yadm](./2026-07-08-dotfiles-bare-git-yadm.md), [chezmoi](./2026-07-08-chezmoi-usage-source-apply.md), [Brewfile](./2026-07-03-homebrew-brewfile-bundle.md)을 선택적으로 참고한다. 실제 새 Mac 설정 절차는 [macOS](../macos/2026-07-03-macos-roadmap.md), Shell 동작 원리는 [Shell](./2026-07-03-00-shell-roadmap.md)의 영역이다.
+[Git·Symlink](./2026-07-03-dotfiles-symlink-management.md), [bare Git·yadm](./2026-07-08-dotfiles-bare-git-yadm.md), [chezmoi](./2026-07-08-chezmoi-usage-source-apply.md), [Brewfile](./2026-07-03-homebrew-brewfile-bundle.md)을 선택적으로 참고한다. 실제 새 Mac 설정 절차는 [macOS](../macos/2026-07-03-00-macos-roadmap.md), Shell 동작 원리는 [Shell](./2026-07-03-00-shell-roadmap.md)의 영역이다.
