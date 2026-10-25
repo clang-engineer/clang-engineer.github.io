@@ -2,7 +2,7 @@
 title       : "Go 학습 로드맵 — C++ 습관을 내려놓고 Go답게 쓰기"
 description : "C++ 배경에서 Go로 넘어올 때 패키지·타입, interface·composition, slice·map, error·defer, goroutine·channel·context, 표준 라이브러리·관용구를 핵심 줄기로 잡고 Tooling과 generics를 별도 축으로 배치한 학습 지도."
 date        : 2026-07-12 10:00:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 18:00:00 +0900
 categories  : [go]
 tags        : [roadmap, go]
 pin         : false
@@ -14,15 +14,30 @@ Go는 C++의 기능을 하나씩 대응시켜 배우기보다 **Go가 일부 복
 C++ 대응은 출발점으로만 쓴다.
 
 ```text
-C++에서 익숙한 질문
-→ Go에서는 어떤 기능이 없어졌나?
-→ 대신 어떤 단순한 규칙·관용구를 쓰나?
-→ 그 규칙이 실제 API 설계에 어떻게 나타나나?
+Go 언어·프로그램 모델
+├─ 프로그램 구성 ── module / package / import / visibility
+├─ 값과 타입
+│  ├─ 기본 타입 / struct / array·slice·map / string
+│  ├─ pointer / 값 전달 / 공유되는 내부 데이터
+│  └─ method set / interface / embedding / generics
+├─ 제어와 실패 ── 함수 / error / defer / panic·recover
+├─ 동시성
+│  ├─ goroutine ── 실행
+│  ├─ channel·sync ── 통신·동기화
+│  └─ context ── 취소·기한 전파
+├─ 실행 환경 ── GC / scheduler / runtime
+└─ 개발 생태계 ── stdlib / go tool / test / module
+
+연결: method set ──> interface 만족
+      slice 값 복사 ──> backing array 공유 가능
+      goroutine ──> channel·sync·context로 조율
 ```
 
 > **버전 주의:** Go 언어 기능은 버전에 따라 달라질 수 있다. Generic method 관련 문법과 지원 여부는 사용하는 버전의 공식 명세를 확인한다.
 
-## 한눈에 보기
+위 지도는 기존 게시글의 분류를 따라 만든 목차가 아니라, 언어의 주요 개념과 관계를 압축한 것이다. 상세 문서가 없는 개념도 전체 구조를 이해하는 데 필요하면 지도에 남긴다. 아래 링크는 필요한 부분을 더 깊이 살펴볼 때 선택한다.
+
+## 개념군별 심화 탐색
 
 | 구역 | 핵심 질문 | 우선순위 |
 |---|---|---|
