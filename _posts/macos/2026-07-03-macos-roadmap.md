@@ -216,7 +216,7 @@ Shell Script와 Process·Job
 ```
 
 - [dotfiles 로드맵](../shell/2026-07-08-dotfiles-roadmap.md)
-- [Terminal 로드맵](../terminal/2026-09-05-terminal-roadmap.md)
+- [Terminal 로드맵](../terminal/2026-09-05-00-terminal-roadmap.md)
 - [셸 로드맵](../shell/2026-07-03-shell-roadmap.md)
 - [키보드 로드맵](../keyboard/2026-07-03-keyboard-roadmap.md)
 
