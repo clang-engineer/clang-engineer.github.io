@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-00-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [ZMK 키맵 설계기](./2026-07-03-zmk-keymap-hhkb-sebeolsik-40.md)
 
 40% 키보드 키맵 문서를 처음 보면 `momentary`, `layer-tap`, `hold-tap`, `combo` 같은 용어가 쏟아진다. 겁먹을 것 없다. 대부분 **"물리 키가 부족하니 한 키에 여러 역할을 태우는"** 방법들이고, 뿌리는 몇 개 안 된다. QMK와 ZMK 표기를 나란히 정리했다. 표기는 펌웨어마다 조금 달라도 **개념은 같다.**
 
