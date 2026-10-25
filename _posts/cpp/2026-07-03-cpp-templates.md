@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [모던 C++ 학습 로드맵](./2026-07-03-cpp-learning-roadmap.md)의 **고급(제네릭)** 단계입니다. 앞 글: [④ STL 컨테이너와 알고리즘](./2026-07-03-cpp-stl-containers-and-algorithms.md)
+> [모던 C++ 학습 로드맵](./2026-07-03-00-cpp-learning-roadmap.md)의 **고급(제네릭)** 단계입니다. 앞 글: [④ STL 컨테이너와 알고리즘](./2026-07-03-cpp-stl-containers-and-algorithms.md)
 
 `std::vector<int>`, `std::vector<std::string>` — 어떻게 하나의 `vector`가 모든 타입에서 동작할까요? 답이 **템플릿**입니다. 타입 자체를 인자로 받아, 컴파일러가 필요한 타입마다 코드를 찍어냅니다.
 
