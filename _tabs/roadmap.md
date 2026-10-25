@@ -57,7 +57,7 @@ Shell ── 명령 실행·제어      Terminal Emulator ── 화면·키 입
 
 | 로드맵 | 무엇을 위한 지도인가 |
 |------|------|
-| [Program Execution](../_posts/program-execution/2026-09-25-index.md) | 빌드·로딩·실행 경로와 ABI·Runtime·가상 메모리·시스템 호출의 횡단 관계 |
+| [Program Execution](../_posts/program-execution/2026-09-25-00-program-execution-roadmap.md) | 빌드·로딩·실행 경로와 ABI·Runtime·가상 메모리·시스템 호출의 횡단 관계 |
 
 ## 🔤 언어
 
