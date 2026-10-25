@@ -1,39 +1,32 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/clang-engineer/reference-explorer@a5b4ef46f499aa3ebe42d719fbdeaa8305561e2a/src/styles/explorer.css">
 <style>
   reference-explorer { display: block; width: 100%; }
-  body:has(.dk-app) #main-wrapper > .container { max-width: none; height: 100dvh; overflow: hidden; }
-  body:has(.dk-app) #main-wrapper > .container > .row { min-height: 0; }
+  body:has(.dk-app) #main-wrapper > .container { max-width: none; }
   body:has(.dk-app) #panel-wrapper { display: none !important; }
   body:has(.dk-app) main { max-width: 100%; flex: 1 1 100%; }
   body:has(.dk-app) #tail-wrapper { display: none !important; }
-  body:has(.dk-app) main { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-  body:has(.dk-app) reference-explorer { flex: 1 1 auto; min-height: 0; overflow: hidden; }
-  body:has(.dk-app) .dk-app { display: flex; flex-direction: column; height: 100%; min-height: 0; margin-bottom: 0; overflow: hidden; }
-  body:has(.dk-app) .dk-app .dk-layout { flex: 1 1 auto; align-items: stretch; min-height: 0; overflow: hidden; }
-  body:has(.dk-app) .dk-app .dk-sidebar,
-  body:has(.dk-app) .dk-app .dk-explorer,
-  body:has(.dk-app) .dk-app .dk-panel-host { min-height: 0; overflow: hidden; }
-  body:has(.dk-app) .dk-app .dk-sidebar,
-  body:has(.dk-app) .dk-app .dk-explorer,
-  body:has(.dk-app) .dk-app .dk-panel-host { display: flex; flex-direction: column; }
-  body:has(.dk-app) .dk-app .dk-navigation,
-  body:has(.dk-app) .dk-app .dk-viewport,
-  body:has(.dk-app) .dk-app .dk-detail { flex: 1 1 auto; height: auto; max-height: none; min-height: 0; overflow: auto; }
+
+  /* Keep page scrolling available; only wide layouts have internal scroll panes. */
+  @container devkit (min-width: 1001px) {
+    #devkit-root .dk-layout { height: max(20rem, calc(100dvh - 18rem)); align-items: stretch; }
+    #devkit-root .is-expanded .dk-layout { height: max(20rem, calc(100dvh - 12rem)); }
+    #devkit-root .dk-sidebar,
+    #devkit-root .dk-explorer,
+    #devkit-root .dk-panel-host { display: flex; flex-direction: column; min-height: 0; }
+    #devkit-root .dk-navigation,
+    #devkit-root .dk-viewport,
+    #devkit-root .dk-panel-host > .dk-detail { flex: 1 1 auto; min-height: 0; height: auto; max-height: none; overflow: auto; }
+    #devkit-root .dk-map-header { flex-shrink: 0; }
+  }
+  @container devkit (max-width: 1000px) {
+    #devkit-root .dk-app:not(.is-expanded) .dk-viewport { height: auto; min-height: 0; }
+    #devkit-root .dk-app:not(.is-expanded) .dk-navigation,
+    #devkit-root .dk-app:not(.is-expanded) .dk-panel-host > .dk-detail { max-height: none; }
+  }
   body:has(.dk-app) .dk-app .dk-edge.is-complement .dk-edge-line,
   body:has(.dk-app) .dk-app .dk-edge.is-wrapper .dk-edge-line { stroke-dasharray: 6 5; }
   body:has(.dk-app) .dk-app .dk-edge.is-alternative .dk-edge-line,
   body:has(.dk-app) .dk-app .dk-edge.is-specialized .dk-edge-line { stroke-dasharray: none; }
-
-  @media (max-width: 768px) {
-    body:has(.dk-app) #main-wrapper > .container { height: auto; min-height: 100dvh; overflow: visible; }
-    body:has(.dk-app) main,
-    body:has(.dk-app) reference-explorer,
-    body:has(.dk-app) .dk-app,
-    body:has(.dk-app) .dk-app .dk-layout,
-    body:has(.dk-app) .dk-app .dk-sidebar,
-    body:has(.dk-app) .dk-app .dk-explorer,
-    body:has(.dk-app) .dk-app .dk-panel-host { overflow: visible; }
-  }
 </style>
 <reference-explorer id="devkit-root" default-view="{{ include.view | default: 'map' }}"
   src="https://raw.githubusercontent.com/clang-engineer/devkit/main/reference/catalog.json"
