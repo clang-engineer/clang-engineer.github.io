@@ -59,10 +59,10 @@ Markdown의 일반 링크는 다음 형태다.
 ```text
 _posts/
 ├─ go/
-│  ├─ 2026-07-12-go-roadmap.md
+│  ├─ 2026-07-12-00-go-roadmap.md
 │  └─ 2026-07-12-go-concurrency-goroutine-channel.md
 └─ rust/
-   └─ 2026-07-12-rust-roadmap.md
+   └─ 2026-07-12-00-rust-roadmap.md
 ```
 
 `go-roadmap.md`에서 같은 디렉터리의 동시성 글을 연결한다면:
@@ -74,7 +74,7 @@ _posts/
 다른 디렉터리의 Rust 로드맵을 연결한다면:
 
 ```markdown
-[Rust 로드맵](../rust/2026-07-12-rust-roadmap.md)
+[Rust 로드맵](../rust/2026-07-12-00-rust-roadmap.md)
 ```
 
 이것이 **상대경로(relative path)** 링크다.
@@ -97,19 +97,19 @@ _posts/
 예를 들어 현재 파일이:
 
 ```text
-_posts/go/2026-07-12-go-roadmap.md
+_posts/go/2026-07-12-00-go-roadmap.md
 ```
 
 이고 대상 파일이:
 
 ```text
-_posts/rust/2026-07-12-rust-roadmap.md
+_posts/rust/2026-07-12-00-rust-roadmap.md
 ```
 
 라면 먼저 `go`에서 `_posts`로 한 단계 올라간 뒤 `rust`로 들어간다.
 
 ```markdown
-[Rust 로드맵](../rust/2026-07-12-rust-roadmap.md)
+[Rust 로드맵](../rust/2026-07-12-00-rust-roadmap.md)
 ```
 
 같은 디렉터리라면 `./`는 생략해도 된다.
@@ -146,7 +146,7 @@ Jekyll 블로그에서는 편리하다. 하지만 이 경로는 저장소 안의
 /posts/go/2026-07-12-go-roadmap/
 
 실제 소스
-_posts/go/2026-07-12-go-roadmap.md
+_posts/go/2026-07-12-00-go-roadmap.md
 ```
 
 따라서 웹에서는 잘 열려도 Obsidian은 `/posts/...`를 Vault 안의 Markdown 파일로 찾지 못할 수 있다.
@@ -173,7 +173,7 @@ Markdown Source
 예를 들어 소스는:
 
 ```text
-_posts/go/2026-07-12-go-roadmap.md
+_posts/go/2026-07-12-00-go-roadmap.md
 ```
 
 이지만 웹에서는:
@@ -259,7 +259,7 @@ Jekyll + Obsidian 공용 문서
 다른 Markdown 파일의 Heading을 직접 가리킬 수도 있다.
 
 ```markdown
-[동시성 섹션](../go/2026-07-12-go-roadmap.md#5단계--동시성)
+[동시성 섹션](../go/2026-07-12-00-go-roadmap.md#5단계--동시성)
 ```
 
 다만 Heading에서 실제 Anchor ID를 만드는 규칙은 Markdown Renderer마다 약간 다를 수 있다.
