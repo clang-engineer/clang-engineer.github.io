@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **⑨ 동시성** 단계입니다. 앞 글: [⑧ 스마트 포인터](./2026-07-12-rust-smart-pointers.md)
+> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **⑨ 동시성** 단계입니다. 앞 글: [⑧ 스마트 포인터](./2026-07-12-rust-smart-pointers.md)
 
 Rust의 슬로건이 **"fearless concurrency"**입니다. safe Rust에서는 소유권과 `Send`/`Sync`가 안전하지 않은 공유를 컴파일 단계에서 거절하고, 실제 공유 가변 상태는 `Mutex`·atomic 같은 동기화 타입을 통해서만 다루게 합니다. 컴파일러가 뮤텍스를 없애 주는 게 아니라, **동기화 없이 공유 가변 데이터에 접근하는 경로를 타입으로 닫는 것**입니다.
 
