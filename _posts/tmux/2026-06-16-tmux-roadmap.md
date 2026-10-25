@@ -2,39 +2,36 @@
 title       : "tmux 로드맵 — 구조·동작·설정·활용"
 description : "tmux의 server·client와 session·window·pane 구조를 중심으로 핵심 동작, 설정, 세션 관리 및 활용 문서를 연결하는 개념지도."
 date        : 2026-06-16 15:00:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 18:30:00 +0900
 categories  : [tmux, "개요·인덱스"]
 tags        : [roadmap, terminal]
 pin         : false
 hidden      : false
 ---
 
-tmux는 하나의 터미널에서 여러 작업공간을 관리하고, 클라이언트가 연결을 끊어도 서버에 작업공간을 유지하는 터미널 멀티플렉서다. 이 로드맵은 명령어 목록보다 **구성요소의 관계와 주요 사용 흐름**을 먼저 보여준다. 각 주제의 상세 설정과 예제는 연결된 문서에서 확인한다.
+tmux는 하나의 터미널에서 여러 작업공간을 관리하고, 클라이언트가 연결을 끊어도 서버에 작업공간을 유지하는 터미널 멀티플렉서다. 이 로드맵은 명령어 목록보다 **구성요소의 관계와 주요 사용 흐름**을 먼저 보여준다. 이 지도는 게시글 유무와 관계없이 tmux의 핵심 개념과 관계를 보여준다. 필요한 원리와 사용 예만 아래 문서에서 더 깊이 살펴본다.
 
 ## 전체 지도
 
 ```text
-tmux server — 작업공간 상태 관리
-├─ session — 작업공간 묶음
-│  └─ window — pane을 배치하는 단위
-│     └─ pane — PTY와 연결된 터미널 영역
-│        └─ shell / 실행 중인 프로그램
-└─ client — server에 연결해 session을 표시하고 입력 전달
+tmux — 터미널 멀티플렉서
+│
+├─ Server (작업공간·PTY 상태 관리)
+│  ├─ Session ── Window를 참조하는 작업공간
+│  │                 │
+│  │                 └─ Window ── Pane들의 레이아웃
+│  │                               └─ Pane ── PTY + 실행 프로그램
+│  └─ Socket ── Client와 통신
+│
+└─ Client ── Server에 접속해 Session을 표시·조작
 
-주요 동작
-├─ attach / detach → client 연결·분리 (session은 유지 가능)
-├─ window / pane 관리 → 분할·이동·재배치·종료
-└─ session 종료 / server 종료 → 작업공간 수명에 영향
+핵심 관계
+├─ attach / detach ── Client 연결 상태 변화
+├─ Window·Pane 조작 ── 레이아웃·PTY 배치 변화
+├─ Session·Server 종료 ── 작업공간 수명 변화
+└─ 설정·Hook·Plugin ── 동작의 구성·확장
 
-설정과 확장
-├─ .tmux.conf → 키 바인딩·옵션
-├─ TPM / plugin → 기존 기능의 확장
-└─ Oh My Tmux → 사전 구성된 설정을 사용하는 대안
-
-작업공간 활용
-├─ 반복되는 session / layout 구성 → smug · tmuxp · tmuxinator
-├─ session / directory 선택 → sesh
-└─ 응용 → 플러그인 제작 · AI 에이전트 작업공간
+선택적 활용: 반복 배치 자동화 / 세션 탐색 / 에이전트 관제
 ```
 
 이 그림의 들여쓰기는 구성요소의 포함·관리 관계를 간략화한 것이다. client는 session 안에 포함되는 요소가 아니라 server에 연결하는 별도 구성요소다. pane은 프로세스 자체가 아니며, 각 pane에 연결된 PTY에서 셸이나 프로그램이 실행된다. 또한 하나의 window를 여러 session에서 참조할 수 있으므로 단순한 소유 트리로만 이해하지 않는다.
