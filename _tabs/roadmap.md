@@ -32,7 +32,7 @@ Shell ── 명령 실행·제어      Terminal Emulator ── 화면·키 입
 
 ### 개발 도구 전체 관계
 
-- [Developer Tools Roadmap](../_posts/developer-tools/2026-10-05-developer-tools-roadmap.md) — 에디터·터미널·멀티플렉서·에이전트 워크스페이스·코딩 에이전트의 역할과 대체/보완 관계를 먼저 파악하는 통합 입구
+에디터·터미널·멀티플렉서·에이전트 워크스페이스·코딩 에이전트의 역할과 대체·보완 관계 및 사용법은 [Devkit 도구 지도]({{ '/devkit/' | relative_url }})에서 탐색한다. 작동 원리와 학습 경로는 아래 개별 로드맵에서 다룬다.
 
 ### 시스템에서 터미널 애플리케이션까지
 
