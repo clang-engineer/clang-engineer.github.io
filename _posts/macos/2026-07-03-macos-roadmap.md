@@ -95,7 +95,7 @@ dotfiles Roadmap
 → 설정·Package·Machine별 차이를 어떻게 코드로 재현할지
 ```
 
-환경 재현을 깊게 보면 [dotfiles 로드맵](../shell/2026-07-08-dotfiles-roadmap.md)으로 넘어간다.
+환경 재현을 깊게 보면 [dotfiles 로드맵](../shell/2026-07-08-00-dotfiles-roadmap.md)으로 넘어간다.
 
 
 ## 런처·생산성 — 무엇을 빠르게 호출할 것인가
@@ -215,7 +215,7 @@ Shell Script와 Process·Job
 → Keyboard Roadmap
 ```
 
-- [dotfiles 로드맵](../shell/2026-07-08-dotfiles-roadmap.md)
+- [dotfiles 로드맵](../shell/2026-07-08-00-dotfiles-roadmap.md)
 - [Terminal 로드맵](../terminal/2026-09-05-00-terminal-roadmap.md)
 - [셸 로드맵](../shell/2026-07-03-00-shell-roadmap.md)
 - [키보드 로드맵](../keyboard/2026-07-03-keyboard-roadmap.md)
