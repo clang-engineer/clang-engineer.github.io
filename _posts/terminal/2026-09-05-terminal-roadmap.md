@@ -2,7 +2,7 @@
 title       : "터미널 로드맵 — TTY·PTY에서 현대 TUI까지"
 description : "터미널을 단순한 명령창이 아니라 하나의 입출력·렌더링 스택으로 이해하기 위한 학습 지도. TTY/PTY, termios, ANSI/VT, terminfo, curses를 거쳐 현대 TUI 프레임워크와 실제 애플리케이션 구조까지 바닥부터 올라간다."
 date        : 2026-09-05 12:30:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 18:30:00 +0900
 categories  : [terminal]
 tags        : [roadmap, terminal, tty, pty, termios, ansi, vt, terminfo, ncurses, tui]
 pin         : false
@@ -15,31 +15,27 @@ redirect_from:
 
 이 로드맵은 특정 도구의 사용법보다 **그 도구들이 공통으로 기대는 터미널의 원리와, 그 위에 UI 애플리케이션을 만드는 구조**를 다룬다.
 
-먼저 **입출력 경로와 UI 추상화는 서로 다른 축**이라는 점을 구분한다.
+먼저 **터미널 입출력, 화면 표현, TUI 구현, 다중화·원격 사용**이라는 실제 개념군을 구분한다. 이 지도는 현재 게시글의 목록이 아니라 기술 영역 자체의 구조를 표현한다.
 
 ```text
-[입출력 경로 — 대표적인 로컬 PTY 구성]
-키 입력 → Terminal Emulator → PTY master
-                                 │
-                            PTY slave
-                                 │
-                           Shell / TUI App
-                                 │
-출력 표시 ← Terminal Emulator ← PTY ← 출력 바이트
+Terminal / TUI — 전체 개념 구조
+├─ 터미널 접속·입출력
+│  ├─ Terminal Emulator ↔ PTY master / slave ↔ Process
+│  ├─ Controlling Terminal / Session / Process Group
+│  └─ termios ── 입력 모드·Echo·Signal 처리
+├─ 화면 표현·호환성
+│  ├─ ANSI·VT 제어 시퀀스 ── 커서·색상·화면 갱신
+│  └─ TERM / terminfo ── 터미널 기능 정보
+├─ TUI 애플리케이션
+│  ├─ Event / State / Layout / Rendering
+│  ├─ 직접 구현 또는 curses 계열
+│  └─ 현대 TUI 라이브러리·프레임워크 (대안)
+└─ 다중화·원격 사용
+   ├─ tmux ── Client / Server / Pane PTY
+   └─ SSH ── 원격 실행·선택적 PTY 할당
 
-[동작·표현 규칙 — 같은 경로의 서로 다른 책임]
-termios       : 터미널 드라이버의 입력·출력 처리 모드
-ANSI / VT     : Emulator가 해석하는 화면 제어 시퀀스
-TERM/terminfo : 앱이 사용할 터미널 기능을 식별·조회하는 정보
-
-[앱의 UI 추상화 — 선택 가능한 구현 방식]
-직접 제어 시퀀스 처리
-         또는
-curses / ncurses
-         또는
-현대 TUI 라이브러리·프레임워크
-         ↓
-Event / State / Layout / Render를 앱과 라이브러리가 분담
+입력: 키 이벤트 → Emulator → PTY → 터미널 드라이버 → App
+출력: App → PTY → Emulator의 화면 해석·표시
 ```
 
 세 영역은 하나의 필수 발전 단계가 아니다. 특히 모든 현대 TUI가 curses를 거치는 것은 아니며, 앱이 terminfo를 반드시 사용하는 것도 아니다.
