@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 마지막 단계가 아니라 **1단계부터 계속 사용하는 Cross-cutting Tool/Reference**다.
+> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 마지막 단계가 아니라 **1단계부터 계속 사용하는 Cross-cutting Tool/Reference**다.
 
 Rust 생태계의 강점 중 하나는 package·build·test·dependency workflow가 Cargo를 중심으로 강하게 표준화되어 있다는 점이다. 하지만 다음을 하나의 프로그램이라고 뭉개지는 않는다.
 
