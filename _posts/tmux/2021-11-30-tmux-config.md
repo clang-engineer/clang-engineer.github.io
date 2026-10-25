@@ -107,7 +107,7 @@ window는 session 안의 탭 같은 단위다.
 
 ## pane
 
-pane은 window 안에서 분할된 실제 process 영역이다.
+pane은 window 안의 터미널 영역이다. 각 pane에는 별도의 PTY가 연결되며, 그 안에서 셸이나 프로그램이 실행된다. pane 자체가 프로세스인 것은 아니다.
 
 | 키 | 설명 |
 |---|---|
@@ -205,8 +205,16 @@ move-window -s 1 -t 5    # window 1을 빈 번호 5로 이동
 move-window -r           # window 번호를 빈칸 없이 재정렬
 ```
 
-> pane을 "합친다"고 말하기 쉽지만, 실제로는 살아 있는 process를 다른 window로 **이동**하는 것이다. 이 정신 모델은 [tmux엔 왜 pane '병합(merge)'이 없을까](./2026-07-13-tmux-pane-is-a-process-no-merge.md)에서 더 자세히 다룬다.
+> **pane을 합친다는 말의 두 가지 의미**: 분할을 없애고 한 pane만 남기려면 종료할 pane에서 `Ctrl+b x`를 사용한다. 다른 window의 pane을 현재 window로 모으려면 `join-pane`을 사용한다. `join-pane`은 pane을 재배치하며, 실행 중인 셸의 상태를 다른 셸에 합치지 않는다.
 {: .prompt-info }
+
+각 pane의 PTY와 시작 프로세스는 다음처럼 확인할 수 있다.
+
+```bash
+tmux list-panes -F '#{pane_index} #{pane_tty} #{pane_pid} #{pane_current_command}'
+```
+
+여기서 `pane_pid`는 pane의 최초 프로세스 PID이며, `pane_current_command`는 현재 실행 중인 명령을 나타낸다. 두 값이 항상 같은 프로세스를 가리키는 것은 아니다.
 
 ---
 
