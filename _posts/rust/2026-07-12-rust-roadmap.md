@@ -2,7 +2,7 @@
 title       : "Rust 학습 로드맵 — 소유권에서 Rust다운 API까지"
 description : "C++ 경험을 발판으로 쓰되 Rust를 같은 의미론으로 등치하지 않고, 소유권·빌림·수명, enum·match, Result·Option, trait·generics, iterator·closure를 핵심 줄기로 잡고 smart pointer·concurrency·tooling·unsafe를 Branch로 분리한 학습 지도."
 date        : 2026-07-12 11:00:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 18:00:00 +0900
 categories  : [rust]
 tags        : [roadmap, rust]
 pin         : false
@@ -14,17 +14,29 @@ C++ 경험은 Rust를 배우는 좋은 발판이지만 **Rust ownership을 C++ R
 둘은 객체 수명과 자원 관리라는 문제를 공유하지만 Rust는 소유·빌림·수명 관계를 언어의 정적 규칙으로 다룬다.
 
 ```text
-C++ 경험
-→ lifetime·RAII·move 문제를 떠올리는 발판
+Rust 언어·프로그램 모델
+├─ 값과 타입 ── struct / enum / pattern matching
+├─ 소유권·수명
+│  ├─ ownership / move / Copy / Drop
+│  ├─ borrow / &T / &mut T / lifetime
+│  └─ Box·Rc·Arc / RefCell·Mutex 등 공유·변경 모델
+├─ 추상화 ── trait / generic / associated type / dyn
+├─ 제어·실패 ── expression / Option·Result / ? / panic
+├─ 데이터 처리 ── collection / String·&str / iterator·closure
+├─ 동시성 ── Send·Sync / thread / async
+├─ 안전성 경계 ── unsafe / FFI / ABI
+└─ 프로그램 구성 ── crate / module / Cargo
 
-Rust 학습
-→ ownership / borrow / lifetime이라는 별도 언어 모델
-→ 그 모델 위에서 API를 설계
+연결: ownership·borrow ──> API 설계·반복·동시성
+      enum·match ──> Option·Result
+      trait ──> generic bound·trait object
 ```
 
 > **버전 주의:** 소유권·빌림 등 기본 의미론을 중심으로 설명한다. 개별 API와 컴파일러 기능은 사용하는 stable Rust 버전과 Edition을 확인한다.
 
-## 한눈에 보기
+위 지도는 기존 게시글의 분류를 따라 만든 목차가 아니라, 언어의 주요 개념과 관계를 압축한 것이다. 상세 문서가 없는 개념도 전체 구조를 이해하는 데 필요하면 지도에 남긴다. 아래 링크는 필요한 부분을 더 깊이 살펴볼 때 선택한다.
+
+## 개념군별 심화 탐색
 
 | 구역 | 핵심 질문 | 우선순위 |
 |---|---|---|
