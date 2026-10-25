@@ -11,7 +11,7 @@ redirect_from:
   - /posts/terminal/2026-09-05-tui-history-and-modern-frameworks/
 ---
 
-Terminal은 프로그램과 사용자 사이에서 문자 기반 입출력을 매개하는 인터페이스다. 이 로드맵은 **프로세스가 터미널과 연결되는 방식, 입력 처리, 화면 표현과 호환성**의 관계를 설명한다. 그 위에 대화형 애플리케이션을 설계하는 문제는 별도의 [TUI 로드맵](./2026-10-25-tui-roadmap.md)에서 다룬다.
+Terminal은 프로그램과 사용자 사이에서 문자 기반 입출력을 매개하는 인터페이스다. 이 로드맵은 **프로세스가 터미널과 연결되는 방식, 입력 처리, 화면 표현과 호환성**의 관계를 설명한다. 그 위에 대화형 애플리케이션을 설계하는 문제는 별도의 [TUI 로드맵](./2026-10-25-01-tui-roadmap.md)에서 다룬다.
 
 ## 전체 개념지도
 
@@ -65,4 +65,4 @@ tmux는 Client와 Server 사이에서 터미널 작업공간을 관리하고 각
 
 [TTY·PTY](./2026-09-05-terminal-tty-pty.md), [termios·Raw Mode](./2026-09-05-termios-canonical-raw-mode.md), [ANSI/VT](./2026-09-05-ansi-vt-escape-sequences.md), [TERM·terminfo](./2026-09-05-termcap-terminfo-tput.md), [tmux·SSH 연결](./2026-09-05-tmux-ssh-terminal-stack.md)을 참고할 수 있다.
 
-터미널 위의 대화형 UI 구조는 [TUI 로드맵](./2026-10-25-tui-roadmap.md), 셸의 명령 해석과 작업 제어는 [Shell 로드맵](../shell/2026-07-03-shell-roadmap.md)에서 다룬다.
+터미널 위의 대화형 UI 구조는 [TUI 로드맵](./2026-10-25-01-tui-roadmap.md), 셸의 명령 해석과 작업 제어는 [Shell 로드맵](../shell/2026-07-03-shell-roadmap.md)에서 다룬다.
