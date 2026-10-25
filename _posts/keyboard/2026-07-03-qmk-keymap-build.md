@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [VIA·VIAL 실전](./2026-07-03-via-vial-gui-remap.md)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-00-keyboard-roadmap.md) · [키보드 펌웨어 지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md) · [VIA·VIAL 실전](./2026-07-03-via-vial-gui-remap.md)
 
 [지형도](./2026-07-03-keyboard-firmware-qmk-zmk-via-vial.md)에서 봤듯 **QMK는 유선·기능 중심의 성숙한 펌웨어**다. ZMK가 devicetree로 키맵을 정의한다면, QMK는 **C 소스(`keymap.c`)를 컴파일**한다. 이 글은 QMK로 키맵을 직접 짜서 빌드·플래싱하는 실전 흐름이다.
 
