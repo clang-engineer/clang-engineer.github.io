@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-rust-roadmap.md)의 **④ 타입** 단계입니다. 앞 글: [③ struct·enum·match](./2026-07-12-rust-struct-enum-match.md)
+> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **④ 타입** 단계입니다. 앞 글: [③ struct·enum·match](./2026-07-12-rust-struct-enum-match.md)
 
 Vec·HashMap은 C++ 컨테이너와 거의 1:1이라 금방 익숙해집니다. 이 장의 진짜 주제는 **`String`과 `&str`의 구분** — Rust 입문자를 가장 헷갈리게 하는 지점이자, ②의 소유권이 문자열을 통해 다시 몸에 붙는 곳입니다.
 
