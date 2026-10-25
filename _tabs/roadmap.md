@@ -50,8 +50,8 @@ Shell ── 명령 실행·제어      Terminal Emulator ── 화면·키 입
 | 로드맵 | 무엇을 위한 지도인가 |
 |------|------|
 | [dotfiles](../_posts/shell/2026-07-08-00-dotfiles-roadmap.md) | Git 정본을 공통 기반으로, Home 배치(symlink·bare/yadm·chezmoi), Host별 값, Package 재현을 서로 다른 축으로 선택 |
-| [macOS](../_posts/macos/2026-07-03-macos-roadmap.md) | System Setup · Launcher/Productivity · Window Management/Automation을 독립 문제축으로 탐색 |
-| [키보드](../_posts/keyboard/2026-07-03-keyboard-roadmap.md) | 입력 습관 → Keymap 개념 → Firmware(QMK/ZMK) → ZMK 구현. VIA/Vial/ZMK Studio와 Karabiner는 다른 제어 계층으로 분리 |
+| [macOS](../_posts/macos/2026-07-03-00-macos-roadmap.md) | System Setup · Launcher/Productivity · Window Management/Automation을 독립 문제축으로 탐색 |
+| [키보드](../_posts/keyboard/2026-07-03-00-keyboard-roadmap.md) | 입력 습관 → Keymap 개념 → Firmware(QMK/ZMK) → ZMK 구현. VIA/Vial/ZMK Studio와 Karabiner는 다른 제어 계층으로 분리 |
 
 ## 🧠 기반 원리
 
@@ -63,6 +63,6 @@ Shell ── 명령 실행·제어      Terminal Emulator ── 화면·키 입
 
 | 로드맵 | 무엇을 위한 지도인가 |
 |------|------|
-| [모던 C++](../_posts/cpp/2026-07-03-cpp-learning-roadmap.md) | 객체·타입·수명, 추상화·표준 라이브러리, 동시성·예외, 프로그램 생성의 관계 |
-| [Go](../_posts/go/2026-07-12-go-roadmap.md) | 프로그램 구성, 값·타입·인터페이스, 실패·동시성, Runtime과 도구 생태계의 관계 |
-| [Rust](../_posts/rust/2026-07-12-rust-roadmap.md) | 값·타입, 소유권·빌림, 추상화·실패, 동시성·안전성 경계의 관계 |
+| [모던 C++](../_posts/cpp/2026-07-03-00-cpp-learning-roadmap.md) | 객체·타입·수명, 추상화·표준 라이브러리, 동시성·예외, 프로그램 생성의 관계 |
+| [Go](../_posts/go/2026-07-12-00-go-roadmap.md) | 프로그램 구성, 값·타입·인터페이스, 실패·동시성, Runtime과 도구 생태계의 관계 |
+| [Rust](../_posts/rust/2026-07-12-00-rust-roadmap.md) | 값·타입, 소유권·빌림, 추상화·실패, 동시성·안전성 경계의 관계 |
