@@ -5,7 +5,7 @@ categories: [Program Execution]
 tags: [abi, api, calling-convention, binary-interface, linker]
 ---
 
-> [Program Execution 전체 지도](./2026-09-25-index.md)
+> [Program Execution 전체 지도](./2026-09-25-00-program-execution-roadmap.md)
 
 앞선 글에서는 애플리케이션이 System Call을 통해 커널 Service를 요청하는 경계를 살펴봤다. 그런데 컴파일러가 만든 코드, 라이브러리, 운영체제는 서로 따로 만들어질 수 있다.
 
