@@ -5,7 +5,7 @@ categories: [Program Execution]
 tags: [executable, loader, process, virtual-memory, elf, pe, mach-o]
 ---
 
-> [Program Execution 전체 지도](./2026-09-25-index.md)
+> [Program Execution 전체 지도](./2026-09-25-00-program-execution-roadmap.md)
 
 
 앞선 글에서는 소스 코드가 컴파일과 링크를 거쳐 실행 파일이 되는 과정을 살펴봤다.
