@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) · [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md) · [HHKB 입문](./2026-07-03-hhkb-intro.md)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-00-keyboard-roadmap.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) · [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md) · [HHKB 입문](./2026-07-03-hhkb-intro.md)
 
 ZMK로 40% 키보드 키맵을 짜다 보면 결국 "왜 이 키를 여기에 뒀는가"가 전부다. 물리 키가 적으니 레이어와 배치 하나하나가 손버릇·입력기·용도에 맞물린다. 이 글은 **HHKB 손버릇 + 40% 물리 배열 + 세벌식 390 입력**이라는 세 제약을 키맵에 녹인 과정과, 부트로더처럼 눌리면 곤란한 키를 **hold-tap으로 실수 방지**하는 기법을 정리한다.
 
