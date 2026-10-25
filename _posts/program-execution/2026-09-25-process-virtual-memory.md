@@ -5,7 +5,7 @@ categories: [Program Execution]
 tags: [process, virtual-memory, paging, page-table, mmu, tlb, page-fault]
 ---
 
-> [Program Execution 전체 지도](./2026-09-25-index.md)
+> [Program Execution 전체 지도](./2026-09-25-00-program-execution-roadmap.md)
 
 
 앞선 글에서는 실행 파일이 Loader를 거쳐 프로세스가 되는 흐름을 살펴봤다.
