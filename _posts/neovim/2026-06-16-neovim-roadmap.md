@@ -2,7 +2,7 @@
 title       : "Neovim 로드맵 — Vim 바닥에서 LazyVim과 Plugin 개발까지"
 description : "Vim/Neovim/배포판 계층을 먼저 잡고, 편집 기본기 → 필요한 만큼의 Lua → LazyVim 구조 이해까지를 사용자 학습의 핵심 경로로 둔다. Plugin 개발은 별도 Branch, LSP·DAP·PKM·비교는 필요할 때 들어가는 별도 Branch와 부록으로 분리한다."
 date        : 2026-06-16 23:00:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 19:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : false
@@ -12,27 +12,29 @@ redirect_from:
   - /posts/lazyvim/2026-06-08-vim-neovim-lazyvim-feature-layers/
 ---
 
-Neovim을 배우는 흐름에는 **사용자가 잘 쓰기 위한 경로**와 **Plugin 제작자가 내부로 내려가는 경로**가 섞이기 쉽다. 둘을 먼저 분리한다.
+Neovim의 편집 모델, 상태, Runtime API, 개발 도구 통합, 설정·배포를 먼저 구분한다. 사용자 학습과 Plugin 제작은 같은 개념 구조를 서로 다른 깊이로 탐색하는 활동이다.
 
 ```text
-[사용자 핵심 경로]
-Vim / Neovim / Distro 계층 이해
-   ↓
-Vim 편집 기본기
-   ↓
-설정을 읽을 만큼의 Lua
-   ↓
-LazyVim 구조 이해
+Neovim — 편집기·확장 시스템
+├─ 편집 모델
+│  ├─ Mode / Operator / Motion / Text Object
+│  └─ Register / Mark / Macro / Undo
+├─ 편집기 상태
+│  ├─ Buffer / Window / Tabpage
+│  └─ Option / Keymap / Command
+├─ Runtime·확장 API
+│  ├─ Lua / Vimscript / Autocommand / Event
+│  ├─ RPC / Async / Job / Terminal
+│  └─ Plugin / Runtimepath / Package
+├─ 개발 도구 통합
+│  ├─ LSP / Diagnostic / Completion
+│  └─ DAP / Formatter / Treesitter
+└─ 설정·배포
+   ├─ Neovim Core + 사용자 Config
+   └─ Plugin Manager / LazyVim 등 선택적 구성
 
-[제작자 Branch]
-Neovim API·Event·Buffer
-   ↓
-Plugin 구조·언어 경계
-   ↓
-Test·Document·Distribution
-
-[필요할 때]
-LSP / DAP / PKM / 비교
+관계: 편집기 상태 ↔ Runtime API ↔ Plugin
+      LazyVim은 선택적인 설정 조합이지 필수 실행 계층이 아님
 ```
 
 Plugin을 만들지 않는다면 **LazyVim 구조 이해에서 핵심 경로가 끝난다.** LSP·DAP 같은 IDE 기능도 모두 순서대로 배울 필요는 없고, 문제가 생기거나 직접 구성할 때 해당 Branch로 들어간다.
