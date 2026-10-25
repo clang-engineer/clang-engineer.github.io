@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-[AeroSpace](https://github.com/nikitabobko/AeroSpace)는 macOS용 타일링 워크스페이스 매니저다. 이 글은 처음 설치해서 손에 익히는 **기본기**를 다룬다. 최신 키맵·CLI 레퍼런스는 [AeroSpace Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/aerospace.md)를 기준으로 보고, Hammerspoon과의 연동이나 심화 자동화는 [macOS 로드맵](./2026-07-03-macos-roadmap.md)의 창 관리 갈래에서 이어진다.
+[AeroSpace](https://github.com/nikitabobko/AeroSpace)는 macOS용 타일링 워크스페이스 매니저다. 이 글은 처음 설치해서 손에 익히는 **기본기**를 다룬다. 최신 키맵·CLI 레퍼런스는 [AeroSpace Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/aerospace.md)를 기준으로 보고, Hammerspoon과의 연동이나 심화 자동화는 [macOS 로드맵](./2026-07-03-00-macos-roadmap.md)의 창 관리 갈래에서 이어진다.
 
 > AeroSpace를 고르는 이유는 **SIP(System Integrity Protection)를 비활성화하지 않는다**는 점이다. 자체 가상 워크스페이스로 macOS 네이티브 Spaces를 우회하므로 OS 업데이트에 강하다. (yabai는 전체 기능에 SIP 비활성화가 필요해 업데이트마다 깨지기 쉽다.)
 {: .prompt-tip }
