@@ -66,4 +66,4 @@ tmux의 옵션·Key Binding·Hook은 기본 동작을 조정한다. Plugin은 �
 
 ## 필요한 경우 더 깊이 살펴보기
 
-[기본 조작](./2021-11-30-tmux-config.md), [설정·TPM](./2025-11-17-tmux-tpm.md), [세션 구성](./2026-02-21-tmux-bootstrap.md), [sesh](./2026-07-12-sesh-tmux-session-picker.md), [플러그인 제작](./2026-07-09-tmux-plugin-authoring.md)을 필요할 때 참고한다. PTY는 [Terminal](../terminal/2026-09-05-terminal-roadmap.md), Shell 작업 제어는 [Shell](../shell/2026-07-03-shell-roadmap.md), 환경 설정 재현은 [dotfiles](../shell/2026-07-08-dotfiles-roadmap.md)의 영역이다.
+[기본 조작](./2021-11-30-tmux-config.md), [설정·TPM](./2025-11-17-tmux-tpm.md), [세션 구성](./2026-02-21-tmux-bootstrap.md), [sesh](./2026-07-12-sesh-tmux-session-picker.md), [플러그인 제작](./2026-07-09-tmux-plugin-authoring.md)을 필요할 때 참고한다. PTY는 [Terminal](../terminal/2026-09-05-00-terminal-roadmap.md), Shell 작업 제어는 [Shell](../shell/2026-07-03-shell-roadmap.md), 환경 설정 재현은 [dotfiles](../shell/2026-07-08-dotfiles-roadmap.md)의 영역이다.
