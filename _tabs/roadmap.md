@@ -38,8 +38,8 @@ Shell ── 명령 실행·제어      Terminal Emulator ── 화면·키 입
 
 | 로드맵 | 무엇을 위한 지도인가 |
 |------|------|
-| [Linux](../_posts/linux/2026-07-11-linux-roadmap.md) | 실행 자원·신원·서비스·통신·관측과 복구의 상호 관계 |
-| [셸](../_posts/shell/2026-07-03-shell-roadmap.md) | 입력 해석·명령 실행·입출력 연결·작업 제어·환경 초기화의 관계 |
+| [Linux](../_posts/linux/2026-07-11-00-linux-roadmap.md) | 실행 자원·신원·서비스·통신·관측과 복구의 상호 관계 |
+| [셸](../_posts/shell/2026-07-03-00-shell-roadmap.md) | 입력 해석·명령 실행·입출력 연결·작업 제어·환경 초기화의 관계 |
 | [Terminal](../_posts/terminal/2026-09-05-00-terminal-roadmap.md) | TTY·PTY, 프로세스·제어 터미널, termios, ANSI/VT와 터미널 기능 호환성의 관계 |
 | [TUI](../_posts/terminal/2026-10-25-01-tui-roadmap.md) | 이벤트·상태·UI 구성·레이아웃·렌더링 및 구현 추상화의 관계 |
 | [tmux](../_posts/tmux/2026-06-16-00-tmux-roadmap.md) | server/client와 session/window/pane 관계, 핵심 동작, 설정과 플러그인, 세션 관리 및 선택적 활용 |
