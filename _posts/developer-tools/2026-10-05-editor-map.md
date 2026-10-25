@@ -103,6 +103,6 @@ native GUI
 - 편집 문법의 계보가 궁금하다 → Vim / Kakoune / Helix
 - 확장 플랫폼이 궁금하다 → Neovim / Emacs
 - GUI 통합형 현대 편집기가 궁금하다 → Zed
-- Neovim 자체를 깊게 보고 싶다 → [Neovim Roadmap]({% post_url neovim/2026-06-16-neovim-roadmap %})
+- Neovim 자체를 깊게 보고 싶다 → [Neovim Roadmap](../neovim/2026-06-16-00-neovim-roadmap.md)
 
 이 지도는 도구를 고르는 결론보다 **왜 서로 다른 에디터가 계속 생기는지**를 이해하는 데 목적이 있다.
