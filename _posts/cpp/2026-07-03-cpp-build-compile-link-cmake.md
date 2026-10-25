@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [모던 C++ 학습 로드맵](./2026-07-03-cpp-learning-roadmap.md)에서 **처음부터 깔리는 Program Model이자, Project가 커질 때 다시 들어오는 Build Branch**다.
+> [모던 C++ 학습 로드맵](./2026-07-03-00-cpp-learning-roadmap.md)에서 **처음부터 깔리는 Program Model이자, Project가 커질 때 다시 들어오는 Build Branch**다.
 
 C++에서 `g++ main.cpp` 한 줄은 여러 단계를 감춘다. 이 글의 첫 목적은 CMake 문법을 외우는 것이 아니라 **오류가 어느 단계에서 생겼는지 구분할 수 있는 좌표**를 만드는 것이다.
 
