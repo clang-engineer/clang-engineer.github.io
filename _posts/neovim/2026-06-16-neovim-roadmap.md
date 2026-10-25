@@ -12,7 +12,7 @@ redirect_from:
   - /posts/lazyvim/2026-06-08-vim-neovim-lazyvim-feature-layers/
 ---
 
-Neovim은 Vim의 모달 편집 모델을 계승하면서 편집기 상태를 API로 노출하고 플러그인·외부 프로세스와 연동하는 확장 가능한 편집기다. 이 로드맵은 **기존 글의 학습 순서가 아니라 Neovim 자체의 구성요소와 관계**를 보여준다. Lua·LazyVim·Plugin 제작은 전체 구조에서 필요한 부분만 더 깊이 살펴보는 선택적 주제다.
+Neovim은 Vim의 모달 편집 모델을 계승하면서 편집기 상태를 API로 노출하고 플러그인·외부 프로세스와 연동하는 확장 가능한 편집기다. 이 로드맵은 **기존 글의 학습 순서가 아니라 Neovim 자체의 구성요소와 관계**를 보여준다. 세부 문서의 존재 여부는 지도에 포함할 개념을 결정하지 않는다.
 
 ## 전체 개념지도
 
@@ -84,20 +84,14 @@ Neovim의 LSP Client는 Language Server와 프로토콜로 통신하고, DAP 연
 
 LSP는 [Mason·nvim-lspconfig·vim.lsp의 역할](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md), DAP는 [Debug Adapter Protocol](./2026-07-12-nvim-dap-debug-adapter-protocol.md)에서 더 자세히 다룬다. 터미널 UI의 입출력 구조는 [Terminal 로드맵](../terminal/2026-09-05-terminal-roadmap.md)과 연결된다.
 
-## 선택적 심화 문서
+## 필요한 경우 더 깊이 살펴보기
 
-아래 문서는 **전체 개념지도의 필수 단계가 아니라** 설정·확장·도구 선택 등 특정 목적이 있을 때 살펴보는 자료다.
+전체 지도의 개념을 이해하는 데 별도 문서가 필수인 것은 아니다. 특정 개념의 원리나 구현이 궁금할 때만 아래 자료로 이동한다.
 
-| 주제 | 더 깊이 살펴볼 내용 | 문서 |
-|---|---|---|
-| 설정 언어 | Lua 문법·모듈·require | [Lua 가이드](./2026-06-15-lua-syntax-guide.md) · [Lua 모듈](./2026-06-15-lua-modules.md) |
-| 설정 시작점 | Vanilla·kickstart.nvim·LazyVim 비교 | [시작점 비교](./2026-06-16-neovim-starting-point-comparison.md) |
-| Plugin Manager | spec·load·dependency·configuration | [lazy.nvim spec](./2026-06-19-lazy-nvim-plugin-spec-fields.md) |
-| 설정 배포판 | LazyVim의 기능 구성과 설정 병합 | [기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md) · [spec merge](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) |
-| Plugin 제작 | 디렉터리 관례·언어 선택·테스트·배포 | [구조](./2026-06-12-neovim-plugin-conventions.md) · [언어 선택](./2026-06-12-neovim-plugin-language-choice.md) · [테스트](./2026-06-18-neovim-plugin-testing-plenary-minitest-busted.md) · [배포](./2026-06-12-neovim-plugin-distribution.md) |
-| Plugin 세부 | Lua/Vimscript 혼용·vimdoc·RPC | [혼용](./2026-06-12-neovim-plugin-mixing-lua-vimscript.md) · [vimdoc](./2026-06-19-neovim-plugin-vimdoc-panvimdoc.md) · [RPC](./2026-07-03-neovim-api-rpc-luajit.md) |
-| 개인 지식 관리 | Obsidian·Org mode 등 | [PKM 지형](./2026-07-12-neovim-pkm-obsidian-orgmode.md) |
-| 다른 편집기 | Emacs와의 비교 | [Emacs의 Elisp 런타임]({% post_url developer-tools/2026-07-03-neovim-user-view-of-emacs %}) |
+- 편집 상태와 내부 구조: [Vim·Neovim 작동 원리](./2025-10-04-vim-core-engine.md), [Buffer·Window·Extmark](./2026-06-19-neovim-buffer-window-extmark.md)
+- 확장 API: [Neovim API 지도](./2026-06-19-neovim-vim-global-api-map.md), [Autocommand·Event](./2026-06-19-neovim-autocommand-events.md)
+- 외부 개발 도구: [LSP](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md), [DAP](./2026-07-12-nvim-dap-debug-adapter-protocol.md)
+- 선택적 설정·확장: [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md), [Plugin 구조](./2026-06-12-neovim-plugin-conventions.md)
 
 ## 다른 로드맵과의 경계
 
