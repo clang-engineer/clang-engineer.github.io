@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [모던 C++ 학습 로드맵](./2026-07-03-cpp-learning-roadmap.md)의 **고급(STL)** 단계입니다. 앞 글: [③ 이동 시맨틱과 스마트 포인터](./2026-07-03-cpp-move-and-smart-pointers.md)
+> [모던 C++ 학습 로드맵](./2026-07-03-00-cpp-learning-roadmap.md)의 **고급(STL)** 단계입니다. 앞 글: [③ 이동 시맨틱과 스마트 포인터](./2026-07-03-cpp-move-and-smart-pointers.md)
 
 앞 단계까지 자원 관리를 직접 익혔습니다. STL은 그 위에서, **검증된 자료구조와 알고리즘을 가져다 쓰게** 해줍니다. 실무 C++의 상당 부분이 "적절한 컨테이너 고르고 + 알고리즘 붙이기"입니다.
 
