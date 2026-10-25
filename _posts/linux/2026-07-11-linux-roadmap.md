@@ -2,7 +2,7 @@
 title       : "리눅스 로드맵 — 서버 운영의 핵심 영역과 관계"
 description : "리눅스 서버 운영을 접속·관측·계정과 권한·서비스·로그·네트워크의 관계로 정리하고, 필요한 문서로 연결하는 로드맵."
 date        : 2026-07-11 18:00:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 18:30:00 +0900
 categories  : [linux, "개요·인덱스"]
 tags        : [roadmap, linux, server, sysadmin]
 pin         : false
@@ -14,22 +14,29 @@ hidden      : false
 ## 전체 지도
 
 ```text
-리눅스 서버 운영
-├─ 접근·환경 ── 배포판 / WSL / SSH
-├─ 시스템 관측 ── 프로세스 / CPU·메모리 / 파일시스템
-├─ 접근 제어 ── 사용자·그룹 / 권한 / sudo / PAM
-├─ 서비스 운영 ── systemd / 부팅·재시작 / 타이머
-├─ 기록·진단 ── journald·syslog / 로그인 기록 / 로그 회전
-└─ 네트워크 ── 주소·경로·DNS / 포트 / 방화벽
+Linux 서버 운영 — 개념군
+├─ 실행·자원
+│  ├─ Process / Scheduler / Signal
+│  ├─ Virtual Memory / CPU·Memory 관측
+│  └─ File System / Mount / Storage
+├─ 신원·보호
+│  ├─ User / Group / Permission / sudo
+│  └─ Authentication(PAM) / MAC(SELinux 등)
+├─ 서비스 생명주기
+│  ├─ init·service manager (예: systemd)
+│  └─ 시작 / 종료 / 재시작 / 예약 작업
+├─ 통신·접근
+│  ├─ Network / DNS / Socket / Firewall
+│  └─ SSH 등 원격 관리
+└─ 관측·복구
+   ├─ Metrics / Log / Journal / Audit
+   └─ Package / Update / Backup / Restore
 
-관계 예시
-서비스가 실행된다 ──> 프로세스·자원을 관측한다
-         │                       │
-         ├─ 실행 계정·권한 확인   └─ 네트워크 연결 상태 확인
-         └─ 실패·이상 징후 ──> 로그로 원인 추적
+횡단 관계: 서비스 ↔ 실행 자원·권한·네트워크
+           장애 분석 ↔ 관측·로그·복구
 ```
 
-아래 문서 순서는 **처음 서버를 맡았을 때의 권장 탐색 경로**다. 기술적 의존성이나 필수 이수 순서를 의미하지 않는다. 셸 언어와 스크립팅은 [셸 로드맵](../shell/2026-07-03-shell-roadmap.md), 개발환경 설정은 [macOS 로드맵](../macos/2026-07-03-macos-roadmap.md) 등 관련 영역에서 다룬다.
+아래 문서 순서는 **실제 서버를 운영할 때 선택할 수 있는 탐색 경로**다. 지도에 있는 Scheduler·Virtual Memory·Backup 같은 개념은 별도 글이 없어도 전체 구조에 필요하므로 유지한다. 기술적 의존성이나 필수 이수 순서를 의미하지 않는다. 셸 언어와 스크립팅은 [셸 로드맵](../shell/2026-07-03-shell-roadmap.md), 개발환경 설정은 [macOS 로드맵](../macos/2026-07-03-macos-roadmap.md) 등 관련 영역에서 다룬다.
 
 ## 시작 — 리눅스 박스에 들어가기
 
