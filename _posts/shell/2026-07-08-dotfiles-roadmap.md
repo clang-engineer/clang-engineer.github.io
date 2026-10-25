@@ -2,7 +2,7 @@
 title       : "dotfiles 로드맵 — 설정을 코드로 재현하는 방법"
 description : "dotfiles를 Git에 두는 공통 원칙에서 출발해 홈에 배치하는 방식(심링크·bare git/yadm·chezmoi), 머신별 값과 시크릿 처리, macOS 패키지 재현(Brewfile)을 서로 다른 축으로 구분한 학습 지도."
 date        : 2026-07-08 12:00:00 +0900
-updated     : 2026-10-08 00:00:00 +0900
+updated     : 2026-10-25 17:00:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, dotfiles, chezmoi, symlink]
 pin         : false
@@ -11,21 +11,18 @@ hidden      : false
 
 dotfiles 관리의 목적은 `~/.zshrc`나 `~/.gitconfig`를 예쁘게 모으는 것이 아니라 **설정의 원본과 변경 이력을 Git에 두고, 새 환경에서 다시 재현할 수 있게 만드는 것**이다.
 
-여기서 세 문제를 섞지 않는 것이 중요하다.
+서로 다른 책임을 하나의 도구 선택 문제로 묶지 않는 것이 중요하다.
 
 ```text
-무엇을 원본으로 관리할까?
-→ Git repository
-
-원본을 Home에 어떻게 배치할까?
-→ symlink / bare worktree(yadm) / render(chezmoi)
-
-Machine마다 다른 값·Secret은 어떻게 처리할까?
-→ runtime 분기 / template·data / 외부 secret
-
-도구 설치까지 어떻게 재현할까?
-→ package manifest (macOS에서는 Brewfile)
+개발환경 재현
+├─ 설정의 정본·변경 이력 ── Git repository (일반적인 선택)
+├─ Home 배치 방식 ─────── symlink / Home worktree / chezmoi apply
+├─ Machine별 차이 ─────── 실행 시 분기 / template·data
+├─ Secret 관리 ────────── 저장소 외부의 보안 저장소·로컬 파일
+└─ 도구 설치 재현 ──────── package manifest (예: Brewfile)
 ```
+
+배치 모델, Machine별 값, Secret 관리, 패키지 설치는 서로 보완하는 축이다.
 
 따라서 `심링크 → Brewfile → chezmoi`를 하나의 진화 단계로 보지 않는다. **Git 정본은 공통 기반이고, 배치 모델과 패키지 재현은 서로 다른 선택축**이다.
 
@@ -56,7 +53,7 @@ Git repository
 |---|---|
 | [dotfiles를 Git 저장소 + 심볼릭 링크로 관리하기](./2026-07-03-dotfiles-symlink-management.md) | 가장 단순한 구현으로 Git 정본·멱등 bootstrap·Secret 분리를 함께 이해 |
 
-이 글은 심링크를 사용하지만, 여기서 배워야 할 공통 개념은 **Home의 파일 자체를 원본으로 두지 않는다**는 것이다.
+이 글은 심링크를 사용한다. 다만 bare Git이나 yadm처럼 Home 자체를 작업 트리로 쓰는 방식도 있으므로, 공통 원칙은 **관리할 설정의 정본과 변경 이력을 명확히 한다**는 것이다.
 
 ## 2. 배치 모델 — 같은 원본을 Home에 어떻게 보이게 할까
 
