@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 마지막 단계가 아니라 **처음부터 옆에 두고 사용하는 Cross-cutting Tool 문서**다.
+> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 마지막 단계가 아니라 **처음부터 옆에 두고 사용하는 Cross-cutting Tool 문서**다.
 
 Go는 언어 specification과 별개로 표준 배포판에 `go` command와 `gofmt`를 함께 제공한다. 일반적인 Go module은 별도 CMake project를 만들지 않고 이 표준 Toolchain만으로 build/test/dependency 작업을 처리할 수 있다.
 
