@@ -5,7 +5,7 @@ categories: [Program Execution]
 tags: [cpu, isa, instruction-cycle, register, pipeline, machine-code]
 ---
 
-> [Program Execution 전체 지도](./2026-09-25-index.md)
+> [Program Execution 전체 지도](./2026-09-25-00-program-execution-roadmap.md)
 
 지금까지 소스 코드가 컴파일되고, 링크되고, 프로세스가 되어 메모리에 배치되고, 필요할 때 커널 Service를 요청하는 흐름을 따라왔다.
 
