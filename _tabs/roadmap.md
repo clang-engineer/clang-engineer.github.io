@@ -38,11 +38,12 @@ Shell ── 명령 실행·제어      Terminal Emulator ── 화면·키 입
 
 | 로드맵 | 무엇을 위한 지도인가 |
 |------|------|
-| [Linux](../_posts/linux/2026-07-11-linux-roadmap.md) | 서버에 접속 → 관측 → 계정·권한 → 서비스 → 로그로 이어지는 운영 흐름. Network·폐쇄망 등은 별도 Branch |
-| [셸](../_posts/shell/2026-07-03-shell-roadmap.md) | Script 실행 모델 → Bash 해석·확장 → CLI 계약 → Process·Job·Session. 환경 재현과 tmux는 다른 Roadmap으로 넘김 |
-| [Terminal](../_posts/terminal/2026-09-05-terminal-roadmap.md) | 물리 Terminal → Terminal Emulator·PTY → termios → ANSI/VT → terminfo → curses → 현대 TUI로 이어지는 입출력·렌더링 바닥 |
+| [Linux](../_posts/linux/2026-07-11-linux-roadmap.md) | 실행 자원·신원·서비스·통신·관측과 복구의 상호 관계 |
+| [셸](../_posts/shell/2026-07-03-shell-roadmap.md) | 입력 해석·명령 실행·입출력 연결·작업 제어·환경 초기화의 관계 |
+| [Terminal](../_posts/terminal/2026-09-05-terminal-roadmap.md) | TTY·PTY, 프로세스·제어 터미널, termios, ANSI/VT와 터미널 기능 호환성의 관계 |
+| [TUI](../_posts/terminal/2026-10-25-tui-roadmap.md) | 이벤트·상태·UI 구성·레이아웃·렌더링 및 구현 추상화의 관계 |
 | [tmux](../_posts/tmux/2026-06-16-tmux-roadmap.md) | server/client와 session/window/pane 관계, 핵심 동작, 설정과 플러그인, 세션 관리 및 선택적 활용 |
-| [Neovim](../_posts/neovim/2026-06-16-neovim-roadmap.md) | Vim/Neovim/Distro 계층 → 편집 기본기 → 최소 Lua → LazyVim 구조가 사용자 줄기. Plugin 개발·LSP/DAP는 별도 Branch |
+| [Neovim](../_posts/neovim/2026-06-16-neovim-roadmap.md) | 편집 모델·Buffer/Window/Tabpage·Runtime API·확장 및 외부 도구 통합 |
 
 ### 개발환경을 구성하고 재현하는 다른 축
 
