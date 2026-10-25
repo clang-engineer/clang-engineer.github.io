@@ -39,55 +39,27 @@ Neovim — 편집기·확장 시스템
 
 Plugin을 만들지 않는다면 **LazyVim 구조 이해에서 핵심 경로가 끝난다.** LSP·DAP 같은 IDE 기능도 모두 순서대로 배울 필요는 없고, 문제가 생기거나 직접 구성할 때 해당 Branch로 들어간다.
 
-## 개념군별 심화 문서
-
-| 구역 | 핵심 질문 | 성격 |
-|---|---|---|
-| 0. 계층 | Vim·Neovim·LazyVim은 각각 무엇을 제공하나 | 필수 전제 |
-| 1. 편집 | Vim의 operator·motion·register 모델을 아는가 | 필수 |
-| 2. 설정 언어 | Neovim 설정을 읽고 수정할 만큼 Lua를 아는가 | 필수 최소 |
-| 3. Distro 구조 | LazyVim이 Plugin spec을 어떻게 조합하나 | 사용자의 핵심 |
-| Branch A | Neovim Plugin은 어떤 Runtime API 위에 만들어지나 | 제작자용 |
-| Branch B | LSP·DAP 같은 IDE 기능은 어떤 계층으로 연결되나 | 필요할 때 |
-| Appendix | PKM·다른 Editor·Plugin 생태계 | 다른 축 |
-
-## 편집 모델과 확장 계층
-
-같은 기능처럼 보여도 **어느 계층이 실제로 구현하고 누가 기본값을 조립하는지**를 구분해야 한다.
-
-| 계층 | 책임 | 대표 예 |
-|---|---|---|
-| Vim | 편집 모델·기본 명령 | mode, operator, motion, register, macro |
-| Neovim | 확장 가능한 runtime·API | Lua API, LSP client, diagnostic, async/RPC |
-| Plugin | 구체 기능 구현 | completion, picker, formatter 연동, UI |
-| Distro (LazyVim 등) | 플러그인 조합·기본값·키맵 | lazy.nvim spec, extras, user overrides |
+## 읽는 경로
 
 ```text
-Vim에서 이어진 편집 모델 (mode / motion / operator)
-                    │
-             Neovim Core / API
-                    │
-          ┌─────────┴──────────┐
-          │                    │
-      내장 기능          Plugin 확장 기능
-          │                    │
-          └─────────┬──────────┘
-                    │
-        LazyVim: Plugin 조합·기본 설정 (선택)
-                    │
-           사용자 설정·재정의
+Vim 편집 모델
+    ↓
+Lua 최소 문법
+    ↓
+LazyVim spec·override 이해 ── 사용자 핵심 경로 끝
+    │
+    ├─ Plugin 제작 → Runtime API → 테스트·배포
+    └─ 필요 시     → LSP / DAP / PKM / 다른 Editor
 ```
 
-이 그림은 기능의 출처와 설정 책임을 구분한 것이다. Vim은 Neovim 내부에서 실행되는 별도 계층이 아니며, Neovim의 모든 기능이 Plugin을 거치는 것도 아니다. LazyVim은 선택적인 배포판이다.
+Vim은 Neovim 안에서 별도 실행되는 계층이 아니라 편집 모델의 기반이다. Neovim은 내장 API와 확장 기능을 제공하고, LazyVim은 Plugin·설정·키맵을 선택적으로 조립한다. 따라서 LazyVim의 키맵이 호출하는 기능이 반드시 LazyVim 자체의 구현인 것은 아니다.
 
-예를 들어 LazyVim에서 LSP 기능을 호출하는 키를 눌렀다고 해서 LSP 기능 자체가 LazyVim 구현인 것은 아니다. **Neovim 내장 기능인지, Plugin이 제공하는 기능인지, LazyVim과 사용자 설정이 어떻게 연결하는지**를 구분해 추적한다.
-
-| 더 알아볼 질문 | 문서 |
+| 궁금한 점 | 먼저 읽을 문서 |
 |---|---|
-| Vanilla / kickstart.nvim / LazyVim 중 어디서 시작할까 | [시작점 비교](./2026-06-16-neovim-starting-point-comparison.md) |
-| 편집기 내부의 mode·buffer·window 구조는? | [Vim & Neovim 작동 원리](./2025-10-04-vim-core-engine.md) |
-| LazyVim은 어떤 플러그인을 어떻게 조립하나 | [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md) |
-| spec과 override가 합쳐지는 규칙은? | [LazyVim spec merge](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) |
+| Vanilla / kickstart.nvim / LazyVim 중 선택 | [시작점 비교](./2026-06-16-neovim-starting-point-comparison.md) |
+| mode·buffer·window와 실행 모델 | [Vim & Neovim 작동 원리](./2025-10-04-vim-core-engine.md) |
+| LazyVim의 기능과 Plugin 연결 | [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md) |
+| Plugin spec·override 합성 | [LazyVim spec merge](./2026-06-07-lazyvim-spec-merge-and-dependency-layers.md) |
 
 ## 편집 기본기 — Distro 아래의 Vim 문법
 
