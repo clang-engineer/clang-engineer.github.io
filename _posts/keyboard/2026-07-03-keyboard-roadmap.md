@@ -2,7 +2,7 @@
 title       : "키보드 로드맵 — 손버릇에서 Firmware·Keymap까지"
 description : "세벌식·HHKB라는 개인 입력 배경에서 출발해 Keymap 용어를 잡고, Firmware(QMK·ZMK), Runtime Configurator(VIA·Vial·ZMK Studio), OS Remap(Karabiner)을 서로 다른 계층으로 구분한 뒤 ZMK 40% 키맵 구현으로 Zoom-in하는 학습 지도."
 date        : 2026-07-03 15:00:00 +0900
-updated     : 2026-09-06 12:55:00 +0900
+updated     : 2026-10-25 17:00:00 +0900
 categories  : [keyboard, "개요·인덱스"]
 tags        : [roadmap, keyboard, hhkb, sebeolsik, zmk, qmk, via, vial, karabiner]
 pin         : false
@@ -11,21 +11,24 @@ hidden      : false
 
 이 로드맵은 커스텀 키보드 하드웨어 전체를 다루지 않는다. **내가 이미 가진 입력 습관을 Keymap으로 어떻게 표현하고 어느 계층에서 바꿀 것인가**가 범위다.
 
-먼저 서로 다른 세 계층을 구분한다.
+먼저 **키 입력이 처리되는 위치**와 **설정을 변경하는 도구**를 구분한다.
 
 ```text
-Keyboard Firmware
-→ QMK / ZMK
-→ Scan·Keymap·Layer·Behavior를 장치에서 처리
-
-Runtime Configurator
-→ VIA / Vial / ZMK Studio
-→ 지원 Firmware가 노출한 Dynamic Keymap을 GUI에서 변경
-
-OS Remap
-→ Karabiner-Elements
-→ 장치 Firmware를 건드리지 않고 macOS에서 입력을 변환
+키보드 하드웨어
+      │ 스캔·키 입력 감지
+      ▼
+장치 Firmware (QMK / ZMK 등)
+      │ Layer·Behavior·Keycode 처리
+      │       ▲
+      │       └─ 지원 시 VIA·Vial·ZMK Studio로 설정 변경
+      ▼
+호스트 OS의 입력 처리
+      │ macOS에서는 Karabiner-Elements로 추가 Remap 가능
+      ▼
+애플리케이션
 ```
+
+VIA·Vial·ZMK Studio는 입력 이벤트가 매번 통과하는 별도 실행 계층이 아니라, 지원 Firmware의 설정을 변경하는 도구다.
 
 즉 **QMK와 VIA는 같은 종류의 대안이 아니다.** QMK는 Firmware이고 VIA/Vial은 주로 QMK 계열 Firmware가 제공하는 Dynamic Keymap 기능을 설정하는 상위 도구다. ZMK와 ZMK Studio도 같은 관계로 본다.
 
