@@ -2,22 +2,33 @@
 title       : "macOS 로드맵 — 셋업·런처·창 관리의 세 갈래"
 description : "macOS 개발환경 글을 시스템 셋업, 런처·생산성, 창 관리·자동화라는 세 독립 축으로 나눈다. 새 Mac에서는 시스템 셋업을 먼저 권장하지만, 세 축을 얕은→깊은 학습 단계로 보지 않는다."
 date        : 2026-07-03 17:30:00 +0900
-updated     : 2026-10-25 17:00:00 +0900
+updated     : 2026-10-25 19:00:00 +0900
 categories  : [macos, "개요·인덱스"]
 tags        : [roadmap, macos, aerospace, hammerspoon, window-manager]
 pin         : false
 hidden      : false
 ---
 
-macOS를 개발환경으로 다듬을 때 만나는 문제는 하나의 학습 사다리가 아니다.
+macOS 개발환경은 OS 설정, 사용자 인터페이스, 자동화, 재현·운영이라는 여러 개념군으로 구성된다. 기존 도구 목록이 아니라 실제 책임과 관계를 기준으로 지도를 그린다.
 
 ```text
-macOS 개발환경
-├─ 시스템 셋업 ─────── OS 설정·패키지·인증·환경 검증
-├─ 런처·생산성 ─────── 검색·명령 실행·앱 호출
-└─ 창 관리·자동화 ─── Workspace·Window 배치·반복 작업
+macOS 개발환경 — 주요 영역
+├─ OS·사용자 환경
+│  ├─ 시스템 설정 / 보안·권한 / 접근성
+│  └─ 패키지·개발 도구 / 인증·Credential
+├─ 사용자 인터페이스
+│  ├─ App·명령 탐색 / Launcher
+│  ├─ Window·Workspace 관리
+│  └─ 입력·Shortcut / Automation
+├─ 자동화·확장
+│  ├─ OS API·Script / Hotkey
+│  └─ 반복 작업 / Event 기반 동작
+└─ 환경 재현·운영
+   ├─ 설정·패키지 관리 → dotfiles 영역과 연결
+   └─ 설치 / 업데이트 / 검증·복구
 
-설정·패키지 재현은 dotfiles Roadmap과 연결
+관계: OS 권한·API → Launcher·Window Tool·Automation
+      도구 간 Shortcut·제어 책임 충돌을 관리
 ```
 
 세 갈래는 서로 영향을 주지만 **독립적인 문제축**이다. 새 Mac을 막 받았다면 시스템 셋업부터 하는 것이 자연스럽지만, 이미 환경이 갖춰져 있다면 런처나 창 관리부터 바로 들어가도 된다.
