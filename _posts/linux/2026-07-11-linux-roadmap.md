@@ -11,6 +11,20 @@ hidden      : false
 
 이 로드맵은 **리눅스 서버 운영의 핵심 영역과 그 관계**를 보여준다. 접속·관측·권한·서비스·로그·네트워크는 서로 다른 책임을 가진 영역이며, 반드시 한 순서로 끝내야 하는 단계는 아니다. 서버를 처음 다룬다면 접속과 관측부터 시작하고, 실제 문제에 따라 필요한 영역으로 이동하면 된다.
 
+## 전체 개념지도
+
+```text
+Linux 서버 운영
+├─ 실행·자원 ── Process / Scheduler / Memory / Filesystem
+├─ 신원·보호 ── User / Group / Permission / PAM / MAC
+├─ 서비스 ── Init / Service Manager / Lifecycle
+├─ 통신·접근 ── Network / Socket / DNS / Firewall / SSH
+└─ 관측·복구 ── Metrics / Logs / Audit / Package / Backup
+
+서비스 운영 ↔ 실행 자원·권한·네트워크
+장애 진단 ↔ 관측·로그·복구
+```
+
 ## 핵심 개념과 관계
 
 ### 실행 자원과 서비스
