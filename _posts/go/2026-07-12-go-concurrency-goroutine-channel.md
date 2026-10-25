@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **⑤ 동시성** 단계다. 앞 글: [④ error 처리 + defer](./2026-07-12-go-error-handling-defer.md)
+> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 **⑤ 동시성** 단계다. 앞 글: [④ error 처리 + defer](./2026-07-12-go-error-handling-defer.md)
 
 Go의 동시성 모델을 이해하려면 `goroutine`, channel, `sync`, `context`를 한 덩어리로 외우기보다 **실행 단위·통신·동기화·취소 전파**로 역할을 나눠 보는 편이 좋다.
 
