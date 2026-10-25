@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-go-roadmap.md)의 **③ 타입** 단계입니다. 앞 글: [② struct·method·interface](./2026-07-12-go-struct-method-interface.md)
+> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 **③ 타입** 단계입니다. 앞 글: [② struct·method·interface](./2026-07-12-go-struct-method-interface.md)
 
 Go의 세 핵심 자료구조입니다. C++ 컨테이너와 **겉은 비슷한데 속이 달라서**, `std::vector`·`unordered_map`·`std::string` 감각으로 그냥 오면 미묘하게 걸립니다. 그 차이가 이 단계의 전부입니다.
 
