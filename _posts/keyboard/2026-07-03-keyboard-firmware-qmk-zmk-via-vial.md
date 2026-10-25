@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련 시리즈: [키보드 로드맵](./2026-07-03-keyboard-roadmap.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) · [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md)
+> 관련 시리즈: [키보드 로드맵](./2026-07-03-00-keyboard-roadmap.md) · [키맵 용어집](./2026-07-03-keymap-terms-glossary.md) · [ZMK 키매핑 가이드](./2026-07-03-zmk-keymap-editor-build-flash.md)
 
 커스텀 키보드에 발을 들이면 **QMK, ZMK, VIA, VIAL** 같은 이름이 한꺼번에 쏟아진다. 처음엔 다 비슷해 보이는데, **두 층으로 나누면** 깔끔하게 정리된다.
 
