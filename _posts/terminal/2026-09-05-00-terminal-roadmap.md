@@ -66,4 +66,4 @@ tmux는 Client와 Server 사이에서 터미널 작업공간을 관리하고 각
 
 [TTY·PTY](./2026-09-05-terminal-tty-pty.md), [termios·Raw Mode](./2026-09-05-termios-canonical-raw-mode.md), [ANSI/VT](./2026-09-05-ansi-vt-escape-sequences.md), [TERM·terminfo](./2026-09-05-termcap-terminfo-tput.md), [tmux·SSH 연결](./2026-09-05-tmux-ssh-terminal-stack.md)을 참고할 수 있다.
 
-터미널 위의 대화형 UI 구조는 [TUI 로드맵](./2026-10-25-01-tui-roadmap.md), 셸의 명령 해석과 작업 제어는 [Shell 로드맵](../shell/2026-07-03-shell-roadmap.md)에서 다룬다.
+터미널 위의 대화형 UI 구조는 [TUI 로드맵](./2026-10-25-01-tui-roadmap.md), 셸의 명령 해석과 작업 제어는 [Shell 로드맵](../shell/2026-07-03-00-shell-roadmap.md)에서 다룬다.
