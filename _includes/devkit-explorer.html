@@ -1,42 +1,9 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/clang-engineer/reference-explorer@662d449a4bde6b47c95ae12ca3061985f7e20d4a/src/styles/explorer.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/clang-engineer/reference-explorer@a26095592d365db88386f54d81474529af4b609b/src/styles/explorer.css">
 <style>
-  reference-explorer { display: block; width: 100%; }
   body:has(.dk-app) #main-wrapper > .container { max-width: none; }
   body:has(.dk-app) #panel-wrapper { display: none !important; }
   body:has(.dk-app) main { max-width: 100%; flex: 1 1 100%; }
   body:has(.dk-app) #tail-wrapper { display: none !important; }
-
-  /* Share the header row without moving the live status or retry controls. */
-  #devkit-root.dk-app { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; align-content: start; }
-  #devkit-root .dk-heading { min-width: 0; }
-  #devkit-root .dk-statusbar { align-self: center; margin: 0; padding-bottom: 14px; max-width: 18rem; }
-  #devkit-root .dk-layout { grid-column: 1 / -1; }
-  @media (max-width: 768px) {
-    #devkit-root.dk-app { grid-template-columns: minmax(0, 1fr); }
-    #devkit-root .dk-statusbar { max-width: none; padding-bottom: 8px; }
-  }
-
-  /* Keep page scrolling available; only wide layouts have internal scroll panes. */
-  @container devkit (min-width: 1001px) {
-    #devkit-root .dk-layout { height: max(20rem, calc(100dvh - 18rem)); align-items: stretch; }
-    #devkit-root.is-expanded .dk-layout { height: max(20rem, calc(100dvh - 12rem)); }
-    #devkit-root .dk-sidebar,
-    #devkit-root .dk-explorer,
-    #devkit-root .dk-panel-host { display: flex; flex-direction: column; min-height: 0; }
-    #devkit-root .dk-navigation,
-    #devkit-root .dk-viewport,
-    #devkit-root .dk-panel-host > .dk-detail { flex: 1 1 auto; min-height: 0; height: auto; max-height: none; overflow: auto; }
-    #devkit-root .dk-map-header { flex-shrink: 0; }
-  }
-  @container devkit (max-width: 1000px) {
-    #devkit-root:not(.is-expanded) .dk-viewport { height: auto; min-height: 0; }
-    #devkit-root:not(.is-expanded) .dk-navigation,
-    #devkit-root:not(.is-expanded) .dk-panel-host > .dk-detail { max-height: none; }
-  }
-  body:has(.dk-app) .dk-app .dk-edge.is-complement .dk-edge-line,
-  body:has(.dk-app) .dk-app .dk-edge.is-wrapper .dk-edge-line { stroke-dasharray: 6 5; }
-  body:has(.dk-app) .dk-app .dk-edge.is-alternative .dk-edge-line,
-  body:has(.dk-app) .dk-app .dk-edge.is-specialized .dk-edge-line { stroke-dasharray: none; }
 </style>
 <reference-explorer id="devkit-root" default-view="{{ include.view | default: 'map' }}"
   src="https://raw.githubusercontent.com/clang-engineer/devkit/main/reference/catalog.json"
@@ -45,4 +12,4 @@
 </reference-explorer>
 <noscript><p>도구 지도에는 JavaScript가 필요합니다. <a href="https://github.com/clang-engineer/devkit/tree/main/reference/cheatsheets">치트시트 원본 목록</a>에서 문서를 확인할 수 있습니다.</p></noscript>
 <p class="small text-muted"><a href="https://github.com/clang-engineer/devkit/blob/main/reference/tool-map.md">지도 읽는 법</a> · <a href="https://github.com/clang-engineer/devkit">Devkit 원본 저장소</a></p>
-<script defer type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/reference-explorer@662d449a4bde6b47c95ae12ca3061985f7e20d4a/src/element.js"></script>
+<script defer type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/reference-explorer@a26095592d365db88386f54d81474529af4b609b/src/element.js"></script>
