@@ -2,7 +2,7 @@
 title       : "AeroSpace 단축키가 갑자기 안 될 때 — macOS Secure Input 확인하기"
 description : "AeroSpace global hotkey가 멈췄을 때 설정 오류로 단정하지 않고 Secure Input 여부와 해당 기능을 활성화한 앱을 먼저 확인하는 진단 흐름을 정리한다."
 date        : 2026-06-07 12:00:00 +0900
-updated     : 2026-09-05 20:35:00 +0900
+updated     : 2026-10-26 15:02:00 +0900
 categories  : [troubleshooting, "macos"]
 redirect_from:
   - /posts/etc/2026-06-07-aerospace-secure-input-hotkey-blocked/
@@ -98,7 +98,20 @@ AeroSpace Hotkey 재확인
 
 특정 제품을 "항상 원인"으로 외우지 않는다.
 
-## 5. Terminal.app의 Secure Keyboard Entry
+## 5. 실제 사례: Chrome에서 벗어났는데도 단축키가 안 됨 (2026-10-26)
+
+`Option + 숫자`로 AeroSpace 워크스페이스를 전환하던 중 단축키가 갑자기 먹히지 않았다. 전면 앱은 터미널이었지만, 다음을 확인했다.
+
+- AeroSpace 프로세스는 실행 중이고 현재 모드는 `main`이었다.
+- `aerospace config --get mode.main.binding.alt-1`은 설정된 워크스페이스 명령을 반환했다.
+- Hammerspoon의 `hs.eventtap.isSecureInputEnabled()`는 `true`였다.
+- `ioreg -l -w 0 | grep -i SecureInput`에 나온 점유 PID를 `ps`로 조회하니 **Google Chrome**이었다.
+
+즉 **현재 화면에 보이는 앱과 Secure Input을 점유한 앱이 달랐다.** 포커스를 터미널로 옮긴 것만으로 Secure Input이 해제됐다고 가정하면 원인을 놓칠 수 있다. Chrome의 비밀번호·인증 입력 화면을 닫고 단축키를 다시 확인한다. 보호할 입력이 없는데도 상태가 지속된다면 Chrome을 정상 종료·재실행한 뒤 재검사한다. Secure Input 자체를 강제로 끄지는 않는다.
+
+이 사례에서는 점유 앱과 활성 상태를 확인했고 이후 단축키가 다시 동작했다. **Chrome의 어떤 화면이 상태를 유지했는지, 정확히 어떤 조치로 해제됐는지는 확인하지 못했으므로** 특정 기능의 버그라고 단정하지 않는다.
+
+## 6. Terminal.app의 Secure Keyboard Entry
 
 Apple Terminal에는 명시적인 **Secure Keyboard Entry** 기능이 있다.
 
@@ -116,7 +129,7 @@ AeroSpace hotkey가 Terminal 사용 중에만 동작하지 않고 Secure Keyboar
 
 반대로 password나 민감한 정보를 입력하기 위해 의도적으로 켠 상태라면 보안 기능을 무작정 비활성화하기보다 **작업이 끝난 뒤 상태가 정상적으로 해제되는지**를 본다.
 
-## 6. Secure Input이 아니라면 다음 축으로 이동한다
+## 7. Secure Input이 아니라면 다음 축으로 이동한다
 
 Secure Input이 비활성인데 AeroSpace key binding이 동작하지 않는다면 다음을 확인한다.
 
@@ -136,7 +149,7 @@ AeroSpace Process
 
 즉 Secure Input 진단으로 문제가 아니라고 확인했다면 같은 축에서 앱을 계속 종료하기보다 다음 계층으로 이동한다.
 
-## 7. "다른 Terminal로 바꾸기"가 근본 해결은 아니다
+## 8. "다른 Terminal로 바꾸기"가 근본 해결은 아니다
 
 Secure Input은 Terminal.app만의 기능이 아니라 macOS 전체 메커니즘이다. 다른 terminal emulator나 password manager도 상황에 따라 Secure Input을 사용할 수 있다.
 
