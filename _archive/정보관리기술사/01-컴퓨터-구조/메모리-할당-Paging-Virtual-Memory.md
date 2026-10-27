@@ -2,43 +2,16 @@
 
 이 문서는 고정 분할, 가변 분할, Paging, Segmentation, Virtual Memory가 어떤 흐름으로 연결되는지 이해하기 위한 문서다. 특히 `Page`가 Virtual Memory에서 처음 등장한 개념인지, Paging과 Virtual Memory가 같은 개념인지 헷갈리는 지점을 정리한다.
 
-## 1. 가장 먼저 잡을 전체 흐름
-
-운영체제의 전통적인 메모리 관리 학습 흐름은 다음처럼 잡을 수 있다.
+## 1. 전체 구조 — 배치·주소 공간·적재 정책
 
 ```text
 메모리 관리
-   ↓
-Process를 Physical Memory에 어떻게 배치할까?
-   ↓
-연속 메모리 할당
-├─ 고정 분할
-└─ 가변 분할
-   ↓
-문제
-- Process마다 연속된 Physical Memory 공간이 필요
-- 내부/외부 단편화 발생 가능
-   ↓
-"꼭 연속된 공간에 넣어야 할까?"
-   ↓
-메모리 배치·주소 변환
-├─ Paging → Page 단위 불연속 배치
-└─ Segmentation → 가변 크기 Segment 단위
-   (전통적 방식은 Segment 내부 연속 배치)
-   ↓
-한 단계 더
-"Process의 모든 내용을 지금 당장 RAM에 둘 필요가 있을까?"
-   ↓
-Virtual Memory (주소 공간 추상화)
-└─ Demand Paging (필요한 Page 적재 정책)
-   ├─ 필요한 Page만 RAM에 적재
-   ├─ Page Fault
-   └─ Page Replacement
+├─ 물리 메모리 배치 → 연속 할당 / Paging / Segmentation
+├─ 주소 공간 추상화 → Virtual Memory / Page Table
+└─ 적재·교체 정책 → Demand Paging / Page Fault / Replacement
 ```
 
-> **연속 공간 요구 제거 → 불연속 배치 → 필요한 부분만 RAM에 적재**라는 문제 해결 흐름으로 기억한다.
-
----
+Paging은 불연속 배치와 주소 매핑에 사용되는 기법이며, Virtual Memory는 가상 주소와 물리 위치를 분리하는 체계다. Demand Paging은 필요한 Page를 RAM에 적재하는 정책이다. **이 세 개념은 필수적인 순차 발전 단계가 아니다.**
 
 ## 2. 연속 메모리 할당
 
@@ -495,10 +468,10 @@ Segmentation
 → 논리적 의미의 가변 크기 Segment
 → 외부 단편화 가능
 
-Paging에서 한 단계 더
+주소 공간 분리 위에서 적재 정책 선택
 "모든 Page가 RAM에 있어야 하나?"
         ↓
-Virtual Memory / Demand Paging
+Demand Paging
 → 필요한 Page만 RAM
 → 없으면 Page Fault
 
