@@ -11,8 +11,6 @@ CPU와 외부 장치의 I/O
 │
 ├─ 어떻게 제어하는가?
 │  └─ Device Controller / Register
-│     ├─ MMIO → Memory 주소 공간으로 접근
-│     └─ Isolated I/O → 별도 I/O 주소 공간으로 접근
 │
 ├─ 장치 상태·완료를 어떻게 확인하는가?
 │  ├─ Polling → CPU가 반복 확인
@@ -26,7 +24,7 @@ CPU와 외부 장치의 I/O
    └─ I/O Channel → 명령·전송·상태 처리의 독립성 확대
 ```
 
-주소 접근, 상태 통지, 데이터 전송은 **서로 다른 질문**이다. 예를 들어 MMIO로 장치를 설정하고 DMA로 데이터를 전송한 뒤 Interrupt로 완료를 알릴 수 있다. 따라서 이 기술들을 반드시 순차적으로 대체되는 하나의 발전 단계로 외우지 않는다.
+장치 제어, 상태 통지, 데이터 전송은 **서로 다른 질문**이다. 예를 들어 장치 레지스터 등을 통해 요청을 전달하고 DMA로 데이터를 전송한 뒤 Interrupt로 완료를 알릴 수 있다. 따라서 이 기술들을 반드시 순차적으로 대체되는 하나의 발전 단계로 외우지 않는다.
 
 ## 1. CPU가 장치를 제어하는 출발점
 
@@ -46,9 +44,9 @@ Device
 
 CPU Register는 CPU 내부의 연산·주소 등에 쓰이는 작은 저장공간이고, Device Register는 **장치 컨트롤러의 제어·상태 정보를 주고받는 레지스터**다. 레지스터가 명령을 실행하는 것이 아니라 **컨트롤러가 기록된 정보를 해석해 동작**한다.
 
-### CPU는 장치 레지스터에 어떻게 접근하는가?
+### 보충: 장치 레지스터 주소 접근 방식
 
-CPU가 장치 레지스터의 주소를 통해 접근하는 방식은 대표적으로 두 가지다.
+CPU가 장치 레지스터에 접근할 때는 대표적으로 **MMIO(메모리 주소 공간 공유)**와 **Isolated I/O(별도 I/O 주소 공간 사용)**가 있다. 이는 I/O 처리 방식의 중심 분류가 아니라 장치 제어를 이해하기 위한 보충 개념이다.
 
 | 구분 | MMIO (Memory-mapped I/O) | Isolated I/O |
 |---|---|---|
@@ -342,12 +340,11 @@ Application → OS에 비동기 읽기 요청
 ## 9. 이해 복원
 
 1. CPU는 장치 컨트롤러에 어떻게 명령을 전달하며, CPU Register와 Device Register는 무엇이 다른가?
-2. MMIO와 Isolated I/O는 어떤 주소 공간·명령어를 사용하는가?
-3. Programmed I/O와 Interrupt-driven I/O는 CPU가 장치 상태를 확인하는 방식이 어떻게 다른가?
-4. DMA는 데이터 이동에서 CPU의 어떤 역할을 줄이는가?
-5. I/O Channel은 DMA보다 어떤 처리 책임을 더 맡는가?
-6. SSD 읽기 요청에서 MMIO·DMA·Interrupt는 각각 어떤 역할인가?
-7. DMA와 Completion I/O는 왜 서로 다른 계층의 개념인가?
+2. Programmed I/O와 Interrupt-driven I/O는 CPU가 장치 상태를 확인하는 방식이 어떻게 다른가?
+3. DMA는 데이터 이동에서 CPU의 어떤 역할을 줄이는가?
+4. I/O Channel은 DMA보다 어떤 처리 책임을 더 맡는가?
+5. SSD 읽기 요청에서 장치 제어·DMA·Interrupt는 각각 어떤 역할인가?
+6. DMA와 Completion I/O는 왜 서로 다른 계층의 개념인가?
 
 **하드웨어 I/O 방식은 CPU의 장치 제어·데이터 전송 부담을 어떻게 나누는지**에 관한 것이다. 소프트웨어의 Readiness/Completion 모델과 구분한다.
 
