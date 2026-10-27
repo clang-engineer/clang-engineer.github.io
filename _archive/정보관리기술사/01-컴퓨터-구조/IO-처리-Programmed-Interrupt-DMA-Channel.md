@@ -1,32 +1,89 @@
 # I/O 처리 방식 — Programmed I/O · Interrupt-driven I/O · DMA · I/O Channel
 
-> 성격: 컴퓨터구조 세부학습. CPU가 주변장치 I/O를 얼마나 직접 담당하는지, 그리고 실제 데이터 전송 책임이 어떻게 분리되는지 이해하기 위한 문서다.
+> [I/O와 저장장치 개념지도](03-IO-저장장치.md) → CPU와 외부 장치의 협업
 >
-> 학습 흐름: **CPU 직접 처리 → Interrupt로 완료 통지 → DMA로 데이터 전송 위임 → I/O Channel로 I/O 명령 처리까지 확장**
+> **목적:** CPU가 장치를 어떻게 제어하고, 상태를 확인하고, 데이터를 전송하는지 하나의 I/O 흐름으로 이해한다.
 
-## 이 문서의 위치
+## 주제 개념지도
 
 ```text
-Application / OS
-        ↓
-Device Driver
-        ↓
-I/O 처리 구조
-├─ Programmed I/O
-├─ Interrupt-driven I/O
-├─ DMA
-└─ I/O Channel
-        ↓
-Device Controller / Bus / Device
+CPU와 외부 장치의 I/O
+│
+├─ 어떻게 제어하는가?
+│  └─ Device Controller / Register
+│     ├─ MMIO → Memory 주소 공간으로 접근
+│     └─ Isolated I/O → 별도 I/O 주소 공간으로 접근
+│
+├─ 장치 상태·완료를 어떻게 확인하는가?
+│  ├─ Polling → CPU가 반복 확인
+│  └─ Interrupt → 장치가 사건을 통지
+│
+├─ 실제 데이터는 누가 전송하는가?
+│  ├─ Programmed I/O → CPU가 직접 관여
+│  └─ DMA → 전송 Engine에 위임
+│
+└─ I/O 명령 처리까지 위임하는가?
+   └─ I/O Channel → 명령·전송·상태 처리의 독립성 확대
 ```
 
-이 문서의 owner는 **CPU · Memory · I/O Device 사이에서 실제 I/O 제어와 데이터 전송 책임을 어떻게 나누는가**이다.
+주소 접근, 상태 통지, 데이터 전송은 **서로 다른 질문**이다. 예를 들어 MMIO로 장치를 설정하고 DMA로 데이터를 전송한 뒤 Interrupt로 완료를 알릴 수 있다. 따라서 이 기술들을 반드시 순차적으로 대체되는 하나의 발전 단계로 외우지 않는다.
 
-운영체제의 Blocking / Non-blocking / I/O Multiplexing / Completion I/O는 **소프트웨어 I/O 실행 모델**이고, 이 문서의 DMA / I/O Channel은 **하드웨어 I/O 처리 구조**다. 둘은 실제 I/O 흐름에서 연결되지만 같은 개념이 아니다.
+## 2. CPU가 장치를 제어하는 출발점
+
+CPU가 SSD에서 데이터를 읽으려면 SSD의 저장매체를 직접 조작하는 것이 아니라 **장치 컨트롤러(Device Controller)에 작업을 요청**한다. 장치 컨트롤러에는 제어 정보와 상태를 주고받는 **장치 레지스터(Device Register)** 등이 있다.
+
+```text
+CPU / Device Driver
+      │ 장치 제어 정보 전달
+      ▼
+Device Controller
+├─ Control Register → 제어·설정 정보
+├─ Status Register  → 상태 확인
+└─ 실제 장치 동작 제어
+      ▼
+Device
+```
+
+CPU Register는 CPU 내부의 연산·주소 등에 쓰이는 작은 저장공간이고, Device Register는 **장치 컨트롤러의 제어·상태 정보를 주고받는 레지스터**다. 레지스터가 명령을 실행하는 것이 아니라 **컨트롤러가 기록된 정보를 해석해 동작**한다.
+
+### CPU는 장치 레지스터에 어떻게 접근하는가?
+
+CPU가 장치 레지스터의 주소를 통해 접근하는 방식은 대표적으로 두 가지다.
+
+| 구분 | MMIO (Memory-mapped I/O) | Isolated I/O |
+|---|---|---|
+| 주소 공간 | Memory 주소 공간에 장치 Register 매핑 | 별도 I/O 주소 공간 |
+| CPU 접근 | 일반 Memory 읽기·쓰기 명령 | 전용 I/O 명령 (예: x86 IN/OUT) |
+| 오해 방지 | 주소가 Memory 공간에 있어도 Register가 RAM 안에 있다는 뜻은 아님 | 별도 주소 공간을 사용해도 같은 장치 컨트롤러를 제어함 |
+
+```text
+MMIO: CPU → Memory 주소 → Device Register
+Isolated I/O: CPU → I/O Port 주소 → Device Register
+```
+
+장치 주소의 발견·할당에는 하드웨어와 OS·Driver가 관여한다. 여기서는 **어떤 주소 공간과 접근 명령을 사용하는지**까지만 이해한다.
+
+### SSD 읽기 요청으로 연결하기
+
+```text
+Application → OS / Device Driver
+                    │
+                    │ MMIO 등으로 장치 설정·요청
+                    ▼
+              SSD Controller
+                    │
+                    ├─ 저장매체 읽기
+                    ├─ DMA로 RAM에 데이터 전송
+                    └─ Interrupt 등으로 완료 통지
+                                  ↓
+                            CPU 후속 처리
+```
+
+이것은 **접근·제어·전송·완료 통지의 역할**을 보여주는 단순화된 예시다. 실제 NVMe SSD는 RAM의 명령 큐와 장치 레지스터를 함께 사용하며, DMA 완료를 Polling으로 확인하는 구성도 가능하다.
 
 ---
 
-## 1. 왜 I/O 처리를 CPU에서 분리하는가
+## 2. 왜 I/O 처리를 CPU에서 분리하는가
 
 초기 구조처럼 CPU가 I/O 장치의 상태를 계속 확인하고 직접 데이터까지 옮기면 CPU가 본래 계산 작업을 하지 못한다.
 
@@ -51,7 +108,7 @@ Device 상태 확인
 
 ---
 
-## 2. Programmed I/O
+## 3. Programmed I/O
 
 CPU가 장치 상태를 직접 확인하고 I/O를 수행한다.
 
@@ -85,7 +142,7 @@ O
 
 ---
 
-## 3. Interrupt-driven I/O
+## 4. Interrupt-driven I/O
 
 CPU가 장치를 계속 확인하지 않고, 장치가 작업 가능한 상태나 완료를 Interrupt로 알려준다.
 
@@ -122,7 +179,7 @@ CPU가 Busy Polling을 하지 않아도 된다는 장점이 있다.
 
 ---
 
-## 4. DMA — Direct Memory Access
+## 5. DMA — Direct Memory Access
 
 DMA는 **Device와 Memory 사이의 데이터 전송을 CPU 대신 수행하는 메커니즘**이다.
 
@@ -178,7 +235,7 @@ Interrupt로 CPU에 통지
 
 ---
 
-## 5. I/O Channel — I/O 처리 자체를 더 독립적으로 맡긴다
+## 6. I/O Channel — I/O 처리 자체를 더 독립적으로 맡긴다
 
 I/O Channel은 DMA보다 더 높은 수준의 I/O 제어를 독립적으로 수행하는 구조로 이해할 수 있다.
 
@@ -212,7 +269,7 @@ Device
 
 ---
 
-## 6. 네 방식 비교
+## 7. 네 방식 비교
 
 | 구분 | Programmed I/O | Interrupt-driven I/O | DMA | I/O Channel |
 |---|---|---|---|---|
@@ -248,95 +305,49 @@ I/O 명령 처리 자체의 독립성 확대
 
 ---
 
-## 7. DMA와 Completion I/O는 다르다
+## 8. 하드웨어 I/O 처리와 소프트웨어 I/O 모델은 다르다
 
-둘은 자주 같은 실제 I/O 흐름 안에 등장하지만 계층이 다르다.
-
-```text
-Completion I/O
-= OS / Application 관점
-= "맡긴 I/O 작업이 끝났는가?"
-
-DMA
-= Hardware 관점
-= "Device ↔ Memory 데이터를 누가 옮기는가?"
-```
-
-예를 들어 비동기 Disk Read라면:
-
-```text
-Application
-↓
-OS에 Async Read 요청
-↓
-Driver / I/O Subsystem
-↓
-Device Controller
-↓
-DMA로 Device → Memory 전송
-↓
-전송 완료 Interrupt / Completion
-↓
-Kernel 완료 처리
-↓
-Application에 Completion 통지
-```
-
-즉:
-
-> **DMA는 데이터 이동 메커니즘이고, Completion I/O는 I/O 완료를 소프트웨어에 노출하는 실행 모델이다.**
-
----
-
-## 8. Readiness / Completion과도 구분한다
-
-운영체제에서 다루는:
-
-```text
-Readiness
-= "지금 I/O를 시도할 조건이 됨"
-
-Completion
-= "요청한 I/O 작업이 끝남"
-```
-
-은 소프트웨어에서 I/O 상태를 어떻게 다룰지에 대한 모델이다.
-
-반면:
-
-```text
-Programmed I/O / Interrupt / DMA / I/O Channel
-= Hardware가 실제 I/O를 어떻게 수행하고
-  CPU 개입을 얼마나 줄일 것인가
-```
-
-의 문제다.
-
-따라서 두 축을 섞지 않는다.
+DMA와 I/O Channel은 **하드웨어에서 제어·전송 책임을 어떻게 분담하는가**의 문제다. 반면 Blocking / Non-blocking, Readiness / Completion, I/O Multiplexing은 **OS·Application이 I/O를 어떻게 요청하고 결과를 관찰하는가**의 문제다.
 
 ```text
 Software I/O Model
-Blocking / Non-blocking
-Readiness / Completion
-I/O Multiplexing
-
-        ↓ 실제 장치 처리
-
+├─ Blocking / Non-blocking → 호출이 기다리는가?
+└─ Readiness / Completion → 준비 상태인가, 요청이 완료됐는가?
+             │
+             ▼
+OS / Driver / I/O Subsystem
+             │
+             ▼
 Hardware I/O Mechanism
-Programmed I/O
-Interrupt
-DMA
-I/O Channel
+├─ Programmed / Interrupt-driven I/O
+├─ DMA
+└─ I/O Channel
 ```
+
+예를 들어 비동기 Disk Read는 다음처럼 이어질 수 있다.
+
+```text
+Application → OS에 비동기 읽기 요청
+            → Driver / Device Controller
+            → DMA로 Device → Memory 전송
+            → Interrupt 등으로 완료 확인
+            → Kernel 후속 처리
+            → Application에 Completion 통지
+```
+
+**DMA는 데이터 이동 메커니즘**, **Completion I/O는 요청 완료를 소프트웨어에 알리는 모델**이다. 같은 I/O 과정에서 함께 사용되지만 서로 같은 계층의 개념이 아니다.
 
 ---
 
 ## 9. 이해 복원
 
-1. Programmed I/O와 Interrupt-driven I/O는 CPU가 장치 상태를 확인하는 방식이 어떻게 다른가?
-2. DMA는 데이터 이동에서 CPU의 어떤 역할을 줄이는가?
-3. I/O Channel은 DMA보다 어떤 처리 책임을 더 맡는가?
-4. DMA와 Completion I/O는 왜 서로 다른 계층의 개념인가?
+1. CPU는 장치 컨트롤러에 어떻게 명령을 전달하며, CPU Register와 Device Register는 무엇이 다른가?
+2. MMIO와 Isolated I/O는 어떤 주소 공간·명령어를 사용하는가?
+3. Programmed I/O와 Interrupt-driven I/O는 CPU가 장치 상태를 확인하는 방식이 어떻게 다른가?
+4. DMA는 데이터 이동에서 CPU의 어떤 역할을 줄이는가?
+5. I/O Channel은 DMA보다 어떤 처리 책임을 더 맡는가?
+6. SSD 읽기 요청에서 MMIO·DMA·Interrupt는 각각 어떤 역할인가?
+7. DMA와 Completion I/O는 왜 서로 다른 계층의 개념인가?
 
 **하드웨어 I/O 방식은 CPU의 장치 제어·데이터 전송 부담을 어떻게 나누는지**에 관한 것이다. 소프트웨어의 Readiness/Completion 모델과 구분한다.
 
