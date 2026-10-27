@@ -44,34 +44,25 @@ SMT(Simultaneous Multithreading)
 ## 1. 전체 좌표
 
 ```text
-프로그램 실행
-  ↓
-ISA
-  ↓
-명령어 사이클
-  ↓
-CPU가 명령을 순차 처리
-  ↓
-처리량을 높이려면?
-  ↓
-파이프라이닝
-  ↓
-해저드
-  ├─ 데이터 해저드
-  ├─ 제어 해저드
-  └─ 구조 해저드
-
-[명령 수준 병렬성 확대]
-├─ Superscalar
-└─ VLIW
-
-[더 큰 실행 단위의 병렬성]
-├─ Multicore
-└─ SMT
-
-[병렬화 효과의 한계]
-└─ Amdahl 법칙
+CPU 명령 실행과 병렬성
+│
+├─ 명령의 인터페이스·실행 → ISA / Fetch·Decode·Execute
+│
+├─ 명령 실행 단계 중첩 → Pipeline
+│  └─ Hazard → Data / Control / Structural
+│
+├─ 명령 수준 병렬성(ILP)
+│  ├─ Superscalar → Hardware가 동적 발행·실행
+│  └─ VLIW → Compiler가 정적 병렬 묶음 구성
+│
+├─ Core·Thread 수준 병렬성
+│  ├─ Multicore → 여러 Core
+│  └─ SMT → 한 Core의 자원을 여러 Thread가 공유
+│
+└─ 병렬화 효과의 한계 → Amdahl 법칙
 ```
+
+Pipeline은 **실행 단계 중첩**, Superscalar·VLIW는 **명령 수준 병렬성 활용 방식**, Multicore·SMT는 **Core·Thread 수준 자원 활용**을 설명한다. 이들은 단순히 하나가 다음으로 교체되는 발전 단계가 아니라 조합될 수 있다.
 
 핵심은 `Pipelining → Superscalar → Multicore`를 단순 발전 순서로 외우는 것이 아니라 **병렬성을 어느 수준에서 확보하는지**를 구분하는 것이다.
 
