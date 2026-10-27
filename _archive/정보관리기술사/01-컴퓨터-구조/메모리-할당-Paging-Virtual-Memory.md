@@ -21,17 +21,16 @@ Process를 Physical Memory에 어떻게 배치할까?
    ↓
 "꼭 연속된 공간에 넣어야 할까?"
    ↓
-불연속 메모리 할당
-├─ Paging
-└─ Segmentation
-   ↓
-흩어진 Physical Memory 공간에도 배치 가능
+메모리 배치·주소 변환
+├─ Paging → Page 단위 불연속 배치
+└─ Segmentation → 가변 크기 Segment 단위
+   (전통적 방식은 Segment 내부 연속 배치)
    ↓
 한 단계 더
 "Process의 모든 내용을 지금 당장 RAM에 둘 필요가 있을까?"
    ↓
-Virtual Memory
-└─ Demand Paging
+Virtual Memory (주소 공간 추상화)
+└─ Demand Paging (필요한 Page 적재 정책)
    ├─ 필요한 Page만 RAM에 적재
    ├─ Page Fault
    └─ Page Replacement
@@ -106,7 +105,7 @@ Process가 필요한 크기에 맞춰 Partition 크기를 정한다.
 
 > **Process를 꼭 Physical Memory의 연속된 공간에 넣어야 할까?**
 
-이 질문이 불연속 메모리 할당으로 넘어가는 핵심이다. 단순히 빈 공간의 총량을 늘리는 것이 아니라 **Process마다 큰 연속 공간을 찾아야 한다는 제약을 제거**하려는 것이다.
+이 질문이 Paging과 같은 불연속 배치 방식으로 넘어가는 핵심이다. 단순히 빈 공간의 총량을 늘리는 것이 아니라 **Process마다 큰 연속 공간을 찾아야 한다는 제약을 제거**하려는 것이다.
 
 ---
 
@@ -293,7 +292,7 @@ Process의 모든 Page를 RAM에 올려놓고 있음
 필요한 Page만 적재
 ```
 
-이 아이디어가 Demand Paging 기반 Virtual Memory로 이어진다.
+이 아이디어는 Virtual Memory에서 활용하는 Demand Paging 정책으로 이어진다. Paging과 Virtual Memory는 반드시 순차적으로 도입되는 단계가 아니다.
 
 > **Page라는 개념이 Virtual Memory에서 처음 생긴 것이 아니라, Paging이라는 기법을 Virtual Memory 구현에도 활용한다.**
 
