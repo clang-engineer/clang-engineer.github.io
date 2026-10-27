@@ -1,16 +1,31 @@
 # RAID - Striping, Mirroring, Parity
 
-RAID를 숫자별 특징으로 외우기 전에 **데이터를 여러 Disk에 어떻게 배치하는가**를 이해한다.
+> [I/O와 저장장치 개념지도](03-IO-저장장치.md) → 데이터 배치·보호
 
-핵심은 세 가지다.
+RAID는 여러 Disk를 하나의 논리 저장공간으로 사용하면서 **성능·장애 허용·용량 효율을 어떻게 절충할 것인가**를 다룬다.
+
+## 전체 조망 — 원리에서 Level과 선택으로
 
 ```text
-Striping  : 데이터를 나눠 여러 Disk에 저장 → 성능
-Mirroring : 같은 데이터를 여러 Disk에 복제 → 가용성
-Parity    : 복구용 계산 정보를 저장 → 용량 효율 + 장애 복구
+RAID — 여러 Disk의 데이터 배치·보호
+│
+├─ 기본 원리
+│  ├─ 병렬 배치 → Striping
+│  ├─ 복제 → Mirroring
+│  └─ 복구 정보 → Parity
+│
+├─ 대표 구성
+│  ├─ RAID 0 → Striping
+│  ├─ RAID 1 → Mirroring
+│  ├─ RAID 10 → Mirror Set 간 Striping
+│  └─ RAID 5 / 6 → 분산 Parity
+│
+└─ 선택·운영
+   ├─ 성능 / 용량 효율 / 장애 허용
+   └─ Write Penalty / Rebuild / Backup과의 경계
 ```
 
-RAID 0/1/10은 특히 `Striping`과 `Mirroring` 두 개만 이해하면 자연스럽게 연결된다.
+먼저 세 가지 데이터 배치 원리를 이해하고, 각 RAID Level이 이를 어떻게 조합하는지 살핀 뒤, 쓰기 비용·장애 허용·백업과의 경계로 내려간다. Level 번호는 우열이나 발전 순서를 뜻하지 않는다.
 
 ---
 
@@ -48,7 +63,7 @@ RAID(Redundant Array of Independent Disks)는 여러 물리 Disk를 묶어 하�
 
 ---
 
-# 2. 가장 먼저 이해할 것 - Striping
+## 2. 가장 먼저 이해할 것 - Striping
 
 Striping은 데이터를 여러 Disk에 **나눠서 저장하는 것**이다.
 
@@ -88,7 +103,7 @@ B → Disk 2가 처리
 
 ---
 
-# 3. RAID 0 - Striping만 사용
+## 3. RAID 0 - Striping만 사용
 
 RAID 0은 Striping만 사용한다.
 
@@ -139,7 +154,7 @@ RAID라는 이름에 Redundant가 들어가지만 RAID 0 자체에는 실제 중
 
 ---
 
-# 4. RAID 1 - Mirroring
+## 4. RAID 1 - Mirroring
 
 RAID 1은 데이터를 나누는 대신 **같은 데이터를 복제**한다.
 
@@ -190,7 +205,7 @@ Disk 장애 대응
 
 ---
 
-# 5. RAID 10 - RAID 1의 안정성 + RAID 0의 병렬성
+## 5. RAID 10 - RAID 1의 안정성 + RAID 0의 병렬성
 
 RAID 10은 여러 RAID 1 Mirror Group을 만들고 그 위에 Striping을 적용한다고 이해하면 쉽다.
 
@@ -240,7 +255,7 @@ A와 B를 서로 다른 Mirror Group으로 나눔
 
 ---
 
-# 6. RAID 0과 RAID 10의 쓰기 성능 차이
+## 6. RAID 0과 RAID 10의 쓰기 성능 차이
 
 여기서 처음 헷갈리기 쉬운 부분이 있다.
 
@@ -308,7 +323,7 @@ RAID 10
 
 ---
 
-# 7. RAID 1과 RAID 10은 왜 속도가 같지 않은가
+## 7. RAID 1과 RAID 10은 왜 속도가 같지 않은가
 
 RAID 10의 각 Mirror Group 하나만 떼어 보면 RAID 1과 같다.
 
@@ -343,7 +358,7 @@ Group 사이 Striping
 
 ---
 
-# 8. RAID 10의 장애 허용을 숫자로 외우면 안 되는 이유
+## 8. RAID 10의 장애 허용을 숫자로 외우면 안 되는 이유
 
 RAID 10을 단순히 "Disk 2개 장애까지 허용"이라고 외우면 틀릴 수 있다.
 
@@ -378,7 +393,7 @@ RAID 전체 데이터 유지 불가
 
 ---
 
-# 9. Parity - RAID 5/6으로 넘어가기 위한 개념
+## 9. Parity - RAID 5/6으로 넘어가기 위한 개념
 
 RAID 1/10은 원본 데이터를 그대로 복제하기 때문에 이해하기 쉽지만 용량 효율이 떨어진다.
 
@@ -414,7 +429,7 @@ RAID 6 → Dual Parity   → Disk 2개 장애 대응
 
 다만 Parity 계산과 갱신이 필요하기 때문에 RAID 0/1/10과 다른 Write 특성이 생긴다.
 
-## 9.1 RAID 5/6의 Write Penalty는 왜 생기는가
+### 9.1 RAID 5/6의 Write Penalty는 왜 생기는가
 
 RAID 5/6은 데이터를 쓸 때 데이터 Block만 바꾸면 끝나지 않는다. Parity가 기존 Data를 기준으로 계산된 복구 정보이기 때문에, Data가 바뀌면 Parity도 함께 갱신해야 한다.
 
@@ -446,7 +461,7 @@ RAID 6은 Dual Parity를 사용하므로 보호 수준은 높지만, 갱신해�
 
 ---
 
-# 10. RAID 5/6과 RAID 10이 갈리는 지점
+## 10. RAID 5/6과 RAID 10이 갈리는 지점
 
 RAID 5/6과 RAID 10의 중요한 Trade-off는 다음과 같다.
 
@@ -477,7 +492,7 @@ Parity 계산 없음
 
 ---
 
-# 11. 주요 RAID 비교
+## 11. 주요 RAID 비교
 
 | RAID | 핵심 방식 | 최소 Disk | 장애 허용 | 용량 효율 | 핵심 성격 |
 |---|---|---:|---|---|---|
@@ -491,9 +506,9 @@ RAID 10의 장애 허용은 단순히 "몇 개"라고만 외우기보다 **동�
 
 ---
 
-# 12. 처음 헷갈리기 쉬운 부분
+## 12. 처음 헷갈리기 쉬운 부분
 
-## 12.1 Striping은 단순 분할이 아니라 병렬 처리다
+### 12.1 Striping은 단순 분할이 아니라 병렬 처리다
 
 ```text
 데이터를 나눈다
@@ -505,7 +520,7 @@ RAID 10의 장애 허용은 단순히 "몇 개"라고만 외우기보다 **동�
 성능 향상
 ```
 
-## 12.2 RAID 0과 RAID 10은 둘 다 Striping하지만 같지 않다
+### 12.2 RAID 0과 RAID 10은 둘 다 Striping하지만 같지 않다
 
 ```text
 RAID 0
@@ -517,7 +532,7 @@ Striping + Mirroring
 → 일부 Disk I/O가 복제에도 사용
 ```
 
-## 12.3 RAID 1과 RAID 10도 같지 않다
+### 12.3 RAID 1과 RAID 10도 같지 않다
 
 ```text
 RAID 1
@@ -529,7 +544,7 @@ RAID 10
 Set 사이에 Striping
 ```
 
-## 12.4 RAID 5/6의 Parity는 공짜가 아니다
+### 12.4 RAID 5/6의 Parity는 공짜가 아니다
 
 ```text
 Parity
@@ -538,7 +553,7 @@ Parity
 → Write Penalty 발생 가능
 ```
 
-## 12.5 RAID는 Backup이 아니다
+### 12.5 RAID는 Backup이 아니다
 
 RAID는 Disk 장애에 대한 가용성을 높이지만 다음 문제를 해결하지 못한다.
 
@@ -563,7 +578,7 @@ Backup = 과거 데이터 복구
 
 ---
 
-# 13. 기억 흐름
+## 13. 기억 흐름
 
 숫자를 먼저 외우지 말고 다음 순서로 복원한다.
 
