@@ -223,6 +223,32 @@ Hardware I/O 메커니즘
 
 예를 들어 Application의 비동기 읽기 요청이 장치 DMA로 처리되고, Kernel이 완료를 확인한 뒤 Application에 Completion을 전달할 수 있다. **DMA는 하드웨어 데이터 전송 메커니즘이고 Completion I/O는 소프트웨어가 요청 완료를 관찰하는 모델**이다.
 
+### 실제 I/O 요청을 관통하는 제어·데이터·완료 경로
+
+앞의 분류를 한 요청에 적용하면 **제어 경로(Control Path)**, **데이터 경로(Data Path)**, **완료 경로(Completion Path)**로 다시 묶을 수 있다.
+
+```text
+[제어] CPU / Driver → (MMIO 등으로 장치 설정·요청) → Controller
+[데이터] Device ↔ (DMA Engine) ↔ RAM Buffer
+[완료] Controller → (Interrupt 또는 Polling) → CPU / Driver
+```
+
+- **MMIO는 장치 레지스터에 접근하는 방법**이다. MMIO 주소가 RAM을 의미하지 않으며, 실제 명령·데이터 구조는 장치마다 다르다.
+- **DMA는 데이터 이동을 위임하는 방법**이다. 장치와 RAM 사이의 전송에서 CPU가 데이터를 일일이 복사하지 않지만, 설정·동기화·완료 처리는 여전히 필요할 수 있다.
+- **Interrupt / Polling은 상태·완료를 확인하는 방법**이다. DMA와 결합할 수 있으며 어느 한쪽이 필수는 아니다.
+
+NVMe SSD의 경우 명령 자체는 RAM의 Submission Queue에 기록하고, MMIO Doorbell Register를 갱신해 Controller에 새 명령을 알리는 구조를 사용한다. Controller는 명령을 처리하고 DMA로 데이터를 전송하며 Completion Queue에 완료 정보를 남긴다. Driver는 Interrupt 또는 Polling을 통해 완료를 확인할 수 있다. 따라서 **모든 명령 내용을 MMIO Register에 직접 쓰는 것으로 일반화하지 않는다.**
+
+### 자주 혼동하는 개념의 경계
+
+| 혼동 | 구분 기준 |
+|---|---|
+| MMIO vs DMA | 장치 레지스터 접근 vs 데이터 전송 위임 |
+| Programmed I/O vs Polling | CPU 직접 데이터 전송 vs 반복 상태 확인 |
+| DMA vs Interrupt | 데이터 이동 vs 사건·완료 통지 |
+| DMA vs I/O Channel | 데이터 전송 위임 vs I/O 명령·작업 제어 위임(전통적 구분) |
+| Hardware Interrupt vs Software Completion I/O | 하드웨어 이벤트 전달 vs 애플리케이션이 요청 완료를 관찰하는 모델 |
+
 ## 7. 이해 복원
 
 1. Controller와 Device Register는 각각 어떤 역할인가?
