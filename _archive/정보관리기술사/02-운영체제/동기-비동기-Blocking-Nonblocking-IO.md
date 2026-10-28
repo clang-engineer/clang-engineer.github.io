@@ -8,9 +8,18 @@
 
 ```text
 Software I/O 모델
-├─ 호출의 대기 → Blocking / Non-blocking
-├─ 요청과 완료의 관계 → Synchronous / Asynchronous
-└─ 이벤트가 의미하는 것 → Readiness / Completion
+│
+├─ 실행·대기 모델
+│  ├─ Synchronous
+│  │  ├─ Blocking
+│  │  └─ Non-blocking
+│  └─ Asynchronous
+│     ├─ Blocking
+│     └─ Non-blocking
+│
+└─ 이벤트 모델
+   ├─ Readiness  → I/O 수행 가능
+   └─ Completion → I/O 수행 완료
 ```
 
 - **Blocking / Non-blocking:** 호출한 실행 흐름이 필요한 결과를 기다리며 멈추는가?
