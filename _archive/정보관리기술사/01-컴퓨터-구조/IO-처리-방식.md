@@ -210,8 +210,9 @@ Application → OS / Driver
 
 ```text
 Application / OS I/O 모델
-├─ Blocking / Non-blocking → 호출의 대기 여부
-└─ Readiness / Completion → 준비·완료 관찰 방식
+├─ Blocking / Non-blocking → 호출이 대기하는가?
+├─ Synchronous / Asynchronous → 요청과 완료 처리가 어떻게 연결되는가?
+└─ Readiness / Completion → 준비 상태를 알리는가, 완료 결과를 알리는가?
            ↓
 OS / Driver
            ↓
@@ -222,6 +223,29 @@ Hardware I/O 메커니즘
 ```
 
 예를 들어 Application의 비동기 읽기 요청이 장치 DMA로 처리되고, Kernel이 완료를 확인한 뒤 Application에 Completion을 전달할 수 있다. **DMA는 하드웨어 데이터 전송 메커니즘이고 Completion I/O는 소프트웨어가 요청 완료를 관찰하는 모델**이다.
+
+### 소프트웨어 I/O 모델 — 세 가지 질문으로 구분
+
+| 관점 | 질문 | 구분 |
+|---|---|---|
+| 호출의 대기 | 호출이 결과를 기다리며 반환하지 않는가? | Blocking / Non-blocking |
+| 요청과 완료의 관계 | 호출자가 완료를 기다려 처리하는가, 요청 후 별도의 완료 통지를 받는가? | Synchronous / Asynchronous |
+| 이벤트의 의미 | 지금 I/O를 시도할 수 있는가, 제출한 작업이 끝났는가? | Readiness / Completion |
+
+**Blocking / Non-blocking**은 개별 호출의 대기 동작을 말한다. **Synchronous / Asynchronous**는 요청과 완료를 처리하는 프로그램 모델을 설명한다. 두 용어는 문맥에 따라 정의가 달라질 수 있으므로 기계적으로 일대일 대응시키지 않는다.
+
+**Readiness**는 읽기·쓰기 등을 *시도할 수 있는 상태*를 알린다. Linux `select`·`poll`·`epoll`이 대표적이다. 준비 이벤트를 받았다고 실제 `read()` 호출이 이미 완료된 것은 아니다.
+
+**Completion**은 *이미 제출한 I/O 작업의 완료 결과*를 알린다. Windows IOCP와 Linux `io_uring`의 Completion Queue가 대표적이다. 다만 Completion을 사용한다고 호출자가 절대로 기다리지 않는 것은 아니다.
+
+```text
+Readiness:  준비 이벤트 수신 → Application이 read/write 시도
+Completion: I/O 요청 제출 → 작업 처리 → 완료 결과 수신
+```
+
+따라서 **Readiness = 동기, Completion = 비동기**로 외우지 않는다. 예를 들어 `epoll_wait()`는 준비 이벤트를 기다리며 Blocking할 수 있고, `io_uring`에서도 완료를 기다리는 사용 방식이 가능하다.
+
+**복원 문장:** Blocking은 *호출의 대기*, 동기·비동기는 *요청과 완료의 관계*, Readiness·Completion은 *알림의 의미*를 구분한다.
 
 ### 실제 I/O 요청을 관통하는 제어·데이터·완료 경로
 
@@ -258,6 +282,7 @@ NVMe SSD의 경우 명령 자체는 RAM의 Submission Queue에 기록하고, MMI
 5. I/O Channel은 DMA보다 어떤 처리 책임을 더 맡으며, 왜 항상 Channel을 사용하지는 않는가?
 6. 실제 SSD 읽기에서 장치 접근·DMA·완료 통지가 어떻게 조합되는가?
 7. Hardware DMA와 Software Completion I/O는 왜 다른 계층의 개념인가?
+8. Blocking / Non-blocking, Synchronous / Asynchronous, Readiness / Completion은 각각 무엇을 구분하는가?
 
 **복원 단서:** 접근 → MMIO / 상태 → Polling·Interrupt / 전송 → Programmed I/O·DMA / 명령 위임 → I/O Channel.
 
