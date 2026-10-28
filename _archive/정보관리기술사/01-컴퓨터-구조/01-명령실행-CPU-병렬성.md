@@ -2,78 +2,27 @@
 
 이 문서는 [컴퓨터 구조 전체 개념지도](00-전체.md)에서 **명령 실행과 CPU 병렬성** 가지를 선택했을 때, `명령 실행 → 처리량 확대 → 병렬성의 한계`를 하나의 학습 흐름으로 파고들기 위한 지도다.
 
-## 먼저 알아둘 용어
+## 1. 전체 좌표 — CPU 명령 실행과 병렬성
 
 ```text
-ISA(Instruction Set Architecture)
-= CPU가 이해하는 명령과 레지스터 등의 약속
-
-파이프라이닝(Pipelining)
-= 여러 명령의 실행 단계를 겹쳐 처리하는 방식
-
-해저드(Hazard)
-= 명령을 겹쳐 실행할 때 의존성·분기·공유 자원 때문에 생기는 문제
-
-ILP(Instruction-Level Parallelism)
-= 한 CPU가 여러 명령을 동시에 처리하는 명령 수준 병렬성
-
-Superscalar
-= 하드웨어가 동시에 실행 가능한 여러 명령을 찾아 병렬 실행하는 구조
-
-VLIW(Very Long Instruction Word)
-= 컴파일러가 병렬 실행할 명령을 미리 묶어 구성하는 구조
-
-SMT(Simultaneous Multithreading)
-= 한 Core의 실행 자원을 여러 Thread가 함께 활용하는 방식
+CPU — 명령 실행
+│
+├─ 명령 체계 → ISA / Fetch·Decode·Execute
+├─ 실행 효율 → Pipeline / Hazard
+├─ 명령 수준 병렬성 → Superscalar / VLIW
+├─ Core·Thread 병렬성 → Multicore / SMT
+└─ 개선 한계 → Amdahl 법칙
 ```
 
-처음에는 `ISA → 명령어 사이클 → 파이프라이닝 → 해저드`까지만 먼저 잡고, 이후 병렬성 확장 개념으로 내려가도 된다.
+Pipeline은 **명령의 실행 단계를 중첩**하고, Superscalar·VLIW는 **명령 수준 병렬성**을 활용하며, Multicore·SMT는 **Core·Thread 자원**을 활용한다. 서로 조합될 수 있으며 순차적인 교체 단계가 아니다.
 
-## 빠른 복습 단서
+### 핵심 용어
 
-| 구분 | 빠른 인출 단서 |
-|---|---|
-| Pipeline | 명령 실행 단계 중첩 → 처리량 확대, 단일 명령 지연 감소와는 구분 |
-| Hazard | Data(의존) · Control(분기) · Structural(자원 충돌) |
-| Superscalar / VLIW | 하드웨어 동적 병렬 실행 / 컴파일러의 정적 묶음 |
-| Multicore / SMT | 여러 Core / 한 Core 자원을 여러 Thread가 공유 |
-| Amdahl | 직렬 부분이 전체 속도 향상의 상한을 결정 |
-
-기억나지 않는 항목만 아래 구조와 세부 설명으로 내려간다. 전체 과목 지도와 같은 설명을 반복하지 않고 **이 주제 내부의 비교·선택 기준**을 복원한다.
-
-## 1. 전체 좌표
-
-```text
-프로그램 실행
-  ↓
-ISA
-  ↓
-명령어 사이클
-  ↓
-CPU가 명령을 순차 처리
-  ↓
-처리량을 높이려면?
-  ↓
-파이프라이닝
-  ↓
-해저드
-  ├─ 데이터 해저드
-  ├─ 제어 해저드
-  └─ 구조 해저드
-
-[명령 수준 병렬성 확대]
-├─ Superscalar
-└─ VLIW
-
-[더 큰 실행 단위의 병렬성]
-├─ Multicore
-└─ SMT
-
-[병렬화 효과의 한계]
-└─ Amdahl 법칙
-```
-
-핵심은 `Pipelining → Superscalar → Multicore`를 단순 발전 순서로 외우는 것이 아니라 **병렬성을 어느 수준에서 확보하는지**를 구분하는 것이다.
+- **ISA:** 소프트웨어와 CPU가 약속한 명령 인터페이스
+- **Hazard:** Data·Control·Structural 제약
+- **ILP:** 명령 수준 병렬성
+- **Superscalar / VLIW:** 하드웨어 동적 발행 / 컴파일러 중심 정적 병렬 구성
+- **SMT:** 한 Core의 실행 자원을 여러 Thread가 활용
 
 ## 2. 명령 실행의 기반
 
@@ -176,26 +125,12 @@ Amdahl 법칙
 
 따라서 CPU 병렬성은 `병렬화 기술 → 처리량 증가`만 보는 것이 아니라 **병렬화되지 않는 구간과 복잡도·전력 비용까지 함께** 본다.
 
-## 7. 기억 흐름
+## 7. 이해 복원
 
-```text
-ISA / 명령어 사이클
-        ↓
-CPU가 명령 실행
-        ↓
-처리량 확대
-        ↓
-파이프라이닝
-        ↓
-해저드
-        ↓
-명령 수준 병렬성 확대
-→ Superscalar / VLIW
-        ↓
-Core·Thread 수준 병렬성
-→ Multicore / SMT
-        ↓
-병렬화되지 않는 구간
-        ↓
-Amdahl 법칙
-```
+1. ISA와 명령어 실행 사이클은 어떤 관계인가?
+2. Pipeline은 무엇을 중첩하며 Hazard는 왜 생기는가?
+3. Superscalar와 VLIW는 병렬 실행을 누가 결정하는가?
+4. Multicore와 SMT는 실행 자원을 어떻게 다르게 활용하는가?
+5. Amdahl 법칙은 병렬화의 어떤 한계를 설명하는가?
+
+**복원 단서:** 명령 체계 → 실행 효율 → 병렬성 수준 → 개선 한계. 이 순서는 기술 도입의 필수 단계가 아니다.
