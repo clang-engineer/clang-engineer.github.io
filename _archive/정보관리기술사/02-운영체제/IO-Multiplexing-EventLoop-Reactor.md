@@ -6,6 +6,10 @@
 
 ## 1. 큰 그림 — 현대 비동기 I/O의 공통 기반
 
+> 동기·비동기 × Blocking·Non-blocking의 전체 분류는 [동기·비동기와 Blocking·Non-blocking I/O](동기-비동기-Blocking-Nonblocking-IO.md)에서 먼저 본다.
+
+
+
 Node.js, Netty, WebFlux, Python asyncio처럼 서로 다른 생태계의 비동기 기술은 겉으로 보면 API와 문법이 다르지만, 네트워크 I/O 관점에서는 공통된 기반 위에 쌓여 있다.
 
 ```text
