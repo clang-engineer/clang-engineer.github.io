@@ -208,6 +208,10 @@ Application → OS / Driver
 
 ## 6. 소프트웨어 I/O 모델과의 경계
 
+> 상세한 4분면과 Readiness/Completion 비교는 [동기·비동기와 Blocking·Non-blocking I/O](../02-운영체제/동기-비동기-Blocking-Nonblocking-IO.md)에서 다룬다. 이 절은 하드웨어 I/O와 소프트웨어 I/O의 경계만 연결한다.
+
+
+
 ```text
 Application / OS I/O 모델
 ├─ Blocking / Non-blocking → 호출이 대기하는가?
