@@ -2,7 +2,7 @@
 title       : "Git과 GitHub가 알아보는 특별한 파일들"
 description : "저장소 안의 특별한 파일을 Git, GitHub, 개발 도구가 각각 어떻게 인식하는지 정리한다."
 date        : 2026-10-01 13:00:00 +0900
-updated     : 2026-10-01 13:00:00 +0900
+updated     : 2026-10-29 11:00:00 +0900
 categories  : [git]
 tags        : [git, github, github-actions, repository, automation]
 pin         : false
@@ -85,6 +85,8 @@ git rm --cached .env
 ```
 
 `.gitignore`가 "추적할지 말지"에 가깝다면, `.gitattributes`는 "추적하는 파일을 어떻게 다룰지"에 가깝다.
+
+위 예제의 `*.png binary`는 PNG를 LFS로 보내는 규칙이 아니다. LFS로 관리하려면 경로 규칙과 LFS 클라이언트 설정이 함께 필요하다. 실제 파일이 Git 이력과 분리되는 구조는 [Git LFS는 파일을 어디에 저장할까](2026-10-29-git-lfs-storage-model.md)에서 설명한다.
 
 ### `.gitmodules`
 

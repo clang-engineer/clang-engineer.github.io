@@ -2,7 +2,7 @@
 title       : Git Shallow Clone — 전체 History 없이 필요한 깊이만 가져오기
 description : "소스는 작지만 .git History가 큰 저장소에서 shallow clone으로 필요한 Commit 깊이만 가져오는 원리와 제약, unshallow·history rewrite·LFS와의 역할 차이를 정리한다."
 date        : 2026-02-26 17:00:00 +0900
-updated     : 2026-09-05 19:25:00 +0900
+updated     : 2026-10-29 11:00:00 +0900
 categories  : [git, "저장소·운영"]
 tags        : [git, shallow-clone, performance, how-to]
 pin         : false
@@ -177,29 +177,11 @@ History Rewrite는 commit SHA를 바꾸고 공동 작업자에게 영향을 주�
 
 ## 8. Git LFS와는 역할이 다르다
 
-Git LFS는 앞으로 관리할 큰 파일의 저장 방식을 바꾸는 도구다.
+Shallow Clone은 **가져올 커밋 이력의 깊이**를 제한하고, Git LFS는 **큰 파일의 실제 내용을 저장·전송하는 방식**을 바꾼다. LFS는 Git에 작은 포인터를 기록하고 실제 파일은 별도 LFS 저장 공간에서 관리하므로, 대용량 파일을 계속 버전 관리해야 할 때 검토한다.
 
-```text
-일반 Git
-Commit → 큰 Blob 자체를 Git Object로 저장
+이미 과거 History에 들어간 큰 blob은 별도 migration/history rewrite 없이 단순히 `git lfs track`만 실행한다고 사라지지 않는다. 두 방식은 서로 대체하는 기능이 아니며 함께 사용할 수도 있다.
 
-Git LFS
-Commit → 작은 Pointer
-          ↓
-       LFS Storage에 실제 파일
-```
-
-예를 들어:
-
-```bash
-git lfs install
-git lfs track "*.gif"
-git add .gitattributes
-```
-
-LFS는 **대용량 파일을 계속 버전 관리해야 할 때** 적합하다.
-
-이미 과거 History에 들어간 큰 blob은 별도 migration/history rewrite 없이 단순히 `git lfs track`만 실행한다고 사라지지 않는다.
+포인터와 실제 파일의 관계, clone·push 동작, 적용 기준과 백업 범위는 [Git LFS는 파일을 어디에 저장할까](2026-10-29-git-lfs-storage-model.md)에서 설명한다.
 
 ## 9. `.gitignore`도 다른 문제를 해결한다
 

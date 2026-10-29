@@ -2,7 +2,7 @@
 title       : "LFS Object가 사라진 저장소를 Subtree로 가져올 때 실패하는 이유와 복구"
 description : "Git LFS object가 유실된 저장소를 subtree로 가져올 때 checkout의 smudge 실패와 GitHub push의 missing LFS object 검증을 분리해 진단하고, 필요하면 history rewrite로 해당 경로를 제거하는 절차를 정리한다."
 date        : 2026-06-08 10:00:00 +0900
-updated     : 2026-09-05 19:30:00 +0900
+updated     : 2026-10-29 11:00:00 +0900
 categories  : [troubleshooting, "git"]
 tags        : [git-lfs, subtree, filter-repo, github, troubleshooting]
 pin         : false
@@ -32,6 +32,8 @@ GitHub Push
 ## 발생 조건
 
 원본 repository에는 LFS pointer가 commit되어 있지만 해당 pointer가 가리키는 실제 binary object를 더 이상 LFS storage에서 가져올 수 없는 상황이다.
+
+정상적인 저장·복원 구조가 낯설다면 [Git LFS의 포인터와 실제 파일 관계](../../git/2026-10-29-git-lfs-storage-model.md)를 먼저 참고한다. 여기서는 실제 object가 없을 때의 진단과 복구에 집중한다.
 
 `.gitattributes`에서 LFS 추적 여부를 먼저 확인할 수 있다.
 
