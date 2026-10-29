@@ -2,7 +2,7 @@
 title       : "Git 로드맵 — 로컬 변경에서 GitHub 협업까지"
 description : "Git을 로컬 변경 관리, History 이해, 원격 저장소, GitHub 플랫폼, 자동화 설정으로 나누어 기존 글의 위치를 정리한다."
 date        : 2026-10-01 14:00:00 +0900
-updated     : 2026-10-01 14:00:00 +0900
+updated     : 2026-10-29 11:00:00 +0900
 categories  : [git, "개요·인덱스"]
 tags        : [roadmap, git, github]
 pin         : false
@@ -225,6 +225,8 @@ Git의 index·HEAD·branch 모델과 대비해 변경의 정체성, 수정 가�
 ## Git 내부 모델 — 객체·참조·이력 재작성
 
 [Git 내부 모델 — Object·Index·Ref와 History Rewrite]({% post_url git/2026-10-10-git-object-model-and-history %})에서 blob·tree·commit·tag의 관계와 HEAD·branch·Index의 책임을 구분하고, merge·rebase·reset·restore가 어떤 상태를 움직이는지 확인한다.
+
+큰 바이너리를 함께 관리할 때는 **Git 이력과 실제 파일 내용의 저장 경계**도 구분해야 한다. [Git LFS는 파일을 어디에 저장할까](2026-10-29-git-lfs-storage-model.md)에서 포인터·로컬 캐시·원격 LFS 저장 공간의 관계와 적용·백업 기준을 확인한다.
 
 ## 아직 비어 있는 영역
 
