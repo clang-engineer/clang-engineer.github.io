@@ -137,30 +137,11 @@ DMA Engine은 별도 Controller 또는 장치 내부 기능일 수 있다. (2)�
 
 **핵심 관계:** Interrupt는 완료를 알리는 방법, DMA는 데이터를 옮기는 방법이다. DMA + Interrupt도, DMA + Polling도 가능하다.
 
-### DMA의 물리적 위치와 메모리 공유
+### DMA Engine의 위치 — 장치 내부 또는 시스템 내부
 
-DMA는 특정 위치의 단일 부품명이 아니라 **CPU가 반복적으로 데이터를 복사하지 않도록 메모리 전송을 수행하는 하드웨어 기능**이다.
+DMA Engine은 장치 Controller 내부(NVMe SSD 등) 또는 시스템의 별도 DMA Controller에 구현될 수 있다. **위치보다 중요한 것은 CPU가 전송을 설정하고, DMA가 장치와 RAM 사이의 데이터 이동을 맡는다는 점**이다.
 
-```text
-구현 위치
-├─ 장치 Controller 내부의 DMA Engine → NVMe SSD 등
-└─ 시스템 내부의 DMA Controller    → 일부 SoC·임베디드 등
-
-공통 흐름
-CPU / Driver → 전송 설정
-DMA Engine  → Interconnect → Memory Controller → RAM
-```
-
-CPU와 DMA는 메모리 접근 경로와 대역폭을 공유할 수 있으므로 **접근 중재(Arbitration)**가 필요하다. 그러나 중재는 요청을 처리하는 순서·자원을 조정하는 것이지, CPU Cache의 데이터 정합성까지 자동으로 해결한다는 뜻은 아니다.
-
-```text
-메모리 공유의 세 문제
-├─ 접근 경쟁 → Interconnect / Memory Controller의 중재
-├─ 데이터 가시성 → Cache Coherency 또는 Driver의 DMA 동기화
-└─ 버퍼 사용 순서 → CPU / Device 간 소유권·동기화 규칙
-```
-
-일관성 있는 DMA 플랫폼에서는 하드웨어가 캐시 정합성을 지원할 수 있고, 그렇지 않은 환경에서는 OS/Driver가 적절한 DMA API로 캐시 정리·무효화 등을 수행해야 한다. **DMA 완료 통지와 CPU가 최신 데이터를 안전하게 읽을 수 있는 조건은 구별**한다.
+CPU와 DMA가 메모리 접근 자원을 공유하면 하드웨어가 요청을 중재한다. 데이터 정합성을 위해서는 시스템에 따라 캐시 일관성과 버퍼 동기화도 고려한다. 이는 **DMA의 구현상 고려사항**이며, 핵심 학습은 데이터 전송 위임에 둔다.
 
 ### I/O Channel — 명령 처리까지 위임
 
@@ -189,23 +170,17 @@ I/O Channel은 전송을 넘어 **I/O 명령의 실행·상태·오류 관리까
 
 이 표는 **교재식 비교**다. 실제 메커니즘을 같은 축의 대안으로만 보지 않는다. 특히 Interrupt-driven I/O는 DMA·I/O Channel의 상위 분류가 아니고, DMA와 I/O Channel도 Interrupt를 필수 전제로 하지 않는다.
 
-### I/O Channel의 위치 — 독립적인 I/O 서브시스템
+### I/O Channel의 위치와 역할
 
-전통적인 메인프레임에서 I/O Channel은 **CPU와 별도로 I/O 명령을 실행하는 채널 하드웨어**로, 장치와 연결된 Control Unit을 통해 작업을 수행한다.
+I/O Channel은 전통적인 메인프레임의 **독립적인 I/O 처리 하드웨어**로, CPU가 작업을 지시하면 채널 프로그램에 따라 장치 선택·명령 실행·전송 제어·상태 처리를 맡는다.
 
 ```text
-Mainframe System
-├─ CPU                → I/O 작업 지시·완료 처리
-├─ Main Memory        → 데이터·채널 프로그램
-└─ I/O Subsystem
-   └─ I/O Channel     → 채널 명령·전송·상태 관리
-      └─ Control Unit → 장치 제어
-         └─ I/O Device
+CPU → I/O Channel → Control Unit → I/O Device
+       │
+       └─ 명령·전송·상태 관리
 ```
 
-CPU는 채널 작업을 시작하고, Channel은 채널 프로그램에 따라 장치 선택·명령 실행·데이터 전송·상태 및 오류 처리를 맡는다. 따라서 **DMA는 데이터 이동 위임, Channel은 I/O 작업 제어 위임**으로 기억한다.
-
-현대 NVMe Controller도 명령 큐 처리와 DMA 기능을 결합하지만, 이를 전통적인 메인프레임 I/O Channel과 동일한 하드웨어 계층이라고 단정하지 않는다. 또한 Channel이 항상 별도 DMA Controller 위에 놓이는 구조는 아니다.
+DMA가 **데이터 전송**을 위임한다면 I/O Channel은 **I/O 작업 제어**까지 위임한다. 현대 SSD Controller에도 유사한 기능이 있지만, 이를 전통적인 Channel과 동일한 구조로 보지는 않는다.
 
 ### DMA와 I/O Channel — 왜 항상 Channel을 쓰지는 않는가?
 
