@@ -27,6 +27,11 @@ description: >- # used by seo meta and the atom feed
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
 url: "https://clang-engineer.github.io"
 
+# Hidden Pi rankings preview. Set ui_module_url after the UI package is publicly published.
+package_rankings:
+  data_url: "https://clang-engineer.github.io/package-rankings/pi.json"
+  ui_module_url: ""
+
 github:
   username: clang-engineer # change to your GitHub username
 

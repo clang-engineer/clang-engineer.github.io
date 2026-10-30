@@ -1,0 +1,31 @@
+<style>
+  #pi-ranking-root {
+    --ranking-fg: var(--text-color);
+    --ranking-muted: var(--text-muted-color);
+    --ranking-link: var(--link-color);
+    --ranking-border: var(--main-border-color);
+    --ranking-selected: #306b51;
+  }
+</style>
+<div id="pi-ranking-root" aria-label="Pi 패키지 다운로드 랭킹"></div>
+{% if site.package_rankings.ui_module_url and site.package_rankings.ui_module_url != '' %}
+<p id="pi-ranking-status" role="status">랭킹 데이터를 불러오는 중…</p>
+<noscript><p>랭킹을 보려면 JavaScript가 필요합니다.</p></noscript>
+<script type="module">
+  const root = document.getElementById('pi-ranking-root');
+  const status = document.getElementById('pi-ranking-status');
+  try {
+    const response = await fetch({{ site.package_rankings.data_url | jsonify }}, { cache: 'no-cache' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const snapshot = await response.json();
+    const { mount } = await import({{ site.package_rankings.ui_module_url | jsonify }});
+    mount(root, { snapshot });
+    status.remove();
+  } catch (error) {
+    status.textContent = '랭킹을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.';
+    console.error('Pi ranking failed to load:', error);
+  }
+</script>
+{% else %}
+<p role="status">랭킹 페이지를 준비하고 있습니다. 데이터와 UI 공개 후 제공할 예정입니다.</p>
+{% endif %}
