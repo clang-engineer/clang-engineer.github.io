@@ -129,6 +129,29 @@ Tabpage
 
 Buffer는 문서 내용의 중심이고 Window는 이를 표시하는 뷰다. Tabpage는 Window들의 배치를 구성한다. 관련 설명은 [Vim·Neovim 작동 원리](./2025-10-04-vim-core-engine.md)와 [Register](./2025-09-24-vim-register.md)를 참고한다. 기본 키 조작은 [Devkit Vim Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/vim.md)에서 확인할 수 있다.
 
+### 프로세스 경계와 코드 분석
+
+```text
+┌────────────── Neovim 프로세스 ──────────────┐
+│ C Core / 편집기 상태                       │
+│     ▲                                      │
+│     │ 공개 API                             │
+│ Lua Runtime ── Lua Plugin                  │
+│     │                                      │
+│ Treesitter Parser ── 구문 트리             │
+│ LSP Client ────────┐                       │
+│ Job ───────────────┼── 외부 프로세스 실행  │
+└────────────────────┼───────────────────────┘
+                     │ LSP (JSON-RPC)
+                     ▼
+              Language Server
+                (별도 프로세스)
+
+외부 Python ── MessagePack-RPC ──> Neovim 공개 API
+```
+
+**Treesitter 파서는 일반적으로 Neovim 프로세스 안에서 실행**하고, **Language Server는 보통 별도 프로세스**에서 실행된다. LSP의 JSON-RPC와 Neovim 외부 API의 MessagePack-RPC는 다른 통신 경로다. Job은 외부 프로세스 실행·관리, RPC는 실행 중인 프로세스 사이의 원격 호출이다.
+
 ### Runtime API와 플러그인
 
 Neovim은 Lua·Vimscript와 API를 통해 Buffer·Window·Option 등 편집기 상태를 조회·변경할 수 있다. Autocommand는 특정 Event에 반응하도록 기능을 연결하고, Job·RPC는 외부 프로그램과 상호작용하는 통로를 제공한다.
