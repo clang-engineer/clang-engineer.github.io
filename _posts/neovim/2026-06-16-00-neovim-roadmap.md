@@ -80,7 +80,7 @@ Plugin ──uses──> Runtime API ──reads/modifies──> 편집기 상�
 
 **Tree-sitter는 외부 라이브러리지만 파서는 일반적으로 Neovim 프로세스 안에서 실행**된다. LSP는 외부 표준이지만 클라이언트는 Neovim 내부에 구현되며 언어 서버는 보통 외부 프로세스다. Vim에도 Job·Channel·Popup·Text Properties 등 유사 기능이 있으므로 이 구분은 '최초 발명' 목록이 아니다.
 
-Quickfix는 범용 위치 목록, Diagnostics는 제공자별 진단 상태다. Mark는 사용자 책갈피, Extmark는 플러그인 등의 위치·장식 API다. 자세한 흐름은 [코드 진단과 결과 탐색](./2026-05-04-neovim-code-diagnostics-and-navigation.md)과 [Neovim API 지도](./2026-06-19-neovim-vim-global-api-map.md)에서 다룬다.
+Quickfix는 범용 위치 목록, Diagnostics는 제공자별 진단 상태다. Mark는 사용자 책갈피, Extmark는 플러그인 등의 위치·장식 API다. 자세한 흐름은 [코드 진단과 결과 탐색](./2026-05-04-neovim-code-diagnostics-and-navigation.md)과 [Neovim API 지도](./2026-06-19-neovim-runtime-api-events-processes.md)에서 다룬다.
 
 ## 설계 방향 — Vim은 왜 Neovim과 같은 길을 택하지 않았을까?
 
@@ -159,7 +159,7 @@ Plugin / User Config
         └─ Job / RPC ──> External Process
 ```
 
-세부 구조는 [Neovim API 지도](./2026-06-19-neovim-vim-global-api-map.md), [Buffer·Window·Extmark](./2026-06-19-neovim-buffer-window-extmark.md), [Autocommand·Event](./2026-06-19-neovim-vim-global-api-map.md), [비동기·Job](./2026-06-19-neovim-vim-global-api-map.md)에서 필요에 따라 살펴본다.
+세부 구조는 [Neovim API 지도](./2026-06-19-neovim-runtime-api-events-processes.md), [Buffer·Window·Extmark](./2026-06-19-neovim-buffer-window-extmark.md), [Autocommand·Event](./2026-06-19-neovim-runtime-api-events-processes.md), [비동기·Job](./2026-06-19-neovim-runtime-api-events-processes.md)에서 필요에 따라 살펴본다.
 
 ### 외부 개발 도구와 UI
 
@@ -172,7 +172,7 @@ LSP는 [Mason·nvim-lspconfig·vim.lsp의 역할](./2026-07-08-neovim-lsp-three-
 전체 지도의 개념을 이해하는 데 별도 문서가 필수인 것은 아니다. 특정 개념의 원리나 구현이 궁금할 때만 아래 자료로 이동한다.
 
 - 편집 상태와 내부 구조: [Vim·Neovim 작동 원리](./2025-10-04-vim-core-engine.md), [Buffer·Window·Extmark](./2026-06-19-neovim-buffer-window-extmark.md)
-- 확장 API: [Neovim API 지도](./2026-06-19-neovim-vim-global-api-map.md), [Autocommand·Event](./2026-06-19-neovim-vim-global-api-map.md)
+- 확장 API: [Neovim API 지도](./2026-06-19-neovim-runtime-api-events-processes.md), [Autocommand·Event](./2026-06-19-neovim-runtime-api-events-processes.md)
 - 외부 개발 도구: [LSP](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md), [DAP](./2026-07-12-nvim-dap-debug-adapter-protocol.md)
 - 선택적 설정·확장: [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md), [Plugin 구조](./2026-06-12-neovim-plugin-conventions.md)
 
