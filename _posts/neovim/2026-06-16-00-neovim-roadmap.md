@@ -49,79 +49,38 @@ Plugin ──uses──> Runtime API ──reads/modifies──> 편집기 상�
 
 이 지도에서 **편집 모델**은 사용자가 어떤 동작을 요청하는지, **편집기 상태**는 무엇을 표시·변경하는지, **Runtime API**는 기능을 어떻게 확장하는지를 구분한다. 각 개념은 기존 게시글의 유무와 관계없이 필요한 위치에 놓는다.
 
-## Neovim은 실제로 무엇을 개발했는가?
+## 계승·자체 구현·외부 기술 통합
 
-**Neovim의 차별점은 Lua·RPC·LSP 같은 기술 자체를 발명한 것이 아니라, 편집기 코어에 연결되는 확장 인터페이스와 통합 기능을 구현한 것**이다. 기존 Vim에서 계승한 편집 모델과 Neovim에서 설계·구현한 기능을 구분한다.
-
-```text
-                   Neovim 확장 플랫폼
-                           │
-           ┌───────────────┴────────────────┐
-           ▼                                ▼
-     자체 API·기능 구현                 외부 기술 통합
-           │                                │
-     Neovim API / RPC 서버            LuaJIT Runtime
-     Extmark / Virtual Text           Treesitter Parser
-     Floating Window API              libuv Event Loop
-     Diagnostics API                   LSP Protocol
-     Built-in LSP Client                    │
-           │                                │
-           └───────────────┬────────────────┘
-                           ▼
-                    Plugin / External UI
-```
-
-이 그림은 **구현 책임과 기술의 출처**를 구분한 것이다. LSP는 외부 표준이지만 **LSP Client는 Neovim의 내장 구현**이고, Treesitter는 외부 파서지만 **이를 활용하는 Neovim API는 자체 통합 기능**이다. LuaJIT·libuv는 Neovim이 만든 기술이 아니다. Vim에도 Job·Channel·Popup·Text Properties 등 유사한 기능이 있으므로 'Neovim에서 구현'이 곧 '편집기 역사상 최초'를 의미하지는 않는다.
-
-| Neovim에서 구현한 기능 | 실제 역할 |
-|---|---|
-| 공개 API + MessagePack-RPC | 내부 Lua 또는 외부 프로세스에서 편집기 기능 호출 |
-| Extmark + Virtual Text/Lines | 편집에 따라 위치를 추적하고 버퍼를 바꾸지 않는 화면 정보 표시 |
-| Floating Window API | 별도 Window를 화면 위에 배치 |
-| 내장 LSP Client | 외부 Language Server와 JSON-RPC 기반 LSP 통신 |
-| `vim.diagnostic` | LSP·Linter의 진단 상태 관리 및 화면 표시 |
-| Treesitter API | 외부 구문 파서의 트리를 편집 기능에 활용 |
-| Job·비동기 API | 외부 프로세스 실행·관리 및 이벤트 기반 처리 |
-
-이후 절에서는 **왜 Lua를 선택했는지**, **API와 RPC가 어떻게 다른지**, **Job과 RPC가 어떤 관계인지** 등 각 기능의 설계·동작 원리를 설명한다.
-
-## Vim에서 계승한 것과 Neovim의 확장 기반
-
-Neovim을 **Vim + 플러그인**으로만 이해하면 내장 API의 역할을 놓치기 쉽다. 다만 아래 분류는 개념의 최초 발명자를 뜻하지 않는다. **Vim에도 유사 기능이 있는지**와 **Neovim이 어떤 API를 기본 제공하는지**를 구분한다.
+**Neovim은 Vim 편집 모델을 계승하고, 확장 API와 통합 기능을 구현했다.** Lua·LSP·Tree-sitter·libuv 자체를 발명한 것은 아니다. 기술의 출처와 실행 위치도 별개다.
 
 ```text
-                   Neovim
-                      │
-         ┌────────────┴────────────┐
-         ▼                         ▼
-     Vim 계승 모델             Neovim 확장 기반
-         │                         │
-   Mode / Motion              Lua / vim.api
-   Register / Mark            LSP Client / Diagnostics
-   Quickfix / Loclist         Extmark / Virtual Text
-   Buffer / Window            Treesitter API
-   Autocommand                Job / RPC / Floating UI
-         │                         │
-         └────────────┬────────────┘
-                      ▼
-               Plugin / LazyVim
+                     Neovim
+                        │
+         ┌──────────────┼────────────────┐
+         ▼              ▼                ▼
+      Vim 계승      Neovim 구현       외부 기술 통합
+         │              │                │
+   Mode / Motion    공개 API / RPC    LuaJIT / libuv
+   Mark / Quickfix  Extmark / UI      Tree-sitter
+   Buffer / Window  LSP Client        LSP 프로토콜
+                    Diagnostics           │
+         └──────────────┼────────────────┘
+                        ▼
+                플러그인 확장 플랫폼
 ```
 
-| 구분 | 개념 | 이해할 핵심 |
+| 구분 | 대표 개념 | 핵심 |
 |---|---|---|
-| 계승 | Quickfix / Location List | 검색·빌드 등의 위치 목록을 전역 또는 창별로 관리 |
-| 계승 | Mark / Jump List / Change List | 수동 책갈피·점프 이력·변경 위치 이력 |
-| Neovim 내장 | `vim.lsp` | 언어 서버와 통신해 정의·참조·진단 등을 수신 |
-| Neovim 내장 | `vim.diagnostic` | 버퍼·진단 제공자별 오류·경고 상태 관리 |
-| Neovim 확장 API | Extmark | 편집에 따라 추적되는 위치·범위와 화면 장식의 기반 |
-| Neovim 확장 API | Lua / `vim.api` | 편집기 상태를 조회·변경하는 플러그인 인터페이스 |
-| Neovim 통합 | Treesitter / Job·RPC / Floating Window | 구문 분석·외부 통신·화면 표현에 활용 |
+| Vim 계승 | Mark / Jump List / Change List | 수동 책갈피·점프 이력·변경 이력 |
+| Vim 계승 | Quickfix / Location List | 전역·Window별 범용 위치 목록 |
+| Neovim 구현 | 공개 API·MessagePack-RPC | 내부 Lua 및 외부 프로세스의 편집기 기능 호출 |
+| Neovim 구현 | Extmark·Virtual Text·Floating Window | 위치 추적과 화면 장식·창 배치 |
+| Neovim 구현 | LSP Client·`vim.diagnostic` | 언어 서버 통신과 진단 상태 관리 |
+| 외부 기술 통합 | LuaJIT·libuv·Tree-sitter | Neovim 내부 런타임·이벤트 루프·구문 분석 기반 |
 
-**Quickfix와 Diagnostics의 차이:** Quickfix는 범용 위치 목록이고 Diagnostics는 현재 코드의 진단 상태를 제공자별로 관리한다. Quickfix도 플러그인으로 지속 갱신할 수 있으므로 '스냅샷 대 실시간'만으로 구분하지 않는다. Trouble은 이들 및 LSP References 등을 표시하는 **별도 플러그인**이며 Neovim의 내장 기능이 아니다.
+**Tree-sitter는 외부 라이브러리지만 파서는 일반적으로 Neovim 프로세스 안에서 실행**된다. LSP는 외부 표준이지만 클라이언트는 Neovim 내부에 구현되며 언어 서버는 보통 외부 프로세스다. Vim에도 Job·Channel·Popup·Text Properties 등 유사 기능이 있으므로 이 구분은 '최초 발명' 목록이 아니다.
 
-**Mark와 Extmark의 차이:** Mark는 사용자가 돌아올 위치를 기억하는 편집 기능이고, Extmark는 플러그인이 위치·범위·Virtual Text 등을 관리하는 API다.
-
-개발 도구 결과가 생성·관리·표시되는 관계는 [코드 진단과 결과 탐색](./2026-05-04-neovim-code-diagnostics-and-navigation.md), 구체적인 확장 인터페이스는 [Neovim API 지도](./2026-06-19-neovim-vim-global-api-map.md)에서 다룬다.
+Quickfix는 범용 위치 목록, Diagnostics는 제공자별 진단 상태다. Mark는 사용자 책갈피, Extmark는 플러그인 등의 위치·장식 API다. 자세한 흐름은 [코드 진단과 결과 탐색](./2026-05-04-neovim-code-diagnostics-and-navigation.md)과 [Neovim API 지도](./2026-06-19-neovim-vim-global-api-map.md)에서 다룬다.
 
 ## 설계 방향 — Vim은 왜 Neovim과 같은 길을 택하지 않았을까?
 
