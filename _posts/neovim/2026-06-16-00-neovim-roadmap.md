@@ -49,6 +49,44 @@ Plugin ──uses──> Runtime API ──reads/modifies──> 편집기 상�
 
 이 지도에서 **편집 모델**은 사용자가 어떤 동작을 요청하는지, **편집기 상태**는 무엇을 표시·변경하는지, **Runtime API**는 기능을 어떻게 확장하는지를 구분한다. 각 개념은 기존 게시글의 유무와 관계없이 필요한 위치에 놓는다.
 
+## Vim에서 계승한 것과 Neovim의 확장 기반
+
+Neovim을 **Vim + 플러그인**으로만 이해하면 내장 API의 역할을 놓치기 쉽다. 다만 아래 분류는 개념의 최초 발명자를 뜻하지 않는다. **Vim에도 유사 기능이 있는지**와 **Neovim이 어떤 API를 기본 제공하는지**를 구분한다.
+
+```text
+                   Neovim
+                      │
+         ┌────────────┴────────────┐
+         ▼                         ▼
+     Vim 계승 모델             Neovim 확장 기반
+         │                         │
+   Mode / Motion              Lua / vim.api
+   Register / Mark            LSP Client / Diagnostics
+   Quickfix / Loclist         Extmark / Virtual Text
+   Buffer / Window            Treesitter API
+   Autocommand                Job / RPC / Floating UI
+         │                         │
+         └────────────┬────────────┘
+                      ▼
+               Plugin / LazyVim
+```
+
+| 구분 | 개념 | 이해할 핵심 |
+|---|---|---|
+| 계승 | Quickfix / Location List | 검색·빌드 등의 위치 목록을 전역 또는 창별로 관리 |
+| 계승 | Mark / Jump List / Change List | 수동 책갈피·점프 이력·변경 위치 이력 |
+| Neovim 내장 | `vim.lsp` | 언어 서버와 통신해 정의·참조·진단 등을 수신 |
+| Neovim 내장 | `vim.diagnostic` | 버퍼·진단 제공자별 오류·경고 상태 관리 |
+| Neovim 확장 API | Extmark | 편집에 따라 추적되는 위치·범위와 화면 장식의 기반 |
+| Neovim 확장 API | Lua / `vim.api` | 편집기 상태를 조회·변경하는 플러그인 인터페이스 |
+| Neovim 통합 | Treesitter / Job·RPC / Floating Window | 구문 분석·외부 통신·화면 표현에 활용 |
+
+**Quickfix와 Diagnostics의 차이:** Quickfix는 범용 위치 목록이고 Diagnostics는 현재 코드의 진단 상태를 제공자별로 관리한다. Quickfix도 플러그인으로 지속 갱신할 수 있으므로 '스냅샷 대 실시간'만으로 구분하지 않는다. Trouble은 이들 및 LSP References 등을 표시하는 **별도 플러그인**이며 Neovim의 내장 기능이 아니다.
+
+**Mark와 Extmark의 차이:** Mark는 사용자가 돌아올 위치를 기억하는 편집 기능이고, Extmark는 플러그인이 위치·범위·Virtual Text 등을 관리하는 API다.
+
+개발 도구 결과가 생성·관리·표시되는 관계는 [코드 진단과 결과 탐색](./2026-05-04-neovim-code-diagnostics-and-navigation.md), 구체적인 확장 인터페이스는 [Neovim API 지도](./2026-06-19-neovim-vim-global-api-map.md)에서 다룬다.
+
 ## 핵심 개념과 관계
 
 ### 편집 모델과 편집기 상태
