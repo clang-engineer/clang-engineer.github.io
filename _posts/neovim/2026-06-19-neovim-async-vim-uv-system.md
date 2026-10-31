@@ -19,7 +19,7 @@ linter를 돌리고, `git`을 부르고, 파일을 읽어 결과를 버퍼에 �
 - 타이머·파일시스템·저수준 제어는 **`vim.uv`**(libuv, 구 `vim.loop`).
 - **`vim.uv` 콜백과 `vim.system` 완료 콜백은 fast event에서 돈다.** 대부분의 `vim.api` 호출은 금지되므로 에디터 상태를 만질 때 `vim.schedule`로 되돌린다. `jobstart` 콜백까지 같은 규칙이라고 일반화하면 안 된다.
 
-## Job과 RPC는 무엇이 다른가?
+## 프로세스 실행(Job)과 통신(RPC)은 별개다
 
 ```text
 Neovim ── Job / spawn ──> 외부 프로세스 실행
