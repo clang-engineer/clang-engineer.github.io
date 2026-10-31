@@ -1,135 +1,84 @@
 ---
-title       : "Window Management Map — i3·sway·AeroSpace·yabai·Rectangle의 관계"
-description : "Linux와 macOS의 창 관리 도구를 tiling window manager, compositor, window placement utility로 나누고 i3·sway·AeroSpace·yabai·Rectangle의 관계와 장단점을 정리한다."
+title       : "Tiling Window Management — 창 배치와 작업 공간의 구조"
+description : "창·레이아웃·워크스페이스·포커스의 관계와 Linux의 i3·Sway, macOS의 AeroSpace·yabai를 비교하고 tmux와의 관리 계층을 구분한다."
 date        : 2026-10-05 18:52:00 +0900
-updated     : 2026-10-05 18:52:00 +0900
+updated     : 2026-10-31 13:00:00 +0900
 categories  : [developer-tools, "관계도"]
-tags        : [window-manager, tiling, i3, sway, aerospace, yabai, rectangle, macos, linux, map]
+tags        : [window-manager, tiling, i3, sway, aerospace, yabai, macos, linux, map]
 pin         : false
 hidden      : false
 ---
 
-> **최신 도구 목록·대안·보완 관계·치트시트는 [Devkit 도구 지도]({{ '/devkit/' | relative_url }})에서 탐색한다.** 이 글은 비교의 맥락과 기존 링크를 보존하는 심화 참고 문서다. 새로운 도구 목록은 여기와 중복 관리하지 않는다.
+> **도구 목록·치트시트는 [Devkit 도구 지도]({{ '/devkit/' | relative_url }})에서 탐색한다.** 이 글은 특정 제품의 사용법보다 타일링 창 관리의 개념과 플랫폼별 구현 차이를 설명한다.
 {: .prompt-info }
 
+## 왜 창 관리가 필요한가
 
-창 관리 도구는 모두 "창을 배치한다"는 점 때문에 비슷해 보이지만, 실제로는 **window manager 자체인지, compositor인지, 단순한 배치 utility인지**가 다르다.
-
-## 전체 관계
+GUI에서 여러 프로그램을 동시에 다루려면 창의 **위치·크기(Layout)**, 현재 작업할 창(**Focus**), 작업 단위(**Workspace**)를 관리해야 한다. 전통적인 floating 배치는 창을 겹쳐 자유롭게 놓고, tiling 배치는 화면 영역을 나눠 창을 배치한다.
 
 ```text
 Window Management
-├─ Linux / X11
-│  └─ i3
-│      └─ keyboard-driven tiling WM
-│
-├─ Linux / Wayland
-│  └─ sway
-│      └─ i3-compatible Wayland compositor
-│
-└─ macOS
-   ├─ AeroSpace
-   │   └─ i3-like tiling / workspace model
-   ├─ yabai
-   │   └─ tiling + scripting / automation
-   ├─ Hammerspoon
-   │   └─ general automation runtime
-   └─ Rectangle
-       └─ window placement utility
+├─ Window     : 관리 대상인 GUI 창
+├─ Layout     : 창의 크기와 배치 (Floating / Tiling)
+├─ Focus      : 키보드 입력을 받을 창
+└─ Workspace  : 창을 묶고 전환하는 작업 공간
 ```
 
-가장 중요한 구분은 **Rectangle은 i3/sway/AeroSpace/yabai와 정확히 같은 종류가 아니라는 것**이다.
+타일링은 단순히 창을 반으로 나누는 단축키가 아니라 **창이 추가·제거될 때 레이아웃을 지속적으로 관리하는 방식**이다. 필요에 따라 floating 창을 함께 사용할 수 있다.
 
-## i3 → sway
-
-i3는 X11 환경의 대표적인 keyboard-driven tiling window manager다.
-
-sway는 Wayland 환경에서 i3와 비슷한 설정과 사용 경험을 제공하는 compositor다.
+## 플랫폼에 따라 구현 계층이 다르다
 
 ```text
-i3
-X11 tiling WM
- │
- └─ i3-compatible workflow
-          ↓
-        sway
-   Wayland compositor
+Tiling Window Management
+│
+├─ Linux
+│  ├─ X11     → i3    (Window Manager)
+│  └─ Wayland → Sway  (Compositor)
+│
+└─ macOS
+   ├─ AeroSpace      (i3-like workspace / tiling)
+   └─ yabai          (tiling / scripting)
 ```
 
-따라서 i3에서 sway로 갈 때는 "완전히 새로운 조작 철학"을 배우기보다 기존 i3 감각을 Wayland 환경으로 가져가는 느낌에 가깝다.
+**i3**는 X11 서버와 협력하는 타일링 윈도우 매니저다. **Sway**는 i3의 조작 모델과 설정 철학을 Wayland 환경으로 가져온 컴포지터로, 화면 출력과 입력·창 합성까지 담당한다. Ubuntu 같은 Linux 데스크톱에서는 GNOME 세션 대신 i3 또는 Sway 세션을 선택할 수 있다.
 
-## macOS의 두 방향
+macOS는 시스템 윈도우 서버를 Linux의 i3/Sway처럼 교체하는 방식이 아니다. **AeroSpace**와 **yabai**는 기존 macOS 위에서 창 배치와 작업 공간을 제어한다. 따라서 네 도구는 기능적으로 같은 문제를 풀지만 운영체제를 가로질러 직접 설치·교체하는 경쟁 제품은 아니다.
 
-macOS에서는 Linux처럼 window manager 자체를 완전히 교체하기 어렵기 때문에 별도 도구들이 OS 위에서 창을 제어한다.
+## macOS: AeroSpace와 yabai
 
-### AeroSpace
+| 관점 | AeroSpace | yabai |
+|---|---|---|
+| 핵심 경험 | i3 스타일 키보드 중심 작업 | 자동 타일링과 세밀한 스크립팅 |
+| 작업 공간 | 자체 워크스페이스 모델 | macOS Spaces와 연동 |
+| 배치 | 컨테이너 기반 트리 레이아웃 | BSP 기반 레이아웃 |
+| 도입 시 고려 | 워크스페이스 동작 방식 | 일부 고급 기능의 권한·시스템 설정 |
 
-AeroSpace는 i3-like keyboard workflow와 자체 workspace 모델을 지향한다.
-
-강점:
-
-- 키보드 중심 workspace 이동
-- 자동 tiling
-- macOS 기본 Spaces와 다른 빠른 가상 workspace 흐름
-
-관련 글:
+이미 AeroSpace로 원하는 배치와 전환이 가능하다면 yabai는 필수 추가 도구가 아니라 **대체 후보**다.
 
 - [AeroSpace 기본]({% post_url macos/2026-07-03-aerospace-basics %})
 - [AeroSpace 서비스 모드]({% post_url macos/2026-07-14-aerospace-service-mode %})
 
-### yabai
-
-yabai는 macOS의 창을 자동 배치하고 scripting으로 제어하는 강력한 도구다.
-
-강점은 자동화 자유도와 세밀한 제어다. 반대로 macOS 보안 정책과 권한, 일부 고급 기능의 제약을 더 신경 써야 한다.
-
-### Rectangle
-
-Rectangle은 **자동 tiling WM이라기보다 window placement utility**에 가깝다.
+## 터미널 분할과는 관리 계층이 다르다
 
 ```text
-shortcut
-→ left half
-→ right half
-→ maximize
-→ thirds / quarters
+Desktop
+└─ AeroSpace / i3 / Sway / yabai  : GUI Window · Workspace
+   └─ Terminal Emulator           : 터미널 창
+      └─ tmux                      : Session · Window · Pane
+         └─ Shell / Neovim         : 명령 실행 · 편집
 ```
 
-즉 "창 관리가 필요하지만 WM 전체를 도입하고 싶지는 않다"는 사용자에게 훨씬 단순하다.
+GUI 타일링은 **애플리케이션 창의 공간 배치**를 담당한다. tmux의 Pane도 화면을 분할하지만, **터미널 세션과 실행 상태를 유지**하는 기능까지 제공한다. 그래서 두 도구는 분할 기능이 겹쳐도 서로 완전히 대체하지 않는다.
 
-- [Rectangle.app 기본]({% post_url macos/2026-07-03-rectangle-app-basics %})
+## 인접 도구와 경계
 
-## Hammerspoon은 어디에 놓이는가
+**Rectangle**은 단축키로 창을 화면의 절반·사분면 등에 놓는 *window placement utility*다. **Hammerspoon**은 Lua로 창 제어를 포함한 macOS 전반을 자동화하는 *desktop automation runtime*이다. 둘 다 창을 움직일 수 있지만 i3·Sway·AeroSpace·yabai와 같은 타일링 매니저 범주로 묶지는 않는다.
 
-Hammerspoon은 window manager가 아니라 **Lua 기반 macOS automation runtime**이다.
-
-```text
-Hammerspoon
-├─ hotkey
-├─ window control
-├─ app control
-├─ notification
-└─ external command / automation
-```
-
-창 배치도 할 수 있기 때문에 Rectangle과 기능이 겹치지만, 본질적으로 더 넓은 자동화 도구다.
-
+- [Rectangle 기본]({% post_url macos/2026-07-03-rectangle-app-basics %})
 - [Hammerspoon 기본]({% post_url macos/2026-07-03-hammerspoon-basics %})
-- [Rectangle.app을 Hammerspoon으로 대체하기]({% post_url macos/2026-07-03-hammerspoon-window-tiling-rectangle %})
 
-## 대략적인 선택 기준
+## 선택 기준
 
-| 원하는 것 | 도구 |
-|---|---|
-| Linux/X11의 전통적 keyboard tiling | i3 |
-| Wayland + i3 사용 감각 | sway |
-| macOS에서 i3-like workspace/tiling | AeroSpace |
-| macOS에서 강한 scripting/tiling | yabai |
-| macOS에서 단순한 반/1⁄3 창 배치 | Rectangle |
-| 창 배치를 포함한 macOS 전체 자동화 | Hammerspoon |
+Linux에서 X11을 쓴다면 i3, Wayland 기반 타일링 세션을 원한다면 Sway를 검토한다. macOS에서는 AeroSpace와 yabai 중 **워크스페이스 모델과 자동화 요구**에 맞는 하나를 선택하면 된다. 단순한 창 위치 단축키가 목적이라면 Rectangle만으로 충분할 수 있다.
 
-## 블로그에서의 위치
-
-개별 설치·설정 글은 계속 `macos` 같은 자연스러운 영역에 둔다. 이 글은 도구를 옮겨 모으는 대신 **서로 어떤 관계인지 보여주는 지도** 역할만 한다.
-
-새 도구를 발견했을 때도 먼저 이 관계도에 한 줄 추가하고, 실제로 깊게 사용할 때만 독립 글을 만든다.
+이 문서는 개념과 관계를 관리한다. 설치 방법·단축키·개별 설정은 각 도구 문서와 Devkit 치트시트에 둔다.
