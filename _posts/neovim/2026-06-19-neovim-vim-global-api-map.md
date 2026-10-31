@@ -22,6 +22,24 @@ Neovim 플러그인을 Lua로 짜다 보면 `vim.opt`, `vim.api.nvim_*`, `vim.fn
 - 키매핑·커맨드·오토커맨드는 전용 헬퍼(`vim.keymap.set`, `nvim_create_user_command`, `nvim_create_autocmd`)가 표준.
 - 비동기·이벤트 루프가 필요하면 `vim.schedule` / `vim.uv`.
 
+## 왜 Lua와 API를 분리해서 이해해야 할까?
+
+Lua는 **C 기반 프로그램에 내장하기 쉬운 가벼운 범용 언어**다. Neovim은 LuaJIT 기반 런타임에서 플러그인을 실행할 수 있고, 모듈·테이블·클로저로 복잡한 기능을 구성할 수 있다. 하지만 Lua 자체에는 Buffer를 수정하는 기능이 없다. 그 기능은 **Neovim이 공개한 API**가 제공한다. Lua 선택의 이점은 임베딩·성능·범용 프로그래밍 능력의 결합이지 RPC를 사용한다는 사실 자체가 아니다.
+
+```text
+       Neovim 프로세스 내부                  외부 프로세스
+  Lua Plugin → vim.api ──┐                Python Plugin
+                         ▼                      │
+                    Neovim API ◀── MessagePack-RPC
+                         │
+                         ▼
+                   Core / Buffer
+```
+
+**API는 무엇을 호출할 수 있는지**, **RPC는 프로세스 경계를 넘어 어떻게 호출하는지**를 정한다. 내부 Lua 호출에는 보통 RPC가 필요 없다. 외부 Python은 Neovim이 공개한 API를 MessagePack-RPC로 호출할 수 있다. 웹 백엔드의 공개 서비스 메서드와 전송 계층을 구분하는 것과 비슷하지만, 내부 C 함수를 임의로 호출할 수 있다는 뜻은 아니다.
+
+`vim.api`는 공개 `nvim_*` API의 Lua 진입점이고, `vim.lsp`·`vim.diagnostic` 등은 별도의 Neovim Lua 인터페이스다.
+
 ## vim — 단일 진입점
 
 `vim`은 `require` 없이 어디서나 쓸 수 있는 전역이다. nvim 프로세스 안에서만 존재하므로, 일반 `lua` 인터프리터에서 스크립트를 돌리면 `vim`이 nil이다 (그래서 플러그인 테스트는 헤드리스 nvim을 띄워서 돌린다).
