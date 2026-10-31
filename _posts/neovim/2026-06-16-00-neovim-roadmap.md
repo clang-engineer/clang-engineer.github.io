@@ -87,6 +87,32 @@ Neovim을 **Vim + 플러그인**으로만 이해하면 내장 API의 역할을 �
 
 개발 도구 결과가 생성·관리·표시되는 관계는 [코드 진단과 결과 탐색](./2026-05-04-neovim-code-diagnostics-and-navigation.md), 구체적인 확장 인터페이스는 [Neovim API 지도](./2026-06-19-neovim-vim-global-api-map.md)에서 다룬다.
 
+## 설계 방향 — Vim은 왜 Neovim과 같은 길을 택하지 않았을까?
+
+둘 다 Vim의 편집 모델을 발전시키지만 **확장 기능을 구축하는 기본 경로**가 다르다. Vim은 기존 Vimscript의 성능·표현력을 개선하는 **Vim9script**와 외부 도구를 연결하는 **Job·Channel**을 발전시켰다. Neovim은 Vim 코어를 포크·리팩터링하면서 **Lua API·MessagePack-RPC·외부 UI·플러그인 통합**을 중요한 설계 축으로 삼았다. Vim에 외부 프로세스 연동이 없거나 Neovim이 RPC를 발명했다는 뜻은 아니다.
+
+```text
+                 Vim 편집 모델
+                       │
+           ┌───────────┴───────────┐
+           ▼                       ▼
+          Vim                    Neovim
+           │                       │
+    Vim9script 개선            Lua / Runtime API
+    Job / Channel              RPC / Remote UI
+    기존 스크립트 호환          코어 API·확장 경계 정비
+           │                       │
+           └───────────┬───────────┘
+                       ▼
+              서로 다른 확장 전략
+```
+
+**왜 Vim9script인가?** Vim의 공식 설계 문서는 기존 Vimscript의 실행 비용과 호환성 제약을 지적하고, 새 함수 컴파일 방식으로 속도와 언어 표현력을 개선하려는 목표를 설명한다. 또한 외부 도구는 Job·Channel로 통신하도록 권장하며, 기존 내장 언어 인터페이스의 우선순위를 낮추는 방향을 제시한다. [Vim9 설계 배경](https://github.com/vim/vim/blob/master/README_VIM9.md) · [Vim9 공식 도움말](https://vimhelp.org/vim9.txt.html)
+
+**왜 Neovim의 API·RPC인가?** Neovim의 공식 비전은 플러그인 작성자의 제약을 줄이고 Lua 인터페이스와 조합 가능한 확장 구조를 제공하는 것이다. Lua는 프로세스 내부 확장 언어이고 RPC는 외부 프로세스가 공개 API를 호출하는 통신 경로다. [Neovim Vision](https://neovim.io/charter/)
+
+**생태계 관점:** RPC 하나만으로 플러그인 생태계의 성장을 설명할 수는 없다. Lua·LSP·UI API와 플러그인·배포판의 결합이 개발·사용 진입장벽을 낮췄다는 해석은 가능하지만, 각 요인의 성장 기여도를 입증한 정량적 결론은 아니다.
+
 ## 핵심 개념과 관계
 
 ### 편집 모델과 편집기 상태
