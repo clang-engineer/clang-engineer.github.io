@@ -18,7 +18,7 @@ Neovim 플러그인을 Lua로 짜다 보면 `vim.opt`, `vim.api.nvim_*`, `vim.fn
 
 - `vim`은 Neovim이 Lua 런타임에 주입하는 **단 하나의 전역 테이블**이다. 에디터를 만지는 모든 통로가 여기서 갈라진다.
 - 옵션은 **범위(scope)**로 갈린다: 전역 `vim.o`/`vim.opt`, 버퍼 `vim.bo`, 윈도우 `vim.wo`, 전역 변수 `vim.g`.
-- 동작 호출의 핵심 갈림길은 **`vim.api`(네이티브 C, 권장) vs `vim.fn`(레거시 Vimscript 함수)**. API에 있으면 API, 없으면 `vim.fn`.
+- 동작 호출의 핵심 갈림길은 **`vim.api`(Neovim 공개 API) vs `vim.fn`(Vimscript 함수 접근)**. 기능의 성격과 기존 API 지원 여부에 따라 선택한다.
 - 키매핑·커맨드·오토커맨드는 전용 헬퍼(`vim.keymap.set`, `nvim_create_user_command`, `nvim_create_autocmd`)가 표준.
 - 비동기·이벤트 루프가 필요하면 `vim.schedule` / `vim.uv`.
 
@@ -83,7 +83,7 @@ vim.env.PATH = vim.env.PATH .. ":/x"  -- 환경변수
 
 ### vim.api — 네이티브 API (권장)
 
-`nvim_` 접두사가 붙은 C 구현 함수들. 버퍼·윈도우·extmark·커맨드 등 Neovim이 새로 설계한 명시적 인터페이스다.
+`nvim_` 접두사가 붙은 Neovim 공개 API 함수들. 버퍼·윈도우·extmark·커맨드 등 Neovim이 새로 설계한 명시적 인터페이스다.
 
 ```lua
 vim.api.nvim_buf_get_lines(0, 0, -1, false)   -- 버퍼 0의 전체 라인
@@ -115,7 +115,7 @@ vim.fn["db#adapter#vertica#interactive"]("...")  -- # 들어간 함수명은 인
 | 버퍼·윈도우·탭·extmark 조작 | `vim.api` |
 | 커맨드·오토커맨드·키맵 등록 | `vim.api` (또는 `vim.keymap`) |
 | 경로 확장, `has()`, `glob()`, `system()` 등 | `vim.fn` |
-| 둘 다 있을 때 | `vim.api` 우선 (C 직행, 명시적) |
+| 둘 다 있을 때 | `vim.api` 우선 고려 (명시적 인터페이스) |
 
 성능은 둘 다 결국 C 코어로 내려가서 **체감 차이가 거의 없다** — 선택 기준은 속도가 아니라 명확성과 대응물 존재 여부다.
 
@@ -208,7 +208,7 @@ vim.o.cmdheight = 2
 ## 함정 정리
 
 1. `vim`은 **nvim 프로세스 안에서만** 존재한다. 순수 `lua` 실행엔 없다 → 테스트는 헤드리스 nvim.
-2. `vim.api`는 **0-base**, `vim.fn`은 **1-base**. 라인·컬럼 인덱스 섞으면 off-by-one.
+2. `vim.api`와 `vim.fn`의 인덱스 규칙은 **함수마다 확인**해야 한다. 특히 `nvim_buf_get_lines()`는 0-based이고 `getline()`은 줄 번호가 1-based다.
 3. `vim.fn`의 불리언류는 **`true`가 아니라 `1`**. `if vim.fn.has("x") then` 말고 `== 1` 비교.
 4. `vim.o`에 리스트 옵션을 테이블로 넣으면 안 된다 — 테이블 형태는 `vim.opt`만.
 5. fast event(LSP 콜백 등)에서 `vim.api` 호출이 막히면 `vim.schedule`로 감싼다.
