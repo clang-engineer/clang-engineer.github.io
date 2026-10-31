@@ -3,7 +3,7 @@ title       : "Neovim 로드맵 — 편집 모델·상태·확장 구조"
 description : "Neovim의 편집 모델, Buffer·Window·Tabpage 상태, Runtime API, 플러그인 시스템과 외부 도구 연동의 실제 관계를 보여주는 거시 개념지도."
 date        : 2026-06-16 23:00:00 +0900
 permalink   : /posts/neovim/2026-06-16-neovim-roadmap/
-updated     : 2026-10-31 17:30:00 +0900
+updated     : 2026-10-31 18:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : false
@@ -13,9 +13,34 @@ redirect_from:
   - /posts/lazyvim/2026-06-08-vim-neovim-lazyvim-feature-layers/
 ---
 
-Neovim은 Vim의 편집 모델을 계승하면서 **공개 API·런타임·외부 도구 연동**을 강화한 편집기다. 두 프로젝트의 중요한 설계 차이 중 하나는 **확장을 아키텍처의 어느 위치에 두는가**였다. Vim은 기존 편집기와 스크립트 생태계를 발전시켰고, Neovim은 코어의 기능을 공개 API·RPC로 노출해 외부 플러그인·프로그램·UI가 활용하는 플랫폼 구조를 강조했다. Vim에도 플러그인·Job·Channel 등 확장 기능이 있으므로 이는 확장 가능 여부가 아니라 **설계상 강조점의 차이**다.
+## 왜 Neovim이 등장했을까?
 
-이 지도는 명령어나 글 목록이 아니라 **구성요소의 역할과 관계**를 보여준다.
+Vim은 이미 Mode·Motion·Text Object 등 강력한 편집 모델과 Vimscript 기반 플러그인 생태계를 갖고 있었다. 문제는 편집 기능의 부족이라기보다, 복잡해지는 플러그인과 외부 프로그램·UI를 **어떤 구조로 연결하고 유지보수할 것인가**였다.
+
+Neovim은 2014년 Vim을 포크해 C 코어를 계승하면서 내부 구조를 리팩터링하고, **공개 API·RPC·비동기 실행·Lua 확장 환경**을 중요한 설계 축으로 삼았다. 반면 Vim은 기존 스크립트·편집기 구조를 발전시키면서 Vim9script·Job·Channel 같은 기능을 도입했다. 어느 쪽이 확장을 지원하느냐의 차이가 아니라 **확장을 아키텍처에서 어떻게 다루느냐의 차이**다.
+
+```text
+            Vim의 강력한 편집 모델
+                      │
+                      ▼
+             확장·통합 요구 증가
+                      │
+            ┌─────────┴─────────┐
+            ▼                   ▼
+           Vim                Neovim
+      기존 구조 발전        확장 경계 재설계
+            │                   │
+       Vim9script         공개 API / RPC
+       Job / Channel      Lua / 비동기 구조
+            │                   │
+            └─────────┬─────────┘
+                      ▼
+              각자의 플러그인 생태계
+```
+
+이후 Neovim은 내장 LSP Client, Tree-sitter 통합, Extmark·Floating Window 등 확장 기반을 발전시켰다. 이 기능들이 모두 RPC에서 직접 파생된 것은 아니다. **공통 API와 실행 환경을 활용해 기능을 조합하기 쉬워졌다는 점**이 중요하다. LazyVim은 그 위에 플러그인·설정·키맵을 조립한 배포판이다.
+
+이 로드맵은 이런 설계 방향이 **편집 모델 → 상태·API → 외부 통합 → 플러그인 생태계**로 어떻게 연결되는지 보여주는 개념지도다.
 
 ## 전체 개념지도
 
