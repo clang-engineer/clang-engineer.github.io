@@ -40,6 +40,69 @@ hidden      : false
 
 LazyVim은 **Trouble** 플러그인으로 Diagnostics, Quickfix List, Location List, Todo Comments와 LSP 결과를 통합해 보여준다. 현행 기본 키맵은 문제 목록을 `<leader>x`, 코드 탐색 목록을 `<leader>c` 아래에 나눈다. Todo는 Trouble 키맵 `<leader>xt`/`<leader>xT`와 picker 키맵 `<leader>st`/`<leader>sT`를 모두 제공한다.
 
+## 왜 Quickfix·Diagnostics·Trouble이 따로 있을까?
+
+이 셋은 같은 종류의 **코드 위치 정보**를 다루지만 책임이 다르다.
+
+| 개념 | 무엇인가 | 주된 관리 방식 |
+|---|---|---|
+| Quickfix (Vim 내장) | 검색·빌드 오류 등 범용 **위치 목록** | 명령이나 플러그인이 목록을 채우고 갱신 |
+| Diagnostics (`vim.diagnostic`, Neovim 내장) | 오류·경고 등 **현재 코드의 진단 상태** | 버퍼·진단 제공자(namespace)별 갱신 |
+| Trouble (플러그인) | 진단·Quickfix·LSP 위치를 **표시하고 탐색하는 UI** | 데이터 소스를 읽거나 LSP 요청을 통해 결과를 가져옴 |
+| Picker (Snacks 등) | 후보를 검색·필터링해 **빠르게 선택하는 UI** | 검색 또는 LSP 결과를 대화형으로 표시 |
+
+Quickfix를 계속 갱신하면 실시간 오류 목록처럼 쓸 수 있다. 차이는 단순히 '스냅샷 대 실시간'이나 '정보량'이 아니라 **범용 목록과 진단 상태라는 관리 모델**이다. Diagnostics는 LSP뿐 아니라 Linter의 진단도 관리하며, Quickfix는 진단이 아닌 텍스트 검색 결과도 담는다.
+
+### 결과는 어디서 만들어지고 어디에 표시될까?
+
+```text
+                    결과 생성
+            ┌───────────┼────────────┐
+            ▼           ▼            ▼
+        :vimgrep       :make      LSP / Linter
+            │           │            │
+        검색 위치     빌드 오류     진단·코드 관계
+            │           │            │
+            └─────┬─────┘       ┌─────┴─────────┐
+                  ▼             ▼               ▼
+             Quickfix       Diagnostics     References 등
+                  │             │               │
+                  └─────────────┼───────────────┘
+                                ▼
+                         Trouble (UI)
+```
+
+이 그림은 가능한 경로를 단순화했다. **LSP 진단이 자동으로 Quickfix에 등록되지는 않는다.** Trouble은 Neovim의 Diagnostics를 직접 읽을 수 있고, LSP References 등은 LSP 클라이언트를 통해 요청해 보여줄 수 있다. Picker도 자체 검색 결과나 LSP 결과를 직접 보여줄 수 있다. Trouble이나 Picker가 Quickfix를 반드시 거치는 것은 아니다.
+
+### 왜 Trouble에 References까지 있을까?
+
+오류 목록과 참조 목록은 모두 **파일·줄·열로 표현되는 위치 집합**이기 때문이다. Trouble은 이미 목록을 파일별로 묶고, 미리보기와 위치 이동을 제공하므로 같은 UI를 다른 결과에도 활용한다.
+
+```text
+Diagnostics                         References
+├─ main.js:10  타입 오류             ├─ main.js:15  getUser() 호출
+└─ api.js:40   경고                 └─ api.js:50   getUser() 호출
+         │                                  │
+         └──────── Trouble의 위치 탐색 UI ───┘
+```
+
+Trouble이 코드의 참조를 자체 분석하는 것은 아니다. **언어 서버가 참조 위치를 계산하고, Trouble은 Neovim LSP 기능을 통해 결과를 받아 탐색하게 한다.** Diagnostics 모드에서는 Neovim이 이미 관리하는 진단 상태를 읽는다.
+
+### Picker와 Trouble은 왜 둘 다 있을까?
+
+예를 들어 Java의 `getUser()` 사용처가 30곳이라고 해보자. **특정 호출 한 곳을 빨리 찾는다면** `gr` 등으로 Picker를 열어 검색·선택하는 흐름이 편하다. **30곳을 차례로 검토하거나 수정한다면** Trouble 패널을 유지하며 그룹별로 순회하는 흐름이 편하다. 어느 한쪽만 가능한 것은 아니며, 키맵과 기본 UI는 LazyVim 버전·설정에 따라 달라진다.
+
+```text
+          LSP References (위치 30곳)
+                       │
+            ┌──────────┴──────────┐
+            ▼                     ▼
+         Picker                 Trouble
+      검색·필터·선택        목록 유지·그룹·순회
+```
+
+**사용 기준:** 일회성 검색은 Picker, 오류·경고의 현재 상태는 Trouble Diagnostics, 여러 검색·빌드 결과를 보관할 때는 Quickfix, 여러 LSP 참조를 계속 검토할 때는 Trouble LSP 목록을 고려한다. Vim의 Mark는 개별 위치를 직접 저장하는 책갈피, Jump List는 점프 방문 이력이므로 별개다.
+
 ## 키맵 요약
 
 | 키 | 동작 | 설명 |
