@@ -49,6 +49,42 @@ Plugin ──uses──> Runtime API ──reads/modifies──> 편집기 상�
 
 이 지도에서 **편집 모델**은 사용자가 어떤 동작을 요청하는지, **편집기 상태**는 무엇을 표시·변경하는지, **Runtime API**는 기능을 어떻게 확장하는지를 구분한다. 각 개념은 기존 게시글의 유무와 관계없이 필요한 위치에 놓는다.
 
+## Neovim은 실제로 무엇을 개발했는가?
+
+**Neovim의 차별점은 Lua·RPC·LSP 같은 기술 자체를 발명한 것이 아니라, 편집기 코어에 연결되는 확장 인터페이스와 통합 기능을 구현한 것**이다. 기존 Vim에서 계승한 편집 모델과 Neovim에서 설계·구현한 기능을 구분한다.
+
+```text
+                   Neovim 확장 플랫폼
+                           │
+           ┌───────────────┴────────────────┐
+           ▼                                ▼
+     자체 API·기능 구현                 외부 기술 통합
+           │                                │
+     Neovim API / RPC 서버            LuaJIT Runtime
+     Extmark / Virtual Text           Treesitter Parser
+     Floating Window API              libuv Event Loop
+     Diagnostics API                   LSP Protocol
+     Built-in LSP Client                    │
+           │                                │
+           └───────────────┬────────────────┘
+                           ▼
+                    Plugin / External UI
+```
+
+이 그림은 **구현 책임과 기술의 출처**를 구분한 것이다. LSP는 외부 표준이지만 **LSP Client는 Neovim의 내장 구현**이고, Treesitter는 외부 파서지만 **이를 활용하는 Neovim API는 자체 통합 기능**이다. LuaJIT·libuv는 Neovim이 만든 기술이 아니다. Vim에도 Job·Channel·Popup·Text Properties 등 유사한 기능이 있으므로 'Neovim에서 구현'이 곧 '편집기 역사상 최초'를 의미하지는 않는다.
+
+| Neovim에서 구현한 기능 | 실제 역할 |
+|---|---|
+| 공개 API + MessagePack-RPC | 내부 Lua 또는 외부 프로세스에서 편집기 기능 호출 |
+| Extmark + Virtual Text/Lines | 편집에 따라 위치를 추적하고 버퍼를 바꾸지 않는 화면 정보 표시 |
+| Floating Window API | 별도 Window를 화면 위에 배치 |
+| 내장 LSP Client | 외부 Language Server와 JSON-RPC 기반 LSP 통신 |
+| `vim.diagnostic` | LSP·Linter의 진단 상태 관리 및 화면 표시 |
+| Treesitter API | 외부 구문 파서의 트리를 편집 기능에 활용 |
+| Job·비동기 API | 외부 프로세스 실행·관리 및 이벤트 기반 처리 |
+
+이후 절에서는 **왜 Lua를 선택했는지**, **API와 RPC가 어떻게 다른지**, **Job과 RPC가 어떤 관계인지** 등 각 기능의 설계·동작 원리를 설명한다.
+
 ## Vim에서 계승한 것과 Neovim의 확장 기반
 
 Neovim을 **Vim + 플러그인**으로만 이해하면 내장 API의 역할을 놓치기 쉽다. 다만 아래 분류는 개념의 최초 발명자를 뜻하지 않는다. **Vim에도 유사 기능이 있는지**와 **Neovim이 어떤 API를 기본 제공하는지**를 구분한다.
