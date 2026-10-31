@@ -9,6 +9,8 @@ pin         : false
 hidden      : false
 ---
 
+코드 진단·Quickfix·Trouble의 기본 관계는 [코드 진단과 결과 탐색](./2026-05-04-lazyvim-leader-x-trouble.md)에 정리했다.
+
 LazyVim에서 "에러 로그를 보고 싶다"고 할 때 실제로 찾는 대상은 서로 다를 수 있다. 먼저 **코드 진단(Diagnostics), LSP 통신 로그, Neovim 메시지 기록**을 구분하면 필요한 화면으로 바로 갈 수 있다.
 
 ```text
@@ -132,4 +134,4 @@ LSP가 이상하게 동작한다
 :w lsp-debug.log
 ```
 
-Trouble의 키맵과 Diagnostics·Quickfix·Location List의 관계는 [LazyVim Trouble — 코드 문제와 목록 탐색](./2026-05-04-lazyvim-leader-x-trouble.md)에서 별도로 다룬다. 이 글의 목적은 **문제가 있을 때 어떤 정보원을 어디서 확인할지 빠르게 선택하는 것**이다.
+코드 진단이 생성·관리·표시되는 구조와 Trouble·Quickfix·Location List의 관계는 [Neovim 코드 진단과 결과 탐색](./2026-05-04-lazyvim-leader-x-trouble.md)에서 다룬다. 이 글은 **LSP 통신 로그와 Neovim 메시지까지 포함해 문제가 있을 때 무엇을 확인할지 선택하는 절차**에 집중한다.
