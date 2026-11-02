@@ -3,7 +3,7 @@ title       : "Neovim 로드맵 — 편집 모델·상태·확장 구조"
 description : "Neovim의 편집 모델, Buffer·Window·Tabpage 상태, Runtime API, 플러그인 시스템과 외부 도구 연동의 실제 관계를 보여주는 거시 개념지도."
 date        : 2026-06-16 23:00:00 +0900
 permalink   : /posts/neovim/2026-06-16-neovim-roadmap/
-updated     : 2026-10-25 20:00:00 +0900
+updated     : 2026-10-31 18:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
 tags        : [roadmap, vim, lua, lazyvim]
 pin         : false
@@ -13,87 +13,96 @@ redirect_from:
   - /posts/lazyvim/2026-06-08-vim-neovim-lazyvim-feature-layers/
 ---
 
-Neovim은 Vim의 모달 편집 모델을 계승하면서 편집기 상태를 API로 노출하고 플러그인·외부 프로세스와 연동하는 확장 가능한 편집기다. 이 로드맵은 **기존 글의 학습 순서가 아니라 Neovim 자체의 구성요소와 관계**를 보여준다. 세부 문서의 존재 여부는 지도에 포함할 개념을 결정하지 않는다.
+## 왜 Neovim이 등장했을까?
+
+Vim은 이미 Mode·Motion·Text Object 등 강력한 편집 모델과 Vimscript 기반 플러그인 생태계를 갖고 있었다. 문제는 편집 기능의 부족이라기보다, 복잡해지는 플러그인과 외부 프로그램·UI를 **어떤 구조로 연결하고 유지보수할 것인가**였다.
+
+기존 Vim에서도 플러그인과 외부 연동은 가능했다. 다만 확장 요구가 커질수록 편집기 내부 실행 환경과 코드 구조에 의존하는 방식은 외부 프로그램·별도 UI·비동기 작업을 일관되게 연결하고 유지보수하는 데 부담이 되었다. Neovim은 단순히 기능을 더하는 대신 **확장을 위한 경계와 인터페이스를 재설계**하는 길을 택했다.
+
+Neovim은 2014년 Vim을 포크해 C 코어와 편집 모델을 계승하면서 내부 구조를 리팩터링하고, **공개 API·RPC·비동기 실행·Lua 확장 환경**을 중요한 설계 축으로 삼았다. 이는 Vim에서 원천적으로 불가능한 기능을 만들었다는 뜻은 아니다. Vim도 이후 Vim9script·Job·Channel 등을 발전시켰다. 차이는 **확장을 아키텍처에서 어떻게 다루고, 어떤 개발 방향으로 유지할 것인가**에 있었다.
+
+이러한 분기는 기술뿐 아니라 **오픈소스 라이선스와 프로젝트 거버넌스**의 문제이기도 하다. Vim License는 조건을 지키는 수정·재배포를 허용하므로, Neovim은 Vim 관리자의 별도 승인을 받아야만 포크할 수 있었던 것은 아니다. 다만 계승한 코드에는 기존 라이선스 의무가 남는다. 독립 프로젝트가 된 Neovim은 자체 개발 방향과 기여 방식을 선택할 수 있었다.
+
+```text
+            Vim의 강력한 편집 모델
+                      │
+                      ▼
+             확장·통합 요구 증가
+                      │
+            ┌─────────┴─────────┐
+            ▼                   ▼
+           Vim                Neovim
+      기존 구조 발전        확장 경계 재설계
+            │                   │
+       Vim9script         공개 API / RPC
+       Job / Channel      Lua / 비동기 구조
+            │                   │
+            └─────────┬─────────┘
+                      ▼
+              각자의 플러그인 생태계
+```
+
+이후 Neovim은 내장 LSP Client, Tree-sitter 통합, Extmark·Floating Window 등 확장 기반을 발전시켰다. 이 기능들이 모두 RPC에서 직접 파생된 것은 아니다. **공통 API와 실행 환경을 활용해 기능을 조합하기 쉬워졌다는 점**이 중요하다. LazyVim은 그 위에 플러그인·설정·키맵을 조립한 배포판이다.
+
+이 로드맵은 이런 설계 방향이 **편집 모델 → 상태·API → 외부 통합 → 플러그인 생태계**로 어떻게 연결되는지 보여주는 개념지도다.
 
 ## 전체 개념지도
 
 ```text
 Neovim
-├─ 편집 모델
+├─ 편집 모델 (Vim 계승)
 │  ├─ Mode / Operator / Motion / Text Object
-│  └─ Register / Mark / Macro / Undo
-├─ 편집기 상태
-│  ├─ Buffer ── 문서 내용과 편집 상태
-│  ├─ Window ── Buffer를 표시하는 View
-│  ├─ Tabpage ── Window 레이아웃의 집합
-│  └─ Option / Keymap / Command
-├─ Runtime·확장
-│  ├─ Lua / Vimscript / vim.api / vim.fn
-│  ├─ Event / Autocommand / Async / Job / RPC
-│  └─ Plugin / runtimepath / Package
-├─ 언어·개발 도구 통합
-│  ├─ Treesitter ── 구문 구조·하이라이트 등에 활용
-│  ├─ LSP Client ↔ Language Server
-│  └─ DAP Client ↔ Debug Adapter ↔ Debugger
-└─ UI·설정
-   ├─ Built-in TUI / External UI
-   ├─ User Config / Plugin Manager
-   └─ LazyVim 등 선택적 설정 배포판
-
-핵심 관계
-편집 동작 ──> Buffer의 내용·상태 변경
-Window ──displays──> Buffer (여러 Window가 같은 Buffer 표시 가능)
-Tabpage ──contains──> Window (Window는 해당 Tabpage에 속함)
-Plugin ──uses──> Runtime API ──reads/modifies──> 편집기 상태
+│  └─ Register / Mark / Quickfix / Undo
+├─ 편집기 상태·표시
+│  ├─ Buffer ── Window ── Tabpage
+│  └─ Extmark ── Virtual Text / Highlight
+├─ 확장 기반
+│  ├─ Lua / Vimscript ── Runtime API ── Core
+│  ├─ Event ── Autocommand
+│  └─ Job (프로세스 실행) / RPC (프로세스 간 호출)
+├─ 언어 기능
+│  ├─ Tree-sitter ── 구문 트리
+│  └─ LSP Client ── Language Server
+│       └─ Diagnostics / Definition / References
+└─ UI·배포
+   ├─ Floating Window / External UI
+   └─ Plugin Manager / LazyVim
 ```
 
-이 지도에서 **편집 모델**은 사용자가 어떤 동작을 요청하는지, **편집기 상태**는 무엇을 표시·변경하는지, **Runtime API**는 기능을 어떻게 확장하는지를 구분한다. 각 개념은 기존 게시글의 유무와 관계없이 필요한 위치에 놓는다.
+**핵심 관계:** 편집 동작은 Buffer를 바꾸고, Window는 Buffer를 표시하며, Tabpage는 Window 배치를 담는다. 플러그인은 API로 편집기 상태를 읽고 바꾼다. Extmark는 편집 중 위치와 화면 장식을 관리한다.
 
-## 핵심 개념과 관계
+## 무엇을 계승하고 무엇을 확장했나?
 
-### 편집 모델과 편집기 상태
+| 구분 | 대표 개념 | 의미 |
+|---|---|---|
+| Vim 계승 | Mode·Motion·Mark·Quickfix·Location List | 편집과 위치 탐색의 기본 모델 |
+| Neovim 구현 | 공개 API·MessagePack-RPC·Extmark·Floating Window | 편집기 상태 접근과 확장 UI |
+| Neovim 구현 | LSP Client·`vim.diagnostic` | 언어 서버 통신과 진단 관리 |
+| 외부 기술 통합 | LuaJIT·libuv·Tree-sitter | 내부 실행·비동기·구문 분석 기반 |
 
-Mode는 키 입력이 어떤 편집 동작으로 해석되는지에 영향을 준다. Operator는 Motion 또는 Text Object와 결합해 범위를 대상으로 동작할 수 있다. Register는 yank·delete 등의 결과를 보관하고, Undo는 변경 이력을 관리한다.
+**기술의 출처와 실행 위치는 다르다.** Tree-sitter는 외부 프로젝트지만 파서는 보통 Neovim 프로세스 안에서 실행된다. LSP Client도 내부에 있지만 Language Server는 보통 외부 프로세스다. Neovim이 Lua·RPC·LSP 자체를 발명한 것은 아니며, Vim에도 Job·Channel·Popup·Text Properties 같은 유사 기능이 있다.
+
+## 확장과 외부 프로세스의 관계
 
 ```text
-Tabpage
-├─ Window A ──displays──> Buffer X
-└─ Window B ──displays──> Buffer X
-
-다른 Tabpage의 Window도 Buffer X를 표시할 수 있음
+┌────────────── Neovim 프로세스 ──────────────┐
+│ Lua Plugin ──> 공개 API ──> Core / Buffer  │
+│ Tree-sitter Parser       LSP Client ───────┼── JSON-RPC ──> Language Server
+│ Job ───────────────────────────────────────┼── 실행 ─────> 외부 프로그램
+└────────────────────────────────────────────┘
+외부 프로그램 ── MessagePack-RPC ──> Neovim 공개 API
 ```
 
-Buffer는 문서 내용의 중심이고 Window는 이를 표시하는 뷰다. Tabpage는 Window들의 배치를 구성한다. 관련 설명은 [Vim·Neovim 작동 원리](./2025-10-04-vim-core-engine.md)와 [Register](./2025-09-24-vim-register.md)를 참고한다. 기본 키 조작은 [Devkit Vim Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/vim.md)에서 확인할 수 있다.
+**API는 호출 가능한 기능, RPC는 프로세스 경계를 넘는 호출 방식, Job은 프로세스 실행·관리**를 뜻한다. Lua는 내부 플러그인을 작성하는 언어다. Vim은 Vim9script·Job·Channel을 발전시켰고, Neovim은 Lua·공개 API·RPC 중심 확장 구조를 강화했다. 이는 서로 다른 설계 선택이지 어느 한쪽에 기능이 전혀 없다는 뜻은 아니다.
 
-### Runtime API와 플러그인
+## 더 깊이 보기
 
-Neovim은 Lua·Vimscript와 API를 통해 Buffer·Window·Option 등 편집기 상태를 조회·변경할 수 있다. Autocommand는 특정 Event에 반응하도록 기능을 연결하고, Job·RPC는 외부 프로그램과 상호작용하는 통로를 제공한다.
+| 관심 영역 | 상세 문서 |
+|---|---|
+| 편집 모델·기본 조작 | [Vim 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/vim.md) · [Vim 작동 원리](./2025-10-04-vim-core-engine.md) |
+| Lua·API·Event·Job·RPC | [Runtime·API](./2026-06-19-neovim-runtime-api-events-processes.md) |
+| Buffer·Window·Extmark | [편집기 상태와 화면 장식](./2026-06-19-neovim-buffer-window-extmark.md) |
+| LSP·Diagnostics·결과 탐색 | [LSP 구성](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md) · [코드 진단과 탐색](./2026-05-04-neovim-code-diagnostics-and-navigation.md) |
+| 플러그인 조합·설정 | [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md) · [Neovim 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/neovim.md) |
 
-```text
-Plugin / User Config
-        │
-        ├─ Runtime API ──> Buffer / Window / Option
-        ├─ Event ──> Autocommand
-        └─ Job / RPC ──> External Process
-```
-
-세부 구조는 [Neovim API 지도](./2026-06-19-neovim-vim-global-api-map.md), [Buffer·Window·Extmark](./2026-06-19-neovim-buffer-window-extmark.md), [Autocommand·Event](./2026-06-19-neovim-autocommand-events.md), [비동기·Job](./2026-06-19-neovim-async-vim-uv-system.md)에서 필요에 따라 살펴본다.
-
-### 외부 개발 도구와 UI
-
-Neovim의 LSP Client는 Language Server와 프로토콜로 통신하고, DAP 연동은 Debug Adapter를 통해 디버거 기능을 제공한다. Treesitter는 구문 트리를 활용하는 별도의 기능군이다. 이들은 플러그인 제작의 후속 단계가 아니라 **편집기 기능을 구성하는 서로 다른 통합 경로**다.
-
-LSP는 [Mason·nvim-lspconfig·vim.lsp의 역할](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md), DAP는 [Debug Adapter Protocol](./2026-07-12-nvim-dap-debug-adapter-protocol.md)에서 더 자세히 다룬다. 터미널 UI의 입출력 구조는 [Terminal 로드맵](../terminal/2026-09-05-00-terminal-roadmap.md)과 연결된다.
-
-## 필요한 경우 더 깊이 살펴보기
-
-전체 지도의 개념을 이해하는 데 별도 문서가 필수인 것은 아니다. 특정 개념의 원리나 구현이 궁금할 때만 아래 자료로 이동한다.
-
-- 편집 상태와 내부 구조: [Vim·Neovim 작동 원리](./2025-10-04-vim-core-engine.md), [Buffer·Window·Extmark](./2026-06-19-neovim-buffer-window-extmark.md)
-- 확장 API: [Neovim API 지도](./2026-06-19-neovim-vim-global-api-map.md), [Autocommand·Event](./2026-06-19-neovim-autocommand-events.md)
-- 외부 개발 도구: [LSP](./2026-07-08-neovim-lsp-three-layers-mason-lspconfig-vimlsp.md), [DAP](./2026-07-12-nvim-dap-debug-adapter-protocol.md)
-- 선택적 설정·확장: [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md), [Plugin 구조](./2026-06-12-neovim-plugin-conventions.md)
-
-## 다른 로드맵과의 경계
-
-Neovim의 편집 모델·상태·API는 이 문서에서 다룬다. [Terminal](../terminal/2026-09-05-00-terminal-roadmap.md)은 PTY·터미널 렌더링, [tmux](../tmux/2026-06-16-00-tmux-roadmap.md)는 세션·pane 관리, [dotfiles](../shell/2026-07-08-00-dotfiles-roadmap.md)는 설정 파일의 머신 간 재현을 다룬다. 일반적인 프로그래밍 언어·운영체제 개념은 해당 개념지도에서 확인한다.
+**경계:** Terminal은 PTY·렌더링, tmux는 세션·pane, dotfiles는 설정 재현을 다룬다. 이 문서는 Neovim의 내부 구성과 확장 경계만 다룬다.

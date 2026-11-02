@@ -1,189 +1,160 @@
-# 소프트웨어 라이선스 — 배포 의무와 Copyleft 경계
+# 소프트웨어 라이선스 — 권리·분류·배포 의무와 Copyleft 경계
 
-> 연결: [[00-전체|소프트웨어 공학 개념지도]]
+> 연결: [소프트웨어 공학 개념지도](00-전체.md)
 
-소프트웨어 라이선스는 이름을 외우기보다 **어떤 행위가 어떤 의무를 발생시키고, 그 의무가 어디까지 퍼지는지**로 이해한다.
+소프트웨어 라이선스는 **저작권자가 다른 사람에게 어떤 이용 권한을 주고, 그 대가로 어떤 조건을 요구하는지** 정하는 규칙이다. 핵심은 라이선스 이름 암기가 아니라 **왜 필요한가 → 무엇을 허용하는가 → 언제 어떤 의무가 생기는가**를 연결하는 것이다.
 
-## 1. 먼저 판단 질문을 고정한다
+## 1. 왜 라이선스가 필요한가?
 
-```text
-정확한 License와 Version은 무엇인가?
-        ↓
-내부 사용인가, 외부 배포인가?
-        ↓
-원본을 수정했는가?
-        ↓
-다른 코드와 어떤 방식으로 결합했는가?
-        ↓
-어느 범위가 Covered Work인가?
-        ↓
-Source·License·Notice 제공 의무는 무엇인가?
-        ↓
-Patent·Trademark 등 별도 조건이 있는가?
-```
-
-AGPL처럼 Network Interaction 자체가 추가 Trigger가 되는 License도 있으므로 `배포 여부`만으로 모든 License를 판단하지 않는다.
-
-## 2. Permissive와 Copyleft
+소스코드가 공개되어 있다는 사실만으로 누구나 복제·수정·재배포할 수 있는 것은 아니다. 소프트웨어에는 저작권이 적용되며, 라이선스는 저작권자가 이용자에게 허용하는 행위와 조건을 명시한다.
 
 ```text
-Permissive
-├─ MIT
-├─ BSD
-└─ Apache-2.0
-
-Copyleft
-├─ MPL-2.0   → File 단위 성격
-├─ LGPL      → Library 경계 중심
-├─ GPL       → 더 넓은 Covered Work
-└─ AGPL      → GPL 계열 + Network Interaction
+소프트웨어 저작권 (권리의 출발점)
+         │
+         └─ 라이선스로 이용 권한 부여
+                 ├─ 실행·사용
+                 ├─ 복제·수정
+                 └─ 배포·재배포
+                       └─ 조건: 고지 / 소스 제공 / 특허 등
 ```
 
-이 그림은 단순 강도 순위가 아니라 **의무가 전파되는 경계**를 잡기 위한 것이다.
+**저작권과 라이선스는 다르다.** 라이선스가 있다고 저작권이 사라지거나 이용자에게 이전되는 것은 아니다. 특히 GitHub 공개 저장소에 명시적 라이선스가 없다면 자유로운 재사용·재배포를 당연하게 가정할 수 없다.
 
-## 3. Permissive License
+특허는 저작권과 별도 권리이며, 상표 사용 권한도 소스코드 이용 허락과 구별한다. 라이선스마다 특허 허여·종료 조항이 다르다.
 
-### MIT / BSD
+## 2. 어떤 라이선스 체계가 있는가?
 
-상업적 사용·수정·재배포를 폭넓게 허용한다. 일반적으로 자체 Source 공개 의무보다 Copyright·License Notice 보존을 먼저 확인한다.
-
-BSD는 2-Clause, 3-Clause 등 Variant가 있으므로 `BSD`라는 이름만 보고 처리하지 않고 정확한 SPDX Identifier와 원문을 확인한다.
-
-### Apache License 2.0
-
-Permissive 계열이지만 Patent 조항과 Attribution 조건이 더 명시적이다.
+먼저 **독점형(Proprietary)과 오픈소스(Open Source)**를 구분하고, 오픈소스 안에서 의무의 범위를 비교한다. 독점형도 무료 제공될 수 있고, 오픈소스도 상업적으로 판매할 수 있다. 따라서 **무료/유료와 오픈소스/독점형은 다른 분류축**이다.
 
 ```text
-사용·수정·재배포
-→ 허용
-
-자체 Source 공개
-→ 일반적으로 요구하지 않음
-
-배포
-→ License·Notice 조건 확인
-
-Patent
-→ Contributor Patent Grant와 Termination 조항 확인
+소프트웨어 라이선스
+├─ 독점형 — 계약에서 허용한 사용·복제·배포 범위
+└─ 오픈소스 — 소스 접근·수정·재배포 권한을 조건부 허용
+   ├─ 허용형 (Permissive)
+   │  ├─ MIT / BSD
+   │  └─ Apache-2.0
+   └─ Copyleft — 파생·결합 코드에 의무가 미치는 경계가 핵심
+      ├─ 약한 Copyleft
+      │  ├─ MPL-2.0 — 파일 경계
+      │  └─ LGPL — 라이브러리 결합 경계
+      └─ 강한 Copyleft
+         ├─ GPL — 적용 대상 저작물의 배포
+         └─ AGPL — GPL 계열 + 특정 네트워크 상호작용
 ```
 
-`NOTICE`는 항상 새 파일을 만들어 아무 내용을 넣으라는 뜻이 아니다. 받은 Work에 NOTICE가 있다면 해당 Attribution을 License가 요구하는 방식으로 보존하는지 확인한다.
+Copyleft는 **수정·재배포의 자유가 후속 이용자에게도 유지되도록** 특정 배포 조건을 부과하는 접근이다. '약함/강함'은 품질이나 자유의 우열이 아니라, 의무가 미치는 범위를 이해하기 위한 대략적인 구분이다.
 
-## 4. Copyleft License
+### 허용형 — MIT / BSD / Apache 2.0
 
-### GPL
+MIT와 BSD는 상업적 이용·수정·재배포를 폭넓게 허용하며, 일반적으로 저작권·라이선스 고지를 유지해야 한다. BSD는 2-Clause·3-Clause 등 변형이 있으므로 정확한 버전을 확인한다.
 
-내부에서 실행한다는 사실만으로 곧바로 Source 공개 의무가 생기는 것은 아니다. 대표 Trigger는 Covered Work를 외부에 배포(Convey)하는 상황이다.
+Apache License 2.0 역시 자체 소스 공개를 일반적으로 요구하지 않는 허용형이지만, **명시적 기여자 특허 라이선스와 특허 관련 종료 조항**, 라이선스·변경·NOTICE 관련 조건을 함께 확인해야 한다. NOTICE는 무조건 새로 만드는 문서가 아니라, 배포받은 저작물에 해당 고지가 있을 때 요구되는 방식으로 보존할 내용이다.
+
+### Copyleft — MPL / LGPL / GPL / AGPL
+
+- **MPL 2.0:** 파일 단위 Copyleft. MPL 적용 파일을 수정·배포하면 해당 파일에 의무가 생기지만, 별도 파일로 구성한 Larger Work는 조건에 따라 다른 라이선스와 결합할 수 있다.
+- **LGPL:** 라이브러리 자체와 이를 사용하는 애플리케이션의 경계를 중심으로 판단한다. 라이브러리 수정, 결합·배포 방식, 교체·재링크 가능성 및 LGPL 버전을 함께 본다.
+- **GPL:** 적용 대상 파생 저작물(Covered Work)을 배포할 때 Corresponding Source(해당 저작물의 대응 소스코드) 제공 등 조건이 발생할 수 있다. 단순한 내부 실행만으로 공개 의무가 생기는 것은 아니다.
+- **AGPL:** GPL 계열의 의무에 더해, 수정된 적용 대상 프로그램과 사용자가 네트워크로 상호작용하는 경우 소스 접근 제공 조건을 둔다. 모든 SaaS 코드가 자동으로 공개 대상이 되는 것은 아니다.
+
+| 라이선스 | 대표 판단 경계 | 우선 확인할 의무 |
+|---|---|---|
+| MIT / BSD | 재배포물 | 저작권·라이선스 고지 |
+| Apache-2.0 | 재배포물·기여 특허 | LICENSE·NOTICE·변경 고지·특허 |
+| MPL-2.0 | 적용 대상 파일 | 해당 파일 소스·고지 |
+| LGPL | 라이브러리·결합 방식 | 소스·교체·재링크 조건 |
+| GPL | 적용 대상 저작물의 배포 | Corresponding Source |
+| AGPL | 적용 대상 저작물 + 특정 네트워크 상호작용 | 소스 접근 제공 |
+
+이 표는 법적 결론표가 아니라 **어떤 경계와 조항부터 살펴볼지 알려주는 지도**다. 실제 의무는 정확한 라이선스 버전과 결합·배포 방식에 달려 있다.
+
+## 3. 언제 의무가 발생하고 어디까지 적용되는가?
+
+라이선스 검토는 세 질문으로 압축할 수 있다.
 
 ```text
-Covered Binary 배포
-        ↓
-Corresponding Source 제공 조건 확인
-        ↓
-어디까지 Covered Work인지 결합 구조 검토
+Trigger — 어떤 행위인가?
+  내부 사용 / 수정 / 배포 / 네트워크 상호작용
+                       ↓
+Boundary — 어떤 코드에 적용되는가?
+  파일 / 라이브러리 / 적용 대상 저작물
+                       ↓
+Obligation — 무엇을 해야 하는가?
+  소스 제공 / 라이선스·저작권 고지 / 특허 조건
 ```
 
-`GPL Library 사용 = 저장소 전체 공개`처럼 기계적으로 판단하지 않는다. Version, 결합 방식, 프로그램 구조를 실제 License Text와 함께 본다.
+**Trigger(의무 발생 조건) + Boundary(적용 범위) + Obligation(준수 의무)**를 함께 판단해야 한다.
 
-### AGPL
+대표적인 오해를 구분한다.
 
-GPL 계열의 Copyleft에 Network Interaction에 관한 Source 제공 조건을 추가한다.
+- `GPL 라이브러리를 사용했다 = 저장소 전체 공개`: 실제 라이선스·결합 방식·적용 대상 저작물의 범위를 검토해야 한다.
+- `LGPL은 동적 링크만 하면 끝`: 버전별 고지·소스·교체 및 재링크 조건도 확인해야 한다.
+- `Apache는 NOTICE 파일을 무조건 새로 작성`: 전달받은 NOTICE의 존재와 적용 조건부터 확인한다.
+- `AGPL을 서버에서 실행하면 모든 코드 공개`: 수정 여부, 적용 대상 프로그램과 네트워크 상호작용 조건을 구별한다.
+
+라이선스 **호환성**도 별도 판단 대상이다. 두 코드를 각각 사용할 수 있어도 하나의 배포물로 결합할 때 조건이 충돌할 수 있다. 정확한 라이선스 버전, 예외 조항, 결합 방식과 재배포 형태를 함께 검토한다.
+
+## 4. Fork는 왜 가능한가? — Vim과 Neovim
+
+Fork는 기존 소스코드를 바탕으로 독립적인 개발 흐름을 만드는 것이다. **GitHub의 Fork 버튼은 저장소를 복사하는 기능**이고, 코드를 수정·재배포할 법적 권한은 별도의 라이선스에서 나온다.
 
 ```text
-AGPL Program인가?
-→ 수정했는가?
-→ 사용자가 Network로 그 Program과 상호작용하는가?
-→ 어떤 Source 접근 의무가 적용되는가?
+Vim — Vim License
+  │
+  ├─ 기존 프로젝트: 자체 개발 방향 유지
+  │
+  └─ 라이선스 조건에 따라 Fork
+           ↓
+       Neovim
+       ├─ 계승한 코드 → 기존 라이선스 의무 유지
+       └─ 새로운 기여 → 해당 기여에 적용되는 라이선스
+           ↓
+       독립적인 기술 방향·거버넌스
 ```
 
-`SaaS이면 무조건 전부 공개`처럼 단순화하지 않는다.
+Vim License는 조건부 수정·재배포를 허용하므로, Neovim이 Fork할 때 Vim 관리자의 **매번 별도 승인을 받을 필요는 없었다**. 그렇다고 계승한 코드의 저작권이나 라이선스 의무가 사라지는 것은 아니다. Neovim에는 Vim License 적용 코드와 Apache 2.0 적용 코드가 공존한다.
 
-### LGPL
+이 사례는 두 층을 구분하게 한다.
 
-Library와 이를 사용하는 Application 사이의 경계를 중심으로 본다.
+- **라이선스:** 독립적인 수정·배포가 가능한 법적 조건
+- **거버넌스:** 누가 변경을 수용하고 개발 방향·릴리스 정책을 결정하는가
 
-- LGPL Library 자체를 수정했는가
-- 어떤 방식으로 결합·배포하는가
-- 사용자가 Library를 교체·재링크할 수 있는 조건을 충족하는가
-- 사용하는 LGPL Version이 무엇인가
+즉, 오픈소스 라이선스는 독립적인 개발을 가능하게 하고, Fork는 기존 프로젝트와 다른 설계·운영 선택을 실현할 수 있게 한다. 단, 모든 오픈소스 라이선스가 동일한 조건으로 재라이선싱을 허용하는 것은 아니다.
 
-Static/Dynamic Linking 하나만으로 결론을 자동화하지 않는다.
+## 5. 기업에서는 어떻게 관리하는가?
 
-### MPL 2.0
-
-흔히 File-level Copyleft로 설명한다.
+라이선스 의무는 소스 저장소의 직접 의존성 목록만으로 결정하지 않는다. **실제로 배포되는 산출물**에 무엇이 포함되는지 확인해야 한다.
 
 ```text
-MPL Covered File 수정
-→ 해당 Covered File에 MPL 의무
-
-별도 File로 Larger Work 구성
-→ 다른 License와 결합 가능한 범위 존재
+의존성 선정 (직접·전이 의존성)
+            ↓
+SCA — 구성요소·라이선스 식별
+            ↓
+Build / Bundle
+            ↓
+배포 산출물과 SBOM 대조
+            ↓
+Trigger / Boundary / Obligation 검토
+            ↓
+LICENSE / NOTICE / Source 제공 준비
+            ↓
+Release Gate — 검토·승인·기록
 ```
 
-실제 Covered Software와 Larger Work 정의는 MPL 원문을 기준으로 확인한다.
+SCA(Software Composition Analysis)는 구성요소와 라이선스·취약점 등을 분석하는 활동·도구이고, SBOM(Software Bill of Materials)은 소프트웨어 구성요소 명세다. **SBOM 생성 자체가 라이선스 준수를 보장하지는 않는다.** 실제 포함된 코드·자산, 수정 여부, 배포 형태, 필요한 고지와 소스 제공을 검증해야 한다.
 
-## 5. 비교축
+OSS 거버넌스는 승인된 라이선스 정책, 예외 심사, 컴플라이언스 담당자, 공급망 위험 및 릴리스 검증을 연결하는 관리 체계다.
 
-| License | 계열 | 먼저 볼 경계 | 대표 추가 조건 |
-|---|---|---|---|
-| MIT | Permissive | Notice 보존 | 단순 |
-| BSD | Permissive | 정확한 Variant·Notice | 조항별 차이 |
-| Apache-2.0 | Permissive | License·NOTICE | 명시적 Patent 조항 |
-| MPL-2.0 | Weak Copyleft | Covered File | File-level 경계 |
-| LGPL | Weak Copyleft | Library 결합·재링크 | Version별 확인 |
-| GPL | Strong Copyleft | Covered Work 배포 | Corresponding Source |
-| AGPL | Strong Copyleft | Covered Work + Network Interaction | Network Source 제공 조건 |
-
-이 표는 법적 결론표가 아니라 **어느 조항을 읽어야 하는지 찾는 학습 지도**다.
-
-## 6. 실무에서는 Dependency 목록보다 배포 Artifact를 본다
+## 6. 기술사 관점의 인출 좌표
 
 ```text
-Source Dependency
-        ↓
-Build
-        ↓
-Distribution Artifact
-        ↓
-실제로 포함된 Component·License·Notice
+WHY   저작권 → 이용 권한 부여
+WHAT  독점형 / 오픈소스 → 허용형 / Copyleft
+HOW   Trigger + Boundary → Obligation
+CASE  Fork의 권한 ≠ 프로젝트 거버넌스
+OPS   SCA / SBOM → 배포물 검증 → Compliance
 ```
 
-직접 Dependency만 보지 않고 Transitive Dependency, bundled asset까지 확인한다. Release 단계에서는 SBOM이나 License Report를 통해 실제 배포물의 구성요소를 확인하고 필요한 License Text와 Attribution을 반영한다.
+**핵심 문장:** 라이선스는 사용 가능 여부만 정하는 이름표가 아니라, 권한과 의무를 정의하고 오픈소스 재사용·Fork·기업의 소프트웨어 공급망 관리를 연결하는 규칙이다.
 
-## 7. 기술사 관점의 핵심
-
-OSS License는 단순 법률 용어 암기가 아니라 **소프트웨어 공급망과 배포 위험을 통제하는 외부 제약**으로 본다.
-
-```text
-Dependency 선택
-        ↓
-License·Version 식별
-        ↓
-사용·수정·배포·Network 제공 방식 확인
-        ↓
-Copyleft / Notice / Patent 의무 판단
-        ↓
-SBOM·배포 Artifact로 재검증
-        ↓
-Release Gate / Compliance
-```
-
-## 8. 기억·인출
-
-```text
-License 판단 = 이름이 아니라 Trigger + Boundary
-
-Trigger
-→ 사용 / 수정 / 배포 / Network Interaction
-
-Boundary
-→ File / Library / Covered Work
-
-Obligation
-→ Source / License / Notice / Patent
-```
-
-> `오픈소스 사용 = 내 코드 공개`, `Apache = NOTICE 무조건 작성`, `LGPL = Dynamic Linking이면 끝` 같은 단정을 피한다. 실제 의무는 License Version, 행위, 결합 구조, 배포 방식의 조합에서 결정된다.
-
-> 이 문서는 기술·컴플라이언스 관점의 학습 정리이며 법률 자문이 아니다. 실제 배포 판단은 적용 License 원문과 조직의 법무·컴플라이언스 절차를 따른다.
+> 이 문서는 기술사 학습을 위한 개념 정리이며 법률 자문이 아니다. 실제 제품 배포·라이선스 호환성 판단에는 적용 라이선스 원문과 법무·컴플라이언스 검토가 필요하다.
