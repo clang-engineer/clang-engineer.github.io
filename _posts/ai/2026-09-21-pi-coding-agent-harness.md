@@ -2,7 +2,7 @@
 title       : "Claude Code에서 OpenCode를 거쳐 pi까지 — AI 코딩 하네스를 점점 얇게 만든 기록"
 description : "Claude Code·Codex CLI에서 OpenCode와 oh-my-opencode를 거쳐 pi로 이동하며, 완제품 에이전트보다 얇은 하네스와 직접 조립하는 워크플로가 더 맞아진 과정을 정리한다."
 date        : 2026-09-21 22:30:00 +0900
-updated     : 2026-10-04 23:00:00 +0900
+updated     : 2026-11-04 14:40:00 +0900
 categories  : [ai, "코딩 에이전트"]
 tags        : [pi, jev, claude-code, codex, opencode, ai-coding, agent-skills, harness, plan-mode, pi-package]
 pin         : false
@@ -12,6 +12,7 @@ redirect_from:
 ---
 
 > 관련: [AI 코딩 도구 지형도](./2026-07-03-ai-coding-tools-landscape.md)의 터미널 에이전트 비교에서 이어지는 개인 사용 기록이다.
+> 함께 보기: [OMP란 무엇인가 — Pi와의 차이, 장점, 플러그인 호환성](./2026-11-04-omp-vs-pi-coding-agent.md)
 
 AI 코딩 도구를 옮겨 다닌 흐름을 돌아보면 단순히 "더 좋은 도구"를 찾은 과정이 아니었다. 내 경우에는 다음 순서에 가까웠다.
 
@@ -209,7 +210,7 @@ Claude Code / Codex CLI → OpenCode → pi로 갈수록 기본 제공 기능은
 
 ## 날것의 pi 위에 얹은 작은 레이어
 
-pi 생태계에는 아직 `oh-my-zsh`나 `oh-my-opencode`처럼 사실상 표준에 가까운 `oh-my-pi`가 굳어져 있지는 않다. 대신 pi package 단위로 작은 개선들이 흩어져 있다. 이 점도 pi답다. 하나의 큰 배포판을 설치한다기보다, 필요한 extension과 prompt template을 골라 얹는 방식이다.
+Pi 생태계에는 현재 Pi fork인 [OMP](./2026-11-04-omp-vs-pi-coding-agent.md)가 있다. OMP는 LSP, debugger, browser, subagent 같은 개발 도구를 통합한 batteries-included 하네스를 제공한다. 다만 이 절에서 선택한 방향은 통합 배포판으로 옮기는 대신 Pi의 얇은 core를 유지하고 필요한 Package만 골라 붙이는 방식이다.
 
 내가 원한 것은 기능을 많이 늘리는 것이 아니라, pi의 날것 느낌을 줄이고 토큰을 덜 쓰는 기본값을 만드는 것이었다. 그래서 무거운 workflow package보다 먼저 다음 조합을 붙였다.
 
