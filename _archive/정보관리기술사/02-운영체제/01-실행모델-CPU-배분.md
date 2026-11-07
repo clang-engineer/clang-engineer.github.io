@@ -91,7 +91,33 @@ Ready 상태의 실행 주체가 여럿이면, 한정된 CPU를 누구에게 먼
 
 정책에는 Trade-off가 따른다. FCFS의 Convoy Effect, SJF·Priority의 Starvation, 짧은 RR Time Quantum의 전환 비용 증가가 대표적이다. 공유 자원과 우선순위가 만날 때 발생하는 Priority Inversion은 동시성·자원 공유 영역과 연결된다.
 
-Scheduler는 개입 범위로도 구분한다. **Long-term**은 Job 수용, **Short-term**은 다음 CPU 실행 대상 선택, **Medium-term**은 Suspend/Resume 등 작업 집합 조절을 설명하는 전통적 분류다. 현대 OS마다 구현·적용 방식은 다르다.
+### 스케줄러의 개입 범위 — 장기·중기·단기
+
+스케줄러는 **어느 작업 집합을, 어느 시점에 조절하는가**에 따라 구분한다. 이 분류는 CPU 배분 알고리즘(FCFS·RR 등)과 다른 축이다.
+
+~~~text
+Job Pool
+   │ 장기 스케줄러: 시스템 수용(Admission)
+   ▼
+Ready Queue ── 단기 스케줄러: 다음 실행 대상 선택 ──→ Running
+   ▲                                                  │
+   ├────────────────── 선점 ──────────────────────────┤
+   └──── I/O 완료 ─── Waiting ◀──── I/O·Event 대기 ───┘
+
+중기 스케줄러: 일부 작업의 Suspend / Resume를 통해
+             메모리·실행 가능 작업 집합을 조절
+~~~
+
+| 구분 | 개입 범위 | 핵심 질문 |
+|---|---|---|
+| 장기(Long-term) | Job 수용, 다중 프로그래밍 정도 조절 | 어떤 작업을 시스템에 받아들일까? |
+| 중기(Medium-term) | Suspend / Resume, 필요 시 Swapping | 어떤 작업을 일시 중단·재개할까? |
+| 단기(Short-term) | Ready 작업 중 CPU 실행 대상 선택 | 지금 누구에게 CPU를 줄까? |
+
+세 스케줄러는 **순차 실행되는 3단계가 아니라 서로 다른 범위의 결정**이다. 전통적인 운영체제의 개념 분류이며, 현대 OS에 세 구성요소가 항상 독립적으로 구현되는 것은 아니다.
+
+### 스케줄링 정책의 목표와 알고리즘
+
 
 ## 4. 어떻게 실행 주체를 바꾸는가? — Dispatch와 Context Switch
 
