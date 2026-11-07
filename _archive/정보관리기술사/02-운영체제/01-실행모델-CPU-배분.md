@@ -2,7 +2,7 @@
 
 이 지도는 [운영체제 전체 개념지도](00-전체.md)에서 **Program이 Process·Thread라는 실행 단위가 되고, 여러 실행 주체가 한정된 CPU를 경쟁할 때 Scheduling과 Context Switch가 어떻게 연결되는지** 더 촘촘히 본다.
 
-세부 계산보다 `실행 단위 → Kernel 경계 → CPU 경쟁 → Scheduling → 전환 비용`의 관계와 대표 비교축을 잡는 것이 목적이다.
+세부 계산보다 `실행 단위 → Kernel 경계 → 상태 전이 → CPU 경쟁 → Scheduling → 전환 비용`의 관계와 대표 비교축을 잡는 것이 목적이다.
 
 ## 1. 실행 단위와 CPU 배분의 전체 흐름
 
@@ -14,15 +14,15 @@ Process
 └─ Thread(s)
     └─ 실제 실행 흐름
 
-여러 Runnable Process / Thread
+여러 Ready / Runnable Thread
+        ↓
+Ready Queue · 상태 전이
         ↓
       CPU 경쟁
         ↓
-     Scheduler
+Scheduling Policy / Scheduler
         ↓
-Scheduling Policy
-        ↓
-  Context Switch
+ Dispatch · 필요 시 Context Switch
         ↓
      CPU 실행
 ~~~
@@ -76,7 +76,44 @@ Thread를 User / Kernel 수준에서 어떻게 매핑하는지는 별도 구현 
 → [Thread 실행 모델 · User / Kernel Mapping](스레드-실행모델-User-Kernel-Mapping.md)  
 User Thread와 Kernel Thread의 매핑 방식이 Scheduling·병렬성·전환 비용에 어떤 차이를 만드는지 본다.
 
-## 4. CPU가 부족하면 Scheduling이 필요하다
+## 4. 실행 상태 전이가 CPU 배분의 출발점이다
+
+Process가 생성되었다고 항상 CPU에서 실행되는 것은 아니다. 실행 가능한 작업은 CPU를 기다리고, I/O나 이벤트를 기다리는 작업은 실행 대상에서 잠시 빠진다.
+
+~~~text
+New ──Admit──→ Ready ──Dispatch──→ Running ──Exit──→ Terminated
+                  ↑  ←─Preempt───┤
+                  │               │
+                  └─Event 완료── Waiting
+                                  ↑
+                         I/O·Event 대기
+                             (Running에서)
+~~~
+
+- **Ready**: 실행 준비가 끝나 CPU 배정을 기다리는 상태
+- **Running**: CPU를 배정받아 명령어를 실행하는 상태
+- **Waiting(Blocked)**: I/O나 이벤트 완료를 기다려 당장은 실행할 수 없는 상태
+
+핵심은 **Ready는 CPU가 필요하고, Waiting은 기다리는 조건의 충족이 먼저 필요하다**는 차이다. Waiting에서 곧바로 Running으로 가는 것이 아니라, 일반적으로 Ready로 돌아와 CPU 배정을 기다린다.
+
+~~~text
+여러 Ready Task
+      ↓
+Ready Queue / Runnable Set
+      ↓
+CPU Scheduling: 다음 실행 주체 선택
+      ↓
+Dispatch: 선택한 주체에 CPU 전달
+      ↓
+Running
+├─ 선점·Time Slice 만료 → Ready
+├─ I/O·Event 대기      → Waiting
+└─ 실행 종료           → Terminated
+~~~
+
+이는 개념적인 5상태 모델이다. 실제 OS는 Thread 중심으로 실행 상태를 관리하거나 더 세분화된 상태를 사용할 수 있다. 이 지도에서는 **상태 전이 때문에 CPU 배분이 반복해서 필요해진다**는 관계까지만 다룬다.
+
+## 5. CPU가 부족하면 Scheduling이 필요하다
 
 ~~~text
 Runnable Task 증가
@@ -105,7 +142,7 @@ Scheduling Policy 선택
 
 하나의 정책이 모든 지표를 동시에 최적화하지는 않는다.
 
-## 5. Scheduling의 대표 분류축과 Algorithm
+## 6. Scheduling의 대표 분류축과 Algorithm
 
 ~~~text
 CPU Scheduling
@@ -134,7 +171,7 @@ CPU Scheduling
 
 이들은 발전 단계가 아니라 Workload와 목표에 따라 선택하는 정책이다.
 
-## 6. 정책 선택에는 비용과 부작용이 따른다
+## 7. 정책 선택에는 비용과 부작용이 따른다
 
 ~~~text
 FCFS
@@ -156,7 +193,7 @@ Priority Inversion은 Scheduling과 공유 자원이 만나는 **교차 지점**
 → 동시성과 자원 공유 개념지도  
 Priority Inversion의 발생 구조와 Priority Inheritance / Priority Ceiling을 더 볼 때 내려간다.
 
-## 7. Context Switch는 Scheduling의 실행 비용이다
+## 8. Context Switch는 Scheduling의 실행 비용이다
 
 ~~~text
 Task A 실행
@@ -170,6 +207,8 @@ B 상태 복원
 Task B 실행
 ~~~
 
+System Call에 따른 User / Kernel Mode Switch가 항상 실행 주체의 Context Switch를 의미하는 것은 아니다. **Dispatch는 선택된 작업에 CPU를 넘기는 과정**이며, 다른 실행 주체로 교체될 때 Context Switch가 수반될 수 있다.
+
 Context Switch가 잦아지면 반응성·공정성은 좋아질 수 있지만 Application의 실제 작업이 아닌 전환 비용이 증가한다.
 
 ~~~text
@@ -180,7 +219,7 @@ Context Switch가 잦아지면 반응성·공정성은 좋아질 수 있지만 A
 
 따라서 Scheduling Policy와 Context Switch 비용은 함께 판단한다.
 
-## 8. Scheduler 종류는 개입 시점으로 구분한다
+## 9. Scheduler 종류는 개입 시점으로 구분한다
 
 ~~~text
 System에 Job 유입
@@ -201,7 +240,7 @@ Medium-term Scheduler
 
 Long / Medium / Short-term Scheduler는 우열 관계가 아니라 **어느 시점의 작업 집합을 조절하는가**의 차이다.
 
-## 9. 학습 경로
+## 10. 학습 경로
 
 ~~~text
 1. Process / Thread
@@ -210,13 +249,16 @@ Long / Medium / Short-term Scheduler는 우열 관계가 아니라 **어느 시�
 2. System Call / Kernel
    → Application과 보호된 자원의 경계
         ↓
-3. Scheduling
+3. 상태 전이 / Ready Queue
+   → 언제 CPU 배분이 필요해지는가
+        ↓
+4. Scheduling
    → CPU 경쟁을 어떤 정책으로 조절하는가
         ↓
-4. Context Switch
-   → 정책 결정이 실제 전환 비용으로 어떻게 나타나는가
+5. Dispatch / Context Switch
+   → 선택된 작업을 어떻게 실행하고 전환하는가
         ↓
-5. 공유 자원 문제가 보이면
+6. 공유 자원 문제가 보이면
    → 동시성 · 자원공유 지도로 이동
 ~~~
 
