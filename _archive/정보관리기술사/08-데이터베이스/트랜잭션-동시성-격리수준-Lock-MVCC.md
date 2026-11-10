@@ -715,6 +715,37 @@ X(B) 획득  ← 2PL 위반
 
 2PL은 Conflict 자체를 없애는 것이 아니라 **Conflict의 순서가 모순되지 않도록 Lock 운용을 제한하여 Conflict Serializable한 Schedule을 보장하는 Protocol**이다.
 
+### Strict 2PL은 왜 필요한가
+
+일반 2PL은 Lock 획득·해제 순서를 제한하여 **Conflict Serializability**를 보장하지만, Transaction이 Commit하기 전에 X Lock을 해제하는 것까지 금지하지는 않는다. 이때 다른 Transaction이 미확정 변경을 읽거나 그 위에 Write하면, 앞선 Transaction의 Rollback에 따라 **Cascading Rollback(연쇄 롤백)**이 필요해질 수 있다.
+
+~~~text
+일반 2PL
+T1: X Lock(A) → A 수정 → Unlock(A) ─────────→ ROLLBACK
+                              │
+T2:                           └→ A의 미확정 값 읽음
+                                   → T2도 Rollback 필요 가능
+~~~
+
+**Strict 2PL**은 일반 2PL 규칙에 더해 **X Lock을 Commit 또는 Rollback까지 유지**한다. 따라서 다른 Transaction이 미확정 Write에 의존하지 못하게 하여 Cascading Rollback을 방지하고, 복구를 단순화한다.
+
+~~~text
+Strict 2PL
+T1: X Lock(A) → A 수정 → COMMIT / ROLLBACK → Unlock(A)
+                     │
+T2:                  └→ T1 종료 전 충돌 접근 대기
+~~~
+
+| 방식 | Lock 유지 규칙 | 핵심 보장 |
+|---|---|---|
+| 일반 2PL | 첫 Unlock 이후 새 Lock 획득 금지 | Conflict Serializability |
+| Strict 2PL | 2PL + 모든 X Lock을 종료까지 유지 | Conflict Serializability + Strict Schedule |
+| Rigorous 2PL | S / X Lock 모두 종료까지 유지 | 더 강한 Lock 유지 규칙 |
+
+여기서 **Strict는 모든 Lock을 종료까지 유지한다는 뜻이 아니다.** X Lock은 종료까지 유지하지만, S Lock은 2PL 규칙을 지키는 범위에서 먼저 해제할 수 있다. 모든 S/X Lock을 종료까지 유지하는 방식은 Rigorous 2PL이다.
+
+> **2PL은 충돌 순서의 직렬 가능성을, Strict 2PL은 여기에 미확정 Write에 대한 의존 방지를 더한다.** Strict 2PL도 Deadlock 자체를 방지하지는 않는다.
+
 ### 2PL과 Phantom
 
 기본 2PL을 쓴다고 Row Lock이 자동으로 Range Lock으로 바뀌는 것은 아니다.
