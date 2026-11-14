@@ -7,14 +7,14 @@
 ```text
 CPU — 명령 실행
 │
-├─ 명령 체계 → ISA / Fetch·Decode·Execute
-├─ 실행 효율 → Pipeline / Hazard
-├─ 명령 수준 병렬성 → Superscalar / VLIW
-├─ Core·Thread 병렬성 → Multicore / SMT
-└─ 개선 한계 → Amdahl 법칙
+├─ 명령어 체계 → ISA / CISC / RISC
+├─ 명령어 실행 → Fetch / Decode / Execute
+├─ 명령 처리 효율 → Pipeline (한계: Hazard)
+├─ 병렬 처리 → Multicore
+└─ 심화 확장 → Superscalar / VLIW / SMT / Amdahl
 ```
 
-Pipeline은 **명령의 실행 단계를 중첩**하고, Superscalar·VLIW는 **명령 수준 병렬성**을 활용하며, Multicore·SMT는 **Core·Thread 자원**을 활용한다. 서로 조합될 수 있으며 순차적인 교체 단계가 아니다.
+**먼저 이해할 핵심:** Pipeline은 명령어의 실행 단계를 겹쳐 처리량을 높이고, Hazard는 그 과정에서 생기는 제약이다. Multicore는 여러 코어로 처리 능력을 확장한다. Superscalar·VLIW·SMT는 아래에서 위치만 소개하는 심화 주제다. 이 기술들은 서로 조합될 수 있다.
 
 ### 핵심 용어
 
