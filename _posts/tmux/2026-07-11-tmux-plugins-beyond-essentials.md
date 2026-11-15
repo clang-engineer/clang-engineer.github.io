@@ -84,18 +84,49 @@ set -g @plugin 'laktak/extrakto'
 
 ---
 
-## 3. 퍼지 검색·힌트 (선택 — 정착 근거는 얇음)
+## 3. 화면 출력 탐색 — 정규식·힌트·퍼지 선택 비교
 
-여기부터는 별은 있으나 **실제 정착 후기가 얇은** 영역이다. 소개는 하되 강한 추천은 근거가 부족하니, 겪어 보고 판단하는 걸 권한다.
+tmux의 Copy Mode는 출력 이력을 탐색하고 복사하는 기본 기능을 제공한다. 아래 플러그인들은 **화면에 이미 출력된 경로·URL·해시를 어떻게 찾아 선택할 것인가**라는 문제를 서로 다른 방식으로 해결한다.
 
-| 플러그인 | 별 | 무엇 | 유의 |
-|---|---|---|---|
-| sainnhe/tmux-fzf | 1.5k | 세션·윈도우·패널·키바인딩을 fzf 메뉴로 | 별은 최다지만 이름 충돌로 실 sentiment 추적이 어려움 |
-| Morantron/tmux-fingers | 1.4k | 화면 텍스트에 힌트 라벨을 띄워 점프(vimium 류) | 활발하나 언급 상당수가 저자 본인 |
-| fcsonline/tmux-thumbs | 1.1k | fingers의 Rust 구현, 빠름 | 2023 이후 stale, "써볼게" 톤이 다수 |
-| wfxr/tmux-fzf-url | 720 | 화면의 URL만 모아 fzf로 열기 | 활발하나 정착 후기 스레드 거의 없음 |
+```text
+tmux 화면 / Scrollback
+          │
+          ├─ 정규식 매칭 후 순회 ── tmux-copycat
+          ├─ 글자 힌트로 즉시 선택 ─ tmux-fingers / tmux-thumbs
+          ├─ 후보를 퍼지 목록으로 ── extrakto
+          ├─ 파일 경로 특화 ─────── tmux-fpp
+          └─ URL 특화 ───────────── tmux-fzf-url / tmux-urlview
+```
 
-화면 텍스트 추출이 목적이면 **extrakto(위) 하나로 대부분 해결**된다. fingers/thumbs는 "마우스 없이 클릭할 지점으로 점프" 성격이라 목적이 다르다.
+### 출력 탐색 플러그인 비교
+
+| 플러그인 | Stars | 마지막 Push | 선택 방식·특징 |
+|---|---:|---|---|
+| [tmux-fingers](https://github.com/Morantron/tmux-fingers) | 1,488 | 2026-06 | 화면의 문자열에 키 힌트를 표시해 직접 선택 |
+| [tmux-copycat](https://github.com/tmux-plugins/tmux-copycat) | 1,207 | 2023-05 | 정규식으로 경로·URL 등을 검색하고 매칭 결과 순회 |
+| [extrakto](https://github.com/laktak/extrakto) | 1,158 | 2026-03 | 화면·Scrollback의 텍스트를 fzf 기반 목록으로 추출 |
+| [tmux-thumbs](https://github.com/fcsonline/tmux-thumbs) | 1,104 | 2024-04 | Rust 기반의 키 힌트 선택 방식 |
+| [tmux-fzf-url](https://github.com/wfxr/tmux-fzf-url) | 741 | 2026-08 | URL 후보를 fzf로 선택 |
+| [tmux-fpp](https://github.com/tmux-plugins/tmux-fpp) | 322 | 2024-01 | Facebook PathPicker를 이용한 파일 경로 선택 |
+| [tmux-urlview](https://github.com/tmux-plugins/tmux-urlview) | 291 | 2021-05 | URL 추출·선택에 특화 |
+
+> Stars와 마지막 Push는 **2026-11-15 GitHub 저장소 조회 기준**이다. Push 시점은 코드 변경·유지보수 품질과 동일하지 않으며, 별 개수도 실제 사용량을 보장하지 않는다.
+{: .prompt-info }
+
+### 무엇을 선택할까?
+
+- **extrakto**: 로그·빌드 출력의 경로, URL, 해시를 **목록에서 검색하고 선택**하고 싶을 때. 이 글의 기본 추천은 유지한다.
+- **tmux-fingers / tmux-thumbs**: 화면에 보이는 문자열을 **힌트 키로 바로 지정**하고 싶을 때. 목록을 훑는 방식과 사용감이 다르다.
+- **tmux-copycat**: **정규식으로 찾은 항목을 순회**하는 흐름을 선호할 때. 기본 Copy Mode 검색과의 중복을 따져본다.
+- **tmux-fpp / tmux-fzf-url / tmux-urlview**: 파일 경로 또는 URL만 특별히 다루고 싶을 때. 범용 추출 플러그인으로 충분한지 먼저 확인한다.
+
+**예를 들어** `rg -n 'TODO'`나 빌드 명령이 `src/main.rs:42`를 출력했다면, extrakto는 후보 목록에서 해당 경로를 고르게 하고 fingers는 화면의 해당 문자열에 붙은 힌트 키를 입력하게 한다. copycat은 정규식에 매칭된 항목 사이를 이동한다. 이들은 **출력된 텍스트를 선택하는 도구**이며, 선택 결과를 기존 Neovim pane에서 열기까지 자동화하는 것은 별도의 연동 문제다.
+
+### 다른 축: tmux-fzf
+
+[tmux-fzf](https://github.com/sainnhe/tmux-fzf)는 화면의 파일 경로 추출보다는 **세션·윈도우·pane·키 바인딩 등 tmux 객체를 fzf로 선택**하는 도구다. 출력 텍스트 추출 플러그인과 같은 범주로 묶지 않는다. GitHub Stars **1,523**, 마지막 Push **2026-10** (같은 조회 기준).
+
+**채택 기준:** 이미 Copy Mode와 OSC52를 활용한다면 무작정 설치할 필요는 없다. 실제로 화면의 경로를 다시 타이핑하거나 복사하는 일이 잦을 때 extrakto 또는 fingers 계열 하나부터 시험하는 편이 간결하다.
 
 ---
 
