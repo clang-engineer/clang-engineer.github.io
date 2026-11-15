@@ -2,7 +2,7 @@
 title       : "tmux 클립보드 경계 — OSC52·pbcopy와 한글 깨짐"
 description : "TTY·PTY와 SSH 출력 경로, Neovim 레지스터·tmux Buffer·OS 클립보드, OSC52·pbcopy 차이 및 한글 깨짐 진단."
 date        : 2026-06-10 12:00:00 +0900
-updated     : 2026-11-15 19:45:00 +0900
+updated     : 2026-11-15 20:00:00 +0900
 categories  : [tmux, "설정·옵션"]
 tags        : [osc52, ghostty, tty, pty, ssh, clipboard, hangul, encoding, utf-8, daemon]
 pin         : false
@@ -173,6 +173,71 @@ set -g set-clipboard on    # tmux copy → OSC52 → 시스템 클립보드 자�
 ```
 
 `copy-pipe-and-cancel "pbcopy"` 류 바인딩이 다 사라진다.
+
+---
+
+## tmux 단독 설정 — OMT 없이 클립보드 복사하기
+
+Oh My Tmux!가 없어도 **tmux 내장 기능**만으로 시스템 클립보드에 복사할 수 있다. 복사한 텍스트는 기본적으로 tmux Buffer에 저장되며, 아래 설정은 시스템 클립보드로 보내는 **추가 경로**를 만든다.
+
+### A. OSC52 — 복사할 때마다 터미널 클립보드로 전달
+
+`~/.tmux.conf`:
+
+```tmux
+setw -g mode-keys vi
+set -s set-clipboard on
+```
+
+이 방식은 tmux 자체의 OSC52 전송을 켠다. **Copy Mode의 기존 복사 키**(예: vi 모드에서 `y`로 복사하도록 바인딩된 환경)를 그대로 사용하면 된다. `y`는 tmux 기본 설정이나 배포 설정에 따라 바인딩이 다를 수 있으므로 `tmux list-keys -T copy-mode-vi`로 확인한다.
+
+```text
+Copy Mode 복사 ──┬── tmux Buffer
+                 └── OSC52 → (중간 tmux/SSH) → Ghostty → Mac 클립보드
+```
+
+OSC52는 tmux가 실행되는 OS의 클립보드 도구를 호출하지 않는다. 따라서 원격 tmux에서 복사한 데이터를 로컬 Mac 클립보드로 전달하려는 경우에도 적합하지만, **중간 tmux의 처리 및 터미널의 허용 설정**이 필요하다.
+
+### B. copy-pipe — macOS에서 pbcopy를 직접 실행
+
+Mac에서 실행되는 tmux에 다음처럼 설정할 수 있다.
+
+```tmux
+setw -g mode-keys vi
+bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "LANG=ko_KR.UTF-8 pbcopy"
+```
+
+Copy Mode에서 `y`를 누르면 선택 텍스트를 tmux Buffer에 저장하면서 `pbcopy`의 stdin으로도 전달한다. 이 설정은 **`y` 바인딩을 덮어쓰므로**, OSC52와의 중복 연동을 원하지 않으면 설정을 함께 점검한다. 원격 Linux에서 `pbcopy`를 실행할 수 있다고 가정하면 안 된다.
+
+### C. 내부 복사와 OS 클립보드 복사를 별도 키로 분리
+
+Mac에서 tmux Buffer는 평소처럼 사용하고, 필요할 때만 OS 클립보드에 보내고 싶다면:
+
+```tmux
+setw -g mode-keys vi
+set -s set-clipboard external
+bind -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+bind -T prefix Y run-shell 'tmux save-buffer - | LANG=ko_KR.UTF-8 pbcopy'
+```
+
+- Copy Mode에서 `y`: **tmux Buffer에만** 복사
+- `Prefix + Y` (대문자): **최근 tmux Buffer**를 `pbcopy`로 전달
+- `Prefix + ]`: tmux Buffer를 현재 pane에 붙여넣기
+- Ghostty의 `Cmd + V`: macOS 클립보드를 터미널에 입력
+
+여기서 `set-clipboard external`은 tmux **자체 복사의 OSC52 전송만 막으면서**, pane 내부 프로그램의 OSC52 요청 처리는 허용한다. Neovim 등 내부 프로그램의 OSC52까지 막고 싶다면 별도 검토가 필요하다. `Prefix + Y`는 예시로 만든 **사용자 정의 바인딩**이며 OMT의 기본 단축키와 다르다.
+
+### 적용 및 확인
+
+```sh
+tmux source-file ~/.tmux.conf
+tmux show -s set-clipboard
+tmux list-keys -T copy-mode-vi | grep -E ' y |copy'
+tmux list-keys -T prefix | grep ' Y '
+tmux info | grep 'Ms:'
+```
+
+실행 중인 tmux 서버의 **실제 옵션과 바인딩**을 확인해야 한다. OMT 사용 여부만으로 OSC52 동작을 단정할 수 없다.
 
 ---
 
