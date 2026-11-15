@@ -1,10 +1,10 @@
 ---
 title       : "tmux 클립보드 경계 — OSC52·pbcopy와 한글 깨짐"
-description : "Neovim 레지스터·tmux Buffer·OS 클립보드의 차이부터 OSC52와 pbcopy 전달 경로, SSH, 한글 인코딩과 tmux server 환경까지."
+description : "TTY·PTY와 SSH 출력 경로, Neovim 레지스터·tmux Buffer·OS 클립보드, OSC52·pbcopy 차이 및 한글 깨짐 진단."
 date        : 2026-06-10 12:00:00 +0900
 updated     : 2026-11-15 19:45:00 +0900
 categories  : [tmux, "설정·옵션"]
-tags        : [osc52, ghostty, hangul, encoding, utf-8, daemon]
+tags        : [osc52, ghostty, tty, pty, ssh, clipboard, hangul, encoding, utf-8, daemon]
 pin         : false
 hidden      : false
 ---
@@ -75,6 +75,65 @@ Mac 클립보드
 | `tmux_conf_copy_to_os_clipboard=true` | Oh My Tmux!가 `pbcopy` 등 OS 명령을 이용하도록 Copy Mode 바인딩 구성 |
 
 Oh My Tmux!의 `tmux_conf_copy_to_os_clipboard=false`는 **그 설정 계층의 OS 명령 연동이 꺼졌다는 뜻**이지, tmux의 `set-clipboard`까지 끄는 것은 아니다. 따라서 `false`여도 OSC52가 별도로 동작할 수 있다. 실제 실행 중인 서버에서는 `tmux show -s set-clipboard`와 `tmux info | grep 'Ms:'`로 확인한다.
+
+---
+
+## 터미널 출력의 경로 — TTY, PTY, SSH
+
+OSC52를 이해하려면 먼저 **프로그램이 출력한 바이트가 어디로 가는지** 알아야 한다.
+
+- **TTY**: 터미널 입출력 인터페이스를 가리키는 개념. `tty` 명령으로 현재 셸의 터미널 장치 경로를 확인할 수 있다.
+- **PTY(Pseudo Terminal)**: 소프트웨어로 구현한 터미널 장치 쌍. 셸이나 tmux pane의 프로그램은 PTY를 통해 입력을 받고 출력을 보낸다.
+- **터미널 에뮬레이터(Ghostty)**: 출력 바이트를 화면의 글자·색상·커서 이동 등으로 해석한다. 허용된 OSC52를 받으면 **Ghostty가 실행 중인 Mac의 클립보드**를 갱신한다.
+
+```text
+Mac: Ghostty → 로컬 tmux → SSH → 원격 셸
+      ▲           ▲                  │
+      │           └──── SSH 출력 ────┘
+      └── tmux가 출력한 OSC52를 해석
+```
+
+SSH는 키보드 입력을 원격으로 보내는 동시에 **원격 출력도 로컬로 되돌려 준다**. OSC52는 원격 셸에 실행을 요청하는 명령이 아니라, 그 **출력 흐름에 실리는 제어 시퀀스**다. 중간의 tmux가 이를 처리하거나 막을 수 있으므로 반드시 Ghostty까지 도달하는 것은 아니다.
+
+### 로컬 tmux와 원격 tmux는 구분한다
+
+```text
+A. Mac Ghostty → Mac tmux → SSH → 원격 Shell
+                     │
+                     └─ Copy Mode → Mac tmux Buffer
+                        OSC52 → Mac Ghostty → Mac 클립보드
+
+B. Mac Ghostty → Mac tmux → SSH → 원격 tmux → Shell
+                     │                 │
+                     │                 └─ 원격 Copy Mode → 원격 Buffer
+                     └─ 로컬 Copy Mode → 로컬 Buffer
+
+   원격 tmux의 OSC52 → SSH → 로컬 tmux → Ghostty → Mac 클립보드
+   (중간 tmux와 Ghostty의 지원·허용 설정이 필요)
+```
+
+**Buffer는 tmux 인스턴스마다 별개**다. 원격 Neovim의 `y` 역시 원격 Neovim 레지스터에 복사하며, 그것만으로 Mac이나 원격 OS 클립보드가 바뀌지는 않는다. 반대로 로컬 tmux의 Copy Mode로 SSH 출력 이력을 복사할 때는 원격 프로그램에 OSC52 설정이 없어도 된다.
+
+### 복사와 붙여넣기는 방향이 다르다
+
+| 동작 | 실제 경로 |
+|---|---|
+| 로컬 tmux Copy Mode 복사 | 로컬 tmux Buffer에 저장, 설정에 따라 OSC52로 Mac 클립보드 갱신 |
+| 원격 tmux Copy Mode 복사 | 원격 tmux Buffer에 저장, 설정에 따라 OSC52 출력 |
+| `Prefix + ]` | **해당 tmux 인스턴스의 Buffer**를 현재 pane에 입력 |
+| Ghostty에서 `Cmd + V` | **Mac 클립보드** 내용을 현재 터미널 입력으로 전달; SSH 중이면 원격 프로그램으로 입력 |
+| 원격 Neovim `y` / `p` | 원격 Neovim 레지스터에서 복사 / 붙여넣기 |
+| 원격 Neovim `"+y` | 클립보드 provider 설정에 따라 OSC52 등으로 외부 클립보드에 복사 |
+
+원격 Linux의 `xclip`·`wl-copy`는 일반적으로 **원격 그래픽 세션의 클립보드**를 대상으로 한다. GUI나 클립보드 서비스가 없는 서버에서는 사용하지 못할 수도 있다.
+
+### Oh My Tmux!의 옵션과 혼동하지 말 것
+
+`tmux_conf_copy_to_os_clipboard=true`는 **Oh My Tmux!의 커스텀 변수**다. tmux 자체의 `set-clipboard` 옵션이 아니다. Oh My Tmux!가 `copy-pipe`와 `pbcopy`·`xclip`·`wl-copy` 같은 OS별 도구를 이용하는 복사 바인딩을 구성하도록 한다. 이런 도구는 **실행되는 호스트의 클립보드**를 대상으로 하며, 원격 Linux에서 실행했다고 Mac의 `pbcopy`가 실행되는 것은 아니다.
+
+반면 `set-clipboard on`은 tmux 자체의 OSC52 연동이다. **OSC52의 목적지는 출력 경로에서 최종적으로 요청을 받아 처리하는 터미널**이다. 두 설정 모두 tmux Buffer 저장을 없애는 옵션이 아니며, 설정에 따라 Buffer와 OS 클립보드를 동시에 갱신할 수 있다.
+
+따라서 Mac에서 이미 Copy Mode 복사가 잘 된다면 Oh My Tmux!의 옵션을 무조건 켤 필요는 없다. 실제 동작은 `tmux show -s set-clipboard`와 현재 바인딩을 확인한다.
 
 ---
 
