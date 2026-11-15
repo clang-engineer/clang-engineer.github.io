@@ -2,7 +2,7 @@
 title       : "tmux 클립보드 경계 — OSC52·pbcopy와 한글 깨짐"
 description : "TTY·PTY와 SSH 출력 경로, Neovim 레지스터·tmux Buffer·OS 클립보드, OSC52·pbcopy 차이 및 한글 깨짐 진단."
 date        : 2026-06-10 12:00:00 +0900
-updated     : 2026-11-15 20:00:00 +0900
+updated     : 2026-11-15 21:00:00 +0900
 categories  : [tmux, "설정·옵션"]
 tags        : [osc52, ghostty, tty, pty, ssh, clipboard, hangul, encoding, utf-8, daemon]
 pin         : false
@@ -70,7 +70,7 @@ Mac 클립보드
 | 설정 | 의미 |
 |---|---|
 | `set-clipboard on` | tmux 자체 복사를 OSC52로 전송하고 pane 내부 프로그램의 OSC52 요청도 처리 |
-| `set-clipboard external` | pane 내부 프로그램의 OSC52 요청만 처리; tmux 자체 복사에서는 OSC52 전송하지 않음 |
+| `set-clipboard external` | tmux 자체 복사는 OSC52로 전송하지만, pane 내부 프로그램의 OSC52 요청으로 tmux Buffer를 변경하는 것은 허용하지 않음 |
 | `set-clipboard off` | tmux의 OSC52 클립보드 연동 비활성화 |
 | `tmux_conf_copy_to_os_clipboard=true` | Oh My Tmux!가 `pbcopy` 등 OS 명령을 이용하도록 Copy Mode 바인딩 구성 |
 
@@ -137,15 +137,15 @@ B. Mac Ghostty → Mac tmux → SSH → 원격 tmux → Shell
 
 ---
 
-## 1. 권장 경로 — `set-clipboard on` 한 줄
+## 1. OSC52 경로 — `set-clipboard`
 
-### OSC52 발사 3대 조건
+### OSC52 전송 조건
 
-tmux가 copy 시 OSC52로 클립보드를 발사하려면 다음이 모두 충족돼야 한다.
+tmux가 OSC52로 클립보드를 갱신하려면 다음이 모두 충족돼야 한다.
 
-1. **`set -g set-clipboard on`** — 기본값 `external`은 pane 내부 프로그램의 OSC52 요청을 처리하지만 tmux 자체 복사에서는 OSC52를 보내지 않음.
-2. **터미널의 Ms capability 인식** — `tmux info | grep Ms`로 확인. xterm-ghostty/xterm-256color는 자동 인식.
-3. **`terminal-features`에 `clipboard` 등록** — `xterm*:clipboard`가 기본 포함되어 대부분 터미널 OK.
+1. **`set -s set-clipboard on`** — 기본값 `external`도 tmux 자체 복사는 OSC52로 보내지만, pane 내부 프로그램의 OSC52 요청을 허용하려면 `on`이 필요함.
+2. **터미널의 Ms capability 인식** — `tmux info | grep Ms`로 확인. 터미널 종류와 tmux 버전에 따라 자동 인식 여부가 다르므로 실제 결과를 확인한다.
+3. **`terminal-features`에 `clipboard` 등록** — `Ms`가 없다면 터미널 종류에 맞는 `terminal-features`를 추가해야 한다.
 
 ### 검증
 
@@ -172,7 +172,7 @@ setw -g mode-keys vi
 set -g set-clipboard on    # tmux copy → OSC52 → 시스템 클립보드 자동 전달
 ```
 
-`copy-pipe-and-cancel "pbcopy"` 류 바인딩이 다 사라진다.
+이 방식에서는 `copy-pipe-and-cancel "pbcopy"` 같은 OS별 바인딩이 필요하지 않다. 다만 기존에 설정한 바인딩이 자동으로 삭제되지는 않으므로 중복 실행 여부를 확인한다.
 
 ---
 
@@ -209,13 +209,13 @@ bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "LANG=ko_KR.UTF-8 pbcop
 
 Copy Mode에서 `y`를 누르면 선택 텍스트를 tmux Buffer에 저장하면서 `pbcopy`의 stdin으로도 전달한다. 이 설정은 **`y` 바인딩을 덮어쓰므로**, OSC52와의 중복 연동을 원하지 않으면 설정을 함께 점검한다. 원격 Linux에서 `pbcopy`를 실행할 수 있다고 가정하면 안 된다.
 
-### C. 내부 복사와 OS 클립보드 복사를 별도 키로 분리
+### C. 내부 복사와 OS 클립보드 복사를 별도 키로 분리 (macOS)
 
 Mac에서 tmux Buffer는 평소처럼 사용하고, 필요할 때만 OS 클립보드에 보내고 싶다면:
 
 ```tmux
 setw -g mode-keys vi
-set -s set-clipboard external
+set -s set-clipboard off
 bind -T copy-mode-vi y send-keys -X copy-selection-and-cancel
 bind -T prefix Y run-shell 'tmux save-buffer - | LANG=ko_KR.UTF-8 pbcopy'
 ```
@@ -225,7 +225,7 @@ bind -T prefix Y run-shell 'tmux save-buffer - | LANG=ko_KR.UTF-8 pbcopy'
 - `Prefix + ]`: tmux Buffer를 현재 pane에 붙여넣기
 - Ghostty의 `Cmd + V`: macOS 클립보드를 터미널에 입력
 
-여기서 `set-clipboard external`은 tmux **자체 복사의 OSC52 전송만 막으면서**, pane 내부 프로그램의 OSC52 요청 처리는 허용한다. Neovim 등 내부 프로그램의 OSC52까지 막고 싶다면 별도 검토가 필요하다. `Prefix + Y`는 예시로 만든 **사용자 정의 바인딩**이며 OMT의 기본 단축키와 다르다.
+여기서 `set-clipboard external`도 tmux 자체 복사를 OSC52로 전송하므로 **내부 복사와 OS 클립보드 복사를 분리하는 설정으로는 사용할 수 없다**. 아래 분리 예시에서는 `off`를 사용한다. `off`를 쓰면 pane 내부 Neovim 등의 OSC52도 tmux에서 차단될 수 있으므로, 두 동작을 동시에 원한다면 별도의 조건부 바인딩이나 설정 설계가 필요하다. `Prefix + Y`는 예시로 만든 **사용자 정의 바인딩**이며 OMT의 기본 단축키와 다르다.
 
 ### 적용 및 확인
 
@@ -297,7 +297,7 @@ Ghostty 1.3.1 + tmux 3.6a 환경에서 직접 확인했을 때 OSC52는 한글�
 
 ## 3. 비대칭의 정체 — tmux server는 환경을 캡처해서 영구 보관한다
 
-tmux server는 client(셸) 환경을 상속받는 게 아니라, **첫 client가 server를 띄울 그 순간의 환경을 캡처해서 서버가 죽을 때까지 들고 간다.** 한 번 잘못된 환경으로 시작되면 `pkill tmux` 전엔 영구 불일치.
+tmux server는 **처음 시작될 때의 환경을 전역 환경으로 복사**한다. 이후 세션 환경과 서버 전역 환경은 별도로 관리되며 `set-environment` 등으로 변경할 수 있다. 따라서 초기 환경이 잘못되었다고 해서 서버를 반드시 종료해야 하는 것은 아니다.
 
 ```bash
 # server에 박힌 환경 (시작 시점에 고정)
@@ -317,7 +317,7 @@ DISPLAY KRB5CCNAME SSH_ASKPASS SSH_AUTH_SOCK
 SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY
 ```
 
-**`LANG`은 없다.** 셸의 LANG을 server에 매번 반영하고 싶다면 명시적으로 등록해야 한다.
+**`LANG`은 없다.** `update-environment`는 새 클라이언트 연결 시 세션 환경을 갱신하는 옵션이지 서버 전역 환경을 자동으로 덮어쓰는 기능이 아니다. 세션과 전역 환경의 차이를 확인해야 한다.
 
 ```tmux
 # ~/.tmux.conf
@@ -338,7 +338,7 @@ tmux show-environment                  # 현재 session 환경
 tmux show-options -g update-environment
 
 # 잘못된 server 자체를 끊고 새 환경으로 다시 시작
-tmux kill-server                       # 모든 세션 죽음, tmux-resurrect 있으면 복원
+tmux kill-server                       # 최후의 수단: 모든 세션 종료, 작업 손실 주의
 ```
 
 ### 함정 요약
@@ -353,10 +353,10 @@ tmux kill-server                       # 모든 세션 죽음, tmux-resurrect �
 
 ## 왜 갑자기 깨졌나 — 2단계 함정
 
-1. **OSC52 시절**: `set-clipboard`가 켜진 기본 상태에서 tmux가 OSC52(base64)로 터미널에 클립보드를 위임 → 인코딩 무관, 한글 OK.
+1. **OSC52 경로**: `set-clipboard`가 `on` 또는 `external`이고 터미널이 지원하면 tmux 자체 복사는 OSC52로 전달될 수 있다. Base64 인코딩을 사용하지만 터미널·중간 계층의 구현에 따라 문제는 발생할 수 있다.
 2. **OSC52 우회 도입**: 터미널의 OSC52 한글 처리 버그를 (실제로든 의심으로든) 만나 `set -g set-clipboard off`로 끄고 `pbcopy` 직호출로 전환 → 이때 **LANG 누락이라는 두 번째 함정**이 드러남.
 
-즉 "원래 멀쩡했는데 어느 날 깨지더라"는 보통 클립보드 경로 자체가 OSC52 → pbcopy로 바뀐 순간이다. **근본적 해법은 외부 명령 의존성 자체를 끊는 것 — `set -g set-clipboard on`으로 되돌리면 server 환경과 무관해진다.**
+즉 "원래 멀쩡했는데 어느 날 깨지더라"는 보통 클립보드 경로 자체가 OSC52 → pbcopy로 바뀐 순간이다. **가능하다면 OSC52 경로를 우선 검토한다.** 다만 현재 동작하는 설정을 무조건 바꾸지 말고 실제 `set-clipboard`, `Ms`, 터미널 권한과 키 바인딩을 확인한다.
 
 ## 참고
 
