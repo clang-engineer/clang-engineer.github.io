@@ -1,24 +1,80 @@
 ---
-title       : "tmux 시스템 클립보드 — set-clipboard on 한 줄, pbcopy 경로의 함정(한글 깨짐·server 환경)"
-description : "OSC52 한 줄이 정답. pbcopy를 굳이 쓴다면 LANG 인라인이 필수. tmux server 환경 캡처 메커니즘까지."
+title       : "tmux 클립보드 경계 — OSC52·pbcopy와 한글 깨짐"
+description : "Neovim 레지스터·tmux Buffer·OS 클립보드의 차이부터 OSC52와 pbcopy 전달 경로, SSH, 한글 인코딩과 tmux server 환경까지."
 date        : 2026-06-10 12:00:00 +0900
-updated     : 2026-06-19 00:00:00 +0900
+updated     : 2026-11-15 19:45:00 +0900
 categories  : [tmux, "설정·옵션"]
 tags        : [osc52, ghostty, hangul, encoding, utf-8, daemon]
 pin         : false
 hidden      : false
 ---
 
-tmux에서 copy(Enter/마우스 드래그)하면 시스템 클립보드까지 자동으로 들어가게 하고 싶다면, `pbcopy` 바인딩 같은 우회 없이 `set -g set-clipboard on` 한 줄만 추가하면 된다. **단, 기본값이 `external`(자체 발사 X, passthrough만)이라 명시가 필요**하다.
+tmux Copy Mode에서 복사한 텍스트가 macOS의 다른 앱에도 붙여넣어지는 이유는 무엇일까? **tmux Buffer와 시스템 클립보드는 별개의 저장 공간**이지만, OSC52 또는 `pbcopy` 같은 연결 경로가 있으면 함께 갱신할 수 있다.
 
-> 이 글은 [tmux 로드맵](./2026-06-16-00-tmux-roadmap.md)의 **트러블슈팅(시스템 클립보드)** 편이다. 입문·설정·플러그인·자동화 흐름은 로드맵에서.
+> 이 글은 [tmux 로드맵](./2026-06-16-00-tmux-roadmap.md)의 **클립보드 경계와 트러블슈팅** 편이다. tmux 기본 사용법은 치트시트에서, 플러그인 선택은 [플러그인 비교](./2026-07-11-tmux-plugins-beyond-essentials.md)에서 다룬다.
 {: .prompt-tip }
 
-이 글은 세 단계로 정리한다.
+## 먼저 이해할 것 — 세 가지 저장 공간
 
-1. **권장 경로**: OSC52 + `set-clipboard on` (외부 명령 의존성 0)
-2. **만약 pbcopy 경로를 써야 한다면**: LANG 인라인 필수 (한글 깨짐 회피)
-3. **왜 그런가**: tmux server의 환경 캡처 메커니즘 (셸 OK, tmux만 깨지는 비대칭의 정체)
+```text
+Neovim 레지스터         tmux Buffer              macOS 클립보드
+  " / 0 / + 등          copy-selection             Cmd+V 대상
+        │                     │                          ▲
+        │                     ├── OSC52 ──> Ghostty ─────┤
+        │                     └── copy-pipe ─> pbcopy ────┤
+        └── 클립보드 provider / OSC52 등으로 연결 가능 ──┘
+```
+
+- **Neovim 레지스터**: 편집기 내부의 복사·삭제 결과를 저장한다. `"+y`는 시스템 클립보드 레지스터를 사용하려는 명령이며, 실제 동작은 클립보드 provider·터미널 지원에 달려 있다.
+- **tmux Buffer**: Copy Mode에서 선택한 문자열을 저장한다. `Prefix ]`로 붙여넣는 것은 시스템 클립보드와 별개의 동작이다.
+- **OS 클립보드**: macOS 앱 사이에서 `Cmd+V`로 공유되는 저장 공간이다.
+
+### OSC52와 pbcopy는 어떻게 다른가?
+
+```text
+[OSC52: 터미널에 요청]              [pbcopy: OS 명령 실행]
+tmux / Neovim                       tmux copy-pipe
+     │                                   │ stdin
+     ▼                                   ▼
+OSC 52 ; c ; Base64 ...               pbcopy
+     │ 터미널 출력 스트림                  │ macOS API
+     ▼                                   ▼
+Ghostty가 제어 시퀀스 해석          macOS 클립보드
+     │
+     ▼
+macOS 클립보드
+```
+
+**OSC52**는 프로그램이 클립보드 내용을 Base64로 담은 터미널 제어 시퀀스를 출력하고, 터미널 에뮬레이터가 이를 해석해 로컬 클립보드를 갱신하는 규약이다. Base64는 암호화가 아니다. **`pbcopy`**는 macOS 명령으로, stdin으로 받은 텍스트를 OS 클립보드에 직접 기록한다. 반대 방향은 `pbpaste`다.
+
+```sh
+printf '한글 테스트' | pbcopy  # stdin → macOS 클립보드
+pbpaste                      # macOS 클립보드 → stdout
+```
+
+### SSH에서 차이가 커지는 이유
+
+```text
+Mac Ghostty ─── SSH ─── 원격 Linux tmux
+      ▲                         │
+      └──── OSC52 출력 전달 ────┘
+      │
+      ▼
+Mac 클립보드
+```
+
+원격 Linux에서 `pbcopy`를 직접 실행할 수는 없지만, 원격 프로그램의 OSC52 출력이 SSH와 중간 tmux 계층을 통과하고 **로컬 터미널이 허용한다면** Mac 클립보드를 갱신할 수 있다. 반대로 원격 프로그램이 클립보드를 덮어쓸 수도 있으므로 터미널의 OSC52 허용 정책을 확인한다.
+
+### tmux와 Oh My Tmux!의 설정은 별개
+
+| 설정 | 의미 |
+|---|---|
+| `set-clipboard on` | tmux 자체 복사를 OSC52로 전송하고 pane 내부 프로그램의 OSC52 요청도 처리 |
+| `set-clipboard external` | pane 내부 프로그램의 OSC52 요청만 처리; tmux 자체 복사에서는 OSC52 전송하지 않음 |
+| `set-clipboard off` | tmux의 OSC52 클립보드 연동 비활성화 |
+| `tmux_conf_copy_to_os_clipboard=true` | Oh My Tmux!가 `pbcopy` 등 OS 명령을 이용하도록 Copy Mode 바인딩 구성 |
+
+Oh My Tmux!의 `tmux_conf_copy_to_os_clipboard=false`는 **그 설정 계층의 OS 명령 연동이 꺼졌다는 뜻**이지, tmux의 `set-clipboard`까지 끄는 것은 아니다. 따라서 `false`여도 OSC52가 별도로 동작할 수 있다. 실제 실행 중인 서버에서는 `tmux show -s set-clipboard`와 `tmux info | grep 'Ms:'`로 확인한다.
 
 ---
 
@@ -28,7 +84,7 @@ tmux에서 copy(Enter/마우스 드래그)하면 시스템 클립보드까지 �
 
 tmux가 copy 시 OSC52로 클립보드를 발사하려면 다음이 모두 충족돼야 한다.
 
-1. **`set -g set-clipboard on`** — 기본값 `external`은 응용프로그램이 보낸 OSC52만 pass-through하고 tmux 자체는 안 보냄.
+1. **`set -g set-clipboard on`** — 기본값 `external`은 pane 내부 프로그램의 OSC52 요청을 처리하지만 tmux 자체 복사에서는 OSC52를 보내지 않음.
 2. **터미널의 Ms capability 인식** — `tmux info | grep Ms`로 확인. xterm-ghostty/xterm-256color는 자동 인식.
 3. **`terminal-features`에 `clipboard` 등록** — `xterm*:clipboard`가 기본 포함되어 대부분 터미널 OK.
 
