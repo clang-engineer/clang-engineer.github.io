@@ -31,10 +31,14 @@ Process ── 자원·주소 공간의 경계
 Program은 저장된 코드이며, 실행되면 Process가 된다. Process는 주소 공간과 자원 관리의 경계이고, Thread는 그 안에서 명령어를 수행하는 실행 흐름이다. 한 Process의 Thread들은 주소 공간과 여러 자원을 공유한다.
 
 ~~~text
-Process (주소 공간·자원)
-├─ Thread A (실행 흐름)
-└─ Thread B (실행 흐름)
+Process — 주소 공간·자원 관리 경계
+├─ PCB — PID·상태·메모리·자원 관리 정보
+├─ 공유 주소 공간 — Text / Data / Heap
+├─ Thread A — TCB·Stack·PC·Register 실행 상태
+└─ Thread B — TCB·Stack·PC·Register 실행 상태
 ~~~
+
+**PCB는 프로세스 관리 정보, TCB는 스레드별 실행 문맥**을 나타내는 개념적 구분이다. PCB/TCB의 실제 구성과 저장 위치는 OS 구현마다 다르다. PC는 CPU의 Program Counter이며, 스레드마다 독립적인 *PC 값*을 보존한다. TLB는 TCB와 달리 CPU의 주소 변환 캐시로서 스레드별 소유 자원이 아니다.
 
 따라서 **Process ↔ Thread**는 단순한 크기 비교가 아니라 자원 소유·격리·공유·생성 및 전환 비용의 비교다. 실제 CPU 스케줄링 단위는 OS와 Thread 구현에 따라 달라질 수 있다.
 
