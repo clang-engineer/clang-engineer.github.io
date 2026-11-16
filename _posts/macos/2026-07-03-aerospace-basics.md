@@ -2,7 +2,7 @@
 title       : AeroSpace 기본 — 워크스페이스·단축키·on-window-detected
 description : "SIP 비활성화 없이 쓰는 macOS 타일링 워크스페이스 매니저 AeroSpace. 설치부터 alt-hjkl 포커스·이동, 워크스페이스 전환, .aerospace.toml의 mode.main.binding과 on-window-detected 자동 배치까지 기본기를 정리한다."
 date        : 2026-07-03 14:00:00 +0900
-updated     : 2026-10-14 11:20:00 +0900
+updated     : 2026-11-16 10:10:00 +0900
 categories  : [macos, "창 관리"]
 tags        : [aerospace, window-manager, tiling]
 pin         : false
@@ -89,6 +89,9 @@ run = ['move-node-to-workspace 1:Browser', 'layout floating']
 run = 'layout floating'
 ```
 
+> 이 예시의 `if.app-id`는 현재도 지원되지만 공식 가이드에서 **기존 형식**으로 분류한다. 새 설정은 `if = 'test %{app-bundle-id} = …'`를 권장한다([공식 변경 안내](https://nikitabobko.github.io/AeroSpace/guide#legacy-on-window-detected-syntax)).
+{: .prompt-info }
+
 `if.app-id`에 넣을 앱 식별자는 아래로 확인한다.
 
 ```sh
@@ -101,6 +104,10 @@ aerospace list-apps
 위 설정에서 눈에 띄는 건 **대부분의 앱을 `layout floating`으로 둔다**는 점이다. 타일링 WM인데 왜 floating일까?
 
 화면 안에서 창을 반·1/3로 나누는 **정밀한 배치는 Hammerspoon에 맡기고**, AeroSpace는 **워크스페이스(공간) 분리**에 집중시키는 분업이다. 즉 AeroSpace로 "어느 공간에 둘지"를, Hammerspoon으로 "그 공간 안 어디에 둘지"를 정한다. 이 분업의 실제 구현은 [Rectangle.app을 Hammerspoon으로 대체하기](./2026-07-03-hammerspoon-window-tiling-rectangle.md)에서 다룬다.
+
+앱 종류마다 워크스페이스를 나눈 **내 설정에서는** 타일링이 자동으로 해결할 배치가 생각보다 적었다. 브라우저는 좁아지면 페이지를 보기 불편하고, IDE는 자체 분할 패널을 이미 갖췄다. 터미널 한 창 안의 분할은 tmux가 맡으므로, 터미널 워크스페이스에 창 하나만 열려 있으면 AeroSpace가 나눌 것도 없다. 이때 floating-first는 타일링을 못 쓰는 상태가 아니라 **앱을 어느 공간에 둘지**에 더 큰 값을 두는 선택이다. `focus` 단축키도 floating 창에 그대로 쓸 수 있다([공식 설명](https://nikitabobko.github.io/AeroSpace/commands#focus)).
+
+반대로 tmux가 못 나누는 **서로 다른 앱**—예컨대 코드를 고치는 터미널과 결과를 보는 브라우저—을 나란히 놓을 때는 AeroSpace 타일링이 유용하다. 다만 앱별 워크스페이스를 고수하면 두 앱이 같은 공간에 있지 않다. 이런 작업이 잦다면 작업용 혼합 워크스페이스를 따로 두는 편이 낫고, 드물다면 그때만 창을 한 공간에 모아 `layout floating tiling`으로 전환하면 된다([공식 명령 설명](https://nikitabobko.github.io/AeroSpace/commands#layout)). 전환이 잦을 때만 주 단축키에 올리고, 아니라면 서비스 모드 등에 두는 편이 키 충돌을 줄인다. **항상 floating이 정답이라는 뜻은 아니다.** 동시에 여러 앱·창을 자주 볼수록 기본 타일링의 이득이 커진다.
 
 ## 다음 단계
 

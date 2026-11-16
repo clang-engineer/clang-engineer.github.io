@@ -2,7 +2,7 @@
 title       : "jenv local 11인데 Java 17 바이트코드가 나올 때 — Gradle JVM과 Target 분리하기"
 description : "UnsupportedClassVersionError를 실행 JVM, Gradle JVM, Java Toolchain, targetCompatibility 네 층으로 나눠 실제 class file version이 어디서 결정됐는지 진단한다."
 date        : 2026-05-20 11:00:00 +0900
-updated     : 2026-09-06 10:26:00 +0900
+updated     : 2026-11-16 10:05:00 +0900
 categories  : [gradle, "빌드·의존성"]
 tags        : [jenv, gradle, java, toolchain, troubleshooting]
 pin         : false
@@ -173,6 +173,24 @@ tasks.withType(JavaCompile).configureEach {
 ```
 
 프로젝트에서는 Toolchain과 Release Target을 조합해 **빌드 머신의 기본 JDK 상태에 우연히 의존하지 않도록** 만드는 편이 재현성이 높다.
+
+### 반대 방향의 사례: Java 11 타깃인데 JDK 21에서 빌드가 실패했다 (2026-07-21)
+
+앞의 사례는 산출물의 class version이 예상보다 높았지만, 이때는 `sourceCompatibility = '11'`을 선언한 레거시 빌드가 **컴파일 자체에 실패**했다. 당시 조합은 Gradle 7.5, Lombok 1.18.16, Gradle을 실행하는 JDK 21이었다.
+
+```text
+> Task :compileJava FAILED
+java.lang.NoSuchFieldError: Class com.sun.tools.javac.tree.JCTree$JCImport
+  does not have member field 'com.sun.tools.javac.tree.JCTree qualid'
+```
+
+Lombok 같은 애노테이션 프로세서는 javac 내부 API에 의존한다. Java 11 바이트코드를 만들라는 설정은 **프로세서가 실행되는 JDK를 낮추지 않는다**. [Lombok 변경 기록](https://projectlombok.org/changelog)상 JDK 21의 *초기 지원*은 1.18.30부터이므로, 이 오류를 Java 11 타깃 설정의 실패로 해석하면 원인을 놓친다.
+
+당시 Lombok 버전을 바꾼 뒤 빌드 스크립트도 수정하자, 그전에는 없던 `_BuildScript_`의 `Unsupported class file major version 65`가 나타났다. 빌드 스크립트를 읽는 Gradle 내장 Groovy/ASM 경로가 JDK 21 클래스 형식을 처리하지 못한 상황으로 해석했다. 관찰상 기존 컴파일된 스크립트가 재사용되다가 스크립트 변경으로 다시 컴파일되면서 **Gradle 쪽 호환성 문제도 드러난** 사례다. 캐시가 언제 재사용되는지는 설정과 변경 내용에 따라 달라지므로, 첫 오류만으로 Gradle 실행 JVM과 버전이 호환된다고 결론 내릴 수 없다. [Gradle Java 호환성 표](https://docs.gradle.org/current/userguide/compatibility.html)에 따르면 JDK 21에서 **Gradle 자체를 실행**하는 지원은 8.5부터, JDK 17 실행은 7.3부터다. Gradle 7.5를 JDK 21에서 실행하는 것은 지원 조합이 아니다.
+
+이 경우 전체 빌드 도구를 JDK 21용으로 올리기보다, 먼저 Gradle을 지원하는 **JDK 17로 실행**하도록 프로젝트/CI의 JDK 선택을 맞추고 빌드 결과를 확인하는 편이 변경 범위가 작다. 이 사례에서는 Gradle 7.5와 Lombok 1.18.16을 유지한 채 JDK 17에서 컴파일이 통과했다. 다만 Lombok 공식 변경 기록의 JDK 17 지원 시작은 1.18.22이므로 **1.18.16 + JDK 17의 일반적인 공식 호환성을 보장한다는 뜻은 아니다**. `sourceCompatibility = '11'`은 그대로 두되, 산출물의 major version 55와 실제 Java 11 런타임 호환성도 확인한다. 실행 JDK와 산출물 타깃은 별개의 결정이다.
+
+JDK 선택을 프로젝트 범위에서 공유하려면 팀/CI가 사용하는 버전 관리 도구의 로컬 설정에 JDK 17을 명시한다. 예를 들어 mise를 사용한다면 `mise.toml`에 `[tools]` 아래 `java = "temurin-17"`을 적고, 해당 셸에서 `JAVA_HOME`과 `./gradlew -version`의 JVM을 확인한다. 이전 JVM의 Gradle daemon이 의심되면 `./gradlew --stop` 후 다시 빌드한다. JDK 설치 경로를 개인별 절대경로로 고정할 필요는 없다.
 
 ## 6. 실제 Artifact의 Class Version을 검증한다
 

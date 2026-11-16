@@ -2,7 +2,7 @@
 title       : "AeroSpace + Hammerspoon — 창을 한 번에 제자리로 재정렬하기"
 description : "macOS 타일링 WM AeroSpace와 자동화 런타임 Hammerspoon을 URL scheme으로 엮어, 손으로 잘못 옮긴 창들을 단축키 하나로 각자 지정 워크스페이스에 되돌리는 스크립트를 만든다. 두 도구의 분업 구조와 bash 3.2 함정까지."
 date        : 2026-07-03 16:00:00 +0900
-updated     : 2026-10-14 11:20:00 +0900
+updated     : 2026-11-16 10:15:00 +0900
 categories  : [macos, "창 관리"]
 tags        : [aerospace, hammerspoon, macos, tiling, window-manager, bash, guide]
 pin         : false
@@ -34,7 +34,7 @@ run = ['move-node-to-workspace 4:JetBrains', 'layout floating']
 
 핵심은 이 규칙이 **창이 처음 생길 때 딱 한 번만** 발동한다는 점이다. 이미 만들어진 창을 나중에 `move-node-to-workspace`(예: `alt-shift-4`)로 잘못 옮기면, 규칙이 다시 돌지 않아 창은 엉뚱한 워크스페이스에 남는다. 하나씩 손으로 되돌리는 건 번거롭다.
 
-AeroSpace에는 "모든 창을 규칙대로 다시 배치" 같은 명령이 없다. 그래서 별도 스크립트가 필요하고, 여기서 Hammerspoon과의 분업이 자연스럽게 등장한다.
+이 글을 처음 쓸 때는 "모든 창에 규칙을 다시 적용"하는 명령이 없어 별도 스크립트로 풀었다. **현재 AeroSpace 문서에는** `aerospace run-callback --for-every-window on-window-detected`가 있다([명령 문서](https://nikitabobko.github.io/AeroSpace/commands#run-callback)). 새 규칙을 기존 창에 다시 적용하는 간단한 용도라면 이 명령부터 고려하자. 아래 스크립트는 설정의 앱별 *이동 규칙만* 골라 실행하고, 실제 이동 건수를 Hammerspoon에 전달하던 방식이다.
 
 ## 두 도구의 분업 — 강점이 겹치지 않는다
 
@@ -120,6 +120,9 @@ done < "$TOML"
 
 `${line#*\'}`(앞에서 첫 따옴표까지 제거)와 `${app%%\'*}`(뒤 따옴표부터 제거)로 `if.app-id = 'com.google.Chrome'`에서 번들 ID만 뽑아낸다. `run` 줄에서는 `move-node-to-workspace ` 뒤부터 다음 따옴표 전까지가 워크스페이스 이름(`2:Terminal`)이다.
 
+> 이 파서는 당시 사용한 `if.app-id`와 한 줄짜리 `run` 형식을 전제로 한다. 현재 공식 가이드는 `if.app-id`를 지원하지만 새 설정에는 `if = 'test %{app-bundle-id} = …'` 형식을 권장한다([변경 안내](https://nikitabobko.github.io/AeroSpace/guide#legacy-on-window-detected-syntax)). 그 형식에는 이 텍스트 파서를 그대로 적용할 수 없으므로, 새 설정에서는 위의 `run-callback`을 우선 살펴보자.
+{: .prompt-warning }
+
 ### 3. 창을 순회하며 제자리로 이동
 
 ```bash
@@ -166,9 +169,29 @@ hs.urlevent.bind("aerospace-reflowed", function(_, params)
 end)
 ```
 
-이제 `alt-shift-0`을 누르면 창들이 제자리로 정렬되고 "Reflowed · N moved" 알림이 뜬다.
+이제 `alt-shift-0`을 누르면 스크립트가 창 이동을 시도하고 "Reflowed · N moved" 알림을 보낸다.
 
-## 함정 두 가지
+### 일부러 오배치해 끝까지 확인하기
+
+알림은 `open -g`로 보낸 **이동 건수 메시지**이지, 모든 창이 올바른 곳에 있다는 검증 결과가 아니다. URL 핸들러가 뜨지 않아 알림만 빠질 수도 있고, 위 스크립트는 실패한 이동의 오류도 숨긴다. 또한 `hs` CLI/`hs.ipc`는 아래의 *원격 reload* 용도이며 `hs.urlevent` 알림의 필수 조건이 아니다. 결과는 AeroSpace의 창 목록에서 직접 확인한다.
+
+```sh
+# 규칙에 있는 앱의 열린 창 하나를 골라 일부러 엉뚱한 공간으로 옮긴다.
+wid=$(aerospace list-windows --all --format '%{window-id}|%{app-bundle-id}' |
+  awk -F'|' '$2=="com.mitchellh.ghostty"{print $1; exit}')
+aerospace move-node-to-workspace --window-id "$wid" 4:JetBrains
+# 이때 실제로 4:JetBrains에 있는지 먼저 확인한다.
+aerospace list-windows --all --format '%{window-id}|%{workspace}' |
+  awk -F'|' -v id="$wid" '$1==id{print $2}'
+# 기존 스크립트를 실행한 다음 같은 창의 워크스페이스를 다시 확인한다.
+~/.hammerspoon/modules/aerospace-reflow.sh
+aerospace list-windows --all --format '%{window-id}|%{workspace}' |
+  awk -F'|' -v id="$wid" '$1==id{print $2}'
+```
+
+첫 조회는 `4:JetBrains`, 마지막 조회는 규칙에 적힌 `2:Terminal`이어야 한다. 알림이 안 뜨더라도 마지막 값이 돌아왔다면 재정렬과 알림 경로를 분리해 진단할 수 있다.
+
+## 자주 만나는 함정
 
 ### macOS 기본 bash는 3.2다
 
@@ -179,6 +202,18 @@ declare: -A: invalid option
 ```
 
 그래서 위 스크립트는 연관 배열 대신 `"bid|ws"` 텍스트 맵 + `awk` 조회로 짰다. macOS용 셸 스크립트는 항상 3.2 호환을 염두에 두는 게 안전하다. (정 필요하면 셔뱅을 `#!/opt/homebrew/bin/bash`로 바꿔 bash 5를 쓰는 방법도 있다.)
+
+### 스크립트가 있는데도 파일을 못 찾는다면
+
+`exec-and-forget`가 `no such file`을 내면 바인딩 경로뿐 아니라 **실제 파일명**을 살핀다. 예컨대 다운로드·이름 변경 과정에서 `aerospace-reflow.sh)`처럼 끝에 `)`가 붙어 있으면 겉보기에는 비슷해도 다른 파일이다.
+
+```sh
+for f in "$HOME/.hammerspoon/modules"/aerospace-reflow*; do
+  [ -e "$f" ] && printf '[%s]\n' "${f##*/}"
+done
+```
+
+출력된 정확한 이름을 확인하고, 특수문자가 섞였다면 양쪽 경로를 따옴표로 감싸 `mv`로 바로잡는다. 그 뒤 다시 위의 **오배치 → 실행 → 워크스페이스 조회**로 확인한다.
 
 ### Hammerspoon 원격 reload는 ipc 모듈이 필요
 
