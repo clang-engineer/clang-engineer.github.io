@@ -2,7 +2,7 @@
 title       : "Neovim 플러그인 작성 규칙 — runtimepath 디렉토리 관례 정리"
 description : "Vim 시절부터 이어진 runtimepath 자동 로드 규칙, Lua 추가분, plugin/ vs lua/ 역할 분리, 헬프·헬스체크·after/ 관례까지."
 date        : 2026-06-12 18:00:00 +0900
-updated     : 2026-06-19 12:00:00 +0900
+updated     : 2026-11-16 12:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [plugin, lua, lazy-nvim, lazyvim]
 pin         : false
@@ -337,6 +337,12 @@ CONTENTS                                                        *foo-contents*
 - 첫 줄에 `*foo.txt*` 태그
 - 섹션 태그는 `*foo-config*` 형식
 - 설치 시 `:helptags ALL`이 인덱싱 (lazy.nvim이 자동 처리)
+
+### 로컬 모듈을 독립 저장소로 분리할 때
+
+개인 설정의 `lua/<name>/` 안에서는 Lua 모듈을 `require`할 수 있어도, 그 디렉토리를 통째로 공개 저장소 루트로 복사했다고 `doc/`·`plugin/`까지 자동 인식되는 것은 아니다. 새 저장소 **루트**에 `lua/`·`doc/`·`plugin/`을 형제로 배치하고, `:helptags doc`으로 help tag를 점검한다. 동일한 `*tag*`를 두 번 정의하면 중복 태그 문제가 생기므로 정의는 한 곳에 두고 다른 곳에서는 `|tag|`로 참조한다.
+
+발행 뒤 lazy.nvim spec에 `opts`를 넣어 `setup(opts)`를 맡겼다면 기존 개인 설정의 수동 `require("<name>").setup()` 호출은 제거한다. 남겨 두면 같은 설정이 두 번 적용될 수 있다. 반대로 저장소 이름과 Lua 모듈 이름이 다른 플러그인은 위에서 설명한 `main`을 명시한다. 이건 플러그인 매니저의 추론을 존중하는 문제이지 특정 개인 설정 레이아웃의 요구사항이 아니다. 실제 분리 경험은 [jvm-env.nvim 발행 회고](../reference/open-source/2026-06-17-jvm-env-nvim-retrospective.md)에 기록했다.
 
 ## `after/` 디렉토리 — 주의
 

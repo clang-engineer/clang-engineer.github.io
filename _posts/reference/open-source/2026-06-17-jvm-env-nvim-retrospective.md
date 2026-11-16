@@ -2,7 +2,7 @@
 title       : "jvm-env.nvim 발행 회고 — 첫 OSS Neovim 플러그인의 보강 사이클과 awesome-neovim 등록"
 description : "왜 만들었는지, v0.1.0 → v0.1.1 보강에서 잡은 정확성 버그(natural sort)·견고성 보강(Homebrew/SDKMAN fallback)·panvimdoc·plenary 테스트 도입, 그리고 awesome-neovim PR까지의 한 사이클 회고"
 date        : 2026-06-17 23:30:00 +0900
-updated     : 2026-06-17 23:30:00 +0900
+updated     : 2026-11-16 12:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [jvm-env, jdtls, gradle, awesome-neovim, plugin-publication, retrospective, troubleshooting]
 pin         : false
@@ -33,6 +33,12 @@ Java 개발 환경에서 흔한 충돌:
 - LICENSE(MIT), README, stylua CI workflow
 
 `Status: experimental` 톤을 README 상단에 박고 발행. 첫 사이클은 학습 자체가 가치다.
+
+### 로컬 모듈에서 공개 저장소로 넘어갈 때의 경계
+
+발행 전에는 이미 사용하는 설정 안에서 작은 모듈로 충분히 써 보고, 유사 플러그인과 비교해 **어떤 문제만 해결할지** 먼저 고정했다. 로컬 모듈을 저장소 루트의 `lua/<name>/`으로 옮길 때는 README·라이선스·`doc/` 위치를 함께 확인했다. 특히 `lua/<name>/doc/`은 `runtimepath`가 인식하는 플러그인 루트의 `doc/`이 아니다. 배포 뒤에는 설치한 외부 플러그인 spec과 기존 로컬 `require(...).setup()`을 둘 다 남겨 이중 초기화하지 않도록 이전 진입점을 제거했다. 디렉토리 규칙 자체는 [플러그인 작성 규칙](../../neovim/2026-06-12-neovim-plugin-conventions.md)을 참고.
+
+처음 공개할 때는 저장소 이름·공개 범위·영문 README·라이선스·최소 CI를 먼저 결정하고, 저장소 생성과 push처럼 외부에 흔적이 남는 단계는 명시적으로 확인하는 편이 좋았다. 이후에는 GitHub Topics·태그·릴리즈·발견 채널을 별개 후속 단계로 분리했다. **공개가 끝났다는 사실과 설치 가능하고 유지 가능한 플러그인이 되었다는 사실은 다르다.**
 
 ## v0.1.1 — 보강에서 잡은 것들
 
@@ -180,6 +186,12 @@ end)
 ```
 
 CI는 `rhysd/action-setup-vim@v1`로 nvim 설치 → plenary git clone → `PlenaryBustedDirectory`로 실행. 무거운 프레임워크 도입 없이 핵심 helper만 검증.
+
+### 코드 리뷰가 릴리즈 범위를 정했다
+
+첫 출시 코드를 다시 읽을 때 네 축으로 살폈다: **포지셔닝**(대상과 하지 않는 일), **정확성**(버전 정렬·패턴 매칭), **견고성**(설치되지 않은 매니저·운영체제별 경로), **사용성**(opt-out·진단 출력). 작은 코드라고 전체를 읽기 전에 장점을 선언하기보다 실제로 확인한 결함을 우선했다. 수정 순서도 정확성 → 사용성 → 문서화로 정했다. 그 결과 위의 자연 정렬 오류와 jenv 호출 가드, Windows 경로 문제, `false` opt-out 및 health 진단이 하나의 보강 릴리즈에 들어갔다.
+
+README와 vimdoc을 손으로 동시에 관리해 보니 작은 플러그인에서는 같은 설명을 두 번 고치는 부담이 생겼다. 문서를 없앨지, README를 단일 원본으로 두고 생성할지 선택할 문제였고 이번에는 panvimdoc을 택했다. 도구를 추가한 사실보다 **새 변경을 한 곳에서 시작하게 만든 결정**이 중요했다.
 
 ## 발행 + 릴리즈 사이클
 

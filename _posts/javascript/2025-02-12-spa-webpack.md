@@ -2,7 +2,7 @@
 title       : "Spring Boot + Webpack SPA 프로젝트 설정 (Webpack + Gradle)"
 description : "Spring Boot에서 Webpack으로 SPA 프론트엔드를 구성하고 Gradle 빌드에 통합하는 전체 가이드"
 date        : 2025-02-12 11:00:00 +0900
-updated     : 2026-06-19 09:00:00 +0900
+updated     : 2026-11-16 00:00:00 +0900
 categories  : [javascript, "Node·번들러"]
 tags        : [spring-boot, webpack, react, spa, gradle]
 pin         : false
@@ -414,3 +414,16 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher  
 ```
+
+## 깊은 경로 새로고침에서만 에셋이 사라지는 이유
+
+SPA 내부 링크를 눌렀을 때는 정상인데 `/dashboard/overview`를 직접 열거나 새로고침할 때만 로딩 CSS가 404라면 webpack 번들러보다 **브라우저의 URL 해석 기준**을 먼저 본다. 서버가 history fallback으로 이 경로에도 `index.html`을 반환할 때, HTML의 `href="content/css/loading.css"`는 문서 URL `/dashboard/overview`를 기준으로 `/dashboard/content/css/loading.css`로 풀릴 수 있다. 루트에서 처음 로드해 클라이언트 라우터로 이동하는 동안에는 HTML을 다시 파싱하지 않아 문제가 숨어 있다.
+
+```html
+<head>
+  <link rel="stylesheet" href="content/css/loading.css">
+  <base href="/">
+</head>
+```
+
+`<base>`를 아래에 추가해도 이미 앞에서 파싱한 상대 링크까지 소급해서 고치지 않는다. 루트에 배포하는 앱이라면 `href="/content/css/loading.css"`처럼 루트 기준 URL을 쓰거나 `<base href="/">`를 **상대경로 요소보다 먼저** 배치한다. 서브경로에 배포하는 앱이라면 `/`를 무작정 붙이지 말고 실제 배포 prefix를 기준으로 공개 경로를 설계한다. 같은 HTML의 favicon·manifest도 함께 검사한다. 이 현상은 새로운 코드 변경으로 인한 회귀가 아니라 이전부터 있던 상대 링크가 처음으로 깊은 경로에서 실행된 결과일 수도 있다.

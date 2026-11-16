@@ -2,7 +2,7 @@
 title       : 🧷 tmux 세션 부트스트랩 — 세션 매니저와 그 속살(셸 스크립트)
 description : 같은 세션/윈도우/패널을 매번 손으로 세팅하지 않으려면 세션 매니저(tmuxp·smug·tmuxinator)가 정석. 그 도구가 내부에서 부르는 tmux 명령을 셸로 해부해 원리까지 잡는다.
 date        : 2026-02-21 10:05:00 +0900
-updated     : 2026-10-12 08:50:00 +0900
+updated     : 2026-11-16 00:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [terminal, session-manager, tmuxp, smug, tmuxinator]
 pin         : false
@@ -258,3 +258,19 @@ smug new dev          # 새 config 파일 생성 후 편집기로 열기
 smug edit dev         # 기존 config 편집
 smug list             # config 목록
 ```
+
+## 다른 세션 매니저의 YAML을 그대로 옮기면 안 되는 이유
+
+위의 tmuxp 예제에서 `panes: -`는 tmuxp의 빈 pane 표현이다. **smug에서는 같은 표기를 그대로 복사하지 않는다.** 2026년 7월에 조사한 smug의 빈 pane 문제에서는 bare `-`가 YAML의 `null`로 파싱되어 pane 개수가 줄었고, 레이아웃 문자열은 기대한 pane 개수와 맞지 않아 적용되지 않았다. smug 설정에서는 명령 없는 pane을 `- {}`처럼 빈 객체로 명시한다.
+
+```yaml
+# smug 형식: 같은 pane을 셋 만들려면 빈 맵 세 개를 명시
+windows:
+  - name: editor
+    panes:
+      - {}
+      - {}
+      - {}
+```
+
+이것은 **tmuxp YAML 예제를 수정하라는 말이 아니다.** 서로 다른 매니저가 YAML을 다른 구조로 해석한다는 교훈이다. “레이아웃이 안 된다”면 레이아웃 문자열 이전에 생성된 pane 개수를 확인한다. detached로 시작한 TUI는 연결된 터미널 여부에 따라 화면 시작 상태가 달라질 수 있으므로 `pane_current_command` 한 필드만으로 명령 실행 여부를 단정하지 말고 필요하면 pane의 출력을 확인한다.

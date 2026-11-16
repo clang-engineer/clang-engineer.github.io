@@ -2,7 +2,7 @@
 title       : "Neovim 0.11+ LSP 3계층 — mason·lspconfig·vim.lsp의 역할"
 description : "mason은 서버 바이너리를 설치하고, nvim-lspconfig는 서버별 기본 설정을 제공하며, Neovim 0.11+의 vim.lsp.config/enable이 설정·시작·통신을 맡는다. attach와 진단 순서까지 한 장으로 정리."
 date        : 2026-07-08 10:00:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-11-16 00:00:00 +0900
 categories  : [neovim, "원리·언어"]
 tags        : [neovim, lsp, lspconfig, mason, treesitter, guide]
 pin         : false
@@ -100,3 +100,9 @@ Neovim을 IDE처럼 쓰는 전체 그림은 이 다섯 축이면 정리된다. �
 "LSP가 안 된다"면 `:Mason`에서 실행 파일을 확인하고, `:checkhealth vim.lsp`에서 config·root·client를 확인한 뒤, 필요할 때 LSP 로그를 연다. 설치 여부와 attach 여부를 분리하는 것이 핵심이다.
 
 > 관련: 각 기능 영역을 **어떤 플러그인들이 분담**해 만드는지는 [LazyVim 기능 지도](./2026-06-07-lazyvim-feature-plugin-map.md)에서 다룬다. Vim·Neovim·배포판이 **계층별로 무슨 기능**을 얹는지는 [Vim vs Neovim vs 배포판](./2026-06-16-00-neovim-roadmap.md)을, LSP가 실제로 안 붙을 때의 **검증 방법**은 [헤드리스 모드로 attach 검증하기](../reference/troubleshooting/2026-06-15-lsp-headless-attach.md)를 참고.
+
+## 서버가 언제 다시 시작되는가 — 버퍼와 편집기 수명을 구분
+
+서버 설치와 attach가 끝났는데도 “파일을 열 때마다 느리다”면 **새 파일**과 **Neovim 재시작**을 구별해야 한다. 같은 프로젝트 루트에서 서버 설정이 공유될 때는 기존 LSP client가 새 버퍼에 attach할 수 있다. 반면 Neovim 프로세스를 종료하면 그 프로세스가 시작해 관리하던 stdio 서버도 함께 종료되고, 다음 실행에서 JVM 기반 서버의 인덱싱·클래스패스 준비가 반복될 수 있다. 정확한 재사용 단위는 서버 설정과 root 계산에 달려 있으니 `:checkhealth vim.lsp`와 `vim.lsp.get_clients({ bufnr = 0 })`로 현재 client와 버퍼 연결부터 확인한다. `nvim --startuptime` 수치만으로 비동기 서버 초기화 시간을 판정하지 않는다.
+
+Treesitter 파서는 Neovim 내부에서 실행되는 파서이지 언어 서버 같은 별도 자식 프로세스가 아니다. 따라서 “Treesitter 데몬을 유지하면 LSP 재인덱싱이 사라진다”는 처방은 층이 틀렸다. 반복 재시작이 실제 병목이라면 편집기를 tmux 세션 안에 유지하고 detach/reattach하는 것이 가장 작은 변경이다. 지속 실행 서버와 멀티플렉서는 서버별 지원·프로토콜 가정을 따져야 하므로 보편적인 기본 해결책이 아니다.

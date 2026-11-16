@@ -2,7 +2,7 @@
 title       : "Neovim과 PKM — Obsidian·org-mode, 무엇을 왜 쓰나"
 description : "org-mode가 '단일 통합 시스템'으로 독보적인 반면 Neovim은 플러그인을 조합해 PKM을 구성한다. 평문 마크다운·로컬 저장이라 Neovim과 충돌 없이 공존하는 Obsidian을 중심으로, 왜 갈아타기보다 병행이 자연스러운지 정리한다."
 date        : 2026-07-12 19:40:00 +0900
-updated     : 2026-07-12 19:40:00 +0900
+updated     : 2026-11-16 00:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [pkm, obsidian, org-mode, markdown, notes]
 pin         : false
@@ -65,3 +65,11 @@ Obsidian은 **로컬 마크다운 파일 기반의 PKM 앱**이다. 핵심은 Ne
 
 > Emacs 자체에 대한 Neovim 사용자 관점은 [Neovim 사용자가 본 Emacs]({% post_url developer-tools/2026-07-03-neovim-user-view-of-emacs %}) 참고.
 {: .prompt-info }
+
+## 마크다운 저장소를 vault로 열 때의 링크 경계
+
+기존 Jekyll 블로그 폴더를 Obsidian vault로 여는 일과 그 저장소가 **PKM 그래프가 되는 일**은 다르다. `.md` 파일 자체는 그대로 편집·검색할 수 있지만, 빌드 후 웹 URL을 가리키는 Jekyll 링크와 노트 파일을 식별하는 `[[wikilink]]`는 대상·해석 시점이 다르다. 웹 링크만 있는 블로그를 열었다고 노트 간 백링크가 자동으로 완성되지는 않는다. 반대로 사이트에 위키링크를 쓰려면 Jekyll 빌드에서 변환할지 검토해야 한다.
+
+Neovim의 obsidian.nvim은 같은 로컬 파일에서 검색·링크 탐색을 돕지만 Obsidian 앱의 그래프 화면을 그대로 구현하는 도구는 아니다. 플러그인을 고를 때는 현재 유지되는 저장소와 문서를 확인하고, 기존 블로그의 URL 규칙을 바꿀 만큼 백링크가 필요한지 먼저 결정하자. 단순 편집만 필요하다면 현재 마크다운+Git 흐름을 유지하는 편이 저렴하다.
+
+2026년 11월 기준 [obsidian-nvim/obsidian.nvim](https://github.com/obsidian-nvim/obsidian.nvim)은 원래 [epwalsh/obsidian.nvim](https://github.com/epwalsh/obsidian.nvim)의 커뮤니티 유지 포크라고 명시한다. 새로 설치할 때 예전 저장소의 README와 포크의 `:Obsidian` 하위 명령을 혼합하지 말고 **설치할 버전의 공식 문서**를 따른다. 예컨대 포크는 Neovim 0.11 이상을 요구하며 검색·완성에 ripgrep을 사용한다.

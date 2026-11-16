@@ -2,7 +2,7 @@
 title       : Serena 기본 가이드
 description : "코드베이스의 의미 기반 검색·편집을 지원하는 Serena의 설치, 프로젝트 설정과 인덱싱, Claude Code·Codex·OpenCode 연결 흐름을 정리한다."
 date        : 2025-11-07 13:43:00 +0900
-updated     : 2026-08-22 17:35:00 +0900
+updated     : 2026-11-16 12:00:00 +0900
 categories  : [ai, "MCP"]
 tags        : [mcp, serena, claude, codex, opencode, model-context-protocol]
 pin         : false
@@ -58,6 +58,8 @@ SERENA="$(uv tool dir --bin)/serena"
 ```
 
 여기서 중요한 것은 실행 파일의 **절대경로**다. 터미널에서는 `serena`가 실행되더라도 GUI 애플리케이션이나 이미 실행 중인 에이전트가 셸의 `PATH`를 그대로 상속하지 않을 수 있다. MCP 설정에는 실제 실행 파일 경로를 넣는 편이 안전하다.
+
+CLI에서 되는 `serena`가 MCP에서는 실행되지 않는다면 클라이언트가 **대화형 셸의 `PATH`를 상속하는지** 먼저 확인한다. 사용자 범위로 한 번 등록해 여러 프로젝트를 쓰더라도, 클라이언트마다 실행 명령과 전송 방식(`stdio` 또는 HTTP)이 같다는 보장은 없다. 터미널에서 얻은 `uv tool dir --bin`의 결과를 설정에 실제 절대경로로 넣고 각 클라이언트를 재시작해 연결을 확인한다. 동일한 바이너리를 설치해도 MCP 세션이 하나로 합쳐지는 것은 아니다.
 
 ## 3. 설정과 프로젝트
 
@@ -165,7 +167,8 @@ opencode mcp list
 
 여러 에이전트가 같은 저장소를 동시에 편집한다면 MCP 프로세스 분리와 Git 작업 분리를 구분해야 한다. 독립 작업은 branch·worktree로 나눠 변경 충돌을 줄이는 편이 안전하다.
 
-대시보드 오류, 남은 Serena 프로세스, Java/JDTLS 작업공간 문제처럼 운영 중 생기는 문제는 [Serena 트러블슈팅](../reference/troubleshooting/2026-08-22-serena.md)에서 별도로 다룬다.
+공유되는 것은 동일 경로의 소스·프로젝트 설정·디스크에 저장한 Serena memory다. **활성 언어 서버와 대화 맥락은 클라이언트별**이므로 다른 에이전트가 파일을 바꾼 이유나 저장한 memory를 자동으로 읽었다고 가정해서는 안 된다. 여러 프로세스가 같은 Java 프로젝트의 JDTLS 작업공간을 사용할 때의 주의점과 상태 확인 과정의 부작용은 [Serena 트러블슈팅](../reference/troubleshooting/2026-08-22-serena.md)에 적었다.
+
 
 ## 8. 주요 명령어
 

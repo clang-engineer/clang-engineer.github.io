@@ -4,6 +4,7 @@ description : "tmux target-session·target-window·target-pane의 차이, join-p
 date        : 2026-10-25 19:50:00 +0900
 categories  : [tmux, "사용법"]
 tags        : [tmux, pane, window, session, target, join-pane]
+updated     : 2026-11-16 00:00:00 +0900
 pin         : false
 hidden      : false
 ---
@@ -118,3 +119,14 @@ tmux move-window -s 2 -t 1-workspace:1
 
 - [tmux 기본 명령 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/tmux.md)
 - [tmux 로드맵](./2026-06-16-00-tmux-roadmap.md)
+
+## 반대 방향의 zoom이 필요하다면 — pane 하나만 임시 이동
+
+`prefix + z`는 활성 pane **하나만 보이게** 한다. 세 pane 중 둘을 남기고 하나만 잠깐 치우는 동작은 아니다. 이 경우 `break-pane`으로 pane 자체를 다른 창에 분리하고, 나중에 `join-pane`으로 가져오는 편이 동작을 설명하기 쉽다.
+
+```tmux
+break-pane -d -n _stash   # pane을 새 창으로 빼되 전환하지 않음
+join-pane -s _stash       # 임시 창의 pane을 현재 창에 붙임
+```
+
+이 방식은 원래 창의 pane 배치를 임시로 바꾸므로 zoom처럼 좌표를 자동 보존하는 기능이 아니다. `_stash`라는 이름의 창이 이미 있거나 여러 pane을 동시에 보관하려 한다면 이름만을 상태 플래그로 쓰는 토글은 충돌한다. 특히 `if-shell` 안에 `list-windows -F '#W'`를 그대로 넣으면 tmux가 셸 실행 전에 `#W`를 현재 창 이름으로 확장해 검사가 엉뚱해질 수 있다. 조건문을 만들 때는 셸이 볼 문자열과 tmux가 **먼저 확장할 포맷**을 분리한다. 설정 파일에서 토글 바인딩을 지운 경우에도 실행 중 서버에는 이전 바인딩이 남을 수 있으므로 `unbind` 또는 새 서버에서 실제 동작을 확인해야 한다.

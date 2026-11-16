@@ -2,7 +2,7 @@
 title       : "Neovim 플러그인 테스트 방법 — plenary / mini.test / busted+nlua"
 description : "헤드리스 nvim 안에서 도는 세 가지 테스트 방식의 대중성과 선택 기준 비교"
 date        : 2026-06-18 10:00:00 +0900
-updated     : 2026-06-18 10:00:00 +0900
+updated     : 2026-11-16 00:00:00 +0900
 categories  : [neovim]
 tags        : [neovim, plugin, testing, lua, plenary, busted]
 pin         : false
@@ -62,3 +62,9 @@ vim.cmd("runtime plugin/plenary.vim")  -- :PlenaryBustedDirectory 명령 등록
 | [4가지 채널로 노출시키기](./2026-06-12-neovim-plugin-distribution.md) | awesome-neovim · Dotfyle · VimAwesome · GitHub Topics |
 
 실전 케이스로 [vim-dadbod 어댑터 플러그인 만들기](./2026-06-12-vim-dadbod-adapter-plugin-build.md)에서 위 원칙을 한 번에 적용해본다.
+
+## 테스트 러너 밖의 로컬 검증 — 원격 푸시 전에 무엇을 보는가
+
+순수 함수만 검증해서는 “실제 설정에서 플러그인 명령이 등록되고 결과 파일까지 만들어지는가”를 확인할 수 없다. 일상 개발에는 [lazy.nvim의 개발 경로 설정](https://lazy.folke.io/configuration#dev)을 활용해 플러그인 저장소를 로컬로 가리키고, 해당 plugin spec에만 `dev = true`를 켜서 수정 → 로드 → 실사용 확인을 반복한다. 원격 release를 시험하는 단계에서는 이 임시 토글을 제거해야 설치본과 개발본을 혼동하지 않는다.
+
+독립된 headless Neovim을 임시 작업 디렉터리에서 띄우는 스모크 검사는 별도 층이다. 여기서는 `runtimepath`에 대상 플러그인을 추가해 `setup()`·사용자 명령·파일 부수효과를 끝까지 보고, 테스트 러너는 파서·정렬 같은 재현 가능한 순수 로직에 쓴다. 렌더링과 하이라이트가 핵심이면 위에서 비교한 mini.test가 적합하다. 즉 **개발 경로는 실제 환경에서의 빠른 반복**, **plenary는 알고리즘 회귀**, **headless smoke는 명령과 부수효과**라는 서로 다른 실패를 잡는다.

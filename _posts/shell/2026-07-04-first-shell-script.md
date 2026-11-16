@@ -2,7 +2,7 @@
 title       : "첫 셸 스크립트 만들고 실행하기 — shebang·실행 권한·PATH"
 description : "터미널에 치던 명령을 파일 하나로 묶어 실행하기까지. shebang이 하는 일, `chmod +x` 실행 권한, `./script.sh`에서 `./`가 왜 필요한지, PATH에 등록해 어디서나 부르는 법, 그리고 permission denied·command not found·CRLF 같은 첫날 함정까지."
 date        : 2026-07-04 09:00:00 +0900
-updated     : 2026-09-05 21:18:00 +0900
+updated     : 2026-11-16 00:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [bash, zsh, shell, scripting, shebang]
 pin         : false
@@ -117,3 +117,9 @@ export PATH="$HOME/.local/bin:$PATH"
 ## 여기까지 오면
 
 명령을 파일로 묶고, 실행 권한을 주고, `./`나 PATH로 실행하는 — 스크립트의 **실행 골격**이 잡혔다. 이제 그 안을 채우는 문법(변수·조건·반복·함수)이 필요하다. [셸 스크립트 문법 종합 가이드](./2026-07-03-bash-syntax-guide.md)로 이어서, `set -euo pipefail`로 견고하게 만드는 데까지가 [셸 로드맵](./2026-07-03-00-shell-roadmap.md)의 다음 걸음이다.
+
+## `sh hello.sh`와 `./hello.sh`는 왜 다른가
+
+`sh hello.sh`는 파일의 shebang을 선택하지 않는다. 이미 실행한 `sh`가 파일을 입력으로 읽으므로 `#!/usr/bin/env bash`는 주석일 뿐이다. `bash hello.sh`도 같은 방식으로 bash를 명시하고 shebang을 우회한다. 반면 `./hello.sh`는 실행 권한과 shebang을 사용하므로 그 파일이 요청한 인터프리터로 실행된다.
+
+`sh`라는 이름이 가리키는 구현은 환경마다 다르다. Debian 계열의 `dash`, 일부 시스템의 `bash`, Alpine의 BusyBox `ash` 등이다. 모든 macOS나 Linux에서 같은 바이너리라고 가정하면 배열·`[[ ... ]]` 같은 bash 전용 문법이 한 환경에서만 실패한다. POSIX 셸 문법으로 작성했으면 `sh`로 실행해도 되지만, bash 문법을 썼다면 bash shebang과 직접 실행(또는 `bash hello.sh`)을 선택한다. 이식성은 파일 확장자 `.sh`가 아니라 **실제로 해석하는 셸**이 결정한다.

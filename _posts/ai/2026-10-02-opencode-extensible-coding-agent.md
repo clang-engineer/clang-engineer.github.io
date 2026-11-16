@@ -4,6 +4,7 @@ description : "OpenCode를 Claude Code 계열 터미널 코딩 에이전트의 �
 date        : 2026-10-02 00:00:00 +0900
 categories  : [ai, "코딩 에이전트"]
 tags        : [opencode, ai-agent, ai-coding, coding-agent, plugin, extension]
+updated     : 2026-11-16 00:00:00 +0900
 pin         : false
 hidden      : false
 ---
@@ -133,3 +134,23 @@ OpenCode는 Claude Code 계열 터미널 코딩 에이전트를 오픈소스와 
 > 부족한 부분을 Plugin으로 안전하게 확장할 수 있는가?
 
 이 두 질문에 예라고 답할 수 있다면 OpenCode는 충분히 써볼 만한 터미널 AI 코딩 에이전트다.
+
+## 확장의 역효과 — 명령 입력을 숨길 때도 데이터 경계를 본다
+
+긴 사용자 정의 slash command 템플릿이 TUI에 그대로 사용자 메시지처럼 보이는 경우가 있다. 2026년 7월에 살펴본 OpenCode의 `command.execute.before` hook에서는 명령이 만든 text part에 `synthetic`을 표시하면 UI에서는 숨기면서 모델에 보낼 text는 유지할 수 있었다. 다만 이 속성은 표시 장식만이 아니라 다른 플러그인의 transcript 처리에도 영향을 줄 수 있다. 같은 세션의 export·로그가 synthetic 항목을 거르는지 확인하지 않고 전역으로 적용하면 조용한 정보 손실이 생긴다.
+
+따라서 “플러그인으로 UI를 바꿀 수 있다”는 사실보다 **모델 입력, 대화 저장, 화면 표시의 세 경계가 서로 다르다**는 점이 중요한 사례다. hook 내부 필드와 실행 시점은 버전별 내부 구현에 가까우므로 [현재 공식 플러그인 문서](https://opencode.ai/docs/plugins/) 및 [명령 문서](https://opencode.ai/docs/commands/)에서 계약을 확인하고 필요한 명령에만 적용한다.
+
+당시 실험에서 사용한 최소 hook은 다음과 같다. **공개용 권장 설정이 아니라 내부 표현에 의존하는 2026-07 사례**이므로, 적용 전 현재 OpenCode의 plugin hook 계약과 내보내기 동작을 확인한다.
+
+```js
+export const HideCommandInput = async () => ({
+  \"command.execute.before\": async (_input, output) => {
+    for (const part of output.parts) {
+      if (part.type === \"text\") part.synthetic = true;
+    }
+  },
+});
+```
+
+명령을 통해 만들어진 메시지의 text에만 표시를 남기므로 일반 대화의 사용자 입력은 그대로다. 하지만 저장·추출 단계가 `synthetic` 항목을 걸러버리면 모델이 본 명령 본문과 사람이 내보낸 기록이 달라질 수 있다. **화면에서 감추는 것과 로그에서 보존하는 것을 동시에 요구하면** 별도 검증 없이는 이 기법을 채택하지 않는 편이 안전하다.

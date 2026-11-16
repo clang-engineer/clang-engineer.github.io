@@ -2,7 +2,7 @@
 title       : macOS CLI 개발 도구 모음 — Brewfile로 관리하는 터미널 툴킷
 description : "새 맥마다 다시 까는 터미널 개발 도구들을 Brewfile 하나로 관리한다. cat·ls·find·grep을 대체하는 모던 CLI(bat·eza·fd·ripgrep)부터 fzf·lazygit·delta, 언어 버전 관리까지 실제로 쓰는 도구를 갈래별로 정리한다."
 date        : 2026-07-03 11:00:00 +0900
-updated     : 2026-07-03 11:00:00 +0900
+updated     : 2026-11-16 12:00:00 +0900
 categories  : [macos, "시스템 운영"]
 tags        : [homebrew, brewfile, cli, fzf, ripgrep]
 pin         : false
@@ -50,12 +50,26 @@ hidden      : false
 
 프로젝트마다 요구하는 언어 버전이 다르므로, 시스템에 하나만 깔기보다 버전 관리 도구로 전환하며 쓴다.
 
-| 언어 | 도구 | 메모 |
+| 언어 | 현재 선택 | 메모 |
 |---|---|---|
-| Java | **jenv** + **openjdk@11/17/21** | 프로젝트별 JDK 전환. `jdtls`는 neovim Java LSP |
-| Node.js | **nvm** | Node 버전 전환 |
-| Python | **pyenv** / **uv** | uv는 초고속 패키지 매니저. pyenv와 역할이 겹칠 수 있어 하나로 수렴 중 |
-| Ruby | **rbenv** | Ruby 개발할 때만 |
+| Java·Node.js·Ruby | **mise** | 별도 jenv·nvm·rbenv 초기화 대신 프로젝트별 버전을 한 셸 통합으로 전환 |
+| Python | **mise 또는 uv** | 런타임 버전과 패키지 환경을 어느 도구가 맡을지 역할을 분명히 나눈다 |
+
+### 네 버전 매니저를 하나로 묶으며 알게 된 경계
+
+2026년 7월에는 셸 시작마다 jenv·nvm·pyenv·rbenv를 각각 초기화하던 구성을 mise로 합쳤다. 핵심은 **버전 선언, 바이너리 설치, 실행 환경 활성화가 별개 단계**라는 점이다. 전역 `~/.config/mise/config.toml`은 기본 버전을, 프로젝트의 `mise.toml`은 지역 선택을 담는다. 대화형 셸에서는 `mise activate zsh`가 디렉터리 이동과 프롬프트 시점에 `PATH`를 갱신한다. 따라서 설정 파일만 복원하고 셸 활성화를 빠뜨리면 런타임이 바뀌지 않은 듯 보인다. 반대로 CI나 스크립트에서는 activation이 필수가 아니며 `mise exec`·`mise run`을 쓸 수 있다. GUI/IDE처럼 셸 초기화 파일을 읽지 않는 프로그램은 shim 등 별도 경로를 검토해야 한다.
+
+```text
+사용자·프로젝트의 버전 선언
+         ↓  설치
+mise가 관리하는 실제 런타임
+         ↓  activate / exec / shim 중 실행 환경에 맞는 방식
+현재 명령의 PATH
+```
+
+이주했다고 Homebrew의 JDK를 무조건 지우지는 않았다. **개발 셸이 선택하는 JDK**와 **다른 Homebrew 패키지가 의존하는 JDK**는 역할이 다르기 때문이다. Brewfile이 설치된 전체 패키지의 완전한 목록이 아니라면 `brew bundle cleanup`으로 예전 매니저를 정리하는 것도 위험하다. 의존성을 확인한 뒤 제거 대상을 명시적으로 골라야 한다. 버전 파일 호환성·설치·진단 명령은 [devkit mise cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/mise.md)와 [mise 셸 활성화 문서](https://mise.jdx.dev/shell-setup.html)를 참고한다.
+
+설정 파일을 dotfiles 도구(예: chezmoi)로 복원하고 설치 작업을 별도 스크립트로 실행하면 새 머신에서 선언과 실제 설치를 구분해 재현할 수 있다. 이전 매니저 홈을 치울 때도 모든 파일이 현재 사용자 소유라고 가정해서는 안 된다. 당시 오래된 Ruby gem의 일부가 root 소유여서 보통 권한으로 제거되지 않았다. 이런 경우 먼저 소유자와 내용을 확인하고, 자신의 홈 안에서 **삭제할 범위만 특정**해야 한다. 이주는 “새 명령이 잡힌다”로 끝나지 않고 옛 초기화 블록·중복 shim·잔여 설치본까지 확인하는 과정이다.
 
 ## 상황에 따라 선택
 

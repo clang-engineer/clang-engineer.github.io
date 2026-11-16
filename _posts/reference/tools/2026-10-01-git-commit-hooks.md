@@ -2,7 +2,7 @@
 title       : "Git 커밋 훅은 어디에 쓰는가"
 description : "커밋 직전에 자동 검사를 거는 Git hook의 역할과 Husky, pre-commit, prek의 사용 패턴을 정리한다."
 date        : 2026-10-01 12:00:00 +0900
-updated     : 2026-10-01 12:00:00 +0900
+updated     : 2026-11-16 12:00:00 +0900
 categories  : [git]
 tags        : [git, hook, pre-commit, husky, prek, code-quality]
 pin         : false
@@ -310,6 +310,23 @@ git commit --no-verify
 ```
 
 따라서 중요한 검사는 CI에도 있어야 한다. 커밋 훅은 실수를 빨리 잡는 장치이고, CI는 최종 검증선이다.
+
+## 사례: Lazygit 커밋 실패가 메시지 규칙 탓이 아니었던 이유
+
+`chore`와 `chore: ...`를 각각 넣었는데 둘 다 실패하면 "Conventional Commits 문법을 어겼나?"부터 의심하기 쉽다. 2026년 8월 경험에서는 Lazygit이 실제로 `git commit`을 호출했지만, **`commit-msg` 검사 전 단계의 설정 파서**가 멈췄다. 공통 오류는 다음이었다.
+
+```text
+Failed to parse .pre-commit-config.yaml
+mapping values are not allowed in this context
+```
+
+당시 로컬 설정의 `entry:` 값에는 셸 명령과 Ruby 코드 `aliases: true`가 따옴표 없이 들어 있었다. YAML의 평문 값은 `: ` 같은 조합을 문법 구분자로 해석하므로, 내용 전체를 YAML 문자열로 감싸자 파서 오류가 사라졌다.
+
+```yaml
+entry: "ruby -ryaml -e 'ARGV.each { |f| YAML.safe_load_file(f, aliases: true) }' --"
+```
+
+문제는 "모든 `entry`에 반드시 따옴표가 필요"한 것이 아니라, **그 값에 YAML 문법과 충돌하는 문자가 있었던 것**이다. `--allow-empty` 커밋이나 메시지 형식만 바꿔 재시도해도 앞선 파서 오류는 그대로였다. Lazygit 로그로 호출 시점을 확인한 뒤 첫 오류를 기준으로 설정을 고치고, 설정 파싱·훅 실행·커밋 순서로 확인하면 원인을 섞지 않을 수 있다. `commit-msg` 훅이 실제로 등록되어 메시지를 거부한 경우라면 로그의 실패 단계가 달라야 한다. 관련 기준은 [Git 훅 문서](https://git-scm.com/docs/githooks)와 [YAML 1.2 문법](https://yaml.org/spec/1.2.2/)을 참고한다.
 
 ## 정리
 

@@ -2,7 +2,7 @@
 title       : "Claude Code 실전 워크플로 — Plan·Subagent·Headless·Hook으로 자동화하기"
 description : "Claude Code를 조작법 너머 활용법으로. Plan으로 전략을 먼저 받고, Subagent로 컨텍스트를 격리하고, 병렬 도구 실행과 Headless 실행을 활용하며, Hook으로 포맷·차단·알림을 자동화하는 흐름을 정리한다."
 date        : 2026-07-03 21:40:00 +0900
-updated     : 2026-09-21 22:45:00 +0900
+updated     : 2026-11-16 12:00:00 +0900
 categories  : [ai, "Claude Code"]
 tags        : [claude-code, workflow, subagents, plan-mode, headless, hooks, settings]
 redirect_from:
@@ -191,6 +191,28 @@ exit 0
 - `/clear` — 새로 시작한다. 이전 대화는 저장·재개 가능하다.
 - `/compact` — 오래된 대화를 요약해 공간을 확보한다.
 - `/context` — 무엇이 컨텍스트를 채우는지 시각화한다.
+
+## 이슈에서 PR까지 — 자동화보다 경계 설정
+
+“이슈 #42를 해결하는 PR을 만들어 줘”라는 요청은 코드 편집 하나가 아니라, **문제 이해 → 변경 범위 확인 → 검증 → 외부 공개**의 연속이다. 에이전트에게 이 순서를 맡길 때도 최종 push와 PR 공개 권한까지 자동으로 위임했다고 가정하지 않는다.
+
+1. `gh issue view 42 --comments`로 본문과 뒤늦게 추가된 제약을 읽는다. `git status --short --branch`와 기본 브랜치를 확인하고 기존 작업물을 건드리지 않는다.
+2. 별도 작업 브랜치에서 이슈의 완료 조건에 맞춰 수정한다. `git diff`와 새 파일 목록을 확인하고 해당 저장소에서 필요한 검사를 수행한다.
+3. 커밋할 파일을 **명시적으로** 골라 스테이징한다. `git add -A`는 관련 없는 변경이나 비밀 파일을 끌어올 수 있다. 커밋 메시지 형식은 저장소의 관례를 따른다.
+4. push 전 변경 범위와 공개될 PR 본문을 사람에게 보여 준다. 외부 상태를 바꾸는 `git push`·`gh pr create`는 승인된 범위에서만 수행하고, 생성된 URL을 전달한다.
+
+```sh
+gh issue view 42 --comments
+git status --short --branch
+git diff --check
+git add path/to/changed-file
+git diff --cached
+# 승인된 브랜치와 본문에 한해서만 push 및 gh pr create
+```
+
+PR 본문에는 무엇이 달라졌는지와 **실제로 수행한** 검증 결과를 적는다. `Closes #42`처럼 GitHub의 종료 키워드를 쓰려면 해당 이슈를 이 PR로 닫으려는 의도가 있어야 한다. GitHub 문서상 PR이 기본 브랜치를 대상으로 할 때 키워드 연결이 해석되며, 연결된 PR이 기본 브랜치에 병합될 때 이슈가 자동 종료된다. 다른 브랜치를 대상으로 하는 PR에 단순히 이슈 번호나 키워드를 적는 것만으로 같은 동작을 기대하지 않는다. [GitHub의 PR·이슈 연결 문서](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue)를 참고한다.
+
+여기서 Plan은 이슈 해석과 변경 계획에, Subagent는 독립적인 조사에 유용하다. 반면 파일별 스테이징과 외부 공개 여부는 자동화 속도보다 **사람이 검토 가능한 경계**가 중요하다.
 
 ## 정리
 

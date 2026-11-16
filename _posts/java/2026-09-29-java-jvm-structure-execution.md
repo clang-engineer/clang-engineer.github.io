@@ -2,7 +2,7 @@
 title       : "JVM 구조와 작동 원리 — Bytecode가 CPU에서 실행되기까지"
 description : "Java Roadmap의 JVM 영역을 Zoom-in해 Class Loading, Linking/Initialization, Runtime Data Areas, Frame, Interpreter/JIT, GC와 Native 경계를 하나의 실행 흐름으로 연결한다."
 date        : 2026-09-29 12:50:00 +0900
-updated     : 2026-09-29 12:50:00 +0900
+updated     : 2026-11-16 12:00:00 +0900
 categories  : [java, "언어·런타임"]
 tags        : [java, jvm, bytecode, classloader, jit, gc]
 pin         : false
@@ -323,6 +323,19 @@ Native Method가 필요하면 JVM은 Native Implementation과 연결할 수 있�
 ```
 
 는 의미이지 CPU와 OS가 사라진다는 뜻이 아니다.
+
+### 바이트코드는 이식되지만 배포 환경은 별개다
+
+같은 `.jar`가 여러 운영체제에서 실행될 *수 있다*는 것은 해당 운영체제용 JVM과 필요한 주변 환경이 갖춰졌다는 조건부 명제다. JVM이 파일 경로·권한·인코딩·로케일·폰트·네이티브 라이브러리까지 한 가지 값으로 만들어 주지는 않는다. Windows에서 개발해 Linux에 배포할 때 특히 다음 경계를 점검한다.
+
+| 경계 | 실행 시 확인할 것 |
+|---|---|
+| 파일 시스템 | 경로 구분자·대소문자·절대 경로 가정, 줄바꿈과 파일 권한·`umask` |
+| 문자·표현 | 입력 파일의 명시적 문자셋, 로케일·타임존·서버 폰트 |
+| 외부 의존 | 실행하는 OS 명령과 네이티브 라이브러리의 플랫폼별 제공 여부 |
+| 운영 방식 | Linux의 `systemd`·로그 수집과 Windows 서비스 래퍼처럼 서로 다른 프로세스 수명 관리 |
+
+예를 들어 Java 코드에서 외부 명령 이름이나 `C:\...` 경로를 고정했다면 JVM 위에서 돌아도 그 명령·파일은 Linux에서 그대로 생기지 않는다. **개발과 배포의 차이를 최소화**하는 컨테이너나 동등한 환경을 사용하되, 호스트의 권한과 마운트·네트워크 차이는 별도로 확인한다. 서버에서 Linux를 선택하는 이유는 JVM의 필수 조건이 아니라 배포·컨테이너·운영 자동화의 편의다. 반대로 Windows 전용 DLL·COM, 인증 체계 같은 제약이 있으면 그 환경을 선택해야 한다. class file의 버전과 런타임 JDK 호환성은 [Gradle JVM과 Toolchain·target 분리](../gradle/2026-05-20-gradle-toolchain-target.md)에서 다루는 별도 축이다.
 
 ## 7. 처음부터 끝까지 다시 연결한다
 
