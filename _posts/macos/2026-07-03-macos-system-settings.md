@@ -2,7 +2,7 @@
 title       : macOS 시스템 설정 — 세벌식·트랙패드·터미널·앱 권한
 description : "새 맥을 개발 환경으로 다듬을 때 손보는 시스템 설정 모음. 세벌식 입력, Caps Lock 전환, 세 손가락 드래그, Mission Control 단축키 충돌부터 터미널 테마, JetBrains, 앱 접근 권한, vim 스크롤까지."
 date        : 2026-07-03 13:30:00 +0900
-updated     : 2026-10-20 13:50:00 +0900
+updated     : 2026-11-16 09:49:06 +0900
 categories  : [macos, "시스템 운영"]
 tags        : [macos, settings, terminal]
 pin         : false
@@ -57,6 +57,15 @@ hidden      : false
 1. **제어 센터 → 스테이지 매니저**에서 활성 상태인지 확인한다.
 2. 켜져 있다면 끈 뒤, AeroSpace 작업공간을 여러 번 오가며 증상이 사라지는지 확인한다.
 3. 그대로라면 별도 문제다. 단축키 오입력이나 아코디언 모드로 단정하지 말고 추가로 진단한다.
+
+**2026-11-16 재발:** 같은 증상이 나타났고 `defaults read com.apple.WindowManager GloballyEnabled`의 결과가 `1`(켜짐)이었다. 터미널에서는 [WindowManager 설정값](https://www.hexnode.com/mobile-device-management/help/script-to-enable-disable-stage-manager-on-mac)을 바꿔 현재 설정을 끌 수 있다.
+
+```sh
+defaults write com.apple.WindowManager GloballyEnabled -bool false
+defaults read com.apple.WindowManager GloballyEnabled  # 0이면 꺼진 설정
+```
+
+명령 실행 후 제어 센터에서 실제 상태를 확인하고 작업공간을 전환해 본다. 이 명령은 **현재 설정만 끄며**, 왜 다시 켜졌는지는 밝혀주지 않는다. 반복된다면 **시스템 설정 → 키보드 → 키보드 단축키 → Mission Control**에서 스테이지 매니저 전환 단축키가 지정됐는지 확인하고, 재로그인·재시동 직후 켜지는지 구분한다.
 
 설정 위치는 **시스템 설정 → 데스크탑 및 Dock → 스테이지 매니저**에서도 찾을 수 있다. macOS 버전에 따라 메뉴 배치는 다를 수 있다. 기능과 설정 경로는 [Apple의 스테이지 매니저 안내](https://support.apple.com/ko-kr/guide/mac-help/mchl534ba392/mac)를 참고한다.
 
