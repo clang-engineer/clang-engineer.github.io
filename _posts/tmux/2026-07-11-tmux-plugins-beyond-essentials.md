@@ -147,13 +147,35 @@ extrakto를 계속 쓴다면 다음 후보도 텍스트 추출 도구일 필요�
 | [tmux-prefix-highlight](https://github.com/tmux-plugins/tmux-prefix-highlight) | 674 | prefix 입력 상태를 상태바에 표시 | 기존 테마나 OMT가 이미 표시한다면 추가 이점이 작음 |
 | [tmux-which-key](https://github.com/alexwforsythe/tmux-which-key) | 330 | 계층형 명령 메뉴·매크로를 YAML로 구성 | 단축키 암기 대신 메뉴를 선호할 때. 메뉴 설정은 별도로 관리 |
 
-### 먼저 시험할 두 가지
+### tmux-fzf — tmux 관리용 명령 팔레트
 
 **tmux-fzf는 tmux 관리용 명령 팔레트에 가깝다.** extrakto가 출력된 문자열을 찾는다면, tmux-fzf는 세션·윈도우·pane 같은 **tmux 객체**를 찾는다. 이동뿐 아니라 pane 합치기·분리·이동, 키 바인딩 검색·실행, tmux 버퍼 선택도 제공한다. 시스템 클립보드 이력까지 접근하려면 별도 CopyQ가 필요하고, 없으면 tmux 버퍼를 사용한다.
 
 기본 실행 키는 `prefix + F`다. **OMT의 PathPicker도 같은 키를 사용하므로**, 함께 쓴다면 tmux-fzf의 `TMUX_FZF_LAUNCH_KEY`를 다른 키로 지정해야 한다.
 
-**tmux-logging은 출력 보관이 필요할 때 켠다.** 로깅 시작 이후의 출력 기록과, 이미 남아 있는 화면·Scrollback 저장을 구분한다. 과거 출력은 tmux가 보존 중인 범위만 저장할 수 있으며, `history-limit`을 넘어 버려진 줄은 복구하지 못한다.
+### tmux-logging — 실패한 작업의 출력을 남기기
+
+**tmux-logging은 pane의 터미널 출력을 텍스트 파일로 보관한다.** 화면 녹화나 명령 재실행 도구가 아니라, 빌드·배포·SSH 작업의 결과를 나중에 분석하거나 공유하기 위한 기록 도구다. 로깅을 미리 켜는 것과 실패한 뒤 남은 출력을 저장하는 것을 구분한다.
+
+| 기능 | 저장 범위 | 기본 키 |
+|---|---|---|
+| 실시간 로깅 켜기·끄기 | 켠 시점부터 이후 pane 출력 | `prefix` → `Shift+P` |
+| 현재 화면 저장 | 지금 pane에 보이는 텍스트 | `prefix` → `Alt+P` |
+| Scrollback 저장 | 보존된 과거 출력과 현재 화면 | `prefix` → `Alt+Shift+P` |
+
+기본 저장 위치는 홈 디렉터리(`$HOME`)이며, 파일명에 세션·윈도우·pane·시각이 들어간다. 예를 들어 배포 직전에 로깅을 켜고 종료 후 끄면 진행 과정을 남길 수 있다. 미리 켜지 않았더라도 빌드 실패 직후 Scrollback을 저장하면 남아 있는 오류 메시지를 확보할 수 있다. 기능과 기본 키는 [upstream README](https://github.com/tmux-plugins/tmux-logging#readme) 기준이다.
+
+#### 가끔 저장한다면 플러그인 없이 capture-pane
+
+한 번 출력 파일을 남기는 정도라면 tmux 내장 [`capture-pane`](https://man.openbsd.org/tmux#capture-pane)으로 충분하다. **저장하려는 tmux pane 안의 셸에서** 실행한다.
+
+```sh
+tmux capture-pane -p -S - > pane-output.txt
+```
+
+`-p`는 캡처 결과를 표준 출력으로 보내고, `-S -`는 보존된 히스토리의 시작부터 캡처한다. 끝은 기본값인 현재 화면의 마지막 줄까지다. 따라서 **남아 있는 Scrollback과 현재 화면**이 현재 디렉터리의 `pane-output.txt`에 저장된다. `>`는 같은 이름의 기존 파일을 덮어쓰므로 보관할 파일이 있다면 다른 이름을 쓴다.
+
+이 명령은 **실행 시점의 스냅샷**이지 이후 출력을 계속 기록하는 로깅이 아니다. 플러그인과 내장 명령 모두 tmux가 보존 중인 과거 출력만 저장할 수 있으며, `history-limit`을 넘어 버려진 줄은 복구하지 못한다. 가끔 저장하면 내장 명령, 반복해서 저장하거나 실시간 기록을 켜고 끄려면 tmux-logging을 선택한다.
 
 > **로그에도 민감정보가 남는다.** 출력에 토큰·개인정보가 포함되면 로그 파일에도 기록될 수 있다. 상시 로깅보다 필요한 작업에서만 켜고, 저장 위치·보관 기간·공유 전 내용을 확인한다.
 {: .prompt-warning }
