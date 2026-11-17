@@ -2,7 +2,7 @@
 title       : "필수 그다음 — 요즘 얹는 tmux 플러그인 (테마·추출·퍼지)"
 description : "TPM 기반 기본 구성 위에 얹는 층. catppuccin으로 상태바 현대화(방치된 themepack 대체), tmux-yank·extrakto로 복사·추출, tmux-fzf 계열 퍼지까지 — 별 개수·정착도를 실측 근거와 함께."
 date        : 2026-07-11 16:00:00 +0900
-updated     : 2026-10-12 08:50:00 +0900
+updated     : 2026-11-17 16:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [plugin, catppuccin, extrakto]
 pin         : false
@@ -127,6 +127,42 @@ tmux 화면 / Scrollback
 [tmux-fzf](https://github.com/sainnhe/tmux-fzf)는 화면의 파일 경로 추출보다는 **세션·윈도우·pane·키 바인딩 등 tmux 객체를 fzf로 선택**하는 도구다. 출력 텍스트 추출 플러그인과 같은 범주로 묶지 않는다. GitHub Stars **1,523**, 마지막 Push **2026-10** (같은 조회 기준).
 
 **채택 기준:** 이미 Copy Mode와 OSC52를 활용한다면 무작정 설치할 필요는 없다. 실제로 화면의 경로를 다시 타이핑하거나 복사하는 일이 잦을 때 extrakto 또는 fingers 계열 하나부터 시험하는 편이 간결하다.
+
+## 4. 출력 추출 밖의 인기 플러그인 — 관리·기록·메뉴
+
+extrakto를 계속 쓴다면 다음 후보도 텍스트 추출 도구일 필요는 없다. **tmux 자체를 관리하거나, 작업 출력을 보관하거나, 명령을 메뉴로 고르는 기능**은 다른 빈틈을 채운다. 힌트 선택 방식이 맞지 않는다면 fingers 대신 thumbs를 넣기보다, 추출은 extrakto에 맡기고 다른 축을 살펴보는 편이 낫다.
+
+아래는 **2026-11-17 GitHub API 조회 기준**이다. 전체 생태계 순위가 아니라 앞서 다룬 도구와 추가 후보를 함께 비교한 목록이며, Stars 순으로 정렬했다. 별 개수는 설치 수·활발함·유지보수 품질을 뜻하지 않는다.
+
+| 플러그인 | Stars | 용도 | 도입 판단 |
+|---|---:|---|---|
+| [tmux-powerline](https://github.com/erikw/tmux-powerline) | 3,844 | Git·시스템 정보 등을 세그먼트로 구성하는 상태바 | 상태바를 교체하려는 경우. 기존 테마·OMT 상태바와 역할 중복 |
+| [catppuccin/tmux](https://github.com/catppuccin/tmux) | 3,221 | 테마·상태바 스타일링 | 디자인 변경용. 기존 테마와 설정 우선순위 정리 필요 |
+| [tmux-yank](https://github.com/tmux-plugins/tmux-yank) | 3,124 | 선택 영역·명령줄·현재 경로를 OS 클립보드로 복사 | Copy Mode를 자주 쓸 때. OSC52·기존 클립보드 연동과 중복 확인 |
+| [tmux-sensible](https://github.com/tmux-plugins/tmux-sensible) | 2,238 | 널리 쓰이는 기본 설정·키 바인딩 묶음 | 직접 구성할 때의 기반. OMT 같은 설정 배포판 위에서는 우선순위 낮음 |
+| **[tmux-fzf](https://github.com/sainnhe/tmux-fzf)** | **1,523** | 세션·윈도우·pane·명령·키 바인딩·버퍼를 fzf로 검색·조작 | **관리용 퍼지 UI가 필요하면 우선 체험**. extrakto와 목적이 다름 |
+| [tmux-sessionx](https://github.com/omerxx/tmux-sessionx) | 1,408 | 미리보기 있는 세션·윈도우 검색, 생성·이름 변경, zoxide 연동 | 세션 관리에 집중할 때. sesh를 쓴다면 중복이 큼 |
+| **[tmux-logging](https://github.com/tmux-plugins/tmux-logging)** | **1,263** | pane 출력 로깅, 현재 화면·보존된 Scrollback을 파일로 저장 | **빌드·배포·SSH 출력 보관이 필요하면 체험** |
+| [tmux-open](https://github.com/tmux-plugins/tmux-open) | 744 | Copy Mode에서 선택한 파일·URL 열기, 선택 문구 웹 검색 | 선택 후 바로 여는 흐름을 선호할 때 |
+| [tmux-prefix-highlight](https://github.com/tmux-plugins/tmux-prefix-highlight) | 674 | prefix 입력 상태를 상태바에 표시 | 기존 테마나 OMT가 이미 표시한다면 추가 이점이 작음 |
+| [tmux-which-key](https://github.com/alexwforsythe/tmux-which-key) | 330 | 계층형 명령 메뉴·매크로를 YAML로 구성 | 단축키 암기 대신 메뉴를 선호할 때. 메뉴 설정은 별도로 관리 |
+
+### 먼저 시험할 두 가지
+
+**tmux-fzf는 tmux 관리용 명령 팔레트에 가깝다.** extrakto가 출력된 문자열을 찾는다면, tmux-fzf는 세션·윈도우·pane 같은 **tmux 객체**를 찾는다. 이동뿐 아니라 pane 합치기·분리·이동, 키 바인딩 검색·실행, tmux 버퍼 선택도 제공한다. 시스템 클립보드 이력까지 접근하려면 별도 CopyQ가 필요하고, 없으면 tmux 버퍼를 사용한다.
+
+기본 실행 키는 `prefix + F`다. **OMT의 PathPicker도 같은 키를 사용하므로**, 함께 쓴다면 tmux-fzf의 `TMUX_FZF_LAUNCH_KEY`를 다른 키로 지정해야 한다.
+
+**tmux-logging은 출력 보관이 필요할 때 켠다.** 로깅 시작 이후의 출력 기록과, 이미 남아 있는 화면·Scrollback 저장을 구분한다. 과거 출력은 tmux가 보존 중인 범위만 저장할 수 있으며, `history-limit`을 넘어 버려진 줄은 복구하지 못한다.
+
+> **로그에도 민감정보가 남는다.** 출력에 토큰·개인정보가 포함되면 로그 파일에도 기록될 수 있다. 상시 로깅보다 필요한 작업에서만 켜고, 저장 위치·보관 기간·공유 전 내용을 확인한다.
+{: .prompt-warning }
+
+### 메뉴가 필요하다면 tmux-which-key
+
+tmux-which-key는 화면 문자열에 힌트를 붙이는 fingers 계열과 다르다. “윈도우 → 이동”, “pane → 레이아웃”처럼 **명령을 계층형 메뉴에서 고르는 방식**이다. 다만 현재 키 설정을 자동으로 전부 설명해주는 도구라기보다는, 원하는 명령과 매크로를 메뉴로 구성하는 도구다.
+
+**선택 기준은 미해결 작업이다.** 관리 동작을 fuzzy 검색하고 싶으면 tmux-fzf, 출력 보관이 필요하면 tmux-logging, 명령을 메뉴로 정리하고 싶으면 tmux-which-key를 검토한다. extrakto로 추출이 충분하다면 추출 플러그인은 더 늘리지 않는다.
 
 ---
 
