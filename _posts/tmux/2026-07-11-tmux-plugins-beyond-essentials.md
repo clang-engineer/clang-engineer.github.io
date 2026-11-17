@@ -1,6 +1,6 @@
 ---
 title       : "필수 그다음 — 요즘 얹는 tmux 플러그인 (테마·추출·퍼지)"
-description : "TPM 기반 기본 구성 위에 얹는 층. catppuccin으로 상태바 현대화(방치된 themepack 대체), tmux-yank·extrakto로 복사·추출, tmux-fzf 계열 퍼지까지 — 별 개수·정착도를 실측 근거와 함께."
+description : "테마·복사·출력 추출 다음에 얹을 tmux 도구를 비교한다. tmux-open의 선택 후 동작과 tmux-fzf·sessionx·sesh의 역할 차이를 구분한다."
 date        : 2026-07-11 16:00:00 +0900
 updated     : 2026-11-17 16:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
@@ -151,7 +151,32 @@ extrakto를 계속 쓴다면 다음 후보도 텍스트 추출 도구일 필요�
 
 **tmux-fzf는 tmux 관리용 명령 팔레트에 가깝다.** extrakto가 출력된 문자열을 찾는다면, tmux-fzf는 세션·윈도우·pane 같은 **tmux 객체**를 찾는다. 이동뿐 아니라 pane 합치기·분리·이동, 키 바인딩 검색·실행, tmux 버퍼 선택도 제공한다. 시스템 클립보드 이력까지 접근하려면 별도 CopyQ가 필요하고, 없으면 tmux 버퍼를 사용한다.
 
-기본 실행 키는 `prefix + F`다. **OMT의 PathPicker도 같은 키를 사용하므로**, 함께 쓴다면 tmux-fzf의 `TMUX_FZF_LAUNCH_KEY`를 다른 키로 지정해야 한다.
+기본 실행 키는 `prefix + F`(`prefix`를 누르고 뗀 뒤 `Shift+f`)다. **OMT의 PathPicker도 같은 키를 사용한다.** 두 기능을 모두 유지하려면 `TMUX_FZF_LAUNCH_KEY`로 tmux-fzf의 키를 바꾼다. 반대로 PathPicker를 쓰지 않는다면, 이후 로드되는 tmux-fzf가 `F`를 맡도록 두면 된다. 충돌한다는 이유만으로 무조건 새 단축키를 만들 필요는 없다.
+
+### tmux-open — 선택한 텍스트를 열기·검색하기
+
+extrakto가 화면에서 **문자열을 골라내는 단계**를 돕는다면, [tmux-open](https://github.com/tmux-plugins/tmux-open)은 **이미 선택한 텍스트에 동작을 적용하는 단계**를 맡는다. Copy Mode에서 파일 경로·URL·오류 문구를 선택한 뒤 사용한다.
+
+```tmux
+set -g @open-editor-command 'nvim'
+set -g @open-S 'https://www.google.com/search?q='
+set -g @plugin 'tmux-plugins/tmux-open'
+```
+
+이 세 줄은 **플러그인 선언과 그 플러그인의 옵션 두 개**다. 플러그인만 선언해도 기본 동작은 제공된다. `@open-editor-command`는 에디터를 Neovim으로 고정하고, `@open-S`는 검색 키와 검색 엔진을 명시한다. 옵션은 TPM이 플러그인을 로드하기 전에 둔다.
+
+| Copy Mode에서 누를 키 | 선택한 텍스트에 적용할 동작 |
+|---|---|
+| `o` | macOS `open` / Linux `xdg-open`으로 파일·URL 열기 |
+| `Ctrl+o` | 지정한 에디터로 파일 열기 |
+| `Shift+s` | Google에서 검색 |
+
+여기서는 **prefix를 다시 누르지 않는다.** `@open-S`의 `S`는 기능명이 아니라 **바인딩할 대문자 키**다. `Shift+s`는 upstream의 기본 검색 키이기도 하다. `@open-s`로 설정하면 소문자 `s`에 검색을 붙일 수 있지만, 기존 Copy Mode 키와의 충돌은 먼저 확인한다.
+
+`Ctrl+o`는 현재 pane에 에디터 명령과 Enter를 보내는 방식이므로 **셸 프롬프트에서 사용한다.** 다른 프로그램이 실행 중인 pane에 명령을 밀어 넣는 용도로 쓰지 않는다. 선택한 오류 문구를 웹 검색할 때는 토큰·개인정보가 섞이지 않았는지도 확인한다. 키와 검색 설정은 [upstream README](https://github.com/tmux-plugins/tmux-open#configuration) 기준이다.
+
+> **설치와 현재 서버의 로드는 구분한다.** 새 플러그인이 다운로드됐어도 기존 tmux 서버에 키가 아직 등록되지 않았다면 동작하지 않는다. 설치 완료 후 `tmux source-file ~/.tmux.conf`로 다시 로드하고, `tmux list-keys -T prefix`에서 extrakto·tmux-fzf 같은 prefix 바인딩을 확인한다. OMT에서는 기존 TPM 연동을 사용하고, 별도의 `run '~/.tmux/plugins/tpm/tpm'`을 중복 추가하지 않는다.
+{: .prompt-tip }
 
 ### tmux-logging — 실패한 작업의 출력을 남기기
 
@@ -204,9 +229,17 @@ tmux-which-key는 화면 문자열에 힌트를 붙이는 fingers 계열과 다�
 
 ---
 
-## 얹지 *않은* 것 — sesh는 다른 축
+## 세션 탐색의 두 형태 — TPM 플러그인과 외부 CLI
 
-인기 급상승 중인 **sesh**(joshmedeski, 2.7k⭐, 활발)를 여기 넣지 않았다. fzf+zoxide로 세션을 온디맨드 전환하는 **모멘텀 툴**이지만, 이건 TPM 플러그인이 아니라 tmux *밖*의 **세션 매니저**다 — resurrect가 *떠 있던* 세션을 저장·복원한다면, sesh는 세션을 처음부터 띄우고 오간다. 그래서 결이 맞는 자리는 이 글이 아니라 [3단계 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md)이다. smug·tmuxp·tmuxinator와 같은 축에서 비교하는 게 맞다.
+**2026-11-17 보강.** [sesh](https://github.com/joshmedeski/sesh)는 tmux를 대체하지 않는 **tmux 전용 세션 관리자**지만, TPM 플러그인이 아니라 별도로 설치하는 CLI다. tmux 안에서는 세션을 전환하고, 밖에서는 세션에 접속할 수 있다. Homebrew는 그 실행 파일을 설치·업데이트하는 수단이지, “tmux와 무관한 도구”라는 뜻이 아니다.
+
+앞의 [tmux-sessionx](https://github.com/omerxx/tmux-sessionx)는 **TPM 플러그인 형태로 제공하는 세션·윈도우 선택기**이고, sesh는 **셸·스크립트에서도 호출할 수 있는 독립 프로그램**이다. 둘 다 세션 탐색·생성에서 역할이 겹친다. sessionx의 미리보기는 선택한 세션·윈도우의 화면 내용이지 **pane별 CPU·메모리 사용량 모니터**가 아니다.
+
+tmux-fzf가 세션·윈도우·pane·버퍼를 두루 다루는 **tmux 객체 관리**에 가깝다면, sesh는 기존 세션과 방문한 디렉터리를 연결해 **프로젝트 사이를 이동하는 흐름**에 집중한다. 이미 tmux-fzf로 이동이 충분하다면 sesh를 더할 필요는 없다. 프로젝트 폴더별로 세션을 만들고 반복해서 오갈 때 도입할 이유가 생긴다.
+
+sesh는 `sesh connect ~/projects/api`처럼 목적지를 지정하거나, `sesh picker`에서 목록을 고른다. 현재 tmux 세션·zoxide 디렉터리 이력·등록한 설정 세션이 후보이며, 내장 picker에는 fzf가 필수가 아니다. `prefix + T`도 자동 등록되는 키가 아니라 사용자가 연결하는 바인딩이다. **목록의 출처, 새 세션 생성과 기존 세션 전환의 차이, 설정 없이 시작하는 방법**은 기존 [sesh — 즉석 tmux 세션 전환](./2026-07-12-sesh-tmux-session-picker.md)에서 이어간다.
+
+고정 레이아웃의 재현이 목적이면 [세션 부트스트랩](./2026-02-21-tmux-bootstrap.md)의 smug·tmuxp·tmuxinator와 비교한다. `tmux-resurrect`/`continuum`의 저장·복원과도 다른 문제다.
 
 ---
 
@@ -241,5 +274,5 @@ run '~/.tmux/plugins/tpm/tpm'
 
 `prefix + I`로 설치하면 끝. 상태바가 catppuccin으로 바뀌고, 복사 모드 `y`가 시스템 클립보드로 나가고, `prefix + tab`으로 화면 텍스트를 집어낼 수 있다.
 
-> 📎 **더 찾기** · [awesome-tmux](https://github.com/rothgar/awesome-tmux) — 위 너머의 플러그인·설정·아티클 카테고리별 인덱스. 세션 매니저(sesh 등)를 찾는다면 [부트스트랩 글](./2026-02-21-tmux-bootstrap.md)로.
+> 📎 **더 찾기** · [awesome-tmux](https://github.com/rothgar/awesome-tmux) — 위 너머의 플러그인·설정·아티클 카테고리별 인덱스. 프로젝트별 생성·전환은 [sesh 글](./2026-07-12-sesh-tmux-session-picker.md), 고정 레이아웃 재현은 [부트스트랩 글](./2026-02-21-tmux-bootstrap.md)로.
 {: .prompt-tip }
