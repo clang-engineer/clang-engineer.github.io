@@ -2,7 +2,7 @@
 title       : "tmux copy-mode 선택을 AI 에이전트 pane으로 — Y 한 키로 marked pane에 전송"
 description : "터미널 출력을 AI 에이전트에 복붙하는 게 번거롭다면 copy-mode 바인딩 하나로 끝난다. 왜 copy-mode는 nvim 버퍼를 못 긁는지(alternate screen), 그래서 셸 출력과 에디터 코드가 레이어별로 도구가 갈리는지까지 정리."
 date        : 2026-07-11 14:00:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-11-18 00:00:00 +0900
 categories  : [tmux, "설정·옵션"]
 tags        : [tmux, copy-mode, ai-agent, claude-code, vi-mode, guide]
 pin         : false
@@ -91,7 +91,7 @@ bind -T copy-mode-vi Y ...                                  # 복사 → 에이�
 - **`y`** = 선택을 시스템 클립보드로 복사 (vim의 yank 습관 그대로)
 - **`Y`** = 선택을 에이전트 패널로 전송
 
-소문자는 기본 동작, 대문자는 확장 동작이라는 대소문자 규약이 살아 있어 외우기 쉽다. `y`가 클립보드까지 가려면 `set -g set-clipboard on`이 전제인데, 이건 [tmux 시스템 클립보드 — OSC52 / pbcopy / 한글](./2026-06-10-tmux-clipboard-osc52-pbcopy-hangul.md)에서 따로 다뤘다.
+소문자는 기본 동작, 대문자는 확장 동작이라는 대소문자 규약이 살아 있어 외우기 쉽다. `y`가 클립보드까지 가려면 `set -g set-clipboard on`이 전제인데, 이건 [터미널과 tmux의 클립보드 경계](../terminal/2026-06-10-terminal-clipboard.md)에서 따로 다뤘다.
 
 ## 정리
 

@@ -1,36 +1,95 @@
 ---
-title       : "필수 그다음 — 요즘 얹는 tmux 플러그인 (테마·추출·퍼지)"
-description : "출력 추출·관리·기록용 tmux 도구를 비교하고, sessionx와 sesh의 중복 및 tmuxinator·fzf-marks의 연동 경계를 정리한다."
+title       : "tmux 플러그인, 무엇을 더하고 무엇을 빼나"
+description : "TPM 기본 구성부터 출력 추출·세션 탐색까지 tmux 플러그인의 채택 이유를 비교하고, sesh·tmuxinator와의 역할 경계를 정리한다."
 date        : 2026-07-11 16:00:00 +0900
 updated     : 2026-11-18 16:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [plugin, catppuccin, extrakto]
 pin         : false
 hidden      : false
+redirect_from:
+  - /posts/tmux/2025-11-17-tmux-tpm/
+  - /posts/tmux/2026-02-21-tmux-tips/
 ---
 
-> 이 글은 [tmux 로드맵](./2026-06-16-00-tmux-roadmap.md)의 **2단계(플러그인으로 확장) > 쓰기** 연장선이다. TPM 설치와 **TPM 기반 기본 구성**(sensible·resurrect·continuum·vim-tmux-navigator)은 [tmux 설정과 TPM 플러그인](./2025-11-17-tmux-tpm.md)에서 이미 다뤘다. 이 글은 그 **기본 구성 다음 층** — 요즘 실력자들이 얹는 플러그인이다.
+tmux 플러그인은 많이 설치하는 것보다 **반복해서 불편한 일을 하나씩 줄이는 것**이 중요하다. 기본 설정을 묶어 받고 싶은지, 재시작 뒤 작업 배치를 복원하고 싶은지, 화면의 경로를 집어내고 싶은지부터 나눈다. 같은 `fzf`를 쓰더라도 출력 문자열을 고르는 도구와 세션을 관리하는 도구는 해결하는 문제가 다르다.
+
+> 이 글은 [tmux 로드맵](./2026-06-16-00-tmux-roadmap.md)의 플러그인 선택 구간이다. TPM과 기본 플러그인의 역할부터 대안·중복까지 여기서 함께 다룬다. 설치·옵션·재사용할 `.tmux.conf` 예시의 정본은 [devkit tmux 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/tmux.md), 직접 만드는 방법은 [tmux 플러그인은 어떻게 만드나](./2026-07-09-tmux-plugin-authoring.md)에 둔다.
 {: .prompt-tip }
 
-TPM 기반 기본 구성은 "tmux를 쓸 만하게" 만든다. 그 위에 얹는 층은 취향과 워크플로에 가깝다 — 상태바를 현대적으로 바꾸고, 복사·붙여넣기 마찰을 줄이고, 화면의 텍스트를 퍼지로 집어낸다. [awesome-tmux](https://github.com/rothgar/awesome-tmux) 목록은 방대하지만, 이 글은 **별 개수와 실제 정착도**를 근거로 "지금 얹을 만한 것"만 추렸다.
+**설치한 뒤에는 작업에서 출발한다.** 출력의 해시를 명령에 넣거나, 서버가 실행 중인 Pane을 찾거나, 선택한 경로를 열고 실패한 출력을 저장하는 순서는 [devkit의 플러그인 사용 흐름](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/tmux.md#plugin-usage)에 모았다. extrakto·tmux-fzf·tmux-vim-copy·tmux-open·tmux-logging의 진입 키와 팝업·Copy Mode 안의 조작을 구분하며, 이 글은 어떤 도구를 남길지에 집중한다.
 
-## 한눈에 — 무엇을 왜 얹나
+## 한눈에 — 어떤 불편을 줄이나
 
-| 축 | 1순위 | 별 | 왜 |
-|---|---|---|---|
-| 테마·상태바 | **catppuccin/tmux** | 3.1k | 현대 de-facto 표준. 블로그가 쓰던 themepack은 2019 방치 |
-| 복사·클립보드 | **tmux-yank** | 3.1k | 선택→시스템 클립보드 브리지의 표준 |
-| 추출 | **extrakto** | 1.1k | 화면의 path/URL/git-rev를 퍼지로 집어내는 "killer plugin" |
-| 퍼지 검색 | tmux-fzf | 1.5k | 세션·윈도우·키바인딩을 fzf UI로 (정착 후기는 얇음) |
+| 목적 | 후보 | 먼저 확인할 중복 |
+|---|---|---|
+| 기본 설정 정리 | sensible | 직접 적은 옵션·설정 배포판 |
+| 떠 있던 작업 배치 저장·복원 | resurrect + 필요하면 continuum | 선언형 세션 생성과는 다른 목적 |
+| Vim 창과 tmux pane 사이 이동 | vim-tmux-navigator | 에디터 쪽 연동·기존 이동 키 |
+| 상태바 스타일·정보 표시 | catppuccin 등 테마 하나 | 기존 테마·OMT 상태바 |
+| 선택 영역을 OS 클립보드로 | tmux-yank | OSC52·기존 클립보드 연동 |
+| 출력된 경로·URL·해시 선택 | extrakto 또는 힌트 계열 하나 | Copy Mode로 충분한지 |
+| tmux 객체 검색·조작 | tmux-fzf | 기존 객체 선택 UI |
+| 프로젝트 세션 생성·접속 | sessionx 또는 sesh | 서로 겹치는 세션 선택기 |
 
-> **별 개수 ≠ 활발함, 별개로 본다.** 별은 높은데 커밋이 뜸한 게 두 종류다 — resurrect·sensible·yank처럼 **성숙·안정이라 손댈 게 없는 것**(여전히 표준)과, themepack처럼 **진짜 방치된 것**. 아래에서 이 둘을 구분해 표기했다. (별 개수·최근 커밋은 2026-07 실측.)
-{: .prompt-info }
+## TPM과 기본 구성 — 모두에게 필수인 묶음은 아니다
+
+[TPM(Tmux Plugin Manager)](https://github.com/tmux-plugins/tpm)은 플러그인을 설치·갱신·삭제하고 로드하는 관리자다. 플러그인을 수동으로 로드할 수도 있으므로 tmux 자체의 필수 구성요소는 아니다. 여러 저장소의 설치와 갱신을 한곳에서 관리하려고 채택한다.
+
+직접 구성하는 환경에서는 TPM을 한 번 설치한다.
+
+```sh
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+아래는 **기본 후보의 선언 방식**을 보여주는 최소 예다. 네 플러그인을 무조건 함께 설치하라는 뜻은 아니다. 필요한 선언만 남기고, 플러그인 옵션은 초기화 줄보다 앞에 둔다.
+
+```tmux
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'christoomey/vim-tmux-navigator'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+
+# 다른 설정과 플러그인 선언 뒤, 설정 파일 맨 마지막
+run '~/.tmux/plugins/tpm/tpm'
+```
+
+기존 서버에는 `tmux source-file ~/.tmux.conf`로 TPM을 로드한 뒤 `prefix + I`(대문자 `I`)로 선언한 플러그인을 설치한다. 기본 prefix는 `Ctrl+b`다. 업데이트·삭제와 전체 구성 예시는 치트시트에서 이어간다. **Oh My Tmux! 사용자는 이 설치·초기화를 중복 추가하지 않고 배포판의 TPM 연동을 사용한다.**
+
+### sensible — 자주 쓰는 기본값을 묶어 받기
+
+[tmux-sensible](https://github.com/tmux-plugins/tmux-sensible)은 ESC 지연·Scrollback 크기·메시지 표시 시간·이동 키처럼 널리 쓰이는 설정을 묶는다. 사용자 정의 설정을 존중하면서 `.tmux.conf`의 반복을 줄이려는 것이 채택 이유다. 이미 필요한 옵션을 직접 관리하거나 OMT 같은 설정 배포판을 쓴다면 추가 이점이 작을 수 있다. “기본값 묶음”은 편의 기능이지 내 터미널의 색·입력 문제를 자동으로 모두 해결한다는 뜻은 아니다.
+
+### resurrect와 continuum — 저장·복원에 자동화를 더하기
+
+[tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)는 **저장한 시점의 세션·윈도우·pane 배치와 작업 경로, 지원하는 실행 명령**을 복원한다. 기본 키는 `prefix + Ctrl+s`로 저장, `prefix + Ctrl+r`로 복원이다. pane에 보이던 내용까지 남기려면 다음 옵션을 선택한다.
+
+```tmux
+set -g @resurrect-capture-pane-contents 'on'
+```
+
+다만 **실행 중인 프로세스의 메모리·네트워크 연결을 그대로 보존하는 체크포인트는 아니다.** 프로그램 복원에는 지원 범위가 있으며, Vim/Neovim의 편집 상태 복원도 별도 연동을 확인해야 한다. “개발 환경 그대로 복구”보다는 작업 배치를 다시 잡는 수고를 줄이는 도구로 이해한다.
+
+[tmux-continuum](https://github.com/tmux-plugins/tmux-continuum)은 resurrect에 의존해 기본 15분 간격의 자동 저장과 서버 시작 시 자동 복원을 더한다. 저장을 자주 잊는다면 추가할 이유가 있다.
+
+```tmux
+set -g @continuum-restore 'on'
+```
+
+이 옵션의 자동 복원은 **tmux 서버가 시작할 때만** 동작하며, 설정 리로드만으로 복원되지는 않는다. 컴퓨터 부팅 때 tmux 자체를 시작하는 기능도 별도로 활성화해야 한다. 자동 저장은 상태바 갱신에 의존하므로, 테마가 `status-right`를 덮어쓴다면 continuum을 플러그인 목록 마지막에 두는 등 [공식 문서의 조건](https://github.com/tmux-plugins/tmux-continuum#known-issues)을 확인한다.
+
+**저장·복원과 선언형 생성은 다른 축이다.** resurrect·continuum은 *떠 있던* 작업을 저장해 되살리고, tmuxinator·smug·tmuxp는 *원하는* 경로·레이아웃·실행 명령을 선언해 새 환경을 만든다. 후자가 필요하면 [세션 부트스트랩](./2026-02-21-tmux-bootstrap.md)을 본다. 둘을 같은 “세션 매니저”로 묶어 대체재라고 판단하지 않는다.
+
+### vim-tmux-navigator — 에디터 창과 pane의 이동 키 통일
+
+[vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)는 Vim/Neovim의 split과 tmux pane 사이를 **prefix 없이 `Ctrl+h/j/k/l`**로 이동하게 한다. 에디터 내부와 바깥에서 이동 키를 바꾸지 않아도 되는 것이 장점이다. **tmux 쪽 선언만으로 완성되지 않으며 Vim/Neovim 쪽 플러그인도 설치해야 한다.** 에디터를 쓰지 않거나 기존 키와 충돌한다면 기본 구성이라는 이유만으로 넣을 필요는 없다.
 
 ---
 
-## 1. 상태바 현대화 — themepack에서 catppuccin으로
+## 상태바 — themepack에서 catppuccin으로
 
-가장 갭이 큰 자리다. 기존 [플러그인 글](./2025-11-17-tmux-tpm.md)이 쓰는 `jimeh/tmux-themepack`(1.8k⭐)은 **2019년 이후 방치**됐다. 지금 상태바 테마의 사실상 표준은 **catppuccin/tmux**(3.1k⭐, 활발)다 — Neovim·bat·lazygit 등 앱 전반이 같은 팔레트로 통일되는 흐름의 tmux 쪽 조각이다.
+기존 구성의 `jimeh/tmux-themepack`은 Powerline 스타일과 색상 프리셋을 골라 적용하는 간단한 테마였다. **2026-07에 비교했을 때** themepack은 1.8k⭐에 2019년 이후 활동이 뜸한 후보로 기록했고, catppuccin/tmux는 3.1k⭐의 활발한 대안으로 보았다. Neovim·bat·lazygit 등과 같은 팔레트를 쓰고 싶어 catppuccin을 교체 후보로 삼았다. 이 수치와 활동 평가는 당시 관찰이지 현재 상태를 새로 판정한 결과가 아니다.
 
 ```tmux
 set -g @plugin 'catppuccin/tmux#v2.1.3'   # 태그 고정 권장 (v2는 config API가 바뀜)
@@ -40,27 +99,29 @@ set -g @catppuccin_flavor 'mocha'         # latte / frappe / macchiato / mocha
 > **catppuccin v2는 상태바를 직접 조립하는 구조다.** v1과 달리 세그먼트를 `status-right`에 명시적으로 꽂아야 한다. 플러그인 로드 뒤 `set -g status-right "#{E:@catppuccin_status_application}#{E:@catppuccin_status_session}"` 식으로 원하는 모듈만 붙인다. 세부 모듈은 저장소 README 참고. 그래서 themepack보다 손이 더 가지만, 그만큼 세밀하게 고를 수 있다.
 {: .prompt-info }
 
-### 대안 테마 순위
+### 당시 함께 비교한 테마
 
-| 순위 | 플러그인 | 별 | 성격 |
+아래 별 개수와 활동 메모 역시 **2026-07 비교 기록**이다. 순위는 설치 의무나 현재 생태계의 합의가 아니라 당시 검토 순서를 뜻한다.
+
+| 순서 | 플러그인 | 별 | 선택할 이유·당시 메모 |
 |---|---|---|---|
-| 1 | **catppuccin/tmux** | 3.1k | 현대 de-facto. 유일 불만은 "low-contrast/유행" 취향 이슈 |
-| 2 | dracula/tmux | 847 | 배터리·CPU 세그먼트 내장. 올인원 선호 시 |
-| 3 | tokyo-night-tmux | 566 | 니치하나 활발 |
-| 4 | egel/tmux-gruvbox | 695 | gruvbox 팬 |
-| - | erikw/tmux-powerline | 3.8k | 별은 최다지만 **폰트 패칭·정렬 마찰**로 테마 플러그인에 밀리는 추세 |
-| - | jimeh/tmux-themepack | 1.8k | **2019 방치** — 블로그의 현 설정, 교체 대상 |
+| 1 | [catppuccin/tmux](https://github.com/catppuccin/tmux) | 3.1k | 앱 전반의 팔레트 통일. 낮은 대비와 유행은 취향 문제 |
+| 2 | [dracula/tmux](https://github.com/dracula/tmux) | 847 | 배터리·CPU 세그먼트를 함께 구성하려는 경우 |
+| 3 | [tokyo-night-tmux](https://github.com/janoamaral/tokyo-night-tmux) | 566 | Tokyo Night 팔레트 선호, 당시 활동 확인 |
+| 4 | [egel/tmux-gruvbox](https://github.com/egel/tmux-gruvbox) | 695 | gruvbox 팔레트 선호 |
+| - | [erikw/tmux-powerline](https://github.com/erikw/tmux-powerline) | 3.8k | 세그먼트 조립의 자유와 폰트·정렬 관리 비용을 함께 고려 |
+| - | [jimeh/tmux-themepack](https://github.com/jimeh/tmux-themepack) | 1.8k | 기존 구성. 당시 2019년 이후 활동이 뜸한 것으로 기록 |
 
-powerline은 별이 제일 높지만, Nerd Font 패칭과 세그먼트 정렬 손질이 번거로워 catppuccin류 "설정 한두 줄" 테마로 이탈하는 흐름이 실재한다. **별 개수만 보고 고르면 오판**하는 대표 사례다.
+powerline은 당시 별이 가장 많았지만, 폰트 글리프와 세그먼트 정렬을 손보는 비용까지 없어지는 것은 아니다. **별 개수보다 필요한 상태바와 관리 비용을 먼저 본다.** 반대로 커밋이 뜸하다는 이유만으로 성숙한 도구와 유지보수가 멈춘 도구를 구분할 수도 없다. README·호환성 이슈·실제 동작을 함께 확인해야 한다.
 
-> 💡 **유틸 세트는 테마에 흡수되는 중.** 배터리(tmux-battery 569⭐)·CPU(tmux-cpu 533⭐)·prefix-highlight(669⭐)를 개별 플러그인으로 얹던 시절이 있었지만, catppuccin·dracula가 이걸 **테마 세그먼트로 내장**하면서 개별 설치 필요가 줄었다. HN 기조도 "플러그인 많으면 buggy, 미니멀하게"라, 테마 하나로 세그먼트를 해결하는 쪽이 요즘 결이다.
+> **상태바 정보도 중복을 확인한다.** 2026-07에 함께 살핀 tmux-battery(569⭐)·tmux-cpu(533⭐)·prefix-highlight(669⭐)는 배터리·CPU·prefix 표시용이다. 테마가 제공하는 모듈이나 OMT 상태바로 같은 정보가 충족된다면 따로 설치할 이유가 줄어든다. 테마 모듈이 해당 정보를 직접 계산하는지 별도 플러그인에 의존하는지는 각 README에서 확인한다.
 {: .prompt-tip }
 
 ---
 
-## 2. 복사·추출 — 선택을 손에 넣기
+## 복사 — 선택한 텍스트를 클립보드로
 
-tmux 안에서 텍스트를 시스템 클립보드로 빼거나, 화면에 뜬 경로·URL을 집어내는 마찰을 줄이는 층이다. 기존 [클립보드 트러블슈팅 글](../terminal/2026-06-10-terminal-clipboard.md)이 "왜 안 붙나"를 다뤘다면, 여기는 "더 편하게"다.
+tmux에서 **선택한 텍스트를 시스템 클립보드로 보내는** 마찰을 줄이는 층이다. 기존 [클립보드 트러블슈팅 글](../terminal/2026-06-10-terminal-clipboard.md)이 "왜 안 붙나"를 다뤘다면, 여기는 "더 편하게"다. 화면에서 복사할 대상을 찾는 추출 도구는 다음 절에서 구분한다.
 
 ### tmux-yank — 클립보드 브리지의 표준
 
@@ -68,23 +129,14 @@ tmux 안에서 텍스트를 시스템 클립보드로 빼거나, 화면에 뜬 �
 set -g @plugin 'tmux-plugins/tmux-yank'
 ```
 
-복사 모드에서 선택한 텍스트를 **시스템 클립보드**로 바로 보낸다(`y`). macOS `pbcopy`, Linux `xclip`/`xsel`/`wl-copy`를 알아서 감지한다. 3.1k⭐, 커밋은 2023에서 멈췄지만 **기능이 완결돼 손댈 게 없는** 쪽 — 여전히 표준이고 불만도 거의 없다.
+복사 모드에서 선택한 텍스트를 **시스템 클립보드**로 바로 보낸다(`y`). macOS `pbcopy`, Linux `xclip`/`xsel`/`wl-copy` 같은 도구를 감지해 사용한다. 2026-07 비교에서는 3.1k⭐, 최근 커밋은 2023년으로 기록했다. 목적이 명확한 도구라 후보로 남겼지만, 활동 날짜만으로 기능 완결이나 환경별 호환성을 보장할 수는 없다.
 
 > **OSC52를 쓴다면 tmux-yank는 대체로 불필요하다.** 둘은 "선택 → 시스템 클립보드"라는 **같은 목적을 다른 수단**으로 푼다 — tmux-yank는 `pbcopy`/`xclip`를 부르고, OSC52는 터미널 이스케이프 시퀀스로 넘긴다. [클립보드 트러블슈팅 글](../terminal/2026-06-10-terminal-clipboard.md)의 결론대로 `set -g set-clipboard on` 한 줄이면 플러그인 없이 해결되므로, **OSC52가 되는(대부분의 모던) 터미널이면 yank는 안 넣어도 된다.** 반대로 OSC52를 지원하지 않는 터미널·환경에선 yank의 `pbcopy`/`xclip` 경로가 폴백이 된다. 뒤의 **extrakto**는 목적이 달라(화면 텍스트 추출) 이 중복과 무관하다.
 {: .prompt-tip }
 
-### extrakto — 화면 텍스트 퍼지 추출
-
-```tmux
-set -g @plugin 'laktak/extrakto'
-# 기본 바인딩: prefix + tab
-```
-
-이 층의 진짜 물건. `prefix + tab`을 누르면 **현재 화면(스크롤백 포함)의 단어·경로·URL·git 해시**를 fzf로 띄우고, 고른 걸 커서에 삽입하거나 클립보드로 복사한다. 방금 로그에 뜬 파일 경로나 커밋 해시를 손으로 다시 타이핑할 일이 사라진다. 1.1k⭐, 활발, "killer plugin" 호평이 뚜렷하다.
-
 ---
 
-## 3. 화면 출력 탐색 — 정규식·힌트·퍼지 선택 비교
+## 출력 탐색 — 정규식·힌트·퍼지 선택 비교
 
 tmux의 Copy Mode는 출력 이력을 탐색하고 복사하는 기본 기능을 제공한다. 아래 플러그인들은 **화면에 이미 출력된 경로·URL·해시를 어떻게 찾아 선택할 것인가**라는 문제를 서로 다른 방식으로 해결한다.
 
@@ -113,6 +165,15 @@ tmux 화면 / Scrollback
 > Stars와 마지막 Push는 **2026-11-15 GitHub 저장소 조회 기준**이다. Push 시점은 코드 변경·유지보수 품질과 동일하지 않으며, 별 개수도 실제 사용량을 보장하지 않는다.
 {: .prompt-info }
 
+### extrakto — 화면 텍스트를 후보 목록으로
+
+```tmux
+set -g @plugin 'laktak/extrakto'
+# 기본 바인딩: prefix + tab
+```
+
+`prefix + tab`을 누르면 **현재 화면과 Scrollback의 단어·경로·URL·git 해시**를 fzf 목록으로 띄우고, 고른 항목을 커서에 삽입하거나 클립보드로 복사한다. 방금 로그에 뜬 경로나 해시를 다시 타이핑하는 일이 잦다면 체감이 크다. 2026-07 비교에서는 1.1k⭐와 “killer plugin”이라는 호평을 도입 단서로 삼았지만, 추천의 핵심은 인기보다 **내 출력에서 문자열을 자주 꺼내는가**다.
+
 ### 무엇을 선택할까?
 
 - **extrakto**: 로그·빌드 출력의 경로, URL, 해시를 **목록에서 검색하고 선택**하고 싶을 때. 이 글의 기본 추천은 유지한다.
@@ -122,13 +183,9 @@ tmux 화면 / Scrollback
 
 **예를 들어** `rg -n 'TODO'`나 빌드 명령이 `src/main.rs:42`를 출력했다면, extrakto는 후보 목록에서 해당 경로를 고르게 하고 fingers는 화면의 해당 문자열에 붙은 힌트 키를 입력하게 한다. copycat은 정규식에 매칭된 항목 사이를 이동한다. 이들은 **출력된 텍스트를 선택하는 도구**이며, 선택 결과를 기존 Neovim pane에서 열기까지 자동화하는 것은 별도의 연동 문제다.
 
-### 다른 축: tmux-fzf
-
-[tmux-fzf](https://github.com/sainnhe/tmux-fzf)는 화면의 파일 경로 추출보다는 **세션·윈도우·pane·키 바인딩 등 tmux 객체를 fzf로 선택**하는 도구다. 출력 텍스트 추출 플러그인과 같은 범주로 묶지 않는다. GitHub Stars **1,523**, 마지막 Push **2026-10** (같은 조회 기준).
-
 **채택 기준:** 이미 Copy Mode와 OSC52를 활용한다면 무작정 설치할 필요는 없다. 실제로 화면의 경로를 다시 타이핑하거나 복사하는 일이 잦을 때 extrakto 또는 fingers 계열 하나부터 시험하는 편이 간결하다.
 
-## 4. 출력 추출 밖의 인기 플러그인 — 관리·기록·메뉴
+## 출력 추출 밖의 후보 — 관리·기록·메뉴
 
 extrakto를 계속 쓴다면 다음 후보도 텍스트 추출 도구일 필요는 없다. **tmux 자체를 관리하거나, 작업 출력을 보관하거나, 명령을 메뉴로 고르는 기능**은 다른 빈틈을 채운다. 힌트 선택 방식이 맞지 않는다면 fingers 대신 thumbs를 넣기보다, 추출은 extrakto에 맡기고 다른 축을 살펴보는 편이 낫다.
 
@@ -150,6 +207,8 @@ extrakto를 계속 쓴다면 다음 후보도 텍스트 추출 도구일 필요�
 ### tmux-fzf — tmux 관리용 명령 팔레트
 
 **tmux-fzf는 tmux 관리용 명령 팔레트에 가깝다.** extrakto가 출력된 문자열을 찾는다면, tmux-fzf는 세션·윈도우·pane 같은 **tmux 객체**를 찾는다. 이동뿐 아니라 pane 합치기·분리·이동, 키 바인딩 검색·실행, tmux 버퍼 선택도 제공한다. 시스템 클립보드 이력까지 접근하려면 별도 CopyQ가 필요하고, 없으면 tmux 버퍼를 사용한다.
+
+앞선 **2026-11-15 조회에서도** Stars는 1,523, 마지막 Push는 2026-10으로 기록했다. 11월 17일의 후보 표와 마찬가지로 당시 활동 단서이며, 관리 UI의 가치나 유지보수 품질을 그 숫자만으로 판정하지 않는다.
 
 기본 실행 키는 `prefix + F`(`prefix`를 누르고 뗀 뒤 `Shift+f`)다. **OMT의 PathPicker도 같은 키를 사용한다.** 두 기능을 모두 유지하려면 `TMUX_FZF_LAUNCH_KEY`로 tmux-fzf의 키를 바꾼다. 반대로 PathPicker를 쓰지 않는다면, 이후 로드되는 tmux-fzf가 `F`를 맡도록 두면 된다. 충돌한다는 이유만으로 무조건 새 단축키를 만들 필요는 없다.
 
@@ -175,7 +234,7 @@ set -g @plugin 'tmux-plugins/tmux-open'
 
 `Ctrl+o`는 현재 pane에 에디터 명령과 Enter를 보내는 방식이므로 **셸 프롬프트에서 사용한다.** 다른 프로그램이 실행 중인 pane에 명령을 밀어 넣는 용도로 쓰지 않는다. 선택한 오류 문구를 웹 검색할 때는 토큰·개인정보가 섞이지 않았는지도 확인한다. 키와 검색 설정은 [upstream README](https://github.com/tmux-plugins/tmux-open#configuration) 기준이다.
 
-> **설치와 현재 서버의 로드는 구분한다.** 새 플러그인이 다운로드됐어도 기존 tmux 서버에 키가 아직 등록되지 않았다면 동작하지 않는다. 설치 완료 후 `tmux source-file ~/.tmux.conf`로 다시 로드하고, `tmux list-keys -T prefix`에서 extrakto·tmux-fzf 같은 prefix 바인딩을 확인한다. OMT에서는 기존 TPM 연동을 사용하고, 별도의 `run '~/.tmux/plugins/tpm/tpm'`을 중복 추가하지 않는다.
+> **설치와 현재 서버의 로드는 구분한다.** 다운로드 여부와 키 등록 여부는 별개다. 설치 후에도 키가 동작하지 않으면 `tmux source-file ~/.tmux.conf`로 다시 로드하고 `tmux list-keys -T prefix`에서 바인딩을 확인한다. TPM 설치 명령 자체도 로드를 수행하므로 매번 별도 초기화를 추가할 필요는 없다.
 {: .prompt-tip }
 
 ### tmux-logging — 실패한 작업의 출력을 남기기
@@ -213,19 +272,9 @@ tmux-which-key는 화면 문자열에 힌트를 붙이는 fingers 계열과 다�
 
 ---
 
-## 얹는 게 아니라 통째로 받기 — Oh My Tmux! (다른 축)
+## 플러그인을 얹는 대신 설정 배포판을 받는다면
 
-지금까지가 "TPM 기반 기본 구성 위에 취향껏 **얹는**" 이야기였다면, 정반대 노선도 있다 — 잘 짜인 `.tmux.conf`를 **통째로 받는** 것. **Oh My Tmux!**(`gpakosz/.tmux`, "oh-my-zsh의 tmux판")가 이 카테고리의 사실상 유일한 강자다. **25.2k⭐**로 이 글의 어떤 플러그인보다 별이 많지만 성격이 다르다 — 플러그인이 아니라 **완성형 config 배포판**이다.
-
-구조는 2파일: `.tmux.conf`(본체, 건드리지 않음) + `.tmux.conf.local`(내 override). 세련된 powerline 상태바, **SSH/Mosh 접속 시 원격 호스트·유저 자동 표시**(로컬일 땐 숨김), prefix·mouse·synchronize 토글 표시등을 즉시 준다. 같은 카테고리에 samoshkin/tmux-config(2.3k⭐, 2024 방치)·tony/tmux-config(1.9k⭐, 예제 성격)도 있지만 살아있는 건 사실상 OMT뿐이다.
-
-**그런데 왜 "얹지 않았나".** 이 블로그의 노선은 TPM 기반 기본 구성에서 시작해 필요한 것만 손으로 얹는 **hand-craft**다. 완성형 배포판을 상속하면 (1) 안 쓰는 기능까지 딸려오고, (2) 손수 다듬은 설정을 OMT의 `.tmux.conf.local` override 방식에 다시 맞춰야 하며, (3) 무엇보다 **스스로 조립하며 배우는 과정**이 사라진다. oh-my-zsh를 통째로 쓰다 결국 자기 zsh를 직접 짜게 되는 것과 같은 흐름이다.
-
-> 💡 **채택보다 "레퍼런스로 훔치기".** OMT의 `.tmux.conf`를 열어 탐나는 아이디어만 내 config로 가져오는 게 실속 있다 — 특히 **SSH/Mosh 접속 시 원격 호스트·유저를 자동 표시하는 상태바**와 **prefix/mouse/synchronize-panes 토글 표시등**. 통째 채택은 이미 curate한 config가 있다면 오히려 후퇴다.
-{: .prompt-tip }
-
-> 💡 **그래도 채택한다면 — chezmoi로 규율 있게.** OMT를 통째로 쓰기로 했다면, [chezmoi](https://chezmoi.io) 기준 정공법은 이렇다: 본체(`.tmux.conf`)는 `.chezmoiexternal`로 **upstream을 특정 커밋에 고정해** 가져오고(재현 가능·`apply` 때 예고 없는 변경 차단), `~/.tmux.conf`는 그 파일의 심링크, 내 커스텀은 `.tmux.conf.local` **한 파일로 격리**한다(플러그인도 여기서 `set -g @plugin`으로 선언 — tpm 설치·갱신까지 OMT가 대신 한다). 이러면 "완성형 배포판 상속"의 약점(안 쓰는 기능·upstream 추적 공백)을 상당 부분 상쇄한다 — 규율 있는 채택은 naive한 통째 상속과 다르다.
-{: .prompt-tip }
+[Oh My Tmux!](./2026-07-12-oh-my-tmux.md)는 플러그인이 아니라 **완성형 설정 배포판**이다. 필요한 조각을 직접 고르는 방식과, 상태바·키맵·기본 동작을 한꺼번에 상속하는 방식의 차이다. 기존 설정을 세밀하게 조립했다면 중복과 재조정 비용을 먼저 보고, 완성된 기본 환경을 원한다면 대안으로 검토한다. 채택 판단·상속 범위와 2파일 구조, chezmoi로 upstream을 고정하는 방법은 OMT 글에서 함께 다룬다.
 
 ---
 
@@ -285,36 +334,13 @@ sesh의 [v2.34.0 릴리스](https://github.com/joshmedeski/sesh/releases/tag/v2.
 
 ---
 
-## 얹은 뒤 `.tmux.conf` (기본 구성 + 이 글의 층)
+## 무엇을 남길까 — 기능마다 주인을 하나씩
 
-```tmux
-# --- TPM ---
-set -g @plugin 'tmux-plugins/tpm'
+- 직접 구성할 때의 기본값 묶음은 sensible, 저장·복원은 resurrect, 자동 저장까지 필요하면 continuum을 고른다. Vim/Neovim 이동 통합은 에디터를 함께 쓰는 경우에만 더한다.
+- 상태바는 테마 하나를 먼저 고른다. 클립보드는 OSC52로 충분하면 yank를 생략하고, 출력 문자열 추출이 반복되는 경우 extrakto나 힌트 계열 하나를 시험한다.
+- 이 글의 구성에서는 **프로젝트 진입은 sesh, tmux 객체 전반의 관리는 tmux-fzf**에 맡기고 sessionx는 제외한다. 이미 익숙한 선택기가 충분하다면 이 조합을 그대로 따라 할 필요도 없다.
+- 고정 작업 배치의 선언형 생성, 실행 중 배치의 저장·복원, 프로젝트 사이의 빠른 전환은 서로 다른 요구다. 이름이 비슷한 도구보다 미해결 작업을 기준으로 선택한다.
 
-# --- TPM 기반 기본 구성 (tmux-tpm 글) ---
-set -g @plugin 'tmux-plugins/tmux-sensible'
-set -g @plugin 'tmux-plugins/tmux-resurrect'
-set -g @plugin 'tmux-plugins/tmux-continuum'
-set -g @plugin 'christoomey/vim-tmux-navigator'
+**범용 최종 `.tmux.conf`와 옵션 표는 [devkit tmux 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/tmux.md)를 정본으로 둔다.** 이 글의 예제를 모두 합치는 것이 권장 설정은 아니다. 테마와 continuum의 로드 순서, 기존 키와의 충돌, OMT의 TPM 연동처럼 실제로 선택한 조합에 필요한 조건만 적용한다.
 
-# --- 필수 그다음 (이 글) ---
-set -g @plugin 'catppuccin/tmux#v2.1.3'    # 상태바 (themepack 대체)
-set -g @plugin 'tmux-plugins/tmux-yank'    # 선택 → 시스템 클립보드
-set -g @plugin 'laktak/extrakto'           # prefix+tab: 화면 텍스트 퍼지 추출
-
-# --- catppuccin ---
-set -g @catppuccin_flavor 'mocha'
-# status-right 세그먼트 조립은 README 참고
-
-# --- resurrect / continuum ---
-set -g @resurrect-capture-pane-contents 'on'
-set -g @continuum-restore 'on'
-
-# --- Initialize TPM (must be last) ---
-run '~/.tmux/plugins/tpm/tpm'
-```
-
-`prefix + I`로 설치하면 끝. 상태바가 catppuccin으로 바뀌고, 복사 모드 `y`가 시스템 클립보드로 나가고, `prefix + tab`으로 화면 텍스트를 집어낼 수 있다.
-
-> 📎 **더 찾기** · [awesome-tmux](https://github.com/rothgar/awesome-tmux) — 위 너머의 플러그인·설정·아티클 카테고리별 인덱스. 프로젝트별 생성·전환은 [sesh 글](./2026-07-12-sesh-tmux-session-picker.md), 고정 레이아웃 재현은 [부트스트랩 글](./2026-02-21-tmux-bootstrap.md)로.
-{: .prompt-tip }
+더 찾고 싶다면 [awesome-tmux](https://github.com/rothgar/awesome-tmux)에서 플러그인·설정·아티클을 탐색할 수 있다. 기본 플러그인 여럿은 [`tmux-plugins`](https://github.com/tmux-plugins) 조직에 모여 있지만 tmux 본체와 동일한 지원 범위를 뜻하지는 않는다. 프로젝트별 생성·전환은 [sesh 글](./2026-07-12-sesh-tmux-session-picker.md), 고정 레이아웃 재현은 [부트스트랩 글](./2026-02-21-tmux-bootstrap.md)로 이어진다.

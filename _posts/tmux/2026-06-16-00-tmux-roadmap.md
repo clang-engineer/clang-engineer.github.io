@@ -3,7 +3,7 @@ title       : "tmux 로드맵 — 구조·동작·설정·활용"
 description : "tmux의 server·client와 session·window·pane 구조를 중심으로 핵심 동작, 설정, 세션 관리 및 활용 문서를 연결하는 개념지도."
 date        : 2026-06-16 15:00:00 +0900
 permalink   : /posts/tmux/2026-06-16-tmux-roadmap/
-updated     : 2026-10-25 20:30:00 +0900
+updated     : 2026-11-18 00:00:00 +0900
 categories  : [tmux, "개요·인덱스"]
 tags        : [roadmap, terminal]
 pin         : false
@@ -67,4 +67,15 @@ tmux의 옵션·Key Binding·Hook은 기본 동작을 조정한다. Plugin은 �
 
 ## 필요한 경우 더 깊이 살펴보기
 
-[기본 조작](./2021-11-30-tmux-config.md), [설정·TPM](./2025-11-17-tmux-tpm.md), [세션 구성](./2026-02-21-tmux-bootstrap.md), [sesh](./2026-07-12-sesh-tmux-session-picker.md), [플러그인 제작](./2026-07-09-tmux-plugin-authoring.md)을 필요할 때 참고한다. PTY는 [Terminal](../terminal/2026-09-05-00-terminal-roadmap.md), Shell 작업 제어는 [Shell](../shell/2026-07-03-00-shell-roadmap.md), 환경 설정 재현은 [dotfiles](../shell/2026-07-08-00-dotfiles-roadmap.md)의 영역이다.
+| 이해하거나 해결할 문제 | 상세 글 |
+|---|---|
+| 작업공간 구조와 대상 주소, 세션 간 이동 | [Session·Window·Pane과 target](./2026-10-25-tmux-pane-window-cross-session.md) |
+| 필요한 확장과 중복 기능의 선택 | [플러그인, 무엇을 더하고 무엇을 빼나](./2026-07-11-tmux-plugins-beyond-essentials.md) |
+| 완성형 설정 상속과 커스터마이징·색상 감지 | [Oh My Tmux!](./2026-07-12-oh-my-tmux.md) |
+| 고정 레이아웃을 선언하고 다시 만들기 | [세션 부트스트랩](./2026-02-21-tmux-bootstrap.md) |
+| 프로젝트별 세션 생성·접속·전환 | [sesh](./2026-07-12-sesh-tmux-session-picker.md) |
+| 플러그인 실행 구조와 제작 | [플러그인은 어떻게 만드나](./2026-07-09-tmux-plugin-authoring.md) |
+| 에이전트의 실행·대기 상태 관찰 | [AI 에이전트 상태 감지](./2026-07-09-tmux-ai-agent-status-detection.md) |
+| 선택한 셸 출력을 에이전트에 전달 | [copy-mode와 marked pane](./2026-07-11-tmux-send-selection-to-agent-pane.md) |
+
+일반 설치·기본 키·TPM 설정은 [devkit tmux 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/tmux.md)에 모은다. PTY는 [Terminal](../terminal/2026-09-05-00-terminal-roadmap.md), Shell 작업 제어는 [Shell](../shell/2026-07-03-00-shell-roadmap.md), 환경 설정 재현은 [dotfiles](../shell/2026-07-08-00-dotfiles-roadmap.md)의 영역이다.
