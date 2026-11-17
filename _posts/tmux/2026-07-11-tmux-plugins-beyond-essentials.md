@@ -1,8 +1,8 @@
 ---
 title       : "필수 그다음 — 요즘 얹는 tmux 플러그인 (테마·추출·퍼지)"
-description : "TPM 기반 기본 구성 위에 얹는 층. catppuccin으로 상태바 현대화(방치된 themepack 대체), tmux-yank·extrakto로 복사·추출, tmux-fzf 계열 퍼지까지 — 별 개수·정착도를 실측 근거와 함께."
+description : "출력 추출·관리·기록용 tmux 도구를 비교하고, sessionx와 sesh의 중복 및 tmuxinator·fzf-marks의 연동 경계를 정리한다."
 date        : 2026-07-11 16:00:00 +0900
-updated     : 2026-11-17 16:00:00 +0900
+updated     : 2026-11-18 16:00:00 +0900
 categories  : [tmux, "스크립트·플러그인"]
 tags        : [plugin, catppuccin, extrakto]
 pin         : false
@@ -60,7 +60,7 @@ powerline은 별이 제일 높지만, Nerd Font 패칭과 세그먼트 정렬 �
 
 ## 2. 복사·추출 — 선택을 손에 넣기
 
-tmux 안에서 텍스트를 시스템 클립보드로 빼거나, 화면에 뜬 경로·URL을 집어내는 마찰을 줄이는 층이다. 기존 [클립보드 트러블슈팅 글](./2026-06-10-tmux-clipboard-osc52-pbcopy-hangul.md)이 "왜 안 붙나"를 다뤘다면, 여기는 "더 편하게"다.
+tmux 안에서 텍스트를 시스템 클립보드로 빼거나, 화면에 뜬 경로·URL을 집어내는 마찰을 줄이는 층이다. 기존 [클립보드 트러블슈팅 글](../terminal/2026-06-10-terminal-clipboard.md)이 "왜 안 붙나"를 다뤘다면, 여기는 "더 편하게"다.
 
 ### tmux-yank — 클립보드 브리지의 표준
 
@@ -70,7 +70,7 @@ set -g @plugin 'tmux-plugins/tmux-yank'
 
 복사 모드에서 선택한 텍스트를 **시스템 클립보드**로 바로 보낸다(`y`). macOS `pbcopy`, Linux `xclip`/`xsel`/`wl-copy`를 알아서 감지한다. 3.1k⭐, 커밋은 2023에서 멈췄지만 **기능이 완결돼 손댈 게 없는** 쪽 — 여전히 표준이고 불만도 거의 없다.
 
-> **OSC52를 쓴다면 tmux-yank는 대체로 불필요하다.** 둘은 "선택 → 시스템 클립보드"라는 **같은 목적을 다른 수단**으로 푼다 — tmux-yank는 `pbcopy`/`xclip`를 부르고, OSC52는 터미널 이스케이프 시퀀스로 넘긴다. [클립보드 트러블슈팅 글](./2026-06-10-tmux-clipboard-osc52-pbcopy-hangul.md)의 결론대로 `set -g set-clipboard on` 한 줄이면 플러그인 없이 해결되므로, **OSC52가 되는(대부분의 모던) 터미널이면 yank는 안 넣어도 된다.** 반대로 OSC52를 지원하지 않는 터미널·환경에선 yank의 `pbcopy`/`xclip` 경로가 폴백이 된다. 뒤의 **extrakto**는 목적이 달라(화면 텍스트 추출) 이 중복과 무관하다.
+> **OSC52를 쓴다면 tmux-yank는 대체로 불필요하다.** 둘은 "선택 → 시스템 클립보드"라는 **같은 목적을 다른 수단**으로 푼다 — tmux-yank는 `pbcopy`/`xclip`를 부르고, OSC52는 터미널 이스케이프 시퀀스로 넘긴다. [클립보드 트러블슈팅 글](../terminal/2026-06-10-terminal-clipboard.md)의 결론대로 `set -g set-clipboard on` 한 줄이면 플러그인 없이 해결되므로, **OSC52가 되는(대부분의 모던) 터미널이면 yank는 안 넣어도 된다.** 반대로 OSC52를 지원하지 않는 터미널·환경에선 yank의 `pbcopy`/`xclip` 경로가 폴백이 된다. 뒤의 **extrakto**는 목적이 달라(화면 텍스트 추출) 이 중복과 무관하다.
 {: .prompt-tip }
 
 ### extrakto — 화면 텍스트 퍼지 추출
@@ -151,7 +151,32 @@ extrakto를 계속 쓴다면 다음 후보도 텍스트 추출 도구일 필요�
 
 **tmux-fzf는 tmux 관리용 명령 팔레트에 가깝다.** extrakto가 출력된 문자열을 찾는다면, tmux-fzf는 세션·윈도우·pane 같은 **tmux 객체**를 찾는다. 이동뿐 아니라 pane 합치기·분리·이동, 키 바인딩 검색·실행, tmux 버퍼 선택도 제공한다. 시스템 클립보드 이력까지 접근하려면 별도 CopyQ가 필요하고, 없으면 tmux 버퍼를 사용한다.
 
-기본 실행 키는 `prefix + F`다. **OMT의 PathPicker도 같은 키를 사용하므로**, 함께 쓴다면 tmux-fzf의 `TMUX_FZF_LAUNCH_KEY`를 다른 키로 지정해야 한다.
+기본 실행 키는 `prefix + F`(`prefix`를 누르고 뗀 뒤 `Shift+f`)다. **OMT의 PathPicker도 같은 키를 사용한다.** 두 기능을 모두 유지하려면 `TMUX_FZF_LAUNCH_KEY`로 tmux-fzf의 키를 바꾼다. 반대로 PathPicker를 쓰지 않는다면, 이후 로드되는 tmux-fzf가 `F`를 맡도록 두면 된다. 충돌한다는 이유만으로 무조건 새 단축키를 만들 필요는 없다.
+
+### tmux-open — 선택한 텍스트를 열기·검색하기
+
+extrakto가 화면에서 **문자열을 골라내는 단계**를 돕는다면, [tmux-open](https://github.com/tmux-plugins/tmux-open)은 **이미 선택한 텍스트에 동작을 적용하는 단계**를 맡는다. Copy Mode에서 파일 경로·URL·오류 문구를 선택한 뒤 사용한다.
+
+```tmux
+set -g @open-editor-command 'nvim'
+set -g @open-S 'https://www.google.com/search?q='
+set -g @plugin 'tmux-plugins/tmux-open'
+```
+
+이 세 줄은 **플러그인 선언과 그 플러그인의 옵션 두 개**다. 플러그인만 선언해도 기본 동작은 제공된다. `@open-editor-command`는 에디터를 Neovim으로 고정하고, `@open-S`는 검색 키와 검색 엔진을 명시한다. 옵션은 TPM이 플러그인을 로드하기 전에 둔다.
+
+| Copy Mode에서 누를 키 | 선택한 텍스트에 적용할 동작 |
+|---|---|
+| `o` | macOS `open` / Linux `xdg-open`으로 파일·URL 열기 |
+| `Ctrl+o` | 지정한 에디터로 파일 열기 |
+| `Shift+s` | Google에서 검색 |
+
+여기서는 **prefix를 다시 누르지 않는다.** `@open-S`의 `S`는 기능명이 아니라 **바인딩할 대문자 키**다. `Shift+s`는 upstream의 기본 검색 키이기도 하다. `@open-s`로 설정하면 소문자 `s`에 검색을 붙일 수 있지만, 기존 Copy Mode 키와의 충돌은 먼저 확인한다.
+
+`Ctrl+o`는 현재 pane에 에디터 명령과 Enter를 보내는 방식이므로 **셸 프롬프트에서 사용한다.** 다른 프로그램이 실행 중인 pane에 명령을 밀어 넣는 용도로 쓰지 않는다. 선택한 오류 문구를 웹 검색할 때는 토큰·개인정보가 섞이지 않았는지도 확인한다. 키와 검색 설정은 [upstream README](https://github.com/tmux-plugins/tmux-open#configuration) 기준이다.
+
+> **설치와 현재 서버의 로드는 구분한다.** 새 플러그인이 다운로드됐어도 기존 tmux 서버에 키가 아직 등록되지 않았다면 동작하지 않는다. 설치 완료 후 `tmux source-file ~/.tmux.conf`로 다시 로드하고, `tmux list-keys -T prefix`에서 extrakto·tmux-fzf 같은 prefix 바인딩을 확인한다. OMT에서는 기존 TPM 연동을 사용하고, 별도의 `run '~/.tmux/plugins/tpm/tpm'`을 중복 추가하지 않는다.
+{: .prompt-tip }
 
 ### tmux-logging — 실패한 작업의 출력을 남기기
 
@@ -204,9 +229,59 @@ tmux-which-key는 화면 문자열에 힌트를 붙이는 fingers 계열과 다�
 
 ---
 
-## 얹지 *않은* 것 — sesh는 다른 축
+## 세션 탐색의 두 형태 — TPM 플러그인과 외부 CLI
 
-인기 급상승 중인 **sesh**(joshmedeski, 2.7k⭐, 활발)를 여기 넣지 않았다. fzf+zoxide로 세션을 온디맨드 전환하는 **모멘텀 툴**이지만, 이건 TPM 플러그인이 아니라 tmux *밖*의 **세션 매니저**다 — resurrect가 *떠 있던* 세션을 저장·복원한다면, sesh는 세션을 처음부터 띄우고 오간다. 그래서 결이 맞는 자리는 이 글이 아니라 [3단계 세션 부트스트랩](./2026-02-21-tmux-bootstrap.md)이다. smug·tmuxp·tmuxinator와 같은 축에서 비교하는 게 맞다.
+**2026-11-17 보강.** [sesh](https://github.com/joshmedeski/sesh)는 tmux를 대체하지 않는 **tmux 전용 세션 관리자**지만, TPM 플러그인이 아니라 별도로 설치하는 CLI다. tmux 안에서는 세션을 전환하고, 밖에서는 세션에 접속할 수 있다. Homebrew는 그 실행 파일을 설치·업데이트하는 수단이지, “tmux와 무관한 도구”라는 뜻이 아니다.
+
+앞의 [tmux-sessionx](https://github.com/omerxx/tmux-sessionx)는 **TPM 플러그인 형태로 제공하는 세션·윈도우 선택기**이고, sesh는 **셸·스크립트에서도 호출할 수 있는 독립 프로그램**이다. 둘 다 세션 탐색·생성에서 역할이 겹친다. sessionx의 미리보기는 선택한 세션·윈도우의 화면 내용이지 **pane별 CPU·메모리 사용량 모니터**가 아니다.
+
+tmux-fzf가 세션·윈도우·pane·버퍼를 두루 다루는 **tmux 객체 관리**에 가깝다면, sesh는 기존 세션과 방문한 디렉터리를 연결해 **프로젝트 사이를 이동하는 흐름**에 집중한다. 이미 tmux-fzf로 이동이 충분하다면 sesh를 더할 필요는 없다. 프로젝트 폴더별로 세션을 만들고 반복해서 오갈 때 도입할 이유가 생긴다.
+
+### sessionx와 sesh — 설치 형태는 달라도 선택기는 겹친다
+
+**2026-11-18 보강.** “TPM 플러그인인가, 외부 CLI인가”는 설치·호출 방식의 차이지, 두 도구를 모두 넣어야 한다는 근거는 아니다. 실제 선택 기준은 **어떤 대상을 찾고, 선택한 뒤 무엇을 할 것인가**다.
+
+| 비교축 | tmux-sessionx | sesh |
+|---|---|---|
+| 중심 흐름 | 세션·윈도우 검색·관리 | 프로젝트 세션 생성·접속 |
+| 탐색·관리 UI | fzf 미리보기·이름 변경·종료 | 내장 picker 또는 외부 선택기 |
+| 디렉터리 후보 | 경로 탐색·zoxide·즐겨찾기 | tmux·zoxide·설정 세션 |
+| 새 작업 환경 | tmuxinator 연동 | 자체 시작 명령·윈도우 설정 |
+| 주 진입점 | tmux 키 바인딩 | tmux 키·셸·스크립트 |
+
+따라서 **“미리보기와 세션 종료는 sessionx, 전환만 sesh”처럼 나누면 현재 기능을 과소평가**한다. sesh의 내장 picker도 미리보기·윈도우 표시·세션 종료를 지원한다. 기능 기준은 [sessionx 공식 문서](https://github.com/omerxx/tmux-sessionx)와 [sesh 공식 문서](https://github.com/joshmedeski/sesh), 내장 picker의 최근 변화는 [sesh 개발자의 2026년 가을 소개](https://www.joshmedeski.com/posts/whats-new-with-sesh-fall-2026/)에서 확인할 수 있다.
+
+### 이 구성에서는 sessionx 선언을 제외한다
+
+프로젝트별 세션 생성·접속은 sesh에 맡기고, tmux 객체 전반의 검색·조작은 tmux-fzf에 맡긴다. 이 역할 분담에서는 **세션 선택기를 하나 더 유지할 이유가 작아 sessionx의 플러그인 선언을 제외한다.** sessionx가 나쁘거나 개발이 중단돼서가 아니라, 같은 목적의 진입점을 줄이는 선택이다.
+
+반대로 sessionx 팝업에서 이름 변경·종료·윈도우 탐색을 처리하는 방식이 더 편하면 sessionx를 유지해도 된다. 이미 둘을 설치했다는 이유로 급하게 지우거나, 기능이 일부 다르다는 이유로 반드시 함께 둘 필요는 없다.
+
+공개 사용기도 보조 근거로만 본다. [Tomasz Wostal의 sesh 사용기](https://wostal.eu/blog/tools-02-sesh-and-tmux/)는 프로젝트별 이름·시작 명령·윈도우를 고정해 작업 환경을 반복 구성하는 수고를 줄였다고 설명한다. 이는 sesh의 활용 사례이지 **sessionx보다 낫다는 커뮤니티 합의**는 아니다. 직접 비교 후기만으로 우열을 단정하기보다 내 작업에서 중복되는 경로를 확인한다.
+
+sesh는 `sesh connect ~/projects/api`처럼 목적지를 지정하거나, `sesh picker`에서 목록을 고른다. 현재 tmux 세션·zoxide 디렉터리 이력·등록한 설정 세션이 후보이며, 내장 picker에는 fzf가 필수가 아니다. `prefix + T`도 자동 등록되는 키가 아니라 사용자가 연결하는 바인딩이다. **목록의 출처, 새 세션 생성과 기존 세션 전환의 차이, 설정 없이 시작하는 방법**은 기존 [sesh — 즉석 tmux 세션 전환](./2026-07-12-sesh-tmux-session-picker.md)에서 이어간다.
+
+고정 레이아웃의 재현이 목적이면 [세션 부트스트랩](./2026-02-21-tmux-bootstrap.md)의 smug·tmuxp·tmuxinator와 비교한다. `tmux-resurrect`/`continuum`의 저장·복원과도 다른 문제다.
+
+### tmuxinator·fzf-marks는 무엇을 더하나
+
+둘은 sessionx에 포함된 필수 기능이 아니라 **필요할 때 연결하는 별도 도구**다. sessionx의 tmuxinator·fzf-marks 모드는 기본적으로 꺼져 있으며, 단순히 sessionx를 설치했다고 함께 사용되는 것은 아니다.
+
+- **[tmuxinator](https://github.com/tmuxinator/tmuxinator): 작업 환경의 설계도.** YAML에 프로젝트 경로, 윈도우·pane 배치와 실행 명령을 정의한다. 예를 들어 프로젝트를 시작할 때 편집기·개발 서버·로그용 윈도우를 함께 띄운다. sessionx는 이 프로젝트 정의를 골라 실행하는 진입점이 될 수 있다. 실행 중 상태를 되살리는 resurrect와는 다르고, sesh의 시작 명령·윈도우 구성과는 일부 겹친다.
+- **[fzf-marks](https://github.com/urbainvaes/fzf-marks): 디렉터리 즐겨찾기.** 사용자가 이름과 경로를 직접 등록하고 fzf로 찾아 이동하는 셸 플러그인이다. zoxide가 방문 이력을 바탕으로 경로를 추천한다면, fzf-marks는 명시적으로 저장한 즐겨찾기를 읽는다. sessionx는 이 목록을 세션 생성·접속 대상으로 활용할 수 있다.
+
+고정된 복잡한 작업 배치를 반복해서 띄워야 한다면 tmuxinator를, 방문 이력과 별개로 이름 붙인 디렉터리 목록을 관리해야 한다면 fzf-marks를 검토한다. **sesh와 zoxide만으로 프로젝트 진입이 충분하다면 추가할 필요는 없다.** sessionx의 설치·키·옵션은 [devkit tmux 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/tmux.md)에 맡기고, 여기서는 도구를 더할 이유와 중복을 구분한다.
+
+### 개발 이력도 기능 중복과 별도로 본다
+
+**2026-11-18 GitHub 기본 브랜치 조회 기준**, 둘 다 최근 기능 추가나 수정이 반영됐다. 다만 확인한 최근 이력에서는 sesh의 변경 주기가 더 촘촘했다.
+
+| 프로젝트 | 최근 커밋 | 확인한 기능 추가·수정 |
+|---|---|---|
+| [tmux-sessionx](https://github.com/omerxx/tmux-sessionx/commits/main/) | 2026-10-21 | tmuxinator 인자 옵션 추가, fzf-marks로 만든 세션의 전환 버그 수정, Nix 경고 수정 |
+| [sesh](https://github.com/joshmedeski/sesh/commits/main/) | 2026-11-17 | 최신 커밋은 README 갱신. 11월 16일 백그라운드 세션 생성 옵션 추가, 15일 경로 처리 버그 수정 |
+
+sesh의 [v2.34.0 릴리스](https://github.com/joshmedeski/sesh/releases/tag/v2.34.0)는 2026-10-25에 공개됐다. 이 날짜들은 확인 시점의 활동 신호이지 유지보수 품질이나 앞으로의 개발을 보장하는 지표는 아니다. **sessionx가 방치돼서 교체해야 하는 상황으로 해석하지 않는다.**
 
 ---
 
@@ -241,5 +316,5 @@ run '~/.tmux/plugins/tpm/tpm'
 
 `prefix + I`로 설치하면 끝. 상태바가 catppuccin으로 바뀌고, 복사 모드 `y`가 시스템 클립보드로 나가고, `prefix + tab`으로 화면 텍스트를 집어낼 수 있다.
 
-> 📎 **더 찾기** · [awesome-tmux](https://github.com/rothgar/awesome-tmux) — 위 너머의 플러그인·설정·아티클 카테고리별 인덱스. 세션 매니저(sesh 등)를 찾는다면 [부트스트랩 글](./2026-02-21-tmux-bootstrap.md)로.
+> 📎 **더 찾기** · [awesome-tmux](https://github.com/rothgar/awesome-tmux) — 위 너머의 플러그인·설정·아티클 카테고리별 인덱스. 프로젝트별 생성·전환은 [sesh 글](./2026-07-12-sesh-tmux-session-picker.md), 고정 레이아웃 재현은 [부트스트랩 글](./2026-02-21-tmux-bootstrap.md)로.
 {: .prompt-tip }
