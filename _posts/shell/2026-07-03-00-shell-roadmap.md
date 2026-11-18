@@ -2,7 +2,7 @@
 title       : "셸 로드맵 — 실행 모델에서 스크립트와 세션까지"
 description : "셸의 명령 해석·실행, 스크립팅, 프로세스·작업 제어, CLI 설계와 주변 도구의 관계를 연결하는 로드맵."
 date        : 2026-07-03 14:30:00 +0900
-updated     : 2026-10-25 20:30:00 +0900
+updated     : 2026-11-19 00:00:00 +0900
 categories  : [shell, "개요·인덱스"]
 tags        : [roadmap, shell, zsh, bash]
 pin         : false
@@ -55,8 +55,12 @@ Shell의 Job Control은 Foreground·Background 작업과 프로세스 그룹을 
 
 환경변수, 현재 디렉터리, Login·Interactive 여부, Startup File은 명령의 실행 맥락을 결정한다. Shell Script는 이 기능들을 파일로 구성해 반복 실행하는 방식이며, CLI 인자 설계는 스크립트·프로그램의 외부 인터페이스에 해당한다.
 
+### 대화형 입력과 자동완성
+
+Tab 완성은 명령 실행 전의 편집 단계다. 셸은 현재 명령과 입력 위치에 맞는 후보를 구하고, 선택 결과를 명령줄에 삽입한다. 후보 생성과 선택 UI는 별개이므로, 같은 zsh 완성 함수를 기본 메뉴나 fzf-tab에서 사용할 수 있다.
+
 ## 필요한 경우 더 깊이 살펴보기
 
-[스크립트 실행](./2026-07-04-first-shell-script.md), [Bash 문법](./2026-07-03-bash-syntax-guide.md), [CLI 인자](./2026-06-10-cli-positional-vs-flag.md), [백그라운드 작업](./2026-06-16-background-jobs-and-session.md)을 참고할 수 있다. 파이프·리다이렉션·셸 초기화처럼 독립 문서가 없는 핵심 개념도 지도에는 유지한다.
+[스크립트 실행](./2026-07-04-first-shell-script.md), [Bash 문법](./2026-07-03-bash-syntax-guide.md), [CLI 인자](./2026-06-10-cli-positional-vs-flag.md), [백그라운드 작업](./2026-06-16-background-jobs-and-session.md), [zsh 자동완성과 fzf-tab](./2026-11-19-zsh-completion-and-fzf-tab.md)을 참고할 수 있다. 파이프·리다이렉션·셸 초기화처럼 독립 문서가 없는 핵심 개념도 지도에는 유지한다.
 
 [Terminal](../terminal/2026-09-05-00-terminal-roadmap.md)은 PTY와 화면 입출력, [tmux](../tmux/2026-06-16-00-tmux-roadmap.md)는 작업공간, [dotfiles](./2026-07-08-00-dotfiles-roadmap.md)는 설정 재현을 다룬다. direnv·zoxide는 필요에 따라 사용하는 보조 도구다.

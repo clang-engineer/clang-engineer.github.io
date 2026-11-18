@@ -2,7 +2,7 @@
 title       : "Telescope vs fzf — 퍼지 파인더의 경계선"
 description : "fzf는 Neovim 없이도 도는 독립 Go 바이너리, Telescope는 Neovim API에 얹힌 순수 Lua 플러그인. 둘의 실행 경계와 fzf-lua·snacks.picker 같은 선택지를 구분한다."
 date        : 2026-07-03 09:00:00 +0900
-updated     : 2026-07-24 15:00:00 +0900
+updated     : 2026-11-19 00:00:00 +0900
 categories  : [neovim, "플러그인·생태계"]
 tags        : [telescope, fzf, picker, lua, ripgrep]
 pin         : false
@@ -23,6 +23,8 @@ Neovim 설정을 훑다 보면 파일을 퍼지 검색하는 도구로 fzf와 Te
 
 - fzf는 그냥 "줄 목록을 받아 퍼지 매칭해주는 엔진"이다. 파일 목록을 넣으면 파일 검색, 셸 히스토리를 넣으면 히스토리 검색, `git branch` 출력을 넣으면 브랜치 검색. 검색 대상이 뭐든 상관 안 한다.
 - Telescope도 같은 구조인데, 대신 Neovim 안의 것들(LSP 심볼, diagnostics, buffer 등)을 검색 대상으로 쉽게 꽂을 수 있게 picker들이 미리 만들어져 있다.
+
+이 역할 분리는 셸 자동완성에도 적용된다. [zsh 자동완성과 fzf-tab](../shell/2026-11-19-zsh-completion-and-fzf-tab.md)에서는 프로그램이 만든 후보를 zsh가 완성 시스템에 제공하고, fzf-tab이 fzf 선택 화면으로 보여주는 경계를 실제 사례로 설명한다.
 
 > 비유하면 전기포트와 가스레인지가 둘 다 물을 끓일 수 있다고 같은 물건은 아니다. 겹치는 기능 하나로 보면 같아 보여도, fzf는 OS 전역 도구, Telescope는 에디터 내장 데이터까지 다루는 통합 도구라는 게 본질이다.
 {: .prompt-info }

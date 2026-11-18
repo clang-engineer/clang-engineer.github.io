@@ -2,7 +2,7 @@
 title       : "낯선 셸 스크립트 읽기: Bash·Zsh·POSIX 함정"
 description : "낯선 셸 스크립트의 인터프리터와 실행 흐름을 판별하고, 인용·확장·조건·set 옵션에서 Bash와 Zsh, POSIX sh의 차이로 생기는 함정을 읽는 방법."
 date        : 2026-07-03 15:00:00 +0900
-updated     : 2026-08-31 00:00:00 +0900
+updated     : 2026-11-19 00:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [bash, zsh, shell, scripting]
 pin         : false
@@ -84,6 +84,65 @@ run() {
 ```
 
 `"$@"`는 원래 인자를 각각 보존한다. `"$*"`는 모든 인자를 하나의 문자열로 합친다. wrapper 함수가 `command $@` 또는 `command "$*"`를 쓴다면 공백이 든 인자가 망가지는지 먼저 의심한다.
+
+## 2026-11-19 보강 — eval로 초기화 코드를 현재 셸에 읽기
+
+셸 초기화 파일에서 다음 줄을 만나면, 프로그램을 실행하는 일과 그 프로그램이 출력한 코드를 실행하는 일을 나누어 읽어야 한다.
+
+```zsh
+eval "$(harlequin-config init zsh)"
+```
+
+안에서 밖으로 읽으면 세 단계다.
+
+1. **`harlequin-config init zsh`를 실행한다.** 이 외부 프로그램은 Zsh 함수 정의와 `compdef` 같은 자동완성 등록 명령을 **코드 텍스트로 표준 출력(stdout)에 내보낸다.** 아직 부모 셸에 함수를 정의하거나 자동완성을 등록한 것은 아니다.
+2. **`$(...)`가 출력을 캡처한다.** 명령 치환(command substitution)은 stdout을 문자열로 가져오며, 끝에 연속된 개행은 제거한다. 큰따옴표는 그 결과를 `eval`의 인자 하나로 전달한다.
+3. **`eval`이 그 문자열을 현재 셸의 코드로 다시 해석하고 실행한다.** 이때 함수 정의와 자동완성 등록이 현재 대화형 셸에 남는다. 출력된 Zsh 코드는 Zsh에서 읽어야 하며, `eval`이 셸 문법을 변환해 주는 것은 아니다.
+
+왜 프로그램이 직접 설정하지 않고 코드를 출력할까? 부모 셸이 시작한 자식 프로세스의 상태 변경은 부모 셸로 역전파되지 않기 때문이다. 자식 셸에서 변수를 대입하거나 함수를 정의해도 부모 대화형 셸의 변수·함수 표가 바뀌지는 않는다. 따라서 자식은 필요한 코드를 출력하고, **부모 셸이 그 코드를 읽어 자기 상태를 변경**한다.
+
+앞서 본 `source ./init.zsh`는 **파일에 든 코드**를 현재 셸에서 읽는다. `eval "$init_code"`는 **문자열에 든 코드**를 현재 셸에서 읽는다. 입력을 가져오는 곳은 다르지만, 별도 셸에서 실행하고 끝내는 대신 현재 셸을 변경한다는 목적은 같다.
+
+### 출력 캡처와 코드 실행을 분리해 보기
+
+다음은 Harlequin 설치 없이 새 Bash 또는 Zsh 세션에서 실행할 수 있는 작은 실험이다. `emit_init`은 함수 정의를 출력할 뿐이고, `blog_init_demo`가 등록되는 시점은 `eval` 이후다.
+
+```bash
+emit_init() {
+  printf '%s\n' 'blog_init_demo() { printf "%s\n" "after: current shell"; }'
+}
+
+init_code="$(emit_init)"
+printf '%s\n' "$init_code"
+
+if command -v blog_init_demo >/dev/null 2>&1; then
+  printf '%s\n' 'before: already defined'
+else
+  printf '%s\n' 'before: not defined'
+fi
+
+eval "$init_code"
+blog_init_demo
+
+unset -f emit_init blog_init_demo
+unset init_code
+```
+
+새 세션에서의 예상 출력은 다음과 같다.
+
+```text
+blog_init_demo() { printf "%s\n" "after: current shell"; }
+before: not defined
+after: current shell
+```
+
+`init_code="$(emit_init)"`는 출력 문자열을 저장하고, `printf`는 그 문자열을 보여 준다. 두 동작만으로 출력 속 함수 정의가 실행되지는 않는다. `eval "$init_code"`가 문자열을 다시 셸 문법으로 읽는 경계다. 끝의 `unset` 두 줄은 실험에서 만든 함수와 변수를 정리한다.
+
+### 큰따옴표는 eval의 안전장치가 아니다
+
+이 패턴은 **출처와 출력 형식을 신뢰하는 도구의 고정된 초기화 코드**를 읽을 때로 한정한다. 사용자 입력이나 네트워크에서 받은 임의 데이터를 `eval`에 전달해서는 안 된다. 큰따옴표는 첫 번째 확장에서 인자 경계를 보존할 뿐, 문자열 속 명령을 무해하게 만들지 않는다. `eval`은 바로 그 문자열을 코드로 다시 읽으므로, 출력에 악성 명령이 있으면 현재 셸의 권한으로 실행된다.
+
+문법의 기준은 [Bash 명령 치환 문서](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html)와 [Zsh의 `eval`·`source` 내장 명령 문서](https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html#index-eval)에서 확인할 수 있다. 이 원리가 실제 `-P` 자동완성과 연결되는 과정은 [Zsh 자동완성과 fzf-tab: 후보 생성과 선택 UI의 경계](./2026-11-19-zsh-completion-and-fzf-tab.md)에서 이어진다.
 
 ## 파라미터 확장
 
