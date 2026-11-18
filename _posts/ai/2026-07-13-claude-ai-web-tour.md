@@ -9,7 +9,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **claude.ai 웹 지형** 갈래 · 터미널의 CLI는 [Claude Code 정리](./2025-10-24-claude-code.md)에서.
+> 관련: [AI 개발 지형](./2026-07-03-ai-development-map.md)의 **claude.ai 웹 지형** 갈래 · 터미널의 CLI는 [Claude Code 작업 설계](./2026-07-03-claude-code-workflow.md)에서.
 
 claude.ai를 열면 대부분 챗 창부터 쓴다. 그런데 왼쪽 사이드바에는 **Projects·Artifacts·Customize·Code·Design**이 늘어서 있고, Code로 들어가면 그 안에 또 **Routines·Dispatch**가 있다. 이 글은 그 메뉴들이 각각 무엇을 하고, **언제 무엇을 쓰면 되는지**를 한 바퀴 돈다.
 
@@ -46,7 +46,7 @@ claude.ai를 열면 대부분 챗 창부터 쓴다. 그런데 왼쪽 사이드�
 - **Files** — PDF·문서·텍스트를 올려두는 지식 베이스. 사양서·API 문서를 넣어두면 대화마다 참조한다.
 - **Memory** — 대화가 몇 번 쌓이면 프로젝트가 스스로 기억을 만든다.
 
-한 줄 요약이 화면에 그대로 쓰여 있다 — **"이 프로젝트에선 매번 같은 지식을 참조한다."** Claude Code를 써 봤다면 `CLAUDE.md`(프로젝트 규칙) + 첨부 파일의 **웹 버전**으로 이해하면 정확하다([메모리 시스템 정리](./2026-03-12-claude-code-memory.md) 참고).
+한 줄 요약이 화면에 그대로 쓰여 있다 — **"이 프로젝트에선 매번 같은 지식을 참조한다."** Claude Code를 써 봤다면 `CLAUDE.md`(프로젝트 규칙) + 첨부 파일의 **웹 버전**으로 이해하면 정확하다([메모리 시스템 정리](./2026-03-12-claude-code-instructions-memory.md) 참고).
 
 > **언제**: 같은 맥락으로 반복 작업할 때. 특정 코드베이스, 특정 문서 묶음, 특정 톤. 단발 질문이면 그냥 New chat이 낫다.
 
@@ -118,4 +118,4 @@ Gmail·Slack·Linear·PagerDuty·Datadog 같은 커넥터와 엮여 돈다.
 
 챗 창은 입구일 뿐이다. Projects로 맥락을 고정하고, Connectors로 바깥을 붙이고, Routines로 반복을 자동화하는 순간 claude.ai는 "질문하는 곳"에서 **"일을 굴리는 곳"**으로 바뀐다.
 
-터미널 쪽 도구(CLI·MCP·API)까지 한 흐름으로 보려면 [AI 로드맵](./2026-07-03-ai-roadmap.md)에서 이어가자.
+터미널 쪽 도구(CLI·MCP·API)까지 한 흐름으로 보려면 [AI 개발 지형](./2026-07-03-ai-development-map.md)에서 이어가자.

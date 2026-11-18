@@ -1,8 +1,8 @@
 ---
-title       : Serena 기본 가이드
-description : "코드베이스의 의미 기반 검색·편집을 지원하는 Serena의 설치, 프로젝트 설정과 인덱싱, Claude Code·Codex·OpenCode 연결 흐름을 정리한다."
+title       : "Serena MCP 연결의 경계 — 실행 파일·프로젝트·클라이언트 세션 구분하기"
+description : "Serena를 Claude Code·Codex·OpenCode에 연결할 때 실행 파일의 경로, 프로젝트 선택, 클라이언트별 context와 세션을 구분하고 다중 에이전트의 공유 범위를 살펴본다."
 date        : 2025-11-07 13:43:00 +0900
-updated     : 2026-11-16 12:00:00 +0900
+updated     : 2026-11-18 12:00:00 +0900
 categories  : [ai, "MCP"]
 tags        : [mcp, serena, claude, codex, opencode, model-context-protocol]
 pin         : false
@@ -11,11 +11,11 @@ redirect_from:
   - /posts/ai/2025-11-07-serena-mcp/
 ---
 
-> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **MCP** 갈래 · 개념은 [MCP 개념 정리](./2025-10-23-mcp.md) · 장애 대응은 [Serena 트러블슈팅](../reference/troubleshooting/2026-08-22-serena.md)
+> 관련: [AI 개발 지형](./2026-07-03-ai-development-map.md)의 **MCP** 갈래 · 개념은 [MCP 개념 정리](./2025-10-23-mcp.md) · 장애 대응은 [Serena 트러블슈팅](../reference/troubleshooting/2026-08-22-serena.md)
 
 Serena는 코드베이스의 **심볼과 구조를 이해해 검색·편집할 수 있도록 돕는 코딩 에이전트 도구**다. 기본적으로 언어 서버(Language Server)를 사용해 심볼 단위로 코드를 읽고 고치며, Claude Code·Codex·OpenCode 같은 MCP 클라이언트와 연결할 수 있다.
 
-이 글은 Serena를 처음 연결해 쓰기 위한 기본 흐름에 집중한다.
+Serena를 여러 클라이언트에서 쓸 때 문제는 설치 하나로 끝나지 않는다. **실행 파일을 공유하는 것, 같은 프로젝트 파일을 보는 것, 에이전트의 세션을 공유하는 것은 각각 다른 일**이다. 이 글은 그 경계를 실제 연결 예시로 설명한다. 설치·CLI의 전체 문법은 [Serena 공식 사용 문서](https://oraios.github.io/serena/02-usage/030_clients.html)를 따른다.
 
 ```text
 Serena 실행 환경 준비
@@ -84,10 +84,7 @@ serena project index
 
 ### 프로젝트별 등록
 
-```bash
-claude mcp add serena -- uvx --from git+https://github.com/oraios/serena \
-  serena start-mcp-server --context claude-code --project "$(pwd)"
-```
+앞의 `uvx` 예시는 실행할 프로젝트를 `--project`로 고정한다. 공유 설정이 필요하면 Claude Code의 등록 Scope도 함께 선택한다. **Serena의 프로젝트 선택과 MCP 클라이언트의 설정 Scope는 다른 축**이다. 한쪽만 사용자 범위로 바꾼다고 모든 작업 디렉터리의 프로젝트가 자동으로 바뀌지는 않는다.
 
 ### 사용자 범위 등록
 
@@ -163,6 +160,15 @@ opencode mcp list
 
 ## 7. 여러 클라이언트를 함께 쓸 때
 
+| 공유하려는 대상 | 실제 공유 범위 |
+|---|---|
+| Serena 바이너리 | 같은 실행 파일을 여러 프로세스가 사용 가능 |
+| 프로젝트 파일·설정·디스크 Memory | 같은 경로를 보면 읽을 수 있음; 수정 충돌은 별도 문제 |
+| 언어 서버의 활성 상태 | 클라이언트 프로세스별로 다를 수 있음 |
+| 에이전트 대화·분석 이유 | 별도 세션의 컨텍스트; 자동 동기화되지 않음 |
+
+이 표는 일반적인 로컬 `stdio` 연결 기준이다. HTTP로 별도 서버를 공유하는 구성은 인증·서버 상태의 소유권을 추가로 확인한다.
+
 로컬 `stdio` 연결에서는 일반적으로 각 MCP 클라이언트가 자기 Serena 프로세스를 시작한다. 같은 프로젝트의 파일은 공유하지만 에이전트의 대화와 도구 실행 상태까지 공유하는 것은 아니다.
 
 여러 에이전트가 같은 저장소를 동시에 편집한다면 MCP 프로세스 분리와 Git 작업 분리를 구분해야 한다. 독립 작업은 branch·worktree로 나눠 변경 충돌을 줄이는 편이 안전하다.
@@ -170,7 +176,16 @@ opencode mcp list
 공유되는 것은 동일 경로의 소스·프로젝트 설정·디스크에 저장한 Serena memory다. **활성 언어 서버와 대화 맥락은 클라이언트별**이므로 다른 에이전트가 파일을 바꾼 이유나 저장한 memory를 자동으로 읽었다고 가정해서는 안 된다. 여러 프로세스가 같은 Java 프로젝트의 JDTLS 작업공간을 사용할 때의 주의점과 상태 확인 과정의 부작용은 [Serena 트러블슈팅](../reference/troubleshooting/2026-08-22-serena.md)에 적었다.
 
 
-## 8. 주요 명령어
+## 8. 문제가 생겼을 때 어느 경계를 볼까
+
+| 증상 | 먼저 확인할 경계 |
+|---|---|
+| 터미널에서는 되는데 MCP 연결 실패 | 실행 파일 절대경로·환경 변수·클라이언트 PATH |
+| 다른 저장소가 활성화됨 | `--project` 고정값과 cwd 기반 프로젝트 탐색 |
+| 도구가 중복되거나 구성 불일치 | 클라이언트별 context와 기본 제공 기능 |
+| 다른 에이전트의 분석이 전달되지 않음 | 파일 공유와 세션 맥락 공유의 차이 |
+
+다음 명령은 이 경계를 확인하는 진입점이다. CLI 버전별 계약은 `serena --help`와 공식 문서에서 확인한다.
 
 | 명령 | 설명 |
 | --- | --- |
@@ -200,4 +215,6 @@ Serena
 
 따라서 큰 코드베이스에서 특정 클래스·함수의 정의와 참조를 따라가거나, 에이전트가 불필요하게 많은 파일을 읽지 않도록 탐색 범위를 줄일 때 특히 유용하다.
 
-MCP 자체가 왜 필요한지부터 보고 싶다면 [Model Context Protocol(MCP) 개념 정리](./2025-10-23-mcp.md)로 돌아가면 된다.
+MCP 자체가 왜 필요한지부터 보고 싶다면 [Model Context Protocol(MCP) 개념 정리](./2025-10-23-mcp.md)로 돌아가면 된다. 여러 세션이 같은 파일을 편집하는 조율 문제는 [병렬 세션의 공유 채널](./2026-11-16-claude-parallel-session-coordination.md)에서 이어진다.
+
+클라이언트별 context·실행 옵션은 [Serena 공식 문서](https://oraios.github.io/serena/02-usage/030_clients.html)를, 실제 Java 언어 서버 충돌·연결 진단은 [Serena 트러블슈팅](../reference/troubleshooting/2026-08-22-serena.md)을 참조한다.

@@ -2,14 +2,14 @@
 title       : "AI 코딩 도구 지형도 — Claude Code·OpenCode·Cursor·Codex·Aider 어떻게 다른가"
 description : "AI 코딩 도구를 사용 환경(터미널·에디터·플러그인·클라우드), 모델 종속성, 과금 방식, 오픈소스 여부 네 축으로 비교한다. 같은 Codex 모델도 OpenCode와 공식 CLI에서 결과가 달라지는 이유까지 정리한다."
 date        : 2026-07-03 21:35:00 +0900
-updated     : 2026-11-16 00:00:00 +0900
-categories  : [ai, "Claude Code"]
+updated     : 2026-11-18 12:00:00 +0900
+categories  : [ai, "코딩 에이전트"]
 tags        : [claude-code, opencode, cursor, github-copilot, codex, aider, pi, comparison]
 pin         : false
 hidden      : false
 ---
 
-> 관련: [AI 로드맵](./2026-07-03-ai-roadmap.md)의 **지형도·비교** 갈래 · [Claude Code 정리](./2025-10-24-claude-code.md)
+> 관련: [AI 개발 지형](./2026-07-03-ai-development-map.md)의 **지형도·비교** 갈래 · [Claude Code 작업 설계](./2026-07-03-claude-code-workflow.md)
 
 "AI 코딩 도구 뭐 써?"에 대한 답은 취향 이전에 **어디에서 작업하고 싶은가**에서 갈린다. 터미널에서 직접 에이전트를 돌릴지, 에디터 안에서 쓸지, 기존 에디터에 플러그인으로 붙일지, 클라우드에 비동기 작업을 맡길지에 따라 선택지가 달라진다. 이 글은 주요 도구를 사용 환경·모델 종속성·과금·오픈소스 여부 네 축으로 비교해 Claude Code가 어디에 있고 언제 다른 도구가 나은지를 정리한다.
 
@@ -23,6 +23,7 @@ hidden      : false
 | **Claude Code** | 터미널 CLI (+IDE 확장·웹) | Claude 전용 | Claude 구독 또는 API 종량 | ✗ |
 | **OpenCode** | 터미널 CLI (+웹·IDE 연동) | 다중(로컬 포함) | 연결한 구독·API·로컬 모델 | ✓ (MIT) |
 | **pi** | 터미널 CLI / 에이전트 하네스 | 다중 provider 설정 | 연결한 API·provider 비용 | ✓ |
+| **OMP** | 터미널 CLI / 통합 개발 하네스 | 다중 provider·역할별 모델 | 연결한 제공자 비용·한도 | ✓ |
 | **Cursor** | 에디터(VS Code 기반) | 다중(Claude·GPT·Gemini 등) | 구독(+사용량 기반 한도) | ✗ |
 | **GitHub Copilot** | 에디터 플러그인 (+Agent·CLI·클라우드) | 여러 모델 중 선택 | 구독(+사용량 기반 한도) | ✗ |
 | **OpenAI Codex** | 터미널 CLI (+클라우드·IDE) | OpenAI 전용 | ChatGPT 구독 또는 API 종량 | CLI만 ✓ |
@@ -136,11 +137,22 @@ OpenCode는 OpenAI를 포함한 여러 제공자를 연결하는 구조다. 여�
 
 대표 작업으로 비교할 때도 "설계 작업"과 "구현 작업"을 제품에 고정 배정하지 않고, **같은 Repository·같은 완료 조건·같은 검증 기준**에서 실제 결과를 본다.
 
+## 인증 공급자가 모델·요금·허용 범위를 결정한다
+
+같은 OpenCode에서도 **어떤 provider의 계정으로 연결했는가**에 따라 모델 카탈로그와 청구 주체가 달라진다. [GitHub의 2026-01 공식 발표](https://github.blog/changelog/2026-01-16-github-copilot-now-supports-opencode/)는 유료 Copilot 구독(Pro·Pro+·Business·Enterprise)을 OpenCode의 `/connect`로 인증하는 경로를 명시한다. 이 경우 OpenCode에서 Copilot이 제공하는 모델을 고르는 것이지 OpenAI·Anthropic에 각기 별도 구독으로 직접 로그인하는 것이 아니다. 조직에서 허용한 모델만 보일 수도 있다. 가격·프리미엄 배수·기본 모델과 사용 한도는 계정·정책·시점마다 달라지므로 “특정 Codex 모델은 영원히 무료·무제한”으로 읽지 말고 [공식 Copilot 요금과 모델 문서](https://docs.github.com/en/copilot/concepts/billing/copilot-requests)에서 확인한다. 모델명의 `Codex`와 **Codex CLI 제품 인증**도 별개의 개념이다.
+
+반대로 Claude Code 구독 로그인 토큰을 제3자 에이전트에 재사용할 수 있다는 뜻은 아니다. Anthropic의 [소비자 약관](https://www.anthropic.com/legal/consumer-terms)은 명시적 허용 또는 API 키 사용을 제외한 자동화 접근을 제한하며, API 키 사용에는 [별도 상업 서비스 약관](https://www.anthropic.com/legal/commercial-terms)이 적용된다. 공식 Agent SDK 같은 경로와 임의의 OAuth 토큰 재사용을 같다고 취급하지 말 것. 서드파티 지원 범위는 최신 공식 통합 안내와 본인의 계약·조직 정책을 기준으로 판단한다. 2026년 상반기의 차단·복구·가격 배수에 관한 커뮤니티 타임라인은 시점마다 달라 현재 보편 정책으로 단정하지 않는다.
+
+OSS 터미널 에이전트도 별 개수만으로 줄 세울 수 없다. OpenCode는 확장과 provider 선택 폭, Aider는 명시적인 Git 중심 편집, pi는 작은 코어와 사용자 확장, Crush는 터미널 UI, Goose는 확장·거버넌스라는 **서로 다른 선택 이유**를 갖는다. Cline은 에디터 중심이라 순수 터미널 CLI와 같은 집합으로 정렬하면 오해가 생긴다. 관심도(별·다운로드), 릴리스 안정성, 장기 사용 후기는 별도 지표다. OpenCode를 고려한다면 멀티모델 필요성에 더해 권한 문자열과 실제 OS sandbox의 경계, 플러그인 업데이트 비용을 대표 작업으로 검증하자. 특정 제품의 “2026년 1위” 같은 숫자와 서비스 종료설은 검증 가능한 현재 사실이 아니라 당시 관찰로만 남겨야 한다.
+
+Claude Code를 **구독으로 사용 중인데도 API 요금이 발생한다면**, 현재 [공식 인증 우선순위](https://code.claude.com/docs/en/authentication#authentication-precedence)를 살핀다. 로컬 대화형 세션에서 `ANTHROPIC_API_KEY`를 설정하고 사용을 승인한 경우 구독 로그인보다 키가 우선할 수 있다. `/status`로 실제 인증 경로를 확인한다. 이는 서드파티 도구의 구독 재사용 가능 여부와 다른 문제이며, 모든 환경에서 “조용히 무조건 덮는다”는 오래된 설명도 정확하지 않다.
+
 ## 누구에게 맞나
 
 - **Claude Code** — 터미널 중심으로 Claude를 사용하고, 여러 파일에 걸친 긴 에이전트 작업을 자주 하는 경우.
 - **OpenCode** — 터미널에서 여러 제공자·로컬 모델을 바꿔 쓰고, 오픈소스 도구와 설정 자유도를 중시하는 경우.
-- **pi** — 기본 기능이 많은 완제품보다 작은 core와 extension·skill·prompt template로 직접 조립하는 얇은 하네스를 원하는 경우. 사용 이동기는 [Claude Code에서 OpenCode를 거쳐 pi까지](./2026-09-21-pi-coding-agent-harness.md)에서 따로 정리했다.
+- **pi** — 기본 기능이 많은 완제품보다 작은 core와 extension·skill·prompt template로 직접 조립하는 얇은 하네스를 원하는 경우. 사용 이동기는 [Claude Code에서 OpenCode를 거쳐 pi까지](./2026-09-21-ai-coding-harness-migration.md)에서 따로 정리했다.
+- **OMP** — Pi 계열 구조를 사용하면서 LSP·브라우저·Subagent 같은 개발 도구가 통합된 시작점을 원하는 경우. [Pi와의 차이·확장 호환성](./2026-11-04-omp-vs-pi-coding-agent.md)에서 따로 비교한다.
 - **Cursor** — 에디터 안에서 자동완성·편집·에이전트 기능을 한 흐름으로 쓰고 싶은 경우.
 - **Copilot** — 기존 IDE와 GitHub 중심의 팀 개발 흐름을 유지하면서 AI 기능을 붙이고 싶은 경우.
 - **Codex** — OpenAI 모델과 CLI·클라우드 작업을 같은 생태계에서 쓰고 싶은 경우.
@@ -152,14 +164,4 @@ OpenCode는 OpenAI를 포함한 여러 제공자를 연결하는 구조다. 여�
 
 Claude Code와 Codex처럼 같은 Form Factor의 에이전트끼리는 고정된 성격표보다 **Tool surface·Permission·Context·Execution model·비용**을 같은 축에서 비교하고, 현재 대표 작업으로 검증하는 편이 오래 간다.
 
-이 블로그는 터미널 에이전트를 개발 워크플로(셸·Git·tmux)와 연결하는 관점에서 Claude Code를 중심으로 다룬다. 설치·기능부터는 [Claude Code 정리](./2025-10-24-claude-code.md)로, 전체 학습 경로는 [AI 로드맵](./2026-07-03-ai-roadmap.md)으로 이어진다.
-
-## 인증 공급자가 모델·요금·허용 범위를 결정한다
-
-같은 OpenCode에서도 **어떤 provider의 계정으로 연결했는가**에 따라 모델 카탈로그와 청구 주체가 달라진다. [GitHub의 2026-01 공식 발표](https://github.blog/changelog/2026-01-16-github-copilot-now-supports-opencode/)는 유료 Copilot 구독(Pro·Pro+·Business·Enterprise)을 OpenCode의 `/connect`로 인증하는 경로를 명시한다. 이 경우 OpenCode에서 Copilot이 제공하는 모델을 고르는 것이지 OpenAI·Anthropic에 각기 별도 구독으로 직접 로그인하는 것이 아니다. 조직에서 허용한 모델만 보일 수도 있다. 가격·프리미엄 배수·기본 모델과 사용 한도는 계정·정책·시점마다 달라지므로 “특정 Codex 모델은 영원히 무료·무제한”으로 읽지 말고 [공식 Copilot 요금과 모델 문서](https://docs.github.com/en/copilot/concepts/billing/copilot-requests)에서 확인한다. 모델명의 `Codex`와 **Codex CLI 제품 인증**도 별개의 개념이다.
-
-반대로 Claude Code 구독 로그인 토큰을 제3자 에이전트에 재사용할 수 있다는 뜻은 아니다. Anthropic의 [소비자 약관](https://www.anthropic.com/legal/consumer-terms)은 명시적 허용 또는 API 키 사용을 제외한 자동화 접근을 제한하며, API 키 사용에는 [별도 상업 서비스 약관](https://www.anthropic.com/legal/commercial-terms)이 적용된다. 공식 Agent SDK 같은 경로와 임의의 OAuth 토큰 재사용을 같다고 취급하지 말 것. 서드파티 지원 범위는 최신 공식 통합 안내와 본인의 계약·조직 정책을 기준으로 판단한다. 2026년 상반기의 차단·복구·가격 배수에 관한 커뮤니티 타임라인은 시점마다 달라 현재 보편 정책으로 단정하지 않는다.
-
-OSS 터미널 에이전트도 별 개수만으로 줄 세울 수 없다. OpenCode는 확장과 provider 선택 폭, Aider는 명시적인 Git 중심 편집, pi는 작은 코어와 사용자 확장, Crush는 터미널 UI, Goose는 확장·거버넌스라는 **서로 다른 선택 이유**를 갖는다. Cline은 에디터 중심이라 순수 터미널 CLI와 같은 집합으로 정렬하면 오해가 생긴다. 관심도(별·다운로드), 릴리스 안정성, 장기 사용 후기는 별도 지표다. OpenCode를 고려한다면 멀티모델 필요성에 더해 권한 문자열과 실제 OS sandbox의 경계, 플러그인 업데이트 비용을 대표 작업으로 검증하자. 특정 제품의 “2026년 1위” 같은 숫자와 서비스 종료설은 검증 가능한 현재 사실이 아니라 당시 관찰로만 남겨야 한다.
-
-Claude Code를 **구독으로 사용 중인데도 API 요금이 발생한다면**, 현재 [공식 인증 우선순위](https://code.claude.com/docs/en/authentication#authentication-precedence)를 살핀다. 로컬 대화형 세션에서 `ANTHROPIC_API_KEY`를 설정하고 사용을 승인한 경우 구독 로그인보다 키가 우선할 수 있다. `/status`로 실제 인증 경로를 확인한다. 이는 서드파티 도구의 구독 재사용 가능 여부와 다른 문제이며, 모든 환경에서 “조용히 무조건 덮는다”는 오래된 설명도 정확하지 않다.
+도구를 골랐다면 [Claude Code 작업 설계](./2026-07-03-claude-code-workflow.md)처럼 실제 작업의 계획·권한·검증 경계를 확인한다. 설치·명령은 [devkit 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/README.md), 모델·외부 연결·API 개발의 전체 위치는 [AI 개발 지형](./2026-07-03-ai-development-map.md)에서 이어진다.

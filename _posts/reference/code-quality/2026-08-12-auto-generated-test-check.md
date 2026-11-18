@@ -2,11 +2,13 @@
 title       : "자동 생성 테스트를 신뢰하기 전에 확인할 체크리스트"
 description : "AI와 테스트 생성 도구가 만든 테스트가 단순히 통과하는 데서 그치지 않고 결함을 실제로 잡는지, 구현 복제·경계값·독립성·결정성·실패 검증 다섯 축으로 확인한다."
 date        : 2026-08-12 09:31:56 +0900
-updated     : 2026-08-12 09:31:56 +0900
-categories  : [ai, "코딩 에이전트"]
+updated     : 2026-11-18 12:00:00 +0900
+categories  : [reference, "코드 품질"]
 tags        : [ai, testing, code-generation, checklist, guide]
 pin         : false
 hidden      : false
+redirect_from:
+  - /posts/ai/2026-08-12-auto-generated-test-check/
 ---
 
 AI 코딩 에이전트나 테스트 생성 도구에 "이 함수 테스트를 만들어 줘"라고 하면 몇 초 만에 테스트 파일이 생긴다. 테스트 러너도 초록색이다. 하지만 **통과하는 테스트**와 **결함을 잡는 테스트**는 다르다.

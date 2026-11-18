@@ -1,13 +1,14 @@
 ---
 title       : "Claude Code에서 OpenCode를 거쳐 pi까지 — AI 코딩 하네스를 점점 얇게 만든 기록"
-description : "Claude Code·Codex CLI에서 OpenCode와 oh-my-opencode를 거쳐 pi로 이동하며, 완제품 에이전트보다 얇은 하네스와 직접 조립하는 워크플로가 더 맞아진 과정을 정리한다."
+description : "Claude Code·Codex CLI에서 OpenCode와 pi로 옮기며 어떤 기본 기능을 포기하고 어떤 확장·작업 규칙을 남겼는지, 얇은 하네스의 이점과 유지 책임을 함께 돌아본다."
 date        : 2026-09-21 22:30:00 +0900
-updated     : 2026-11-04 14:40:00 +0900
+updated     : 2026-11-18 12:00:00 +0900
 categories  : [ai, "코딩 에이전트"]
 tags        : [pi, jev, claude-code, codex, opencode, ai-coding, agent-skills, harness, plan-mode, pi-package]
 pin         : false
 hidden      : false
 redirect_from:
+  - /posts/ai/2026-09-21-pi-coding-agent-harness/
   - /posts/ai/2026-10-02-pi-extensible-coding-agent-harness/
 ---
 
@@ -28,15 +29,24 @@ pi
 
 처음에는 기능이 많은 완제품 에이전트가 편했다. 그런데 매일 쓰다 보니 실제로 반복해서 쓰는 것은 생각보다 작았다. 파일을 읽고, 검색하고, 필요한 부분만 수정하고, 테스트나 명령을 돌리고, 작업 규칙을 기억하는 정도였다. 결국 관심이 "무슨 기능이 더 있나"에서 "내 작업 흐름에 필요한 최소 실행 환경은 무엇인가"로 옮겨갔다.
 
-이 글은 pi 사용법 전체 정리가 아니다. Claude Code·Codex CLI에서 OpenCode를 거쳐 pi까지 오면서 체감한 **하네스(harness)의 두께 변화**를 기록한다.
+이 글은 pi 사용법 전체 정리가 아니다. Claude Code·Codex CLI에서 OpenCode를 거쳐 pi까지 오면서 체감한 **하네스(harness)의 두께 변화**를 기록한다. 아래 패키지와 설정 사례는 당시 사용 환경의 선택이지 모두에게 권장하는 필수 목록이 아니다. 최신 API와 설치법은 [Pi 공식 저장소](https://github.com/earendil-works/pi/tree/main/packages/coding-agent)를 확인한다.
+
+| 선택이 바뀐 지점 | 얻은 것 | 내가 책임지게 된 것 |
+|---|---|---|
+| 완제품 Agent → OpenCode | Provider·모델 선택 폭 | 인증 경로·설정·플러그인 검증 |
+| 반복 지시 → 개인 절차 | 규칙·문서 작업의 재사용 | 절차의 원본과 적용 범위 |
+| 통합 하네스 → pi 조립 | 필요한 기능만 고르는 통제 | 패키지 호환·권한·업데이트·관측 |
+
+이 이동은 제품의 보편적인 성능 순위가 아니라 **내가 유지할 경계의 선택**이다.
 
 ## 하네스란 무엇인가
 
 여기서 하네스는 모델 자체가 아니라, 모델이 개발 작업을 수행하게 만드는 주변 실행 환경을 뜻한다.
 
 ```text
-모델
-  └─ 하네스
+하네스 (모델을 호출하고 작업 루프를 관리)
+  ├─ 모델 호출 → 응답·도구 호출 제안
+  └─ 도구·작업 환경
       ├─ 파일 읽기
       ├─ 검색
       ├─ 명령 실행
@@ -163,50 +173,23 @@ Claude Code / Codex CLI → OpenCode → pi로 갈수록 기본 제공 기능은
 - 여러 provider와 model을 바꾸며 완성형 TUI를 쓰고 싶으면 OpenCode가 자연스럽다.
 - 반복 작업을 직접 규칙·skill·template로 조립하고 싶으면 pi가 매력적이다.
 
-## 구성과 커스텀은 어떻게 다른가
+## 부품 선택과 행동 규칙을 분리한다
 
-넓게 보면 하네스를 구성하는 것도 커스텀의 일부다. 다만 뉘앙스를 나누면 다음과 같다.
+하네스를 “구성한다”는 말에는 두 가지가 섞인다. 어떤 손발을 줄지 고르는 일과, 그 손발로 어떻게 일할지 정하는 일이다.
 
-```text
-구성
-  → 어떤 부품을 붙일지 정한다
-  → 도구, skill, extension, prompt template, 권한
+| 선택 | 내 환경의 예 |
+|---|---|
+| 도구·능력의 구성 | `read/edit/bash`만 허용하거나 `pi-jev`를 연결 |
+| 지속 지시 | `AGENTS.md`·`APPEND_SYSTEM.md`에 작업 원칙 |
+| 반복 요청 | prompt template에 짧은 명령 |
+| 작업 지식·절차 | Skill에 필요한 맥락과 진행 순서 |
+| 새 동작 | Extension·custom tool에 외부 호출·이벤트 반응 |
 
-커스텀
-  → 붙인 부품이 내 방식대로 움직이게 조정한다
-  → 문체, 작업 규칙, 실행 순서, 안전장치
-```
+예를 들어 블로그 작업에서는 “작성 규칙을 먼저 읽기”, “기존 글과 중복 검색”, “명령 참조는 devkit으로 보내기”, “공개 글에서 내부 맥락 일반화”가 내 작업 규칙이다. Extension을 설치하는 것만으로 이 규칙이 생기지는 않는다. 반대로 “긴 파일을 통째로 덮어쓰지 않기” 같은 지시를 적었다고 도구 권한이 기술적으로 제한되는 것도 아니다.
 
-예를 들어 `read`, `edit`, `bash`만 허용하고 `write`를 빼거나 `pi-jev` extension을 붙이는 것은 구성에 가깝다. 반면 "긴 파일은 전체 덮어쓰지 말라", "블로그 글은 작성 규칙을 먼저 읽으라", "수정 후 diff를 확인하라"는 것은 커스텀에 가깝다.
+실제 대화에서 구성과 커스텀을 엄격히 구분할 필요는 없다. 다만 **도구를 줄이는 일과 지침으로 행동을 유도하는 일의 보장 수준**은 다르다.
 
-실제 대화에서는 둘을 엄격히 나누지 않는다. 누군가 "하네스를 구성했다"고 말하면 대개 도구를 고르고, 규칙을 쓰고, 반복 흐름을 만들고, 필요한 확장을 붙였다는 뜻이다. 큰 범주로는 전부 커스텀이고, 그중 **어떤 손발과 작업 환경을 줄지 조립하는 부분**을 구성이라고 부르는 셈이다.
-
-## pi에서 붙인다는 것은 무엇인가
-
-처음 pi를 쓰면 "뭘 붙이라는 거지?"라는 질문이 든다. 답은 거창하지 않다. 내가 매번 반복해서 말하던 것을 하나씩 밖으로 빼는 것이다.
-
-```text
-반복 지시
-  → AGENTS.md / APPEND_SYSTEM.md
-
-반복 프롬프트
-  → prompt template
-
-작업 단위 지식과 절차
-  → skill
-
-외부 시스템 호출
-  → extension / custom tool
-```
-
-예를 들어 블로그 작업에서는 다음 규칙이 하네스의 일부가 된다.
-
-- 글 작성 전 블로그 작성 규칙을 읽는다.
-- 기존 글과 중복되는지 먼저 찾는다.
-- 매뉴얼성 명령어 나열은 devkit cheatsheet로 보내고, 블로그에는 비교·선택·경험을 남긴다.
-- 공개 글에서는 개인 대화와 내부 맥락을 일반화한다.
-
-이것은 특정 모델의 지능 문제가 아니라 실행 환경의 문제다. 같은 모델도 어떤 하네스에서 도는지에 따라 작업 감각이 달라진다.
+같은 모델도 실행 환경에 따라 작업 감각이 달라진다. 지연을 비교할 때는 Provider·추론 강도·입력 길이·캐시·도구 호출 횟수도 맞춰야 한다. 얇은 core라는 구조만으로 특정 실행이 항상 빠르다고 단정하지 않는다.
 
 ## 날것의 pi 위에 얹은 작은 레이어
 
@@ -267,7 +250,9 @@ plan mode
 
 이 지점에서 pi의 성격이 더 분명해진다. pi는 "plan mode가 없는 도구"라기보다, plan mode까지도 사용자가 하네스의 일부로 붙일 수 있게 둔 도구에 가깝다. 필요 없으면 비워 두고, 필요해지면 붙인다. 내 경우에는 실수로 파일을 고치기 전에 먼저 읽고 계획하는 흐름이 필요해졌고, 그래서 `plan-mode` extension을 전역 extension으로 올렸다.
 
-## Pi Package·Extension — 필요한 기능만 조립하기
+## 조립 뒤의 유지 책임 — Package와 Extension
+
+앞에서 고른 작은 구성이 계속 작게 유지된다는 보장은 없다. 새 기능을 붙일 때마다 기본 core의 빈자리를 채우는 대신 의존성·권한·컨텍스트·추가 모델 호출을 내가 관리하게 된다. 다음은 그 선택을 되짚는 사례이지 확장 API의 전체 참조가 아니다.
 
 앞의 선택 과정과 달리, 이 절은 Pi를 채택했을 때 **무엇을 어떻게 확장하는가**에 집중한다. Package는 재사용·배포 단위이고 Extension은 Pi 런타임 안에서 동작을 추가하는 코드다. Package가 Extension을 포함할 수 있으므로 둘은 상호 배타적인 제품 유형이 아니다.
 
@@ -304,26 +289,13 @@ Pi의 Package는 npm을 통해 배포되는 확장 단위로 볼 수 있다. 직
 
 결과적으로 Pi는 설치 직후보다, 어떤 Package를 붙였는지에 따라 전혀 다른 작업 환경이 된다.
 
-### Extension — Pi 안에서 동작을 직접 바꾸는 방법
+### Extension — 직접 동작을 바꾸면 신뢰 경계도 커진다
 
-Pi Extension은 TypeScript 또는 JavaScript module로 작성한다. Extension은 Pi process 안에서 실행되며, Tool, Command, Event handler, Model provider, Terminal UI 등을 추가할 수 있다.
+Extension은 Pi process 안에서 실행되는 TypeScript·JavaScript 코드다. 명령·Tool·키·CLI flag·Provider·이벤트·TUI를 추가할 수 있다. 이 실행 코드를 배포하는 단위가 Package일 수 있으며, Package가 Skill·prompt·theme를 묶는 경우도 있으므로 두 말을 동의어로 쓰지 않는다.
 
-공식 Extension API의 주요 진입점은 다음처럼 볼 수 있다.
+내가 확인할 것은 등록 함수 이름을 얼마나 많이 외웠는지가 아니다. **어떤 입력·이벤트를 읽고, 무엇을 실행하며, 실패 시 작업이 계속 가능한가**다. 작은 `/hello` 명령과 Tool 차단·세션 맥락 주입은 영향 범위가 다르다. API·예제는 [공식 Extension 문서](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/extensions.md)를 따른다.
 
-```text
-Pi Extension
-├─ registerTool()      # 모델이 호출할 수 있는 Tool 추가
-├─ registerCommand()   # /command 추가
-├─ registerShortcut()  # Shortcut 추가
-├─ registerFlag()      # CLI flag 추가
-├─ registerProvider()  # Model provider 추가
-├─ on()                # lifecycle/event hook
-└─ ctx.ui              # TUI interaction
-```
-
-작은 예로는 `/hello` 같은 command를 추가할 수 있고, 더 크게는 특정 Tool 호출을 감시하거나, 위험한 명령을 막거나, session event에 반응해 context를 보강할 수 있다.
-
-중요한 점은 Extension이 Pi process 안에서 같은 OS 권한으로 돈다는 것이다. 파일, prompt, tool call, session history, credential에 접근할 수 있으므로 신뢰할 수 있는 Extension만 로드해야 한다.
+Extension은 같은 OS 권한으로 파일·prompt·tool call·session history·credential에 접근할 수 있다. 따라서 신뢰할 수 있는 코드만 로드하고, 편리한 UI 패키지라는 이유로 실행 권한 검토를 생략하지 않는다.
 
 ### 작업별 조립 예시
 
@@ -350,7 +322,7 @@ Pi Extension
 
 반대로 코드 리뷰나 계획 검토가 중심이면 `@plannotator/pi-extension` 같은 리뷰 흐름이 더 중요해진다. 외부 Tool 생태계를 붙이고 싶으면 `pi-mcp-adapter`가 중심이 된다.
 
-즉 Pi의 핵심은 “모든 기능을 항상 켠다”가 아니라, 현재 작업에 맞는 능력을 선택적으로 붙이는 것이다.
+즉 Pi의 핵심은 “모든 기능을 항상 켠다”가 아니라, 현재 작업에 맞는 능력을 선택적으로 붙이는 것이다. 추가 호출이 생기는지, 실패했을 때 우회 경로가 있는지, 사용하지 않는 확장을 뺄 수 있는지까지 확인해야 조립의 이점이 유지된다. 플러그인 API 호환과 통합 배포판의 선택은 [OMP 비교](./2026-11-04-omp-vs-pi-coding-agent.md)에서 별도로 다룬다.
 
 ## 결론 — 더 많은 기능보다 더 얇은 경계
 

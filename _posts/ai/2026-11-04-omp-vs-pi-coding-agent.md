@@ -8,7 +8,7 @@ pin         : false
 hidden      : false
 ---
 
-> 관련: [Claude Code에서 OpenCode를 거쳐 Pi까지 — AI 코딩 하네스를 점점 얇게 만든 기록](./2026-09-21-pi-coding-agent-harness.md)
+> 관련: [Claude Code에서 OpenCode를 거쳐 Pi까지 — AI 코딩 하네스를 점점 얇게 만든 기록](./2026-09-21-ai-coding-harness-migration.md)
 
 OMP(Oh My Pi)를 처음 설치하면 이름 때문에 먼저 두 가지 질문이 생긴다.
 
