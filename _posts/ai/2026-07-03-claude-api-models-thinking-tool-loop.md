@@ -11,7 +11,7 @@ redirect_from:
   - /posts/ai/2026-07-03-claude-api-basics/
 ---
 
-> 관련: [AI 개발 지형](./2026-07-03-ai-development-map.md)의 API 애플리케이션 영역 · [MCP 개념 정리](./2025-10-23-mcp.md)
+> 관련: [AI 개발 지형](./2026-07-03-ai-development-map.md)의 API 애플리케이션 영역 · [AI 모델과 추론 레벨](./2026-11-18-ai-models-reasoning-levels.md) · [MCP 개념 정리](./2025-10-23-mcp.md)
 
 Claude Code 같은 코딩 도구를 사용하는 것과 내 앱에서 모델 API를 호출하는 것은 다른 개발 경로다. API를 직접 붙이면 모델이 도구 호출을 제안하더라도 **실행·승인·상태 보존·재시도는 애플리케이션의 책임**이 된다.
 
@@ -84,7 +84,7 @@ print(response.content[0].text)
 
 ## Adaptive Thinking과 Effort
 
-**Adaptive Thinking**은 모델이 요청에 따라 추론 여부·깊이를 조절하는 방식이다. **Effort**는 그 작업에 어느 정도 계산·토큰을 쓰도록 유도할지 정하는 별도 신호다. 같은 `high`라도 모든 모델에서 동일한 시간·토큰·품질을 뜻하지 않는다. Thinking 설정의 허용값은 모델별로 확인한다.
+모델 선택과 추론 강도의 차이, 속도·비용·품질의 선택 기준은 [AI 모델과 추론 레벨](./2026-11-18-ai-models-reasoning-levels.md)에서 다룬다. 여기서는 **Claude Messages API의 요청 계약**에 집중한다. Adaptive Thinking은 모델이 요청에 따라 추론 여부·깊이를 조절하는 방식이고, `output_config.effort`는 별도의 작업 강도 신호다. 모델별 Thinking 설정 지원 여부를 먼저 확인한다.
 
 ```python
 response = client.messages.create(
@@ -96,27 +96,15 @@ response = client.messages.create(
 )
 ```
 
-`effort`는 엄격한 토큰 예산이 아니라 **행동 깊이와 토큰 사용량을 조절하는 신호**다. 텍스트 답변뿐 아니라 Tool 호출과 Thinking에도 영향을 준다.
+Claude의 `effort`는 엄격한 토큰 예산이 아니라 **행동 깊이와 토큰 사용량을 조절하는 신호**다. 활성화된 Thinking뿐 아니라 텍스트 답변과 Tool 호출에도 영향을 주며, Thinking 없이도 적용할 수 있다.
 
-| 수준 | 용도 |
-|---|---|
-| `low` | 단순 작업, 대량·저지연 처리 |
-| `medium` | 비용과 품질의 균형 |
-| `high` | 복잡한 추론·코딩·Agent 작업 |
-| `xhigh` | 장시간 코딩·Agent처럼 더 깊은 작업. 지원 모델에서만 사용 |
-| `max` | 토큰 소비보다 최고 성능이 중요한 작업. 지원 모델에서만 사용 |
+지원 단계는 `low`, `medium`, `high`, `xhigh`, `max`이며, 이 목록 전체가 모든 모델에서 허용되는 것은 아니다. 특히 `xhigh`·`max`는 선택한 모델의 [공식 Effort 문서](https://platform.claude.com/docs/en/build-with-claude/effort)를 확인한다.
 
-기본값도 모델별로 다르다. 확인 시점의 공식 문서는 Opus 5.5·Haiku 5.5는 `medium`, 그 밖의 지원 모델은 `high`로 설명한다. `xhigh`·`max`를 습관적으로 고정하지 말고 대표 작업의 실패·지연·비용을 평가해 조정한다. 지원 단계는 [공식 Effort 문서](https://platform.claude.com/docs/en/build-with-claude/effort)를 따른다.
+기본값도 모델별로 다르다. 확인 시점의 공식 문서는 Opus 5.5·Haiku 5.5는 `medium`, 그 밖의 지원 모델은 `high`로 설명한다. 기본 effort를 명시하는 것과 effort 필드를 생략하는 것은 같은 동작이다.
 
-| 서로 다른 조절값 | 의미 |
-|---|---|
-| 모델 ID | 어떤 추론 엔진을 사용할까 |
-| Adaptive Thinking | 모델이 추론을 어떻게 사용할까 |
-| `output_config.effort` | 답변·도구 호출·Thinking 전체의 작업 강도를 어떻게 유도할까 |
-| `max_tokens` | Thinking을 포함한 총 출력의 상한은 얼마인가 |
-| UI에서 Thinking 숨기기 | 이미 수행되는 추론을 화면에 보일까; 계산량을 줄이는 설정은 아님 |
+`max_tokens`는 effort와 달리 **Thinking을 포함한 총 출력의 상한**이다. 높은 effort를 지정하더라도 이 상한을 넘겨 추론할 수는 없으므로 답변까지 완료할 예산을 확보한다. 답변 길이는 별도 지시로 조절하고, `xhigh`·`max`를 습관적으로 고정하지 않는다.
 
-OMP 같은 하네스의 `auto`는 **하네스가 강도를 고르는 정책**이고, Claude API의 Adaptive Thinking과 동일한 API 옵션이 아니다. `off`·`minimal`도 모든 모델의 공통 단계가 아니다. OMP의 전체 단계·전환 방법은 [devkit 추론 강도 표](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/omp.md#추론-강도)에서 확인한다.
+OMP의 `auto` 같은 하네스 정책은 Claude API의 Adaptive Thinking과 다른 계층이다. 공통 개념은 [범용 글](./2026-11-18-ai-models-reasoning-levels.md), 실제 조작법은 [devkit 추론 강도 표](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/omp.md#추론-강도)로 구분한다.
 
 ## 스트리밍
 

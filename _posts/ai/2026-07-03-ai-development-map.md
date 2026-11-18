@@ -95,6 +95,7 @@ API를 쓰는 앱에서는 요청·응답 계약, 세션 상태, Tool Loop, 실�
 
 | 글 | 독자가 얻는 것 |
 |---|---|
+| [AI 모델과 추론 레벨](./2026-11-18-ai-models-reasoning-levels.md) | 모델 선택과 추론 강도의 차이, 제공사별 설정 경계, 속도·비용·품질의 선택 기준 |
 | [Claude API의 모델·추론·Tool Loop·캐시](./2026-07-03-claude-api-models-thinking-tool-loop.md) | 모델 선택과 effort, 메시지·도구 실행·캐시의 책임 구분 |
 | [Jev: 생성과 판단의 분업](./2026-10-04-jev-decision-model.md) | 작은 선택·확률을 정책 코드에서 소비하는 구조와 검증 기준 |
 
@@ -106,7 +107,7 @@ API를 쓰는 앱에서는 요청·응답 계약, 세션 상태, Tool Loop, 실�
 
 생성 모델도 분류할 수 있다. 판단 모델은 다른 기능을 추가한다기보다, 반복 판단의 출력 계약·확률 품질·비용을 별도로 다루는 선택이다. 높은 confidence나 큰 effort가 실제 검증을 대체하지 않는다.
 
-추론 단계의 이름도 공급자·모델·하네스마다 다르다. `auto` 정책과 모델의 Adaptive Thinking, Thinking을 화면에서 감추는 옵션을 같다고 보지 않는다. OMP의 조작법은 [추론 강도 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/omp.md#추론-강도)를 참조한다.
+모델·추론 강도의 공통 선택 기준과 제공사별 차이는 [AI 모델과 추론 레벨](./2026-11-18-ai-models-reasoning-levels.md)에서 다룬다. OMP의 단계·전환·역할별 설정은 [추론 강도 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/omp.md#추론-강도)를 참조한다.
 
 ## 6. 제품 표면과 운영 경험
 
