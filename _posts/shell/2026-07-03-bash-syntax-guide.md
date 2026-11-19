@@ -20,6 +20,41 @@ hidden      : false
 2. 인용과 확장을 거친 뒤 명령이 실제로 어떤 인자를 받는가?
 3. 각 명령의 종료 코드가 조건문, `&&`, 파이프라인, `set -e`에 어떻게 소비되는가?
 
+## 같은 명령을 쓴다고 같은 셸 언어는 아니다
+
+`git status`, `cd src`, `cat app.log | grep ERROR` 같은 일상 명령은 Bash·Zsh·fish에서 비슷하게 쓴다. 하지만 **외부 프로그램을 호출하는 방식이 비슷하다는 것과 셸 코드를 호환한다는 것은 다른 이야기**다. 터미널에 직접 입력한 반복문도 현재 셸의 언어로 해석된다.
+
+| 비교축 | Bash·Zsh | fish | Nushell |
+|---|---|---|---|
+| 셸 문법 | 서로 가깝지만 확장·배열 등의 규칙이 다름 | `set`, `function … end` 등 독자 문법 | 독자 문법과 타입이 있는 값 |
+| 파이프의 데이터 | 바이트 스트림, 흔히 텍스트 | 바이트 스트림, 흔히 텍스트 | 내부 명령 사이에서 표·레코드 등 구조화된 값 |
+| 기존 설정 이전 | 닮은 코드도 실행 의미 확인 필요 | 함수·초기화 코드를 fish에 맞게 작성 | 설정·함수를 Nu에 맞게 작성 |
+
+[fish 공식 문서](https://fishshell.com/docs/current/fish_for_bash_users.html)는 POSIX 비호환을 의도한 설계라고 설명한다. 다음 두 반복문은 같은 목록을 출력하지만 문법은 다르다.
+
+```bash
+# Bash / Zsh
+for x in a b c; do
+  printf '%s\n' "$x"
+done
+```
+
+```fish
+for x in a b c
+  printf '%s\n' "$x"
+end
+```
+
+[Nushell](https://www.nushell.sh/)은 이보다 다른 축도 바꾼다. 내장 `ls`가 내놓는 표를 `size` 같은 필드로 필터링하고 정렬할 수 있다. 다만 외부 프로그램의 임의 텍스트 출력까지 자동으로 표가 되는 것은 아니므로 필요한 파싱은 남는다. **Bash → Zsh → fish → Nushell을 호환되는 업그레이드 순서로 보면 안 된다.**
+
+### 서버와 로컬을 오갈 때의 선택 기준
+
+서버의 대화형 셸이 Bash라면 로컬에서 fish를 쓰더라도 SSH 접속 후 입력하는 코드는 서버 셸의 문법을 따른다. 서버 스크립트를 fish로 바꿔야 하는 것은 아니지만, 즉석 반복문·함수·환경 설정을 두 문법으로 오가는 비용은 있다.
+
+그 비용을 줄이는 것이 우선이면 로컬도 Bash를 쓰거나, 차이를 알고 Zsh를 쓰는 선택이 자연스럽다. 반대로 입력 편의성이 더 중요하면 fish를 대화형으로 쓰고 스크립트는 Bash로 유지할 수 있다. 자동 제안과 Tab 완성의 차이는 [자동완성 글](./2026-11-19-zsh-completion-and-fzf-tab.md)에서, 다른 셸에서 Bash 파일을 실행하는 방법은 [첫 스크립트 글](./2026-07-04-first-shell-script.md)에서 다룬다.
+
+이후 문법 설명은 **Bash·Zsh·POSIX `sh` 코드의 판별**에 집중한다. 서버용 Bash 스크립트는 로컬 Zsh에서 우연히 실행됐다는 사실이 아니라, 배포 대상의 Bash 버전과 도구를 기준으로 검증한다.
+
 ## 먼저 실행 계약부터 읽는다
 
 첫 줄의 shebang은 문서 장식이 아니라 인터프리터 계약이다.
@@ -84,91 +119,6 @@ run() {
 ```
 
 `"$@"`는 원래 인자를 각각 보존한다. `"$*"`는 모든 인자를 하나의 문자열로 합친다. wrapper 함수가 `command $@` 또는 `command "$*"`를 쓴다면 공백이 든 인자가 망가지는지 먼저 의심한다.
-
-## 2026-11-19 보강 — eval로 초기화 코드를 현재 셸에 읽기
-
-셸 초기화 파일에서 다음 줄을 만나면, 프로그램을 실행하는 일과 그 프로그램이 출력한 코드를 실행하는 일을 나누어 읽어야 한다.
-
-```zsh
-eval "$(harlequin-config init zsh)"
-```
-
-안에서 밖으로 읽으면 세 단계다.
-
-1. **`harlequin-config init zsh`를 실행한다.** 이 외부 프로그램은 Zsh 함수 정의와 `compdef` 같은 자동완성 등록 명령을 **코드 텍스트로 표준 출력(stdout)에 내보낸다.** 아직 부모 셸에 함수를 정의하거나 자동완성을 등록한 것은 아니다.
-2. **`$(...)`가 출력을 캡처한다.** 명령 치환(command substitution)은 stdout을 문자열로 가져오며, 끝에 연속된 개행은 제거한다. 큰따옴표는 그 결과를 `eval`의 인자 하나로 전달한다.
-3. **`eval`이 그 문자열을 현재 셸의 코드로 다시 해석하고 실행한다.** 이때 함수 정의와 자동완성 등록이 현재 대화형 셸에 남는다. 출력된 Zsh 코드는 Zsh에서 읽어야 하며, `eval`이 셸 문법을 변환해 주는 것은 아니다.
-
-왜 프로그램이 직접 설정하지 않고 코드를 출력할까? 부모 셸이 시작한 자식 프로세스의 상태 변경은 부모 셸로 역전파되지 않기 때문이다. 자식 셸에서 변수를 대입하거나 함수를 정의해도 부모 대화형 셸의 변수·함수 표가 바뀌지는 않는다. 따라서 자식은 필요한 코드를 출력하고, **부모 셸이 그 코드를 읽어 자기 상태를 변경**한다.
-
-앞서 본 `source ./init.zsh`는 **파일에 든 코드**를 현재 셸에서 읽는다. `eval "$init_code"`는 **문자열에 든 코드**를 현재 셸에서 읽는다. 입력을 가져오는 곳은 다르지만, 별도 셸에서 실행하고 끝내는 대신 현재 셸을 변경한다는 목적은 같다.
-
-### `init zsh`는 셸 문법이 아니라 도구가 받는 인자다
-
-`harlequin-config init zsh`에서 프로그램 이름은 `harlequin-config`, 전달하는 인자는 `init`과 `zsh` 두 개다. 프로그램은 이를 읽고 Zsh용 초기화 코드를 출력하는 분기로 들어간다. `git status`에서 Git이 `status`라는 인자를 하위 명령으로 해석하는 것과 같은 층위다.
-
-**`init <shell>`은 셸이 강제하는 공통 규약이 아니다.** zoxide·Atuin·Starship은 이 형태를 사용하지만, mise는 `activate zsh`, fzf는 `--zsh`로 연동 코드를 요청한다. 지원하는 인자와 출력 형식은 각 도구가 구현한다.
-
-출력 코드가 하는 일도 다르다. zoxide는 이동 함수와 방문 기록 훅을, Atuin은 기록 검색 키 바인딩 등을, Starship은 프롬프트 연결을 제공한다. 여기서 훅(hook)은 프롬프트 표시 같은 특정 시점에 호출되도록 등록한 코드다. **설치된 실행 파일을 PATH에서 찾는 일과 셸에 함수·키·훅을 붙이는 일은 별개**다.
-
-또한 `eval`은 “문자열을 함수로 호출하는 명령”이 아니다. 문자열에 변수 대입이 있으면 대입하고, 함수 정의가 있으면 정의한다. 그 함수를 호출하는 코드까지 들어 있지 않다면 함수 본문은 아직 실행하지 않는다.
-
-### fish에서는 같은 목적을 다른 문법으로 연결한다
-
-zoxide의 공식 fish 초기화는 다음과 같다.
-
-```fish
-# ~/.config/fish/config.fish
-zoxide init fish | source
-```
-
-fish의 `source`는 파일뿐 아니라 표준입력의 코드도 읽을 수 있다. 따라서 도구가 출력한 **fish 코드**를 파이프로 넘겨 현재 fish에 함수를 등록한다. 같은 zoxide 실행 파일을 사용해도 `init zsh`가 출력한 코드를 fish에 넘기면 안 된다.
-
-[fish는 의도적으로 POSIX 호환 언어가 아니다](https://fishshell.com/docs/current/fish_for_bash_users.html). Bash·Zsh와 기본적인 외부 명령 실행 방식은 비슷하지만, 독립적인 변수 설정은 `name=value` 대신 `set name value`, 함수는 `function ... end`로 정의한다. Zsh 역시 Bash와 겹치는 문법이 많을 뿐 모든 Bash 스크립트를 그대로 해석하는 것은 아니다.
-
-초기화 코드를 꼭 명령으로 출력해야 하는 것도 아니다. Zsh용 파일을 `source ./init.zsh`로 읽거나 fish용 파일을 fish의 함수·완성 디렉터리에 설치할 수도 있다. **코드를 배포하는 방식과 그 코드가 쓰는 언어는 별개**다. 실제 셸 전환에서 무엇을 공유하고 무엇을 다시 작성하는지는 [Harlequin 자동완성의 fish 연결부](./2026-11-19-zsh-completion-and-fzf-tab.md#2026-11-19-보강--fish로-옮길-때-공유되는-것과-바뀌는-것)에서 다룬다.
-
-
-### 출력 캡처와 코드 실행을 분리해 보기
-
-다음은 Harlequin 설치 없이 새 Bash 또는 Zsh 세션에서 실행할 수 있는 작은 실험이다. `emit_init`은 함수 정의를 출력할 뿐이고, `blog_init_demo`가 등록되는 시점은 `eval` 이후다.
-
-```bash
-emit_init() {
-  printf '%s\n' 'blog_init_demo() { printf "%s\n" "after: current shell"; }'
-}
-
-init_code="$(emit_init)"
-printf '%s\n' "$init_code"
-
-if command -v blog_init_demo >/dev/null 2>&1; then
-  printf '%s\n' 'before: already defined'
-else
-  printf '%s\n' 'before: not defined'
-fi
-
-eval "$init_code"
-blog_init_demo
-
-unset -f emit_init blog_init_demo
-unset init_code
-```
-
-새 세션에서의 예상 출력은 다음과 같다.
-
-```text
-blog_init_demo() { printf "%s\n" "after: current shell"; }
-before: not defined
-after: current shell
-```
-
-`init_code="$(emit_init)"`는 출력 문자열을 저장하고, `printf`는 그 문자열을 보여 준다. 두 동작만으로 출력 속 함수 정의가 실행되지는 않는다. `eval "$init_code"`가 문자열을 다시 셸 문법으로 읽는 경계다. 끝의 `unset` 두 줄은 실험에서 만든 함수와 변수를 정리한다.
-
-### 큰따옴표는 eval의 안전장치가 아니다
-
-이 패턴은 **출처와 출력 형식을 신뢰하는 도구의 고정된 초기화 코드**를 읽을 때로 한정한다. 사용자 입력이나 네트워크에서 받은 임의 데이터를 `eval`에 전달해서는 안 된다. 큰따옴표는 첫 번째 확장에서 인자 경계를 보존할 뿐, 문자열 속 명령을 무해하게 만들지 않는다. `eval`은 바로 그 문자열을 코드로 다시 읽으므로, 출력에 악성 명령이 있으면 현재 셸의 권한으로 실행된다.
-
-문법의 기준은 [Bash 명령 치환 문서](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html)와 [Zsh의 `eval`·`source` 내장 명령 문서](https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html#index-eval)에서 확인할 수 있다. 이 원리가 실제 `-P` 자동완성과 연결되는 과정은 [Zsh 자동완성과 fzf-tab: 후보 생성과 선택 UI의 경계](./2026-11-19-zsh-completion-and-fzf-tab.md)에서 이어진다.
 
 ## 파라미터 확장
 
@@ -297,7 +247,7 @@ Bash 배열은 0부터 시작하지만 Zsh 배열은 기본적으로 1부터 시
   → 명령과 인자 실행
 ```
 
-정확한 확장 단계와 예외는 셸마다 더 복잡하지만, **인용되지 않은 확장 결과가 다시 데이터가 아니라 문법처럼 작동할 수 있다**는 점이 핵심이다.
+정확한 확장 단계와 예외는 셸마다 더 복잡하다. 여기서 핵심은 **인용되지 않은 확장 결과가 단어 분리와 glob을 거쳐 인자 개수·내용을 바꿀 수 있다**는 점이다. 변수 값에 들어 있는 `;`나 `|`가 일반 확장만으로 제어 연산자로 다시 파싱되는 것은 아니다. 문자열을 코드로 다시 해석하는 `eval`은 뒤에서 따로 구분한다.
 
 ```bash
 pattern='*.log'
@@ -332,6 +282,91 @@ EOF
 
 첫 번째 본문은 파라미터와 명령 치환이 일어난다. 두 번째는 `$HOME`을 글자 그대로 보존한다. 배포 스크립트가 원격 설정 파일을 만들 때 이 차이를 놓치면 “현재 머신에서 확장할 값”과 “생성된 파일을 읽는 쪽에서 확장할 값”이 뒤섞인다. `<<<` here-string은 편리하지만 POSIX `sh` 문법은 아니다.
 
+## 2026-11-19 보강 — eval로 초기화 코드를 현재 셸에 읽기
+
+셸 초기화 파일에서 다음 줄을 만나면, 프로그램을 실행하는 일과 그 프로그램이 출력한 코드를 실행하는 일을 나누어 읽어야 한다.
+
+```zsh
+eval "$(harlequin-config init zsh)"
+```
+
+안에서 밖으로 읽으면 세 단계다.
+
+1. **`harlequin-config init zsh`를 실행한다.** 이 외부 프로그램은 Zsh 함수 정의와 `compdef` 같은 자동완성 등록 명령을 **코드 텍스트로 표준 출력(stdout)에 내보낸다.** 아직 부모 셸에 함수를 정의하거나 자동완성을 등록한 것은 아니다.
+2. **`$(...)`가 출력을 캡처한다.** 명령 치환(command substitution)은 stdout을 문자열로 가져오며, 끝에 연속된 개행은 제거한다. 큰따옴표는 그 결과를 `eval`의 인자 하나로 전달한다.
+3. **`eval`이 그 문자열을 현재 셸의 코드로 다시 해석하고 실행한다.** 이때 함수 정의와 자동완성 등록이 현재 대화형 셸에 남는다. 출력된 Zsh 코드는 Zsh에서 읽어야 하며, `eval`이 셸 문법을 변환해 주는 것은 아니다.
+
+왜 프로그램이 직접 설정하지 않고 코드를 출력할까? 부모 셸이 시작한 자식 프로세스의 상태 변경은 부모 셸로 역전파되지 않기 때문이다. 자식 셸에서 변수를 대입하거나 함수를 정의해도 부모 대화형 셸의 변수·함수 표가 바뀌지는 않는다. 따라서 자식은 필요한 코드를 출력하고, **부모 셸이 그 코드를 읽어 자기 상태를 변경**한다.
+
+앞서 본 `source ./init.zsh`는 **파일에 든 코드**를 현재 셸에서 읽는다. `eval "$init_code"`는 **문자열에 든 코드**를 현재 셸에서 읽는다. 입력을 가져오는 곳은 다르지만, 별도 셸에서 실행하고 끝내는 대신 현재 셸을 변경한다는 목적은 같다.
+
+### `init zsh`는 셸 문법이 아니라 도구가 받는 인자다
+
+`harlequin-config init zsh`에서 프로그램 이름은 `harlequin-config`, 전달하는 인자는 `init`과 `zsh` 두 개다. 프로그램은 이를 읽고 Zsh용 초기화 코드를 출력하는 분기로 들어간다. `git status`에서 Git이 `status`라는 인자를 하위 명령으로 해석하는 것과 같은 층위다.
+
+**`init <shell>`은 셸이 강제하는 공통 규약이 아니다.** zoxide·Atuin·Starship은 이 형태를 사용하지만, mise는 `activate zsh`, fzf는 `--zsh`로 연동 코드를 요청한다. 지원하는 인자와 출력 형식은 각 도구가 구현한다.
+
+출력 코드가 하는 일도 다르다. zoxide는 이동 함수와 방문 기록 훅을, Atuin은 기록 검색 키 바인딩 등을, Starship은 프롬프트 연결을 제공한다. 여기서 훅(hook)은 프롬프트 표시 같은 특정 시점에 호출되도록 등록한 코드다. **설치된 실행 파일을 PATH에서 찾는 일과 셸에 함수·키·훅을 붙이는 일은 별개**다.
+
+또한 `eval`은 “문자열을 함수로 호출하는 명령”이 아니다. 문자열에 변수 대입이 있으면 대입하고, 함수 정의가 있으면 정의한다. 그 함수를 호출하는 코드까지 들어 있지 않다면 함수 본문은 아직 실행하지 않는다.
+
+### fish에서는 같은 목적을 다른 문법으로 연결한다
+
+zoxide의 공식 fish 초기화는 다음과 같다.
+
+```fish
+# ~/.config/fish/config.fish
+zoxide init fish | source
+```
+
+fish의 `source`는 파일뿐 아니라 표준입력의 코드도 읽을 수 있다. 따라서 도구가 출력한 **fish 코드**를 파이프로 넘겨 현재 fish에 함수를 등록한다. 같은 zoxide 실행 파일을 사용해도 `init zsh`가 출력한 코드를 fish에 넘기면 안 된다.
+
+[fish는 의도적으로 POSIX 호환 언어가 아니다](https://fishshell.com/docs/current/fish_for_bash_users.html). Bash·Zsh와 기본적인 외부 명령 실행 방식은 비슷하지만, 독립적인 변수 설정은 `name=value` 대신 `set name value`, 함수는 `function ... end`로 정의한다. Zsh 역시 Bash와 겹치는 문법이 많을 뿐 모든 Bash 스크립트를 그대로 해석하는 것은 아니다.
+
+초기화 코드를 꼭 명령으로 출력해야 하는 것도 아니다. Zsh용 파일을 `source ./init.zsh`로 읽거나 fish용 파일을 fish의 함수·완성 디렉터리에 설치할 수도 있다. **코드를 배포하는 방식과 그 코드가 쓰는 언어는 별개**다. 실제 셸 전환에서 무엇을 공유하고 무엇을 다시 작성하는지는 [Harlequin 자동완성의 fish 연결부](./2026-11-19-zsh-completion-and-fzf-tab.md#2026-11-19-보강--fish로-옮길-때-공유되는-것과-바뀌는-것)에서 다룬다.
+
+
+### 출력 캡처와 코드 실행을 분리해 보기
+
+다음은 Harlequin 설치 없이 새 Bash 또는 Zsh 세션에서 실행할 수 있는 작은 실험이다. `emit_init`은 함수 정의를 출력할 뿐이고, `blog_init_demo`가 등록되는 시점은 `eval` 이후다.
+
+```bash
+emit_init() {
+  printf '%s\n' 'blog_init_demo() { printf "%s\n" "after: current shell"; }'
+}
+
+init_code="$(emit_init)"
+printf '%s\n' "$init_code"
+
+if command -v blog_init_demo >/dev/null 2>&1; then
+  printf '%s\n' 'before: already defined'
+else
+  printf '%s\n' 'before: not defined'
+fi
+
+eval "$init_code"
+blog_init_demo
+
+unset -f emit_init blog_init_demo
+unset init_code
+```
+
+새 세션에서의 예상 출력은 다음과 같다.
+
+```text
+blog_init_demo() { printf "%s\n" "after: current shell"; }
+before: not defined
+after: current shell
+```
+
+`init_code="$(emit_init)"`는 출력 문자열을 저장하고, `printf`는 그 문자열을 보여 준다. 두 동작만으로 출력 속 함수 정의가 실행되지는 않는다. `eval "$init_code"`가 문자열을 다시 셸 문법으로 읽는 경계다. 끝의 `unset` 두 줄은 실험에서 만든 함수와 변수를 정리한다.
+
+### 큰따옴표는 eval의 안전장치가 아니다
+
+이 패턴은 **출처와 출력 형식을 신뢰하는 도구의 고정된 초기화 코드**를 읽을 때로 한정한다. 사용자 입력이나 네트워크에서 받은 임의 데이터를 `eval`에 전달해서는 안 된다. 큰따옴표는 첫 번째 확장에서 인자 경계를 보존할 뿐, 문자열 속 명령을 무해하게 만들지 않는다. `eval`은 바로 그 문자열을 코드로 다시 읽으므로, 출력에 악성 명령이 있으면 현재 셸의 권한으로 실행된다.
+
+문법의 기준은 [Bash 명령 치환 문서](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html)와 [Zsh의 `eval`·`source` 내장 명령 문서](https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html#index-eval)에서 확인할 수 있다. 이 원리가 실제 `-P` 자동완성과 연결되는 과정은 [Zsh 자동완성과 fzf-tab: 후보 생성과 선택 UI의 경계](./2026-11-19-zsh-completion-and-fzf-tab.md)에서 이어진다.
+
 ## 견고한 스크립트 — set 옵션과 trap
 
 `set -euo pipefail`을 보면 “안전 모드”라고 뭉뚱그리지 말고 각 옵션이 어느 줄의 의미를 바꾸는지 추적한다.
@@ -342,7 +377,7 @@ set -euo pipefail
 
 - `-e`: 처리되지 않은 실패에서 셸 종료를 유도하지만, 조건문·논리 연결·파이프라인 등 문맥에 따라 예외가 많다.
 - `-u`: 미정의 파라미터 참조를 오류로 만든다. 선택 인자는 `${1:-}`처럼 다뤄야 한다.
-- `pipefail`: 마지막 명령만이 아니라 파이프라인 안의 실패도 전체 실패에 반영한다. POSIX 옵션은 아니다.
+- `pipefail`: 마지막 명령만이 아니라 파이프라인 안의 실패도 전체 실패에 반영한다. POSIX.1-2024에 포함됐지만 오래된 `sh` 구현의 지원 여부는 별도로 확인한다.
 
 `set -e`는 예외 처리기가 아니다. 다음 두 코드는 실패를 서로 다른 방식으로 **소비**한다.
 
@@ -364,14 +399,14 @@ tmp="$(mktemp)"
 trap 'rm -f "$tmp"' EXIT
 ```
 
-작은따옴표 때문에 `$tmp`는 `trap`을 등록할 때가 아니라 종료 시점에 확장된다. 이후 `tmp`가 바뀔 수 있는 코드라면 어느 파일이 지워질지 달라진다. `EXIT` trap은 Bash와 Zsh에서 유용하지만 POSIX가 보장하는 signal 이름은 아니므로 이식성 계약에 포함해서 판단한다.
+작은따옴표 때문에 `$tmp`는 `trap`을 등록할 때가 아니라 종료 시점에 확장된다. 이후 `tmp`가 바뀔 수 있는 코드라면 어느 파일이 지워질지 달라진다. [`EXIT`는 POSIX `trap`에도 정의된 종료 조건](https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html#tag_19_29)이며 OS 신호 이름은 아니다. 강제 종료까지 항상 정리해 준다는 뜻은 아니고, 함수 안에서 등록한 trap 등의 세부 동작은 셸별로 확인해야 한다.
 
 ## 함정 정리
 
 낯선 스크립트는 다음 순서로 읽으면 빠르다.
 
 1. shebang과 실제 호출 명령, `source` 여부를 확인한다.
-2. `[[ ]]`, 배열, process substitution, `pipefail`로 필요한 셸을 판별한다.
+2. `[[ ]]`, 배열, process substitution 같은 전용 문법과 `pipefail`을 지원하는 셸·표준 버전을 확인한다.
 3. 모든 인용되지 않은 `$var`, `$@`, 명령 치환 결과에서 최종 인자 개수를 복원한다.
 4. glob은 매칭 1개뿐 아니라 0개와 여러 개일 때를 본다.
 5. `if`, `&&`, `||`, `!`, 파이프라인이 어느 종료 코드를 소비하는지 표시한다.

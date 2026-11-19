@@ -71,14 +71,20 @@ hello             # (3) PATH에 등록해 어디서나
 
 첫 줄 `#!/usr/bin/env bash`를 **shebang**(셔뱅)이라 부른다. `#!`로 시작하는 이 줄은 "이 파일을 실행할 때 **어떤 인터프리터에 넘길지**"를 커널에게 알려준다.
 
-`./hello.sh`처럼 파일을 직접 실행하면, 커널이 첫 줄을 읽어 `/usr/bin/env bash hello.sh`로 바꿔 실행한다. shebang이 없으면 커널은 이 파일을 무엇으로 돌려야 할지 몰라, 셸이 대신 자기(sh/bash)로 실행을 시도한다 — 운 좋으면 되지만, 의도한 인터프리터라는 보장이 없다.
+`./hello.sh`처럼 파일을 직접 실행하면, 운영체제가 shebang에 지정된 인터프리터에 파일을 넘긴다. 이 예제에서는 `/usr/bin/env`가 PATH에서 Bash를 찾아 실행한다. shebang이 없으면 운영체제가 스크립트의 언어를 선택할 수 없고, 호출한 셸의 fallback 동작에 따라 실행을 시도하거나 오류를 낼 수 있다. 의도한 인터프리터라는 보장이 없으므로 첫 줄을 명시한다.
 
 `#!/bin/bash`가 아니라 `#!/usr/bin/env bash`를 쓰는 이유:
 
-> `env bash`는 PATH에서 `bash`를 찾아 실행한다. bash 위치가 시스템마다 다를 때(예: Homebrew로 설치한 최신 bash는 `/opt/homebrew/bin/bash`, 시스템 bash는 `/bin/bash`) `env`가 알아서 골라준다. 반면 `#!/bin/bash`는 경로를 못 박아, 그 위치에 없으면 깨진다. **이식성이 필요하면 `env`, 위치를 확정하고 싶으면 절대경로** — 요즘 관행은 `env` 쪽이다.
+> `env bash`는 PATH에서 `bash`를 찾아 실행한다. Homebrew의 Bash처럼 설치 위치가 달라도 찾을 수 있지만, **필요한 Bash 버전까지 보장하지는 않는다.** `/bin/bash`는 경로를 고정할 뿐 그 위치의 버전이나 플랫폼 간 동일성을 보장하지 않는다. 배포 환경의 PATH와 필요한 버전을 실행 계약으로 정한다.
 {: .prompt-tip }
 
 macOS에서 특히 주의할 점: mac 기본 셸은 **zsh**지만, 시스템에 딸려 오는 `/bin/bash`는 오래된 3.2 계열이다. 스크립트에 bash 4+ 문법(연관 배열 `declare -A` 등)을 쓴다면 Homebrew bash를 설치하고 shebang을 `#!/usr/bin/env bash`로 두어 PATH의 bash가 잡히게 할 수 있다.
+
+## `sh hello.sh`와 `./hello.sh`는 왜 다른가
+
+`sh hello.sh`는 파일의 shebang을 선택하지 않는다. 이미 실행한 `sh`가 파일을 입력으로 읽으므로 `#!/usr/bin/env bash`는 주석일 뿐이다. `bash hello.sh`도 같은 방식으로 bash를 명시하고 shebang을 우회한다. 반면 `./hello.sh`는 실행 권한과 shebang을 사용하므로 그 파일이 요청한 인터프리터로 실행된다.
+
+`sh`라는 이름이 가리키는 구현은 환경마다 다르다. Debian 계열의 `dash`, 일부 시스템의 `bash`, Alpine의 BusyBox `ash` 등이다. 모든 macOS나 Linux에서 같은 바이너리라고 가정하면 배열·`[[ ... ]]` 같은 bash 전용 문법이 한 환경에서만 실패한다. POSIX 셸 문법으로 작성했으면 `sh`로 실행해도 되지만, bash 문법을 썼다면 bash shebang과 직접 실행(또는 `bash hello.sh`)을 선택한다. 이식성은 파일 확장자 `.sh`가 아니라 **실제로 해석하는 셸**이 결정한다.
 
 ## `chmod +x` — 실행 권한
 
@@ -103,7 +109,21 @@ $ ls -l hello.sh
 -rwxr-xr-x  1 user  staff  38  7  4 09:00 hello.sh
 ```
 
-`bash hello.sh`로 실행할 때는 권한이 필요 없다. 이 경우 파일을 "실행"하는 게 아니라, bash에게 "이 파일을 읽어서 처리해"라고 넘기는 것이기 때문이다. shebang도 이때는 그냥 주석(`#`)으로 무시된다.
+`bash hello.sh`로 실행할 때는 파일의 실행 권한이 필요 없지만 읽기 권한은 필요하다. 이 경우 Bash가 파일을 입력으로 읽으며, shebang은 인터프리터 선택에 쓰이지 않고 주석으로 처리된다.
+
+## fish에서 Bash 파일을 실행하는 것과 source하는 것은 다르다
+
+fish에서 `bash hello.sh`를 입력하면 fish가 Bash를 호출해 파일 처리를 맡긴다. 실행 권한과 올바른 shebang을 갖춘 `./hello.sh`도 fish에서 실행할 수 있다. **명령을 입력하는 대화형 셸과 파일을 해석하는 셸은 같을 필요가 없다.**
+
+반면 `source hello.sh`는 현재 셸이 파일을 직접 읽는다. fish에서 실행하면 shebang이 Bash를 지정해도 fish 문법으로 해석하므로 Bash 전용 코드가 호환되는 것은 아니다.
+
+| 호출 | 코드를 해석하는 주체 | 변수·작업 디렉터리 변경 |
+|---|---|---|
+| `bash hello.sh` | 별도 Bash 프로세스 | 호출한 셸에 남지 않음 |
+| `./hello.sh` | shebang으로 선택된 인터프리터 | 호출한 셸에 남지 않음 |
+| `source hello.sh` | 현재 셸 | 현재 셸에 남을 수 있음 |
+
+따라서 fish를 쓰기 위해 독립 실행하는 Bash 스크립트를 모두 변환할 필요는 없다. 옮겨야 하는 것은 현재 셸에 등록할 함수·환경 설정·완성 코드다. 이 경계와 로컬·서버의 문법 전환 비용은 [셸 스크립트 읽기](./2026-07-03-bash-syntax-guide.md)에서 이어진다.
 
 ## `./`는 왜 붙이나 — PATH 이야기
 
@@ -193,8 +213,3 @@ exec "$binary" "$@"
 
 명령을 파일로 묶고, 실행 권한을 주고, `./`나 PATH로 실행하는 — 스크립트의 **실행 골격**이 잡혔다. 이제 그 안을 채우는 문법(변수·조건·반복·함수)이 필요하다. [셸 스크립트 문법 종합 가이드](./2026-07-03-bash-syntax-guide.md)로 이어서, `set -euo pipefail`로 견고하게 만드는 데까지가 [셸 로드맵](./2026-07-03-00-shell-roadmap.md)의 다음 걸음이다.
 
-## `sh hello.sh`와 `./hello.sh`는 왜 다른가
-
-`sh hello.sh`는 파일의 shebang을 선택하지 않는다. 이미 실행한 `sh`가 파일을 입력으로 읽으므로 `#!/usr/bin/env bash`는 주석일 뿐이다. `bash hello.sh`도 같은 방식으로 bash를 명시하고 shebang을 우회한다. 반면 `./hello.sh`는 실행 권한과 shebang을 사용하므로 그 파일이 요청한 인터프리터로 실행된다.
-
-`sh`라는 이름이 가리키는 구현은 환경마다 다르다. Debian 계열의 `dash`, 일부 시스템의 `bash`, Alpine의 BusyBox `ash` 등이다. 모든 macOS나 Linux에서 같은 바이너리라고 가정하면 배열·`[[ ... ]]` 같은 bash 전용 문법이 한 환경에서만 실패한다. POSIX 셸 문법으로 작성했으면 `sh`로 실행해도 되지만, bash 문법을 썼다면 bash shebang과 직접 실행(또는 `bash hello.sh`)을 선택한다. 이식성은 파일 확장자 `.sh`가 아니라 **실제로 해석하는 셸**이 결정한다.

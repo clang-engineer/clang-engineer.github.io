@@ -14,6 +14,23 @@ Harlequin에서 `harlequin -P ` 뒤에 Tab을 누르면 저장된 DB 프로필�
 
 이 구성을 이해하는 열쇠는 **후보를 아는 프로그램, 입력 위치를 아는 셸, 후보를 보여주는 UI가 서로 다르다**는 점이다. 이 글은 Harlequin 설치법 대신, 하나의 Tab 입력이 그 경계를 어떻게 통과하는지 설명한다.
 
+## 자동 제안·구문 강조·Tab 완성은 서로 다른 기능이다
+
+“fish처럼 편하게 만든다”는 목표만으로 플러그인을 고르면 서로 다른 기능을 같은 자동완성으로 묶기 쉽다. 먼저 입력 중 어느 단계에 개입하는지 나눈다.
+
+| 기능 | 하는 일 | Zsh에서의 구성 예 |
+|---|---|---|
+| 자동 제안 | 입력한 접두사에 이어질 명령을 미리 보여 줌 | zsh-autosuggestions |
+| 구문 강조 | 입력 중인 명령·인자·오류 가능성을 색으로 표시 | zsh-syntax-highlighting |
+| Tab 완성 | 현재 위치에 맞는 명령·옵션·인자 후보를 제공 | Zsh의 compsys |
+| 후보 선택 UI | 제공된 후보를 검색하고 골라 명령줄에 삽입 | fzf-tab + fzf |
+
+[fish는 자동 제안·구문 강조·Tab 완성을 기본 제공](https://fishshell.com/docs/current/interactive.html)한다. Zsh에도 자체 완성 시스템이 있으며, fish와 비슷한 자동 제안·구문 강조는 별도 플러그인으로 구성할 수 있다. **fzf-tab 하나가 이 기능을 모두 제공하는 것은 아니다.**
+
+Oh My Zsh는 Zsh 자체가 아니라 설정·플러그인·테마를 관리하는 프레임워크다. 이 글의 완성 구조를 쓰는 데 필수는 아니다. 프레임워크를 쓰면 구성을 모으기 편하고, 직접 구성하면 로드할 요소를 좁힐 수 있다. 어느 쪽이 항상 빠르다는 결론보다는 실제로 로드한 설정과 플러그인을 확인해야 한다.
+
+이하에서는 이 중 **Tab 완성 후보가 만들어지고 선택 UI에 전달되는 경로**를 Harlequin 사례로 따라간다. 일반적인 Zsh 설정 명령은 [devkit Zsh Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/zsh.md)를 참고한다.
+
 ## fzf-tab은 프로필을 모른다
 
 [fzf-tab의 공식 설명](https://github.com/Aloxaf/fzf-tab#difference-from-other-plugins)은 명확하다. 플러그인 자체가 완성 후보를 만들어내는 것이 아니라 **기존 zsh 자동완성 시스템의 결과를 보여준다.**
