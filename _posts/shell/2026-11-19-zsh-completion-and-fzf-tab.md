@@ -191,6 +191,32 @@ source "$(brew --prefix)/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
 
 바이너리를 호출하는 셸 래퍼와 빌드 산출물의 관계는 [첫 셸 스크립트 만들고 실행하기](./2026-07-04-first-shell-script.md)에서 다룬다. 래퍼는 완성 후보를 저장하는 파일이 아니며, **설치·초기화·후보 조회·앱 실행을 나눠 봐야 각 파일이 필요한 이유가 드러난다.**
 
+## 2026-11-19 보강 — fish로 옮길 때 공유되는 것과 바뀌는 것
+
+같은 Harlequin 완성을 fish로 옮기면서 경계가 더 분명해졌다. **프로필을 조회하는 Go 프로그램과 검색 UI인 fzf는 재사용할 수 있지만, Zsh 완성 함수와 fzf-tab은 그대로 로드할 수 없다.** 셸 문법뿐 아니라 후보 제공과 명령줄 편집 인터페이스가 다르기 때문이다.
+
+| 역할 | Zsh 구성 | 이번 fish 구성 |
+|---|---|---|
+| 프로필 조회 | `harlequin-config --complete-harlequin-profiles` | 같은 실행 파일과 인자 |
+| 완성 정의 | `compdef`·`_arguments`·`compadd` | fish의 `complete`와 후보 조회 함수 |
+| 검색 UI 연결 | 범용 플러그인 fzf-tab | Harlequin 프로필 위치에 한정한 함수 |
+| 명령줄 편집 | Zsh 완성 시스템과 fzf-tab | fish의 `commandline` |
+
+fish에서는 `completions/harlequin.fish`에 완성을 정의하고, `functions/` 아래 함수에서 후보 조회와 Tab 선택 동작을 연결했다. Tab 함수는 프로필 입력 위치일 때만 fish의 완성 결과를 fzf에 넘기고, 선택값을 현재 토큰에 삽입한다. 그 외에는 fish 기본 완성을 호출한다. 그래서 `git` 뒤에서 보이는 설명 달린 후보 목록은 fzf-tab이 아니라 **fish 기본 완성 UI**다.
+
+선택 결과는 Harlequin의 표준입력으로 들어가는 것이 아니다. 먼저 셸이 편집 중인 명령줄에 삽입되고, 사용자가 다시 Enter를 눌러 실행할 때 `-P`의 인자로 전달된다.
+
+Zsh에도 같은 전용 함수를 만들 수 있었지만, 이미 fzf-tab이 범용 연결을 제공했으므로 중복 구현하지 않았다. fish에서는 기존 선택 동작을 보존하려고 작은 전용 연결부를 작성했다. 이는 fish에 플러그인 생태계가 없어서가 아니며, 모든 명령에 적용하는 범용 fzf 완성을 새로 구현한 것도 아니다.
+
+### 설치·초기화·후보 조회는 여전히 별개다
+
+이 사례에서 Zsh 함수는 Go의 `initZsh()`가 반환하는 문자열에 담겨 있다. `harlequin-config init zsh`가 이를 출력하고 `.zshrc`의 `eval`이 현재 셸에 등록한다. fish 쪽은 `.fish` 파일로 배포하므로 `harlequin-config init fish`를 구현할 필요가 없었다. 두 방식 모두 같은 후보 조회 명령을 호출한다.
+
+Zsh에서 fzf-tab을 Harlequin에만 켠 것도 기술적 제약이 아니라 다른 명령의 기존 UI를 보존하려는 선택이다. 문맥별 제한을 해제하면 Git이나 파일 완성에도 사용할 수 있다. Atuin의 Ctrl+R과 fzf-tab의 Tab은 담당 키가 다르지만, 같은 키나 ZLE 위젯을 바꾸는 플러그인은 로드 순서와 실제 바인딩을 확인해야 한다. **후보 제공과 화면 표시를 분리하면 이 선택을 Go 조회 코드와 독립적으로 바꿀 수 있다.**
+
+fish 측 인터페이스는 공식 [`complete`](https://fishshell.com/docs/current/cmds/complete.html), [`commandline`](https://fishshell.com/docs/current/cmds/commandline.html), [`bind`](https://fishshell.com/docs/current/cmds/bind.html) 문서에서 확인할 수 있다. 셸 코드 출력과 실행의 차이는 [문법 가이드의 초기화 설명](./2026-07-03-bash-syntax-guide.md#2026-11-19-보강--eval로-초기화-코드를-현재-셸에-읽기)으로 이어진다.
+
+
 ## 참고
 
 - [zsh Completion System](https://zsh.sourceforge.io/Doc/Release/Completion-System.html): `compinit`, `compdef`, `_arguments`와 상태 전달

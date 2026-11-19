@@ -2,7 +2,7 @@
 title       : zoxide로 디렉토리 이동 빠르게 — autojump 대체
 description : "cd로 경로를 매번 다 치는 대신, 방문 기록(frecency)으로 디렉토리를 점프하는 zoxide. 설치·셸 연동부터 z/zi 사용법, autojump에서 갈아타기, fzf 연동까지 정리한다."
 date        : 2026-07-03 20:00:00 +0900
-updated     : 2026-07-24 09:46:29 +0900
+updated     : 2026-11-19 00:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [zoxide, autojump, fzf, zsh, bash]
 pin         : false
@@ -16,6 +16,8 @@ hidden      : false
 
 `zoxide`는 **한 번이라도 가본 디렉토리라면 이름 일부만으로 점프**하게 해주는 도구입니다.
 `cd`를 없애는 게 아니라, 자주 가는 곳으로 가는 지름길을 얹는다고 보면 됩니다.
+
+반복해서 찾는 명령·진단표는 [devkit zoxide Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/zoxide.md)를 기준으로 본다. 여기서는 이동 방식을 바꾸는 이유와 셸 연동의 경계를 함께 설명한다.
 
 ---
 
@@ -45,7 +47,7 @@ brew install zoxide
 brew install fzf
 ```
 
-설치 후 셸 설정 파일에 초기화 코드를 추가합니다. **`eval` 라인은 다른 설정을 모두 읽은 뒤 맨 아래에 두는 것**이 안전합니다.
+설치 후 셸 설정 파일에 초기화 코드를 추가합니다. [공식 설치 안내](https://github.com/ajeetdsouza/zoxide#installation)는 zoxide 초기화를 설정 파일 끝에 두도록 권장합니다. 모든 도구의 `eval`에 일괄 적용되는 규칙은 아니며, 다른 연동의 로드 순서도 함께 확인해야 합니다.
 
 ```sh
 # ~/.zshrc
@@ -59,8 +61,21 @@ bash라면 `~/.bashrc`에 아래처럼 넣습니다.
 eval "$(zoxide init bash)"
 ```
 
-새 셸을 열거나 `source ~/.zshrc`로 다시 읽으면 준비 끝입니다.
-이제부터 `cd`로 디렉토리에 들어갈 때마다 zoxide가 그 경로를 기록합니다.
+fish라면 `~/.config/fish/config.fish`에서 다음 구문을 사용합니다.
+
+```fish
+zoxide init fish | source
+```
+
+설정한 셸을 새로 열면 준비 끝입니다. 기본 초기화는 셸의 프롬프트·디렉터리 변경 관련 훅에 연결되어 방문 경로를 기록합니다. 구체적인 훅은 셸과 초기화 옵션에 따라 다릅니다.
+
+### 2026-11-19 보강 — 설치했는데 왜 `z`는 따로 등록할까
+
+`zoxide`는 설치된 외부 실행 파일이지만, 기본 초기화로 생기는 `z`와 `zi`는 **현재 셸에서 실행하는 함수**입니다. `zoxide query`는 목적지 경로를 계산해 출력할 수 있어도 부모 셸의 작업 디렉터리를 직접 바꾸지는 못합니다. 그 경로로 현재 셸의 `cd`를 수행하는 부분이 셸 함수에 필요합니다.
+
+`zoxide init zsh`의 `init`과 `zsh`는 zoxide가 해석하는 인자입니다. 이 호출만으로 현재 셸에 함수가 등록되는 것은 아닙니다. 출력된 코드를 Zsh에서는 `eval`, fish에서는 `source`로 실행해야 이동 함수와 기록 훅이 연결됩니다. [`eval`·`source`의 실행 경계](./2026-07-03-bash-syntax-guide.md#2026-11-19-보강--eval로-초기화-코드를-현재-셸에-읽기)를 이해하면 초기화 한 줄이 하는 일이 보입니다.
+
+따라서 Zsh에서 fish로 옮길 때 zoxide 실행 파일을 다시 만들 필요는 없습니다. 초기화 코드를 fish용으로 바꾸면 됩니다. 데이터 저장 경로가 같다면 기존 방문 기록도 공유합니다. **이식하는 것은 이동 알고리즘이 아니라 셸과의 연결부**입니다.
 
 ---
 

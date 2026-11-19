@@ -16,7 +16,7 @@ hidden      : false
 
 이 글의 목표는 문법을 모두 외우는 것이 아니다. 다음 세 질문으로 코드를 좁혀 읽는 것이다.
 
-1. 이 파일의 언어는 Bash인가, Zsh인가, POSIX `sh`인가?
+1. 이 파일의 언어는 Bash인가, Zsh인가, POSIX `sh`인가? 혹은 별도 문법을 쓰는 fish인가?
 2. 인용과 확장을 거친 뒤 명령이 실제로 어떤 인자를 받는가?
 3. 각 명령의 종료 코드가 조건문, `&&`, 파이프라인, `set -e`에 어떻게 소비되는가?
 
@@ -35,7 +35,7 @@ set -euo pipefail
 
 - `[[ ... ]]`, 배열, `(( ... ))`, `<(...)`는 POSIX `sh` 문법이 아니다.
 - `source`는 Bash와 Zsh에서 쓰지만 POSIX 표기는 `.`이다.
-- `set -o pipefail`은 Bash와 Zsh에는 있지만 POSIX가 보장하지 않는다.
+- `set -o pipefail`은 POSIX.1-2024에 포함됐지만, 그 이전 표준과 오래된 `/bin/sh` 구현까지 지원해야 한다면 사용 가능 여부를 따로 확인해야 한다. 기준은 [POSIX의 `set` 정의](https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html#tag_19_26)다.
 - `${var//a/b}`, `<<<`, brace expansion인 `{1..5}`도 이식 가능한 `sh` 코드로 보면 안 된다.
 
 > Bash 전용 문법을 쓰면서 `#!/bin/sh`를 적으면 실행 환경에 따라 우연히 되거나 바로 깨진다. 반대로 POSIX 이식성이 목표라면 Bash에서 실행해 봤다는 사실만으로 충분하지 않다.
@@ -102,6 +102,32 @@ eval "$(harlequin-config init zsh)"
 왜 프로그램이 직접 설정하지 않고 코드를 출력할까? 부모 셸이 시작한 자식 프로세스의 상태 변경은 부모 셸로 역전파되지 않기 때문이다. 자식 셸에서 변수를 대입하거나 함수를 정의해도 부모 대화형 셸의 변수·함수 표가 바뀌지는 않는다. 따라서 자식은 필요한 코드를 출력하고, **부모 셸이 그 코드를 읽어 자기 상태를 변경**한다.
 
 앞서 본 `source ./init.zsh`는 **파일에 든 코드**를 현재 셸에서 읽는다. `eval "$init_code"`는 **문자열에 든 코드**를 현재 셸에서 읽는다. 입력을 가져오는 곳은 다르지만, 별도 셸에서 실행하고 끝내는 대신 현재 셸을 변경한다는 목적은 같다.
+
+### `init zsh`는 셸 문법이 아니라 도구가 받는 인자다
+
+`harlequin-config init zsh`에서 프로그램 이름은 `harlequin-config`, 전달하는 인자는 `init`과 `zsh` 두 개다. 프로그램은 이를 읽고 Zsh용 초기화 코드를 출력하는 분기로 들어간다. `git status`에서 Git이 `status`라는 인자를 하위 명령으로 해석하는 것과 같은 층위다.
+
+**`init <shell>`은 셸이 강제하는 공통 규약이 아니다.** zoxide·Atuin·Starship은 이 형태를 사용하지만, mise는 `activate zsh`, fzf는 `--zsh`로 연동 코드를 요청한다. 지원하는 인자와 출력 형식은 각 도구가 구현한다.
+
+출력 코드가 하는 일도 다르다. zoxide는 이동 함수와 방문 기록 훅을, Atuin은 기록 검색 키 바인딩 등을, Starship은 프롬프트 연결을 제공한다. 여기서 훅(hook)은 프롬프트 표시 같은 특정 시점에 호출되도록 등록한 코드다. **설치된 실행 파일을 PATH에서 찾는 일과 셸에 함수·키·훅을 붙이는 일은 별개**다.
+
+또한 `eval`은 “문자열을 함수로 호출하는 명령”이 아니다. 문자열에 변수 대입이 있으면 대입하고, 함수 정의가 있으면 정의한다. 그 함수를 호출하는 코드까지 들어 있지 않다면 함수 본문은 아직 실행하지 않는다.
+
+### fish에서는 같은 목적을 다른 문법으로 연결한다
+
+zoxide의 공식 fish 초기화는 다음과 같다.
+
+```fish
+# ~/.config/fish/config.fish
+zoxide init fish | source
+```
+
+fish의 `source`는 파일뿐 아니라 표준입력의 코드도 읽을 수 있다. 따라서 도구가 출력한 **fish 코드**를 파이프로 넘겨 현재 fish에 함수를 등록한다. 같은 zoxide 실행 파일을 사용해도 `init zsh`가 출력한 코드를 fish에 넘기면 안 된다.
+
+[fish는 의도적으로 POSIX 호환 언어가 아니다](https://fishshell.com/docs/current/fish_for_bash_users.html). Bash·Zsh와 기본적인 외부 명령 실행 방식은 비슷하지만, 독립적인 변수 설정은 `name=value` 대신 `set name value`, 함수는 `function ... end`로 정의한다. Zsh 역시 Bash와 겹치는 문법이 많을 뿐 모든 Bash 스크립트를 그대로 해석하는 것은 아니다.
+
+초기화 코드를 꼭 명령으로 출력해야 하는 것도 아니다. Zsh용 파일을 `source ./init.zsh`로 읽거나 fish용 파일을 fish의 함수·완성 디렉터리에 설치할 수도 있다. **코드를 배포하는 방식과 그 코드가 쓰는 언어는 별개**다. 실제 셸 전환에서 무엇을 공유하고 무엇을 다시 작성하는지는 [Harlequin 자동완성의 fish 연결부](./2026-11-19-zsh-completion-and-fzf-tab.md#2026-11-19-보강--fish로-옮길-때-공유되는-것과-바뀌는-것)에서 다룬다.
+
 
 ### 출력 캡처와 코드 실행을 분리해 보기
 
