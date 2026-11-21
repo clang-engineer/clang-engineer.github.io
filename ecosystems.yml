@@ -1,0 +1,43 @@
+viewer:
+  default_period: 7
+periods: [7, 30, 0]
+ecosystems:
+  - id: terminal-file-managers
+    name: Terminal File Managers
+    source: github
+    topic: terminal-file-manager
+    limit: 30
+    repositories:
+      - sxyazi/yazi
+      - ranger/ranger
+      - gokcehan/lf
+      - jarun/nnn
+      - Canop/broot
+  - id: terminal-emulators
+    name: Terminal Emulators
+    source: github
+    topic: terminal-emulator
+    limit: 30
+    repositories:
+      - ghostty-org/ghostty
+      - alacritty/alacritty
+      - wez/wezterm
+      - kovidgoyal/kitty
+  - id: neovim-plugins
+    name: Neovim Plugins
+    source: github
+    topic: neovim-plugin
+    limit: 30
+    repositories:
+      - folke/lazy.nvim
+      - nvim-telescope/telescope.nvim
+      - folke/trouble.nvim
+  - id: tmux-plugins
+    name: tmux Plugins
+    source: github
+    topic: tmux-plugin
+    limit: 30
+    repositories:
+      - tmux-plugins/tpm
+      - tmux-plugins/tmux-resurrect
+      - tmux-plugins/tmux-continuum
