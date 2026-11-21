@@ -138,4 +138,4 @@ jobs:
 
 공통 코드는 [ecosystem-rankings](https://github.com/clang-engineer/ecosystem-rankings)에 두고, 각 사이트는 설정과 수집 결과를 소유한다. 설치 안내와 최신 옵션은 프로젝트 README를 기준으로 관리한다.
 
-검색 결과의 정확도 문제는 별도 글인 [GitHub 검색으로 오픈소스 생태계를 탐색할 때 생기는 문제](/posts/github-open-source-ecosystem-search/)에서 다룬다.
+검색 결과의 정확도 문제는 별도 글인 [GitHub 검색으로 오픈소스 생태계를 탐색할 때 생기는 문제]({{ '/posts/github/2026-11-21-github-open-source-ecosystem-search/' | relative_url }})에서 다룬다.
