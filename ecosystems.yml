@@ -41,3 +41,41 @@ ecosystems:
       - tmux-plugins/tpm
       - tmux-plugins/tmux-resurrect
       - tmux-plugins/tmux-continuum
+  - id: terminal-multiplexers
+    name: Terminal Multiplexers
+    source: github
+    topic: terminal-multiplexer
+    limit: 30
+    repositories:
+      - tmux/tmux
+      - zellij-org/zellij
+      - abduco/abduco
+  - id: shell-prompts
+    name: Shell Prompts
+    source: github
+    topic: shell-prompt
+    limit: 30
+    repositories:
+      - starship/starship
+      - romkatv/powerlevel10k
+      - ohmyzsh/ohmyzsh
+  - id: window-managers
+    name: Window Managers
+    source: github
+    topic: window-manager
+    limit: 30
+    repositories:
+      - nikitabobko/AeroSpace
+      - koekeishiya/yabai
+      - i3/i3
+      - swaywm/sway
+  - id: cli-search-tools
+    name: CLI Search & Navigation
+    source: github
+    topic: command-line-tool
+    limit: 30
+    repositories:
+      - junegunn/fzf
+      - ajeetdsouza/zoxide
+      - BurntSushi/ripgrep
+      - sharkdp/fd
