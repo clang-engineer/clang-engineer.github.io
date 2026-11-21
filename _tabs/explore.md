@@ -10,8 +10,8 @@ permalink: /explore/
 
 GitHub Topic으로 발견한 프로젝트를 **누적 Stars** 기준으로 정렬합니다. 주간·월간 순위는 일별 기록이 충분히 쌓인 뒤 표시됩니다.
 
-<ecosystem-rankings src="https://raw.githubusercontent.com/clang-engineer/ecosystem-rankings/main/data/rankings.json"></ecosystem-rankings>
+<ecosystem-rankings src="{{ '/data/rankings.json' | relative_url }}"></ecosystem-rankings>
 
 <script type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/ecosystem-rankings@main/viewer/element.js"></script>
 
-<small>데이터는 별도 [ecosystem-rankings](https://github.com/clang-engineer/ecosystem-rankings) 저장소의 GitHub Actions에서 갱신됩니다. 초기 수집 전에는 데이터가 표시되지 않을 수 있습니다.</small>
+<small>데이터는 이 블로그 저장소의 GitHub Actions에서 수집하고 관리합니다. 수집기는 [ecosystem-rankings](https://github.com/clang-engineer/ecosystem-rankings)를 재사용합니다. 초기 수집 전에는 데이터가 표시되지 않을 수 있습니다.</small>
