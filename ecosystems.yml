@@ -4,8 +4,6 @@ periods: [0, 7, 30, 90]
 ecosystems:
   - id: terminal-file-managers
     discovery: topic
-    search_pages: 2
-    search_sorts: [stars, best-match]
     searches:
       - "terminal file manager in:name,description"
     name: Terminal File Managers
@@ -14,8 +12,6 @@ ecosystems:
     limit: 30
   - id: terminal-emulators
     discovery: topic
-    search_pages: 2
-    search_sorts: [stars, best-match]
     searches:
       - "terminal emulator in:name,description"
     name: Terminal Emulators
@@ -34,8 +30,6 @@ ecosystems:
     limit: 30
   - id: shell-prompts
     discovery: topic
-    search_pages: 2
-    search_sorts: [stars, best-match]
     searches:
       - "shell prompt in:name,description"
     name: Shell Prompts
@@ -44,8 +38,6 @@ ecosystems:
     limit: 30
   - id: window-managers
     discovery: topic
-    search_pages: 2
-    search_sorts: [stars, best-match]
     searches:
       - "tiling window manager in:name,description"
     name: Window Managers
@@ -54,8 +46,6 @@ ecosystems:
     limit: 30
   - id: cli-search-tools
     discovery: topic
-    search_pages: 2
-    search_sorts: [stars, best-match]
     searches:
       - "fuzzy finder in:name,description"
     name: CLI Search & Navigation
@@ -63,8 +53,6 @@ ecosystems:
     limit: 30
   - id: neovim-plugins
     discovery: topic
-    search_pages: 2
-    search_sorts: [stars, best-match]
     searches:
       - "neovim plugin in:name,description"
     name: Neovim Plugins
@@ -73,8 +61,6 @@ ecosystems:
     limit: 30
   - id: tmux-plugins
     discovery: topic
-    search_pages: 2
-    search_sorts: [stars, best-match]
     searches:
       - "tmux plugin in:name,description"
     name: Tmux Plugins
