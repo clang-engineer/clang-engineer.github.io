@@ -3,7 +3,9 @@ viewer:
 periods: [7, 30, 0]
 ecosystems:
   - id: terminal-file-managers
-    discovery: curated
+    discovery: topic
+    searches:
+      - "terminal file manager in:name,description"
     name: Terminal File Managers
     source: github
     topic: terminal-file-manager
@@ -15,7 +17,9 @@ ecosystems:
       - jarun/nnn
       - Canop/broot
   - id: terminal-emulators
-    discovery: curated
+    discovery: topic
+    searches:
+      - "terminal emulator in:name,description"
     name: Terminal Emulators
     source: github
     topic: terminal-emulator
@@ -26,7 +30,9 @@ ecosystems:
       - wez/wezterm
       - kovidgoyal/kitty
   - id: neovim-plugins
-    discovery: curated
+    discovery: topic
+    searches:
+      - "neovim plugin in:name,description"
     name: Neovim Plugins
     source: github
     topic: neovim-plugin
@@ -45,7 +51,9 @@ ecosystems:
       - nvim-mini/mini.nvim
       - hrsh7th/nvim-cmp
   - id: tmux-plugins
-    discovery: curated
+    discovery: topic
+    searches:
+      - "tmux plugin in:name,description"
     name: tmux Plugins
     source: github
     topic: tmux-plugin
@@ -62,12 +70,6 @@ ecosystems:
       - tmux-plugins/tmux-open
       - catppuccin/tmux
       - dracula/tmux
-      - tmux-plugins/tmux-sensible
-      - tmux-plugins/tmux-yank
-      - tmux-plugins/tmux-prefix-highlight
-      - tmux-plugins/tmux-pain-control
-      - tmux-plugins/tmux-copycat
-      - tmux-plugins/tmux-open
       - tmux-plugins/tmux-sessionist
       - tmux-plugins/tmux-sidebar
       - tmux-plugins/tmux-battery
@@ -75,15 +77,15 @@ ecosystems:
       - tmux-plugins/tmux-online-status
       - tmux-plugins/tmux-urlview
       - tmux-plugins/tmux-logging
-      - catppuccin/tmux
-      - dracula/tmux
       - jimeh/tmux-themepack
       - christoomey/vim-tmux-navigator
       - omerxx/tmux-sessionx
       - laktak/extrakto
       - roosta/tmux-fuzzback
   - id: terminal-multiplexers
-    discovery: curated
+    discovery: topic
+    searches:
+      - "terminal multiplexer in:name,description"
     name: Terminal Multiplexers
     source: github
     topic: terminal-multiplexer
@@ -92,7 +94,9 @@ ecosystems:
       - tmux/tmux
       - zellij-org/zellij
   - id: shell-prompts
-    discovery: curated
+    discovery: topic
+    searches:
+      - "shell prompt in:name,description"
     name: Shell Prompts
     source: github
     topic: shell-prompt
@@ -102,7 +106,9 @@ ecosystems:
       - romkatv/powerlevel10k
       - ohmyzsh/ohmyzsh
   - id: window-managers
-    discovery: curated
+    discovery: topic
+    searches:
+      - "tiling window manager in:name,description"
     name: Window Managers
     source: github
     topic: window-manager
@@ -113,7 +119,9 @@ ecosystems:
       - i3/i3
       - swaywm/sway
   - id: cli-search-tools
-    discovery: curated
+    discovery: topic
+    searches:
+      - "fuzzy finder in:name,description"
     name: CLI Search & Navigation
     source: github
     limit: 30
