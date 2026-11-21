@@ -36,11 +36,31 @@ ecosystems:
     name: tmux Plugins
     source: github
     topic: tmux-plugin
-    limit: 30
+    limit: 100
     repositories:
       - tmux-plugins/tpm
       - tmux-plugins/tmux-resurrect
       - tmux-plugins/tmux-continuum
+      - tmux-plugins/tmux-sensible
+      - tmux-plugins/tmux-yank
+      - tmux-plugins/tmux-prefix-highlight
+      - tmux-plugins/tmux-pain-control
+      - tmux-plugins/tmux-copycat
+      - tmux-plugins/tmux-open
+      - tmux-plugins/tmux-sessionist
+      - tmux-plugins/tmux-sidebar
+      - tmux-plugins/tmux-battery
+      - tmux-plugins/tmux-cpu
+      - tmux-plugins/tmux-online-status
+      - tmux-plugins/tmux-urlview
+      - tmux-plugins/tmux-logging
+      - catppuccin/tmux
+      - dracula/tmux
+      - jimeh/tmux-themepack
+      - christoomey/vim-tmux-navigator
+      - omerxx/tmux-sessionx
+      - laktak/extrakto
+      - roosta/tmux-fuzzback
   - id: terminal-multiplexers
     name: Terminal Multiplexers
     source: github
