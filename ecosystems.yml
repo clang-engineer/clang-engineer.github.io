@@ -18,22 +18,6 @@ ecosystems:
     source: github
     topic: terminal-emulator
     limit: 30
-  - id: neovim-plugins
-    discovery: topic
-    searches:
-      - "neovim plugin in:name,description"
-    name: Neovim Plugins
-    source: github
-    topic: neovim-plugin
-    limit: 30
-  - id: tmux-plugins
-    discovery: topic
-    searches:
-      - "tmux plugin in:name,description"
-    name: Tmux Plugins
-    source: github
-    topic: tmux-plugin
-    limit: 100
   - id: terminal-multiplexers
     discovery: topic
     searches:
@@ -65,3 +49,19 @@ ecosystems:
     name: CLI Search & Navigation
     source: github
     limit: 30
+  - id: neovim-plugins
+    discovery: topic
+    searches:
+      - "neovim plugin in:name,description"
+    name: Neovim Plugins
+    source: github
+    topic: neovim-plugin
+    limit: 30
+  - id: tmux-plugins
+    discovery: topic
+    searches:
+      - "tmux plugin in:name,description"
+    name: Tmux Plugins
+    source: github
+    topic: tmux-plugin
+    limit: 100
