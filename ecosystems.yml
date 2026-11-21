@@ -6,6 +6,8 @@ ecosystems:
     discovery: topic
     searches:
       - "terminal file manager in:name,description"
+      - "tui file manager in:name,description"
+      - "console file manager in:name,description"
     name: Terminal File Managers
     source: github
     topic: terminal-file-manager
@@ -14,6 +16,8 @@ ecosystems:
     discovery: topic
     searches:
       - "terminal emulator in:name,description"
+      - "gpu accelerated terminal in:name,description"
+      - "terminal application in:name,description"
     name: Terminal Emulators
     source: github
     topic: terminal-emulator
@@ -35,6 +39,8 @@ ecosystems:
     discovery: topic
     searches:
       - "shell prompt in:name,description"
+      - "customizable shell prompt in:name,description"
+      - "cross shell prompt in:name,description"
     name: Shell Prompts
     source: github
     topic: shell-prompt
@@ -43,6 +49,8 @@ ecosystems:
     discovery: topic
     searches:
       - "tiling window manager in:name,description"
+      - "dynamic window manager in:name,description"
+      - "tiling window manager in:topics"
     name: Window Managers
     source: github
     topic: window-manager
@@ -51,6 +59,9 @@ ecosystems:
     discovery: topic
     searches:
       - "fuzzy finder in:name,description"
+      - "interactive grep in:name,description"
+      - "terminal fuzzy search in:name,description"
+      - "command line search in:name,description"
     name: CLI Search & Navigation
     source: github
     limit: 30
@@ -58,6 +69,8 @@ ecosystems:
     discovery: topic
     searches:
       - "neovim plugin in:name,description"
+      - "neovim extension in:name,description"
+      - "neovim plugin in:topics"
     name: Neovim Plugins
     source: github
     topic: neovim-plugin
@@ -66,7 +79,49 @@ ecosystems:
     discovery: topic
     searches:
       - "tmux plugin in:name,description"
+      - "tmux status bar in:name,description"
+      - "tmux session manager in:name,description"
     name: Tmux Plugins
     source: github
     topic: tmux-plugin
     limit: 100
+  - id: shell-environments
+    discovery: topic
+    searches:
+      - "interactive shell in:name,description"
+      - "command line shell in:name,description"
+      - "unix shell in:name,description"
+    name: Shells
+    source: github
+    topic: shell
+    limit: 30
+  - id: git-tui
+    discovery: topic
+    searches:
+      - "git tui in:name,description"
+      - "terminal git client in:name,description"
+      - "git terminal interface in:name,description"
+    name: Git Terminal Clients
+    source: github
+    topic: git-tui
+    limit: 30
+  - id: terminal-system-monitors
+    discovery: topic
+    searches:
+      - "terminal system monitor in:name,description"
+      - "terminal resource monitor in:name,description"
+      - "tui system monitor in:name,description"
+    name: Terminal System Monitors
+    source: github
+    topic: system-monitor
+    limit: 30
+  - id: cli-productivity
+    discovery: topic
+    searches:
+      - "command line productivity in:name,description"
+      - "terminal productivity tool in:name,description"
+      - "terminal task manager in:name,description"
+    name: CLI Productivity
+    source: github
+    topic: cli-tool
+    limit: 30
