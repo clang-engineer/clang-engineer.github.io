@@ -45,11 +45,6 @@
     "stars": 123
   },
   {
-    "id": "zellij-org/zellij",
-    "date": "2026-11-21",
-    "stars": 36166
-  },
-  {
     "id": "kunchenguid/TerminalOne",
     "date": "2026-11-21",
     "stars": 110
@@ -107,7 +102,7 @@
   {
     "id": "sxyazi/yazi",
     "date": "2026-11-21",
-    "stars": 43553
+    "stars": 43555
   },
   {
     "id": "yorukot/superfile",
@@ -372,17 +367,17 @@
   {
     "id": "alacritty/alacritty",
     "date": "2026-11-21",
-    "stars": 66247
+    "stars": 66248
   },
   {
     "id": "termux/termux-app",
     "date": "2026-11-21",
-    "stars": 65329
+    "stars": 65331
   },
   {
     "id": "ghostty-org/ghostty",
     "date": "2026-11-21",
-    "stars": 64299
+    "stars": 64301
   },
   {
     "id": "Swordfish90/cool-retro-term",
@@ -408,11 +403,6 @@
     "id": "raphamorim/rio",
     "date": "2026-11-21",
     "stars": 7762
-  },
-  {
-    "id": "binaricat/Netcatty",
-    "date": "2026-11-21",
-    "stars": 7535
   },
   {
     "id": "liftoff/GateOne",
@@ -442,7 +432,7 @@
   {
     "id": "Kuddev/pebrel",
     "date": "2026-11-21",
-    "stars": 3857
+    "stars": 3859
   },
   {
     "id": "TermoraDev/termora",
@@ -525,11 +515,6 @@
     "stars": 1310
   },
   {
-    "id": "Yazelix/nova",
-    "date": "2026-11-21",
-    "stars": 1216
-  },
-  {
     "id": "eugenioenko/ttt",
     "date": "2026-11-21",
     "stars": 1154
@@ -582,12 +567,17 @@
   {
     "id": "herdrdev/herdr",
     "date": "2026-11-21",
-    "stars": 52118
+    "stars": 52121
   },
   {
     "id": "tmux/tmux",
     "date": "2026-11-21",
-    "stars": 50581
+    "stars": 50580
+  },
+  {
+    "id": "zellij-org/zellij",
+    "date": "2026-11-21",
+    "stars": 36169
   },
   {
     "id": "wezterm/wezterm",
@@ -600,9 +590,49 @@
     "stars": 28843
   },
   {
+    "id": "openclaw/gogcli",
+    "date": "2026-11-21",
+    "stars": 8597
+  },
+  {
+    "id": "binaricat/Netcatty",
+    "date": "2026-11-21",
+    "stars": 7535
+  },
+  {
+    "id": "outsourc-e/hermes-workspace",
+    "date": "2026-11-21",
+    "stars": 6840
+  },
+  {
+    "id": "acassen/keepalived",
+    "date": "2026-11-21",
+    "stars": 4746
+  },
+  {
     "id": "psmux/psmux",
     "date": "2026-11-21",
     "stars": 3893
+  },
+  {
+    "id": "directvt/vtm",
+    "date": "2026-11-21",
+    "stars": 3380
+  },
+  {
+    "id": "Gentleman-Programming/gentle-shell",
+    "date": "2026-11-21",
+    "stars": 2863
+  },
+  {
+    "id": "Helvesec/rmux",
+    "date": "2026-11-21",
+    "stars": 2701
+  },
+  {
+    "id": "nyakang/nyaterm",
+    "date": "2026-11-21",
+    "stars": 2568
   },
   {
     "id": "eneskirca/nodeterm",
@@ -615,6 +645,21 @@
     "stars": 2395
   },
   {
+    "id": "sheprd-labs/sheprd",
+    "date": "2026-11-21",
+    "stars": 2368
+  },
+  {
+    "id": "0-AI-UG/cate",
+    "date": "2026-11-21",
+    "stars": 2247
+  },
+  {
+    "id": "feigeCode/navop",
+    "date": "2026-11-21",
+    "stars": 2201
+  },
+  {
     "id": "aaronjanse/3mux",
     "date": "2026-11-21",
     "stars": 1852
@@ -625,9 +670,19 @@
     "stars": 1830
   },
   {
+    "id": "dustinkirkland/byobu",
+    "date": "2026-11-21",
+    "stars": 1753
+  },
+  {
     "id": "smart-splits-nvim/smart-splits.nvim",
     "date": "2026-11-21",
     "stars": 1752
+  },
+  {
+    "id": "DeadWaveWave/opencove",
+    "date": "2026-11-21",
+    "stars": 1653
   },
   {
     "id": "l0ng-ai/tty7",
@@ -643,6 +698,11 @@
     "id": "deadpixi/mtm",
     "date": "2026-11-21",
     "stars": 1226
+  },
+  {
+    "id": "Yazelix/nova",
+    "date": "2026-11-21",
+    "stars": 1216
   },
   {
     "id": "seebi/tmux-colors-solarized",
@@ -670,9 +730,24 @@
     "stars": 924
   },
   {
+    "id": "dark-hxx/CLI-Manager",
+    "date": "2026-11-21",
+    "stars": 818
+  },
+  {
+    "id": "hosenur/portal",
+    "date": "2026-11-21",
+    "stars": 816
+  },
+  {
     "id": "coder/boo",
     "date": "2026-11-21",
     "stars": 789
+  },
+  {
+    "id": "plannotator/herdr-annotate",
+    "date": "2026-11-21",
+    "stars": 781
   },
   {
     "id": "peters/horizon",
@@ -690,6 +765,16 @@
     "stars": 685
   },
   {
+    "id": "iAmCorey/kooky",
+    "date": "2026-11-21",
+    "stars": 657
+  },
+  {
+    "id": "termio-sh/termio",
+    "date": "2026-11-21",
+    "stars": 655
+  },
+  {
     "id": "am-will/limux",
     "date": "2026-11-21",
     "stars": 565
@@ -700,9 +785,24 @@
     "stars": 548
   },
   {
+    "id": "farlume/termish",
+    "date": "2026-11-21",
+    "stars": 526
+  },
+  {
+    "id": "tony1223/better-agent-terminal",
+    "date": "2026-11-21",
+    "stars": 523
+  },
+  {
     "id": "r3bl-org/r3bl-open-core",
     "date": "2026-11-21",
     "stars": 488
+  },
+  {
+    "id": "xuzhougeng/wispterm",
+    "date": "2026-11-21",
+    "stars": 469
   },
   {
     "id": "openwong2kim/wmux",
@@ -715,9 +815,24 @@
     "stars": 450
   },
   {
+    "id": "hkupty/nvimux",
+    "date": "2026-11-21",
+    "stars": 450
+  },
+  {
+    "id": "gwitko/Conduit",
+    "date": "2026-11-21",
+    "stars": 434
+  },
+  {
     "id": "numToStr/Navigator.nvim",
     "date": "2026-11-21",
     "stars": 432
+  },
+  {
+    "id": "Sinotrade/shioaji-pro-app",
+    "date": "2026-11-21",
+    "stars": 431
   },
   {
     "id": "blueberrycongee/termcanvas",
@@ -725,9 +840,64 @@
     "stars": 421
   },
   {
+    "id": "Leask/Tabminal",
+    "date": "2026-11-21",
+    "stars": 394
+  },
+  {
+    "id": "therealarthur/myrlin-workbook",
+    "date": "2026-11-21",
+    "stars": 388
+  },
+  {
+    "id": "otty-shell/otty",
+    "date": "2026-11-21",
+    "stars": 369
+  },
+  {
+    "id": "rengwu/chartr",
+    "date": "2026-11-21",
+    "stars": 354
+  },
+  {
+    "id": "10xChengTu/Mux0",
+    "date": "2026-11-21",
+    "stars": 345
+  },
+  {
+    "id": "flymysql/dsh-remote",
+    "date": "2026-11-21",
+    "stars": 339
+  },
+  {
+    "id": "blacknon/lssh",
+    "date": "2026-11-21",
+    "stars": 331
+  },
+  {
+    "id": "naughtygopher/webgo",
+    "date": "2026-11-21",
+    "stars": 309
+  },
+  {
     "id": "nickgnd/tmux-mcp",
     "date": "2026-11-21",
     "stars": 307
+  },
+  {
+    "id": "singchia/frontier",
+    "date": "2026-11-21",
+    "stars": 306
+  },
+  {
+    "id": "vaayne/mori",
+    "date": "2026-11-21",
+    "stars": 305
+  },
+  {
+    "id": "Dicklesworthstone/frankentui",
+    "date": "2026-11-21",
+    "stars": 301
   },
   {
     "id": "kryptamine/herdr-auto-title",
@@ -735,14 +905,44 @@
     "stars": 299
   },
   {
+    "id": "shaharia-lab/slackcli",
+    "date": "2026-11-21",
+    "stars": 282
+  },
+  {
     "id": "RoversX/ThinkTerm",
     "date": "2026-11-21",
     "stars": 256
   },
   {
+    "id": "cfoust/cy",
+    "date": "2026-11-21",
+    "stars": 227
+  },
+  {
+    "id": "ponylang/ponyup",
+    "date": "2026-11-21",
+    "stars": 219
+  },
+  {
     "id": "alejandroqh/term39",
     "date": "2026-11-21",
     "stars": 203
+  },
+  {
+    "id": "Qv2ray/mmp-go",
+    "date": "2026-11-21",
+    "stars": 203
+  },
+  {
+    "id": "Sma1lboy/rove",
+    "date": "2026-11-21",
+    "stars": 188
+  },
+  {
+    "id": "voc/srtrelay",
+    "date": "2026-11-21",
+    "stars": 179
   },
   {
     "id": "tuzig/terminal7",
@@ -835,9 +1035,149 @@
     "stars": 82
   },
   {
+    "id": "FriendsOfFlarum/byobu",
+    "date": "2026-11-21",
+    "stars": 59
+  },
+  {
+    "id": "b3rserker/byobu-config",
+    "date": "2026-11-21",
+    "stars": 23
+  },
+  {
+    "id": "felixdrp/byobu-howto",
+    "date": "2026-11-21",
+    "stars": 7
+  },
+  {
+    "id": "theksmith/Byobu-Smarter-Status",
+    "date": "2026-11-21",
+    "stars": 6
+  },
+  {
+    "id": "achernya/byobu",
+    "date": "2026-11-21",
+    "stars": 3
+  },
+  {
+    "id": "DevInsideYou/install-byobu",
+    "date": "2026-11-21",
+    "stars": 2
+  },
+  {
+    "id": "kitak-sandbox/byobu",
+    "date": "2026-11-21",
+    "stars": 2
+  },
+  {
+    "id": "baconjockey/BYOBuddy",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "becxer/byoburus",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "BenGardiner/byobu-dotfile",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "conda-forge/byobu-feedstock",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "FalconLee1011/vue-byobu",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "iquabius/iqb-byobu",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "jeremiahsnapp/chef-byobu",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "kokowa194/byobu-keyhints",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "mad-ady/odroid-byobu",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "msmarcal/byobu-ws",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "netsugo/byobu_tmux",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "OpnSrcConstruction/byobu",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "perminder-klair/byobu",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "pld-linux/byobu",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "rbaas293/byobu_config",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "ScrugNet/puppet-byobu",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "sinoyster/byobu-kaku-config",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "tkoyama010/awesome-byobu",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "chromecountry/byobu",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "deepin-community/byobu",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "dm6467/byobu",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
     "id": "starship/starship",
     "date": "2026-11-21",
-    "stars": 60823
+    "stars": 60824
   },
   {
     "id": "JanDeDobbeleer/oh-my-posh",
@@ -1112,7 +1452,7 @@
   {
     "id": "glzr-io/glazewm",
     "date": "2026-11-21",
-    "stars": 13016
+    "stars": 13017
   },
   {
     "id": "i3/i3",
@@ -1217,7 +1557,7 @@
   {
     "id": "WayfireWM/wayfire",
     "date": "2026-11-21",
-    "stars": 3078
+    "stars": 3079
   },
   {
     "id": "leftwm/leftwm",
@@ -1307,7 +1647,7 @@
   {
     "id": "junegunn/fzf",
     "date": "2026-11-21",
-    "stars": 84323
+    "stars": 84324
   },
   {
     "id": "kien/ctrlp.vim",
@@ -1447,7 +1787,7 @@
   {
     "id": "LazyVim/LazyVim",
     "date": "2026-11-21",
-    "stars": 27902
+    "stars": 27901
   },
   {
     "id": "neoclide/coc.nvim",
@@ -1597,7 +1937,7 @@
   {
     "id": "stevearc/conform.nvim",
     "date": "2026-11-21",
-    "stars": 5411
+    "stars": 5412
   },
   {
     "id": "MeanderingProgrammer/render-markdown.nvim",

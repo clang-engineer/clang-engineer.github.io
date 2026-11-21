@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-21T09:51:40.444Z",
+  "updatedAt": "2026-11-21T10:31:28.378Z",
   "periods": [
     0,
     7,
@@ -31,11 +31,11 @@
           "name": "yazi",
           "description": "💥 Blazing fast terminal file manager written in Rust, based on async I/O.",
           "url": "https://github.com/sxyazi/yazi",
-          "stars": 43553,
+          "stars": 43555,
           "forks": 1072,
           "createdAt": "2023-07-08T11:45:55Z",
           "pushedAt": "2026-11-13T05:41:28Z",
-          "updatedAt": "2026-11-21T08:31:32Z",
+          "updatedAt": "2026-11-21T10:26:18Z",
           "language": "Rust",
           "license": "MIT",
           "topics": [
@@ -806,7 +806,7 @@
           "stars": 189,
           "forks": 10,
           "createdAt": "2025-11-20T14:30:41Z",
-          "pushedAt": "2026-11-16T15:11:52Z",
+          "pushedAt": "2026-11-21T10:28:37Z",
           "updatedAt": "2026-11-20T08:22:43Z",
           "language": "Rust",
           "license": "MIT",
@@ -1675,7 +1675,7 @@
           "stars": 0,
           "forks": 0,
           "createdAt": "2026-10-10T09:33:22Z",
-          "pushedAt": "2026-11-21T09:50:33Z",
+          "pushedAt": "2026-11-21T10:15:16Z",
           "updatedAt": "2026-11-08T20:56:43Z",
           "language": "Rust",
           "license": "Apache-2.0",
@@ -1755,11 +1755,11 @@
           "name": "alacritty",
           "description": "A cross-platform, OpenGL terminal emulator.",
           "url": "https://github.com/alacritty/alacritty",
-          "stars": 66247,
+          "stars": 66248,
           "forks": 3711,
           "createdAt": "2016-02-18T05:02:30Z",
           "pushedAt": "2026-11-18T15:50:57Z",
-          "updatedAt": "2026-11-21T09:00:24Z",
+          "updatedAt": "2026-11-21T10:25:13Z",
           "language": "Rust",
           "license": "Apache-2.0",
           "topics": [
@@ -1786,11 +1786,11 @@
           "name": "termux-app",
           "description": "Termux - a terminal emulator application for Android OS extendible by variety of packages.",
           "url": "https://github.com/termux/termux-app",
-          "stars": 65329,
+          "stars": 65331,
           "forks": 8373,
           "createdAt": "2015-10-23T09:42:46Z",
           "pushedAt": "2026-11-05T09:38:22Z",
-          "updatedAt": "2026-11-21T09:31:24Z",
+          "updatedAt": "2026-11-21T09:58:18Z",
           "language": "Java",
           "license": null,
           "topics": [
@@ -1812,11 +1812,11 @@
           "name": "ghostty",
           "description": "👻 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.",
           "url": "https://github.com/ghostty-org/ghostty",
-          "stars": 64299,
+          "stars": 64301,
           "forks": 3933,
           "createdAt": "2022-03-29T17:38:26Z",
           "pushedAt": "2026-11-20T23:38:21Z",
-          "updatedAt": "2026-11-21T09:07:58Z",
+          "updatedAt": "2026-11-21T10:08:07Z",
           "language": "Zig",
           "license": "MIT",
           "topics": [],
@@ -1860,7 +1860,7 @@
           "description": "A good looking terminal emulator which mimics the old cathode display...",
           "url": "https://github.com/Swordfish90/cool-retro-term",
           "stars": 26583,
-          "forks": 1052,
+          "forks": 1051,
           "createdAt": "2013-11-22T09:59:57Z",
           "pushedAt": "2026-05-31T10:12:54Z",
           "updatedAt": "2026-11-21T05:18:42Z",
@@ -1993,7 +1993,7 @@
           "stars": 7535,
           "forks": 695,
           "createdAt": "2025-12-06T19:22:10Z",
-          "pushedAt": "2026-11-21T09:46:01Z",
+          "pushedAt": "2026-11-21T09:56:30Z",
           "updatedAt": "2026-11-21T09:29:53Z",
           "language": "TypeScript",
           "license": "GPL-3.0",
@@ -2024,7 +2024,7 @@
           "stars": 6600,
           "forks": 326,
           "createdAt": "2025-09-06T18:13:51Z",
-          "pushedAt": "2026-11-21T09:33:15Z",
+          "pushedAt": "2026-11-21T09:55:15Z",
           "updatedAt": "2026-11-21T08:22:15Z",
           "language": "Go",
           "license": "MIT",
@@ -2189,11 +2189,11 @@
           "name": "pebrel",
           "description": "AI-native, GPU-accelerated terminal emulator for Windows with SSH, persistent sessions, split panes, and first-class AI CLI workflows.",
           "url": "https://github.com/Kuddev/pebrel",
-          "stars": 3857,
+          "stars": 3859,
           "forks": 224,
           "createdAt": "2026-07-05T12:17:36Z",
           "pushedAt": "2026-11-21T07:20:00Z",
-          "updatedAt": "2026-11-20T11:48:13Z",
+          "updatedAt": "2026-11-21T10:18:11Z",
           "language": "Rust",
           "license": "GPL-3.0",
           "topics": [
@@ -3246,13 +3246,16 @@
       "source": "github",
       "topic": "terminal-multiplexer",
       "searches": [
-        "terminal multiplexer in:name,description"
+        "terminal multiplexer in:name,description",
+        "terminal workspace in:name,description",
+        "multiplexer in:topics",
+        "byobu in:name"
       ],
       "readmeSearches": [
         "terminal multiplexer"
       ],
       "readmeStats": {
-        "candidates": 27,
+        "candidates": 26,
         "accepted": 1
       },
       "searchSort": "stars",
@@ -3265,11 +3268,11 @@
           "name": "herdr",
           "description": "the runtime your coding agents live on",
           "url": "https://github.com/herdrdev/herdr",
-          "stars": 52118,
+          "stars": 52121,
           "forks": 4219,
           "createdAt": "2026-03-27T17:54:33Z",
           "pushedAt": "2026-11-19T22:15:19Z",
-          "updatedAt": "2026-11-21T09:48:48Z",
+          "updatedAt": "2026-11-21T10:31:12Z",
           "language": "Rust",
           "license": "Apache-2.0",
           "topics": [
@@ -3304,15 +3307,39 @@
           "name": "tmux",
           "description": "tmux source code",
           "url": "https://github.com/tmux/tmux",
-          "stars": 50581,
+          "stars": 50580,
           "forks": 3033,
           "createdAt": "2015-06-03T23:32:55Z",
           "pushedAt": "2026-11-20T09:52:50Z",
-          "updatedAt": "2026-11-21T09:00:23Z",
+          "updatedAt": "2026-11-21T10:16:42Z",
           "language": "C",
           "license": "ISC",
           "topics": [],
           "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "zellij-org/zellij",
+          "name": "zellij",
+          "description": "A terminal workspace with batteries included",
+          "url": "https://github.com/zellij-org/zellij",
+          "stars": 36169,
+          "forks": 1552,
+          "createdAt": "2020-09-01T14:04:28Z",
+          "pushedAt": "2026-11-20T16:41:46Z",
+          "updatedAt": "2026-11-21T09:03:06Z",
+          "language": "Rust",
+          "license": "MIT",
+          "topics": [
+            "multiplexer",
+            "terminal",
+            "workspace"
+          ],
+          "homepage": "https://zellij.dev",
           "periods": {
             "7": null,
             "30": null,
@@ -3354,7 +3381,7 @@
           "stars": 28843,
           "forks": 2687,
           "createdAt": "2026-01-28T10:03:24Z",
-          "pushedAt": "2026-11-21T09:51:42Z",
+          "pushedAt": "2026-11-21T10:31:30Z",
           "updatedAt": "2026-11-21T08:31:14Z",
           "language": "Swift",
           "license": null,
@@ -3386,6 +3413,91 @@
           }
         },
         {
+          "id": "openclaw/gogcli",
+          "name": "gogcli",
+          "description": "Google Workspace in your terminal.",
+          "url": "https://github.com/openclaw/gogcli",
+          "stars": 8597,
+          "forks": 734,
+          "createdAt": "2025-12-12T12:36:45Z",
+          "pushedAt": "2026-11-21T01:57:55Z",
+          "updatedAt": "2026-11-20T20:11:58Z",
+          "language": "Go",
+          "license": "MIT",
+          "topics": [
+            "gcal",
+            "gcontacts",
+            "gdrive",
+            "gmail",
+            "google"
+          ],
+          "homepage": "https://gogcli.sh",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "binaricat/Netcatty",
+          "name": "Netcatty",
+          "description": "SSH workspace, SFTP, and terminals in one",
+          "url": "https://github.com/binaricat/Netcatty",
+          "stars": 7535,
+          "forks": 695,
+          "createdAt": "2025-12-06T19:22:10Z",
+          "pushedAt": "2026-11-21T09:56:30Z",
+          "updatedAt": "2026-11-21T09:29:53Z",
+          "language": "TypeScript",
+          "license": "GPL-3.0",
+          "topics": [
+            "electron",
+            "electron-app",
+            "radix-ui",
+            "react",
+            "sftp-client",
+            "ssh",
+            "ssh-client",
+            "terminal",
+            "terminal-emulator",
+            "xterm"
+          ],
+          "homepage": "https://netcatty.app",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "outsourc-e/hermes-workspace",
+          "name": "hermes-workspace",
+          "description": "Native web workspace for Hermes Agent — chat, terminal, memory, skills, inspector.",
+          "url": "https://github.com/outsourc-e/hermes-workspace",
+          "stars": 6840,
+          "forks": 1058,
+          "createdAt": "2026-03-16T03:53:28Z",
+          "pushedAt": "2026-11-05T06:10:49Z",
+          "updatedAt": "2026-11-21T09:45:28Z",
+          "language": "JavaScript",
+          "license": "MIT",
+          "topics": [
+            "agent-ui",
+            "ai-workspace",
+            "hackathon",
+            "hermes-agent",
+            "nous-research",
+            "react",
+            "typescript"
+          ],
+          "homepage": "https://hermes-workspace.com",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
           "id": "Gaurav-Gosain/tuios",
           "name": "tuios",
           "description": "A terminal window manager that knows what your agents are doing. Tiling panes, workspaces, sessions that survive restarts, and one Inbox for every coding agent. Official only at tuios.dev and this repo. tuios has no X/Twitter account.",
@@ -3393,7 +3505,7 @@
           "stars": 6600,
           "forks": 326,
           "createdAt": "2025-09-06T18:13:51Z",
-          "pushedAt": "2026-11-21T09:33:15Z",
+          "pushedAt": "2026-11-21T09:55:15Z",
           "updatedAt": "2026-11-21T08:22:15Z",
           "language": "Go",
           "license": "MIT",
@@ -3427,6 +3539,42 @@
           }
         },
         {
+          "id": "acassen/keepalived",
+          "name": "keepalived",
+          "description": "Keepalived",
+          "url": "https://github.com/acassen/keepalived",
+          "stars": 4746,
+          "forks": 784,
+          "createdAt": "2012-07-11T12:42:41Z",
+          "pushedAt": "2026-11-15T15:33:29Z",
+          "updatedAt": "2026-11-19T17:21:00Z",
+          "language": "C",
+          "license": "GPL-2.0",
+          "topics": [
+            "bfd",
+            "c",
+            "daemon",
+            "high-availability",
+            "infrastructure",
+            "infrastructures",
+            "ipvs",
+            "keepalived",
+            "linux",
+            "lvs",
+            "multiplexer",
+            "netlink",
+            "protocol",
+            "snmp",
+            "vrrp"
+          ],
+          "homepage": "https://www.keepalived.org",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
           "id": "psmux/psmux",
           "name": "psmux",
           "description": "Tmux on Windows Powershell - tmux for PowerShell, Windows Terminal, cmd.exe. Includes psmux, pmux, and tmux commands. This is native High-Performance Tmux designed for Windows in Rust 🦀",
@@ -3434,7 +3582,7 @@
           "stars": 3893,
           "forks": 254,
           "createdAt": "2025-11-30T18:09:19Z",
-          "pushedAt": "2026-11-21T08:10:24Z",
+          "pushedAt": "2026-11-21T09:58:08Z",
           "updatedAt": "2026-11-21T09:32:08Z",
           "language": "PowerShell",
           "license": "MIT",
@@ -3457,6 +3605,140 @@
             "windows-tmux"
           ],
           "homepage": "https://psmux.pages.dev/",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "directvt/vtm",
+          "name": "vtm",
+          "description": "Text-based desktop environment",
+          "url": "https://github.com/directvt/vtm",
+          "stars": 3380,
+          "forks": 83,
+          "createdAt": "2019-09-19T22:01:31Z",
+          "pushedAt": "2026-11-10T08:58:15Z",
+          "updatedAt": "2026-11-19T21:32:30Z",
+          "language": "C++",
+          "license": "MIT",
+          "topics": [
+            "desktop-environment",
+            "htui",
+            "hybrid-tui",
+            "multiplexer",
+            "terminal",
+            "text-based",
+            "windows-console"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "Gentleman-Programming/gentle-shell",
+          "name": "gentle-shell",
+          "description": "Gentle Shell is a Pi-native workspace for AI-assisted development, bringing parallel coding agents, live tasks, Git diffs, persistent memory, and permission controls into one terminal interface. Powered by Gentle AI and Organic Driven Development (ODD).",
+          "url": "https://github.com/Gentleman-Programming/gentle-shell",
+          "stars": 2863,
+          "forks": 299,
+          "createdAt": "2026-05-10T10:11:33Z",
+          "pushedAt": "2026-11-21T08:27:11Z",
+          "updatedAt": "2026-11-21T09:31:48Z",
+          "language": "TypeScript",
+          "license": "MIT",
+          "topics": [
+            "agent-harness",
+            "agent-skills",
+            "ai-agents",
+            "ai-coding",
+            "ai-coding-agent",
+            "code-review",
+            "coding-agents",
+            "developer-tools",
+            "gentle-ai",
+            "gentle-shell-package",
+            "llm",
+            "mcp",
+            "openspec",
+            "pi",
+            "pi-coding-agent",
+            "rdd",
+            "sdd",
+            "spec-driven-development",
+            "subagents",
+            "tdd"
+          ],
+          "homepage": "https://gentle-ai.gentlemanprogramming.com/",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "Helvesec/rmux",
+          "name": "rmux",
+          "description": "Universal Rust multiplexer with a typed SDK — drive any CLI or TUI app from code. Native on Linux, macOS, and Windows.",
+          "url": "https://github.com/Helvesec/rmux",
+          "stars": 2701,
+          "forks": 171,
+          "createdAt": "2026-05-15T15:22:10Z",
+          "pushedAt": "2026-11-20T14:35:38Z",
+          "updatedAt": "2026-11-21T04:48:42Z",
+          "language": "Rust",
+          "license": null,
+          "topics": [
+            "agent",
+            "ai",
+            "cli",
+            "linux",
+            "macos",
+            "multiplexer",
+            "multiplexers",
+            "powershell",
+            "ratatui",
+            "rust",
+            "terminal",
+            "tokio",
+            "windows"
+          ],
+          "homepage": "https://rmux.io",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "nyakang/nyaterm",
+          "name": "nyaterm",
+          "description": "A modern remote terminal workspace",
+          "url": "https://github.com/nyakang/nyaterm",
+          "stars": 2568,
+          "forks": 245,
+          "createdAt": "2026-04-27T15:31:38Z",
+          "pushedAt": "2026-11-21T10:15:30Z",
+          "updatedAt": "2026-11-21T09:36:07Z",
+          "language": "Rust",
+          "license": "Apache-2.0",
+          "topics": [
+            "gpui",
+            "otp",
+            "serialport",
+            "sftp",
+            "sftp-client",
+            "ssh",
+            "ssh-client",
+            "telnet",
+            "telnet-client",
+            "terminal"
+          ],
+          "homepage": "https://nyaterm.app",
           "periods": {
             "7": null,
             "30": null,
@@ -3536,6 +3818,97 @@
           }
         },
         {
+          "id": "sheprd-labs/sheprd",
+          "name": "sheprd",
+          "description": "Native client for Herdr on macOS, Linux, and Windows, built with Rust and GPUI. View terminal sessions, workspaces, Git worktrees, and agent activity through your local Herdr daemon.",
+          "url": "https://github.com/sheprd-labs/sheprd",
+          "stars": 2368,
+          "forks": 214,
+          "createdAt": "2026-09-20T05:22:39Z",
+          "pushedAt": "2026-11-21T09:25:34Z",
+          "updatedAt": "2026-11-21T08:11:48Z",
+          "language": "Rust",
+          "license": "Apache-2.0",
+          "topics": [
+            "ai-agents",
+            "desktop-app",
+            "developer-tools",
+            "git-worktrees",
+            "gpui",
+            "herdr",
+            "macos",
+            "rust",
+            "terminal"
+          ],
+          "homepage": "https://sheprd.org",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "0-AI-UG/cate",
+          "name": "cate",
+          "description": "An infinite zoomable canvas for coding. Editor, terminal, and browser panels in a spatial workspace.",
+          "url": "https://github.com/0-AI-UG/cate",
+          "stars": 2247,
+          "forks": 146,
+          "createdAt": "2026-03-29T14:49:51Z",
+          "pushedAt": "2026-11-20T16:33:48Z",
+          "updatedAt": "2026-11-21T08:31:01Z",
+          "language": "TypeScript",
+          "license": "MIT",
+          "topics": [],
+          "homepage": "https://cate.cero-ai.com",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "feigeCode/navop",
+          "name": "navop",
+          "description": "Native desktop workspace for databases, servers, and AI — built with Rust and GPUI. No WebView, no Electron. MySQL, PostgreSQL, Redis, MongoDB, SSH/SFTP, terminals, remote desktop, and AI agents in one window. Focused Navop Shell and Navop Data editions available.",
+          "url": "https://github.com/feigeCode/navop",
+          "stars": 2201,
+          "forks": 218,
+          "createdAt": "2026-07-10T06:01:54Z",
+          "pushedAt": "2026-11-21T09:58:24Z",
+          "updatedAt": "2026-11-21T08:28:10Z",
+          "language": "Rust",
+          "license": null,
+          "topics": [
+            "ai-agents",
+            "clickhouse",
+            "database-client",
+            "desktop-app",
+            "duckdb",
+            "gpui",
+            "mongodb",
+            "mssql",
+            "mysql",
+            "oracle",
+            "port-forwarding",
+            "postgresql",
+            "redis",
+            "remote-desktop",
+            "rust",
+            "serial",
+            "sftp",
+            "sqlite",
+            "ssh",
+            "terminal"
+          ],
+          "homepage": "https://navop.dev",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
           "id": "aaronjanse/3mux",
           "name": "3mux",
           "description": "Terminal multiplexer inspired by i3",
@@ -3598,6 +3971,26 @@
           }
         },
         {
+          "id": "dustinkirkland/byobu",
+          "name": "byobu",
+          "description": "text window manager, shell multiplexer, integrated DevOps environment",
+          "url": "https://github.com/dustinkirkland/byobu",
+          "stars": 1753,
+          "forks": 146,
+          "createdAt": "2013-01-15T23:21:04Z",
+          "pushedAt": "2026-11-19T18:02:42Z",
+          "updatedAt": "2026-11-20T08:35:10Z",
+          "language": "Python",
+          "license": "GPL-3.0",
+          "topics": [],
+          "homepage": "https://byobu.org",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
           "id": "smart-splits-nvim/smart-splits.nvim",
           "name": "smart-splits.nvim",
           "description": "🧠 Smart, seamless, directional navigation and resizing of Neovim + terminal multiplexer splits. Supports Zellij, Tmux, Wezterm, and Kitty. Think about splits in terms of \"up/down/left/right\".",
@@ -3620,6 +4013,39 @@
             "terminal-multiplexer",
             "window-management",
             "window-manager"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "DeadWaveWave/opencove",
+          "name": "opencove",
+          "description": "Your infinite canvas workspace for agents, tasks, knowledge, and research. An infinite canvas for Claude Code, Codex, terminals, tasks, and notes.",
+          "url": "https://github.com/DeadWaveWave/opencove",
+          "stars": 1653,
+          "forks": 151,
+          "createdAt": "2026-03-09T11:56:55Z",
+          "pushedAt": "2026-11-20T14:40:27Z",
+          "updatedAt": "2026-11-19T17:40:53Z",
+          "language": "TypeScript",
+          "license": "MIT",
+          "topics": [
+            "agents",
+            "ai",
+            "ai-agents",
+            "canvas",
+            "claude-code",
+            "codex",
+            "desktop-app",
+            "electron",
+            "gemini",
+            "infinite-canvas",
+            "react",
+            "typescript"
           ],
           "homepage": null,
           "periods": {
@@ -3710,6 +4136,45 @@
             "terminal-emulators"
           ],
           "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "Yazelix/nova",
+          "name": "nova",
+          "description": "Yazelix Nova is a Nix-packaged terminal workspace built from focused first-party components, including Nova Rio, Nova Zellij, Nova Helix, Yazi, Nushell, Ratconfig, popups, status widgets, cursors, and Anima.",
+          "url": "https://github.com/Yazelix/nova",
+          "stars": 1216,
+          "forks": 52,
+          "createdAt": "2024-01-20T21:15:45Z",
+          "pushedAt": "2026-11-04T20:42:23Z",
+          "updatedAt": "2026-11-20T11:29:28Z",
+          "language": "Rust",
+          "license": "Apache-2.0",
+          "topics": [
+            "editor",
+            "file-manager",
+            "helix",
+            "home-manager",
+            "ide",
+            "lua",
+            "multiplexer",
+            "nix",
+            "nix-flake",
+            "nushell",
+            "plugins",
+            "rust",
+            "shell",
+            "terminal",
+            "terminal-editor",
+            "terminal-emulator",
+            "yazi",
+            "zellij"
+          ],
+          "homepage": "https://nova.yazelix.com",
           "periods": {
             "7": null,
             "30": null,
@@ -3862,6 +4327,58 @@
           }
         },
         {
+          "id": "dark-hxx/CLI-Manager",
+          "name": "CLI-Manager",
+          "description": "A multi-project AI CLI workspace for local terminals, SSH hosts, and mobile-assisted workflows",
+          "url": "https://github.com/dark-hxx/CLI-Manager",
+          "stars": 818,
+          "forks": 102,
+          "createdAt": "2026-03-12T12:18:12Z",
+          "pushedAt": "2026-11-21T07:28:56Z",
+          "updatedAt": "2026-11-20T23:49:21Z",
+          "language": "Rust",
+          "license": "AGPL-3.0",
+          "topics": [
+            "ai-cli",
+            "claude-code",
+            "codex",
+            "developer-tools",
+            "tauri-app",
+            "terminal"
+          ],
+          "homepage": "https://cli-manager.github.io/",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "hosenur/portal",
+          "name": "portal",
+          "description": "Mobile first batteries included web ui for sst/opencode. Git integration, in browser terminal, isolated workspaces.",
+          "url": "https://github.com/hosenur/portal",
+          "stars": 816,
+          "forks": 69,
+          "createdAt": "2025-12-09T20:32:16Z",
+          "pushedAt": "2026-05-12T13:03:32Z",
+          "updatedAt": "2026-11-19T14:33:21Z",
+          "language": "TypeScript",
+          "license": "MIT",
+          "topics": [
+            "ai",
+            "ai-agent",
+            "ai-agents",
+            "opencode"
+          ],
+          "homepage": "https://openportal.space",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
           "id": "coder/boo",
           "name": "boo",
           "description": "A GNU screen style terminal multiplexer built on libghostty.",
@@ -3882,6 +4399,31 @@
             "terminal"
           ],
           "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "plannotator/herdr-annotate",
+          "name": "herdr-annotate",
+          "description": "Annotate terminal text, review documents and agent replies in Herdr, and send the feedback straight back to the agent.",
+          "url": "https://github.com/plannotator/herdr-annotate",
+          "stars": 781,
+          "forks": 27,
+          "createdAt": "2026-08-09T02:34:40Z",
+          "pushedAt": "2026-11-15T21:05:48Z",
+          "updatedAt": "2026-11-21T10:18:59Z",
+          "language": "Rust",
+          "license": "MIT",
+          "topics": [
+            "annotation",
+            "herdr",
+            "herdr-plugin",
+            "multiplexer"
+          ],
+          "homepage": "https://plannotator.ai",
           "periods": {
             "7": null,
             "30": null,
@@ -3995,6 +4537,79 @@
           }
         },
         {
+          "id": "iAmCorey/kooky",
+          "name": "kooky",
+          "description": "A minimal modern terminal for AI coding experience — Sidebar workspaces; horizontal / vertical split panes; one-click agent launch; per-agent activity readout; live workspace state with one-click Node and branch switching.",
+          "url": "https://github.com/iAmCorey/kooky",
+          "stars": 657,
+          "forks": 43,
+          "createdAt": "2026-05-08T08:19:34Z",
+          "pushedAt": "2026-10-12T08:29:35Z",
+          "updatedAt": "2026-11-19T20:08:46Z",
+          "language": "Swift",
+          "license": "MIT",
+          "topics": [
+            "agent",
+            "ai-agents",
+            "ai-coding",
+            "claude",
+            "claude-code",
+            "coding-agent",
+            "developer-tools",
+            "libghostty",
+            "llm",
+            "macos",
+            "swift",
+            "swiftui",
+            "terminal",
+            "terminal-emulator"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "termio-sh/termio",
+          "name": "termio",
+          "description": "A terminal-first agentic development environment for agentic coding. Build for CLI/TUI agent. Runtime for Coding Agent,  Tmux alternative",
+          "url": "https://github.com/termio-sh/termio",
+          "stars": 655,
+          "forks": 55,
+          "createdAt": "2026-05-23T22:55:38Z",
+          "pushedAt": "2026-11-19T03:56:14Z",
+          "updatedAt": "2026-11-21T01:22:52Z",
+          "language": "Swift",
+          "license": "MIT",
+          "topics": [
+            "ade",
+            "agentic",
+            "ai-agents",
+            "claude-code",
+            "cli",
+            "codex",
+            "coding-agents",
+            "devtools",
+            "libghostty",
+            "macos",
+            "mobile-app",
+            "multiplexer",
+            "opencode",
+            "parallel-agents",
+            "swift",
+            "terminal",
+            "terminal-emulator"
+          ],
+          "homepage": "https://termio.sh",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
           "id": "am-will/limux",
           "name": "limux",
           "description": "GPU-accelerated terminal multiplexer for Linux",
@@ -4042,6 +4657,70 @@
           }
         },
         {
+          "id": "farlume/termish",
+          "name": "termish",
+          "description": "Open-source mobile SSH/Mosh terminal and native AI workspace for Android and iOS.",
+          "url": "https://github.com/farlume/termish",
+          "stars": 526,
+          "forks": 9,
+          "createdAt": "2026-09-06T04:01:56Z",
+          "pushedAt": "2026-11-01T03:39:01Z",
+          "updatedAt": "2026-11-18T11:23:01Z",
+          "language": "Kotlin",
+          "license": "MIT",
+          "topics": [
+            "ai-agents",
+            "android",
+            "claude-code",
+            "codex",
+            "compose-multiplatform",
+            "ios",
+            "kotlin-multiplatform",
+            "mosh",
+            "remote-development",
+            "sftp",
+            "ssh-client",
+            "terminal-emulator"
+          ],
+          "homepage": "https://termish.dev",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "tony1223/better-agent-terminal",
+          "name": "better-agent-terminal",
+          "description": "Multi-workspace terminal aggregator with Claude Code AI integration",
+          "url": "https://github.com/tony1223/better-agent-terminal",
+          "stars": 523,
+          "forks": 129,
+          "createdAt": "2025-12-17T01:18:17Z",
+          "pushedAt": "2026-11-19T04:34:49Z",
+          "updatedAt": "2026-11-13T23:28:08Z",
+          "language": "Rust",
+          "license": "MIT",
+          "topics": [
+            "ai-agent",
+            "anthropic",
+            "claude",
+            "claude-code",
+            "developer-tools",
+            "electron",
+            "multi-terminal",
+            "terminal",
+            "terminal-emulator",
+            "workspace"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
           "id": "r3bl-org/r3bl-open-core",
           "name": "r3bl-open-core",
           "description": "Fully async Rust TUI engine 🦀. For powering AI/LLM coding agents, Cloud/SSH workflows & interactive CLIs: non-blocking readline, inline dialogs, React/Elm-style full-screen TUI, Markdown editor, PTY multiplexing & rust-analyzer MCP server.",
@@ -4076,6 +4755,31 @@
             "vte"
           ],
           "homepage": "https://r3bl.com",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "xuzhougeng/wispterm",
+          "name": "wispterm",
+          "description": "A cross-platform terminal workspace for remote development and AI agent workflows, powered by libghostty-vt",
+          "url": "https://github.com/xuzhougeng/wispterm",
+          "stars": 469,
+          "forks": 29,
+          "createdAt": "2026-04-30T11:53:26Z",
+          "pushedAt": "2026-11-18T01:15:25Z",
+          "updatedAt": "2026-11-20T14:29:36Z",
+          "language": "Zig",
+          "license": "MIT",
+          "topics": [
+            "ghostty",
+            "macos",
+            "terminal",
+            "windows"
+          ],
+          "homepage": "https://wispterm.com/",
           "periods": {
             "7": null,
             "30": null,
@@ -4143,6 +4847,75 @@
           }
         },
         {
+          "id": "hkupty/nvimux",
+          "name": "nvimux",
+          "description": "Neovim as a TMUX replacement",
+          "url": "https://github.com/hkupty/nvimux",
+          "stars": 450,
+          "forks": 16,
+          "createdAt": "2016-03-08T15:16:55Z",
+          "pushedAt": "2022-05-19T09:08:39Z",
+          "updatedAt": "2026-07-05T08:13:04Z",
+          "language": "Lua",
+          "license": "Apache-2.0",
+          "topics": [
+            "lua",
+            "multiplexer",
+            "neovim",
+            "neovim-lua",
+            "neovim-plugin",
+            "tmux",
+            "tmux-replacement"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "gwitko/Conduit",
+          "name": "Conduit",
+          "description": "A mobile terminal workspace for Android and iOS with SSH, Mosh, SFTP, hardware-key auth, tmux helpers, and an optional local shell.",
+          "url": "https://github.com/gwitko/Conduit",
+          "stars": 434,
+          "forks": 37,
+          "createdAt": "2026-06-02T11:22:03Z",
+          "pushedAt": "2026-07-24T08:41:33Z",
+          "updatedAt": "2026-11-15T21:13:33Z",
+          "language": "Dart",
+          "license": "Apache-2.0",
+          "topics": [
+            "agent-forwarding",
+            "android",
+            "ctap",
+            "dart",
+            "fido2",
+            "flutter",
+            "foss",
+            "hardware-key",
+            "ios",
+            "local-shell",
+            "mosh",
+            "openssh",
+            "password",
+            "private-key",
+            "security-key",
+            "sftp",
+            "ssh",
+            "terminal",
+            "terminal-emulator",
+            "yubikey"
+          ],
+          "homepage": "https://conduit.gwitko.dev",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
           "id": "numToStr/Navigator.nvim",
           "name": "Navigator.nvim",
           "description": ":sparkles: Smoothly navigate between neovim and terminal multiplexer(s) :sparkles:",
@@ -4165,6 +4938,26 @@
             "wezterm"
           ],
           "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "Sinotrade/shioaji-pro-app",
+          "name": "shioaji-pro-app",
+          "description": "Shioaji Pro — professional trading terminal for Taiwan markets (TWSE/TPEX/TAIFEX) built on the Shioaji HTTP API: real-time SSE quotes, candlestick charts with click-to-trade & drag-to-reprice, flash order ladder, stop/take-profit triggers, customizable drag-and-drop workspace",
+          "url": "https://github.com/Sinotrade/shioaji-pro-app",
+          "stars": 431,
+          "forks": 122,
+          "createdAt": "2026-06-10T13:51:43Z",
+          "pushedAt": "2026-11-21T06:29:34Z",
+          "updatedAt": "2026-11-21T05:14:38Z",
+          "language": "TypeScript",
+          "license": "AGPL-3.0",
+          "topics": [],
+          "homepage": "https://sinotrade.github.io/shioaji-pro-app/",
           "periods": {
             "7": null,
             "30": null,
@@ -4208,6 +5001,251 @@
           }
         },
         {
+          "id": "Leask/Tabminal",
+          "name": "Tabminal",
+          "description": "Tab(ter)minal, a Cloud-Native terminal and ACP agent workspace for desktop, tablet, and phone.",
+          "url": "https://github.com/Leask/Tabminal",
+          "stars": 394,
+          "forks": 33,
+          "createdAt": "2025-11-23T03:51:15Z",
+          "pushedAt": "2026-11-13T17:30:05Z",
+          "updatedAt": "2026-11-16T18:37:25Z",
+          "language": "JavaScript",
+          "license": "MIT",
+          "topics": [],
+          "homepage": "https://leaskh.com/2025/11/25/t-tabminal/",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "therealarthur/myrlin-workbook",
+          "name": "myrlin-workbook",
+          "description": "Open-source workspace manager for AI coding CLIs: Claude Code and ChatGPT Codex in one browser app. Discovers every session on disk, embedded terminals, phone-ready, cost tracking, kanban, docs. Windows, macOS, Linux.",
+          "url": "https://github.com/therealarthur/myrlin-workbook",
+          "stars": 388,
+          "forks": 48,
+          "createdAt": "2026-02-06T08:59:10Z",
+          "pushedAt": "2026-10-14T18:34:56Z",
+          "updatedAt": "2026-11-20T19:11:42Z",
+          "language": "JavaScript",
+          "license": "AGPL-3.0",
+          "topics": [
+            "agent-orchestration",
+            "ai-agents",
+            "chatgpt",
+            "claude-code",
+            "codex",
+            "coding-agents",
+            "developer-tools",
+            "multi-provider",
+            "nodejs",
+            "self-hosted",
+            "session-manager",
+            "terminal",
+            "windows",
+            "workspace-manager",
+            "xterm"
+          ],
+          "homepage": "https://therealarthur.github.io/myrlin-workbook/",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "otty-shell/otty",
+          "name": "otty",
+          "description": "an open-source terminal-centric workspace for development and operations.",
+          "url": "https://github.com/otty-shell/otty",
+          "stars": 369,
+          "forks": 28,
+          "createdAt": "2025-09-28T20:21:42Z",
+          "pushedAt": "2026-11-18T23:11:15Z",
+          "updatedAt": "2026-11-19T07:31:23Z",
+          "language": "Rust",
+          "license": "Apache-2.0",
+          "topics": [
+            "bash",
+            "gpu",
+            "linux",
+            "macos",
+            "rust",
+            "shell",
+            "terminal",
+            "terminal-emulators",
+            "ui",
+            "vte",
+            "zsh"
+          ],
+          "homepage": "https://otty.run",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "rengwu/chartr",
+          "name": "chartr",
+          "description": "An organizable, terminal-first agentic workspace with plugins",
+          "url": "https://github.com/rengwu/chartr",
+          "stars": 354,
+          "forks": 19,
+          "createdAt": "2026-07-21T06:22:36Z",
+          "pushedAt": "2026-11-07T15:39:31Z",
+          "updatedAt": "2026-11-18T06:28:26Z",
+          "language": "Rust",
+          "license": "GPL-3.0",
+          "topics": [
+            "agent",
+            "agent-multiplexer",
+            "ai",
+            "developer-tools",
+            "harness",
+            "rust",
+            "terminal"
+          ],
+          "homepage": "https://chartr.dev",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "10xChengTu/Mux0",
+          "name": "Mux0",
+          "description": "A native macOS terminal built on libghostty. Workspaces, tabs, and split panes for your repos — with live status for every Claude Code, OpenCode, and Codex session you run.",
+          "url": "https://github.com/10xChengTu/Mux0",
+          "stars": 345,
+          "forks": 21,
+          "createdAt": "2026-04-14T14:12:26Z",
+          "pushedAt": "2026-07-07T15:58:39Z",
+          "updatedAt": "2026-11-09T22:09:32Z",
+          "language": "Swift",
+          "license": null,
+          "topics": [],
+          "homepage": "https://mux0.com",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "flymysql/dsh-remote",
+          "name": "dsh-remote",
+          "description": "SSH remote workspaces for DeepSeek Harness: parallel projects across hosts, remote file browsing and editing, recursive search, terminals, Git diffs, and workspace-bound Agent tools to edit, build and test remotely. Optional IDE layout.",
+          "url": "https://github.com/flymysql/dsh-remote",
+          "stars": 339,
+          "forks": 60,
+          "createdAt": "2026-08-14T04:26:57Z",
+          "pushedAt": "2026-11-21T07:03:04Z",
+          "updatedAt": "2026-11-21T07:48:02Z",
+          "language": "JavaScript",
+          "license": "MIT",
+          "topics": [
+            "agent-tools",
+            "deepseek-harness",
+            "developer-tools",
+            "dsh",
+            "dsh-plugin",
+            "ide",
+            "remote",
+            "remote-development",
+            "remote-workspace",
+            "sftp",
+            "ssh",
+            "tunnel",
+            "workspace"
+          ],
+          "homepage": "https://flymysql.github.io/dsh-remote/",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "blacknon/lssh",
+          "name": "lssh",
+          "description": "A terminal-native remote access suite for SSH, cloud inventories, provider-backed connectors, parallel commands, mux workspaces, file transfer, and monitoring.",
+          "url": "https://github.com/blacknon/lssh",
+          "stars": 331,
+          "forks": 33,
+          "createdAt": "2017-01-02T15:52:47Z",
+          "pushedAt": "2026-07-25T02:16:06Z",
+          "updatedAt": "2026-11-19T20:17:05Z",
+          "language": "Go",
+          "license": "MIT",
+          "topics": [
+            "aws-ssm",
+            "cloud",
+            "devops",
+            "golang",
+            "mux",
+            "port-forwarding",
+            "remote-access",
+            "scp",
+            "sftp",
+            "ssh",
+            "sysadmin",
+            "telnet",
+            "terminal",
+            "tui",
+            "winrm"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "naughtygopher/webgo",
+          "name": "webgo",
+          "description": "A microframework to build web apps; with handler chaining, middleware support, and most of all; standard library compliant HTTP handlers(i.e. http.HandlerFunc).",
+          "url": "https://github.com/naughtygopher/webgo",
+          "stars": 309,
+          "forks": 34,
+          "createdAt": "2015-12-16T07:35:02Z",
+          "pushedAt": "2026-11-13T19:38:31Z",
+          "updatedAt": "2026-10-30T12:41:47Z",
+          "language": "Go",
+          "license": "MIT",
+          "topics": [
+            "api-rest",
+            "api-server",
+            "awesome-go",
+            "awesome-golang",
+            "awesome-list",
+            "go",
+            "golang",
+            "golang-library",
+            "golang-module",
+            "golang-server",
+            "microframework",
+            "middleware",
+            "multiplexer",
+            "router",
+            "server-sent-events",
+            "web-framework",
+            "webframework",
+            "webgo"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
           "id": "nickgnd/tmux-mcp",
           "name": "tmux-mcp",
           "description": "A MCP server for our beloved terminal multiplexer tmux.",
@@ -4223,6 +5261,104 @@
             "mcp",
             "mcp-server",
             "tmux"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "singchia/frontier",
+          "name": "frontier",
+          "description": "Bidirectional service-to-edge cloud-native gateway for long-lived connection.",
+          "url": "https://github.com/singchia/frontier",
+          "stars": 306,
+          "forks": 45,
+          "createdAt": "2023-12-10T12:07:34Z",
+          "pushedAt": "2026-11-08T10:03:55Z",
+          "updatedAt": "2026-11-19T23:08:43Z",
+          "language": "Go",
+          "license": "Apache-2.0",
+          "topics": [
+            "bidirectional-rpc",
+            "cloud-native",
+            "edge",
+            "edge-proxy",
+            "frontier",
+            "game-server",
+            "gateway",
+            "high-availability",
+            "im",
+            "k8s",
+            "messaging",
+            "multiplexer",
+            "operator",
+            "reverse-proxy",
+            "rpc",
+            "scale",
+            "stream",
+            "streaming",
+            "tcp",
+            "tcp-gateway"
+          ],
+          "homepage": "https://frontier-io.net",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "vaayne/mori",
+          "name": "mori",
+          "description": "A native macOS workspace terminal organized around Projects and Worktrees, powered by tmux and libghostty",
+          "url": "https://github.com/vaayne/mori",
+          "stars": 305,
+          "forks": 21,
+          "createdAt": "2026-03-19T09:57:15Z",
+          "pushedAt": "2026-08-05T09:03:05Z",
+          "updatedAt": "2026-11-20T08:26:33Z",
+          "language": "Swift",
+          "license": "MIT",
+          "topics": [
+            "ghostty",
+            "git",
+            "macos",
+            "swift",
+            "terminal",
+            "tmux",
+            "workspace",
+            "worktree"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "Dicklesworthstone/frankentui",
+          "name": "frankentui",
+          "description": "High-performance terminal UI kernel in Rust across 20 crates: diff-based rendering, inline mode, RAII cleanup, 70+ widgets, resizable pane workspaces, a Bayesian intelligence layer, and in-tree web/WASM backends (WebGPU with canvas2d fallback). 45 interactive demo screens run in the browser. WIP.",
+          "url": "https://github.com/Dicklesworthstone/frankentui",
+          "stars": 301,
+          "forks": 30,
+          "createdAt": "2026-01-31T19:21:45Z",
+          "pushedAt": "2026-11-17T17:16:54Z",
+          "updatedAt": "2026-11-20T15:51:48Z",
+          "language": "Rust",
+          "license": null,
+          "topics": [
+            "rendering",
+            "rust",
+            "terminal",
+            "tui",
+            "ui-framework",
+            "wasm",
+            "webgpu"
           ],
           "homepage": null,
           "periods": {
@@ -4259,6 +5395,38 @@
             "terminal-multiplexer"
           ],
           "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "shaharia-lab/slackcli",
+          "name": "slackcli",
+          "description": "Slack CLI for humans and AI agents. Read, send, search and reply across one or many Slack workspaces from the terminal. No Slack app needed.",
+          "url": "https://github.com/shaharia-lab/slackcli",
+          "stars": 282,
+          "forks": 73,
+          "createdAt": "2025-11-09T17:21:54Z",
+          "pushedAt": "2026-11-19T20:19:17Z",
+          "updatedAt": "2026-11-20T16:48:30Z",
+          "language": "TypeScript",
+          "license": "MIT",
+          "topics": [
+            "ai-agents",
+            "ai-tools",
+            "automation",
+            "bun",
+            "cli",
+            "developer-tools",
+            "slack",
+            "slack-api",
+            "slack-cli",
+            "terminal",
+            "typescript"
+          ],
+          "homepage": "https://slackcli.dev/",
           "periods": {
             "7": null,
             "30": null,
@@ -4306,6 +5474,57 @@
           }
         },
         {
+          "id": "cfoust/cy",
+          "name": "cy",
+          "description": "🤖 time travel in the terminal",
+          "url": "https://github.com/cfoust/cy",
+          "stars": 227,
+          "forks": 10,
+          "createdAt": "2019-04-16T02:18:14Z",
+          "pushedAt": "2026-09-07T13:11:36Z",
+          "updatedAt": "2026-11-19T22:00:29Z",
+          "language": "C",
+          "license": "MIT",
+          "topics": [
+            "cli",
+            "janet-lang",
+            "lisp",
+            "multiplexer",
+            "tmux",
+            "tui"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "ponylang/ponyup",
+          "name": "ponyup",
+          "description": "The Pony toolchain multiplexer",
+          "url": "https://github.com/ponylang/ponyup",
+          "stars": 219,
+          "forks": 14,
+          "createdAt": "2017-05-06T14:33:44Z",
+          "pushedAt": "2026-11-18T02:11:20Z",
+          "updatedAt": "2026-11-14T20:46:40Z",
+          "language": "Pony",
+          "license": "BSD-2-Clause",
+          "topics": [
+            "multiplexer",
+            "pony-language",
+            "ponylang"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
           "id": "alejandroqh/term39",
           "name": "term39",
           "description": "A modern, retro-styled terminal multiplexer built with Rust.",
@@ -4322,6 +5541,98 @@
             "retro",
             "rust",
             "terminal"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "Qv2ray/mmp-go",
+          "name": "mmp-go",
+          "description": "Mega Multiplexer, a single port multi-service relay for shadowsocks. 中转机单端口转发多台shadowsocks服务器。",
+          "url": "https://github.com/Qv2ray/mmp-go",
+          "stars": 203,
+          "forks": 34,
+          "createdAt": "2020-12-01T04:57:18Z",
+          "pushedAt": "2023-05-09T12:48:49Z",
+          "updatedAt": "2026-11-06T13:27:45Z",
+          "language": "Go",
+          "license": "AGPL-3.0",
+          "topics": [
+            "golang",
+            "multiplexer",
+            "shadowsocks",
+            "shadowsocks-aead"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "Sma1lboy/rove",
+          "name": "rove",
+          "description": "All your coding agents, in one place. Claude Code, Codex, Copilot and more, side by side in your terminal.",
+          "url": "https://github.com/Sma1lboy/rove",
+          "stars": 188,
+          "forks": 13,
+          "createdAt": "2026-05-09T10:03:04Z",
+          "pushedAt": "2026-11-21T10:11:02Z",
+          "updatedAt": "2026-11-17T07:39:11Z",
+          "language": "TypeScript",
+          "license": "MIT",
+          "topics": [
+            "agentic-ai",
+            "ai",
+            "ai-agents",
+            "ai-coding-assistant",
+            "anthropic",
+            "bun",
+            "claude-code",
+            "cli",
+            "codex",
+            "coding-agent",
+            "developer-tools",
+            "git-worktree",
+            "github-copilot",
+            "llm",
+            "multiplexer",
+            "openai",
+            "parallel-agents",
+            "terminal",
+            "tui",
+            "typescript"
+          ],
+          "homepage": "https://rove.run",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "voc/srtrelay",
+          "name": "srtrelay",
+          "description": "SRT relay server for distributing media streams to multiple clients.",
+          "url": "https://github.com/voc/srtrelay",
+          "stars": 179,
+          "forks": 49,
+          "createdAt": "2020-10-01T22:48:56Z",
+          "pushedAt": "2026-08-24T21:34:15Z",
+          "updatedAt": "2026-11-18T15:27:14Z",
+          "language": "Go",
+          "license": "MIT",
+          "topics": [
+            "ffmpeg",
+            "multiplexer",
+            "relay",
+            "srt",
+            "streaming"
           ],
           "homepage": null,
           "periods": {
@@ -4700,7 +6011,7 @@
           "stars": 100,
           "forks": 14,
           "createdAt": "2026-01-06T17:11:30Z",
-          "pushedAt": "2026-11-21T02:29:49Z",
+          "pushedAt": "2026-11-21T10:16:31Z",
           "updatedAt": "2026-11-14T22:17:46Z",
           "language": "Rust",
           "license": "MIT",
@@ -4725,7 +6036,7 @@
           "stars": 98,
           "forks": 13,
           "createdAt": "2026-04-01T19:13:42Z",
-          "pushedAt": "2026-11-21T07:56:03Z",
+          "pushedAt": "2026-11-21T10:23:51Z",
           "updatedAt": "2026-11-17T16:23:01Z",
           "language": "Rust",
           "license": "GPL-3.0",
@@ -4880,6 +6191,581 @@
             "30": null,
             "90": null
           }
+        },
+        {
+          "id": "FriendsOfFlarum/byobu",
+          "name": "byobu",
+          "description": "Well integrated, advanced private discussions for your Flarum forum.",
+          "url": "https://github.com/FriendsOfFlarum/byobu",
+          "stars": 59,
+          "forks": 32,
+          "createdAt": "2016-11-15T13:43:08Z",
+          "pushedAt": "2026-11-20T15:36:41Z",
+          "updatedAt": "2026-10-23T07:45:06Z",
+          "language": "PHP",
+          "license": "MIT",
+          "topics": [
+            "flagrow",
+            "flarum",
+            "flarum-extension",
+            "hacktoberfest",
+            "private-discussions"
+          ],
+          "homepage": "https://discuss.flarum.org/d/4762-flagrow-by-bu-well-integrated-advanced-private-discussions",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "b3rserker/byobu-config",
+          "name": "byobu-config",
+          "description": "My config of byobu (screen + tmux) virtual terminal, using \"KDE Konsole\" as upper layer",
+          "url": "https://github.com/b3rserker/byobu-config",
+          "stars": 23,
+          "forks": 6,
+          "createdAt": "2015-05-20T19:26:14Z",
+          "pushedAt": "2017-11-08T10:48:18Z",
+          "updatedAt": "2026-01-04T04:24:20Z",
+          "language": "Shell",
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "felixdrp/byobu-howto",
+          "name": "byobu-howto",
+          "description": "Some information about byobu",
+          "url": "https://github.com/felixdrp/byobu-howto",
+          "stars": 7,
+          "forks": 0,
+          "createdAt": "2018-02-20T09:55:20Z",
+          "pushedAt": "2026-08-28T07:55:58Z",
+          "updatedAt": "2026-08-28T07:56:37Z",
+          "language": null,
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "theksmith/Byobu-Smarter-Status",
+          "name": "Byobu-Smarter-Status",
+          "description": "Intelligent status bar modules for the Byobu text based window manager.",
+          "url": "https://github.com/theksmith/Byobu-Smarter-Status",
+          "stars": 6,
+          "forks": 1,
+          "createdAt": "2013-07-19T14:25:37Z",
+          "pushedAt": "2013-07-19T14:33:20Z",
+          "updatedAt": "2025-09-15T11:47:22Z",
+          "language": null,
+          "license": "GPL-3.0",
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "achernya/byobu",
+          "name": "byobu",
+          "description": "Debian packaging for byobu",
+          "url": "https://github.com/achernya/byobu",
+          "stars": 3,
+          "forks": 2,
+          "createdAt": "2012-03-15T05:42:40Z",
+          "pushedAt": "2019-04-11T02:13:17Z",
+          "updatedAt": "2019-06-27T06:57:57Z",
+          "language": "Shell",
+          "license": "GPL-3.0",
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "DevInsideYou/install-byobu",
+          "name": "install-byobu",
+          "description": "",
+          "url": "https://github.com/DevInsideYou/install-byobu",
+          "stars": 2,
+          "forks": 4,
+          "createdAt": "2019-10-17T12:28:28Z",
+          "pushedAt": "2020-06-02T01:11:01Z",
+          "updatedAt": "2022-03-26T11:37:38Z",
+          "language": "Shell",
+          "license": "MIT",
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "kitak-sandbox/byobu",
+          "name": "byobu",
+          "description": "An Etude: A JavaScript library for building view. It is focused on the view layer only.",
+          "url": "https://github.com/kitak-sandbox/byobu",
+          "stars": 2,
+          "forks": 0,
+          "createdAt": "2016-06-20T03:00:25Z",
+          "pushedAt": "2016-06-20T03:43:28Z",
+          "updatedAt": "2016-06-21T00:18:51Z",
+          "language": null,
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "baconjockey/BYOBuddy",
+          "name": "BYOBuddy",
+          "description": "",
+          "url": "https://github.com/baconjockey/BYOBuddy",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2011-12-09T06:31:17Z",
+          "pushedAt": "2011-12-19T20:19:21Z",
+          "updatedAt": "2013-12-06T09:11:46Z",
+          "language": "Ruby",
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "becxer/byoburus",
+          "name": "byoburus",
+          "description": "becxer's linux tools & developing environment (no-conflict with byobu)",
+          "url": "https://github.com/becxer/byoburus",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2015-08-08T13:55:55Z",
+          "pushedAt": "2020-06-08T16:37:53Z",
+          "updatedAt": "2023-03-05T05:32:30Z",
+          "language": "Shell",
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "BenGardiner/byobu-dotfile",
+          "name": "byobu-dotfile",
+          "description": "",
+          "url": "https://github.com/BenGardiner/byobu-dotfile",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2015-04-03T01:09:39Z",
+          "pushedAt": "2015-06-10T12:38:45Z",
+          "updatedAt": "2023-02-11T20:16:44Z",
+          "language": "Shell",
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "conda-forge/byobu-feedstock",
+          "name": "byobu-feedstock",
+          "description": "A conda-smithy repository for byobu.",
+          "url": "https://github.com/conda-forge/byobu-feedstock",
+          "stars": 1,
+          "forks": 5,
+          "createdAt": "2018-12-27T01:34:55Z",
+          "pushedAt": "2026-06-04T05:21:53Z",
+          "updatedAt": "2026-06-04T05:21:57Z",
+          "language": "Shell",
+          "license": "BSD-3-Clause",
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "FalconLee1011/vue-byobu",
+          "name": "vue-byobu",
+          "description": "",
+          "url": "https://github.com/FalconLee1011/vue-byobu",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2021-03-01T10:50:57Z",
+          "pushedAt": "2022-04-23T20:41:54Z",
+          "updatedAt": "2022-05-14T20:49:51Z",
+          "language": "Vue",
+          "license": "GPL-3.0",
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "iquabius/iqb-byobu",
+          "name": "iqb-byobu",
+          "description": "My configuration files for Byobu terminal multiplexer",
+          "url": "https://github.com/iquabius/iqb-byobu",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2017-01-14T21:04:40Z",
+          "pushedAt": "2022-07-17T02:46:10Z",
+          "updatedAt": "2023-03-10T10:40:57Z",
+          "language": "Shell",
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "jeremiahsnapp/chef-byobu",
+          "name": "chef-byobu",
+          "description": "",
+          "url": "https://github.com/jeremiahsnapp/chef-byobu",
+          "stars": 1,
+          "forks": 2,
+          "createdAt": "2012-04-12T15:05:49Z",
+          "pushedAt": "2012-04-19T19:45:48Z",
+          "updatedAt": "2013-11-18T06:36:42Z",
+          "language": "Ruby",
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "kokowa194/byobu-keyhints",
+          "name": "byobu-keyhints",
+          "description": "Context-sensitive shortcut hints in the byobu (tmux) status bar",
+          "url": "https://github.com/kokowa194/byobu-keyhints",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2026-11-14T13:20:40Z",
+          "pushedAt": "2026-11-17T13:55:51Z",
+          "updatedAt": "2026-11-16T12:53:36Z",
+          "language": "Shell",
+          "license": "MIT",
+          "topics": [
+            "bash",
+            "byobu",
+            "cheatsheet",
+            "keybindings",
+            "statusbar",
+            "tmux",
+            "tmux-plugin",
+            "wsl2"
+          ],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "mad-ady/odroid-byobu",
+          "name": "odroid-byobu",
+          "description": "Byobu status plugins specifc for odroid",
+          "url": "https://github.com/mad-ady/odroid-byobu",
+          "stars": 1,
+          "forks": 1,
+          "createdAt": "2016-01-28T09:08:15Z",
+          "pushedAt": "2018-02-26T12:04:56Z",
+          "updatedAt": "2017-04-22T09:54:12Z",
+          "language": "Shell",
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "msmarcal/byobu-ws",
+          "name": "byobu-ws",
+          "description": "Byobu Workspace",
+          "url": "https://github.com/msmarcal/byobu-ws",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2026-05-28T19:01:35Z",
+          "pushedAt": "2026-06-01T11:41:10Z",
+          "updatedAt": "2026-09-24T19:53:38Z",
+          "language": "Shell",
+          "license": "MIT",
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "netsugo/byobu_tmux",
+          "name": "byobu_tmux",
+          "description": "tmux config for byobu",
+          "url": "https://github.com/netsugo/byobu_tmux",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2019-03-15T05:09:29Z",
+          "pushedAt": "2019-03-15T05:13:35Z",
+          "updatedAt": "2019-03-15T15:22:33Z",
+          "language": null,
+          "license": "MIT",
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "OpnSrcConstruction/byobu",
+          "name": "byobu",
+          "description": "My personnel byobu config.",
+          "url": "https://github.com/OpnSrcConstruction/byobu",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2022-07-16T14:32:02Z",
+          "pushedAt": "2022-07-16T15:16:34Z",
+          "updatedAt": "2023-07-07T20:33:03Z",
+          "language": null,
+          "license": "MIT",
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "perminder-klair/byobu",
+          "name": "byobu",
+          "description": "Home Assistant wall panel: a Raspberry Pi touchscreen that boots into a kiosk dashboard styled with Omarchy themes",
+          "url": "https://github.com/perminder-klair/byobu",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2026-10-29T12:53:45Z",
+          "pushedAt": "2026-11-11T15:32:52Z",
+          "updatedAt": "2026-11-09T07:00:17Z",
+          "language": "TypeScript",
+          "license": null,
+          "topics": [],
+          "homepage": "https://byobu.vercel.app",
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "pld-linux/byobu",
+          "name": "byobu",
+          "description": "A set of useful profiles and a profile-switcher for GNU screen",
+          "url": "https://github.com/pld-linux/byobu",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2012-07-13T22:24:15Z",
+          "pushedAt": "2025-07-14T20:52:45Z",
+          "updatedAt": "2025-07-14T20:52:49Z",
+          "language": null,
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "rbaas293/byobu_config",
+          "name": "byobu_config",
+          "description": "Easy Install of a Custom Byobu Config",
+          "url": "https://github.com/rbaas293/byobu_config",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2020-08-14T18:43:36Z",
+          "pushedAt": "2022-05-12T19:16:44Z",
+          "updatedAt": "2022-05-09T21:20:12Z",
+          "language": "Shell",
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "ScrugNet/puppet-byobu",
+          "name": "puppet-byobu",
+          "description": "",
+          "url": "https://github.com/ScrugNet/puppet-byobu",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2010-08-16T07:21:21Z",
+          "pushedAt": "2009-12-16T07:36:10Z",
+          "updatedAt": "2013-10-07T13:23:36Z",
+          "language": null,
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "sinoyster/byobu-kaku-config",
+          "name": "byobu-kaku-config",
+          "description": "",
+          "url": "https://github.com/sinoyster/byobu-kaku-config",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2026-03-18T06:42:50Z",
+          "pushedAt": "2026-03-18T08:48:33Z",
+          "updatedAt": "2026-03-19T08:45:17Z",
+          "language": "Shell",
+          "license": "MIT",
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "tkoyama010/awesome-byobu",
+          "name": "awesome-byobu",
+          "description": "",
+          "url": "https://github.com/tkoyama010/awesome-byobu",
+          "stars": 1,
+          "forks": 0,
+          "createdAt": "2026-01-18T01:29:26Z",
+          "pushedAt": "2026-01-18T02:22:31Z",
+          "updatedAt": "2026-01-18T02:22:32Z",
+          "language": null,
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "chromecountry/byobu",
+          "name": "byobu",
+          "description": "byobu configurations",
+          "url": "https://github.com/chromecountry/byobu",
+          "stars": 0,
+          "forks": 0,
+          "createdAt": "2025-10-23T16:09:27Z",
+          "pushedAt": "2025-10-23T16:09:35Z",
+          "updatedAt": "2025-10-23T16:09:39Z",
+          "language": "Shell",
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "deepin-community/byobu",
+          "name": "byobu",
+          "description": "",
+          "url": "https://github.com/deepin-community/byobu",
+          "stars": 0,
+          "forks": 0,
+          "createdAt": "2022-09-28T03:42:53Z",
+          "pushedAt": "2023-08-15T08:38:59Z",
+          "updatedAt": "2022-09-28T03:43:13Z",
+          "language": "Shell",
+          "license": "GPL-3.0",
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
+        },
+        {
+          "id": "dm6467/byobu",
+          "name": "byobu",
+          "description": "",
+          "url": "https://github.com/dm6467/byobu",
+          "stars": 0,
+          "forks": 0,
+          "createdAt": "2014-05-26T01:46:45Z",
+          "pushedAt": "2014-05-26T01:46:45Z",
+          "updatedAt": "2014-05-26T01:46:45Z",
+          "language": null,
+          "license": null,
+          "topics": [],
+          "homepage": null,
+          "periods": {
+            "7": null,
+            "30": null,
+            "90": null
+          }
         }
       ]
     },
@@ -4906,11 +6792,11 @@
           "name": "starship",
           "description": "☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!",
           "url": "https://github.com/starship/starship",
-          "stars": 60823,
+          "stars": 60824,
           "forks": 2857,
           "createdAt": "2019-04-02T03:23:12Z",
-          "pushedAt": "2026-11-21T07:15:21Z",
-          "updatedAt": "2026-11-21T09:18:33Z",
+          "pushedAt": "2026-11-21T10:04:33Z",
+          "updatedAt": "2026-11-21T10:24:01Z",
           "language": "Rust",
           "license": "ISC",
           "topics": [
@@ -6493,7 +8379,7 @@
           "description": "A tiling window manager for Windows 🍉",
           "url": "https://github.com/LGUG2Z/komorebi",
           "stars": 15395,
-          "forks": 382,
+          "forks": 381,
           "createdAt": "2021-07-29T23:20:15Z",
           "pushedAt": "2026-11-15T01:22:25Z",
           "updatedAt": "2026-11-21T09:38:52Z",
@@ -6550,11 +8436,11 @@
           "name": "glazewm",
           "description": "GlazeWM is a tiling window manager for macOS and Windows inspired by i3wm.",
           "url": "https://github.com/glzr-io/glazewm",
-          "stars": 13016,
+          "stars": 13017,
           "forks": 481,
           "createdAt": "2020-06-28T10:28:26Z",
           "pushedAt": "2026-06-20T06:02:04Z",
-          "updatedAt": "2026-11-21T08:45:06Z",
+          "updatedAt": "2026-11-21T10:02:17Z",
           "language": "Rust",
           "license": "GPL-3.0",
           "topics": [
@@ -6655,7 +8541,7 @@
           "stars": 6600,
           "forks": 326,
           "createdAt": "2025-09-06T18:13:51Z",
-          "pushedAt": "2026-11-21T09:33:15Z",
+          "pushedAt": "2026-11-21T09:55:15Z",
           "updatedAt": "2026-11-21T08:22:15Z",
           "language": "Go",
           "license": "MIT",
@@ -7154,11 +9040,11 @@
           "name": "wayfire",
           "description": "A modular and extensible wayland compositor",
           "url": "https://github.com/WayfireWM/wayfire",
-          "stars": 3078,
+          "stars": 3079,
           "forks": 255,
           "createdAt": "2016-03-04T15:00:44Z",
           "pushedAt": "2026-11-15T22:22:57Z",
-          "updatedAt": "2026-11-20T19:43:08Z",
+          "updatedAt": "2026-11-21T10:09:18Z",
           "language": "C++",
           "license": "MIT",
           "topics": [
@@ -7654,11 +9540,11 @@
           "name": "fzf",
           "description": ":cherry_blossom: A command-line fuzzy finder",
           "url": "https://github.com/junegunn/fzf",
-          "stars": 84323,
-          "forks": 3453,
+          "stars": 84324,
+          "forks": 3455,
           "createdAt": "2013-10-23T16:04:23Z",
           "pushedAt": "2026-11-19T14:09:20Z",
-          "updatedAt": "2026-11-21T09:12:04Z",
+          "updatedAt": "2026-11-21T10:19:11Z",
           "language": "Go",
           "license": "MIT",
           "topics": [
@@ -8428,11 +10314,11 @@
           "name": "LazyVim",
           "description": "Neovim config for the lazy",
           "url": "https://github.com/LazyVim/LazyVim",
-          "stars": 27902,
+          "stars": 27901,
           "forks": 1831,
           "createdAt": "2022-12-30T16:31:42Z",
           "pushedAt": "2026-11-08T21:06:12Z",
-          "updatedAt": "2026-11-21T09:22:55Z",
+          "updatedAt": "2026-11-21T10:04:33Z",
           "language": "Lua",
           "license": "Apache-2.0",
           "topics": [
@@ -8484,7 +10370,7 @@
           "description": "💤 A modern plugin manager for Neovim",
           "url": "https://github.com/folke/lazy.nvim",
           "stars": 21748,
-          "forks": 617,
+          "forks": 618,
           "createdAt": "2022-11-20T21:36:02Z",
           "pushedAt": "2026-06-29T18:23:04Z",
           "updatedAt": "2026-11-21T06:23:56Z",
@@ -8965,7 +10851,7 @@
           "description": "Debug Adapter Protocol client implementation for Neovim",
           "url": "https://github.com/mfussenegger/nvim-dap",
           "stars": 7313,
-          "forks": 266,
+          "forks": 267,
           "createdAt": "2020-04-14T14:56:26Z",
           "pushedAt": "2026-09-11T14:13:28Z",
           "updatedAt": "2026-11-21T05:08:20Z",
@@ -9247,11 +11133,11 @@
           "name": "conform.nvim",
           "description": "Lightweight yet powerful formatter plugin for Neovim",
           "url": "https://github.com/stevearc/conform.nvim",
-          "stars": 5411,
+          "stars": 5412,
           "forks": 322,
           "createdAt": "2023-08-25T03:31:42Z",
           "pushedAt": "2026-08-11T14:29:14Z",
-          "updatedAt": "2026-11-21T07:46:39Z",
+          "updatedAt": "2026-11-21T10:13:07Z",
           "language": "Lua",
           "license": "MIT",
           "topics": [
