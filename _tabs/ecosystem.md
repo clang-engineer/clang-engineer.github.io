@@ -10,7 +10,7 @@ permalink: /ecosystem/
 
 <ecosystem-rankings src="{{ '/data/rankings.json' | relative_url }}"></ecosystem-rankings>
 
-<script type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/ecosystem-rankings@dce8caae41ee04d2a77cd4ff2c273bbe991c6379/viewer/element.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/ecosystem-rankings@49f47b7b1f46fcd31279e55398f87653ad60239c/viewer/element.js"></script>
 
 ## 수집 분야
 
@@ -31,6 +31,6 @@ permalink: /ecosystem/
 - **월간:** 30일 전과 비교한 GitHub Stars 증가량
 - **전체:** 현재 누적 GitHub Stars
 
-주간·월간 순위는 실제 수집 이력이 충분히 쌓인 프로젝트만 표시합니다. 기록이 부족하면 집계 중이라고 안내하며, **0 증가량으로 간주하지 않습니다.** 이 순위는 GitHub Stars를 기준으로 한 발견 지표이지 프로젝트의 품질이나 실제 사용량 순위는 아닙니다.
+주간·월간 순위는 실제 수집 이력이 충분히 쌓인 프로젝트만 계산합니다. 기록이 전혀 부족한 분야는 **전체 누적 Stars 순위를 임시로 표시하고 이를 명시**합니다. 기록 부족을 0 증가량으로 간주하지 않습니다. 이 순위는 GitHub Stars를 기준으로 한 발견 지표이지 프로젝트의 품질이나 실제 사용량 순위는 아닙니다.
 
 데이터는 이 블로그 저장소의 GitHub Actions가 매일 수집하며 `data/rankings.json`에 저장합니다. 수집기와 Viewer는 별도 오픈소스 프로젝트인 [ecosystem-rankings](https://github.com/clang-engineer/ecosystem-rankings)를 사용합니다.
