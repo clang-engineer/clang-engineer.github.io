@@ -200,11 +200,6 @@
     "stars": 7533
   },
   {
-    "id": "Gaurav-Gosain/tuios",
-    "date": "2026-11-21",
-    "stars": 6599
-  },
-  {
     "id": "tw93/Kaku",
     "date": "2026-11-21",
     "stars": 6228
@@ -235,11 +230,6 @@
     "stars": 3083
   },
   {
-    "id": "eneskirca/nodeterm",
-    "date": "2026-11-21",
-    "stars": 2566
-  },
-  {
     "id": "Xed-Editor/Xed-Editor",
     "date": "2026-11-21",
     "stars": 2446
@@ -258,11 +248,6 @@
     "id": "AnalyseDeCircuit/oxideterm",
     "date": "2026-11-21",
     "stars": 1953
-  },
-  {
-    "id": "l0ng-ai/tty7",
-    "date": "2026-11-21",
-    "stars": 1521
   },
   {
     "id": "asbru-cm/asbru-cm",
@@ -290,11 +275,6 @@
     "stars": 963
   },
   {
-    "id": "ceccopierangiolieugenio/pyTermTk",
-    "date": "2026-11-21",
-    "stars": 924
-  },
-  {
     "id": "since2006/shell-rs",
     "date": "2026-11-21",
     "stars": 857
@@ -318,11 +298,6 @@
     "id": "siduck/st",
     "date": "2026-11-21",
     "stars": 748
-  },
-  {
-    "id": "peters/horizon",
-    "date": "2026-11-21",
-    "stars": 725
   },
   {
     "id": "RohitKushvaha01/ReTerminal",
@@ -648,5 +623,505 @@
     "id": "tmux-plugins/tmux-cowboy",
     "date": "2026-11-21",
     "stars": 59
+  },
+  {
+    "id": "herdrdev/herdr",
+    "date": "2026-11-21",
+    "stars": 52095
+  },
+  {
+    "id": "tmux/tmux",
+    "date": "2026-11-21",
+    "stars": 50581
+  },
+  {
+    "id": "zellij-org/zellij",
+    "date": "2026-11-21",
+    "stars": 36166
+  },
+  {
+    "id": "manaflow-ai/cmux",
+    "date": "2026-11-21",
+    "stars": 28842
+  },
+  {
+    "id": "psmux/psmux",
+    "date": "2026-11-21",
+    "stars": 3891
+  },
+  {
+    "id": "eneskirca/nodeterm",
+    "date": "2026-11-21",
+    "stars": 2566
+  },
+  {
+    "id": "unstablebuild/rune",
+    "date": "2026-11-21",
+    "stars": 1830
+  },
+  {
+    "id": "smart-splits-nvim/smart-splits.nvim",
+    "date": "2026-11-21",
+    "stars": 1752
+  },
+  {
+    "id": "l0ng-ai/tty7",
+    "date": "2026-11-21",
+    "stars": 1521
+  },
+  {
+    "id": "dj95/zjstatus",
+    "date": "2026-11-21",
+    "stars": 1076
+  },
+  {
+    "id": "RizRiyz/luvus",
+    "date": "2026-11-21",
+    "stars": 1015
+  },
+  {
+    "id": "ceccopierangiolieugenio/pyTermTk",
+    "date": "2026-11-21",
+    "stars": 924
+  },
+  {
+    "id": "peters/horizon",
+    "date": "2026-11-21",
+    "stars": 725
+  },
+  {
+    "id": "wainmann/agent-manager",
+    "date": "2026-11-21",
+    "stars": 701
+  },
+  {
+    "id": "r3bl-org/r3bl-open-core",
+    "date": "2026-11-21",
+    "stars": 488
+  },
+  {
+    "id": "openwong2kim/wmux",
+    "date": "2026-11-21",
+    "stars": 457
+  },
+  {
+    "id": "blueberrycongee/termcanvas",
+    "date": "2026-11-21",
+    "stars": 421
+  },
+  {
+    "id": "kryptamine/herdr-auto-title",
+    "date": "2026-11-21",
+    "stars": 298
+  },
+  {
+    "id": "RoversX/ThinkTerm",
+    "date": "2026-11-21",
+    "stars": 256
+  },
+  {
+    "id": "rustykuntz/clideck",
+    "date": "2026-11-21",
+    "stars": 162
+  },
+  {
+    "id": "scgopi/GraphCode",
+    "date": "2026-11-21",
+    "stars": 159
+  },
+  {
+    "id": "rookedsysc/kanvibe",
+    "date": "2026-11-21",
+    "stars": 151
+  },
+  {
+    "id": "no1msd/seance",
+    "date": "2026-11-21",
+    "stars": 137
+  },
+  {
+    "id": "Dicklesworthstone/frankenterm",
+    "date": "2026-11-21",
+    "stars": 129
+  },
+  {
+    "id": "runyte/runyte",
+    "date": "2026-11-21",
+    "stars": 113
+  },
+  {
+    "id": "kunchenguid/TerminalOne",
+    "date": "2026-11-21",
+    "stars": 110
+  },
+  {
+    "id": "flplima/tmuxy",
+    "date": "2026-11-21",
+    "stars": 100
+  },
+  {
+    "id": "arthjean/paneflow",
+    "date": "2026-11-21",
+    "stars": 98
+  },
+  {
+    "id": "gregce/tortie",
+    "date": "2026-11-21",
+    "stars": 97
+  },
+  {
+    "id": "monoira/kitty-tabs",
+    "date": "2026-11-21",
+    "stars": 94
+  },
+  {
+    "id": "srlehn/termimg",
+    "date": "2026-11-21",
+    "stars": 91
+  },
+  {
+    "id": "ohmyzsh/ohmyzsh",
+    "date": "2026-11-21",
+    "stars": 190711
+  },
+  {
+    "id": "starship/starship",
+    "date": "2026-11-21",
+    "stars": 60821
+  },
+  {
+    "id": "romkatv/powerlevel10k",
+    "date": "2026-11-21",
+    "stars": 55387
+  },
+  {
+    "id": "JanDeDobbeleer/oh-my-posh",
+    "date": "2026-11-21",
+    "stars": 23772
+  },
+  {
+    "id": "spaceship-prompt/spaceship-prompt",
+    "date": "2026-11-21",
+    "stars": 20611
+  },
+  {
+    "id": "sindresorhus/pure",
+    "date": "2026-11-21",
+    "stars": 14467
+  },
+  {
+    "id": "liquidprompt/liquidprompt",
+    "date": "2026-11-21",
+    "stars": 4688
+  },
+  {
+    "id": "Scriptim/bash-prompt-generator",
+    "date": "2026-11-21",
+    "stars": 876
+  },
+  {
+    "id": "fwkz/riposte",
+    "date": "2026-11-21",
+    "stars": 643
+  },
+  {
+    "id": "dmmulroy/jj-starship",
+    "date": "2026-11-21",
+    "stars": 253
+  },
+  {
+    "id": "liamg/bearings",
+    "date": "2026-11-21",
+    "stars": 203
+  },
+  {
+    "id": "agkozak/polyglot",
+    "date": "2026-11-21",
+    "stars": 197
+  },
+  {
+    "id": "athul/shelby",
+    "date": "2026-11-21",
+    "stars": 197
+  },
+  {
+    "id": "yedhink/bashed-on-a-feeling",
+    "date": "2026-11-21",
+    "stars": 130
+  },
+  {
+    "id": "jlesquembre/kubeprompt",
+    "date": "2026-11-21",
+    "stars": 82
+  },
+  {
+    "id": "ziap/dotfiles",
+    "date": "2026-11-21",
+    "stars": 81
+  },
+  {
+    "id": "anki-code/xontrib-prompt-starship",
+    "date": "2026-11-21",
+    "stars": 69
+  },
+  {
+    "id": "cyb0rgdoll/freshtermux",
+    "date": "2026-11-21",
+    "stars": 69
+  },
+  {
+    "id": "dolmen/angel-PS1",
+    "date": "2026-11-21",
+    "stars": 64
+  },
+  {
+    "id": "cirho/powerline-rust",
+    "date": "2026-11-21",
+    "stars": 53
+  },
+  {
+    "id": "Qaaxaap/powerlevel11k",
+    "date": "2026-11-21",
+    "stars": 53
+  },
+  {
+    "id": "sammwyy/luna",
+    "date": "2026-11-21",
+    "stars": 52
+  },
+  {
+    "id": "bluz71/bash-seafly-prompt",
+    "date": "2026-11-21",
+    "stars": 48
+  },
+  {
+    "id": "danieltodor/blaze",
+    "date": "2026-11-21",
+    "stars": 45
+  },
+  {
+    "id": "pocco81/mini-prompt",
+    "date": "2026-11-21",
+    "stars": 42
+  },
+  {
+    "id": "azhuchkov/cobalt-spark",
+    "date": "2026-11-21",
+    "stars": 32
+  },
+  {
+    "id": "mikesmithgh/git-prompt-string",
+    "date": "2026-11-21",
+    "stars": 28
+  },
+  {
+    "id": "pkosiec/terminer",
+    "date": "2026-11-21",
+    "stars": 28
+  },
+  {
+    "id": "victorfsf/guri",
+    "date": "2026-11-21",
+    "stars": 25
+  },
+  {
+    "id": "Sanix-Darker/cyclop",
+    "date": "2026-11-21",
+    "stars": 23
+  },
+  {
+    "id": "juuso/gigawatt",
+    "date": "2026-11-21",
+    "stars": 20
+  },
+  {
+    "id": "rodrigobdz/mooji",
+    "date": "2026-11-21",
+    "stars": 18
+  },
+  {
+    "id": "asmvik/yabai",
+    "date": "2026-11-21",
+    "stars": 29849
+  },
+  {
+    "id": "nikitabobko/AeroSpace",
+    "date": "2026-11-21",
+    "stars": 23905
+  },
+  {
+    "id": "swaywm/sway",
+    "date": "2026-11-21",
+    "stars": 17537
+  },
+  {
+    "id": "lwouis/alt-tab-macos",
+    "date": "2026-11-21",
+    "stars": 16553
+  },
+  {
+    "id": "ianyh/Amethyst",
+    "date": "2026-11-21",
+    "stars": 16332
+  },
+  {
+    "id": "polybar/polybar",
+    "date": "2026-11-21",
+    "stars": 15375
+  },
+  {
+    "id": "glzr-io/glazewm",
+    "date": "2026-11-21",
+    "stars": 13014
+  },
+  {
+    "id": "i3/i3",
+    "date": "2026-11-21",
+    "stars": 10624
+  },
+  {
+    "id": "awesomeWM/awesome",
+    "date": "2026-11-21",
+    "stars": 7002
+  },
+  {
+    "id": "klange/toaruos",
+    "date": "2026-11-21",
+    "stars": 6864
+  },
+  {
+    "id": "Gaurav-Gosain/tuios",
+    "date": "2026-11-21",
+    "stars": 6599
+  },
+  {
+    "id": "nextapps-de/winbox",
+    "date": "2026-11-21",
+    "stars": 6459
+  },
+  {
+    "id": "adi1090x/polybar-themes",
+    "date": "2026-11-21",
+    "stars": 6260
+  },
+  {
+    "id": "RamonUnch/AltSnap",
+    "date": "2026-11-21",
+    "stars": 5410
+  },
+  {
+    "id": "qtile/qtile",
+    "date": "2026-11-21",
+    "stars": 5318
+  },
+  {
+    "id": "pop-os/shell",
+    "date": "2026-11-21",
+    "stars": 5291
+  },
+  {
+    "id": "nomcopter/react-mosaic",
+    "date": "2026-11-21",
+    "stars": 4806
+  },
+  {
+    "id": "gh0stzk/dotfiles",
+    "date": "2026-11-21",
+    "stars": 4785
+  },
+  {
+    "id": "fosslife/awesome-ricing",
+    "date": "2026-11-21",
+    "stars": 4609
+  },
+  {
+    "id": "paperwm/PaperWM",
+    "date": "2026-11-21",
+    "stars": 4386
+  },
+  {
+    "id": "riverwm/river",
+    "date": "2026-11-21",
+    "stars": 4348
+  },
+  {
+    "id": "OmniNull/OmniWM",
+    "date": "2026-11-21",
+    "stars": 3670
+  },
+  {
+    "id": "xmonad/xmonad",
+    "date": "2026-11-21",
+    "stars": 3614
+  },
+  {
+    "id": "wojciech-kulik/FlashSpace",
+    "date": "2026-11-21",
+    "stars": 3562
+  },
+  {
+    "id": "WayfireWM/wayfire",
+    "date": "2026-11-21",
+    "stars": 3078
+  },
+  {
+    "id": "leftwm/leftwm",
+    "date": "2026-11-21",
+    "stars": 3051
+  },
+  {
+    "id": "labwc/labwc",
+    "date": "2026-11-21",
+    "stars": 2924
+  },
+  {
+    "id": "Bismuth-Forge/bismuth",
+    "date": "2026-11-21",
+    "stars": 2417
+  },
+  {
+    "id": "NsCDE/NsCDE",
+    "date": "2026-11-21",
+    "stars": 2397
+  },
+  {
+    "id": "pit-ray/win-vind",
+    "date": "2026-11-21",
+    "stars": 2254
+  },
+  {
+    "id": "natpen/awesome-wayland",
+    "date": "2026-11-21",
+    "stars": 2195
+  },
+  {
+    "id": "malbiruk/driftwm",
+    "date": "2026-11-21",
+    "stars": 1917
+  },
+  {
+    "id": "mogenson/PaperWM.spoon",
+    "date": "2026-11-21",
+    "stars": 1814
+  },
+  {
+    "id": "junegunn/fzf",
+    "date": "2026-11-21",
+    "stars": 84320
+  },
+  {
+    "id": "BurntSushi/ripgrep",
+    "date": "2026-11-21",
+    "stars": 70112
+  },
+  {
+    "id": "sharkdp/fd",
+    "date": "2026-11-21",
+    "stars": 45141
+  },
+  {
+    "id": "ajeetdsouza/zoxide",
+    "date": "2026-11-21",
+    "stars": 40685
   }
 ]

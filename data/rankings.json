@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-21T05:02:02.465Z",
+  "updatedAt": "2026-11-21T05:03:27.490Z",
   "periods": [
     7,
     30,
@@ -1466,6 +1466,1153 @@
           "description": "Kill hanging processes fast",
           "url": "https://github.com/tmux-plugins/tmux-cowboy",
           "stars": 59,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "terminal-multiplexers",
+      "name": "Terminal Multiplexers",
+      "source": "github",
+      "topic": "terminal-multiplexer",
+      "metric": "stars",
+      "items": [
+        {
+          "id": "herdrdev/herdr",
+          "name": "herdr",
+          "description": "the runtime your coding agents live on",
+          "url": "https://github.com/herdrdev/herdr",
+          "stars": 52095,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "tmux/tmux",
+          "name": "tmux",
+          "description": "tmux source code",
+          "url": "https://github.com/tmux/tmux",
+          "stars": 50581,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "zellij-org/zellij",
+          "name": "zellij",
+          "description": "A terminal workspace with batteries included",
+          "url": "https://github.com/zellij-org/zellij",
+          "stars": 36166,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "manaflow-ai/cmux",
+          "name": "cmux",
+          "description": "Open source Ghostty-based macOS terminal with vertical tabs and notifications for AI coding agents. Built for multitasking, organization, and programmability.",
+          "url": "https://github.com/manaflow-ai/cmux",
+          "stars": 28842,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "Gaurav-Gosain/tuios",
+          "name": "tuios",
+          "description": "A terminal window manager that knows what your agents are doing. Tiling panes, workspaces, sessions that survive restarts, and one Inbox for every coding agent. Official only at tuios.dev and this repo. tuios has no X/Twitter account.",
+          "url": "https://github.com/Gaurav-Gosain/tuios",
+          "stars": 6599,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "psmux/psmux",
+          "name": "psmux",
+          "description": "Tmux on Windows Powershell - tmux for PowerShell, Windows Terminal, cmd.exe. Includes psmux, pmux, and tmux commands. This is native High-Performance Tmux designed for Windows in Rust 🦀",
+          "url": "https://github.com/psmux/psmux",
+          "stars": 3891,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "eneskirca/nodeterm",
+          "name": "nodeterm",
+          "description": "Node-based terminal manager for AI coding agents — tmux-backed terminals and parallel agent sessions as draggable nodes on an infinite pan/zoom canvas. macOS, Linux, and a browser Server Edition.",
+          "url": "https://github.com/eneskirca/nodeterm",
+          "stars": 2566,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "unstablebuild/rune",
+          "name": "rune",
+          "description": "a fast, GPU-accelerated, full-featured IDE and terminal multiplexer, suitable both for automatic and manual programming.",
+          "url": "https://github.com/unstablebuild/rune",
+          "stars": 1830,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "smart-splits-nvim/smart-splits.nvim",
+          "name": "smart-splits.nvim",
+          "description": "🧠 Smart, seamless, directional navigation and resizing of Neovim + terminal multiplexer splits. Supports Zellij, Tmux, Wezterm, and Kitty. Think about splits in terms of \"up/down/left/right\".",
+          "url": "https://github.com/smart-splits-nvim/smart-splits.nvim",
+          "stars": 1752,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "l0ng-ai/tty7",
+          "name": "tty7",
+          "description": "The terminal that outlives its window. Shells survive quitting the app, agents can drive other agents, and remote machines work the same way. Pure Rust, GPU-rendered.",
+          "url": "https://github.com/l0ng-ai/tty7",
+          "stars": 1521,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "dj95/zjstatus",
+          "name": "zjstatus",
+          "description": "A configurable statusbar plugin for zellij",
+          "url": "https://github.com/dj95/zjstatus",
+          "stars": 1076,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "RizRiyz/luvus",
+          "name": "luvus",
+          "description": "Mission control for your AI agents",
+          "url": "https://github.com/RizRiyz/luvus",
+          "stars": 1015,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "ceccopierangiolieugenio/pyTermTk",
+          "name": "pyTermTk",
+          "description": "Python Terminal Toolkit - a Spiced Up Cross Compatible TUI Library 🌶️ ",
+          "url": "https://github.com/ceccopierangiolieugenio/pyTermTk",
+          "stars": 924,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "peters/horizon",
+          "name": "horizon",
+          "description": "GPU-accelerated terminal board that puts all your sessions on an infinite canvas",
+          "url": "https://github.com/peters/horizon",
+          "stars": 725,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "wainmann/agent-manager",
+          "name": "agent-manager",
+          "description": "Terminal multiplexer for AI coding agents. Run Claude Code, Codex, OpenCode, Gemini CLI and more side by side in one tmux TUI, with live status, worktrees and diff review. Discord: discord.gg/ecS88An7pF",
+          "url": "https://github.com/wainmann/agent-manager",
+          "stars": 701,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "r3bl-org/r3bl-open-core",
+          "name": "r3bl-open-core",
+          "description": "Fully async Rust TUI engine 🦀. For powering AI/LLM coding agents, Cloud/SSH workflows & interactive CLIs: non-blocking readline, inline dialogs, React/Elm-style full-screen TUI, Markdown editor, PTY multiplexing & rust-analyzer MCP server.",
+          "url": "https://github.com/r3bl-org/r3bl-open-core",
+          "stars": 488,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "openwong2kim/wmux",
+          "name": "wmux",
+          "description": "The ADE for AI agents. Automate everything else. Do your true work.",
+          "url": "https://github.com/openwong2kim/wmux",
+          "stars": 457,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "blueberrycongee/termcanvas",
+          "name": "termcanvas",
+          "description": "An infinite canvas desktop app for visually managing terminals",
+          "url": "https://github.com/blueberrycongee/termcanvas",
+          "stars": 421,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "kryptamine/herdr-auto-title",
+          "name": "herdr-auto-title",
+          "description": "Automatically name Herdr tabs and panes from your current work: Git branch, running process, and Claude Code, Codex, Pi, Grok, Hermes and Antigravity sessions. No LLM, no external service.",
+          "url": "https://github.com/kryptamine/herdr-auto-title",
+          "stars": 298,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "RoversX/ThinkTerm",
+          "name": "ThinkTerm",
+          "description": "A modern terminal with a built-in multiplexer: close it and your sessions keep running. Run shells and tons of AI agents across your machines, then pick them up from desktop, browser, TUI and more. Written in Rust with no UI framework: interface drawn straight on the GPU. No Electron, GPUI or webview.",
+          "url": "https://github.com/RoversX/ThinkTerm",
+          "stars": 256,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "rustykuntz/clideck",
+          "name": "clideck",
+          "description": "A dashboard for running and coordinating multiple AI CLI agents at once.",
+          "url": "https://github.com/rustykuntz/clideck",
+          "stars": 162,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "scgopi/GraphCode",
+          "name": "GraphCode",
+          "description": "Graph Engineering, simplified — with GraphCode. #graphcode",
+          "url": "https://github.com/scgopi/GraphCode",
+          "stars": 159,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "rookedsysc/kanvibe",
+          "name": "kanvibe",
+          "description": "Keyboard-first desktop Kanban workspace for AI coding agents with embedded terminals, git worktrees, and hook-driven task tracking.",
+          "url": "https://github.com/rookedsysc/kanvibe",
+          "stars": 151,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "no1msd/seance",
+          "name": "seance",
+          "description": "A scrolling terminal multiplexer that tracks your AI coding agents.",
+          "url": "https://github.com/no1msd/seance",
+          "stars": 137,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "Dicklesworthstone/frankenterm",
+          "name": "frankenterm",
+          "description": "Swarm-native terminal platform for AI coding agents: real-time pane capture, change-point pattern detection, transactional policy-gated automation, a JSON/MCP robot API, and a fail-closed operating envelope — on its own vendored terminal engine, with a native iOS client that attaches to your Macs.",
+          "url": "https://github.com/Dicklesworthstone/frankenterm",
+          "stars": 129,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "runyte/runyte",
+          "name": "runyte",
+          "description": "A terminal workspace built around a modal text editor",
+          "url": "https://github.com/runyte/runyte",
+          "stars": 113,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "kunchenguid/TerminalOne",
+          "name": "TerminalOne",
+          "description": "A cross-platform, smooth and elegant terminal emulator and multiplexer.",
+          "url": "https://github.com/kunchenguid/TerminalOne",
+          "stars": 110,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "flplima/tmuxy",
+          "name": "tmuxy",
+          "description": "The missing tmux GUI. Not a terminal emulator.",
+          "url": "https://github.com/flplima/tmuxy",
+          "stars": 100,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "arthjean/paneflow",
+          "name": "paneflow",
+          "description": "Native terminal multiplexer for coding agents. Persistent sessions, Git worktrees, diffs, and an integrated editor. Built with Rust and GPUI.",
+          "url": "https://github.com/arthjean/paneflow",
+          "stars": 98,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "gregce/tortie",
+          "name": "tortie",
+          "description": "A calm agent multiplexer with familiar IDE features, for macOS, with an iPhone app.",
+          "url": "https://github.com/gregce/tortie",
+          "stars": 97,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "monoira/kitty-tabs",
+          "name": "kitty-tabs",
+          "description": "Kitty terminal config. Replace tmux's tab functionality with kitty's native tabs with same keybindings as Firefox. ",
+          "url": "https://github.com/monoira/kitty-tabs",
+          "stars": 94,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "srlehn/termimg",
+          "name": "termimg",
+          "description": "draw images in terminals",
+          "url": "https://github.com/srlehn/termimg",
+          "stars": 91,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "shell-prompts",
+      "name": "Shell Prompts",
+      "source": "github",
+      "topic": "shell-prompt",
+      "metric": "stars",
+      "items": [
+        {
+          "id": "ohmyzsh/ohmyzsh",
+          "name": "ohmyzsh",
+          "description": "🙃   A delightful community-driven (with 2,500+ contributors) framework for managing your zsh configuration. Includes 300+ optional plugins (rails, git, macOS, hub, docker, homebrew, node, php, python, etc), 140+ themes to spice up your morning, and an auto-update tool that makes it easy to keep up with the latest updates from the community.",
+          "url": "https://github.com/ohmyzsh/ohmyzsh",
+          "stars": 190711,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "starship/starship",
+          "name": "starship",
+          "description": "☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!",
+          "url": "https://github.com/starship/starship",
+          "stars": 60821,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "romkatv/powerlevel10k",
+          "name": "powerlevel10k",
+          "description": "A Zsh theme",
+          "url": "https://github.com/romkatv/powerlevel10k",
+          "stars": 55387,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "JanDeDobbeleer/oh-my-posh",
+          "name": "oh-my-posh",
+          "description": "The most customisable and low-latency cross platform/shell prompt renderer",
+          "url": "https://github.com/JanDeDobbeleer/oh-my-posh",
+          "stars": 23772,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "spaceship-prompt/spaceship-prompt",
+          "name": "spaceship-prompt",
+          "description": "🚀✨ Minimalistic, powerful and extremely customizable Zsh prompt",
+          "url": "https://github.com/spaceship-prompt/spaceship-prompt",
+          "stars": 20611,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "sindresorhus/pure",
+          "name": "pure",
+          "description": "Pretty, minimal and fast ZSH prompt",
+          "url": "https://github.com/sindresorhus/pure",
+          "stars": 14467,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "liquidprompt/liquidprompt",
+          "name": "liquidprompt",
+          "description": "A full-featured & carefully designed adaptive prompt for Bash & Zsh",
+          "url": "https://github.com/liquidprompt/liquidprompt",
+          "stars": 4688,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "Scriptim/bash-prompt-generator",
+          "name": "bash-prompt-generator",
+          "description": "Customize your Bash Prompt by setting the PS1 variable.",
+          "url": "https://github.com/Scriptim/bash-prompt-generator",
+          "stars": 876,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "fwkz/riposte",
+          "name": "riposte",
+          "description": "Python package for wrapping applications inside a tailored interactive shell",
+          "url": "https://github.com/fwkz/riposte",
+          "stars": 643,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "dmmulroy/jj-starship",
+          "name": "jj-starship",
+          "description": "Fast unified Starship prompt module for Git and Jujutsu repositories",
+          "url": "https://github.com/dmmulroy/jj-starship",
+          "stars": 253,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "liamg/bearings",
+          "name": "bearings",
+          "description": ":compass: A fast, clean, customisable shell prompt for zsh, bash, fish, and more...",
+          "url": "https://github.com/liamg/bearings",
+          "stars": 203,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "agkozak/polyglot",
+          "name": "polyglot",
+          "description": "Color, ASCII-only Git prompt for zsh, bash, ksh93, mksh, pdksh, oksh, dash, yash, busybox ash, and osh",
+          "url": "https://github.com/agkozak/polyglot",
+          "stars": 197,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "athul/shelby",
+          "name": "shelby",
+          "description": "Shelby is a fast ⚡️ , lightweight ☁️ , minimal✨,  shell prompt written in Go. ",
+          "url": "https://github.com/athul/shelby",
+          "stars": 197,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "yedhink/bashed-on-a-feeling",
+          "name": "bashed-on-a-feeling",
+          "description": ":zap: fast and minimalistic git prompt written in bash",
+          "url": "https://github.com/yedhink/bashed-on-a-feeling",
+          "stars": 130,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "jlesquembre/kubeprompt",
+          "name": "kubeprompt",
+          "description": "Isolated kubectl shells and prompt info",
+          "url": "https://github.com/jlesquembre/kubeprompt",
+          "stars": 82,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "ziap/dotfiles",
+          "name": "dotfiles",
+          "description": "My NixOS wayland dotfiles",
+          "url": "https://github.com/ziap/dotfiles",
+          "stars": 81,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "anki-code/xontrib-prompt-starship",
+          "name": "xontrib-prompt-starship",
+          "description": "Starship cross-shell prompt in xonsh shell.",
+          "url": "https://github.com/anki-code/xontrib-prompt-starship",
+          "stars": 69,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "cyb0rgdoll/freshtermux",
+          "name": "freshtermux",
+          "description": "A easy pre-configured, user friendly Termux script for your Android device. Commands, instructions included in Wiki section",
+          "url": "https://github.com/cyb0rgdoll/freshtermux",
+          "stars": 69,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "dolmen/angel-PS1",
+          "name": "angel-PS1",
+          "description": "Your fancy shell prompt fed by your guardian angel",
+          "url": "https://github.com/dolmen/angel-PS1",
+          "stars": 64,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "cirho/powerline-rust",
+          "name": "powerline-rust",
+          "description": "powerline-shell written in Rust",
+          "url": "https://github.com/cirho/powerline-rust",
+          "stars": 53,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "Qaaxaap/powerlevel11k",
+          "name": "powerlevel11k",
+          "description": "Powerlevel10k for all shells, in Rust.",
+          "url": "https://github.com/Qaaxaap/powerlevel11k",
+          "stars": 53,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "sammwyy/luna",
+          "name": "luna",
+          "description": "Fast, modular and highly customizable shell engine",
+          "url": "https://github.com/sammwyy/luna",
+          "stars": 52,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "bluz71/bash-seafly-prompt",
+          "name": "bash-seafly-prompt",
+          "description": "A clean and fast Bash prompt",
+          "url": "https://github.com/bluz71/bash-seafly-prompt",
+          "stars": 48,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "danieltodor/blaze",
+          "name": "blaze",
+          "description": "A customizable and informative prompt for bash, fish, zsh, on linux distributions.",
+          "url": "https://github.com/danieltodor/blaze",
+          "stars": 45,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "pocco81/mini-prompt",
+          "name": "mini-prompt",
+          "description": "🦊 Minimal and versatile bash prompt",
+          "url": "https://github.com/pocco81/mini-prompt",
+          "stars": 42,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "azhuchkov/cobalt-spark",
+          "name": "cobalt-spark",
+          "description": "⚡ A compact, low-noise Zsh prompt with live Git updates and smart branch shortening.",
+          "url": "https://github.com/azhuchkov/cobalt-spark",
+          "stars": 32,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "mikesmithgh/git-prompt-string",
+          "name": "git-prompt-string",
+          "description": "📍A shell agnostic git prompt written in Go",
+          "url": "https://github.com/mikesmithgh/git-prompt-string",
+          "stars": 28,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "pkosiec/terminer",
+          "name": "terminer",
+          "description": "Upgrade your terminal experience with a single command.",
+          "url": "https://github.com/pkosiec/terminer",
+          "stars": 28,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "victorfsf/guri",
+          "name": "guri",
+          "description": "A simple and fast Oh-My-Zsh theme",
+          "url": "https://github.com/victorfsf/guri",
+          "stars": 25,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "Sanix-Darker/cyclop",
+          "name": "cyclop",
+          "description": "Real-time output of your program (ONLY IN SHELL, no program, no Lib, no Package required to use it)",
+          "url": "https://github.com/Sanix-Darker/cyclop",
+          "stars": 23,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "juuso/gigawatt",
+          "name": "gigawatt",
+          "description": "An opinionated theme-aware shell prompt",
+          "url": "https://github.com/juuso/gigawatt",
+          "stars": 20,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "rodrigobdz/mooji",
+          "name": "mooji",
+          "description": "🐮 Minimal, informative, and fast fish prompt",
+          "url": "https://github.com/rodrigobdz/mooji",
+          "stars": 18,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "window-managers",
+      "name": "Window Managers",
+      "source": "github",
+      "topic": "window-manager",
+      "metric": "stars",
+      "items": [
+        {
+          "id": "asmvik/yabai",
+          "name": "yabai",
+          "description": "A tiling window manager for macOS based on binary space partitioning",
+          "url": "https://github.com/asmvik/yabai",
+          "stars": 29849,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "nikitabobko/AeroSpace",
+          "name": "AeroSpace",
+          "description": "AeroSpace is an i3-like tiling window manager for macOS",
+          "url": "https://github.com/nikitabobko/AeroSpace",
+          "stars": 23905,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "swaywm/sway",
+          "name": "sway",
+          "description": "i3-compatible Wayland compositor",
+          "url": "https://github.com/swaywm/sway",
+          "stars": 17537,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "lwouis/alt-tab-macos",
+          "name": "alt-tab-macos",
+          "description": "Windows alt-tab on macOS ",
+          "url": "https://github.com/lwouis/alt-tab-macos",
+          "stars": 16553,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "ianyh/Amethyst",
+          "name": "Amethyst",
+          "description": "Automatic tiling window manager for macOS à la xmonad.",
+          "url": "https://github.com/ianyh/Amethyst",
+          "stars": 16332,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "polybar/polybar",
+          "name": "polybar",
+          "description": "A fast and easy-to-use status bar",
+          "url": "https://github.com/polybar/polybar",
+          "stars": 15375,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "glzr-io/glazewm",
+          "name": "glazewm",
+          "description": "GlazeWM is a tiling window manager for macOS and Windows inspired by i3wm.",
+          "url": "https://github.com/glzr-io/glazewm",
+          "stars": 13014,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "i3/i3",
+          "name": "i3",
+          "description": "A tiling window manager for X11",
+          "url": "https://github.com/i3/i3",
+          "stars": 10624,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "awesomeWM/awesome",
+          "name": "awesome",
+          "description": "awesome window manager",
+          "url": "https://github.com/awesomeWM/awesome",
+          "stars": 7002,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "klange/toaruos",
+          "name": "toaruos",
+          "description": "Complete, independent operating system built by humans.",
+          "url": "https://github.com/klange/toaruos",
+          "stars": 6864,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "Gaurav-Gosain/tuios",
+          "name": "tuios",
+          "description": "A terminal window manager that knows what your agents are doing. Tiling panes, workspaces, sessions that survive restarts, and one Inbox for every coding agent. Official only at tuios.dev and this repo. tuios has no X/Twitter account.",
+          "url": "https://github.com/Gaurav-Gosain/tuios",
+          "stars": 6599,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "nextapps-de/winbox",
+          "name": "winbox",
+          "description": "WinBox is a modern HTML5 window manager for the Web.",
+          "url": "https://github.com/nextapps-de/winbox",
+          "stars": 6459,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "adi1090x/polybar-themes",
+          "name": "polybar-themes",
+          "description": "A huge collection of polybar themes with different styles, colors and variants.",
+          "url": "https://github.com/adi1090x/polybar-themes",
+          "stars": 6260,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "RamonUnch/AltSnap",
+          "name": "AltSnap",
+          "description": "Maintained continuation of Stefan Sundin's AltDrag",
+          "url": "https://github.com/RamonUnch/AltSnap",
+          "stars": 5410,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "qtile/qtile",
+          "name": "qtile",
+          "description": ":cookie: A full-featured, hackable tiling window manager written and configured in Python (X11 + Wayland)",
+          "url": "https://github.com/qtile/qtile",
+          "stars": 5318,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "pop-os/shell",
+          "name": "shell",
+          "description": "Pop!_OS Shell",
+          "url": "https://github.com/pop-os/shell",
+          "stars": 5291,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "nomcopter/react-mosaic",
+          "name": "react-mosaic",
+          "description": "A React tiling window manager",
+          "url": "https://github.com/nomcopter/react-mosaic",
+          "stars": 4806,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "gh0stzk/dotfiles",
+          "name": "dotfiles",
+          "description": "BSPWM environment with 18 themes. With a theme selector to change on the fly.",
+          "url": "https://github.com/gh0stzk/dotfiles",
+          "stars": 4785,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "fosslife/awesome-ricing",
+          "name": "awesome-ricing",
+          "description": "A curated list of awesome tools and technology to help you out with ricing on linux",
+          "url": "https://github.com/fosslife/awesome-ricing",
+          "stars": 4609,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "paperwm/PaperWM",
+          "name": "PaperWM",
+          "description": "Tiled scrollable window management for GNOME Shell",
+          "url": "https://github.com/paperwm/PaperWM",
+          "stars": 4386,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "riverwm/river",
+          "name": "river",
+          "description": "[mirror] A non-monolithic Wayland compositor",
+          "url": "https://github.com/riverwm/river",
+          "stars": 4348,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "OmniNull/OmniWM",
+          "name": "OmniWM",
+          "description": "Free, open-source tiling window manager for Apple Silicon Macs, with Niri-style scrolling containers and Hyprland-style Dwindle BSP.",
+          "url": "https://github.com/OmniNull/OmniWM",
+          "stars": 3670,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "xmonad/xmonad",
+          "name": "xmonad",
+          "description": "The core of xmonad, a small but functional ICCCM-compliant tiling window manager",
+          "url": "https://github.com/xmonad/xmonad",
+          "stars": 3614,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "wojciech-kulik/FlashSpace",
+          "name": "FlashSpace",
+          "description": "FlashSpace is a blazingly fast virtual workspace manager for macOS ⚡",
+          "url": "https://github.com/wojciech-kulik/FlashSpace",
+          "stars": 3562,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "WayfireWM/wayfire",
+          "name": "wayfire",
+          "description": "A modular and extensible wayland compositor",
+          "url": "https://github.com/WayfireWM/wayfire",
+          "stars": 3078,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "leftwm/leftwm",
+          "name": "leftwm",
+          "description": "A tiling window manager for Adventurers",
+          "url": "https://github.com/leftwm/leftwm",
+          "stars": 3051,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "labwc/labwc",
+          "name": "labwc",
+          "description": "A Wayland window-stacking compositor",
+          "url": "https://github.com/labwc/labwc",
+          "stars": 2924,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "Bismuth-Forge/bismuth",
+          "name": "bismuth",
+          "description": "KDE Plasma add-on, that tiles your windows automatically and lets you manage them via keyboard, similarly to i3, Sway or dwm.",
+          "url": "https://github.com/Bismuth-Forge/bismuth",
+          "stars": 2417,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "NsCDE/NsCDE",
+          "name": "NsCDE",
+          "description": "Modern and functional CDE desktop based on FVWM",
+          "url": "https://github.com/NsCDE/NsCDE",
+          "stars": 2397,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "pit-ray/win-vind",
+          "name": "win-vind",
+          "description": "You can operate Windows with key bindings like Vim.",
+          "url": "https://github.com/pit-ray/win-vind",
+          "stars": 2254,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "natpen/awesome-wayland",
+          "name": "awesome-wayland",
+          "description": "A curated list of Wayland code and resources.",
+          "url": "https://github.com/natpen/awesome-wayland",
+          "stars": 2195,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "malbiruk/driftwm",
+          "name": "driftwm",
+          "description": "A trackpad-first infinite canvas Wayland compositor.",
+          "url": "https://github.com/malbiruk/driftwm",
+          "stars": 1917,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "mogenson/PaperWM.spoon",
+          "name": "PaperWM.spoon",
+          "description": "Tiled scrollable window manager for MacOS",
+          "url": "https://github.com/mogenson/PaperWM.spoon",
+          "stars": 1814,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "cli-search-tools",
+      "name": "CLI Search & Navigation",
+      "source": "github",
+      "topic": null,
+      "metric": "stars",
+      "items": [
+        {
+          "id": "junegunn/fzf",
+          "name": "fzf",
+          "description": ":cherry_blossom: A command-line fuzzy finder",
+          "url": "https://github.com/junegunn/fzf",
+          "stars": 84320,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "BurntSushi/ripgrep",
+          "name": "ripgrep",
+          "description": "ripgrep recursively searches directories for a regex pattern while respecting your gitignore",
+          "url": "https://github.com/BurntSushi/ripgrep",
+          "stars": 70112,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "sharkdp/fd",
+          "name": "fd",
+          "description": "A simple, fast and user-friendly alternative to 'find'",
+          "url": "https://github.com/sharkdp/fd",
+          "stars": 45141,
+          "periods": {
+            "7": null,
+            "30": null
+          }
+        },
+        {
+          "id": "ajeetdsouza/zoxide",
+          "name": "zoxide",
+          "description": "A smarter cd command. Supports all major shells.",
+          "url": "https://github.com/ajeetdsouza/zoxide",
+          "stars": 40685,
           "periods": {
             "7": null,
             "30": null
