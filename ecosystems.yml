@@ -22,7 +22,6 @@ ecosystems:
     discovery: topic
     searches:
       - "terminal multiplexer in:name,description"
-      - "tmux in:name"
     name: Terminal Multiplexers
     source: github
     topic: terminal-multiplexer
