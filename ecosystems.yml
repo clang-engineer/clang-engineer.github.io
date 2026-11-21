@@ -20,8 +20,6 @@ ecosystems:
     limit: 30
   - id: terminal-multiplexers
     discovery: topic
-    search_pages: 2
-    search_sorts: [stars, best-match]
     searches:
       - "terminal multiplexer in:name,description"
     name: Terminal Multiplexers
