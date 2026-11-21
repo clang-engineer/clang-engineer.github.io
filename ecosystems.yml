@@ -1,6 +1,6 @@
 viewer:
-  default_period: 7
-periods: [7, 30, 0]
+  default_period: 0
+periods: [0, 7, 30]
 ecosystems:
   - id: terminal-file-managers
     discovery: topic
