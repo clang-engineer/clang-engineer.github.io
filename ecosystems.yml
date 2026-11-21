@@ -24,6 +24,9 @@ ecosystems:
       - "terminal multiplexer"
     searches:
       - "terminal multiplexer in:name,description"
+      - "terminal workspace in:name,description"
+      - "multiplexer in:topics"
+      - "byobu in:name"
     name: Terminal Multiplexers
     source: github
     topic: terminal-multiplexer
