@@ -1,0 +1,1112 @@
+{
+  "updatedAt": "2026-11-21T04:46:05.725Z",
+  "categories": [
+    {
+      "id": "terminal-file-managers",
+      "name": "Terminal File Managers",
+      "source": "github",
+      "topic": "terminal-file-manager",
+      "metric": "stars",
+      "items": [
+        {
+          "id": "clarkarch/tfm-tui",
+          "name": "tfm-tui",
+          "description": "🖱️ Modern mouse-first terminal file manager",
+          "url": "https://github.com/clarkarch/tfm-tui",
+          "stars": 363,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "ashish0kumar/fzfm",
+          "name": "fzfm",
+          "description": "fuzzy finder file manager",
+          "url": "https://github.com/ashish0kumar/fzfm",
+          "stars": 207,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "0l1v3rr/cli-file-manager",
+          "name": "cli-file-manager",
+          "description": "⚡A fully-featured very fast file manager that runs inside your terminal. It's designed for Linux.",
+          "url": "https://github.com/0l1v3rr/cli-file-manager",
+          "stars": 47,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "GianniBYoung/rsync.yazi",
+          "name": "rsync.yazi",
+          "description": "simple rsync plugin for yazi file manager",
+          "url": "https://github.com/GianniBYoung/rsync.yazi",
+          "stars": 44,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "lovestaco/peektea",
+          "name": "peektea",
+          "description": "Peek First. Open Later. A TUI file browser built with bubble tea",
+          "url": "https://github.com/lovestaco/peektea",
+          "stars": 21,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Juan-Miguel-alvarado/wisp",
+          "name": "wisp",
+          "description": "A blazing-fast, yazi-compatible terminal file manager written in Rust — same UI, keymap, config and Lua plugins, 6–14x faster startup.",
+          "url": "https://github.com/Juan-Miguel-alvarado/wisp",
+          "stars": 6,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Squirreljetpack/fist",
+          "name": "fist",
+          "description": "tactile file manager",
+          "url": "https://github.com/Squirreljetpack/fist",
+          "stars": 6,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "CanReader/rustfm",
+          "name": "rustfm",
+          "description": "Fast terminal file manager in Rust.",
+          "url": "https://github.com/CanReader/rustfm",
+          "stars": 4,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "baska-pro/terminal-explorer",
+          "name": "terminal-explorer",
+          "description": "Interactive terminal file manager built with Bash + fzf for Termux and Linux, featuring previews, search, bookmarks, clipboard, archives, and safe file operations.",
+          "url": "https://github.com/baska-pro/terminal-explorer",
+          "stars": 3,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "superb-striker/retarget-link.yazi",
+          "name": "retarget-link.yazi",
+          "description": "A Yazi plugin for interactively changing the target of a symlink.",
+          "url": "https://github.com/superb-striker/retarget-link.yazi",
+          "stars": 3,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "NguyenSiTrung/FileManagerTUI",
+          "name": "FileManagerTUI",
+          "description": "⚡ A fast, keyboard-driven terminal file manager built in Rust. Dual-pane tree+preview, Vim keybindings, fuzzy finder, embedded terminal, inline editor, and Catppuccin themes.",
+          "url": "https://github.com/NguyenSiTrung/FileManagerTUI",
+          "stars": 3,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "jagottsicher/breakthrough",
+          "name": "breakthrough",
+          "description": "POSIX-friendly TUI file manager for the terminal, built around a real embedded bash shell — mouse-driven panels, context menus, and dialogs. Go, tcell/tview.",
+          "url": "https://github.com/jagottsicher/breakthrough",
+          "stars": 3,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "urdadx/nukri",
+          "name": "nukri",
+          "description": "a fast and elegant terminal file manager for linux",
+          "url": "https://github.com/urdadx/nukri",
+          "stars": 3,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "pxlmrror/abaran",
+          "name": "abaran",
+          "description": "Terminal file manager that cloaks Helix, gitui, and scooter — browse, edit, git, and find files in one seamless TUI session.",
+          "url": "https://github.com/pxlmrror/abaran",
+          "stars": 2,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Joehaivo/fileman",
+          "name": "fileman",
+          "description": "A sleek, lightweight modern terminal file manager。精美小巧的现代化终端文件管理器",
+          "url": "https://github.com/Joehaivo/fileman",
+          "stars": 2,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "TheCrabevariable/fren",
+          "name": "fren",
+          "description": "A fast, lightweight TUI file manager written in Rust. Navigate, organize, and open files **with any app** — no bloat.",
+          "url": "https://github.com/TheCrabevariable/fren",
+          "stars": 1,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "jyothiprajith1323/TermExplorer",
+          "name": "TermExplorer",
+          "description": "TermExplorer is a highly customizable Rust terminal developer workstation combining a file explorer, intelligent code editor, interactive Linux terminal, multimedia preview engine and system monitor.",
+          "url": "https://github.com/jyothiprajith1323/TermExplorer",
+          "stars": 1,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "RisGar/crpreview",
+          "name": "crpreview",
+          "description": "Preview script for the lf file manager",
+          "url": "https://github.com/RisGar/crpreview",
+          "stars": 1,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "vulcanshen/filu",
+          "name": "filu",
+          "description": "A no-learning-curve terminal file manager for macOS/Linux — Tab / Space / Enter / Esc drive everything. Go + Bubble Tea.",
+          "url": "https://github.com/vulcanshen/filu",
+          "stars": 1,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "hugegene/termos",
+          "name": "termos",
+          "description": "termos: a terminal OS and terminal workspace. Sessions, tabs and splits, with a terminal file finder that previews and edits PDFs, images, videos, Office files and CSV. Drop all desktop apps.",
+          "url": "https://github.com/hugegene/termos",
+          "stars": 1,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Orpheus-21/gunti",
+          "name": "gunti",
+          "description": "A minimal and fast terminal file manager written in Odin",
+          "url": "https://github.com/Orpheus-21/gunti",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "ioma8/fishez",
+          "name": "fishez",
+          "description": "Total Commander-style file manager for your terminal. Type to filter, F3 to preview, F5 to copy, and cd on exit. Rust; macOS and Linux.",
+          "url": "https://github.com/ioma8/fishez",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "dhmanesh/fzless",
+          "name": "fzless",
+          "description": "A zero-resource, terminal-native micro-IDE that combines fzf and less into a seamless loop for rapid file discovery, viewing, editing, and command harvesting",
+          "url": "https://github.com/dhmanesh/fzless",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "seapagan/terminal-file-manager",
+          "name": "terminal-file-manager",
+          "description": "A fast, cross-platform terminal file manager written in Rust, featuring single/dual-pane browsing, safe local file operations, and native Trash support.",
+          "url": "https://github.com/seapagan/terminal-file-manager",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "shukzi/minfm",
+          "name": "minfm",
+          "description": "minfm is a minimal terminal file manager for Linux, written in Rust. It provides intuitive keyboard navigation and integrated disk management (including LUKS functionality).",
+          "url": "https://github.com/shukzi/minfm",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "creature-studio/forge",
+          "name": "forge",
+          "description": "Keyboard-first terminal file manager and Git workspace for Linux and macOS, built with Rust and Ratatui.",
+          "url": "https://github.com/creature-studio/forge",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "HilthonTT/strata",
+          "name": "strata",
+          "description": "A fast, extensible terminal file explorer written in Rust, with Lua plugins.",
+          "url": "https://github.com/HilthonTT/strata",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "hollali/hwe",
+          "name": "hwe",
+          "description": "Hwɛ — a fast, keyboard-driven terminal file manager in Rust with async previews, tabs, Miller columns, themes, and a command palette.",
+          "url": "https://github.com/hollali/hwe",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Cosmichomeless/tesela",
+          "name": "tesela",
+          "description": "Finder-style icon-tile file manager for the terminal with real previews (PDF, images, video, code) · Navegador de carpetas con mosaicos de iconos y vista previa real. Ghostty + macOS.",
+          "url": "https://github.com/Cosmichomeless/tesela",
+          "stars": 0,
+          "week": null,
+          "month": null
+        }
+      ]
+    },
+    {
+      "id": "terminal-emulators",
+      "name": "Terminal Emulators",
+      "source": "github",
+      "topic": "terminal-emulator",
+      "metric": "stars",
+      "items": [
+        {
+          "id": "wezterm/wezterm",
+          "name": "wezterm",
+          "description": "A GPU-accelerated cross-platform terminal emulator and multiplexer written by @wez and implemented in Rust",
+          "url": "https://github.com/wezterm/wezterm",
+          "stars": 29629,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "raphamorim/rio",
+          "name": "rio",
+          "description": "A hardware-accelerated GPU terminal emulator focusing to run in desktops and browsers.",
+          "url": "https://github.com/raphamorim/rio",
+          "stars": 7762,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "binaricat/Netcatty",
+          "name": "Netcatty",
+          "description": "SSH workspace, SFTP, and terminals in one",
+          "url": "https://github.com/binaricat/Netcatty",
+          "stars": 7533,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Gaurav-Gosain/tuios",
+          "name": "tuios",
+          "description": "A terminal window manager that knows what your agents are doing. Tiling panes, workspaces, sessions that survive restarts, and one Inbox for every coding agent. Official only at tuios.dev and this repo. tuios has no X/Twitter account.",
+          "url": "https://github.com/Gaurav-Gosain/tuios",
+          "stars": 6599,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "tw93/Kaku",
+          "name": "Kaku",
+          "description": "A fast, AI-friendly Mac terminal.",
+          "url": "https://github.com/tw93/Kaku",
+          "stars": 6228,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Guake/guake",
+          "name": "guake",
+          "description": "Drop-down terminal for GNOME",
+          "url": "https://github.com/Guake/guake",
+          "stars": 4666,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Kuddev/pebrel",
+          "name": "pebrel",
+          "description": "AI-native, GPU-accelerated terminal emulator for Windows with SSH, persistent sessions, split panes, and first-class AI CLI workflows.",
+          "url": "https://github.com/Kuddev/pebrel",
+          "stars": 3857,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "orhun/ratty",
+          "name": "ratty",
+          "description": "A GPU-rendered terminal emulator with inline 3D graphics 🐀🧀 ",
+          "url": "https://github.com/orhun/ratty",
+          "stars": 3332,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "mskyaxl/wsl-terminal",
+          "name": "wsl-terminal",
+          "description": "Terminal emulator for Windows Subsystem for Linux (WSL)",
+          "url": "https://github.com/mskyaxl/wsl-terminal",
+          "stars": 3125,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "liamg/darktile",
+          "name": "darktile",
+          "description": ":waning_crescent_moon: Darktile is an experimental/abandoned GPU rendered terminal emulator designed for tiling window managers. ",
+          "url": "https://github.com/liamg/darktile",
+          "stars": 3083,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "eneskirca/nodeterm",
+          "name": "nodeterm",
+          "description": "Node-based terminal manager for AI coding agents — tmux-backed terminals and parallel agent sessions as draggable nodes on an infinite pan/zoom canvas. macOS, Linux, and a browser Server Edition.",
+          "url": "https://github.com/eneskirca/nodeterm",
+          "stars": 2566,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Xed-Editor/Xed-Editor",
+          "name": "Xed-Editor",
+          "description": "Advanced Text Editor for Android ",
+          "url": "https://github.com/Xed-Editor/Xed-Editor",
+          "stars": 2446,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "subhra74/snowflake",
+          "name": "snowflake",
+          "description": "Graphical SFTP client and terminal emulator with helpful utilities",
+          "url": "https://github.com/subhra74/snowflake",
+          "stars": 2248,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "akermu/emacs-libvterm",
+          "name": "emacs-libvterm",
+          "description": "Emacs libvterm integration",
+          "url": "https://github.com/akermu/emacs-libvterm",
+          "stars": 2003,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "AnalyseDeCircuit/oxideterm",
+          "name": "oxideterm",
+          "description": "Fast, native Rust + GPUI workspace for local and SSH with MCP tools—no WebView, no telemetry, open source.",
+          "url": "https://github.com/AnalyseDeCircuit/oxideterm",
+          "stars": 1953,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "l0ng-ai/tty7",
+          "name": "tty7",
+          "description": "The terminal that outlives its window. Shells survive quitting the app, agents can drive other agents, and remote machines work the same way. Pure Rust, GPU-rendered.",
+          "url": "https://github.com/l0ng-ai/tty7",
+          "stars": 1521,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "asbru-cm/asbru-cm",
+          "name": "asbru-cm",
+          "description": "Ásbrú Connection Manager is a user interface that helps organizing remote terminal sessions and automating repetitive tasks.",
+          "url": "https://github.com/asbru-cm/asbru-cm",
+          "stars": 1310,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Yazelix/nova",
+          "name": "nova",
+          "description": "Yazelix Nova is a Nix-packaged terminal workspace built from focused first-party components, including Nova Rio, Nova Zellij, Nova Helix, Yazi, Nushell, Ratconfig, popups, status widgets, cursors, and Anima.",
+          "url": "https://github.com/Yazelix/nova",
+          "stars": 1216,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "eugenioenko/ttt",
+          "name": "ttt",
+          "description": "TTT Editor (Terminal Text Tool): A real alternative to VS Code, Zed, and Sublime that runs in your terminal. A TUI that feels like GUI. Single binary, zero config.",
+          "url": "https://github.com/eugenioenko/ttt",
+          "stars": 1154,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "polyipseity/obsidian-terminal",
+          "name": "obsidian-terminal",
+          "description": "Integrate consoles, shells, and terminals.",
+          "url": "https://github.com/polyipseity/obsidian-terminal",
+          "stars": 968,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "lemnos/theme.sh",
+          "name": "theme.sh",
+          "description": "A script which lets you set your $terminal theme.",
+          "url": "https://github.com/lemnos/theme.sh",
+          "stars": 963,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "ceccopierangiolieugenio/pyTermTk",
+          "name": "pyTermTk",
+          "description": "Python Terminal Toolkit - a Spiced Up Cross Compatible TUI Library 🌶️ ",
+          "url": "https://github.com/ceccopierangiolieugenio/pyTermTk",
+          "stars": 924,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "since2006/shell-rs",
+          "name": "shell-rs",
+          "description": "High-performance native SSH client in Rust, GPU-rendered with GPUI: host manager, terminal, WinSCP-style SFTP and port forwarding. Rust 编写、GPU 渲染的原生 SSH 客户端。",
+          "url": "https://github.com/since2006/shell-rs",
+          "stars": 857,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "botgram/shell-bot",
+          "name": "shell-bot",
+          "description": ":robot: Telegram bot that executes commands and sends the live output",
+          "url": "https://github.com/botgram/shell-bot",
+          "stars": 837,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "mikekazakov/nimble-commander",
+          "name": "nimble-commander",
+          "description": "Nimble Commander - dual-pane file manager for Mac",
+          "url": "https://github.com/mikekazakov/nimble-commander",
+          "stars": 771,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "selectel/pyte",
+          "name": "pyte",
+          "description": "Simple VTXXX-compatible linux terminal emulator",
+          "url": "https://github.com/selectel/pyte",
+          "stars": 759,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "siduck/st",
+          "name": "st",
+          "description": "snazzy terminal (suckless + beautiful)",
+          "url": "https://github.com/siduck/st",
+          "stars": 748,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "peters/horizon",
+          "name": "horizon",
+          "description": "GPU-accelerated terminal board that puts all your sessions on an infinite canvas",
+          "url": "https://github.com/peters/horizon",
+          "stars": 725,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "RohitKushvaha01/ReTerminal",
+          "name": "ReTerminal",
+          "description": "A Simple Android Terminal Emulator",
+          "url": "https://github.com/RohitKushvaha01/ReTerminal",
+          "stars": 664,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "TerminalStudio/xterm.dart",
+          "name": "xterm.dart",
+          "description": "💻 xterm.dart is a fast and fully-featured terminal emulator for Flutter, with support for mobile and desktop platforms.",
+          "url": "https://github.com/TerminalStudio/xterm.dart",
+          "stars": 657,
+          "week": null,
+          "month": null
+        }
+      ]
+    },
+    {
+      "id": "neovim-plugins",
+      "name": "Neovim Plugins",
+      "source": "github",
+      "topic": "neovim-plugin",
+      "metric": "stars",
+      "items": [
+        {
+          "id": "LazyVim/LazyVim",
+          "name": "LazyVim",
+          "description": "Neovim config for the lazy",
+          "url": "https://github.com/LazyVim/LazyVim",
+          "stars": 27903,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "neoclide/coc.nvim",
+          "name": "coc.nvim",
+          "description": "Nodejs extension host for vim & neovim, load extensions like VSCode and host language servers.",
+          "url": "https://github.com/neoclide/coc.nvim",
+          "stars": 25136,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "folke/lazy.nvim",
+          "name": "lazy.nvim",
+          "description": "💤 A modern plugin manager for Neovim",
+          "url": "https://github.com/folke/lazy.nvim",
+          "stars": 21747,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "wsdjeg/SpaceVim",
+          "name": "SpaceVim",
+          "description": "A modular configuration of Vim and Neovim",
+          "url": "https://github.com/wsdjeg/SpaceVim",
+          "stars": 20163,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "nvim-telescope/telescope.nvim",
+          "name": "telescope.nvim",
+          "description": "Find, Filter, Preview, Pick. All lua, all the time.",
+          "url": "https://github.com/nvim-telescope/telescope.nvim",
+          "stars": 19869,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "AstroNvim/AstroNvim",
+          "name": "AstroNvim",
+          "description": "AstroNvim is an aesthetic and feature-rich neovim config that is extensible and easy to use with a great set of plugins ",
+          "url": "https://github.com/AstroNvim/AstroNvim",
+          "stars": 14489,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "dense-analysis/ale",
+          "name": "ale",
+          "description": "Check syntax in Vim/Neovim asynchronously and fix files, with Language Server Protocol (LSP) support",
+          "url": "https://github.com/dense-analysis/ale",
+          "stars": 14027,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "dmtrKovalenko/fff",
+          "name": "fff",
+          "description": "The fastest and the most accurate file search SDK for AI agents, Neovim, Rust, C,  Python, Bun and NodeJS",
+          "url": "https://github.com/dmtrKovalenko/fff",
+          "stars": 11246,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "mason-org/mason.nvim",
+          "name": "mason.nvim",
+          "description": "Portable package manager for Neovim that runs everywhere Neovim runs. Easily install and manage LSP servers, DAP servers, linters, and formatters.",
+          "url": "https://github.com/mason-org/mason.nvim",
+          "stars": 10547,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "nvim-mini/mini.nvim",
+          "name": "mini.nvim",
+          "description": "Library of 45+ independent Lua modules improving Neovim experience with minimal effort",
+          "url": "https://github.com/nvim-mini/mini.nvim",
+          "stars": 9674,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "folke/snacks.nvim",
+          "name": "snacks.nvim",
+          "description": "🍿 A collection of QoL plugins for Neovim",
+          "url": "https://github.com/folke/snacks.nvim",
+          "stars": 8226,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "nvim-lualine/lualine.nvim",
+          "name": "lualine.nvim",
+          "description": "A blazing fast and easy to configure neovim statusline plugin written in pure lua.",
+          "url": "https://github.com/nvim-lualine/lualine.nvim",
+          "stars": 8188,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "wbthomason/packer.nvim",
+          "name": "packer.nvim",
+          "description": "A use-package inspired plugin manager for Neovim. Uses native packages, supports Luarocks dependencies, written in Lua, allows for expressive config",
+          "url": "https://github.com/wbthomason/packer.nvim",
+          "stars": 8086,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "catppuccin/nvim",
+          "name": "nvim",
+          "description": "🍨 Soothing pastel theme for Neovim",
+          "url": "https://github.com/catppuccin/nvim",
+          "stars": 7668,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "nvim-neorg/neorg",
+          "name": "neorg",
+          "description": "Modernity meets insane extensibility. The future of organizing your life in Neovim.",
+          "url": "https://github.com/nvim-neorg/neorg",
+          "stars": 7518,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "folke/which-key.nvim",
+          "name": "which-key.nvim",
+          "description": "💥   Create key bindings that stick. WhichKey helps you remember your Neovim keymaps, by showing available keybindings in a popup as you type.",
+          "url": "https://github.com/folke/which-key.nvim",
+          "stars": 7349,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "mfussenegger/nvim-dap",
+          "name": "nvim-dap",
+          "description": "Debug Adapter Protocol client implementation for Neovim",
+          "url": "https://github.com/mfussenegger/nvim-dap",
+          "stars": 7312,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "lewis6991/gitsigns.nvim",
+          "name": "gitsigns.nvim",
+          "description": "Git integration for buffers",
+          "url": "https://github.com/lewis6991/gitsigns.nvim",
+          "stars": 7198,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "stevearc/oil.nvim",
+          "name": "oil.nvim",
+          "description": "Neovim file explorer: edit your filesystem like a buffer",
+          "url": "https://github.com/stevearc/oil.nvim",
+          "stars": 6995,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "folke/trouble.nvim",
+          "name": "trouble.nvim",
+          "description": "🚦 A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing.",
+          "url": "https://github.com/folke/trouble.nvim",
+          "stars": 6922,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "saghen/blink.cmp",
+          "name": "blink.cmp",
+          "description": "Performant, batteries-included completion plugin for Neovim ",
+          "url": "https://github.com/saghen/blink.cmp",
+          "stars": 6680,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "epwalsh/obsidian.nvim",
+          "name": "obsidian.nvim",
+          "description": "Obsidian 🤝 Neovim",
+          "url": "https://github.com/epwalsh/obsidian.nvim",
+          "stars": 6221,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "sindrets/diffview.nvim",
+          "name": "diffview.nvim",
+          "description": "Single tabpage interface for easily cycling through diffs for all modified files for any git rev.",
+          "url": "https://github.com/sindrets/diffview.nvim",
+          "stars": 5894,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "folke/noice.nvim",
+          "name": "noice.nvim",
+          "description": "💥 Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.",
+          "url": "https://github.com/folke/noice.nvim",
+          "stars": 5830,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "stevearc/conform.nvim",
+          "name": "conform.nvim",
+          "description": "Lightweight yet powerful formatter plugin for Neovim",
+          "url": "https://github.com/stevearc/conform.nvim",
+          "stars": 5410,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "MeanderingProgrammer/render-markdown.nvim",
+          "name": "render-markdown.nvim",
+          "description": "Improve viewing Markdown in Neovim",
+          "url": "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+          "stars": 5268,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "ggandor/leap.nvim",
+          "name": "leap.nvim",
+          "description": "Neovim's answer to the mouse 🦘",
+          "url": "https://github.com/ggandor/leap.nvim",
+          "stars": 5027,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "lukas-reineke/indent-blankline.nvim",
+          "name": "indent-blankline.nvim",
+          "description": "Indent guides  for Neovim",
+          "url": "https://github.com/lukas-reineke/indent-blankline.nvim",
+          "stars": 5011,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "numToStr/Comment.nvim",
+          "name": "Comment.nvim",
+          "description": ":brain: :muscle: // Smart and powerful comment plugin for neovim. Supports treesitter, dot repeat, left-right/up-down motions, hooks, and more",
+          "url": "https://github.com/numToStr/Comment.nvim",
+          "stars": 4661,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "ibhagwan/fzf-lua",
+          "name": "fzf-lua",
+          "description": "Improved fzf.vim written in lua",
+          "url": "https://github.com/ibhagwan/fzf-lua",
+          "stars": 4494,
+          "week": null,
+          "month": null
+        }
+      ]
+    },
+    {
+      "id": "tmux-plugins",
+      "name": "tmux Plugins",
+      "source": "github",
+      "topic": "tmux-plugin",
+      "metric": "stars",
+      "items": [
+        {
+          "id": "erikw/tmux-powerline",
+          "name": "tmux-powerline",
+          "description": "⚡️ A tmux plugin giving you a hackable status bar consisting of dynamic & beautiful looking powerline segments, written purely in bash.",
+          "url": "https://github.com/erikw/tmux-powerline",
+          "stars": 3843,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "sainnhe/tmux-fzf",
+          "name": "tmux-fzf",
+          "description": "Use fzf to manage your tmux work environment!",
+          "url": "https://github.com/sainnhe/tmux-fzf",
+          "stars": 1523,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "wfxr/tmux-fzf-url",
+          "name": "tmux-fzf-url",
+          "description": "🚀 Quickly open urls on your terminal screen!",
+          "url": "https://github.com/wfxr/tmux-fzf-url",
+          "stars": 741,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "wfxr/tmux-power",
+          "name": "tmux-power",
+          "description": "🎨 Tmux powerline theme",
+          "url": "https://github.com/wfxr/tmux-power",
+          "stars": 707,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "fabioluciano/tmux-powerkit",
+          "name": "tmux-powerkit",
+          "description": "The Ultimate tmux Status Bar Framework",
+          "url": "https://github.com/fabioluciano/tmux-powerkit",
+          "stars": 623,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "jaclu/tmux-menus",
+          "name": "tmux-menus",
+          "description": "Tmux plugin, Popup menus to help with managing your environment",
+          "url": "https://github.com/jaclu/tmux-menus",
+          "stars": 546,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "olimorris/tmux-pomodoro-plus",
+          "name": "tmux-pomodoro-plus",
+          "description": "🍅 Incorporate the Pomodoro technique into your tmux workflow",
+          "url": "https://github.com/olimorris/tmux-pomodoro-plus",
+          "stars": 476,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "alexwforsythe/tmux-which-key",
+          "name": "tmux-which-key",
+          "description": "A tmux plugin that allows users to select actions from a customizable popup menu 🧰",
+          "url": "https://github.com/alexwforsythe/tmux-which-key",
+          "stars": 330,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "rickstaa/tmux-notify",
+          "name": "tmux-notify",
+          "description": "Tmux plugin to notify you when processes are finished.",
+          "url": "https://github.com/rickstaa/tmux-notify",
+          "stars": 285,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "yardnsm/tmux-1password",
+          "name": "tmux-1password",
+          "description": ":key: Access your 1Password login items within tmux!",
+          "url": "https://github.com/yardnsm/tmux-1password",
+          "stars": 277,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "MunifTanjim/tmux-mode-indicator",
+          "name": "tmux-mode-indicator",
+          "description": "Plugin that displays prompt indicating currently active Tmux mode.",
+          "url": "https://github.com/MunifTanjim/tmux-mode-indicator",
+          "stars": 202,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "saysjonathan/dwm.tmux",
+          "name": "dwm.tmux",
+          "description": "dwm-inspired tiling pane management for tmux",
+          "url": "https://github.com/saysjonathan/dwm.tmux",
+          "stars": 192,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "MunifTanjim/tmux-suspend",
+          "name": "tmux-suspend",
+          "description": "Plugin that lets you suspend local tmux session, so that you can work with nested remote tmux session painlessly.",
+          "url": "https://github.com/MunifTanjim/tmux-suspend",
+          "stars": 181,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "laktak/tome",
+          "name": "tome",
+          "description": "🔁 Interactive Script playbooks for your terminal with Vim/Neovim (and Tmux)",
+          "url": "https://github.com/laktak/tome",
+          "stars": 178,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "samoshkin/tmux-plugin-sysstat",
+          "name": "tmux-plugin-sysstat",
+          "description": "Prints CPU usage, memory & swap, load average, net I/O metrics in Tmux status bar",
+          "url": "https://github.com/samoshkin/tmux-plugin-sysstat",
+          "stars": 172,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "aleclearmind/nested-tmux",
+          "name": "nested-tmux",
+          "description": "A simple tmux configuration for nested tmux sessions",
+          "url": "https://github.com/aleclearmind/nested-tmux",
+          "stars": 127,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "b0o/tmux-autoreload",
+          "name": "tmux-autoreload",
+          "description": "🧐 Automatically reload your tmux config file on change",
+          "url": "https://github.com/b0o/tmux-autoreload",
+          "stars": 123,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "navahas/tmux-grimoire",
+          "name": "tmux-grimoire",
+          "description": "Lightweight tmux plugin for customizable floating shells (“shpells”) — fast, scriptable, aesthetic.",
+          "url": "https://github.com/navahas/tmux-grimoire",
+          "stars": 114,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "noscript/tmux-mighty-scroll",
+          "name": "tmux-mighty-scroll",
+          "description": "More scroll, less hassle",
+          "url": "https://github.com/noscript/tmux-mighty-scroll",
+          "stars": 114,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "artemave/tmux_super_fingers",
+          "name": "tmux_super_fingers",
+          "description": "A Tmux plugin to open file links from the terminal in vim",
+          "url": "https://github.com/artemave/tmux_super_fingers",
+          "stars": 108,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "erikw/tmux-dark-notify",
+          "name": "tmux-dark-notify",
+          "description": "A plugin that make tmux's theme follow macOS dark/light mode.",
+          "url": "https://github.com/erikw/tmux-dark-notify",
+          "stars": 101,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "junegunn/tmux-fzf-url",
+          "name": "tmux-fzf-url",
+          "description": "",
+          "url": "https://github.com/junegunn/tmux-fzf-url",
+          "stars": 89,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "psmux/Tmux-Plugin-Panel",
+          "name": "Tmux-Plugin-Panel",
+          "description": "A full-fledged TUI plugin manager for tmux — the modern alternative to TPM. Browse, install, remove, update plugins and themes from a beautiful terminal interface.",
+          "url": "https://github.com/psmux/Tmux-Plugin-Panel",
+          "stars": 88,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "andrewboldi/tmux-restore",
+          "name": "tmux-restore",
+          "description": "Reboot-proof tmux: every session, layout and scrollback comes back, and Claude Code, Codex, Gemini CLI, opencode and pi reopen the conversations they were in.",
+          "url": "https://github.com/andrewboldi/tmux-restore",
+          "stars": 83,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "trevarj/tmux-open-nvim",
+          "name": "tmux-open-nvim",
+          "description": "A tmux plugin that helps opening files in a Neovim pane",
+          "url": "https://github.com/trevarj/tmux-open-nvim",
+          "stars": 78,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "uhs-robert/tmux-oasis",
+          "name": "tmux-oasis",
+          "description": "🌵 Desert theme with vim inspired status line and 16 styles; warm and readable. Let there be light in the desert and dark in the oasis. ",
+          "url": "https://github.com/uhs-robert/tmux-oasis",
+          "stars": 76,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "datamadsen/nunchux",
+          "name": "nunchux",
+          "description": "Smart tmux app launcher with fzf, justfile, and npm integration",
+          "url": "https://github.com/datamadsen/nunchux",
+          "stars": 66,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "sunaku/tmux-navigate",
+          "name": "tmux-navigate",
+          "description": "🥂 Seamless tmux/vim navigation (over SSH too!)",
+          "url": "https://github.com/sunaku/tmux-navigate",
+          "stars": 65,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Alkindi42/tmux-bitwarden",
+          "name": "tmux-bitwarden",
+          "description": "Securely search and paste Bitwarden credentials directly from tmux.",
+          "url": "https://github.com/Alkindi42/tmux-bitwarden",
+          "stars": 59,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "tmux-plugins/tmux-cowboy",
+          "name": "tmux-cowboy",
+          "description": "Kill hanging processes fast",
+          "url": "https://github.com/tmux-plugins/tmux-cowboy",
+          "stars": 59,
+          "week": null,
+          "month": null
+        }
+      ]
+    }
+  ]
+}

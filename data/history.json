@@ -1,0 +1,597 @@
+[
+  {
+    "id": "clarkarch/tfm-tui",
+    "date": "2026-11-21",
+    "stars": 363
+  },
+  {
+    "id": "ashish0kumar/fzfm",
+    "date": "2026-11-21",
+    "stars": 207
+  },
+  {
+    "id": "0l1v3rr/cli-file-manager",
+    "date": "2026-11-21",
+    "stars": 47
+  },
+  {
+    "id": "GianniBYoung/rsync.yazi",
+    "date": "2026-11-21",
+    "stars": 44
+  },
+  {
+    "id": "lovestaco/peektea",
+    "date": "2026-11-21",
+    "stars": 21
+  },
+  {
+    "id": "Juan-Miguel-alvarado/wisp",
+    "date": "2026-11-21",
+    "stars": 6
+  },
+  {
+    "id": "Squirreljetpack/fist",
+    "date": "2026-11-21",
+    "stars": 6
+  },
+  {
+    "id": "CanReader/rustfm",
+    "date": "2026-11-21",
+    "stars": 4
+  },
+  {
+    "id": "baska-pro/terminal-explorer",
+    "date": "2026-11-21",
+    "stars": 3
+  },
+  {
+    "id": "superb-striker/retarget-link.yazi",
+    "date": "2026-11-21",
+    "stars": 3
+  },
+  {
+    "id": "NguyenSiTrung/FileManagerTUI",
+    "date": "2026-11-21",
+    "stars": 3
+  },
+  {
+    "id": "jagottsicher/breakthrough",
+    "date": "2026-11-21",
+    "stars": 3
+  },
+  {
+    "id": "urdadx/nukri",
+    "date": "2026-11-21",
+    "stars": 3
+  },
+  {
+    "id": "pxlmrror/abaran",
+    "date": "2026-11-21",
+    "stars": 2
+  },
+  {
+    "id": "Joehaivo/fileman",
+    "date": "2026-11-21",
+    "stars": 2
+  },
+  {
+    "id": "TheCrabevariable/fren",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "jyothiprajith1323/TermExplorer",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "RisGar/crpreview",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "vulcanshen/filu",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "hugegene/termos",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
+    "id": "Orpheus-21/gunti",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "ioma8/fishez",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "dhmanesh/fzless",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "seapagan/terminal-file-manager",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "shukzi/minfm",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "creature-studio/forge",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "HilthonTT/strata",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "hollali/hwe",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "Cosmichomeless/tesela",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "wezterm/wezterm",
+    "date": "2026-11-21",
+    "stars": 29629
+  },
+  {
+    "id": "raphamorim/rio",
+    "date": "2026-11-21",
+    "stars": 7762
+  },
+  {
+    "id": "binaricat/Netcatty",
+    "date": "2026-11-21",
+    "stars": 7533
+  },
+  {
+    "id": "Gaurav-Gosain/tuios",
+    "date": "2026-11-21",
+    "stars": 6599
+  },
+  {
+    "id": "tw93/Kaku",
+    "date": "2026-11-21",
+    "stars": 6228
+  },
+  {
+    "id": "Guake/guake",
+    "date": "2026-11-21",
+    "stars": 4666
+  },
+  {
+    "id": "Kuddev/pebrel",
+    "date": "2026-11-21",
+    "stars": 3857
+  },
+  {
+    "id": "orhun/ratty",
+    "date": "2026-11-21",
+    "stars": 3332
+  },
+  {
+    "id": "mskyaxl/wsl-terminal",
+    "date": "2026-11-21",
+    "stars": 3125
+  },
+  {
+    "id": "liamg/darktile",
+    "date": "2026-11-21",
+    "stars": 3083
+  },
+  {
+    "id": "eneskirca/nodeterm",
+    "date": "2026-11-21",
+    "stars": 2566
+  },
+  {
+    "id": "Xed-Editor/Xed-Editor",
+    "date": "2026-11-21",
+    "stars": 2446
+  },
+  {
+    "id": "subhra74/snowflake",
+    "date": "2026-11-21",
+    "stars": 2248
+  },
+  {
+    "id": "akermu/emacs-libvterm",
+    "date": "2026-11-21",
+    "stars": 2003
+  },
+  {
+    "id": "AnalyseDeCircuit/oxideterm",
+    "date": "2026-11-21",
+    "stars": 1953
+  },
+  {
+    "id": "l0ng-ai/tty7",
+    "date": "2026-11-21",
+    "stars": 1521
+  },
+  {
+    "id": "asbru-cm/asbru-cm",
+    "date": "2026-11-21",
+    "stars": 1310
+  },
+  {
+    "id": "Yazelix/nova",
+    "date": "2026-11-21",
+    "stars": 1216
+  },
+  {
+    "id": "eugenioenko/ttt",
+    "date": "2026-11-21",
+    "stars": 1154
+  },
+  {
+    "id": "polyipseity/obsidian-terminal",
+    "date": "2026-11-21",
+    "stars": 968
+  },
+  {
+    "id": "lemnos/theme.sh",
+    "date": "2026-11-21",
+    "stars": 963
+  },
+  {
+    "id": "ceccopierangiolieugenio/pyTermTk",
+    "date": "2026-11-21",
+    "stars": 924
+  },
+  {
+    "id": "since2006/shell-rs",
+    "date": "2026-11-21",
+    "stars": 857
+  },
+  {
+    "id": "botgram/shell-bot",
+    "date": "2026-11-21",
+    "stars": 837
+  },
+  {
+    "id": "mikekazakov/nimble-commander",
+    "date": "2026-11-21",
+    "stars": 771
+  },
+  {
+    "id": "selectel/pyte",
+    "date": "2026-11-21",
+    "stars": 759
+  },
+  {
+    "id": "siduck/st",
+    "date": "2026-11-21",
+    "stars": 748
+  },
+  {
+    "id": "peters/horizon",
+    "date": "2026-11-21",
+    "stars": 725
+  },
+  {
+    "id": "RohitKushvaha01/ReTerminal",
+    "date": "2026-11-21",
+    "stars": 664
+  },
+  {
+    "id": "TerminalStudio/xterm.dart",
+    "date": "2026-11-21",
+    "stars": 657
+  },
+  {
+    "id": "LazyVim/LazyVim",
+    "date": "2026-11-21",
+    "stars": 27903
+  },
+  {
+    "id": "neoclide/coc.nvim",
+    "date": "2026-11-21",
+    "stars": 25136
+  },
+  {
+    "id": "folke/lazy.nvim",
+    "date": "2026-11-21",
+    "stars": 21747
+  },
+  {
+    "id": "wsdjeg/SpaceVim",
+    "date": "2026-11-21",
+    "stars": 20163
+  },
+  {
+    "id": "nvim-telescope/telescope.nvim",
+    "date": "2026-11-21",
+    "stars": 19869
+  },
+  {
+    "id": "AstroNvim/AstroNvim",
+    "date": "2026-11-21",
+    "stars": 14489
+  },
+  {
+    "id": "dense-analysis/ale",
+    "date": "2026-11-21",
+    "stars": 14027
+  },
+  {
+    "id": "dmtrKovalenko/fff",
+    "date": "2026-11-21",
+    "stars": 11246
+  },
+  {
+    "id": "mason-org/mason.nvim",
+    "date": "2026-11-21",
+    "stars": 10547
+  },
+  {
+    "id": "nvim-mini/mini.nvim",
+    "date": "2026-11-21",
+    "stars": 9674
+  },
+  {
+    "id": "folke/snacks.nvim",
+    "date": "2026-11-21",
+    "stars": 8226
+  },
+  {
+    "id": "nvim-lualine/lualine.nvim",
+    "date": "2026-11-21",
+    "stars": 8188
+  },
+  {
+    "id": "wbthomason/packer.nvim",
+    "date": "2026-11-21",
+    "stars": 8086
+  },
+  {
+    "id": "catppuccin/nvim",
+    "date": "2026-11-21",
+    "stars": 7668
+  },
+  {
+    "id": "nvim-neorg/neorg",
+    "date": "2026-11-21",
+    "stars": 7518
+  },
+  {
+    "id": "folke/which-key.nvim",
+    "date": "2026-11-21",
+    "stars": 7349
+  },
+  {
+    "id": "mfussenegger/nvim-dap",
+    "date": "2026-11-21",
+    "stars": 7312
+  },
+  {
+    "id": "lewis6991/gitsigns.nvim",
+    "date": "2026-11-21",
+    "stars": 7198
+  },
+  {
+    "id": "stevearc/oil.nvim",
+    "date": "2026-11-21",
+    "stars": 6995
+  },
+  {
+    "id": "folke/trouble.nvim",
+    "date": "2026-11-21",
+    "stars": 6922
+  },
+  {
+    "id": "saghen/blink.cmp",
+    "date": "2026-11-21",
+    "stars": 6680
+  },
+  {
+    "id": "epwalsh/obsidian.nvim",
+    "date": "2026-11-21",
+    "stars": 6221
+  },
+  {
+    "id": "sindrets/diffview.nvim",
+    "date": "2026-11-21",
+    "stars": 5894
+  },
+  {
+    "id": "folke/noice.nvim",
+    "date": "2026-11-21",
+    "stars": 5830
+  },
+  {
+    "id": "stevearc/conform.nvim",
+    "date": "2026-11-21",
+    "stars": 5410
+  },
+  {
+    "id": "MeanderingProgrammer/render-markdown.nvim",
+    "date": "2026-11-21",
+    "stars": 5268
+  },
+  {
+    "id": "ggandor/leap.nvim",
+    "date": "2026-11-21",
+    "stars": 5027
+  },
+  {
+    "id": "lukas-reineke/indent-blankline.nvim",
+    "date": "2026-11-21",
+    "stars": 5011
+  },
+  {
+    "id": "numToStr/Comment.nvim",
+    "date": "2026-11-21",
+    "stars": 4661
+  },
+  {
+    "id": "ibhagwan/fzf-lua",
+    "date": "2026-11-21",
+    "stars": 4494
+  },
+  {
+    "id": "erikw/tmux-powerline",
+    "date": "2026-11-21",
+    "stars": 3843
+  },
+  {
+    "id": "sainnhe/tmux-fzf",
+    "date": "2026-11-21",
+    "stars": 1523
+  },
+  {
+    "id": "wfxr/tmux-fzf-url",
+    "date": "2026-11-21",
+    "stars": 741
+  },
+  {
+    "id": "wfxr/tmux-power",
+    "date": "2026-11-21",
+    "stars": 707
+  },
+  {
+    "id": "fabioluciano/tmux-powerkit",
+    "date": "2026-11-21",
+    "stars": 623
+  },
+  {
+    "id": "jaclu/tmux-menus",
+    "date": "2026-11-21",
+    "stars": 546
+  },
+  {
+    "id": "olimorris/tmux-pomodoro-plus",
+    "date": "2026-11-21",
+    "stars": 476
+  },
+  {
+    "id": "alexwforsythe/tmux-which-key",
+    "date": "2026-11-21",
+    "stars": 330
+  },
+  {
+    "id": "rickstaa/tmux-notify",
+    "date": "2026-11-21",
+    "stars": 285
+  },
+  {
+    "id": "yardnsm/tmux-1password",
+    "date": "2026-11-21",
+    "stars": 277
+  },
+  {
+    "id": "MunifTanjim/tmux-mode-indicator",
+    "date": "2026-11-21",
+    "stars": 202
+  },
+  {
+    "id": "saysjonathan/dwm.tmux",
+    "date": "2026-11-21",
+    "stars": 192
+  },
+  {
+    "id": "MunifTanjim/tmux-suspend",
+    "date": "2026-11-21",
+    "stars": 181
+  },
+  {
+    "id": "laktak/tome",
+    "date": "2026-11-21",
+    "stars": 178
+  },
+  {
+    "id": "samoshkin/tmux-plugin-sysstat",
+    "date": "2026-11-21",
+    "stars": 172
+  },
+  {
+    "id": "aleclearmind/nested-tmux",
+    "date": "2026-11-21",
+    "stars": 127
+  },
+  {
+    "id": "b0o/tmux-autoreload",
+    "date": "2026-11-21",
+    "stars": 123
+  },
+  {
+    "id": "navahas/tmux-grimoire",
+    "date": "2026-11-21",
+    "stars": 114
+  },
+  {
+    "id": "noscript/tmux-mighty-scroll",
+    "date": "2026-11-21",
+    "stars": 114
+  },
+  {
+    "id": "artemave/tmux_super_fingers",
+    "date": "2026-11-21",
+    "stars": 108
+  },
+  {
+    "id": "erikw/tmux-dark-notify",
+    "date": "2026-11-21",
+    "stars": 101
+  },
+  {
+    "id": "junegunn/tmux-fzf-url",
+    "date": "2026-11-21",
+    "stars": 89
+  },
+  {
+    "id": "psmux/Tmux-Plugin-Panel",
+    "date": "2026-11-21",
+    "stars": 88
+  },
+  {
+    "id": "andrewboldi/tmux-restore",
+    "date": "2026-11-21",
+    "stars": 83
+  },
+  {
+    "id": "trevarj/tmux-open-nvim",
+    "date": "2026-11-21",
+    "stars": 78
+  },
+  {
+    "id": "uhs-robert/tmux-oasis",
+    "date": "2026-11-21",
+    "stars": 76
+  },
+  {
+    "id": "datamadsen/nunchux",
+    "date": "2026-11-21",
+    "stars": 66
+  },
+  {
+    "id": "sunaku/tmux-navigate",
+    "date": "2026-11-21",
+    "stars": 65
+  },
+  {
+    "id": "Alkindi42/tmux-bitwarden",
+    "date": "2026-11-21",
+    "stars": 59
+  },
+  {
+    "id": "tmux-plugins/tmux-cowboy",
+    "date": "2026-11-21",
+    "stars": 59
+  }
+]
