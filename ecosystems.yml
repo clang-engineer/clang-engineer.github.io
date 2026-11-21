@@ -10,12 +10,6 @@ ecosystems:
     source: github
     topic: terminal-file-manager
     limit: 30
-    repositories:
-      - sxyazi/yazi
-      - ranger/ranger
-      - gokcehan/lf
-      - jarun/nnn
-      - Canop/broot
   - id: terminal-emulators
     discovery: topic
     searches:
@@ -24,11 +18,6 @@ ecosystems:
     source: github
     topic: terminal-emulator
     limit: 30
-    repositories:
-      - ghostty-org/ghostty
-      - alacritty/alacritty
-      - wez/wezterm
-      - kovidgoyal/kitty
   - id: neovim-plugins
     discovery: topic
     searches:
@@ -37,19 +26,6 @@ ecosystems:
     source: github
     topic: neovim-plugin
     limit: 30
-    repositories:
-      - folke/lazy.nvim
-      - nvim-telescope/telescope.nvim
-      - folke/trouble.nvim
-      - folke/snacks.nvim
-      - nvim-lualine/lualine.nvim
-      - nvim-tree/nvim-tree.lua
-      - nvim-treesitter/nvim-treesitter
-      - lewis6991/gitsigns.nvim
-      - neovim/nvim-lspconfig
-      - mason-org/mason.nvim
-      - nvim-mini/mini.nvim
-      - hrsh7th/nvim-cmp
   - id: tmux-plugins
     discovery: topic
     searches:
@@ -58,30 +34,6 @@ ecosystems:
     source: github
     topic: tmux-plugin
     limit: 100
-    repositories:
-      - tmux-plugins/tpm
-      - tmux-plugins/tmux-resurrect
-      - tmux-plugins/tmux-continuum
-      - tmux-plugins/tmux-sensible
-      - tmux-plugins/tmux-yank
-      - tmux-plugins/tmux-prefix-highlight
-      - tmux-plugins/tmux-pain-control
-      - tmux-plugins/tmux-copycat
-      - tmux-plugins/tmux-open
-      - catppuccin/tmux
-      - dracula/tmux
-      - tmux-plugins/tmux-sessionist
-      - tmux-plugins/tmux-sidebar
-      - tmux-plugins/tmux-battery
-      - tmux-plugins/tmux-cpu
-      - tmux-plugins/tmux-online-status
-      - tmux-plugins/tmux-urlview
-      - tmux-plugins/tmux-logging
-      - jimeh/tmux-themepack
-      - christoomey/vim-tmux-navigator
-      - omerxx/tmux-sessionx
-      - laktak/extrakto
-      - roosta/tmux-fuzzback
   - id: terminal-multiplexers
     discovery: topic
     searches:
@@ -90,9 +42,6 @@ ecosystems:
     source: github
     topic: terminal-multiplexer
     limit: 30
-    repositories:
-      - tmux/tmux
-      - zellij-org/zellij
   - id: shell-prompts
     discovery: topic
     searches:
@@ -101,10 +50,6 @@ ecosystems:
     source: github
     topic: shell-prompt
     limit: 30
-    repositories:
-      - starship/starship
-      - romkatv/powerlevel10k
-      - ohmyzsh/ohmyzsh
   - id: window-managers
     discovery: topic
     searches:
@@ -113,11 +58,6 @@ ecosystems:
     source: github
     topic: window-manager
     limit: 30
-    repositories:
-      - nikitabobko/AeroSpace
-      - koekeishiya/yabai
-      - i3/i3
-      - swaywm/sway
   - id: cli-search-tools
     discovery: topic
     searches:
@@ -125,8 +65,3 @@ ecosystems:
     name: CLI Search & Navigation
     source: github
     limit: 30
-    repositories:
-      - junegunn/fzf
-      - ajeetdsouza/zoxide
-      - BurntSushi/ripgrep
-      - sharkdp/fd
