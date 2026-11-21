@@ -3,6 +3,7 @@ viewer:
 periods: [7, 30, 0]
 ecosystems:
   - id: terminal-file-managers
+    discovery: curated
     name: Terminal File Managers
     source: github
     topic: terminal-file-manager
@@ -14,6 +15,7 @@ ecosystems:
       - jarun/nnn
       - Canop/broot
   - id: terminal-emulators
+    discovery: curated
     name: Terminal Emulators
     source: github
     topic: terminal-emulator
@@ -24,6 +26,7 @@ ecosystems:
       - wez/wezterm
       - kovidgoyal/kitty
   - id: neovim-plugins
+    discovery: curated
     name: Neovim Plugins
     source: github
     topic: neovim-plugin
@@ -33,6 +36,7 @@ ecosystems:
       - nvim-telescope/telescope.nvim
       - folke/trouble.nvim
   - id: tmux-plugins
+    discovery: curated
     name: tmux Plugins
     source: github
     topic: tmux-plugin
@@ -62,6 +66,7 @@ ecosystems:
       - laktak/extrakto
       - roosta/tmux-fuzzback
   - id: terminal-multiplexers
+    discovery: curated
     name: Terminal Multiplexers
     source: github
     topic: terminal-multiplexer
@@ -70,6 +75,7 @@ ecosystems:
       - tmux/tmux
       - zellij-org/zellij
   - id: shell-prompts
+    discovery: curated
     name: Shell Prompts
     source: github
     topic: shell-prompt
@@ -79,6 +85,7 @@ ecosystems:
       - romkatv/powerlevel10k
       - ohmyzsh/ohmyzsh
   - id: window-managers
+    discovery: curated
     name: Window Managers
     source: github
     topic: window-manager
@@ -89,6 +96,7 @@ ecosystems:
       - i3/i3
       - swaywm/sway
   - id: cli-search-tools
+    discovery: curated
     name: CLI Search & Navigation
     source: github
     limit: 30
