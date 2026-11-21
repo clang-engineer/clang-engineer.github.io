@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-21T04:46:20.879Z",
+  "updatedAt": "2026-11-21T04:56:26.965Z",
   "categories": [
     {
       "id": "terminal-file-managers",
@@ -8,6 +8,51 @@
       "topic": "terminal-file-manager",
       "metric": "stars",
       "items": [
+        {
+          "id": "sxyazi/yazi",
+          "name": "yazi",
+          "description": "💥 Blazing fast terminal file manager written in Rust, based on async I/O.",
+          "url": "https://github.com/sxyazi/yazi",
+          "stars": 43550,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "jarun/nnn",
+          "name": "nnn",
+          "description": "n³ The unorthodox terminal file manager",
+          "url": "https://github.com/jarun/nnn",
+          "stars": 22135,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "ranger/ranger",
+          "name": "ranger",
+          "description": "A VIM-inspired filemanager for the console",
+          "url": "https://github.com/ranger/ranger",
+          "stars": 17466,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Canop/broot",
+          "name": "broot",
+          "description": "A new way to see and navigate directory trees",
+          "url": "https://github.com/Canop/broot",
+          "stars": 13173,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "gokcehan/lf",
+          "name": "lf",
+          "description": "Terminal file manager",
+          "url": "https://github.com/gokcehan/lf",
+          "stars": 9601,
+          "week": null,
+          "month": null
+        },
         {
           "id": "clarkarch/tfm-tui",
           "name": "tfm-tui",
@@ -90,10 +135,10 @@
           "month": null
         },
         {
-          "id": "superb-striker/retarget-link.yazi",
-          "name": "retarget-link.yazi",
-          "description": "A Yazi plugin for interactively changing the target of a symlink.",
-          "url": "https://github.com/superb-striker/retarget-link.yazi",
+          "id": "jagottsicher/breakthrough",
+          "name": "breakthrough",
+          "description": "POSIX-friendly TUI file manager for the terminal, built around a real embedded bash shell — mouse-driven panels, context menus, and dialogs. Go, tcell/tview.",
+          "url": "https://github.com/jagottsicher/breakthrough",
           "stars": 3,
           "week": null,
           "month": null
@@ -108,10 +153,10 @@
           "month": null
         },
         {
-          "id": "jagottsicher/breakthrough",
-          "name": "breakthrough",
-          "description": "POSIX-friendly TUI file manager for the terminal, built around a real embedded bash shell — mouse-driven panels, context menus, and dialogs. Go, tcell/tview.",
-          "url": "https://github.com/jagottsicher/breakthrough",
+          "id": "superb-striker/retarget-link.yazi",
+          "name": "retarget-link.yazi",
+          "description": "A Yazi plugin for interactively changing the target of a symlink.",
+          "url": "https://github.com/superb-striker/retarget-link.yazi",
           "stars": 3,
           "week": null,
           "month": null
@@ -126,15 +171,6 @@
           "month": null
         },
         {
-          "id": "pxlmrror/abaran",
-          "name": "abaran",
-          "description": "Terminal file manager that cloaks Helix, gitui, and scooter — browse, edit, git, and find files in one seamless TUI session.",
-          "url": "https://github.com/pxlmrror/abaran",
-          "stars": 2,
-          "week": null,
-          "month": null
-        },
-        {
           "id": "Joehaivo/fileman",
           "name": "fileman",
           "description": "A sleek, lightweight modern terminal file manager。精美小巧的现代化终端文件管理器",
@@ -144,10 +180,19 @@
           "month": null
         },
         {
-          "id": "TheCrabevariable/fren",
-          "name": "fren",
-          "description": "A fast, lightweight TUI file manager written in Rust. Navigate, organize, and open files **with any app** — no bloat.",
-          "url": "https://github.com/TheCrabevariable/fren",
+          "id": "pxlmrror/abaran",
+          "name": "abaran",
+          "description": "Terminal file manager that cloaks Helix, gitui, and scooter — browse, edit, git, and find files in one seamless TUI session.",
+          "url": "https://github.com/pxlmrror/abaran",
+          "stars": 2,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "hugegene/termos",
+          "name": "termos",
+          "description": "termos: a terminal OS and terminal workspace. Sessions, tabs and splits, with a terminal file finder that previews and edits PDFs, images, videos, Office files and CSV. Drop all desktop apps.",
+          "url": "https://github.com/hugegene/termos",
           "stars": 1,
           "week": null,
           "month": null
@@ -171,6 +216,15 @@
           "month": null
         },
         {
+          "id": "TheCrabevariable/fren",
+          "name": "fren",
+          "description": "A fast, lightweight TUI file manager written in Rust. Navigate, organize, and open files **with any app** — no bloat.",
+          "url": "https://github.com/TheCrabevariable/fren",
+          "stars": 1,
+          "week": null,
+          "month": null
+        },
+        {
           "id": "vulcanshen/filu",
           "name": "filu",
           "description": "A no-learning-curve terminal file manager for macOS/Linux — Tab / Space / Enter / Esc drive everything. Go + Bubble Tea.",
@@ -180,55 +234,10 @@
           "month": null
         },
         {
-          "id": "hugegene/termos",
-          "name": "termos",
-          "description": "termos: a terminal OS and terminal workspace. Sessions, tabs and splits, with a terminal file finder that previews and edits PDFs, images, videos, Office files and CSV. Drop all desktop apps.",
-          "url": "https://github.com/hugegene/termos",
-          "stars": 1,
-          "week": null,
-          "month": null
-        },
-        {
-          "id": "Orpheus-21/gunti",
-          "name": "gunti",
-          "description": "A minimal and fast terminal file manager written in Odin",
-          "url": "https://github.com/Orpheus-21/gunti",
-          "stars": 0,
-          "week": null,
-          "month": null
-        },
-        {
-          "id": "ioma8/fishez",
-          "name": "fishez",
-          "description": "Total Commander-style file manager for your terminal. Type to filter, F3 to preview, F5 to copy, and cd on exit. Rust; macOS and Linux.",
-          "url": "https://github.com/ioma8/fishez",
-          "stars": 0,
-          "week": null,
-          "month": null
-        },
-        {
-          "id": "dhmanesh/fzless",
-          "name": "fzless",
-          "description": "A zero-resource, terminal-native micro-IDE that combines fzf and less into a seamless loop for rapid file discovery, viewing, editing, and command harvesting",
-          "url": "https://github.com/dhmanesh/fzless",
-          "stars": 0,
-          "week": null,
-          "month": null
-        },
-        {
-          "id": "seapagan/terminal-file-manager",
-          "name": "terminal-file-manager",
-          "description": "A fast, cross-platform terminal file manager written in Rust, featuring single/dual-pane browsing, safe local file operations, and native Trash support.",
-          "url": "https://github.com/seapagan/terminal-file-manager",
-          "stars": 0,
-          "week": null,
-          "month": null
-        },
-        {
-          "id": "shukzi/minfm",
-          "name": "minfm",
-          "description": "minfm is a minimal terminal file manager for Linux, written in Rust. It provides intuitive keyboard navigation and integrated disk management (including LUKS functionality).",
-          "url": "https://github.com/shukzi/minfm",
+          "id": "Cosmichomeless/tesela",
+          "name": "tesela",
+          "description": "Finder-style icon-tile file manager for the terminal with real previews (PDF, images, video, code) · Navegador de carpetas con mosaicos de iconos y vista previa real. Ghostty + macOS.",
+          "url": "https://github.com/Cosmichomeless/tesela",
           "stars": 0,
           "week": null,
           "month": null
@@ -238,6 +247,15 @@
           "name": "forge",
           "description": "Keyboard-first terminal file manager and Git workspace for Linux and macOS, built with Rust and Ratatui.",
           "url": "https://github.com/creature-studio/forge",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "dhmanesh/fzless",
+          "name": "fzless",
+          "description": "A zero-resource, terminal-native micro-IDE that combines fzf and less into a seamless loop for rapid file discovery, viewing, editing, and command harvesting",
+          "url": "https://github.com/dhmanesh/fzless",
           "stars": 0,
           "week": null,
           "month": null
@@ -261,10 +279,37 @@
           "month": null
         },
         {
-          "id": "Cosmichomeless/tesela",
-          "name": "tesela",
-          "description": "Finder-style icon-tile file manager for the terminal with real previews (PDF, images, video, code) · Navegador de carpetas con mosaicos de iconos y vista previa real. Ghostty + macOS.",
-          "url": "https://github.com/Cosmichomeless/tesela",
+          "id": "ioma8/fishez",
+          "name": "fishez",
+          "description": "Total Commander-style file manager for your terminal. Type to filter, F3 to preview, F5 to copy, and cd on exit. Rust; macOS and Linux.",
+          "url": "https://github.com/ioma8/fishez",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "Orpheus-21/gunti",
+          "name": "gunti",
+          "description": "A minimal and fast terminal file manager written in Odin",
+          "url": "https://github.com/Orpheus-21/gunti",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "seapagan/terminal-file-manager",
+          "name": "terminal-file-manager",
+          "description": "A fast, cross-platform terminal file manager written in Rust, featuring single/dual-pane browsing, safe local file operations, and native Trash support.",
+          "url": "https://github.com/seapagan/terminal-file-manager",
+          "stars": 0,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "shukzi/minfm",
+          "name": "minfm",
+          "description": "minfm is a minimal terminal file manager for Linux, written in Rust. It provides intuitive keyboard navigation and integrated disk management (including LUKS functionality).",
+          "url": "https://github.com/shukzi/minfm",
           "stars": 0,
           "week": null,
           "month": null
@@ -278,6 +323,33 @@
       "topic": "terminal-emulator",
       "metric": "stars",
       "items": [
+        {
+          "id": "alacritty/alacritty",
+          "name": "alacritty",
+          "description": "A cross-platform, OpenGL terminal emulator.",
+          "url": "https://github.com/alacritty/alacritty",
+          "stars": 66247,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "ghostty-org/ghostty",
+          "name": "ghostty",
+          "description": "👻 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.",
+          "url": "https://github.com/ghostty-org/ghostty",
+          "stars": 64292,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "kovidgoyal/kitty",
+          "name": "kitty",
+          "description": "If you live in the terminal, kitty is made for you! Cross-platform, fast, feature-rich, GPU based.",
+          "url": "https://github.com/kovidgoyal/kitty",
+          "stars": 35764,
+          "week": null,
+          "month": null
+        },
         {
           "id": "wezterm/wezterm",
           "name": "wezterm",
@@ -742,7 +814,7 @@
           "name": "blink.cmp",
           "description": "Performant, batteries-included completion plugin for Neovim ",
           "url": "https://github.com/saghen/blink.cmp",
-          "stars": 6680,
+          "stars": 6681,
           "week": null,
           "month": null
         },
@@ -836,6 +908,33 @@
       "topic": "tmux-plugin",
       "metric": "stars",
       "items": [
+        {
+          "id": "tmux-plugins/tpm",
+          "name": "tpm",
+          "description": "Tmux Plugin Manager",
+          "url": "https://github.com/tmux-plugins/tpm",
+          "stars": 15185,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "tmux-plugins/tmux-resurrect",
+          "name": "tmux-resurrect",
+          "description": "Persists tmux environment across system restarts.",
+          "url": "https://github.com/tmux-plugins/tmux-resurrect",
+          "stars": 13152,
+          "week": null,
+          "month": null
+        },
+        {
+          "id": "tmux-plugins/tmux-continuum",
+          "name": "tmux-continuum",
+          "description": "Continuous saving of tmux environment. Automatic restore when tmux is started. Automatic tmux start when computer is turned on.",
+          "url": "https://github.com/tmux-plugins/tmux-continuum",
+          "stars": 4112,
+          "week": null,
+          "month": null
+        },
         {
           "id": "erikw/tmux-powerline",
           "name": "tmux-powerline",

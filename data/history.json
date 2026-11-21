@@ -1,5 +1,30 @@
 [
   {
+    "id": "sxyazi/yazi",
+    "date": "2026-11-21",
+    "stars": 43550
+  },
+  {
+    "id": "jarun/nnn",
+    "date": "2026-11-21",
+    "stars": 22135
+  },
+  {
+    "id": "ranger/ranger",
+    "date": "2026-11-21",
+    "stars": 17466
+  },
+  {
+    "id": "Canop/broot",
+    "date": "2026-11-21",
+    "stars": 13173
+  },
+  {
+    "id": "gokcehan/lf",
+    "date": "2026-11-21",
+    "stars": 9601
+  },
+  {
     "id": "clarkarch/tfm-tui",
     "date": "2026-11-21",
     "stars": 363
@@ -45,7 +70,7 @@
     "stars": 3
   },
   {
-    "id": "superb-striker/retarget-link.yazi",
+    "id": "jagottsicher/breakthrough",
     "date": "2026-11-21",
     "stars": 3
   },
@@ -55,7 +80,7 @@
     "stars": 3
   },
   {
-    "id": "jagottsicher/breakthrough",
+    "id": "superb-striker/retarget-link.yazi",
     "date": "2026-11-21",
     "stars": 3
   },
@@ -65,17 +90,17 @@
     "stars": 3
   },
   {
-    "id": "pxlmrror/abaran",
-    "date": "2026-11-21",
-    "stars": 2
-  },
-  {
     "id": "Joehaivo/fileman",
     "date": "2026-11-21",
     "stars": 2
   },
   {
-    "id": "TheCrabevariable/fren",
+    "id": "pxlmrror/abaran",
+    "date": "2026-11-21",
+    "stars": 2
+  },
+  {
+    "id": "hugegene/termos",
     "date": "2026-11-21",
     "stars": 1
   },
@@ -90,42 +115,27 @@
     "stars": 1
   },
   {
+    "id": "TheCrabevariable/fren",
+    "date": "2026-11-21",
+    "stars": 1
+  },
+  {
     "id": "vulcanshen/filu",
     "date": "2026-11-21",
     "stars": 1
   },
   {
-    "id": "hugegene/termos",
-    "date": "2026-11-21",
-    "stars": 1
-  },
-  {
-    "id": "Orpheus-21/gunti",
-    "date": "2026-11-21",
-    "stars": 0
-  },
-  {
-    "id": "ioma8/fishez",
-    "date": "2026-11-21",
-    "stars": 0
-  },
-  {
-    "id": "dhmanesh/fzless",
-    "date": "2026-11-21",
-    "stars": 0
-  },
-  {
-    "id": "seapagan/terminal-file-manager",
-    "date": "2026-11-21",
-    "stars": 0
-  },
-  {
-    "id": "shukzi/minfm",
+    "id": "Cosmichomeless/tesela",
     "date": "2026-11-21",
     "stars": 0
   },
   {
     "id": "creature-studio/forge",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "dhmanesh/fzless",
     "date": "2026-11-21",
     "stars": 0
   },
@@ -140,9 +150,39 @@
     "stars": 0
   },
   {
-    "id": "Cosmichomeless/tesela",
+    "id": "ioma8/fishez",
     "date": "2026-11-21",
     "stars": 0
+  },
+  {
+    "id": "Orpheus-21/gunti",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "seapagan/terminal-file-manager",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "shukzi/minfm",
+    "date": "2026-11-21",
+    "stars": 0
+  },
+  {
+    "id": "alacritty/alacritty",
+    "date": "2026-11-21",
+    "stars": 66247
+  },
+  {
+    "id": "ghostty-org/ghostty",
+    "date": "2026-11-21",
+    "stars": 64292
+  },
+  {
+    "id": "kovidgoyal/kitty",
+    "date": "2026-11-21",
+    "stars": 35764
   },
   {
     "id": "wezterm/wezterm",
@@ -397,7 +437,7 @@
   {
     "id": "saghen/blink.cmp",
     "date": "2026-11-21",
-    "stars": 6680
+    "stars": 6681
   },
   {
     "id": "epwalsh/obsidian.nvim",
@@ -443,6 +483,21 @@
     "id": "ibhagwan/fzf-lua",
     "date": "2026-11-21",
     "stars": 4494
+  },
+  {
+    "id": "tmux-plugins/tpm",
+    "date": "2026-11-21",
+    "stars": 15185
+  },
+  {
+    "id": "tmux-plugins/tmux-resurrect",
+    "date": "2026-11-21",
+    "stars": 13152
+  },
+  {
+    "id": "tmux-plugins/tmux-continuum",
+    "date": "2026-11-21",
+    "stars": 4112
   },
   {
     "id": "erikw/tmux-powerline",
