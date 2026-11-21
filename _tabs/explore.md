@@ -1,6 +1,6 @@
 ---
 layout: page
-icon: fas fa-ranking-star
+icon: fas fa-chart-bar
 order: 4
 title: Explore
 permalink: /explore/
