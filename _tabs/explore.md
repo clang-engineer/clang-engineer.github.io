@@ -23,7 +23,7 @@ permalink: /explore/
 | Window Managers | |
 | CLI Search & Navigation | |
 
-분야별 목록은 GitHub Topic 검색과 대표 저장소 직접 지정을 결합합니다. **CLI Search & Navigation**은 주제가 지나치게 넓어 대표 저장소만 추적합니다. 새 분야는 [수집 설정](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/ecosystems.yml)에서 관리합니다.
+분야별 목록은 현재는 분류 정확도를 위해 **검증된 대표 저장소 목록(curated)**을 추적합니다. GitHub Topic은 후보 발견에 참고하지만, 무관한 프로젝트가 섞이지 않도록 순위에는 자동 포함하지 않습니다. 새 분야는 [수집 설정](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/ecosystems.yml)에서 관리합니다.
 
 ## 순위 기준
 
