@@ -1,0 +1,32 @@
+{
+  "ecosystems": [
+    {
+      "id": "terminal-file-managers",
+      "name": "Terminal File Managers",
+      "source": "github",
+      "topic": "terminal-file-manager",
+      "limit": 30
+    },
+    {
+      "id": "terminal-emulators",
+      "name": "Terminal Emulators",
+      "source": "github",
+      "topic": "terminal-emulator",
+      "limit": 30
+    },
+    {
+      "id": "neovim-plugins",
+      "name": "Neovim Plugins",
+      "source": "github",
+      "topic": "neovim-plugin",
+      "limit": 30
+    },
+    {
+      "id": "tmux-plugins",
+      "name": "tmux Plugins",
+      "source": "github",
+      "topic": "tmux-plugin",
+      "limit": 30
+    }
+  ]
+}
