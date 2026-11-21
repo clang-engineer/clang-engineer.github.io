@@ -30,7 +30,7 @@ ecosystems:
     discovery: topic
     searches:
       - "tmux plugin in:name,description"
-    name: tmux Plugins
+    name: Tmux Plugins
     source: github
     topic: tmux-plugin
     limit: 100
