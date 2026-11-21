@@ -8,9 +8,9 @@ permalink: /ecosystem/
 
 개발 도구와 플러그인을 분야별로 발견하고, **GitHub Stars 변화**를 비교합니다.
 
-<ecosystem-rankings default-period="0" src="{{ '/data/rankings.json' | relative_url }}"></ecosystem-rankings>
+<ecosystem-rankings default-period="0" src="{{ '/data/rankings.json' | relative_url }}?v=20261121-metadata"></ecosystem-rankings>
 
-<script type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/ecosystem-rankings@bd99b5b62fc8bf779df2bc00bb0308dd5df235f9/viewer/element.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/ecosystem-rankings@bd99b5b62fc8bf779df2bc00bb0308dd5df235f9/viewer/element.js?v=20261121-metadata"></script>
 
 <details class="ecosystem-about">
   <summary>랭킹 안내</summary>
