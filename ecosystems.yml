@@ -35,6 +35,15 @@ ecosystems:
       - folke/lazy.nvim
       - nvim-telescope/telescope.nvim
       - folke/trouble.nvim
+      - folke/snacks.nvim
+      - nvim-lualine/lualine.nvim
+      - nvim-tree/nvim-tree.lua
+      - nvim-treesitter/nvim-treesitter
+      - lewis6991/gitsigns.nvim
+      - neovim/nvim-lspconfig
+      - mason-org/mason.nvim
+      - nvim-mini/mini.nvim
+      - hrsh7th/nvim-cmp
   - id: tmux-plugins
     discovery: curated
     name: tmux Plugins
@@ -45,6 +54,14 @@ ecosystems:
       - tmux-plugins/tpm
       - tmux-plugins/tmux-resurrect
       - tmux-plugins/tmux-continuum
+      - tmux-plugins/tmux-sensible
+      - tmux-plugins/tmux-yank
+      - tmux-plugins/tmux-prefix-highlight
+      - tmux-plugins/tmux-pain-control
+      - tmux-plugins/tmux-copycat
+      - tmux-plugins/tmux-open
+      - catppuccin/tmux
+      - dracula/tmux
       - tmux-plugins/tmux-sensible
       - tmux-plugins/tmux-yank
       - tmux-plugins/tmux-prefix-highlight
