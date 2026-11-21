@@ -107,12 +107,12 @@
   {
     "id": "sxyazi/yazi",
     "date": "2026-11-21",
-    "stars": 43550
+    "stars": 43553
   },
   {
     "id": "yorukot/superfile",
     "date": "2026-11-21",
-    "stars": 24113
+    "stars": 24114
   },
   {
     "id": "jarun/nnn",
@@ -137,7 +137,7 @@
   {
     "id": "cirosantilli/china-dictatorship",
     "date": "2026-11-21",
-    "stars": 3360
+    "stars": 3361
   },
   {
     "id": "gege-circle/.github",
@@ -147,7 +147,7 @@
   {
     "id": "mikavilpas/yazi.nvim",
     "date": "2026-11-21",
-    "stars": 1897
+    "stars": 1898
   },
   {
     "id": "leo-arch/clifm",
@@ -377,12 +377,12 @@
   {
     "id": "termux/termux-app",
     "date": "2026-11-21",
-    "stars": 65321
+    "stars": 65329
   },
   {
     "id": "ghostty-org/ghostty",
     "date": "2026-11-21",
-    "stars": 64293
+    "stars": 64299
   },
   {
     "id": "Swordfish90/cool-retro-term",
@@ -392,7 +392,7 @@
   {
     "id": "gnachman/iTerm2",
     "date": "2026-11-21",
-    "stars": 18306
+    "stars": 18308
   },
   {
     "id": "Gogh-Co/Gogh",
@@ -412,7 +412,7 @@
   {
     "id": "binaricat/Netcatty",
     "date": "2026-11-21",
-    "stars": 7533
+    "stars": 7535
   },
   {
     "id": "liftoff/GateOne",
@@ -422,7 +422,7 @@
   {
     "id": "tw93/Kaku",
     "date": "2026-11-21",
-    "stars": 6228
+    "stars": 6230
   },
   {
     "id": "gnunn1/tilix",
@@ -447,7 +447,7 @@
   {
     "id": "TermoraDev/termora",
     "date": "2026-11-21",
-    "stars": 3850
+    "stars": 3849
   },
   {
     "id": "vercel-labs/wterm",
@@ -502,7 +502,7 @@
   {
     "id": "AnalyseDeCircuit/oxideterm",
     "date": "2026-11-21",
-    "stars": 1955
+    "stars": 1958
   },
   {
     "id": "mintty/mintty",
@@ -582,7 +582,7 @@
   {
     "id": "herdrdev/herdr",
     "date": "2026-11-21",
-    "stars": 52097
+    "stars": 52118
   },
   {
     "id": "tmux/tmux",
@@ -592,17 +592,17 @@
   {
     "id": "wezterm/wezterm",
     "date": "2026-11-21",
-    "stars": 29629
+    "stars": 29633
   },
   {
     "id": "manaflow-ai/cmux",
     "date": "2026-11-21",
-    "stars": 28842
+    "stars": 28843
   },
   {
     "id": "psmux/psmux",
     "date": "2026-11-21",
-    "stars": 3892
+    "stars": 3893
   },
   {
     "id": "eneskirca/nodeterm",
@@ -707,7 +707,7 @@
   {
     "id": "openwong2kim/wmux",
     "date": "2026-11-21",
-    "stars": 457
+    "stars": 458
   },
   {
     "id": "amirlehmam/wmux",
@@ -837,12 +837,12 @@
   {
     "id": "starship/starship",
     "date": "2026-11-21",
-    "stars": 60821
+    "stars": 60823
   },
   {
     "id": "JanDeDobbeleer/oh-my-posh",
     "date": "2026-11-21",
-    "stars": 23772
+    "stars": 23773
   },
   {
     "id": "spaceship-prompt/spaceship-prompt",
@@ -1087,7 +1087,7 @@
   {
     "id": "nikitabobko/AeroSpace",
     "date": "2026-11-21",
-    "stars": 23905
+    "stars": 23906
   },
   {
     "id": "lwouis/alt-tab-macos",
@@ -1097,12 +1097,12 @@
   {
     "id": "ianyh/Amethyst",
     "date": "2026-11-21",
-    "stars": 16332
+    "stars": 16333
   },
   {
     "id": "LGUG2Z/komorebi",
     "date": "2026-11-21",
-    "stars": 15394
+    "stars": 15395
   },
   {
     "id": "polybar/polybar",
@@ -1112,7 +1112,7 @@
   {
     "id": "glzr-io/glazewm",
     "date": "2026-11-21",
-    "stars": 13015
+    "stars": 13016
   },
   {
     "id": "i3/i3",
@@ -1147,7 +1147,7 @@
   {
     "id": "RamonUnch/AltSnap",
     "date": "2026-11-21",
-    "stars": 5410
+    "stars": 5411
   },
   {
     "id": "qtile/qtile",
@@ -1172,7 +1172,7 @@
   {
     "id": "gh0stzk/dotfiles",
     "date": "2026-11-21",
-    "stars": 4785
+    "stars": 4786
   },
   {
     "id": "fosslife/awesome-ricing",
@@ -1307,7 +1307,7 @@
   {
     "id": "junegunn/fzf",
     "date": "2026-11-21",
-    "stars": 84321
+    "stars": 84323
   },
   {
     "id": "kien/ctrlp.vim",
@@ -1447,17 +1447,17 @@
   {
     "id": "LazyVim/LazyVim",
     "date": "2026-11-21",
-    "stars": 27903
+    "stars": 27902
   },
   {
     "id": "neoclide/coc.nvim",
     "date": "2026-11-21",
-    "stars": 25136
+    "stars": 25137
   },
   {
     "id": "folke/lazy.nvim",
     "date": "2026-11-21",
-    "stars": 21747
+    "stars": 21748
   },
   {
     "id": "rockerBOO/awesome-neovim",
@@ -1482,12 +1482,12 @@
   {
     "id": "github/copilot.vim",
     "date": "2026-11-21",
-    "stars": 11722
+    "stars": 11721
   },
   {
     "id": "dmtrKovalenko/fff",
     "date": "2026-11-21",
-    "stars": 11245
+    "stars": 11244
   },
   {
     "id": "mason-org/mason.nvim",
@@ -1502,17 +1502,17 @@
   {
     "id": "hrsh7th/nvim-cmp",
     "date": "2026-11-21",
-    "stars": 9497
+    "stars": 9498
   },
   {
     "id": "folke/tokyonight.nvim",
     "date": "2026-11-21",
-    "stars": 8274
+    "stars": 8275
   },
   {
     "id": "folke/snacks.nvim",
     "date": "2026-11-21",
-    "stars": 8226
+    "stars": 8227
   },
   {
     "id": "nvim-lualine/lualine.nvim",
@@ -1527,7 +1527,7 @@
   {
     "id": "catppuccin/nvim",
     "date": "2026-11-21",
-    "stars": 7668
+    "stars": 7667
   },
   {
     "id": "nvim-neorg/neorg",
@@ -1537,7 +1537,7 @@
   {
     "id": "folke/which-key.nvim",
     "date": "2026-11-21",
-    "stars": 7349
+    "stars": 7350
   },
   {
     "id": "mfussenegger/nvim-dap",
@@ -1557,7 +1557,7 @@
   {
     "id": "folke/trouble.nvim",
     "date": "2026-11-21",
-    "stars": 6922
+    "stars": 6924
   },
   {
     "id": "saghen/blink.cmp",
@@ -1597,12 +1597,12 @@
   {
     "id": "stevearc/conform.nvim",
     "date": "2026-11-21",
-    "stars": 5410
+    "stars": 5411
   },
   {
     "id": "MeanderingProgrammer/render-markdown.nvim",
     "date": "2026-11-21",
-    "stars": 5269
+    "stars": 5270
   },
   {
     "id": "ggandor/leap.nvim",
@@ -1757,7 +1757,7 @@
   {
     "id": "fabioluciano/tmux-powerkit",
     "date": "2026-11-21",
-    "stars": 623
+    "stars": 622
   },
   {
     "id": "jaclu/tmux-menus",
@@ -2365,6 +2365,11 @@
     "stars": 16
   },
   {
+    "id": "milanglacier/multiplexer-sidebar",
+    "date": "2026-11-21",
+    "stars": 16
+  },
+  {
     "id": "yanglited/tmux-scrollable",
     "date": "2026-11-21",
     "stars": 16
@@ -2386,11 +2391,6 @@
   },
   {
     "id": "jaclu/tmux-mullvad",
-    "date": "2026-11-21",
-    "stars": 14
-  },
-  {
-    "id": "milanglacier/multiplexer-sidebar",
     "date": "2026-11-21",
     "stars": 14
   },
