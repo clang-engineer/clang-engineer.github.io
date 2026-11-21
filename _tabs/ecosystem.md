@@ -6,31 +6,34 @@ title: Ecosystem
 permalink: /ecosystem/
 ---
 
-개발 도구와 플러그인 생태계에서 **어떤 프로젝트가 주목받고 있는지** 살펴보는 탐색 페이지입니다. [Radar]({{ '/radar/' | relative_url }})가 기술 소식을 발견하는 곳이라면, Ecosystem은 분야별 오픈소스 프로젝트를 비교하는 곳입니다.
+개발 도구와 플러그인을 분야별로 발견하고, **GitHub Stars 변화**를 비교합니다.
 
 <ecosystem-rankings src="{{ '/data/rankings.json' | relative_url }}"></ecosystem-rankings>
 
 <script type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/ecosystem-rankings@49f47b7b1f46fcd31279e55398f87653ad60239c/viewer/element.js"></script>
 
-## 수집 분야
+<details class="ecosystem-about">
+  <summary>랭킹 안내</summary>
+  <p>GitHub Topic과 저장소 이름·설명 검색으로 프로젝트를 자동 발견합니다. 주간·월간 순위는 수집된 과거 Stars와 비교하며, 기록이 부족하면 전체 누적 순위를 임시로 보여줍니다.</p>
+  <p>Stars는 관심도 지표로, 품질이나 실제 사용량을 의미하지 않습니다. 검색 특성상 일부 프로젝트가 누락되거나 관련 없는 저장소가 포함될 수 있습니다.</p>
+  <p><a href="https://github.com/clang-engineer/clang-engineer.github.io/blob/main/ecosystems.yml">수집 분야 설정</a> · <a href="https://github.com/clang-engineer/ecosystem-rankings">수집기 소스</a></p>
+</details>
 
-| 도구 | 플러그인 |
-| :--- | :--- |
-| Terminal File Managers | Neovim Plugins |
-| Terminal Emulators | tmux Plugins |
-| Terminal Multiplexers | |
-| Shell Prompts | |
-| Window Managers | |
-| CLI Search & Navigation | |
-
-분야별 목록은 GitHub Topic과 분야별 검색어만으로 **프로젝트를 자동 발견**합니다. 개별 저장소 목록은 지정하지 않습니다. 자동 검색 특성상 유명 프로젝트가 누락되거나 무관한 프로젝트가 섞일 수 있어 검색 품질을 지속적으로 개선합니다. 새 분야는 [수집 설정](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/ecosystems.yml)에서 관리합니다.
-
-## 순위 기준
-
-- **주간(기본):** 7일 전과 비교한 GitHub Stars 증가량
-- **월간:** 30일 전과 비교한 GitHub Stars 증가량
-- **전체:** 현재 누적 GitHub Stars
-
-주간·월간 순위는 실제 수집 이력이 충분히 쌓인 프로젝트만 계산합니다. 기록이 전혀 부족한 분야는 **전체 누적 Stars 순위를 임시로 표시하고 이를 명시**합니다. 기록 부족을 0 증가량으로 간주하지 않습니다. 이 순위는 GitHub Stars를 기준으로 한 발견 지표이지 프로젝트의 품질이나 실제 사용량 순위는 아닙니다.
-
-데이터는 이 블로그 저장소의 GitHub Actions가 매일 수집하며 `data/rankings.json`에 저장합니다. 수집기와 Viewer는 별도 오픈소스 프로젝트인 [ecosystem-rankings](https://github.com/clang-engineer/ecosystem-rankings)를 사용합니다.
+<style>
+  .ecosystem-about {
+    margin-top: 1.25rem;
+    padding: .8rem 1rem;
+    border: 1px solid var(--main-border-color);
+    border-radius: .65rem;
+    color: var(--text-muted-color);
+    font-size: .86rem;
+  }
+  .ecosystem-about summary {
+    cursor: pointer;
+    color: var(--text-color);
+    font-weight: 600;
+  }
+  .ecosystem-about[open] summary { margin-bottom: .75rem; }
+  .ecosystem-about p { margin: .5rem 0; line-height: 1.65; }
+  .ecosystem-about p:last-child { margin-bottom: 0; }
+</style>
