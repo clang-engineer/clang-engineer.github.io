@@ -10,7 +10,7 @@ permalink: /ecosystem/
 
 <ecosystem-rankings src="{{ '/data/rankings.json' | relative_url }}"></ecosystem-rankings>
 
-<script type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/ecosystem-rankings@881a102c8ab5a9aeca68ef3f04d7516c0495644f/viewer/element.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/ecosystem-rankings@67b939cbfb4492122e7afa8256126d06257d916d/viewer/element.js"></script>
 
 <details class="ecosystem-about">
   <summary>랭킹 안내</summary>
