@@ -49,7 +49,6 @@ ecosystems:
     repositories:
       - tmux/tmux
       - zellij-org/zellij
-      - abduco/abduco
   - id: shell-prompts
     name: Shell Prompts
     source: github
