@@ -1,5 +1,9 @@
 name: Update Ecosystem Rankings
 on:
+  push:
+    paths:
+      - 'ecosystems.yml'
+      - '.github/workflows/ecosystem-rankings.yml'
   workflow_dispatch:
   schedule:
     - cron: '17 1 * * *'
@@ -17,6 +21,16 @@ jobs:
         uses: clang-engineer/ecosystem-rankings@main
         with:
           token: ${{ github.token }}
+      - name: Validate generated rankings
+        run: |
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const data = JSON.parse(readFileSync("data/rankings.json", "utf8"));
+            if (!Array.isArray(data.categories) || data.categories.length === 0) throw Error("No ranking categories generated");
+            if (data.defaultPeriod !== 0) throw Error("Expected cumulative Stars as default");
+            if (!Array.isArray(data.periods) || !data.periods.includes(0)) throw Error("Missing all-time period");
+            console.log("Validated", data.categories.length, "categories, default period", data.defaultPeriod);
+          '
       - name: Commit updated data
         run: |
           git config user.name 'github-actions[bot]'
