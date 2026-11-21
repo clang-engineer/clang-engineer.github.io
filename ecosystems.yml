@@ -72,7 +72,6 @@ ecosystems:
   - id: cli-search-tools
     name: CLI Search & Navigation
     source: github
-    topic: command-line-tool
     limit: 30
     repositories:
       - junegunn/fzf
