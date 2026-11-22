@@ -2,7 +2,7 @@
 layout: page
 icon: fas fa-chart-bar
 order: 4
-title: Ecosystem
+title: Rankings
 permalink: /ecosystem/
 ---
 
