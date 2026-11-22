@@ -70,6 +70,54 @@ hidden      : false
 
 모든 도구에 다섯 영역이 있는 것은 아니므로 빈 칸을 채우기 위해 억지로 사례를 찾을 필요는 없다.
 
+## 4. 생태계에서 반복되는 명명 관습
+
+생태계의 **역할(무엇을 하는가)**과 **명명 관습(어떤 이름으로 발견되는가)**은 서로 다른 축이다. 이름은 탐색 단서일 뿐 기술적 표준이나 기능 보증이 아니다.
+
+| 이름·검색 패턴 | 흔히 가리키는 것 | 대표 사례·주의점 |
+|---|---|---|
+| `awesome-<tool>` | 관련 도구·플러그인 큐레이션 | [awesome-yazi](https://github.com/AnirudhG07/awesome-yazi); 설치 관리자가 아님 |
+| `oh-my-<tool>` | 사용 편의를 위한 설정·확장 묶음 | [Oh My Zsh](https://ohmyz.sh/), [Oh My Tmux](https://github.com/gpakosz/.tmux); 역할은 프로젝트마다 다름 |
+| `<tool>-plugin(s)`, `extension(s)` | 독립 확장 기능 | 공식 API·호환 버전 확인 필요 |
+| `<tool>-manager`, `plugin-manager` | 설치·업데이트·로드 관리 | [TPM](https://github.com/tmux-plugins/tpm), [lazy.nvim](https://github.com/folke/lazy.nvim); 이름에 manager가 없어도 해당 역할 가능 |
+| `kickstart`, `starter`, `template` | 개인 설정을 시작하는 최소 기반 | [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim); 완성형 배포판과 구별 |
+| `distro`, `distribution` | 사전 구성된 통합 환경 | [LazyVim](https://www.lazyvim.org/); 저장소 이름에 distro가 없을 수 있음 |
+| `theme`, `flavor`, `skin` | 색상·외형·표시 방식 | Yazi의 Flavor는 외형 확장 |
+| `dotfiles`, `config` | 개인 설정 공유 | 공식 설정과 개인 구성의 차이 확인 |
+| `contrib`, `extra`, `community` | 추가·커뮤니티 기여 구성 | 의미가 넓으므로 명칭만으로 공식성·품질을 추정하지 않음 |
+
+특히 **`awesome-*`와 `oh-my-*`는 널리 인식되는 명명 패턴**이지만, `community`·`extra` 등은 범용적인 단어다. 후자를 별도의 표준 생태계 유형으로 간주하면 오히려 분류가 흐려진다.
+
+### 같은 도구에서도 역할은 나뉜다
+
+```text
+tmux
+├─ Core             tmux
+├─ Plugin Manager   TPM
+├─ Configuration    Oh My Tmux
+└─ Discovery        awesome-tmux 등의 큐레이션
+
+Neovim
+├─ Core             Neovim
+├─ Plugin Manager   lazy.nvim
+├─ Starter          kickstart.nvim
+└─ Distribution     LazyVim
+```
+
+예컨대 **TPM은 플러그인 관리자이고 Oh My Tmux는 설정 프로젝트**다. 이름에 `Oh My`가 붙었다고 자동으로 플러그인 관리자가 되지 않는다. 반대로 `lazy.nvim`은 이름에 `manager`가 없어도 플러그인 관리자다.
+
+### 새 도구를 발견했을 때 검색하는 순서
+
+```text
+<tool> official documentation
+  → <tool> plugin / extension / adapter
+  → awesome-<tool>
+  → <tool> plugin manager / starter / distro
+  → <tool> theme / config / integration
+```
+
+검색어는 후보를 찾기 위한 출발점이다. **실제 저장소의 설명·공식 문서·유지보수 상태로 역할을 확인**하고, 해당 생태계가 존재하지 않는 경우 억지로 빈 칸을 채우지 않는다.
+
 ## 4. 확장 생태계가 형성됐다는 세 가지 신호
 
 ```text
