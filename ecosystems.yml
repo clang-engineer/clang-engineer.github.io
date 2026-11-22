@@ -146,6 +146,8 @@ ecosystems:
       - "terminal database client in:name,description"
       - "sql cli client in:name,description"
       - "terminal SQL client in:description"
+      - "database tui in:name,description"
+      - "sql tui in:name,description"
     name: CLI Database Clients
     source: github
     topic: database-client
