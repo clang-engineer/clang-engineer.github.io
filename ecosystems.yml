@@ -110,7 +110,7 @@ ecosystems:
       - "git client in:name,description"
       - "git diff in:name,description"
       - "git diff pager in:description"
-      - "terminal git client in:description"
+      - "terminal UI in:description git"
     name: Git Tools
     source: github
     topic: git-tools
@@ -147,7 +147,7 @@ ecosystems:
       - "sql cli client in:name,description"
       - "terminal SQL client in:description"
       - "database tui in:name,description"
-      - "sql tui in:name,description"
+      - "database terminal in:description"
     name: CLI Database Clients
     source: github
     topic: database-client
