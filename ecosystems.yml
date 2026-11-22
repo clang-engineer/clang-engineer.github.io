@@ -153,17 +153,6 @@ ecosystems:
     topic: database-client
     limit: 100
     min_stars: 100
-  - id: dotfile-managers
-    discovery: topic
-    searches:
-      - "dotfiles manager in:name,description"
-      - "dotfile management in:description"
-      - "dotfiles symlink manager in:name,description"
-    name: Dotfile Managers
-    source: github
-    topic: dotfiles-manager
-    limit: 100
-    min_stars: 100
   - id: container-tui
     discovery: topic
     searches:
