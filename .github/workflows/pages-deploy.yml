@@ -55,11 +55,14 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Generate Bootstrap stylesheet
+      - name: Build Chirpy frontend assets
         run: |
           npm install --ignore-scripts --no-package-lock
           npm run build:css
+          npm run build:js
           test -s _sass/vendors/_bootstrap.scss
+          test -s assets/js/dist/app.min.js
+          test -s assets/js/dist/commons.min.js
 
       - name: Build site
         run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"
