@@ -11,7 +11,8 @@ ecosystems:
     name: Terminal File Managers
     source: github
     topic: terminal-file-manager
-    limit: 30
+    limit: 100
+    min_stars: 100
   - id: terminal-emulators
     discovery: topic
     searches:
@@ -21,7 +22,8 @@ ecosystems:
     name: Terminal Emulators
     source: github
     topic: terminal-emulator
-    limit: 30
+    limit: 100
+    min_stars: 100
   - id: terminal-multiplexers
     discovery: topic
     readme_searches:
@@ -34,7 +36,8 @@ ecosystems:
     name: Terminal Multiplexers
     source: github
     topic: terminal-multiplexer
-    limit: 30
+    limit: 100
+    min_stars: 100
   - id: shell-prompts
     discovery: topic
     searches:
@@ -44,7 +47,8 @@ ecosystems:
     name: Shell Prompts
     source: github
     topic: shell-prompt
-    limit: 30
+    limit: 100
+    min_stars: 100
   - id: window-managers
     discovery: topic
     searches:
@@ -54,7 +58,8 @@ ecosystems:
     name: Window Managers
     source: github
     topic: window-manager
-    limit: 30
+    limit: 100
+    min_stars: 100
   - id: cli-search-tools
     discovery: topic
     searches:
@@ -64,7 +69,8 @@ ecosystems:
       - "command line search in:name,description"
     name: CLI Search & Navigation
     source: github
-    limit: 30
+    limit: 100
+    min_stars: 100
   - id: neovim-plugins
     discovery: topic
     searches:
@@ -74,7 +80,8 @@ ecosystems:
     name: Neovim Plugins
     source: github
     topic: neovim-plugin
-    limit: 30
+    limit: 100
+    min_stars: 50
   - id: tmux-plugins
     discovery: topic
     searches:
@@ -85,6 +92,7 @@ ecosystems:
     source: github
     topic: tmux-plugin
     limit: 100
+    min_stars: 50
   - id: shell-environments
     discovery: topic
     searches:
@@ -94,7 +102,8 @@ ecosystems:
     name: Shells
     source: github
     topic: shell
-    limit: 30
+    limit: 100
+    min_stars: 100
   - id: git-tui
     discovery: topic
     searches:
@@ -104,7 +113,8 @@ ecosystems:
     name: Git Terminal Clients
     source: github
     topic: git-tui
-    limit: 30
+    limit: 100
+    min_stars: 100
   - id: terminal-system-monitors
     discovery: topic
     searches:
@@ -114,7 +124,8 @@ ecosystems:
     name: Terminal System Monitors
     source: github
     topic: system-monitor
-    limit: 30
+    limit: 100
+    min_stars: 100
   - id: cli-productivity
     discovery: topic
     searches:
@@ -124,4 +135,5 @@ ecosystems:
     name: CLI Productivity
     source: github
     topic: cli-tool
-    limit: 30
+    limit: 100
+    min_stars: 200
