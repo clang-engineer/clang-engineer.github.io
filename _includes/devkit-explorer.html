@@ -1,5 +1,22 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/clang-engineer/reference-explorer@a712899c9a417e827b23bdaf726e748a0fa167ec/src/styles/explorer.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/clang-engineer/reference-explorer@c0a45d7cb147cd531aea7da1e4933418c27c81ab/src/styles/explorer.css">
 <style>
+  #devkit-root {
+    --re-font: inherit;
+    --re-bg: transparent;
+    --re-card: var(--card-bg, var(--main-bg, #fff));
+    --re-text: var(--text-color, inherit);
+    --re-muted: var(--text-muted-color, #747b86);
+    --re-line: var(--main-border-color, #dce0e5);
+    --re-accent: var(--link-color, #448aff);
+    --re-tint: var(--card-bg, var(--main-bg, #f5f5f5));
+    --re-edge: var(--main-border-color, #dce0e5);
+    --re-domain: var(--text-muted-color, #747b86);
+    --re-root: var(--card-bg, var(--main-bg, #fff));
+    --re-on-root: var(--text-color, inherit);
+    --re-root-hint: var(--text-muted-color, #747b86);
+    --re-radius: 8px;
+  }
+
   body:has(.dk-app) #main-wrapper > .container { max-width: none; }
   body:has(.dk-app) #panel-wrapper { display: none !important; }
   body:has(.dk-app) main { max-width: 100%; flex: 1 1 100%; }
