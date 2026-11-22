@@ -234,6 +234,23 @@ NAT는 IPv4 주소 부족을 완화하지만 종단 간 직접 연결을 어렵�
 
 IPv4는 32bit 주소 공간의 한계 때문에 사설 IP + NAT가 광범위하게 사용된다. IPv6는 128bit 주소 공간으로 주소 부족 문제를 근본적으로 완화한다.
 
+IPv4 주소 부족에 대한 접근은 **기존 주소 효율화(사설 IP·NAT/PAT·CIDR)**와 **주소 공간 확대(IPv6)**로 구분한다. 사설 IP는 내부망별 주소 재사용, NAT/PAT는 주소·포트 변환이며, IPv6는 128bit 주소 공간을 제공한다.
+
+### IPv6 주소 체계와 전환
+
+```text
+IPv6
+├─ 주소 표현 — 128bit · 16진수 8그룹 · 연속된 0의 축약(::)
+├─ 전달 대상 — Unicast / Multicast / Anycast (Broadcast 없음)
+├─ 사용 범위 — Global Unicast / Link-Local / Unique Local
+└─ IPv4 공존·전환
+   ├─ Dual Stack — IPv4·IPv6 동시 지원
+   ├─ Tunneling — 다른 프로토콜 망을 통해 캡슐화 전달
+   └─ Translation — IPv4·IPv6 간 프로토콜 변환
+```
+
+IPv4와 IPv6는 주소 길이만 다른 표기법이 아니라 패킷 구조가 다른 프로토콜이므로, 기존 IPv4 장비·서비스와 공존하며 단계적으로 전환해야 한다. IPv6 주소 유형의 **전달 대상**과 **사용 범위**는 서로 다른 분류 기준이다. Prefix별 세부 비트 구조보다 주소 부족 해결·공존 전략을 우선 복습한다.
+
 IPv6 특징에서 QoS나 IPsec '지원'이라는 표현이 나오면 **기능을 활용할 구조와 표준이 마련되어 있다는 의미**로 이해한다. 아무 설정 없이 QoS나 암호화가 자동 적용된다는 뜻은 아니다.
 
 Flow Label 등은 QoS 처리에 활용할 수 있지만 IPv6 자체가 IntServ나 DiffServ 중 하나를 강제하는 것도 아니다. 실제 정책은 Network 운영자가 구성한다.
