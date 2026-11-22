@@ -61,35 +61,11 @@ HEAD → refs/heads/main → commit C → parent B
 
 Detached HEAD에서는 HEAD가 commit을 직접 가리킨다. **Branch는 commit 자체가 아니라 움직이는 이름표**다. `git switch`로 브랜치를 바꾸는 일과 `git commit`으로 새 객체를 만드는 일은 다른 연산이다.
 
-## Merge와 Rebase: 그래프를 어떻게 바꾸는가
+## Merge와 Rebase: Commit Graph의 관계
 
-공통 조상 A에서 main의 B와 feature의 C가 분기했다고 하자.
+Merge는 두 이력의 변경을 통합하고, Rebase는 커밋을 다른 기준점 위에 재적용한다. Fast-forward라면 새 커밋 없이 브랜치 ref만 이동할 수 있지만, 분기된 이력의 일반적인 merge는 두 부모를 가진 커밋을 만든다. Rebase는 부모 관계가 달라져 새 커밋 ID가 생길 수 있다.
 
-```text
-      B (main)
-     /
-A ──
-     \
-      C (feature)
-```
-
-일반적인 `git merge feature`는 두 부모를 가진 merge commit M을 만들 수 있다. 단, fast-forward가 가능하면 새 merge commit 없이 ref만 이동한다.
-
-```text
-A ─ B ─── M
- \       /
-  ── C ─
-```
-
-반면 feature를 main에 `git rebase main`하면 C의 변경을 B 뒤에 다시 적용해 **새 commit C'**를 만든다.
-
-```text
-A ─ B ─ C'
- \
-  C   (기존 객체는 당분간 남아 있을 수 있음)
-```
-
-Rebase는 부모가 바뀌므로 commit ID가 달라지고, 후손 커밋도 다시 만들어질 수 있다. 이미 공유한 이력을 재작성할 때는 협업 영향과 강제 push 위험을 고려해야 한다.
+이 글에서는 **커밋 객체와 ref의 변화**만 기억하면 된다. Fast-forward·3-way·Squash·Rebase의 실제 그래프, GitHub PR 옵션, 선택 기준은 [Git 병합 전략]({% post_url git/2026-11-22-git-merge-strategies %})에서 비교한다.
 
 ## Reset·Restore·Switch: 어느 상태를 움직이는가
 
@@ -120,6 +96,7 @@ Git 모델에 익숙하다는 이유만으로 바꿀 필요도, 새로운 모델
 ## 이어 읽기
 
 - [Git 로드맵]({% post_url git/2026-10-01-git-roadmap %})
+- [Git 병합 전략 — Fast-forward·3-way·Squash·Rebase]({% post_url git/2026-11-22-git-merge-strategies %})
 - [Git hunk와 부분 스테이징]({% post_url git/2026-07-12-git-hunk-and-interactive-staging %})
 - [Jujutsu와 Git 작업 모델 비교]({% post_url git/2026-10-10-jujutsu-git-alternative %})
 - [Git 공식 객체 문서](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
