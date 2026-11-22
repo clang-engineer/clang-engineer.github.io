@@ -2,7 +2,7 @@
 layout: page
 icon: fas fa-compass
 order: 5
-title: Browse
+title: Articles
 ---
 
 글을 찾는 방법을 선택하세요.
