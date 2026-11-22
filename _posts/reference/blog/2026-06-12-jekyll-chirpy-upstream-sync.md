@@ -1,8 +1,8 @@
 ---
-title       : "fork 없이 복사로 시작한 Jekyll Chirpy 블로그 upstream 동기화"
-description : "테마를 fork하지 않고 starter 복사 방식으로 운영해온 블로그에 upstream theme의 누적 패치를 안전하게 머지하는 절차"
+title       : "커스터마이징한 Jekyll Chirpy 블로그의 Upstream 동기화"
+description : "Chirpy 원본의 최신 변경사항을 기존 블로그 콘텐츠와 커스터마이징을 보존하면서 병합하는 절차"
 date        : 2026-06-12 20:30:00 +0900
-updated     : 2026-09-05 21:45:00 +0900
+updated     : 2026-11-22 09:30:00 +0900
 categories  : [jekyll, "Chirpy"]
 tags        : [jekyll, chirpy, git, merge, oss]
 redirect_from:
@@ -22,6 +22,42 @@ Chirpy 테마를 starter 레포 fork 대신 **파일 복사**로 시작한 프�
 - 오타·식별자 리네임·breaking change(MathJax 3→4 등)가 한 번에 몰림
 
 이 글은 이 상태에서 **충돌을 줄이며 upstream 차이를 따라잡는 절차**다.
+
+## 현재 운영 원칙 (2026-11)
+
+이 글은 처음에 **Fork가 아닌 파일 복사 방식으로 시작했던 실제 경험**을 기록한 것이다. 이후에도 중요한 목표는 같다. **Chirpy의 최신 뼈대를 받아들이되 내 글, 데이터, Devkit·Radar·Ecosystem, 사용자 정의 CSS/JS와 설정을 보존한다.** 원본을 통째로 덮어쓰거나 커스터마이징을 버리는 업데이트가 아니다.
+
+현재 블로그에는 `jekyll-theme-chirpy.gemspec`의 버전 `7.5.0`이 기록되어 있다. 이 숫자만 변경한다고 테마 소스가 업데이트되는 것은 아니다. **실제 적용된 Git 이력과 원본 릴리스 태그를 확인**해야 한다.
+
+### 일반적인 Fork / 공통 Git 이력이 있는 경우
+
+```bash
+git remote -v
+git remote add upstream https://github.com/cotes2020/jekyll-theme-chirpy.git  # 미등록 시 1회
+git fetch upstream --tags
+git switch main
+git pull --ff-only origin main
+git switch -c chore/sync-chirpy
+git merge --no-ff --no-commit <검증한-최신-안정-릴리스-태그>
+```
+
+`upstream`이 이미 등록되어 있다면 `remote add`는 생략한다. 태그는 **실제로 조회해 확인한 값**을 넣는다. `upstream/master`를 병합하면 최신 개발 브랜치를 가져오므로 안정 릴리스와 구분한다.
+
+병합 전에는 반드시 `git status --short`로 작업 트리가 깨끗한지 확인하고, 백업 브랜치를 만든다. 충돌이 발생하면 내 파일을 무조건 `--ours`로 선택하지 말고 변경 의도를 합친다. **`_posts`, `data`, Devkit·Radar·Ecosystem, 테마 선택 스크립트**는 특히 보존 여부를 확인한다.
+
+```bash
+git status --short
+git diff --check
+bundle install
+bundle exec jekyll build
+# 프로젝트에 설정된 추가 테스트와 Pages 배포 워크플로도 검증
+```
+
+검증이 끝나면 병합 커밋을 만들고 PR로 검토한다. **아직 이 글을 수정한 것만으로 실제 Upstream 병합이 수행된 것은 아니다.**
+
+### 공통 Git 이력이 없는 복사 저장소라면
+
+`git merge-base HEAD <태그>`로 공통 조상을 확인한다. 공통 조상이 없으면 일반적인 3-way merge가 성립하지 않으므로, 무작정 `--allow-unrelated-histories`를 사용하지 않는다. 이 경우에는 기존에 사용한 동기화 방식과 파일별 변경 이력을 먼저 조사해야 한다.
 
 ## 1. 갭 측정
 
