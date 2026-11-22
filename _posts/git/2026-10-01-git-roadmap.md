@@ -90,6 +90,7 @@ Local Branch / Remote Tracking Branch
 |---|---|
 | [git reflog로 사라진 커밋·브랜치 복구하기](./2025-10-03-restore.md) | branch pointer 이동 기록을 이용해 사라진 commit 복구 |
 | [Git Shallow Clone — 전체 History 없이 필요한 깊이만 가져오기](./2026-02-26-git-shallow-clone.md) | clone 시 가져오는 history 범위 제한, LFS·history rewrite·gitignore와의 차이 |
+| [Git 병합 전략 — Fast-forward·3-way·Squash·Rebase](./2026-11-22-git-merge-strategies.md) | 병합 메커니즘과 이력 구성 전략을 Commit Graph로 비교 |
 | [Git Branch 통합에서 non-fast-forward가 날 때](./2026-07-08-git-branch-consolidation-orphan.md) | local과 origin의 history 관계를 먼저 비교 |
 | [GitHub 저장소 정리와 Contribution 보존](./2026-06-08-github-repo-cleanup-preserve-contributions.md) | history 보존과 GitHub contribution 보존은 다른 문제 |
 
@@ -101,6 +102,9 @@ commit이 사라졌는가?
 
 clone이 너무 무거운가?
 → shallow clone / LFS / history rewrite / gitignore 중 문제 축 구분
+
+브랜치의 변경과 이력을 통합하는가?
+→ fast-forward / 3-way와 squash / rebase의 역할을 구분
 
 push나 branch 통합이 막히는가?
 → local branch와 remote branch의 공통 조상·분기 확인
@@ -207,7 +211,7 @@ Git을 잘 쓰려면 변경을 잘 읽어야 한다. `delta`는 Git의 의미를
    ↓
 2. dirty / staged / ahead 상태 구분
    ↓
-3. reflog와 branch history 복구
+3. merge 전략과 branch history 복구
    ↓
 4. remote / identity / submodule 관계
    ↓
