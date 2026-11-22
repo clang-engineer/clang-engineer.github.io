@@ -109,10 +109,11 @@ ecosystems:
     searches:
       - "git tui in:name,description"
       - "terminal git client in:name,description"
-      - "git terminal interface in:name,description"
-    name: Git Terminal Clients
+      - "git diff viewer in:name,description"
+      - "git command line tool in:name,description"
+    name: Git Tools
     source: github
-    topic: git-tui
+    topic: git-tools
     limit: 100
     min_stars: 100
   - id: terminal-system-monitors
@@ -126,17 +127,6 @@ ecosystems:
     topic: system-monitor
     limit: 100
     min_stars: 100
-  - id: cli-productivity
-    discovery: topic
-    searches:
-      - "command line productivity in:name,description"
-      - "terminal productivity tool in:name,description"
-      - "terminal task manager in:name,description"
-    name: CLI Productivity
-    source: github
-    topic: cli-tool
-    limit: 100
-    min_stars: 200
   - id: terminal-editors
     discovery: topic
     searches:
@@ -170,17 +160,6 @@ ecosystems:
     topic: dotfiles-manager
     limit: 100
     min_stars: 100
-  - id: git-utilities
-    discovery: topic
-    searches:
-      - "git diff viewer in:name,description"
-      - "git changelog generator in:name,description"
-      - "git command line tool in:name,description"
-    name: Git Utilities
-    source: github
-    topic: git-tools
-    limit: 100
-    min_stars: 100
   - id: container-tui
     discovery: topic
     searches:
@@ -190,5 +169,31 @@ ecosystems:
     name: Container TUI
     source: github
     topic: docker-tui
+    limit: 100
+    min_stars: 100
+  - id: ai-coding-agents
+    discovery: topic
+    searches:
+      - "coding agent in:name,description"
+      - "ai coding assistant in:name,description"
+      - "agentic coding in:name,description"
+      - "terminal ai agent in:name,description"
+      - "autonomous coding in:name,description"
+    name: AI Coding Agents
+    source: github
+    topic: coding-agent
+    limit: 100
+    min_stars: 100
+  - id: ai-agent-ecosystem
+    discovery: topic
+    searches:
+      - "ai agent framework in:name,description"
+      - "multi agent orchestration in:name,description"
+      - "agent workflow framework in:name,description"
+      - "model context protocol in:name,description"
+      - "mcp server in:name,description"
+    name: AI Agent Ecosystem
+    source: github
+    topic: ai-agents
     limit: 100
     min_stars: 100

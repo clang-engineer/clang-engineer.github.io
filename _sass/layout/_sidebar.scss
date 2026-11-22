@@ -326,7 +326,8 @@ $sidebar-display: 'sidebar-display'; /* the attribute for sidebar display */
       }
     }
 
-    #visual-theme-toggle {
+    .visual-theme-picker {
+      position: relative;
       margin-right: v.$sb-btn-gap;
 
       @include bp.xxxl {

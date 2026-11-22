@@ -9,19 +9,37 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const button = document.getElementById('visual-theme-toggle');
-    if (!button) return;
+    const menu = document.getElementById('visual-theme-menu');
+    if (!button || !menu) return;
+    const options = [...menu.querySelectorAll('[data-theme-option]')];
+    const close = () => { menu.hidden = true; button.setAttribute('aria-expanded', 'false'); };
     const sync = () => {
-      const label = '디자인 테마: ' + names[current] + ' (클릭하여 변경)';
-      button.setAttribute('aria-label', label);
-      button.setAttribute('title', label);
-      button.dataset.theme = current;
+      button.setAttribute('title', '디자인 테마: ' + names[current]);
+      options.forEach(option => {
+        const selected = option.dataset.themeOption === current;
+        option.setAttribute('aria-pressed', String(selected));
+        option.querySelector('span').textContent = selected ? '✓' : '';
+      });
     };
     sync();
     button.addEventListener('click', () => {
-      current = themes[(themes.indexOf(current) + 1) % themes.length];
+      menu.hidden = !menu.hidden;
+      button.setAttribute('aria-expanded', String(!menu.hidden));
+      if (!menu.hidden) options.find(option => option.dataset.themeOption === current)?.focus();
+    });
+    options.forEach(option => option.addEventListener('click', () => {
+      current = option.dataset.themeOption;
       document.documentElement.dataset.visualTheme = current;
       try { localStorage.setItem(key, current); } catch (_) {}
       sync();
+      close();
+      button.focus();
+    }));
+    document.addEventListener('pointerdown', event => {
+      if (!menu.hidden && !event.target.closest('.visual-theme-picker')) close();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !menu.hidden) { close(); button.focus(); }
     });
   });
 })();
