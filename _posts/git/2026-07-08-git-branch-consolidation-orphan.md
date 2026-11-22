@@ -21,6 +21,8 @@ Remote Tracking Ref의 실제 Commit Graph
 
 브랜치 이름이 같아도 서로 전혀 다른 commit을 가리킬 수 있다.
 
+병합 방식 자체의 개념은 [Git 병합 전략]({% post_url git/2026-11-22-git-merge-strategies %})에서 다룬다. 여기서는 **push 거부를 진단하는 절차**에 집중한다.
+
 ## 증상
 
 local에서 branch 정리를 끝낸 뒤:
