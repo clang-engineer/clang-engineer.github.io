@@ -129,11 +129,10 @@ ecosystems:
     min_stars: 100
   - id: terminal-editors
     discovery: topic
-    readme_searches:
-      - "real-time display editor"
     searches:
       - "terminal text editor in:name,description"
-      - "topic:text-editor language:C"
+      - "topic:text-editor topic:c"
+      - '"real-time display editor" in:readme'
       - "modal text editor in:name,description"
     name: Terminal Editors
     source: github
