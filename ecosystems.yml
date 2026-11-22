@@ -192,3 +192,29 @@ ecosystems:
     topic: docker-tui
     limit: 100
     min_stars: 100
+  - id: ai-coding-agents
+    discovery: topic
+    searches:
+      - "coding agent in:name,description"
+      - "ai coding assistant in:name,description"
+      - "agentic coding in:name,description"
+      - "terminal ai agent in:name,description"
+      - "autonomous coding in:name,description"
+    name: AI Coding Agents
+    source: github
+    topic: coding-agent
+    limit: 100
+    min_stars: 100
+  - id: ai-agent-ecosystem
+    discovery: topic
+    searches:
+      - "ai agent framework in:name,description"
+      - "multi agent orchestration in:name,description"
+      - "agent workflow framework in:name,description"
+      - "model context protocol in:name,description"
+      - "mcp server in:name,description"
+    name: AI Agent Ecosystem
+    source: github
+    topic: ai-agents
+    limit: 100
+    min_stars: 100
