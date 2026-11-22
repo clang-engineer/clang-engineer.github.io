@@ -137,6 +137,9 @@ ecosystems:
     name: Terminal Editors
     source: github
     topic: terminal-editor
+    repositories:
+      - vim/vim
+      - emacs-mirror/emacs
     limit: 100
     min_stars: 100
   - id: cli-database-clients
