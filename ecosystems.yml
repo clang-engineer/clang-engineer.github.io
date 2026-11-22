@@ -137,3 +137,58 @@ ecosystems:
     topic: cli-tool
     limit: 100
     min_stars: 200
+  - id: terminal-editors
+    discovery: topic
+    searches:
+      - "terminal text editor in:name,description"
+      - "terminal code editor in:name,description"
+      - "modal text editor in:name,description"
+    name: Terminal Editors
+    source: github
+    topic: terminal-editor
+    limit: 100
+    min_stars: 100
+  - id: cli-database-clients
+    discovery: topic
+    searches:
+      - "terminal database client in:name,description"
+      - "sql cli client in:name,description"
+      - "database tui in:name,description"
+    name: CLI Database Clients
+    source: github
+    topic: database-client
+    limit: 100
+    min_stars: 100
+  - id: dotfile-managers
+    discovery: topic
+    searches:
+      - "dotfiles manager in:name,description"
+      - "dotfile management in:name,description"
+      - "dotfiles symlink manager in:name,description"
+    name: Dotfile Managers
+    source: github
+    topic: dotfiles-manager
+    limit: 100
+    min_stars: 100
+  - id: git-utilities
+    discovery: topic
+    searches:
+      - "git diff viewer in:name,description"
+      - "git changelog generator in:name,description"
+      - "git command line tool in:name,description"
+    name: Git Utilities
+    source: github
+    topic: git-tools
+    limit: 100
+    min_stars: 100
+  - id: container-tui
+    discovery: topic
+    searches:
+      - "docker tui in:name,description"
+      - "terminal docker manager in:name,description"
+      - "container terminal interface in:name,description"
+    name: Container TUI
+    source: github
+    topic: docker-tui
+    limit: 100
+    min_stars: 100
