@@ -10,9 +10,9 @@ redirect_from:
 
 개발 도구와 플러그인을 분야별로 발견하고, **GitHub Stars 변화**를 비교합니다.
 
-<ecosystem-rankings default-period="0" src="{{ '/data/rankings.json' | relative_url }}?v=20261123-category-groups"></ecosystem-rankings>
+<ecosystem-rankings default-period="0" src="{{ '/data/rankings.json' | relative_url }}?v=20261123-ranking-skeleton"></ecosystem-rankings>
 
-<script type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/ecosystem-rankings@6419094a3388e37a7518f238f21b7c3a7296e765/viewer/element.js?v=20261123-category-groups"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/clang-engineer/ecosystem-rankings@5ff25c37f74bc2bebcc184d839dcced29dfd1bc0/viewer/element.js?v=20261123-ranking-skeleton"></script>
 
 <details class="ecosystem-about">
   <summary>랭킹 안내</summary>
