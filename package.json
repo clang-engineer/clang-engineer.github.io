@@ -1,6 +1,6 @@
 {
   "name": "jekyll-theme-chirpy",
-  "version": "7.5.0",
+  "version": "7.6.0",
   "description": "A minimal, responsive, and feature-rich Jekyll theme for technical writing.",
   "repository": {
     "type": "git",
@@ -30,10 +30,10 @@
     "bootstrap": "^5.3.8"
   },
   "devDependencies": {
-    "@babel/core": "^8.0.7",
-    "@babel/plugin-transform-class-properties": "^8.0.1",
-    "@babel/plugin-transform-private-methods": "^8.0.1",
-    "@babel/preset-env": "^8.0.7",
+    "@babel/core": "^7.29.7",
+    "@babel/plugin-transform-class-properties": "^7.28.6",
+    "@babel/plugin-transform-private-methods": "^7.28.6",
+    "@babel/preset-env": "^7.29.7",
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.3",
     "@eslint/js": "^10.0.1",

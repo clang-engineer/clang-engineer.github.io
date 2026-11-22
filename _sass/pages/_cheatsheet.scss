@@ -28,6 +28,7 @@
 }
 
 // Ensure cards don't override grid behavior
+/* stylelint-disable-next-line selector-class-pattern -- Preserve existing class name. */
 .cheatsheet-card--tool {
   width: auto !important;
   max-width: none !important;
@@ -41,7 +42,7 @@
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  border: 2px solid rgba(255, 255, 255, 0.05);
+  border: 2px solid rgb(255 255 255 / 5%);
   text-decoration: none;
   color: inherit;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -86,6 +87,7 @@
   }
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- Preserve existing class name. */
 .cheatsheet-card--tool {
   text-align: center;
 
@@ -116,8 +118,8 @@
   font-weight: 600;
   padding: 0.25rem 0.6rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgb(255 255 255 / 5%);
+  border: 1px solid rgb(255 255 255 / 15%);
   color: var(--text-muted-color);
 
   i {
@@ -125,13 +127,13 @@
   }
 
   &--context {
-    background: rgba(17, 153, 142, 0.15);
-    border-color: rgba(17, 153, 142, 0.3);
+    background: rgb(17 153 142 / 15%);
+    border-color: rgb(17 153 142 / 30%);
   }
 
   &--problems {
-    background: rgba(255, 193, 7, 0.15);
-    border-color: rgba(255, 193, 7, 0.3);
+    background: rgb(255 193 7 / 15%);
+    border-color: rgb(255 193 7 / 30%);
   }
 }
 
@@ -164,9 +166,9 @@
       display: block;
       font-size: 0.85rem;
       padding: 0.4rem 0.6rem;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgb(255 255 255 / 3%);
       border-radius: v.$radius-sm;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgb(255 255 255 / 8%);
       overflow-x: auto;
       white-space: nowrap;
     }
@@ -208,8 +210,8 @@
     text-transform: lowercase;
     padding: 0.15rem 0.55rem;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgb(255 255 255 / 5%);
+    border: 1px solid rgb(255 255 255 / 12%);
     color: var(--text-muted-color);
   }
 }
@@ -220,7 +222,7 @@
   border-radius: v.$radius-lg;
   border: 1px dashed var(--btn-border-color);
   color: var(--text-muted-color);
-  background: rgba(255, 255, 255, 0.02);
+  background: rgb(255 255 255 / 2%);
 }
 
 .cheatsheet-note {
@@ -229,9 +231,9 @@
   border-radius: v.$radius-lg;
   font-size: 0.95rem;
   color: var(--text-color);
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  border-left: 4px solid rgba(16, 185, 129, 0.5);
+  background: rgb(16 185 129 / 8%);
+  border: 1px solid rgb(16 185 129 / 25%);
+  border-left: 4px solid rgb(16 185 129 / 50%);
   line-height: 1.6;
 
   strong {
@@ -349,6 +351,7 @@
   }
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- Preserve existing class name. */
 .cheatsheet-category__count {
   color: var(--text-muted-color);
   font-size: 0.85rem;
@@ -374,12 +377,14 @@
   }
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- Preserve existing class name. */
 .cheatsheet-tool__name {
   display: block;
   color: var(--heading-color);
   font-weight: 600;
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- Preserve existing class name. */
 .cheatsheet-tool__desc {
   display: block;
   margin-top: 0.1rem;
@@ -439,6 +444,7 @@
   }
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- Preserve existing class name. */
 .cheatsheet-detail__category {
   margin-bottom: 0.35rem;
   color: var(--link-color) !important;
