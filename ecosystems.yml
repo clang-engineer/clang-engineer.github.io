@@ -108,9 +108,10 @@ ecosystems:
     discovery: topic
     searches:
       - "git tui in:name,description"
-      - "terminal git client in:name,description"
-      - "git diff viewer in:name,description"
-      - "git command line tool in:name,description"
+      - "git client in:name,description"
+      - "git diff in:name,description"
+      - "git pager in:name,description"
+      - "git interface in:name,description"
     name: Git Tools
     source: github
     topic: git-tools
