@@ -76,19 +76,19 @@
           <li>
             <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="light">
               {{- icon_light -}}
-              {{- site.data.locales[lang].theme.light -}}
+              {{- site.data.locales[include.lang].theme.light -}}
             </button>
           </li>
           <li>
             <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="dark">
               {{- icon_dark -}}
-              {{- site.data.locales[lang].theme.dark -}}
+              {{- site.data.locales[include.lang].theme.dark -}}
             </button>
           </li>
           <li>
             <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="system">
               {{- icon_system -}}
-              {{- site.data.locales[lang].theme.system -}}
+              {{- site.data.locales[include.lang].theme.system -}}
             </button>
           </li>
         </ul>
