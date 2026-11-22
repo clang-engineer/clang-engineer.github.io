@@ -41,3 +41,42 @@
 :root[data-visual-theme="terminal"] ecosystem-rankings :is(.er-shell, select) {
   border-radius: var(--visual-radius);
 }
+
+/* Sidebar theme picker follows Chirpy's existing button palette. */
+#sidebar .visual-theme-picker { position: relative; display: flex; align-items: center; }
+#sidebar .visual-theme-menu[hidden] { display: none !important; }
+#sidebar .visual-theme-menu {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + .65rem);
+  z-index: 50;
+  width: 10rem;
+  padding: .3rem;
+  border: 1px solid var(--sidebar-border-color, var(--main-border-color));
+  border-radius: .55rem;
+  background: var(--sidebar-bg, var(--main-bg));
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+#sidebar .visual-theme-menu button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 2.2rem;
+  padding: .35rem .6rem;
+  border: 0;
+  border-radius: .35rem;
+  background: transparent;
+  color: var(--sidebar-muted-color, var(--text-color));
+  font: inherit;
+  font-size: .83rem;
+  text-align: left;
+  cursor: pointer;
+}
+#sidebar .visual-theme-menu button:hover,
+#sidebar .visual-theme-menu button:focus-visible {
+  color: var(--sidebar-active-color, var(--text-color));
+  background: var(--sidebar-hover-bg, var(--card-bg));
+}
+#sidebar .visual-theme-menu button[aria-pressed="true"] { font-weight: 700; }
+#sidebar .visual-theme-menu button span { margin-left: .5rem; }
