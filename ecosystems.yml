@@ -18,7 +18,7 @@ ecosystems:
     searches:
       - "terminal emulator in:name,description"
       - "gpu accelerated terminal in:name,description"
-      - "terminal application in:name,description"
+      - "terminal emulator topic:terminal"
     name: Terminal Emulators
     source: github
     topic: terminal-emulator
@@ -30,9 +30,9 @@ ecosystems:
       - "terminal multiplexer"
     searches:
       - "terminal multiplexer in:name,description"
-      - "terminal workspace in:name,description"
-      - "multiplexer in:topics"
-      - "byobu in:name"
+      - "terminal session multiplexer in:name,description"
+      - "topic:multiplexer"
+      - "terminal session manager in:name,description"
     name: Terminal Multiplexers
     source: github
     topic: terminal-multiplexer
@@ -54,7 +54,7 @@ ecosystems:
     searches:
       - "tiling window manager in:name,description"
       - "dynamic window manager in:name,description"
-      - "tiling window manager in:topics"
+      - "topic:tiling-window-manager"
     name: Window Managers
     source: github
     topic: window-manager
@@ -65,8 +65,8 @@ ecosystems:
     searches:
       - "fuzzy finder in:name,description"
       - "interactive grep in:name,description"
-      - "terminal fuzzy search in:name,description"
-      - "command line search in:name,description"
+      - "command line fuzzy finder in:description"
+      - "source code search in:description"
     name: CLI Search & Navigation
     source: github
     limit: 100
@@ -76,7 +76,6 @@ ecosystems:
     searches:
       - "neovim plugin in:name,description"
       - "neovim extension in:name,description"
-      - "neovim plugin in:topics"
     name: Neovim Plugins
     source: github
     topic: neovim-plugin
@@ -96,12 +95,12 @@ ecosystems:
   - id: shell-environments
     discovery: topic
     searches:
-      - "interactive shell in:name,description"
-      - "command line shell in:name,description"
+      - "interactive command shell in:description"
+      - "command line shell in:description"
       - "unix shell in:name,description"
     name: Shells
     source: github
-    topic: shell
+    topic: unix-shell
     limit: 100
     min_stars: 100
   - id: git-tui
@@ -110,8 +109,8 @@ ecosystems:
       - "git tui in:name,description"
       - "git client in:name,description"
       - "git diff in:name,description"
-      - "git pager in:name,description"
-      - "git interface in:name,description"
+      - "git diff pager in:description"
+      - "terminal git client in:description"
     name: Git Tools
     source: github
     topic: git-tools
@@ -121,7 +120,7 @@ ecosystems:
     discovery: topic
     searches:
       - "terminal system monitor in:name,description"
-      - "terminal resource monitor in:name,description"
+      - "terminal process monitor in:description"
       - "tui system monitor in:name,description"
     name: Terminal System Monitors
     source: github
@@ -130,16 +129,15 @@ ecosystems:
     min_stars: 100
   - id: terminal-editors
     discovery: topic
+    readme_searches:
+      - "real-time display editor"
     searches:
       - "terminal text editor in:name,description"
-      - "terminal code editor in:name,description"
+      - "topic:text-editor language:C"
       - "modal text editor in:name,description"
     name: Terminal Editors
     source: github
     topic: terminal-editor
-    repositories:
-      - vim/vim
-      - emacs-mirror/emacs
     limit: 100
     min_stars: 100
   - id: cli-database-clients
@@ -147,7 +145,7 @@ ecosystems:
     searches:
       - "terminal database client in:name,description"
       - "sql cli client in:name,description"
-      - "database tui in:name,description"
+      - "terminal SQL client in:description"
     name: CLI Database Clients
     source: github
     topic: database-client
@@ -157,7 +155,7 @@ ecosystems:
     discovery: topic
     searches:
       - "dotfiles manager in:name,description"
-      - "dotfile management in:name,description"
+      - "dotfile management in:description"
       - "dotfiles symlink manager in:name,description"
     name: Dotfile Managers
     source: github
@@ -169,7 +167,7 @@ ecosystems:
     searches:
       - "docker tui in:name,description"
       - "terminal docker manager in:name,description"
-      - "container terminal interface in:name,description"
+      - "container management tui in:description"
     name: Container TUI
     source: github
     topic: docker-tui
