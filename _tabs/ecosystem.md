@@ -2,8 +2,10 @@
 layout: page
 icon: fas fa-chart-bar
 order: 4
-title: Ecosystem
-permalink: /ecosystem/
+title: Rankings
+permalink: /rankings/
+redirect_from:
+  - /ecosystem/
 ---
 
 개발 도구와 플러그인을 분야별로 발견하고, **GitHub Stars 변화**를 비교합니다.

@@ -1,7 +1,7 @@
 ---
 layout: page
 icon: fas fa-satellite-dish
-order: 2
+order: 3
 title: Radar
 ---
 
