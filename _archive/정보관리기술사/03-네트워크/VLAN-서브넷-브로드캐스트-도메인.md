@@ -37,7 +37,7 @@ Subnet
 = IP Prefix를 기준으로 나눈 Layer 3 주소 범위
 ```
 
-셋은 실제 설계에서 서로 밀접하게 맞물리지만 정의상 같은 개념은 아니다.
+셋은 실제 설계에서 서로 밀접하게 맞물리지만 정의상 같은 개념은 아니다. **VLAN은 논리적 L2 네트워크, VLAN ID는 그 식별 번호**다. 포트는 물리적 연결 지점이지만, 어떤 VLAN에 속하는지는 설정으로 바꾸므로 논리적 분리라고 부른다.
 
 ---
 
@@ -98,7 +98,7 @@ VLAN 20 Broadcast
 → VLAN 20 내부에만 전달
 ```
 
-따라서 일반적으로 **VLAN 하나가 하나의 Broadcast Domain을 만든다.**
+따라서 일반적으로 **VLAN 하나가 하나의 Broadcast Domain을 만든다.** 브로드캐스트(예: IPv4 ARP 요청)는 같은 VLAN 안으로 확산되지만 다른 VLAN으로는 L2 전달되지 않는다. VLAN 경계는 브로드캐스트뿐 아니라 **유니캐스트 프레임의 직접 전달 범위도 제한**한다.
 
 중요한 점은 물리 장비 수와 논리 망 수가 같지 않다는 것이다.
 
@@ -113,7 +113,7 @@ Switch 1대에 VLAN 여러 개 가능
 
 ## Access Port
 
-보통 하나의 VLAN에 속한 단말을 연결한다.
+보통 하나의 VLAN에 속한 단말을 연결한다. 일반적인 포트 기반 VLAN은 **스위치 포트에 VLAN ID를 설정**하므로, 연결된 PC의 MAC 주소를 사전에 등록할 필요가 없다. 스위치는 프레임의 출발지 MAC을 VLAN·포트와 함께 학습해 해당 VLAN 안에서 전달한다.
 
 ```text
 PC
@@ -140,7 +140,9 @@ Switch A
 Switch B
 ```
 
-여러 VLAN의 Frame을 구분하기 위해 VLAN Tag를 사용한다.
+여러 VLAN의 Frame을 구분하기 위해 **IEEE 802.1Q Tag에 VLAN ID를 표시**한다(일반적인 Tagged Traffic 기준). Trunk는 별도 장비나 케이블 종류가 아니라 **한 링크에 여러 VLAN을 싣는 포트 설정**이다. Native VLAN 등 태그 없이 전달되는 예외도 있다.
+
+스위치 간 링크가 **VLAN 하나만** 전달한다면 양쪽 포트를 같은 VLAN의 Access Port로 설정할 수도 있다. 여러 VLAN을 전달할 때 Trunk가 유용하다.
 
 즉:
 
