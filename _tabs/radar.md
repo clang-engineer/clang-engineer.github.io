@@ -12,52 +12,64 @@ title: Radar
 <style>
 .tech-radar-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin: 1rem 0 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: .65rem;
+  margin: .8rem 0 1.8rem;
 }
-
 .tech-radar-card {
   display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  min-height: 96px;
-  padding: 1rem;
-  border: 1px solid var(--main-border-color);
-  border-radius: 0.75rem;
-  background: var(--card-bg);
-  color: var(--text-color) !important;
+  align-items: flex-start;
+  gap: .75rem;
+  min-width: 0;
+  padding: .85rem .95rem;
+  border: 1px solid var(--main-border-color, #dce0e5);
+  border-radius: .65rem;
+  background: var(--card-bg, transparent);
+  color: var(--text-color, inherit) !important;
   text-decoration: none !important;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color .15s ease, background-color .15s ease;
 }
-
-.tech-radar-card:hover,
+.tech-radar-card:hover, .tech-radar-card:focus-visible {
+  border-color: var(--link-color, #448aff);
+  background: var(--main-bg, transparent);
+  text-decoration: none !important;
+}
 .tech-radar-card:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: var(--card-shadow);
+  outline: 2px solid var(--link-color, #448aff);
+  outline-offset: 2px;
 }
-
 .tech-radar-card .tech-radar-logo {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
-  border-radius: 0.5rem;
+  display: block;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: .4rem;
   background-color: #fff;
-  background-size: contain;
+  background-size: 22px 22px;
   background-position: center;
   background-repeat: no-repeat;
+  border: 1px solid var(--main-border-color, #dce0e5);
 }
-
+.tech-radar-card > div { min-width: 0; }
 .tech-radar-card strong {
   display: block;
-  margin-bottom: 0.2rem;
+  margin: 0 0 .15rem;
+  font-size: .92rem;
+  line-height: 1.4;
+  font-weight: 650;
 }
-
-.tech-radar-card span {
+.tech-radar-card span:not(.tech-radar-logo) {
   display: block;
-  color: var(--text-muted-color);
-  font-size: 0.88rem;
-  line-height: 1.35;
+  color: var(--text-muted-color, #747b86);
+  font-size: .78rem;
+  line-height: 1.45;
+}
+@media (max-width: 600px) {
+  .tech-radar-grid { grid-template-columns: 1fr; gap: .5rem; }
+  .tech-radar-card { padding: .75rem .85rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tech-radar-card { transition: none; }
 }
 </style>
 
