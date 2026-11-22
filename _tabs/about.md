@@ -5,24 +5,25 @@ icon: fas fa-info-circle
 order: 6
 ---
 
-백엔드와 데이터 시스템을 중심으로 일하는 소프트웨어 개발자입니다.  
-통계학을 전공했고 C 언어로 프로그래밍을 시작했으며, 현재는 종합병원의 데이터를 수집·연계하고 분석·시각화하는 시스템을 개발하고 있습니다.
+백엔드와 데이터 시스템을 중심으로 일하는 소프트웨어 개발자입니다. 통계학을 전공하고 C 언어로 프로그래밍을 시작했으며, 현재는 의료 데이터를 수집·연계하고 검색·분석·시각화하는 시스템을 개발하고 있습니다.
 
-업무에서는 주로 Java/Kotlin과 JavaScript/TypeScript를 사용합니다. 백엔드를 중심으로 하지만 프론트엔드까지 함께 다루며, 설계에서 인터페이스까지 하나의 흐름으로 이어지는 개발을 선호합니다.
+주로 Java/Kotlin과 JavaScript/TypeScript를 사용합니다. 백엔드와 프론트엔드를 별개로 보기보다 **데이터 흐름과 설계 의도가 실제 인터페이스까지 이어지는 과정**에 관심이 많습니다.
 
-개인적으로는 데이터베이스, Neovim, 개발 도구, 런타임과 운영체제 같은 주제를 깊게 파고드는 것을 좋아합니다. 단순히 사용하는 데서 그치지 않고 **왜 그렇게 동작하는지 이해하고, 반복되는 문제는 작은 도구나 오픈소스로 만들어보는 것**을 중요하게 생각합니다.
+업무 밖에서는 데이터베이스, Neovim, 터미널 도구, 런타임과 운영체제를 탐구합니다. 직접 사용하면서 발견한 불편을 플러그인·어댑터·작은 도구로 해결하고, 그 과정에서 이해한 원리와 도구 간 관계를 기록합니다.
+
+이 블로그의 [로드맵](/roadmap/)은 개념의 큰 구조를, [Devkit](/devkit/)은 다시 찾아볼 참조 자료를, [Rankings](/rankings/)는 새로운 개발 도구를 발견하는 출발점을 제공합니다.
 
 🔗 [github.com/clang-engineer](https://github.com/clang-engineer) · ✉ clang.engineer@gmail.com
 
 ---
 ## 개발 성향 및 철학
 {: .prompt-info }
-- **원리를 이해하는 것**을 중요하게 생각합니다. 네트워크, 운영체제, 데이터베이스, 런타임, 자료구조처럼 코드 아래에서 실제로 동작하는 구조를 꾸준히 공부합니다.
-- **설계부터 인터페이스까지 한 흐름으로 만드는 것**을 좋아합니다. 백엔드와 프론트엔드를 따로 보지 않고, 설계 의도가 실제 사용자 경험까지 자연스럽게 이어지도록 개발하는 편입니다.
-- **반복되는 문제는 도구로 해결하려고 합니다.** 업무나 개발 환경에서 자주 겪는 불편은 작은 라이브러리, 플러그인, 어댑터나 스크립트로 만들어 재사용하는 것을 선호합니다.
-- **배운 것은 기록하고 공유합니다.** 단순한 사용법보다 왜 그렇게 동작하는지, 다른 개념과 어떻게 연결되는지를 정리하려고 합니다.
-- 동료에게 배울 것은 배우고, 제가 아는 것은 나누는 개발자가 되고자 합니다.
- 
+- **원리부터 이해합니다.** 기능과 명령어를 외우기보다 운영체제·네트워크·데이터베이스·런타임 등 그 아래의 구조와 이유를 살펴봅니다.
+- **전체 구조에서 세부로 내려갑니다.** 개념 사이의 관계를 먼저 파악하고 필요한 지점에서 구현과 사용법을 깊이 있게 다룹니다.
+- **반복되는 문제는 도구로 해결합니다.** 개발 환경과 업무에서 마주친 불편을 플러그인·어댑터·스크립트로 만들어 재사용합니다.
+- **배운 것을 연결하고 공유합니다.** 도구의 기능뿐 아니라 설계 의도와 다른 기술과의 관계까지 정리해 기록합니다.
+- **동료와 함께 성장합니다.** 배울 것은 배우고, 알게 된 것은 나누려고 합니다.
+
 --- 
 ## 자격증
 정보보안기사 · 정보처리기사 · 빅데이터분석기사 · 웹디자인기능사 · 사회조사분석사 · 컴퓨터 활용능력 1급
@@ -62,7 +63,8 @@ order: 6
 - [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) — vim-dadbod Vertica 어댑터 + dadbod-ui schema-tree 통합 · awesome-neovim 등록
 - [pi-extensions](https://github.com/clang-engineer/pi-extensions) — Pi coding agent extension 모음 · `@clang.engineer/pi-notify`, `@clang.engineer/pi-workloop` npm 배포
 - [dotfiles](https://github.com/clang-engineer/dotfiles) — Neovim·zsh·tmux·Pi 등 개발환경 설정
-- [devkit](https://github.com/clang-engineer/devkit) — cheatsheets·templates 모음
+- [devkit](https://github.com/clang-engineer/devkit) — 개념 지도·로드맵·치트시트 등 기술 참조 자료
+- [ecosystem-rankings](https://github.com/clang-engineer/ecosystem-rankings) — GitHub 개발 도구 분야별 순위 수집기와 웹 뷰어
 
 ---
 ## 주요 글
