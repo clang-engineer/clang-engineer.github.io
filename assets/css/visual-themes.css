@@ -26,6 +26,48 @@
 :root[data-visual-theme="terminal"] ecosystem-rankings select { border-radius: 2px; }
 :root[data-visual-theme="minimal"] ecosystem-rankings .er-shell,
 :root[data-visual-theme="minimal"] ecosystem-rankings select { border-radius: 5px; }
-.visual-theme-control { display:inline-flex; align-items:center; gap:.4rem; font-size:.76rem; color:var(--text-muted-color); }
-.visual-theme-control select { max-width: 9rem; border:1px solid var(--main-border-color); border-radius:6px; padding:.25rem .4rem; color:var(--text-color); background:var(--main-bg); font:inherit; }
-.visual-theme-control select:focus-visible { outline:2px solid var(--link-color); outline-offset:2px; }
+
+/* Site-wide visual language: Chirpy's light/dark colors remain authoritative. */
+:root[data-visual-theme] {
+  --visual-radius: 12px;
+  --visual-border: var(--main-border-color);
+  --visual-shadow: var(--card-shadow);
+  --visual-font: inherit;
+}
+:root[data-visual-theme="minimal"] {
+  --visual-radius: 5px;
+  --visual-border: var(--main-border-color);
+  --visual-shadow: none;
+}
+:root[data-visual-theme="terminal"] {
+  --visual-radius: 2px;
+  --visual-border: var(--main-border-color);
+  --visual-shadow: none;
+  --visual-font: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+:root[data-visual-theme] :is(#sidebar, #topbar-wrapper, #main-wrapper, #tail-wrapper) {
+  font-family: var(--visual-font);
+}
+:root[data-visual-theme] :is(.card, .post-preview, .preview-img, .pagination .page-link, .btn, .form-control, .form-select, .search-results, .prompt-info, .prompt-tip, .prompt-warning, .prompt-danger) {
+  border-radius: var(--visual-radius);
+}
+:root[data-visual-theme="minimal"] :is(.card, .post-preview, .btn),
+:root[data-visual-theme="terminal"] :is(.card, .post-preview, .btn) {
+  box-shadow: none;
+}
+:root[data-visual-theme="terminal"] :is(#main-wrapper, #tail-wrapper) {
+  font-family: var(--visual-font);
+}
+:root[data-visual-theme] .tech-radar-card {
+  border-radius: var(--visual-radius);
+}
+:root[data-visual-theme] #devkit-root {
+  --re-radius: var(--visual-radius);
+}
+:root[data-visual-theme="terminal"] #devkit-root {
+  --re-font: 14px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+:root[data-visual-theme] ecosystem-rankings .er-shell,
+:root[data-visual-theme] ecosystem-rankings select {
+  border-radius: var(--visual-radius);
+}
