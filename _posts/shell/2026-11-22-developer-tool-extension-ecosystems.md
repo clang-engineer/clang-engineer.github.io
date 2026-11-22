@@ -189,11 +189,53 @@ Yazi는 Plugin·Manager·Flavor·Awesome이 함께 관찰되는 사례다. Harle
 
 ripgrep이나 fd처럼 특정 역할에 집중하는 도구는 거대한 플러그인 생태계 없이도 충분히 유용하다. 반대로 확장이 많은 도구는 버전 호환성, 설정 복잡도, 시작 속도, 유지보수 비용을 함께 고려해야 한다.
 
-## 7. 새로운 도구를 발견했을 때
+## 7. 도구별 확장 생태계 비교
+
+플러그인 생태계는 **코어가 공개한 확장 경계**에서 출발한다. 아래는 설치 추천 순위가 아니라 각 도구의 확장 방식과 주변 프로젝트가 어떤 역할을 맡는지 보여주는 지도다.
+
+| Core | 확장 경계 | 대표 확장 | Manager·Framework·Distro | Discovery |
+|---|---|---|---|---|
+| [Neovim](https://neovim.io/) | Lua API·이벤트·RPC | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim), [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | [lazy.nvim](https://github.com/folke/lazy.nvim) (Manager), [LazyVim](https://www.lazyvim.org/) (Distro), [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) (Starter) | [awesome-neovim](https://github.com/rockerBOO/awesome-neovim) |
+| [tmux](https://github.com/tmux/tmux) | 명령·Hook·스크립트 | [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect), [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum) | [TPM](https://github.com/tmux-plugins/tpm) (Manager), [Oh My Tmux](https://github.com/gpakosz/.tmux) (Configuration) | [awesome-tmux](https://github.com/rothgar/awesome-tmux) |
+| [Yazi](https://yazi-rs.github.io/) | Lua Plugin·Flavor | 커뮤니티 Lua Plugin | [ya pkg](https://yazi-rs.github.io/docs/cli#pm) (Manager) | [awesome-yazi](https://github.com/AnirudhG07/awesome-yazi) |
+| [Zsh](https://zsh.sourceforge.io/) | 함수·Hook·ZLE | [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) | [Oh My Zsh](https://ohmyz.sh/) (Framework), [Antidote](https://github.com/mattmc3/antidote) (Manager) | [awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins) |
+| [Fish](https://fishshell.com/) | 함수·이벤트 | [fzf.fish](https://github.com/PatrickF1/fzf.fish) | [Fisher](https://github.com/jorgebucaran/fisher) (Manager), [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish) (Framework) | 커뮤니티 목록 |
+| [OpenCode](https://opencode.ai/docs/plugins/) | Plugin·Agent·Skill | [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) (확장·구성 프로젝트) | 공식 로딩 방식·구성 확인 | 공식 문서·커뮤니티 |
+| [Pi](https://github.com/badlogic/pi-mono) | TypeScript Extension | 커뮤니티 Extension | 공식 확장·패키지 방식 | 공식 문서·커뮤니티 |
+| [Harlequin](https://harlequin.sh/) | Database Adapter | DB별 Adapter | Python 패키지 | 공식 Adapter 문서 |
+| [Television](https://github.com/alexpasmantier/television) | Channel·Action | 커스텀 Channel | 구성 파일 | 공식 문서·커뮤니티 |
+
+### 같은 생태계에서도 역할이 다르다
+
+```text
+Neovim
+├─ Extension    telescope.nvim / nvim-treesitter
+├─ Manager      lazy.nvim
+├─ Starter      kickstart.nvim
+├─ Distro       LazyVim
+└─ Discovery    awesome-neovim
+
+tmux
+├─ Extension    tmux-resurrect / tmux-continuum
+├─ Manager      TPM
+├─ Configuration Oh My Tmux
+└─ Discovery    awesome-tmux
+
+Yazi
+├─ Extension    Lua Plugin / Flavor
+├─ Manager      ya pkg
+└─ Discovery    awesome-yazi
+```
+
+tmux 플러그인은 명령·스크립트·설정 관례를 활용하므로 Neovim이나 Yazi의 확장 API와 동일한 실행 모델이 아니다. 또한 Harlequin의 Adapter와 Television의 Channel은 범용 UI 플러그인과 목적이 다르다. **프로젝트 존재 여부와 현재 버전 호환성·유지보수 여부는 별도로 확인**해야 한다.
+
+## 8. 새로운 도구를 발견했을 때
 
 먼저 **무엇을 해결하는 도구인지** 확인하고, 공식 문서에서 Plugin·Extension·Adapter·Hook·Script 같은 확장 지점을 살펴본다. 그다음 독립 확장 프로젝트가 있는지, 이를 모아 놓은 Awesome·Registry·Theme·Framework가 있는지 확인한다. 마지막으로 자신이 실제로 필요한 작업에 도움이 되는지만 판단한다.
 
 **목표는 생태계의 모든 항목을 수집하는 것이 아니다.** 도구를 한참 사용한 뒤에야 중요한 확장 경로를 발견하는 일을 줄이는 것이다.
 
+- [Devkit — 확장 가능한 코어 설계](https://github.com/clang-engineer/devkit/blob/main/reference/extensible-core-design.md): 설계 원칙과 패턴
+- [Devkit — 도구별 플러그인 생태계](https://github.com/clang-engineer/devkit/blob/main/reference/tool-plugin-ecosystems.md): 확장 사례 비교
 - [Devkit — 도구 확장 생태계 탐색 지도](https://github.com/clang-engineer/devkit/blob/main/reference/tool-ecosystem.md): 거시적 개념 지도
 - [Devkit — Cheatsheet 작성 원칙](https://github.com/clang-engineer/devkit/blob/main/reference/CHEATSHEET_GUIDELINES.md): 개별 도구의 생태계 표 기록 방식
