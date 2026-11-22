@@ -132,6 +132,7 @@ ecosystems:
     searches:
       - "terminal text editor in:name,description"
       - "topic:text-editor topic:c"
+      # Older editors can describe their category only in the README.
       - '"real-time display editor" in:readme'
       - "modal text editor in:name,description"
     name: Terminal Editors
