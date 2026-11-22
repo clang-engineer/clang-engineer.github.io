@@ -12,7 +12,7 @@ ecosystems:
     source: github
     topic: terminal-file-manager
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: terminal-emulators
     discovery: topic
     searches:
@@ -23,7 +23,7 @@ ecosystems:
     source: github
     topic: terminal-emulator
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: terminal-multiplexers
     discovery: topic
     readme_searches:
@@ -37,7 +37,7 @@ ecosystems:
     source: github
     topic: terminal-multiplexer
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: shell-prompts
     discovery: topic
     searches:
@@ -48,7 +48,7 @@ ecosystems:
     source: github
     topic: shell-prompt
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: window-managers
     discovery: topic
     searches:
@@ -59,7 +59,7 @@ ecosystems:
     source: github
     topic: window-manager
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: cli-search-tools
     discovery: topic
     searches:
@@ -70,7 +70,7 @@ ecosystems:
     name: CLI Search & Navigation
     source: github
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: neovim-plugins
     discovery: topic
     searches:
@@ -80,7 +80,7 @@ ecosystems:
     source: github
     topic: neovim-plugin
     limit: 100
-    min_stars: 50
+    min_stars: 100
   - id: tmux-plugins
     discovery: topic
     searches:
@@ -91,7 +91,7 @@ ecosystems:
     source: github
     topic: tmux-plugin
     limit: 100
-    min_stars: 50
+    min_stars: 100
   - id: shell-environments
     discovery: topic
     searches:
@@ -102,7 +102,7 @@ ecosystems:
     source: github
     topic: unix-shell
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: git-tui
     discovery: topic
     searches:
@@ -115,7 +115,7 @@ ecosystems:
     source: github
     topic: git-tools
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: terminal-system-monitors
     discovery: topic
     searches:
@@ -126,7 +126,7 @@ ecosystems:
     source: github
     topic: system-monitor
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: terminal-editors
     discovery: topic
     searches:
@@ -139,7 +139,7 @@ ecosystems:
     source: github
     topic: terminal-editor
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: cli-database-clients
     discovery: topic
     searches:
@@ -152,7 +152,7 @@ ecosystems:
     source: github
     topic: database-client
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: container-tui
     discovery: topic
     searches:
@@ -163,7 +163,7 @@ ecosystems:
     source: github
     topic: docker-tui
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: ai-coding-agents
     discovery: topic
     searches:
@@ -176,7 +176,7 @@ ecosystems:
     source: github
     topic: coding-agent
     limit: 100
-    min_stars: 100
+    min_stars: 1000
   - id: ai-agent-ecosystem
     discovery: topic
     searches:
@@ -189,4 +189,4 @@ ecosystems:
     source: github
     topic: ai-agents
     limit: 100
-    min_stars: 100
+    min_stars: 1000
