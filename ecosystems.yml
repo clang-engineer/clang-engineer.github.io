@@ -49,6 +49,21 @@ ecosystems:
     topic: shell-prompt
     limit: 100
     min_stars: 1000
+  - id: terminal-effects
+    discovery: topic
+    # Terminal output effects and screensavers, not browser terminal animations.
+    searches:
+      # One broader query covers visual/text effects within the collector's five-query limit.
+      - "terminal effects in:name,description"
+      - "terminal screensaver in:name,description"
+      - '"The Matrix" terminal in:name,description'
+      - "decryption effect in:description"
+      - '"rainbows and unicorns" in:description'
+    name: Terminal Effects & Screensavers
+    source: github
+    limit: 100
+    # Keep smaller, focused tools discoverable alongside established projects.
+    min_stars: 100
   - id: window-managers
     discovery: topic
     searches:
@@ -92,6 +107,114 @@ ecosystems:
     topic: tmux-plugin
     limit: 100
     min_stars: 100
+  - id: zsh-plugins
+    name: Zsh Plugins
+    source: github
+    discovery: topic
+    topic: zsh-plugin
+    searches:
+      - '"zsh plugin" in:description'
+      - '"zsh completion" in:description'
+    # Reviewed seeds from https://github.com/unixorn/awesome-zsh-plugins
+    # Keep repository-level entries; bundled plugins do not have separate Stars.
+    repositories:
+      - zsh-users/zsh-autosuggestions
+      - zsh-users/zsh-syntax-highlighting
+      - zsh-users/zsh-completions
+      - zsh-users/zsh-history-substring-search
+      - Aloxaf/fzf-tab
+      - wfxr/forgit
+    exclude:
+      - unixorn/awesome-zsh-plugins
+      - skwp/dotfiles
+      - ryanb/dotfiles
+    limit: 100
+    min_stars: 100
+  - id: fish-plugins
+    name: Fish Plugins
+    source: github
+    discovery: topic
+    topic: fish-plugin
+    searches:
+      - '"fish plugin" in:description'
+      - '"plugin for fish" in:description'
+    # Reviewed plugin entries from https://github.com/jorgebucaran/awsm.fish
+    repositories:
+      - PatrickF1/fzf.fish
+      - jethrokuan/z
+      - jorgebucaran/nvm.fish
+      - franciscolourenco/done
+      - jorgebucaran/replay.fish
+      - edc/bass
+      - meaningful-ooo/sponge
+      - jorgebucaran/autopair.fish
+      - nickeb96/puffer-fish
+      - wfxr/forgit
+    exclude:
+      - jorgebucaran/awsm.fish
+      - fish-shell/fish-shell
+      - UE4-OceanProject/OceanProject
+    limit: 100
+    min_stars: 100
+  - id: yazi-plugins
+    name: Yazi Plugins
+    source: github
+    discovery: topic
+    topic: yazi-plugin
+    searches:
+      - '"yazi plugin" in:description'
+      - '"plugin for yazi" in:description'
+    # Reviewed entries from https://yazi-rs.github.io/docs/resources/
+    # Rank the official plugin collection once, not once per subdirectory.
+    repositories:
+      - yazi-rs/plugins
+      - Shallow-Seek/fazif.yazi
+      - XYenon/yafg.yazi
+      - XYenon/clipboard.yazi
+      - dedukun/bookmarks.yazi
+      - Rolv-Apneseth/starship.yazi
+      - ndtoan96/ouch.yazi
+    exclude:
+      - sxyazi/yazi
+      - yazi-rs/yazi-rs.github.io
+      - AnirudhG07/awesome-yazi
+      - mikavilpas/yazi.nvim
+      - yazi-rs/flavors
+      - catppuccin/yazi
+    limit: 100
+    min_stars: 0
+  - id: fzf-ecosystem
+    name: fzf Ecosystem
+    source: github
+    discovery: topic
+    topic: fzf
+    searches:
+      - "fzf in:name,description"
+    # Known integrations supplement topic/name discovery (e.g. navi).
+    repositories:
+      - junegunn/fzf.vim
+      - ibhagwan/fzf-lua
+      - Aloxaf/fzf-tab
+      - PatrickF1/fzf.fish
+      - wfxr/forgit
+      - bigH/git-fuzzy
+      - sainnhe/tmux-fzf
+      - junegunn/fzf-git.sh
+      - junegunn/everything.fzf
+      - denisidoro/navi
+      - ajeetdsouza/zoxide
+      - Shallow-Seek/fazif.yazi
+      - XYenon/yafg.yazi
+    # Alternatives and algorithm ports are not integrations of the fzf executable.
+    exclude:
+      - junegunn/fzf
+      - alexpasmantier/television
+      - skim-rs/skim
+      - lotabout/skim
+      - dmtrKovalenko/fff
+      - nvim-telescope/telescope-fzf-native.nvim
+    limit: 100
+    min_stars: 0
   - id: shell-environments
     discovery: topic
     searches:
