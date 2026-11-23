@@ -39,16 +39,22 @@ ecosystems:
     limit: 100
     min_stars: 1000
   - id: shell-prompts
-    discovery: topic
-    searches:
-      - "shell prompt in:name,description"
-      - "customizable shell prompt in:name,description"
-      - "cross shell prompt in:name,description"
     name: Shell Prompts
     source: github
-    topic: shell-prompt
-    limit: 100
-    min_stars: 1000
+    discovery: curated
+    repositories:
+      - starship/starship
+      - JanDeDobbeleer/oh-my-posh
+      - romkatv/powerlevel10k
+      - spaceship-prompt/spaceship-prompt
+      - sindresorhus/pure
+      - b-ryan/powerline-shell
+      - liquidprompt/liquidprompt
+      - justjanne/powerline-go
+      - pure-fish/pure
+      - IlanCosman/tide
+      - jorgebucaran/hydro
+      - woefe/git-prompt.zsh
   - id: terminal-effects
     discovery: topic
     # Terminal output effects and screensavers, not browser terminal animations.
@@ -216,16 +222,72 @@ ecosystems:
     limit: 100
     min_stars: 0
   - id: shell-environments
-    discovery: topic
-    searches:
-      - "interactive command shell in:description"
-      - "command line shell in:description"
-      - "unix shell in:name,description"
     name: Shells
     source: github
-    topic: unix-shell
+    discovery: curated
+    repositories:
+      - fish-shell/fish-shell
+      - nushell/nushell
+      - zsh-users/zsh
+      # GNU Bash source mirror for GitHub Stars.
+      - tianon/mirror-bash
+      - PowerShell/PowerShell
+      - xonsh/xonsh
+      - elves/elvish
+      - oils-for-unix/oils
+      - liljencrantz/crush
+      - mitnk/cicada
+      - michaelmacinnis/oh
+      - tcsh-org/tcsh
+      - ibara/oksh
+  - id: shell-plugins
+    name: Shell Plugins
+    source: github
+    discovery: topic
+    searches:
+      - "topic:fish-plugin"
+      - "topic:zsh-plugin"
+      - "topic:nushell-plugin"
+      - "topic:bash-plugin"
     limit: 100
-    min_stars: 1000
+    min_stars: 100
+    # Supplement topic coverage with known plugins, completions and plugin managers.
+    repositories:
+      - PatrickF1/fzf.fish
+      - jorgebucaran/fisher
+      - oh-my-fish/oh-my-fish
+      - ohmyzsh/ohmyzsh
+      - sorin-ionescu/prezto
+      - zsh-users/zsh-autosuggestions
+      - zsh-users/zsh-syntax-highlighting
+      - zsh-users/zsh-completions
+      - zsh-users/antigen
+      - nushell/nu_scripts
+      - nushell/nupm
+      - Bash-it/bash-it
+      - ohmybash/oh-my-bash
+      - scop/bash-completion
+      - akinomyoga/ble.sh
+      - gradle/gradle-completion
+    # Exclude prompts, resource lists and personal dotfile collections.
+    exclude:
+      - starship/starship
+      - JanDeDobbeleer/oh-my-posh
+      - romkatv/powerlevel10k
+      - spaceship-prompt/spaceship-prompt
+      - sindresorhus/pure
+      - b-ryan/powerline-shell
+      - liquidprompt/liquidprompt
+      - justjanne/powerline-go
+      - pure-fish/pure
+      - IlanCosman/tide
+      - jorgebucaran/hydro
+      - woefe/git-prompt.zsh
+      - jorgebucaran/awsm.fish
+      - unixorn/awesome-zsh-plugins
+      - bradp/dotfiles
+      - SukkaW/dotfiles
+      - laughedelic/fish_logo
   - id: git-tui
     discovery: topic
     searches:

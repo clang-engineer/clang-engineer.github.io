@@ -16865,6 +16865,11 @@
     "stars": 2041
   },
   {
+    "id": "leo-arch/clifm",
+    "date": "2026-11-23",
+    "stars": 1739
+  },
+  {
     "id": "timhartmann7/omnyssh",
     "date": "2026-11-23",
     "stars": 1326
@@ -16953,6 +16958,11 @@
     "id": "Guake/guake",
     "date": "2026-11-23",
     "stars": 4667
+  },
+  {
+    "id": "ChrisBuilds/terminaltexteffects",
+    "date": "2026-11-23",
+    "stars": 4310
   },
   {
     "id": "Textualize/toolong",
@@ -17120,6 +17130,11 @@
     "stars": 1310
   },
   {
+    "id": "ericfreese/rat",
+    "date": "2026-11-23",
+    "stars": 1289
+  },
+  {
     "id": "npkgz/cli-progress",
     "date": "2026-11-23",
     "stars": 1256
@@ -17240,6 +17255,11 @@
     "stars": 60857
   },
   {
+    "id": "romkatv/powerlevel10k",
+    "date": "2026-11-23",
+    "stars": 55387
+  },
+  {
     "id": "JanDeDobbeleer/oh-my-posh",
     "date": "2026-11-23",
     "stars": 23779
@@ -17265,114 +17285,29 @@
     "stars": 4688
   },
   {
+    "id": "IlanCosman/tide",
+    "date": "2026-11-23",
+    "stars": 4310
+  },
+  {
     "id": "justjanne/powerline-go",
     "date": "2026-11-23",
     "stars": 2894
   },
   {
-    "id": "bartobri/no-more-secrets",
+    "id": "pure-fish/pure",
     "date": "2026-11-23",
-    "stars": 7841
+    "stars": 1614
   },
   {
-    "id": "busyloop/lolcat",
+    "id": "jorgebucaran/hydro",
     "date": "2026-11-23",
-    "stars": 6599
+    "stars": 984
   },
   {
-    "id": "abishekvashok/cmatrix",
+    "id": "woefe/git-prompt.zsh",
     "date": "2026-11-23",
-    "stars": 5317
-  },
-  {
-    "id": "vinayak-mehta/present",
-    "date": "2026-11-23",
-    "stars": 4336
-  },
-  {
-    "id": "ChrisBuilds/terminaltexteffects",
-    "date": "2026-11-23",
-    "stars": 4310
-  },
-  {
-    "id": "pipeseroni/pipes.sh",
-    "date": "2026-11-23",
-    "stars": 3060
-  },
-  {
-    "id": "will8211/unimatrix",
-    "date": "2026-11-23",
-    "stars": 1952
-  },
-  {
-    "id": "sahaj-b/cursor-shaders",
-    "date": "2026-11-23",
-    "stars": 1220
-  },
-  {
-    "id": "phlx0/drift",
-    "date": "2026-11-23",
-    "stars": 795
-  },
-  {
-    "id": "akinomyoga/cxxmatrix",
-    "date": "2026-11-23",
-    "stars": 738
-  },
-  {
-    "id": "cxreiff/ttysvr",
-    "date": "2026-11-23",
-    "stars": 488
-  },
-  {
-    "id": "M4444/TMatrix",
-    "date": "2026-11-23",
-    "stars": 434
-  },
-  {
-    "id": "omacom/ttfx",
-    "date": "2026-11-23",
-    "stars": 365
-  },
-  {
-    "id": "yogeshwaran01/github-stats-terminal-style",
-    "date": "2026-11-23",
-    "stars": 339
-  },
-  {
-    "id": "GeertJohan/gomatrix",
-    "date": "2026-11-23",
-    "stars": 315
-  },
-  {
-    "id": "oiwn/tarts",
-    "date": "2026-11-23",
-    "stars": 273
-  },
-  {
-    "id": "vilmibm/gh-screensaver",
-    "date": "2026-11-23",
-    "stars": 216
-  },
-  {
-    "id": "tehmaze/lolcat",
-    "date": "2026-11-23",
-    "stars": 214
-  },
-  {
-    "id": "Cod3r-Ak/TermuX-Custom",
-    "date": "2026-11-23",
-    "stars": 180
-  },
-  {
-    "id": "brunobraga/termsaver",
-    "date": "2026-11-23",
-    "stars": 109
-  },
-  {
-    "id": "M64GitHub/movy",
-    "date": "2026-11-23",
-    "stars": 101
+    "stars": 299
   },
   {
     "id": "asmvik/yabai",
@@ -17770,6 +17705,11 @@
     "stars": 1249
   },
   {
+    "id": "kelleyma49/PSFzf",
+    "date": "2026-11-23",
+    "stars": 1197
+  },
+  {
     "id": "LazyVim/LazyVim",
     "date": "2026-11-23",
     "stars": 27907
@@ -17943,6 +17883,11 @@
     "id": "numToStr/Comment.nvim",
     "date": "2026-11-23",
     "stars": 4661
+  },
+  {
+    "id": "ibhagwan/fzf-lua",
+    "date": "2026-11-23",
+    "stars": 4496
   },
   {
     "id": "akinsho/bufferline.nvim",
@@ -18168,6 +18113,11 @@
     "id": "MagicDuck/grug-far.nvim",
     "date": "2026-11-23",
     "stars": 2034
+  },
+  {
+    "id": "kevinhwang91/nvim-bqf",
+    "date": "2026-11-23",
+    "stars": 2030
   },
   {
     "id": "stevearc/overseer.nvim",
@@ -18680,6 +18630,11 @@
     "stars": 2084
   },
   {
+    "id": "sainnhe/tmux-fzf",
+    "date": "2026-11-23",
+    "stars": 1523
+  },
+  {
     "id": "omerxx/tmux-sessionx",
     "date": "2026-11-23",
     "stars": 1409
@@ -18703,6 +18658,11 @@
     "id": "arl/gitmux",
     "date": "2026-11-23",
     "stars": 802
+  },
+  {
+    "id": "wfxr/tmux-fzf-url",
+    "date": "2026-11-23",
+    "stars": 741
   },
   {
     "id": "wfxr/tmux-power",
@@ -18740,6 +18700,11 @@
     "stars": 476
   },
   {
+    "id": "craftzdog/tmux-claude-hatch",
+    "date": "2026-11-23",
+    "stars": 409
+  },
+  {
     "id": "zszszszsz/.config",
     "date": "2026-11-23",
     "stars": 371
@@ -18773,6 +18738,11 @@
     "id": "rickstaa/tmux-notify",
     "date": "2026-11-23",
     "stars": 285
+  },
+  {
+    "id": "yardnsm/tmux-1password",
+    "date": "2026-11-23",
+    "stars": 277
   },
   {
     "id": "tmuxpack/tpack",
@@ -18845,6 +18815,11 @@
     "stars": 127
   },
   {
+    "id": "CNTRUN/Termux-command",
+    "date": "2026-11-23",
+    "stars": 120
+  },
+  {
     "id": "pschmitt/tmux-ssh-split",
     "date": "2026-11-23",
     "stars": 119
@@ -18885,14 +18860,14 @@
     "stars": 101
   },
   {
-    "id": "UE4-OceanProject/OceanProject",
+    "id": "PowerShell/PowerShell",
     "date": "2026-11-23",
-    "stars": 1397
+    "stars": 56276
   },
   {
-    "id": "acmesh-official/acme.sh",
+    "id": "nushell/nushell",
     "date": "2026-11-23",
-    "stars": 47968
+    "stars": 41070
   },
   {
     "id": "fish-shell/fish-shell",
@@ -18900,9 +18875,19 @@
     "stars": 34510
   },
   {
-    "id": "shelljs/shelljs",
+    "id": "xonsh/xonsh",
     "date": "2026-11-23",
-    "stars": 14399
+    "stars": 9704
+  },
+  {
+    "id": "elves/elvish",
+    "date": "2026-11-23",
+    "stars": 6399
+  },
+  {
+    "id": "zsh-users/zsh",
+    "date": "2026-11-23",
+    "stars": 4343
   },
   {
     "id": "oils-for-unix/oils",
@@ -18910,39 +18895,9 @@
     "stars": 3403
   },
   {
-    "id": "phyver/GameShell",
-    "date": "2026-11-23",
-    "stars": 3366
-  },
-  {
-    "id": "mooz/percol",
-    "date": "2026-11-23",
-    "stars": 3318
-  },
-  {
-    "id": "megastep/makeself",
-    "date": "2026-11-23",
-    "stars": 2635
-  },
-  {
-    "id": "da-luce/astroterm",
-    "date": "2026-11-23",
-    "stars": 2556
-  },
-  {
-    "id": "drush-ops/drush",
-    "date": "2026-11-23",
-    "stars": 2374
-  },
-  {
     "id": "liljencrantz/crush",
     "date": "2026-11-23",
     "stars": 1889
-  },
-  {
-    "id": "kimono-koans/httm",
-    "date": "2026-11-23",
-    "stars": 1670
   },
   {
     "id": "michaelmacinnis/oh",
@@ -18950,24 +18905,474 @@
     "stars": 1380
   },
   {
-    "id": "garybernhardt/selecta",
-    "date": "2026-11-23",
-    "stars": 1358
-  },
-  {
-    "id": "ericfreese/rat",
-    "date": "2026-11-23",
-    "stars": 1289
-  },
-  {
-    "id": "rust-shell-script/rust_cmd_lib",
-    "date": "2026-11-23",
-    "stars": 1157
-  },
-  {
     "id": "mitnk/cicada",
     "date": "2026-11-23",
     "stars": 1009
+  },
+  {
+    "id": "ibara/oksh",
+    "date": "2026-11-23",
+    "stars": 462
+  },
+  {
+    "id": "tcsh-org/tcsh",
+    "date": "2026-11-23",
+    "stars": 291
+  },
+  {
+    "id": "tianon/mirror-bash",
+    "date": "2026-11-23",
+    "stars": 14
+  },
+  {
+    "id": "ohmyzsh/ohmyzsh",
+    "date": "2026-11-23",
+    "stars": 190842
+  },
+  {
+    "id": "zsh-users/zsh-autosuggestions",
+    "date": "2026-11-23",
+    "stars": 36221
+  },
+  {
+    "id": "zsh-users/zsh-syntax-highlighting",
+    "date": "2026-11-23",
+    "stars": 23100
+  },
+  {
+    "id": "Bash-it/bash-it",
+    "date": "2026-11-23",
+    "stars": 15307
+  },
+  {
+    "id": "sorin-ionescu/prezto",
+    "date": "2026-11-23",
+    "stars": 14583
+  },
+  {
+    "id": "oh-my-fish/oh-my-fish",
+    "date": "2026-11-23",
+    "stars": 11422
+  },
+  {
+    "id": "jorgebucaran/fisher",
+    "date": "2026-11-23",
+    "stars": 9467
+  },
+  {
+    "id": "zsh-users/antigen",
+    "date": "2026-11-23",
+    "stars": 8362
+  },
+  {
+    "id": "zsh-users/zsh-completions",
+    "date": "2026-11-23",
+    "stars": 7919
+  },
+  {
+    "id": "ohmybash/oh-my-bash",
+    "date": "2026-11-23",
+    "stars": 7782
+  },
+  {
+    "id": "marlonrichert/zsh-autocomplete",
+    "date": "2026-11-23",
+    "stars": 6799
+  },
+  {
+    "id": "wfxr/forgit",
+    "date": "2026-11-23",
+    "stars": 5096
+  },
+  {
+    "id": "Aloxaf/fzf-tab",
+    "date": "2026-11-23",
+    "stars": 4994
+  },
+  {
+    "id": "akinomyoga/ble.sh",
+    "date": "2026-11-23",
+    "stars": 4933
+  },
+  {
+    "id": "zdharma-continuum/zinit",
+    "date": "2026-11-23",
+    "stars": 4905
+  },
+  {
+    "id": "jeffreytse/zsh-vi-mode",
+    "date": "2026-11-23",
+    "stars": 4492
+  },
+  {
+    "id": "scop/bash-completion",
+    "date": "2026-11-23",
+    "stars": 3547
+  },
+  {
+    "id": "skywind3000/z.lua",
+    "date": "2026-11-23",
+    "stars": 3148
+  },
+  {
+    "id": "jorgebucaran/nvm.fish",
+    "date": "2026-11-23",
+    "stars": 2724
+  },
+  {
+    "id": "PatrickF1/fzf.fish",
+    "date": "2026-11-23",
+    "stars": 2717
+  },
+  {
+    "id": "agkozak/zsh-z",
+    "date": "2026-11-23",
+    "stars": 2470
+  },
+  {
+    "id": "lukechilds/zsh-nvm",
+    "date": "2026-11-23",
+    "stars": 2417
+  },
+  {
+    "id": "MichaelAquilina/zsh-you-should-use",
+    "date": "2026-11-23",
+    "stars": 1940
+  },
+  {
+    "id": "mattmc3/antidote",
+    "date": "2026-11-23",
+    "stars": 1836
+  },
+  {
+    "id": "marlonrichert/zsh-snap",
+    "date": "2026-11-23",
+    "stars": 1550
+  },
+  {
+    "id": "jethrokuan/z",
+    "date": "2026-11-23",
+    "stars": 1537
+  },
+  {
+    "id": "HalFrgrd/flyline",
+    "date": "2026-11-23",
+    "stars": 1408
+  },
+  {
+    "id": "nushell/nu_scripts",
+    "date": "2026-11-23",
+    "stars": 1314
+  },
+  {
+    "id": "unixorn/git-extra-commands",
+    "date": "2026-11-23",
+    "stars": 1176
+  },
+  {
+    "id": "gradle/gradle-completion",
+    "date": "2026-11-23",
+    "stars": 1115
+  },
+  {
+    "id": "franciscolourenco/done",
+    "date": "2026-11-23",
+    "stars": 967
+  },
+  {
+    "id": "olets/zsh-abbr",
+    "date": "2026-11-23",
+    "stars": 806
+  },
+  {
+    "id": "kazhala/dotbare",
+    "date": "2026-11-23",
+    "stars": 730
+  },
+  {
+    "id": "jorgebucaran/autopair.fish",
+    "date": "2026-11-23",
+    "stars": 586
+  },
+  {
+    "id": "johannjhang/fz.sh",
+    "date": "2026-11-23",
+    "stars": 573
+  },
+  {
+    "id": "Realiserad/fish-ai",
+    "date": "2026-11-23",
+    "stars": 570
+  },
+  {
+    "id": "urbainvaes/fzf-marks",
+    "date": "2026-11-23",
+    "stars": 518
+  },
+  {
+    "id": "lukechilds/zsh-better-npm-completion",
+    "date": "2026-11-23",
+    "stars": 502
+  },
+  {
+    "id": "jorgebucaran/replay.fish",
+    "date": "2026-11-23",
+    "stars": 485
+  },
+  {
+    "id": "meaningful-ooo/sponge",
+    "date": "2026-11-23",
+    "stars": 457
+  },
+  {
+    "id": "catppuccin/fish",
+    "date": "2026-11-23",
+    "stars": 450
+  },
+  {
+    "id": "unixorn/fzf-zsh-plugin",
+    "date": "2026-11-23",
+    "stars": 439
+  },
+  {
+    "id": "nickeb96/puffer-fish",
+    "date": "2026-11-23",
+    "stars": 435
+  },
+  {
+    "id": "zpm-zsh/zpm",
+    "date": "2026-11-23",
+    "stars": 412
+  },
+  {
+    "id": "jorgebucaran/fishtape",
+    "date": "2026-11-23",
+    "stars": 386
+  },
+  {
+    "id": "gazorby/fish-abbreviation-tips",
+    "date": "2026-11-23",
+    "stars": 385
+  },
+  {
+    "id": "jorgebucaran/spark.fish",
+    "date": "2026-11-23",
+    "stars": 381
+  },
+  {
+    "id": "reegnz/jq-zsh-plugin",
+    "date": "2026-11-23",
+    "stars": 363
+  },
+  {
+    "id": "zsh-users/zsh-apple-touchbar",
+    "date": "2026-11-23",
+    "stars": 350
+  },
+  {
+    "id": "nushell/nupm",
+    "date": "2026-11-23",
+    "stars": 339
+  },
+  {
+    "id": "johannjhang/zsh-interactive-cd",
+    "date": "2026-11-23",
+    "stars": 335
+  },
+  {
+    "id": "lilyball/nix-env.fish",
+    "date": "2026-11-23",
+    "stars": 303
+  },
+  {
+    "id": "laughedelic/pisces",
+    "date": "2026-11-23",
+    "stars": 300
+  },
+  {
+    "id": "gazorby/fifc",
+    "date": "2026-11-23",
+    "stars": 274
+  },
+  {
+    "id": "gomjellie/zsh-hangul",
+    "date": "2026-11-23",
+    "stars": 273
+  },
+  {
+    "id": "mroth/evalcache",
+    "date": "2026-11-23",
+    "stars": 268
+  },
+  {
+    "id": "mattmc3/zephyr",
+    "date": "2026-11-23",
+    "stars": 267
+  },
+  {
+    "id": "wulfgarpro/history-sync",
+    "date": "2026-11-23",
+    "stars": 266
+  },
+  {
+    "id": "jorgebucaran/getopts.fish",
+    "date": "2026-11-23",
+    "stars": 236
+  },
+  {
+    "id": "matheusml/zsh-ai",
+    "date": "2026-11-23",
+    "stars": 230
+  },
+  {
+    "id": "jirutka/zsh-shift-select",
+    "date": "2026-11-23",
+    "stars": 228
+  },
+  {
+    "id": "sunlei/zsh-ssh",
+    "date": "2026-11-23",
+    "stars": 223
+  },
+  {
+    "id": "z-shell/F-Sy-H",
+    "date": "2026-11-23",
+    "stars": 221
+  },
+  {
+    "id": "unixorn/tumult.plugin.zsh",
+    "date": "2026-11-23",
+    "stars": 220
+  },
+  {
+    "id": "stevemcilwain/quiver",
+    "date": "2026-11-23",
+    "stars": 216
+  },
+  {
+    "id": "JanDeDobbeleer/aliae",
+    "date": "2026-11-23",
+    "stars": 184
+  },
+  {
+    "id": "kutsan/zsh-system-clipboard",
+    "date": "2026-11-23",
+    "stars": 180
+  },
+  {
+    "id": "Myzel394/zsh-copilot",
+    "date": "2026-11-23",
+    "stars": 179
+  },
+  {
+    "id": "marlonrichert/zsh-edit",
+    "date": "2026-11-23",
+    "stars": 175
+  },
+  {
+    "id": "zpm-zsh/autoenv",
+    "date": "2026-11-23",
+    "stars": 174
+  },
+  {
+    "id": "chitoku-k/fzf-zsh-completions",
+    "date": "2026-11-23",
+    "stars": 170
+  },
+  {
+    "id": "jscutlery/nx-completion",
+    "date": "2026-11-23",
+    "stars": 156
+  },
+  {
+    "id": "psprint/zsh-sweep",
+    "date": "2026-11-23",
+    "stars": 155
+  },
+  {
+    "id": "loiccoyle/zsh-github-copilot",
+    "date": "2026-11-23",
+    "stars": 150
+  },
+  {
+    "id": "SukkaW/zsh-osx-autoproxy",
+    "date": "2026-11-23",
+    "stars": 149
+  },
+  {
+    "id": "decors/fish-colored-man",
+    "date": "2026-11-23",
+    "stars": 141
+  },
+  {
+    "id": "ianthehenry/zsh-autoquoter",
+    "date": "2026-11-23",
+    "stars": 133
+  },
+  {
+    "id": "Dbz/kube-aliases",
+    "date": "2026-11-23",
+    "stars": 127
+  },
+  {
+    "id": "PatrickF1/colored_man_pages.fish",
+    "date": "2026-11-23",
+    "stars": 126
+  },
+  {
+    "id": "momo-lab/zsh-abbrev-alias",
+    "date": "2026-11-23",
+    "stars": 123
+  },
+  {
+    "id": "z-shell/zsh-eza",
+    "date": "2026-11-23",
+    "stars": 121
+  },
+  {
+    "id": "techwizrd/fishmarks",
+    "date": "2026-11-23",
+    "stars": 119
+  },
+  {
+    "id": "decors/fish-ghq",
+    "date": "2026-11-23",
+    "stars": 118
+  },
+  {
+    "id": "joehillen/to-fish",
+    "date": "2026-11-23",
+    "stars": 116
+  },
+  {
+    "id": "sshilovsky/fish-helix",
+    "date": "2026-11-23",
+    "stars": 109
+  },
+  {
+    "id": "gazorby/fish-exa",
+    "date": "2026-11-23",
+    "stars": 108
+  },
+  {
+    "id": "zpm-zsh/ls",
+    "date": "2026-11-23",
+    "stars": 106
+  },
+  {
+    "id": "zthxxx/zsh-history-enquirer",
+    "date": "2026-11-23",
+    "stars": 104
+  },
+  {
+    "id": "oldratlee/hacker-quotes",
+    "date": "2026-11-23",
+    "stars": 102
+  },
+  {
+    "id": "TunaCuma/zsh-vi-man",
+    "date": "2026-11-23",
+    "stars": 102
   },
   {
     "id": "jesseduffield/lazygit",
@@ -21480,14 +21885,14 @@
     "stars": 9941
   },
   {
-    "id": "kajisho5/ffmpeg-skill",
-    "date": "2026-11-23",
-    "stars": 9754
-  },
-  {
     "id": "modelcontextprotocol/modelcontextprotocol",
     "date": "2026-11-23",
     "stars": 9751
+  },
+  {
+    "id": "kajisho5/ffmpeg-skill",
+    "date": "2026-11-23",
+    "stars": 9754
   },
   {
     "id": "Gentleman-Programming/gentle-ai",
@@ -22450,11 +22855,6 @@
     "stars": 1169
   },
   {
-    "id": "DemonDamon/AgenticX",
-    "date": "2026-11-23",
-    "stars": 1163
-  },
-  {
     "id": "mongodb-js/mongodb-mcp-server",
     "date": "2026-11-23",
     "stars": 1163
@@ -22463,6 +22863,11 @@
     "id": "Softeria/ms-365-mcp-server",
     "date": "2026-11-23",
     "stars": 1162
+  },
+  {
+    "id": "DemonDamon/AgenticX",
+    "date": "2026-11-23",
+    "stars": 1163
   },
   {
     "id": "AI-QL/tuui",
@@ -22565,34 +22970,159 @@
     "stars": 1004
   },
   {
-    "id": "zsh-users/zsh-autosuggestions",
+    "id": "bartobri/no-more-secrets",
     "date": "2026-11-23",
-    "stars": 36221
+    "stars": 7841
   },
   {
-    "id": "zsh-users/zsh-syntax-highlighting",
+    "id": "busyloop/lolcat",
     "date": "2026-11-23",
-    "stars": 23100
+    "stars": 6599
   },
   {
-    "id": "zsh-users/zsh-completions",
+    "id": "abishekvashok/cmatrix",
     "date": "2026-11-23",
-    "stars": 7919
+    "stars": 5317
   },
   {
-    "id": "marlonrichert/zsh-autocomplete",
+    "id": "vinayak-mehta/present",
     "date": "2026-11-23",
-    "stars": 6799
+    "stars": 4336
   },
   {
-    "id": "zdharma-continuum/zinit",
+    "id": "pipeseroni/pipes.sh",
     "date": "2026-11-23",
-    "stars": 4905
+    "stars": 3060
   },
   {
-    "id": "jeffreytse/zsh-vi-mode",
+    "id": "will8211/unimatrix",
     "date": "2026-11-23",
-    "stars": 4492
+    "stars": 1952
+  },
+  {
+    "id": "sahaj-b/cursor-shaders",
+    "date": "2026-11-23",
+    "stars": 1220
+  },
+  {
+    "id": "phlx0/drift",
+    "date": "2026-11-23",
+    "stars": 795
+  },
+  {
+    "id": "akinomyoga/cxxmatrix",
+    "date": "2026-11-23",
+    "stars": 738
+  },
+  {
+    "id": "cxreiff/ttysvr",
+    "date": "2026-11-23",
+    "stars": 488
+  },
+  {
+    "id": "M4444/TMatrix",
+    "date": "2026-11-23",
+    "stars": 434
+  },
+  {
+    "id": "omacom/ttfx",
+    "date": "2026-11-23",
+    "stars": 365
+  },
+  {
+    "id": "yogeshwaran01/github-stats-terminal-style",
+    "date": "2026-11-23",
+    "stars": 339
+  },
+  {
+    "id": "GeertJohan/gomatrix",
+    "date": "2026-11-23",
+    "stars": 315
+  },
+  {
+    "id": "oiwn/tarts",
+    "date": "2026-11-23",
+    "stars": 273
+  },
+  {
+    "id": "vilmibm/gh-screensaver",
+    "date": "2026-11-23",
+    "stars": 216
+  },
+  {
+    "id": "tehmaze/lolcat",
+    "date": "2026-11-23",
+    "stars": 214
+  },
+  {
+    "id": "Cod3r-Ak/TermuX-Custom",
+    "date": "2026-11-23",
+    "stars": 180
+  },
+  {
+    "id": "brunobraga/termsaver",
+    "date": "2026-11-23",
+    "stars": 109
+  },
+  {
+    "id": "M64GitHub/movy",
+    "date": "2026-11-23",
+    "stars": 101
+  },
+  {
+    "id": "UE4-OceanProject/OceanProject",
+    "date": "2026-11-23",
+    "stars": 1397
+  },
+  {
+    "id": "acmesh-official/acme.sh",
+    "date": "2026-11-23",
+    "stars": 47968
+  },
+  {
+    "id": "shelljs/shelljs",
+    "date": "2026-11-23",
+    "stars": 14399
+  },
+  {
+    "id": "phyver/GameShell",
+    "date": "2026-11-23",
+    "stars": 3366
+  },
+  {
+    "id": "mooz/percol",
+    "date": "2026-11-23",
+    "stars": 3318
+  },
+  {
+    "id": "megastep/makeself",
+    "date": "2026-11-23",
+    "stars": 2635
+  },
+  {
+    "id": "da-luce/astroterm",
+    "date": "2026-11-23",
+    "stars": 2556
+  },
+  {
+    "id": "drush-ops/drush",
+    "date": "2026-11-23",
+    "stars": 2374
+  },
+  {
+    "id": "kimono-koans/httm",
+    "date": "2026-11-23",
+    "stars": 1670
+  },
+  {
+    "id": "garybernhardt/selecta",
+    "date": "2026-11-23",
+    "stars": 1358
+  },
+  {
+    "id": "rust-shell-script/rust_cmd_lib",
+    "date": "2026-11-23",
+    "stars": 1157
   },
   {
     "id": "zsh-users/zsh-history-substring-search",
@@ -22600,39 +23130,9 @@
     "stars": 3121
   },
   {
-    "id": "agkozak/zsh-z",
-    "date": "2026-11-23",
-    "stars": 2470
-  },
-  {
-    "id": "lukechilds/zsh-nvm",
-    "date": "2026-11-23",
-    "stars": 2417
-  },
-  {
-    "id": "MichaelAquilina/zsh-you-should-use",
-    "date": "2026-11-23",
-    "stars": 1940
-  },
-  {
-    "id": "mattmc3/antidote",
-    "date": "2026-11-23",
-    "stars": 1836
-  },
-  {
     "id": "tom-doerr/zsh_codex",
     "date": "2026-11-23",
     "stars": 1733
-  },
-  {
-    "id": "marlonrichert/zsh-snap",
-    "date": "2026-11-23",
-    "stars": 1550
-  },
-  {
-    "id": "unixorn/git-extra-commands",
-    "date": "2026-11-23",
-    "stars": 1176
   },
   {
     "id": "zap-zsh/zap",
@@ -22645,29 +23145,14 @@
     "stars": 815
   },
   {
-    "id": "olets/zsh-abbr",
-    "date": "2026-11-23",
-    "stars": 806
-  },
-  {
     "id": "MichaelAquilina/zsh-autoswitch-virtualenv",
     "date": "2026-11-23",
     "stars": 637
   },
   {
-    "id": "johannjhang/fz.sh",
-    "date": "2026-11-23",
-    "stars": 573
-  },
-  {
     "id": "mattmc3/zsh_unplugged",
     "date": "2026-11-23",
     "stars": 508
-  },
-  {
-    "id": "lukechilds/zsh-better-npm-completion",
-    "date": "2026-11-23",
-    "stars": 502
   },
   {
     "id": "MichaelAquilina/zsh-auto-notify",
@@ -22678,11 +23163,6 @@
     "id": "chisui/zsh-nix-shell",
     "date": "2026-11-23",
     "stars": 437
-  },
-  {
-    "id": "zpm-zsh/zpm",
-    "date": "2026-11-23",
-    "stars": 412
   },
   {
     "id": "conda-incubator/conda-zsh-completion",
@@ -22700,16 +23180,6 @@
     "stars": 381
   },
   {
-    "id": "zsh-users/zsh-apple-touchbar",
-    "date": "2026-11-23",
-    "stars": 350
-  },
-  {
-    "id": "woefe/git-prompt.zsh",
-    "date": "2026-11-23",
-    "stars": 299
-  },
-  {
     "id": "nix-community/nix-zsh-completions",
     "date": "2026-11-23",
     "stars": 284
@@ -22720,54 +23190,9 @@
     "stars": 280
   },
   {
-    "id": "gomjellie/zsh-hangul",
-    "date": "2026-11-23",
-    "stars": 273
-  },
-  {
-    "id": "mroth/evalcache",
-    "date": "2026-11-23",
-    "stars": 268
-  },
-  {
-    "id": "mattmc3/zephyr",
-    "date": "2026-11-23",
-    "stars": 267
-  },
-  {
-    "id": "wulfgarpro/history-sync",
-    "date": "2026-11-23",
-    "stars": 266
-  },
-  {
     "id": "agkozak/zcomet",
     "date": "2026-11-23",
     "stars": 235
-  },
-  {
-    "id": "matheusml/zsh-ai",
-    "date": "2026-11-23",
-    "stars": 230
-  },
-  {
-    "id": "jirutka/zsh-shift-select",
-    "date": "2026-11-23",
-    "stars": 228
-  },
-  {
-    "id": "z-shell/F-Sy-H",
-    "date": "2026-11-23",
-    "stars": 221
-  },
-  {
-    "id": "unixorn/tumult.plugin.zsh",
-    "date": "2026-11-23",
-    "stars": 220
-  },
-  {
-    "id": "stevemcilwain/quiver",
-    "date": "2026-11-23",
-    "stars": 216
   },
   {
     "id": "belak/zsh-utils",
@@ -22785,31 +23210,6 @@
     "stars": 192
   },
   {
-    "id": "JanDeDobbeleer/aliae",
-    "date": "2026-11-23",
-    "stars": 184
-  },
-  {
-    "id": "kutsan/zsh-system-clipboard",
-    "date": "2026-11-23",
-    "stars": 180
-  },
-  {
-    "id": "Myzel394/zsh-copilot",
-    "date": "2026-11-23",
-    "stars": 179
-  },
-  {
-    "id": "marlonrichert/zsh-edit",
-    "date": "2026-11-23",
-    "stars": 175
-  },
-  {
-    "id": "zpm-zsh/autoenv",
-    "date": "2026-11-23",
-    "stars": 174
-  },
-  {
     "id": "wbingli/zsh-wakatime",
     "date": "2026-11-23",
     "stars": 160
@@ -22818,16 +23218,6 @@
     "id": "gusaiani/elixir-oh-my-zsh",
     "date": "2026-11-23",
     "stars": 157
-  },
-  {
-    "id": "jscutlery/nx-completion",
-    "date": "2026-11-23",
-    "stars": 156
-  },
-  {
-    "id": "psprint/zsh-sweep",
-    "date": "2026-11-23",
-    "stars": 155
   },
   {
     "id": "chrissicool/zsh-256color",
@@ -22840,29 +23230,9 @@
     "stars": 152
   },
   {
-    "id": "loiccoyle/zsh-github-copilot",
-    "date": "2026-11-23",
-    "stars": 150
-  },
-  {
-    "id": "SukkaW/zsh-osx-autoproxy",
-    "date": "2026-11-23",
-    "stars": 149
-  },
-  {
     "id": "rossmacarthur/zsh-plugin-manager-benchmark",
     "date": "2026-11-23",
     "stars": 135
-  },
-  {
-    "id": "ianthehenry/zsh-autoquoter",
-    "date": "2026-11-23",
-    "stars": 133
-  },
-  {
-    "id": "Dbz/kube-aliases",
-    "date": "2026-11-23",
-    "stars": 127
   },
   {
     "id": "grigorii-zander/zsh-npm-scripts-autocomplete",
@@ -22870,19 +23240,9 @@
     "stars": 126
   },
   {
-    "id": "momo-lab/zsh-abbrev-alias",
-    "date": "2026-11-23",
-    "stars": 123
-  },
-  {
     "id": "zchee/zsh-completions",
     "date": "2026-11-23",
     "stars": 122
-  },
-  {
-    "id": "z-shell/zsh-eza",
-    "date": "2026-11-23",
-    "stars": 121
   },
   {
     "id": "mdarrint/zsh-aliases-exa",
@@ -22905,124 +23265,9 @@
     "stars": 107
   },
   {
-    "id": "zpm-zsh/ls",
-    "date": "2026-11-23",
-    "stars": 106
-  },
-  {
-    "id": "zthxxx/zsh-history-enquirer",
-    "date": "2026-11-23",
-    "stars": 104
-  },
-  {
-    "id": "oldratlee/hacker-quotes",
-    "date": "2026-11-23",
-    "stars": 102
-  },
-  {
-    "id": "TunaCuma/zsh-vi-man",
-    "date": "2026-11-23",
-    "stars": 102
-  },
-  {
-    "id": "jorgebucaran/fisher",
-    "date": "2026-11-23",
-    "stars": 9467
-  },
-  {
-    "id": "IlanCosman/tide",
-    "date": "2026-11-23",
-    "stars": 4310
-  },
-  {
-    "id": "jorgebucaran/nvm.fish",
-    "date": "2026-11-23",
-    "stars": 2724
-  },
-  {
     "id": "edc/bass",
     "date": "2026-11-23",
     "stars": 2466
-  },
-  {
-    "id": "pure-fish/pure",
-    "date": "2026-11-23",
-    "stars": 1614
-  },
-  {
-    "id": "jethrokuan/z",
-    "date": "2026-11-23",
-    "stars": 1537
-  },
-  {
-    "id": "jorgebucaran/hydro",
-    "date": "2026-11-23",
-    "stars": 984
-  },
-  {
-    "id": "franciscolourenco/done",
-    "date": "2026-11-23",
-    "stars": 967
-  },
-  {
-    "id": "jorgebucaran/autopair.fish",
-    "date": "2026-11-23",
-    "stars": 586
-  },
-  {
-    "id": "Realiserad/fish-ai",
-    "date": "2026-11-23",
-    "stars": 570
-  },
-  {
-    "id": "jorgebucaran/replay.fish",
-    "date": "2026-11-23",
-    "stars": 485
-  },
-  {
-    "id": "meaningful-ooo/sponge",
-    "date": "2026-11-23",
-    "stars": 457
-  },
-  {
-    "id": "catppuccin/fish",
-    "date": "2026-11-23",
-    "stars": 450
-  },
-  {
-    "id": "nickeb96/puffer-fish",
-    "date": "2026-11-23",
-    "stars": 435
-  },
-  {
-    "id": "jorgebucaran/fishtape",
-    "date": "2026-11-23",
-    "stars": 386
-  },
-  {
-    "id": "gazorby/fish-abbreviation-tips",
-    "date": "2026-11-23",
-    "stars": 385
-  },
-  {
-    "id": "jorgebucaran/spark.fish",
-    "date": "2026-11-23",
-    "stars": 381
-  },
-  {
-    "id": "lilyball/nix-env.fish",
-    "date": "2026-11-23",
-    "stars": 303
-  },
-  {
-    "id": "laughedelic/pisces",
-    "date": "2026-11-23",
-    "stars": 300
-  },
-  {
-    "id": "jorgebucaran/getopts.fish",
-    "date": "2026-11-23",
-    "stars": 236
   },
   {
     "id": "sentriz/fish-pipenv",
@@ -23030,44 +23275,9 @@
     "stars": 196
   },
   {
-    "id": "decors/fish-colored-man",
-    "date": "2026-11-23",
-    "stars": 141
-  },
-  {
     "id": "laughedelic/fish_logo",
     "date": "2026-11-23",
     "stars": 138
-  },
-  {
-    "id": "PatrickF1/colored_man_pages.fish",
-    "date": "2026-11-23",
-    "stars": 126
-  },
-  {
-    "id": "techwizrd/fishmarks",
-    "date": "2026-11-23",
-    "stars": 119
-  },
-  {
-    "id": "decors/fish-ghq",
-    "date": "2026-11-23",
-    "stars": 118
-  },
-  {
-    "id": "joehillen/to-fish",
-    "date": "2026-11-23",
-    "stars": 116
-  },
-  {
-    "id": "sshilovsky/fish-helix",
-    "date": "2026-11-23",
-    "stars": 109
-  },
-  {
-    "id": "gazorby/fish-exa",
-    "date": "2026-11-23",
-    "stars": 108
   },
   {
     "id": "yazi-rs/plugins",
@@ -24030,39 +24240,14 @@
     "stars": 10279
   },
   {
-    "id": "wfxr/forgit",
-    "date": "2026-11-23",
-    "stars": 5096
-  },
-  {
-    "id": "Aloxaf/fzf-tab",
-    "date": "2026-11-23",
-    "stars": 4994
-  },
-  {
-    "id": "ibhagwan/fzf-lua",
-    "date": "2026-11-23",
-    "stars": 4496
-  },
-  {
     "id": "pystardust/ytfzf",
     "date": "2026-11-23",
     "stars": 4162
   },
   {
-    "id": "skywind3000/z.lua",
-    "date": "2026-11-23",
-    "stars": 3148
-  },
-  {
     "id": "babarot/enhancd",
     "date": "2026-11-23",
     "stars": 2731
-  },
-  {
-    "id": "PatrickF1/fzf.fish",
-    "date": "2026-11-23",
-    "stars": 2717
   },
   {
     "id": "bigH/git-fuzzy",
@@ -24075,19 +24260,9 @@
     "stars": 2055
   },
   {
-    "id": "kevinhwang91/nvim-bqf",
-    "date": "2026-11-23",
-    "stars": 2030
-  },
-  {
     "id": "joehillen/sysz",
     "date": "2026-11-23",
     "stars": 1888
-  },
-  {
-    "id": "leo-arch/clifm",
-    "date": "2026-11-23",
-    "stars": 1739
   },
   {
     "id": "Benexl/yt-x",
@@ -24095,19 +24270,9 @@
     "stars": 1694
   },
   {
-    "id": "sainnhe/tmux-fzf",
-    "date": "2026-11-23",
-    "stars": 1523
-  },
-  {
     "id": "junegunn/fzf-git.sh",
     "date": "2026-11-23",
     "stars": 1205
-  },
-  {
-    "id": "kelleyma49/PSFzf",
-    "date": "2026-11-23",
-    "stars": 1197
   },
   {
     "id": "alok/notational-fzf-vim",
@@ -24140,16 +24305,6 @@
     "stars": 868
   },
   {
-    "id": "wfxr/tmux-fzf-url",
-    "date": "2026-11-23",
-    "stars": 741
-  },
-  {
-    "id": "kazhala/dotbare",
-    "date": "2026-11-23",
-    "stars": 730
-  },
-  {
     "id": "ctaylo21/jarvis",
     "date": "2026-11-23",
     "stars": 725
@@ -24175,11 +24330,6 @@
     "stars": 519
   },
   {
-    "id": "urbainvaes/fzf-marks",
-    "date": "2026-11-23",
-    "stars": 518
-  },
-  {
     "id": "joshskidmore/zsh-fzf-history-search",
     "date": "2026-11-23",
     "stars": 484
@@ -24200,11 +24350,6 @@
     "stars": 471
   },
   {
-    "id": "unixorn/fzf-zsh-plugin",
-    "date": "2026-11-23",
-    "stars": 439
-  },
-  {
     "id": "Blacksuan19/init.nvim",
     "date": "2026-11-23",
     "stars": 426
@@ -24213,11 +24358,6 @@
     "id": "bling/fzf.el",
     "date": "2026-11-23",
     "stars": 419
-  },
-  {
-    "id": "craftzdog/tmux-claude-hatch",
-    "date": "2026-11-23",
-    "stars": 409
   },
   {
     "id": "gennaro-tedesco/gh-f",
@@ -24238,11 +24378,6 @@
     "id": "black7375/BlaCk-Void-Zsh",
     "date": "2026-11-23",
     "stars": 364
-  },
-  {
-    "id": "reegnz/jq-zsh-plugin",
-    "date": "2026-11-23",
-    "stars": 363
   },
   {
     "id": "rgomezcasas/dotfiles",
@@ -24268,11 +24403,6 @@
     "id": "vijaymarupudi/nvim-fzf",
     "date": "2026-11-23",
     "stars": 349
-  },
-  {
-    "id": "johannjhang/zsh-interactive-cd",
-    "date": "2026-11-23",
-    "stars": 335
   },
   {
     "id": "numToStr/dotfiles",
@@ -24320,19 +24450,9 @@
     "stars": 285
   },
   {
-    "id": "yardnsm/tmux-1password",
-    "date": "2026-11-23",
-    "stars": 277
-  },
-  {
     "id": "mislav/gh-branch",
     "date": "2026-11-23",
     "stars": 276
-  },
-  {
-    "id": "gazorby/fifc",
-    "date": "2026-11-23",
-    "stars": 274
   },
   {
     "id": "27medkamal/tmux-session-wizard",
@@ -24390,11 +24510,6 @@
     "stars": 225
   },
   {
-    "id": "sunlei/zsh-ssh",
-    "date": "2026-11-23",
-    "stars": 223
-  },
-  {
     "id": "nk412/pyfzf",
     "date": "2026-11-23",
     "stars": 212
@@ -24448,11 +24563,6 @@
     "id": "xero/evangelion.nvim",
     "date": "2026-11-23",
     "stars": 177
-  },
-  {
-    "id": "chitoku-k/fzf-zsh-completions",
-    "date": "2026-11-23",
-    "stars": 170
   },
   {
     "id": "jojojames/fussy",
@@ -24573,11 +24683,6 @@
     "id": "beauwilliams/awesome-fzf",
     "date": "2026-11-23",
     "stars": 121
-  },
-  {
-    "id": "CNTRUN/Termux-command",
-    "date": "2026-11-23",
-    "stars": 120
   },
   {
     "id": "Zhuchii/ani-es",
