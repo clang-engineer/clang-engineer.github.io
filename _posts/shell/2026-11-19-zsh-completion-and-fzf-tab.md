@@ -2,7 +2,7 @@
 title       : "Tab을 누르면 무슨 일이 일어날까 — zsh 자동완성과 fzf-tab"
 description : "Harlequin 프로필 자동완성을 사례로 compdef·_arguments·compadd의 역할과 후보 생성·fzf 선택 UI의 분리, 초기화와 조회 시점을 설명한다."
 date        : 2026-11-19 00:00:00 +0900
-updated     : 2026-11-19 00:00:00 +0900
+updated     : 2026-11-23 00:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
 tags        : [shell, zsh, completion, fzf, guide]
 pin         : false
@@ -30,6 +30,8 @@ Harlequin에서 `harlequin -P ` 뒤에 Tab을 누르면 저장된 DB 프로필�
 Oh My Zsh는 Zsh 자체가 아니라 설정·플러그인·테마를 관리하는 프레임워크다. 이 글의 완성 구조를 쓰는 데 필수는 아니다. 프레임워크를 쓰면 구성을 모으기 편하고, 직접 구성하면 로드할 요소를 좁힐 수 있다. 어느 쪽이 항상 빠르다는 결론보다는 실제로 로드한 설정과 플러그인을 확인해야 한다.
 
 이하에서는 이 중 **Tab 완성 후보가 만들어지고 선택 UI에 전달되는 경로**를 Harlequin 사례로 따라간다. 일반적인 Zsh 설정 명령은 [devkit Zsh Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/zsh.md)를 참고한다.
+
+`Tab` 완성과 달리 실행했던 명령을 찾는 `Ctrl-R`은 [Atuin과 fzf의 히스토리 검색 비교](../reference/tools/2026-11-23-atuin-vs-fzf-shell-history.md)에서 다룬다. 후보 선택 화면이 비슷해도 저장할 데이터와 담당 키는 별개다.
 
 ## fzf-tab은 프로필을 모른다
 

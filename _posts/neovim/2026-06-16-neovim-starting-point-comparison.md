@@ -2,9 +2,9 @@
 title       : "Neovim을 어디서 시작할까 — Vanilla / kickstart.nvim / LazyVim 비교"
 description : "Neovim 환경을 새로 만들거나 다시 익히려 할 때 선택지인 세 가지 시작점의 정체·학습 곡선·추천 맥락 비교 (2026-07 기준)"
 date        : 2026-06-16 11:00:00 +0900
-updated     : 2026-07-24 15:00:00 +0900
+updated     : 2026-11-23 00:00:00 +0900
 categories  : [neovim, "개요·인덱스"]
-tags        : [vim, lazyvim, kickstart, distro, nvchad, astronvim]
+tags        : [vim, lazyvim, kickstart, distro, nvchad, astronvim, comparison]
 redirect_from:
   - /posts/neovim/2025-10-04-neovim-distribution/
   - /posts/lazyvim/2025-10-04-neovim-distribution/
