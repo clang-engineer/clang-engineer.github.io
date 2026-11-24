@@ -18,9 +18,8 @@ body.resources-page #panel-wrapper {
   display: none !important;
 }
 
-html:has(body.resources-page #rp-dialog[open]),
-body.resources-page:has(#rp-dialog[open]) {
-  overflow: hidden;
+body.resources-page {
+  --rp-dock-width: clamp(520px, 52vw, 760px);
 }
 
 /* Site colors belong to the interface, never to the specimen artwork. */
@@ -109,10 +108,13 @@ body.resources-page:has(#rp-dialog[open]) {
 
 #resource-previews .rp-gallery-toolbar {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
   margin-bottom: 1.25rem;
 }
 
-#resource-previews :is(.rp-gallery-kinds, .rp-dialog-targets, .rp-dialog-actions) {
+#resource-previews .rp-gallery-kinds {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -136,25 +138,6 @@ body.resources-page:has(#rp-dialog[open]) {
 #resource-previews .rp-gallery-kinds button[aria-pressed="true"] {
   border-color: var(--link-color);
   background: var(--main-bg);
-}
-
-#resource-previews .rp-pick-notice {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: .75rem;
-  margin-bottom: 1.25rem;
-  padding: .85rem 1rem;
-  border: 2px solid var(--link-color);
-  border-radius: .75rem;
-  background: var(--card-bg);
-}
-
-#resource-previews #rp-pick-status {
-  flex: 1 1 14rem;
-  min-width: 0;
-  overflow-wrap: anywhere;
 }
 
 #resource-previews [data-rp-gallery-kind] {
@@ -189,6 +172,14 @@ body.resources-page:has(#rp-dialog[open]) {
 
 #resource-previews .rp-gallery-card:enabled:hover {
   box-shadow: 0 6px 22px rgb(0 0 0 / 12%);
+}
+
+#resource-previews .rp-gallery-card[draggable="true"] {
+  cursor: grab;
+}
+
+#resource-previews .rp-gallery-card[draggable="true"]:active {
+  cursor: grabbing;
 }
 
 #resource-previews .rp-gallery-caption {
@@ -370,46 +361,49 @@ body.resources-page:has(#rp-dialog[open]) {
   display: none;
 }
 
-/* The native top layer owns containment; only this dialog locks page scroll. */
-#resource-previews #rp-dialog {
-  container: rp-detail / inline-size;
-  width: min(1200px, calc(100vw - 2rem));
-  max-width: none;
-  max-height: calc(100vh - 2rem);
-  max-height: calc(100dvh - 2rem);
-  margin: auto;
-  padding: 0 1.25rem 1.25rem;
+/* A non-modal workspace keeps the gallery available beside or above it. */
+#resource-previews .rp-dock {
+  container: rp-dock / inline-size;
+  position: fixed;
+  z-index: 1040;
+  inset: auto 0 0;
+  width: 100%;
+  height: 55vh;
+  height: 55dvh;
+  max-height: 55vh;
+  max-height: 55dvh;
+  min-width: 0;
+  margin: 0;
+  padding: 0 1rem 1rem;
   border: 1px solid var(--main-border-color);
-  border-radius: 1rem;
+  border-radius: .85rem .85rem 0 0;
   background: var(--main-bg);
   color: var(--text-color);
-  box-shadow: 0 24px 80px rgb(0 0 0 / 30%);
+  box-shadow: 0 -6px 24px rgb(0 0 0 / 12%);
   font: inherit;
   overflow: auto;
   overscroll-behavior: contain;
+  scroll-padding-top: 9rem;
 }
 
-#resource-previews #rp-dialog:not([open]) {
-  display: none;
-}
-
-#resource-previews #rp-dialog::backdrop {
-  background: rgb(10 14 22 / 65%);
-}
-
-#resource-previews .rp-dialog-header {
+#resource-previews .rp-dock-controls {
   position: sticky;
   top: 0;
   z-index: 2;
+  margin-inline: -1rem;
+  margin-bottom: .75rem;
+  padding: .5rem 1rem .75rem;
+  border-bottom: 1px solid var(--main-border-color);
+  background: var(--main-bg);
+}
+
+#resource-previews .rp-dock-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  margin-inline: -1.25rem;
-  margin-bottom: 1rem;
-  padding: .85rem 1.25rem;
-  border-bottom: 1px solid var(--main-border-color);
-  background: var(--main-bg);
+  gap: .75rem;
+  min-width: 0;
+  margin-bottom: .5rem;
 }
 
 #resource-previews #rp-detail-title {
@@ -418,12 +412,8 @@ body.resources-page:has(#rp-dialog[open]) {
   overflow-wrap: anywhere;
 }
 
-#resource-previews #rp-dialog-close {
+#resource-previews #rp-panel-close {
   flex: 0 0 auto;
-}
-
-#resource-previews .rp-dialog-actions {
-  margin-bottom: .5rem;
 }
 
 #resource-previews :is(#rp-mode-help, .rp-font-status, .rp-gallery-status) {
@@ -433,8 +423,18 @@ body.resources-page:has(#rp-dialog[open]) {
   overflow-wrap: anywhere;
 }
 
-#resource-previews .rp-dialog-targets {
-  margin: 1rem 0;
+#resource-previews .rp-dock-targets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .5rem;
+}
+
+#resource-previews .rp-dock-targets button {
+  min-width: 0;
+}
+
+#resource-previews #rp-mode-help {
+  margin-bottom: .75rem;
 }
 
 #resource-previews details > summary {
@@ -529,20 +529,48 @@ body.resources-page:has(#rp-dialog[open]) {
   gap: 1.25rem;
 }
 
-#resource-previews #rp-dialog[data-comparing="false"] .rp-comparison {
-  width: 100%;
-  max-width: 760px;
-  margin-inline: auto;
-}
-
 #resource-previews .rp-panel {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 170px;
+  padding: .75rem;
+  border: 1px dashed var(--main-border-color);
+  border-radius: .75rem;
+  background: var(--card-bg);
 }
 
-#resource-previews #rp-dialog[data-comparing="true"] .rp-panel[data-active="false"] {
+#resource-previews .rp-panel[data-active="false"] {
   display: none;
+}
+
+#resource-previews .rp-panel[data-active="true"] {
+  border-color: var(--link-color);
+}
+
+#resource-previews [data-rp-drop].rp-drop-active {
+  outline: 3px solid var(--link-color);
+  outline-offset: -4px;
+  box-shadow: inset 0 0 0 1px var(--link-color);
+}
+
+#resource-previews .rp-empty {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 170px;
+  padding: 1rem;
+  color: var(--text-muted-color);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+#resource-previews .rp-slot-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
 }
 
 #resource-previews .rp-panel-heading {
@@ -565,6 +593,11 @@ body.resources-page:has(#rp-dialog[open]) {
   font-size: .85rem;
   line-height: 1.5;
   overflow-wrap: anywhere;
+}
+
+#resource-previews [data-rp-clear] {
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 
 #resource-previews .rp-selectors {
@@ -738,20 +771,15 @@ body.resources-page:has(#rp-dialog[open]) {
   }
 }
 
-/* Compare by dialog width, not by the still-wide gallery behind it. */
-@container rp-detail (min-width: 700px) {
-  #resource-previews #rp-dialog[data-comparing="true"] .rp-comparison {
+/* The workspace width, not the gallery width, determines visible slots. */
+@container rp-dock (min-width: 650px) {
+  #resource-previews .rp-comparison {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  #resource-previews #rp-dialog[data-comparing="true"] .rp-panel[data-active] {
+  #resource-previews .rp-panel[data-active] {
     display: flex;
   }
-
-  #resource-previews #rp-dialog[data-comparing="true"] .rp-dialog-targets {
-    display: none;
-  }
-
   #resource-previews .rp-settings {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -761,14 +789,34 @@ body.resources-page:has(#rp-dialog[open]) {
   }
 }
 
-@media (max-width: 480px) {
-  #resource-previews #rp-dialog {
-    padding-inline: .75rem;
-    border-radius: .75rem;
+@media (min-width: 1100px) {
+  body.resources-page.rp-panel-open #main-wrapper {
+    margin-right: var(--rp-dock-width);
   }
 
-  #resource-previews .rp-dialog-header {
-    gap: .5rem;
+  #resource-previews .rp-dock {
+    inset: 3rem 0 0 auto;
+    width: var(--rp-dock-width);
+    height: auto;
+    max-height: none;
+    border-radius: 0;
+    box-shadow: -6px 0 24px rgb(0 0 0 / 12%);
+  }
+}
+
+@media (max-width: 1099px) {
+  body.resources-page.rp-panel-open {
+    padding-bottom: 55vh;
+    padding-bottom: 55dvh;
+  }
+}
+
+@media (max-width: 480px) {
+  #resource-previews .rp-dock {
+    padding-inline: .75rem;
+  }
+
+  #resource-previews .rp-dock-controls {
     margin-inline: -.75rem;
     padding-inline: .75rem;
   }

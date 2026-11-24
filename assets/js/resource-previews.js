@@ -5,24 +5,18 @@
   const data = JSON.parse(document.getElementById('rp-data').textContent);
   const themes = new Map(data.themes.map((theme) => [theme.id, theme]));
   const fonts = new Map(data.fonts.map((font) => [font.id, font]));
-  const candidates = [
-    { theme: data.themes[0].id, font: data.fonts[0].id },
-    { theme: data.themes[1].id, font: data.fonts[1].id }
-  ];
-  const shared = { ...candidates[0] };
+  const candidates = [null, null];
+  const shared = { theme: data.themes[0].id, font: data.fonts[0].id };
+  const dragType = 'application/x-resource-preview';
   let galleryKind = 'theme';
   let mode = 'theme';
-  let comparing = false;
   let activePanel = 0;
-  let pendingPick = null;
-  let returnFocus = null;
+  let panelOpen = false;
+  let returnFocus;
 
-  const dialog = root.querySelector('#rp-dialog');
-  const dialogTitle = root.querySelector('#rp-detail-title');
-  const pickNotice = root.querySelector('#rp-pick-notice');
-  const pickStatus = root.querySelector('#rp-pick-status');
-  const pickCompare = root.querySelector('#rp-pick-compare');
-  const stopCompare = root.querySelector('#rp-stop-compare');
+  const dock = root.querySelector('#rp-comparison-panel');
+  const openButton = root.querySelector('#rp-open-comparison');
+  const closeButton = root.querySelector('#rp-panel-close');
   const modeSelect = root.querySelector('#rp-comparison-mode');
   const sample = root.querySelector('#rp-sample');
   const size = root.querySelector('#rp-size');
@@ -33,53 +27,42 @@
   const sharedFontControl = root.querySelector('#rp-shared-font-control');
   const sharedThemeControl = root.querySelector('#rp-shared-theme-control');
   const modeHelp = root.querySelector('#rp-mode-help');
-  const selectionStatus = root.querySelector('#rp-selection-status');
+  const status = root.querySelector('#rp-selection-status');
   const galleryButtons = root.querySelectorAll('[data-rp-gallery]');
   const gallerySections = root.querySelectorAll('[data-rp-gallery-kind]');
   const targetButtons = root.querySelectorAll('[data-rp-target]');
-  const targets = root.querySelector('.rp-dialog-targets');
+  const dropZones = root.querySelectorAll('[data-rp-drop]');
   const choices = root.querySelectorAll('[data-rp-choice-theme], [data-rp-choice-font]');
   const samples = root.querySelectorAll('.rp-sample-text');
   const colorNames = {
-    background: '배경',
-    foreground: '글자',
-    red: '빨강',
-    green: '초록',
-    yellow: '노랑',
-    blue: '파랑',
-    purple: '보라',
-    cyan: '청록'
+    background: '배경', foreground: '글자', red: '빨강', green: '초록',
+    yellow: '노랑', blue: '파랑', purple: '보라', cyan: '청록'
   };
   const modeDescriptions = {
-    theme: '같은 폰트와 문장으로 색감만 비교합니다.',
-    font: '같은 배경과 문장으로 글자 모양만 비교합니다.',
-    combination: '테마와 폰트를 각각 골라 조합을 비교합니다.'
+    theme: '같은 폰트로 색감을 비교합니다. 견본을 A/B에 끌어놓거나, A/B 선택 후 견본을 누르세요.',
+    font: '같은 배경으로 폰트를 비교합니다. 견본을 A/B에 끌어놓거나, A/B 선택 후 견본을 누르세요.',
+    combination: '테마와 폰트를 각각 조합합니다. 끌어놓은 종류만 바꾸고 다른 설정은 유지합니다.'
   };
-
   const loadFace = async (family) => {
     try {
-      const faces = await document.fonts.load(`400 16px "${family}"`, 'Aa 0O 1Il 가 나');
-      return faces.length > 0;
+      return (await document.fonts.load(`400 16px "${family}"`, 'Aa 0O 1Il 가 나')).length > 0;
     } catch {
       return false;
     }
   };
   const fontLoads = new Map(data.fonts.map((font) => [font.id, loadFace(font.family)]));
-
   const fontStatusText = async (font) => {
     const [loaded, koreanLoaded] = await Promise.all([
-      fontLoads.get(font.id),
-      font.supports_korean ? true : fontLoads.get('noto-sans-kr')
+      fontLoads.get(font.id), font.supports_korean ? true : fontLoads.get('noto-sans-kr')
     ]);
     if (!loaded) return `${font.name} 로드 실패 · 대체 글꼴로 표시 중입니다.`;
     if (!koreanLoaded) return '한글 대체 글꼴 로드 실패';
     return font.supports_korean ? '' : '한글: Noto Sans KR';
   };
-
-  root.querySelectorAll('[data-rp-font-status]').forEach(async (status) => {
-    const text = await fontStatusText(fonts.get(status.dataset.rpFontStatus));
-    status.textContent = text;
-    status.hidden = !text.includes('실패');
+  root.querySelectorAll('[data-rp-font-status]').forEach(async (node) => {
+    const text = await fontStatusText(fonts.get(node.dataset.rpFontStatus));
+    node.textContent = text;
+    node.hidden = !text.includes('실패');
   });
 
   const panels = [...root.querySelectorAll('[data-rp-panel]')].map((panel, index) => {
@@ -88,6 +71,9 @@
     const themeControl = panel.querySelector('[data-rp-theme-control]');
     const fontControl = panel.querySelector('[data-rp-font-control]');
     const panelName = panel.querySelector('[data-rp-panel-name]');
+    const content = panel.querySelector('[data-rp-slot-content]');
+    const empty = panel.querySelector('[data-rp-empty]');
+    const clear = panel.querySelector('[data-rp-clear]');
     const preview = panel.querySelector('.rp-preview');
     const palette = panel.querySelector('.rp-palette');
     const themeLink = panel.querySelector('[data-rp-theme-link]');
@@ -100,22 +86,36 @@
 
     themeSelect.addEventListener('change', () => {
       candidates[index].theme = themeSelect.value;
-      if (!comparing) shared.theme = themeSelect.value;
       render();
     });
     fontSelect.addEventListener('change', () => {
       candidates[index].font = fontSelect.value;
-      if (!comparing) shared.font = fontSelect.value;
       render();
+    });
+    clear.addEventListener('click', () => {
+      candidates[index] = null;
+      activePanel = index;
+      render();
+      root.querySelector(`[data-rp-target="${index}"]`).focus({ preventScroll: true });
+      status.textContent = `${index === 0 ? 'A' : 'B'}를 비웠습니다.`;
     });
 
     return () => {
-      const themeId = mode === 'font' ? shared.theme : candidates[index].theme;
-      const fontId = mode === 'theme' ? shared.font : candidates[index].font;
+      const candidate = candidates[index];
+      panel.dataset.active = String(index === activePanel);
+      content.hidden = !candidate;
+      empty.hidden = !!candidate;
+      clear.hidden = !candidate;
+      if (!candidate) {
+        panelName.textContent = '비어 있음';
+        ++fontRequest;
+        lastTheme = lastFont = null;
+        return;
+      }
+      const themeId = mode === 'font' ? shared.theme : candidate.theme;
+      const fontId = mode === 'theme' ? shared.font : candidate.font;
       const theme = themes.get(themeId);
       const font = fonts.get(fontId);
-      panel.hidden = index === 1 && !comparing;
-      panel.dataset.active = String(index === activePanel);
       themeControl.hidden = mode !== 'combination';
       fontControl.hidden = mode !== 'combination';
       themeSelect.value = themeId;
@@ -147,7 +147,6 @@
         }));
         lastTheme = themeId;
       }
-
       if (fontId !== lastFont) {
         const request = ++fontRequest;
         const fallback = font.supports_korean ? 'sans-serif' : '"Noto Sans KR", monospace';
@@ -168,25 +167,18 @@
 
   function render() {
     root.dataset.gallery = galleryKind;
+    document.body.classList.toggle('rp-panel-open', panelOpen);
+    dock.hidden = !panelOpen;
+    dock.dataset.mode = mode;
+    openButton.setAttribute('aria-expanded', String(panelOpen));
     galleryButtons.forEach((button) => {
       button.setAttribute('aria-pressed', String(button.dataset.rpGallery === galleryKind));
     });
     gallerySections.forEach((section) => {
       section.hidden = section.dataset.rpGalleryKind !== galleryKind;
     });
-    pickNotice.hidden = !pendingPick;
-    if (pendingPick) {
-      pickStatus.textContent = `비교할 ${galleryKind === 'theme' ? '테마' : '폰트'}를 골라주세요.`;
-    }
-    dialog.dataset.comparing = String(comparing);
-    dialog.dataset.mode = mode;
     modeSelect.value = mode;
-    modeHelp.textContent = comparing ? modeDescriptions[mode]
-      : '폰트와 크기, 문장은 미리보기 설정에서 바꿀 수 있습니다.';
-    pickCompare.textContent = comparing ? '비교 항목 바꾸기'
-      : `다른 ${mode === 'theme' ? '테마' : mode === 'font' ? '폰트' : '조합'}와 비교`;
-    stopCompare.hidden = !comparing;
-    targets.hidden = !comparing;
+    modeHelp.textContent = modeDescriptions[mode];
     targetButtons.forEach((button) => {
       button.setAttribute('aria-pressed', String(Number(button.dataset.rpTarget) === activePanel));
     });
@@ -196,88 +188,92 @@
     sharedFont.value = shared.font;
     sharedTheme.value = shared.theme;
     panels.forEach((update) => update());
-    const names = [...root.querySelectorAll('[data-rp-panel-name]')].map((node) => node.textContent);
-    dialogTitle.textContent = comparing ? `${names[0]} · ${names[1]}` : names[0];
   }
 
+  function assign(index, item) {
+    const candidate = candidates[index] || { ...shared };
+    candidate[item.kind] = item.id;
+    candidates[index] = candidate;
+    if (index === 0 || !candidates[0]) shared[item.kind] = item.id;
+    if (mode !== 'combination') mode = item.kind;
+    activePanel = index;
+    panelOpen = true;
+    render();
+    const name = (item.kind === 'theme' ? themes : fonts).get(item.id).name;
+    status.textContent = `${index === 0 ? 'A' : 'B'}에 ${name} 적용.`;
+  }
+  function closePanel() {
+    panelOpen = false;
+    render();
+    dropZones.forEach((zone) => zone.classList.remove('rp-drop-active'));
+    if (returnFocus?.getClientRects().length) returnFocus.focus({ preventScroll: true });
+    else openButton.focus({ preventScroll: true });
+  }
+  openButton.addEventListener('click', () => {
+    if (panelOpen) return closePanel();
+    returnFocus = openButton;
+    panelOpen = true;
+    render();
+    closeButton.focus({ preventScroll: true });
+  });
+  closeButton.addEventListener('click', closePanel);
+  dock.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closePanel();
+    }
+  });
   galleryButtons.forEach((button) => button.addEventListener('click', () => {
     galleryKind = button.dataset.rpGallery;
-    if (pendingPick && mode !== 'combination') mode = galleryKind;
     render();
   }));
-
-  choices.forEach((button) => button.addEventListener('click', () => {
-    const isTheme = button.hasAttribute('data-rp-choice-theme');
-    const kind = isTheme ? 'theme' : 'font';
-    const id = isTheme ? button.dataset.rpChoiceTheme : button.dataset.rpChoiceFont;
-    if (pendingPick) {
-      if (pendingPick.fresh) candidates[1] = { ...candidates[0] };
-      candidates[1][kind] = id;
-      comparing = true;
-      activePanel = 1;
-      pendingPick = null;
-    } else {
-      candidates[0][kind] = id;
-      shared.theme = candidates[0].theme;
-      shared.font = candidates[0].font;
-      mode = kind;
-      comparing = false;
-      activePanel = 0;
-    }
-    returnFocus = button;
-    render();
-    dialog.showModal();
-    selectionStatus.textContent = `${(isTheme ? themes : fonts).get(id).name} 미리보기`;
-  }));
-
-  pickCompare.addEventListener('click', () => {
-    const kind = mode === 'combination' ? galleryKind : mode;
-    pendingPick = { fresh: !comparing, mode, gallery: galleryKind };
-    galleryKind = kind;
-    render();
-    dialog.close();
+  choices.forEach((button) => {
+    const item = button.hasAttribute('data-rp-choice-theme')
+      ? { kind: 'theme', id: button.dataset.rpChoiceTheme }
+      : { kind: 'font', id: button.dataset.rpChoiceFont };
+    button.addEventListener('click', () => {
+      returnFocus = button;
+      assign(activePanel, item);
+    });
+    button.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData(dragType, JSON.stringify(item));
+      event.dataTransfer.effectAllowed = 'copy';
+      returnFocus = button;
+      panelOpen = true;
+      render();
+    });
+    button.addEventListener('dragend', () => {
+      dropZones.forEach((zone) => zone.classList.remove('rp-drop-active'));
+    });
   });
-  root.querySelector('#rp-pick-cancel').addEventListener('click', () => {
-    mode = pendingPick.mode;
-    galleryKind = pendingPick.gallery;
-    pendingPick = null;
-    render();
-    dialog.showModal();
+  dropZones.forEach((zone) => {
+    zone.addEventListener('dragover', (event) => {
+      if (!Array.from(event.dataTransfer.types).includes(dragType)) return;
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'copy';
+      zone.classList.add('rp-drop-active');
+    });
+    zone.addEventListener('dragleave', (event) => {
+      if (!zone.contains(event.relatedTarget)) zone.classList.remove('rp-drop-active');
+    });
+    zone.addEventListener('drop', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      zone.classList.remove('rp-drop-active');
+      let item;
+      try { item = JSON.parse(event.dataTransfer.getData(dragType)); } catch { return; }
+      const collection = item?.kind === 'theme' ? themes : item?.kind === 'font' ? fonts : null;
+      if (!collection?.has(item.id)) return;
+      assign(Number(zone.dataset.rpDrop), item);
+    });
   });
-  stopCompare.addEventListener('click', () => {
-    comparing = false;
-    activePanel = 0;
-    render();
-  });
-  root.querySelector('#rp-dialog-close').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('close', () => {
-    if (dialog.open) return;
-    if (pendingPick) {
-      pickStatus.focus();
-    } else if (returnFocus?.getClientRects().length) {
-      returnFocus.focus({ preventScroll: true });
-    } else {
-      [...galleryButtons].find((button) => button.dataset.rpGallery === galleryKind).focus();
-    }
-  });
-  modeSelect.addEventListener('change', () => {
-    mode = modeSelect.value;
-    render();
-  });
+  modeSelect.addEventListener('change', () => { mode = modeSelect.value; render(); });
   targetButtons.forEach((button) => button.addEventListener('click', () => {
     activePanel = Number(button.dataset.rpTarget);
     render();
   }));
-  sharedFont.addEventListener('change', () => {
-    shared.font = sharedFont.value;
-    if (!comparing) candidates[0].font = sharedFont.value;
-    render();
-  });
-  sharedTheme.addEventListener('change', () => {
-    shared.theme = sharedTheme.value;
-    if (!comparing) candidates[0].theme = sharedTheme.value;
-    render();
-  });
+  sharedFont.addEventListener('change', () => { shared.font = sharedFont.value; render(); });
+  sharedTheme.addEventListener('change', () => { shared.theme = sharedTheme.value; render(); });
   const updateSample = () => samples.forEach((text) => { text.textContent = sample.value; });
   const updateSize = () => {
     root.style.setProperty('--rp-size', `${size.value}px`);
@@ -286,7 +282,7 @@
   sample.addEventListener('input', updateSample);
   size.addEventListener('input', updateSize);
   root.querySelectorAll('[data-rp-only]').forEach((element) => { element.hidden = false; });
-  choices.forEach((button) => { button.disabled = false; });
+  choices.forEach((button) => { button.disabled = false; button.draggable = true; });
   updateSample();
   updateSize();
   render();
