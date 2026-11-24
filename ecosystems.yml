@@ -100,6 +100,13 @@ ecosystems:
     name: Neovim Plugins
     source: github
     topic: neovim-plugin
+    # Managers and plugins with Vim/nvim metadata can miss Neovim-specific searches.
+    # https://github.com/junegunn/vim-plug and https://github.com/wbthomason/packer.nvim
+    repositories:
+      - folke/lazy.nvim
+      - junegunn/vim-plug
+      - nvim-treesitter/nvim-treesitter
+      - lewis6991/pckr.nvim
     limit: 100
     min_stars: 100
   - id: tmux-plugins
@@ -111,6 +118,13 @@ ecosystems:
     name: Tmux Plugins
     source: github
     topic: tmux-plugin
+    # Reviewed TPM plugins from https://github.com/tmux-plugins/list
+    repositories:
+      - tmux-plugins/tpm
+      - tmux-plugins/tmux-resurrect
+      - tmux-plugins/tmux-continuum
+      - tmux-plugins/tmux-sensible
+      - laktak/extrakto
     limit: 100
     min_stars: 100
   - id: zsh-plugins
@@ -121,9 +135,18 @@ ecosystems:
     searches:
       - '"zsh plugin" in:description'
       - '"zsh completion" in:description'
-    # Reviewed seeds from https://github.com/unixorn/awesome-zsh-plugins
-    # Keep repository-level entries; bundled plugins do not have separate Stars.
+    # Reviewed plugins, frameworks and managers from https://github.com/unixorn/awesome-zsh-plugins
+    # Rank bundled frameworks once per repository, not once per included plugin.
     repositories:
+      - ohmyzsh/ohmyzsh
+      - sorin-ionescu/prezto
+      - zsh-users/antigen
+      - zplug/zplug
+      - zimfw/zimfw
+      - zdharma-continuum/zinit
+      - mattmc3/antidote
+      - marlonrichert/zsh-snap
+      - rossmacarthur/sheldon
       - zsh-users/zsh-autosuggestions
       - zsh-users/zsh-syntax-highlighting
       - zsh-users/zsh-completions
@@ -144,8 +167,14 @@ ecosystems:
     searches:
       - '"fish plugin" in:description'
       - '"plugin for fish" in:description'
-    # Reviewed plugin entries from https://github.com/jorgebucaran/awsm.fish
+    # Reviewed plugins and managers from https://github.com/jorgebucaran/awsm.fish
+    # OMF calls itself a framework; topic/description plugin searches miss it.
     repositories:
+      - oh-my-fish/oh-my-fish
+      - jorgebucaran/fisher
+      - danhper/fundle
+      - justinmayer/virtualfish
+      - joseluisq/gitnow
       - PatrickF1/fzf.fish
       - jethrokuan/z
       - jorgebucaran/nvm.fish
@@ -180,6 +209,8 @@ ecosystems:
       - dedukun/bookmarks.yazi
       - Rolv-Apneseth/starship.yazi
       - ndtoan96/ouch.yazi
+      - dedukun/relative-motions.yazi
+      - AnirudhG07/rich-preview.yazi
     exclude:
       - sxyazi/yazi
       - yazi-rs/yazi-rs.github.io
@@ -211,6 +242,8 @@ ecosystems:
       - ajeetdsouza/zoxide
       - Shallow-Seek/fazif.yazi
       - XYenon/yafg.yazi
+      # https://github.com/junegunn/fzf/wiki/Related-projects#tmux
+      - laktak/extrakto
     # Alternatives and algorithm ports are not integrations of the fzf executable.
     exclude:
       - junegunn/fzf
@@ -258,6 +291,15 @@ ecosystems:
       - oh-my-fish/oh-my-fish
       - ohmyzsh/ohmyzsh
       - sorin-ionescu/prezto
+      - zplug/zplug
+      - zimfw/zimfw
+      - zdharma-continuum/zinit
+      - mattmc3/antidote
+      - marlonrichert/zsh-snap
+      - rossmacarthur/sheldon
+      - danhper/fundle
+      - justinmayer/virtualfish
+      - joseluisq/gitnow
       - zsh-users/zsh-autosuggestions
       - zsh-users/zsh-syntax-highlighting
       - zsh-users/zsh-completions
