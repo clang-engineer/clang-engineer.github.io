@@ -20,7 +20,7 @@ https://clang-engineer.github.io
 
 ```
 _posts/          # 블로그 포스트 (카테고리별 하위 폴더)
-_tabs/           # 사이드바 탭 페이지
+_tabs/           # 사이드바 탭 및 숨김 독립 페이지
 _data/           # 사이트 데이터 (로케일 등)
 _includes/       # 레이아웃 조각
 _layouts/        # 페이지 레이아웃
@@ -30,6 +30,12 @@ _plugins/        # Jekyll 플러그인
 assets/          # 정적 파일 (이미지, CSS, JS 빌드 결과)
 tools/           # 로컬 개발용 스크립트
 ```
+
+### 개발 리소스 모음
+
+`_tabs/resources.md`는 `/resources/`로 공개하는 독립 링크 모음입니다.
+`hidden: true`로 사이드바 탭에는 노출하지 않고, Articles(`/articles/`)에서 연결합니다.
+테마 등 다시 찾아볼 사이트는 이 페이지에 추가하며, 설치법은 공식 안내로 연결합니다.
 
 ## 로컬 개발
 
