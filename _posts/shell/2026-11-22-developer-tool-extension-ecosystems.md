@@ -229,6 +229,30 @@ Yazi
 
 tmux 플러그인은 명령·스크립트·설정 관례를 활용하므로 Neovim이나 Yazi의 확장 API와 동일한 실행 모델이 아니다. 또한 Harlequin의 Adapter와 Television의 Channel은 범용 UI 플러그인과 목적이 다르다. **프로젝트 존재 여부와 현재 버전 호환성·유지보수 여부는 별도로 확인**해야 한다.
 
+### fzf와 Television — 조합형 도구와 구성 단위의 차이
+
+```text
+fzf                            Television (tv)
+후보 명령 → fzf → 후속 명령     Channel → tv → Action
+          ↑                             ↑
+    스크립트·셸 통합                TOML 구성·공유
+```
+
+fzf는 외부 명령을 조합해 Picker를 구성할 수 있다. 확장 프로젝트는 반드시 fzf 내부에 로드되는 플러그인이 아니라 셸·에디터·tmux 통합이나 독립 스크립트인 경우가 많다.
+
+| 유형 | 대표 프로젝트 | 도입할 이유 |
+|---|---|---|
+| 셸 통합 | [fzf.fish](https://github.com/PatrickF1/fzf.fish), [fzf-tab](https://github.com/Aloxaf/fzf-tab) | 목적별 키와 자동완성 |
+| 에디터 통합 | [fzf.vim](https://github.com/junegunn/fzf.vim), [fzf-lua](https://github.com/ibhagwan/fzf-lua) | 에디터 데이터 및 탐색 |
+| 작업 특화 | [forgit](https://github.com/wfxr/forgit), [tmux-fzf](https://github.com/sainnhe/tmux-fzf) | Git·tmux 조작 |
+| 스크립트 모음 | [everything.fzf](https://github.com/junegunn/everything.fzf), [fzf-scripts](https://github.com/DanielFGray/fzf-scripts) | 필요한 Picker 선별 재사용 |
+
+[Television](https://github.com/alexpasmantier/television)은 fzf 플러그인이 아닌 독립 퍼지 파인더다. 기본 파일 탐색과 본문 탐색을 각각 `tv`, `tv text`로 실행하며, Channel의 TOML 설정에 후보 명령·미리보기·키·액션을 기술할 수 있다. fzf의 스크립트 중심 조합과 비교할 만한 구성 모델이다. 공식 저장소에서 약 6.4k Stars를 확인했다(2026-11-24); 이는 관심도이지 안정성 보증은 아니다.
+
+[사용자들의 fzf 활용 사례](https://www.reddit.com/r/commandline/comments/1s8y2sw/using_fzf_for_everything/)와 [고급 예제 토론](https://www.reddit.com/r/commandline/comments/mnazoi)은 목적별 스크립트를 활용하는 사례를 탐색하는 출발점이다. 개별 사례를 전체 사용자 합의로 해석하지 않는다.
+
+도입 순서는 기본 기능 → 검증된 확장 → 공식 예제 → 개인 설정을 권한다. 기존 편집기·Git·파일 관리자와 기능이 겹치는지 먼저 확인하고, 반복되는 불편에 한해 확장한다. Stars 외에 최근 릴리스·이슈 대응·의존성·호환성·실사용 후기를 확인한다. 기능 지도는 [fzf 치트시트](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/fzf.md)를 참고한다.
+
 ## 8. 새로운 도구를 발견했을 때
 
 먼저 **무엇을 해결하는 도구인지** 확인하고, 공식 문서에서 Plugin·Extension·Adapter·Hook·Script 같은 확장 지점을 살펴본다. 그다음 독립 확장 프로젝트가 있는지, 이를 모아 놓은 Awesome·Registry·Theme·Framework가 있는지 확인한다. 마지막으로 자신이 실제로 필요한 작업에 도움이 되는지만 판단한다.
