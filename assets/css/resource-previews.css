@@ -1,0 +1,794 @@
+/* Only this page expands; the site's sidebar and topbar keep their layout. */
+body.resources-page #main-wrapper > .container {
+  width: 100%;
+  max-width: none;
+  padding-inline: 0 !important;
+}
+
+body.resources-page #main-wrapper > .container > .row > main,
+body.resources-page #main-wrapper > .container > .row > #tail-wrapper {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding-inline: clamp(1rem, 2vw, 2rem) !important;
+}
+
+body.resources-page #panel-wrapper {
+  display: none !important;
+}
+
+html:has(body.resources-page #rp-dialog[open]),
+body.resources-page:has(#rp-dialog[open]) {
+  overflow: hidden;
+}
+
+/* Site colors belong to the interface, never to the specimen artwork. */
+#resource-previews {
+  container: resource-previews / inline-size;
+  min-width: 0;
+  margin: 1rem 0 2rem;
+  color: var(--text-color);
+  font-size: .95rem;
+  line-height: 1.6;
+}
+
+#resource-previews[hidden],
+#resource-previews [hidden] {
+  display: none !important;
+}
+
+#resource-previews,
+#resource-previews *,
+#resource-previews *::before,
+#resource-previews *::after {
+  box-sizing: border-box;
+}
+
+#resource-previews :is(h2, h3, h4, p, pre) {
+  margin: 0;
+}
+
+#resource-previews :is(section[id], details[id]) {
+  scroll-margin-top: 5rem;
+}
+
+#resource-previews :is(h2, h3, h4) {
+  color: var(--text-color);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+#resource-previews a {
+  color: var(--link-color);
+  overflow-wrap: anywhere;
+  text-underline-offset: .2em;
+}
+
+#resource-previews .rp-intro {
+  max-width: 48rem;
+  margin-bottom: 1rem;
+  color: var(--text-muted-color);
+}
+
+#resource-previews button {
+  min-width: 44px;
+  min-height: 44px;
+  max-width: 100%;
+  padding: .5rem .8rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: .5rem;
+  background: var(--main-bg);
+  color: var(--text-color);
+  font: inherit;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+#resource-previews button:enabled:hover {
+  border-color: var(--link-color);
+}
+
+#resource-previews button[aria-pressed="true"] {
+  border-color: var(--link-color);
+  color: var(--link-color);
+  box-shadow: inset 0 0 0 1px var(--link-color);
+}
+
+#resource-previews button:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+#resource-previews :is(textarea, select, input[type="range"], button, a, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 3px;
+}
+
+#resource-previews .rp-gallery-toolbar {
+  display: flex;
+  margin-bottom: 1.25rem;
+}
+
+#resource-previews :is(.rp-gallery-kinds, .rp-dialog-targets, .rp-dialog-actions) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+}
+
+#resource-previews .rp-gallery-kinds {
+  gap: .25rem;
+  padding: .25rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: .75rem;
+  background: var(--card-bg);
+}
+
+#resource-previews .rp-gallery-kinds button {
+  min-width: 5rem;
+  border-color: transparent;
+  background: transparent;
+}
+
+#resource-previews .rp-gallery-kinds button[aria-pressed="true"] {
+  border-color: var(--link-color);
+  background: var(--main-bg);
+}
+
+#resource-previews .rp-pick-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-bottom: 1.25rem;
+  padding: .85rem 1rem;
+  border: 2px solid var(--link-color);
+  border-radius: .75rem;
+  background: var(--card-bg);
+}
+
+#resource-previews #rp-pick-status {
+  flex: 1 1 14rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#resource-previews [data-rp-gallery-kind] {
+  min-width: 0;
+  margin-bottom: 2rem;
+}
+
+#resource-previews [data-rp-gallery-kind] > h2 {
+  margin-bottom: .85rem;
+  font-size: 1.1rem;
+}
+
+#resource-previews .rp-gallery-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 20px;
+}
+
+#resource-previews .rp-gallery-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  padding: 0;
+  border: 1px solid var(--main-border-color);
+  border-radius: .85rem;
+  background: var(--card-bg);
+  text-align: left;
+  box-shadow: 0 5px 18px rgb(0 0 0 / 5%);
+}
+
+#resource-previews .rp-gallery-card:enabled:hover {
+  box-shadow: 0 6px 22px rgb(0 0 0 / 12%);
+}
+
+#resource-previews .rp-gallery-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .25rem .75rem;
+  margin-top: auto;
+  padding: 1rem 1.1rem;
+  color: var(--text-color);
+  font-family: inherit;
+}
+
+#resource-previews .rp-gallery-name {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+#resource-previews .rp-gallery-meta {
+  color: var(--text-muted-color);
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+/* Every theme uses the same editor, sample size and neutral monospace family. */
+#resource-previews .rp-gallery-editor {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 280px;
+  border-radius: .8rem .8rem 0 0;
+  background: var(--rp-background);
+  color: var(--rp-foreground);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: left;
+}
+
+#resource-previews :is(.rp-gallery-editor, .rp-font-paper, .rp-preview),
+#resource-previews :is(.rp-gallery-editor, .rp-font-paper, .rp-preview) * {
+  font-style: normal;
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+#resource-previews .rp-editor-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .6rem;
+  min-height: 44px;
+  padding: .6rem 1rem;
+  border-bottom: 1px solid var(--rp-muted);
+  color: var(--rp-muted);
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+#resource-previews .rp-editor-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#resource-previews .rp-editor-dots > span {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--rp-muted);
+  opacity: .65;
+}
+
+/* Reset the site's code chrome while keeping the actual selected family. */
+#resource-previews :is(.rp-gallery-editor, .rp-preview) :is(pre, code) {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-style: normal;
+  font-weight: 400;
+  line-height: inherit;
+  white-space: pre-wrap;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  overflow: visible;
+  tab-size: 2;
+  hyphens: none;
+}
+
+#resource-previews .rp-gallery-editor .rp-gallery-code {
+  flex: 1;
+  min-height: 176px;
+  padding: 1rem;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+#resource-previews .rp-gallery-swatches {
+  display: flex;
+  min-width: 0;
+  height: 10px;
+}
+
+#resource-previews .rp-gallery-swatches > span {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+
+#resource-previews :is(.rp-gallery-editor, .rp-preview) .rp-token-keyword { color: var(--rp-purple); }
+#resource-previews :is(.rp-gallery-editor, .rp-preview) .rp-token-function { color: var(--rp-blue); }
+#resource-previews :is(.rp-gallery-editor, .rp-preview) .rp-token-string { color: var(--rp-green); }
+#resource-previews :is(.rp-gallery-editor, .rp-preview) .rp-token-number { color: var(--rp-yellow); }
+#resource-previews :is(.rp-gallery-editor, .rp-preview) .rp-token-comment { color: var(--rp-muted); }
+
+/* Identical paper and fixed 400 weight isolate real font-family differences. */
+#resource-previews .rp-font-paper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  min-width: 0;
+  min-height: 290px;
+  padding: 1.6rem 1.25rem;
+  border-radius: .8rem .8rem 0 0;
+  background: #f6f3ed;
+  color: #24272d;
+  font-family: var(--rp-font);
+  font-size: 20px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+#resource-previews .rp-font-display {
+  display: block;
+  color: inherit;
+  font-family: inherit;
+  font-size: 44px;
+  line-height: 1.2;
+}
+
+#resource-previews :is(.rp-font-glyphs, .rp-font-line) {
+  display: block;
+  color: inherit;
+  font-family: inherit;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+#resource-previews .rp-font-line {
+  margin-top: auto;
+}
+
+#resource-previews .rp-gallery-status {
+  display: block;
+  padding: 0 1.1rem .85rem;
+  text-align: left;
+}
+
+#resource-previews :is(.rp-gallery-status, .rp-font-status):empty {
+  display: none;
+}
+
+/* The native top layer owns containment; only this dialog locks page scroll. */
+#resource-previews #rp-dialog {
+  container: rp-detail / inline-size;
+  width: min(1200px, calc(100vw - 2rem));
+  max-width: none;
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0 1.25rem 1.25rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: 1rem;
+  background: var(--main-bg);
+  color: var(--text-color);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 30%);
+  font: inherit;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+#resource-previews #rp-dialog:not([open]) {
+  display: none;
+}
+
+#resource-previews #rp-dialog::backdrop {
+  background: rgb(10 14 22 / 65%);
+}
+
+#resource-previews .rp-dialog-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-inline: -1.25rem;
+  margin-bottom: 1rem;
+  padding: .85rem 1.25rem;
+  border-bottom: 1px solid var(--main-border-color);
+  background: var(--main-bg);
+}
+
+#resource-previews #rp-detail-title {
+  min-width: 0;
+  font-size: 1.15rem;
+  overflow-wrap: anywhere;
+}
+
+#resource-previews #rp-dialog-close {
+  flex: 0 0 auto;
+}
+
+#resource-previews .rp-dialog-actions {
+  margin-bottom: .5rem;
+}
+
+#resource-previews :is(#rp-mode-help, .rp-font-status, .rp-gallery-status) {
+  color: var(--text-muted-color);
+  font-size: .8rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+#resource-previews .rp-dialog-targets {
+  margin: 1rem 0;
+}
+
+#resource-previews details > summary {
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+  padding: .6rem 0;
+  color: var(--text-color);
+  font-size: .85rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+#resource-previews .rp-settings-options {
+  margin: .5rem 0 1rem;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+#resource-previews .rp-settings-options[open] {
+  padding-bottom: 1rem;
+}
+
+#resource-previews :is(.rp-settings, .rp-shared-controls, .rp-selectors) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: .75rem;
+  min-width: 0;
+}
+
+#resource-previews .rp-settings {
+  align-items: end;
+  padding-top: .25rem;
+}
+
+#resource-previews :is(.rp-settings, .rp-selectors) label {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  gap: .25rem;
+  margin: 0;
+  color: var(--text-color);
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+#resource-previews :is(textarea, select, input[type="range"]) {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  border: 1px solid var(--main-border-color);
+  border-radius: .5rem;
+  background: var(--main-bg);
+  color: var(--text-color);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  accent-color: var(--link-color);
+}
+
+#resource-previews :is(textarea, select) {
+  padding: .5rem;
+}
+
+#resource-previews textarea {
+  display: block;
+  resize: vertical;
+}
+
+#resource-previews select {
+  cursor: pointer;
+}
+
+#resource-previews input[type="range"] {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+#resource-previews output {
+  color: var(--text-muted-color);
+  font-size: .8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+#resource-previews .rp-comparison {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+#resource-previews #rp-dialog[data-comparing="false"] .rp-comparison {
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+#resource-previews .rp-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+#resource-previews #rp-dialog[data-comparing="true"] .rp-panel[data-active="false"] {
+  display: none;
+}
+
+#resource-previews .rp-panel-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .35rem .5rem;
+  min-width: 0;
+  margin-bottom: .65rem;
+}
+
+#resource-previews .rp-panel-heading h3 {
+  flex: 0 0 auto;
+  font-size: 1rem;
+}
+
+#resource-previews [data-rp-panel-name] {
+  min-width: 0;
+  color: var(--text-muted-color);
+  font-size: .85rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+#resource-previews .rp-selectors {
+  margin-bottom: .75rem;
+}
+
+#resource-previews .rp-selectors:not(:has(label:not([hidden]))) {
+  display: none;
+}
+
+#resource-previews .rp-preview {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  border-radius: .65rem;
+  background: var(--rp-background);
+  color: var(--rp-foreground);
+  font-family: var(--rp-font);
+  font-size: var(--rp-size, 16px);
+  line-height: 1.65;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+#resource-previews .rp-preview :is(h2, h3, p, pre, code, span) {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+#resource-previews .rp-specimen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: .85em;
+  min-width: 0;
+  padding: clamp(.8rem, 3cqi, 1.5rem);
+}
+
+#resource-previews .rp-preview .rp-specimen-title {
+  color: var(--rp-foreground);
+  font-size: 2em;
+  line-height: 1.2;
+}
+
+#resource-previews .rp-preview .rp-sample-text {
+  color: var(--rp-foreground);
+  white-space: pre-wrap;
+}
+
+#resource-previews .rp-preview .rp-glyphs {
+  color: var(--rp-muted);
+  white-space: pre-wrap;
+}
+
+#resource-previews .rp-palette-options {
+  min-width: 0;
+  padding: 0 1rem .25rem;
+  color: var(--rp-foreground);
+}
+
+#resource-previews .rp-palette-options > summary {
+  color: inherit;
+}
+
+#resource-previews .rp-palette {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(3.5rem, 1fr));
+  gap: .5rem;
+  padding-bottom: .5rem;
+}
+
+#resource-previews .rp-swatch {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: .2rem;
+}
+
+#resource-previews .rp-swatch-color {
+  display: block;
+  height: 1.1rem;
+  border: 1px solid var(--rp-muted);
+  border-radius: .15rem;
+}
+
+#resource-previews .rp-swatch code {
+  font-size: .7rem;
+}
+
+#resource-previews .rp-panel-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  align-items: center;
+  gap: 0 .8rem;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: .35rem 0 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-color);
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+#resource-previews .rp-panel-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .35rem 0;
+  border-bottom: 0;
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+#resource-previews .rp-panel-footer .rp-font-status {
+  flex-basis: 100%;
+  margin: 0;
+  text-align: left;
+}
+
+#resource-previews > :is(.rp-reference, .rp-about, .rp-more) {
+  margin-top: .75rem;
+  border-top: 1px solid var(--main-border-color);
+}
+
+#resource-previews :is(.rp-reference, .rp-about, .rp-more) :is(p, ul, dl) {
+  margin: .5rem 0;
+  overflow-wrap: anywhere;
+}
+
+#resource-previews :is(.rp-reference, .rp-about, .rp-more) :is(h3, h4) {
+  margin-top: 1rem;
+  font-size: .95rem;
+}
+
+#resource-previews :is(.rp-reference, .rp-about, .rp-more) li + li {
+  margin-top: .35rem;
+}
+
+#resource-previews :is(.rp-reference, .rp-about, .rp-more) a {
+  display: inline-block;
+  max-width: 100%;
+  padding-block: .2rem;
+}
+
+#resource-previews #rp-selection-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@container resource-previews (min-width: 780px) {
+  #resource-previews .rp-gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container resource-previews (min-width: 1300px) {
+  #resource-previews .rp-gallery-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Compare by dialog width, not by the still-wide gallery behind it. */
+@container rp-detail (min-width: 700px) {
+  #resource-previews #rp-dialog[data-comparing="true"] .rp-comparison {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #resource-previews #rp-dialog[data-comparing="true"] .rp-panel[data-active] {
+    display: flex;
+  }
+
+  #resource-previews #rp-dialog[data-comparing="true"] .rp-dialog-targets {
+    display: none;
+  }
+
+  #resource-previews .rp-settings {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #resource-previews .rp-settings label:has(#rp-sample) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  #resource-previews #rp-dialog {
+    padding-inline: .75rem;
+    border-radius: .75rem;
+  }
+
+  #resource-previews .rp-dialog-header {
+    gap: .5rem;
+    margin-inline: -.75rem;
+    padding-inline: .75rem;
+  }
+
+  #resource-previews .rp-gallery-caption {
+    padding-inline: .85rem;
+  }
+
+  #resource-previews .rp-font-paper {
+    padding-inline: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #resource-previews,
+  #resource-previews *,
+  #resource-previews *::before,
+  #resource-previews *::after {
+    scroll-behavior: auto;
+    animation: none;
+    transition: none;
+  }
+}

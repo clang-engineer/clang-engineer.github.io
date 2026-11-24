@@ -14,7 +14,7 @@ redirect_from:
 <a class="browse-entry" href="{{ '/categories/' | relative_url }}"><i class="fas fa-stream" aria-hidden="true"></i><span><strong>카테고리</strong><small>주제별로 글 찾기</small></span><i class="fas fa-chevron-right" aria-hidden="true"></i></a>
 <a class="browse-entry" href="{{ '/tags/' | relative_url }}"><i class="fas fa-tags" aria-hidden="true"></i><span><strong>태그</strong><small>키워드로 관련 글 찾기</small></span><i class="fas fa-chevron-right" aria-hidden="true"></i></a>
 <a class="browse-entry" href="{{ '/archives/' | relative_url }}"><i class="fas fa-archive" aria-hidden="true"></i><span><strong>아카이브</strong><small>작성 시점순으로 글 찾기</small></span><i class="fas fa-chevron-right" aria-hidden="true"></i></a>
-<a class="browse-entry" href="{{ '/resources/' | relative_url }}"><i class="fas fa-bookmark" aria-hidden="true"></i><span><strong>개발 리소스 모음</strong><small>테마 등 개발할 때 다시 찾아볼 사이트</small></span><i class="fas fa-chevron-right" aria-hidden="true"></i></a>
+<a class="browse-entry" href="{{ '/resources/' | relative_url }}"><i class="fas fa-bookmark" aria-hidden="true"></i><span><strong>개발 리소스 모음</strong><small>색상 테마·폰트 미리보기와 비교, 공식 사이트 모음</small></span><i class="fas fa-chevron-right" aria-hidden="true"></i></a>
 </div>
 
 <style>
