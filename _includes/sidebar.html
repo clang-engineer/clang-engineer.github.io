@@ -26,12 +26,14 @@
         </a>
       </li>
       <!-- the real tabs -->
+      {% assign navigation_section = site.data.section_navigation[page.navigation] %}
+      {% assign sidebar_current = navigation_section.url | default: page.url %}
       {% for tab in site.tabs %}
         {% if tab.hidden %}
           {% continue %}
         {% endif %}
-        <li class="nav-item{% if tab.url == page.url %}{{ " active" }}{% endif %}">
-          <a href="{{ tab.url | relative_url }}" class="nav-link">
+        <li class="nav-item{% if tab.url == sidebar_current %}{{ " active" }}{% endif %}">
+          <a href="{{ tab.url | relative_url }}" class="nav-link"{% if tab.url == sidebar_current %} aria-current="{% if tab.url == page.url %}page{% else %}true{% endif %}"{% endif %}>
             <i class="fa-fw {{ tab.icon }}"></i>
             {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
 

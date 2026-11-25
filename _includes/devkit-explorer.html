@@ -17,9 +17,6 @@
     --re-radius: 8px;
   }
 
-  body:has(.dk-app) #main-wrapper > .container { max-width: none; }
-  body:has(.dk-app) #panel-wrapper { display: none !important; }
-  body:has(.dk-app) main { max-width: 100%; flex: 1 1 100%; }
   body:has(.dk-app) #tail-wrapper { display: none !important; }
 </style>
 <reference-explorer id="devkit-root" default-view="{{ include.view | default: 'map' }}"

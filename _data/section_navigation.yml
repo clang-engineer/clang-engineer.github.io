@@ -1,0 +1,20 @@
+devkit:
+  title: Devkit
+  url: /devkit/
+  links:
+    - title: 도구 탐색
+      url: /devkit/
+      icon: fas fa-toolbox
+    - title: 테마·폰트
+      url: /resources/
+      icon: fas fa-palette
+radar:
+  title: Radar
+  url: /radar/
+  links:
+    - title: 뉴스·커뮤니티
+      url: /radar/
+      icon: fas fa-rss
+    - title: 오픈소스 랭킹
+      url: /rankings/
+      icon: fas fa-chart-line

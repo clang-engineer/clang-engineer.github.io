@@ -3,14 +3,31 @@ layout: default
 ---
 
 {% include lang.html %}
+{% assign navigation_section = site.data.section_navigation[page.navigation] %}
+{% assign navigation_current = page.navigation_current | default: page.url %}
+{% if navigation_section %}
+  <link rel="stylesheet" href="{{ '/assets/css/section-navigation.css' | relative_url }}">
+{% endif %}
 
 <article class="px-1">
   {% if page.layout == 'page' or page.collection == 'tabs' %}
     {% assign tab_key = page.title | downcase %}
     {% assign title = site.data.locales[lang].tabs[tab_key] | default: page.title %}
-    <h1 class="dynamic-title">
-      {{ title }}
-    </h1>
+    {% if navigation_section %}
+      <header class="section-header">
+        <h1 class="dynamic-title">{{ navigation_section.title }}</h1>
+        <nav class="section-navigation" aria-label="{{ navigation_section.title | escape }} 하위 메뉴">
+          {% for link in navigation_section.links %}
+            <a href="{{ link.url | relative_url }}" aria-label="{{ link.title | escape }}"{% if link.url == navigation_current %} aria-current="page"{% endif %}>
+              <i class="{{ link.icon }}" aria-hidden="true"></i>
+              <span class="section-navigation-label" aria-hidden="true">{{ link.title }}</span>
+            </a>
+          {% endfor %}
+        </nav>
+      </header>
+    {% else %}
+      <h1 class="dynamic-title">{{ title }}</h1>
+    {% endif %}
     <div class="content">
       {{ content }}
     </div>

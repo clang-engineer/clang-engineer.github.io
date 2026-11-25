@@ -4,6 +4,9 @@ icon: fas fa-chart-bar
 order: 4
 title: Rankings
 permalink: /rankings/
+hidden: true
+navigation: radar
+page_class: radar-page rankings-page
 redirect_from:
   - /ecosystem/
 ---

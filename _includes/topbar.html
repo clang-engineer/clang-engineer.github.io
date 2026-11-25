@@ -1,4 +1,6 @@
 <!-- The Top Bar -->
+{% assign navigation_section = site.data.section_navigation[page.navigation] %}
+{% assign navigation_current = page.navigation_current | default: page.url %}
 
 <header id="topbar-wrapper" class="flex-shrink-0" aria-label="Top Bar">
   <div
@@ -12,6 +14,14 @@
         <!-- index page -->
         <span>{{ site.data.locales[include.lang].tabs.home | capitalize }}</span>
 
+      {% elsif navigation_section %}
+        <span><a href="{{ '/' | relative_url }}">{{ site.data.locales[include.lang].tabs.home | capitalize }}</a></span>
+        <span><a href="{{ navigation_section.url | relative_url }}">{{ navigation_section.title }}</a></span>
+        {% for link in navigation_section.links %}
+          {% if link.url == navigation_current %}
+            <span aria-current="page">{{ link.title }}</span>
+          {% endif %}
+        {% endfor %}
       {% else %}
         {% for item in paths %}
           {% if forloop.first %}
@@ -47,6 +57,8 @@
     <div id="topbar-title">
       {% if page.layout == 'home' %}
         {{- site.data.locales[include.lang].title | default: site.title -}}
+      {% elsif navigation_section %}
+        {{- navigation_section.title -}}
       {% elsif page.collection == 'tabs' or page.layout == 'page' %}
         {%- capture tab_key -%}{{ page.url | split: '/' }}{%- endcapture -%}
         {{- site.data.locales[include.lang].tabs[tab_key] | default: page.title -}}

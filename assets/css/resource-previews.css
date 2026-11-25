@@ -1,27 +1,3 @@
-/* Only this page expands; the site's sidebar and topbar keep their layout. */
-body.resources-page #main-wrapper > .container {
-  width: 100%;
-  max-width: none;
-  padding-inline: 0 !important;
-}
-
-body.resources-page #main-wrapper > .container > .row > main,
-body.resources-page #main-wrapper > .container > .row > #tail-wrapper {
-  flex: 0 0 100%;
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-  padding-inline: clamp(1rem, 2vw, 2rem) !important;
-}
-
-body.resources-page #panel-wrapper {
-  display: none !important;
-}
-
-body.resources-page {
-  --rp-dock-width: clamp(520px, 52vw, 760px);
-}
-
 /* Site colors belong to the interface, never to the specimen artwork. */
 #resource-previews {
   container: resource-previews / inline-size;
@@ -101,7 +77,7 @@ body.resources-page {
   cursor: default;
 }
 
-#resource-previews :is(textarea, select, input[type="range"], button, a, summary, [tabindex]):focus-visible {
+#resource-previews :is(button, a, summary):focus-visible {
   outline: 2px solid var(--link-color);
   outline-offset: 3px;
 }
@@ -174,14 +150,6 @@ body.resources-page {
   box-shadow: 0 6px 22px rgb(0 0 0 / 12%);
 }
 
-#resource-previews .rp-gallery-card[draggable="true"] {
-  cursor: grab;
-}
-
-#resource-previews .rp-gallery-card[draggable="true"]:active {
-  cursor: grabbing;
-}
-
 #resource-previews .rp-gallery-caption {
   display: flex;
   flex-wrap: wrap;
@@ -222,8 +190,8 @@ body.resources-page {
   text-align: left;
 }
 
-#resource-previews :is(.rp-gallery-editor, .rp-font-paper, .rp-preview),
-#resource-previews :is(.rp-gallery-editor, .rp-font-paper, .rp-preview) * {
+#resource-previews :is(.rp-gallery-editor, .rp-font-paper),
+#resource-previews :is(.rp-gallery-editor, .rp-font-paper) * {
   font-style: normal;
   font-weight: 400;
   font-synthesis: none;
@@ -261,7 +229,7 @@ body.resources-page {
 }
 
 /* Reset the site's code chrome while keeping the actual selected family. */
-#resource-previews :is(.rp-gallery-editor, .rp-preview) :is(pre, code) {
+#resource-previews .rp-gallery-editor :is(pre, code) {
   display: block;
   width: 100%;
   min-width: 0;
@@ -306,11 +274,11 @@ body.resources-page {
   min-width: 0;
 }
 
-#resource-previews :is(.rp-gallery-editor, .rp-preview) .rp-token-keyword { color: var(--rp-purple); }
-#resource-previews :is(.rp-gallery-editor, .rp-preview) .rp-token-function { color: var(--rp-blue); }
-#resource-previews :is(.rp-gallery-editor, .rp-preview) .rp-token-string { color: var(--rp-green); }
-#resource-previews :is(.rp-gallery-editor, .rp-preview) .rp-token-number { color: var(--rp-yellow); }
-#resource-previews :is(.rp-gallery-editor, .rp-preview) .rp-token-comment { color: var(--rp-muted); }
+#resource-previews .rp-gallery-editor .rp-token-keyword { color: var(--rp-purple); }
+#resource-previews .rp-gallery-editor .rp-token-function { color: var(--rp-blue); }
+#resource-previews .rp-gallery-editor .rp-token-string { color: var(--rp-green); }
+#resource-previews .rp-gallery-editor .rp-token-number { color: var(--rp-yellow); }
+#resource-previews .rp-gallery-editor .rp-token-comment { color: var(--rp-muted); }
 
 /* Identical paper and fixed 400 weight isolate real font-family differences. */
 #resource-previews .rp-font-paper {
@@ -361,80 +329,91 @@ body.resources-page {
   display: none;
 }
 
-/* A non-modal workspace keeps the gallery available beside or above it. */
-#resource-previews .rp-dock {
-  container: rp-dock / inline-size;
-  position: fixed;
-  z-index: 1040;
-  inset: auto 0 0;
-  width: 100%;
-  height: 55vh;
-  height: 55dvh;
-  max-height: 55vh;
-  max-height: 55dvh;
-  min-width: 0;
-  margin: 0;
-  padding: 0 1rem 1rem;
+body:has(#rp-detail[open]) {
+  overflow: hidden;
+}
+
+#resource-previews #rp-detail {
+  width: min(760px, calc(100% - 2rem));
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0 1.25rem 1.25rem;
   border: 1px solid var(--main-border-color);
-  border-radius: .85rem .85rem 0 0;
+  border-radius: var(--visual-radius, 12px);
   background: var(--main-bg);
   color: var(--text-color);
-  box-shadow: 0 -6px 24px rgb(0 0 0 / 12%);
-  font: inherit;
   overflow: auto;
   overscroll-behavior: contain;
-  scroll-padding-top: 9rem;
 }
 
-#resource-previews .rp-dock-controls {
+#rp-detail::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+
+#resource-previews .rp-detail-header {
   position: sticky;
   top: 0;
-  z-index: 2;
-  margin-inline: -1rem;
-  margin-bottom: .75rem;
-  padding: .5rem 1rem .75rem;
-  border-bottom: 1px solid var(--main-border-color);
-  background: var(--main-bg);
-}
-
-#resource-previews .rp-dock-header {
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: .75rem;
-  min-width: 0;
-  margin-bottom: .5rem;
+  gap: 1rem;
+  padding-block: .75rem;
+  background: var(--main-bg);
 }
 
 #resource-previews #rp-detail-title {
-  min-width: 0;
-  font-size: 1.15rem;
-  overflow-wrap: anywhere;
+  font-size: 1.2rem;
 }
 
-#resource-previews #rp-panel-close {
-  flex: 0 0 auto;
+#resource-previews .rp-detail-header form {
+  flex-shrink: 0;
+  margin: 0;
 }
 
-#resource-previews :is(#rp-mode-help, .rp-font-status, .rp-gallery-status) {
-  color: var(--text-muted-color);
-  font-size: .8rem;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
+#resource-previews #rp-detail-preview .rp-gallery-editor {
+  min-height: 340px;
+  border-radius: .65rem;
 }
 
-#resource-previews .rp-dock-targets {
+#resource-previews #rp-detail-preview .rp-gallery-code {
+  font-size: 16px;
+}
+
+#resource-previews #rp-detail-preview .rp-font-paper {
+  border-radius: .65rem;
+}
+
+#resource-previews #rp-detail-preview .rp-font-display {
+  font-size: clamp(48px, 8vw, 64px);
+}
+
+#resource-previews #rp-detail-preview :is(.rp-font-glyphs, .rp-font-line) {
+  font-size: 24px;
+}
+
+#resource-previews .rp-detail-info {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: .5rem;
+  gap: .75rem;
+  padding-top: 1rem;
 }
 
-#resource-previews .rp-dock-targets button {
-  min-width: 0;
+#resource-previews :is(#rp-detail-meta, .rp-font-status, .rp-gallery-status) {
+  color: var(--text-muted-color);
+  font-size: .85rem;
 }
 
-#resource-previews #rp-mode-help {
-  margin-bottom: .75rem;
+#resource-previews .rp-detail-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.25rem;
+}
+
+#resource-previews .rp-detail-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 #resource-previews details > summary {
@@ -447,279 +426,6 @@ body.resources-page {
   line-height: 1.5;
   overflow-wrap: anywhere;
   cursor: pointer;
-}
-
-#resource-previews .rp-settings-options {
-  margin: .5rem 0 1rem;
-  border-bottom: 1px solid var(--main-border-color);
-}
-
-#resource-previews .rp-settings-options[open] {
-  padding-bottom: 1rem;
-}
-
-#resource-previews :is(.rp-settings, .rp-shared-controls, .rp-selectors) {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: .75rem;
-  min-width: 0;
-}
-
-#resource-previews .rp-settings {
-  align-items: end;
-  padding-top: .25rem;
-}
-
-#resource-previews :is(.rp-settings, .rp-selectors) label {
-  display: grid;
-  align-content: start;
-  min-width: 0;
-  gap: .25rem;
-  margin: 0;
-  color: var(--text-color);
-  font-size: .8rem;
-  line-height: 1.5;
-}
-
-#resource-previews :is(textarea, select, input[type="range"]) {
-  width: 100%;
-  min-width: 0;
-  min-height: 44px;
-  margin: 0;
-  border: 1px solid var(--main-border-color);
-  border-radius: .5rem;
-  background: var(--main-bg);
-  color: var(--text-color);
-  font: inherit;
-  font-size: 1rem;
-  line-height: 1.5;
-  accent-color: var(--link-color);
-}
-
-#resource-previews :is(textarea, select) {
-  padding: .5rem;
-}
-
-#resource-previews textarea {
-  display: block;
-  resize: vertical;
-}
-
-#resource-previews select {
-  cursor: pointer;
-}
-
-#resource-previews input[type="range"] {
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-#resource-previews output {
-  color: var(--text-muted-color);
-  font-size: .8rem;
-  font-variant-numeric: tabular-nums;
-}
-
-#resource-previews .rp-comparison {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: stretch;
-  gap: 1.25rem;
-}
-
-#resource-previews .rp-panel {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  min-height: 170px;
-  padding: .75rem;
-  border: 1px dashed var(--main-border-color);
-  border-radius: .75rem;
-  background: var(--card-bg);
-}
-
-#resource-previews .rp-panel[data-active="false"] {
-  display: none;
-}
-
-#resource-previews .rp-panel[data-active="true"] {
-  border-color: var(--link-color);
-}
-
-#resource-previews [data-rp-drop].rp-drop-active {
-  outline: 3px solid var(--link-color);
-  outline-offset: -4px;
-  box-shadow: inset 0 0 0 1px var(--link-color);
-}
-
-#resource-previews .rp-empty {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  min-height: 170px;
-  padding: 1rem;
-  color: var(--text-muted-color);
-  text-align: center;
-  overflow-wrap: anywhere;
-}
-
-#resource-previews .rp-slot-content {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-}
-
-#resource-previews .rp-panel-heading {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: .35rem .5rem;
-  min-width: 0;
-  margin-bottom: .65rem;
-}
-
-#resource-previews .rp-panel-heading h3 {
-  flex: 0 0 auto;
-  font-size: 1rem;
-}
-
-#resource-previews [data-rp-panel-name] {
-  min-width: 0;
-  color: var(--text-muted-color);
-  font-size: .85rem;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-#resource-previews [data-rp-clear] {
-  flex: 0 0 auto;
-  margin-left: auto;
-}
-
-#resource-previews .rp-selectors {
-  margin-bottom: .75rem;
-}
-
-#resource-previews .rp-selectors:not(:has(label:not([hidden]))) {
-  display: none;
-}
-
-#resource-previews .rp-preview {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-  border-radius: .65rem;
-  background: var(--rp-background);
-  color: var(--rp-foreground);
-  font-family: var(--rp-font);
-  font-size: var(--rp-size, 16px);
-  line-height: 1.65;
-  text-align: left;
-  overflow-wrap: anywhere;
-}
-
-#resource-previews .rp-preview :is(h2, h3, p, pre, code, span) {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-#resource-previews .rp-specimen {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: .85em;
-  min-width: 0;
-  padding: clamp(.8rem, 3cqi, 1.5rem);
-}
-
-#resource-previews .rp-preview .rp-specimen-title {
-  color: var(--rp-foreground);
-  font-size: 2em;
-  line-height: 1.2;
-}
-
-#resource-previews .rp-preview .rp-sample-text {
-  color: var(--rp-foreground);
-  white-space: pre-wrap;
-}
-
-#resource-previews .rp-preview .rp-glyphs {
-  color: var(--rp-muted);
-  white-space: pre-wrap;
-}
-
-#resource-previews .rp-palette-options {
-  min-width: 0;
-  padding: 0 1rem .25rem;
-  color: var(--rp-foreground);
-}
-
-#resource-previews .rp-palette-options > summary {
-  color: inherit;
-}
-
-#resource-previews .rp-palette {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(3.5rem, 1fr));
-  gap: .5rem;
-  padding-bottom: .5rem;
-}
-
-#resource-previews .rp-swatch {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  gap: .2rem;
-}
-
-#resource-previews .rp-swatch-color {
-  display: block;
-  height: 1.1rem;
-  border: 1px solid var(--rp-muted);
-  border-radius: .15rem;
-}
-
-#resource-previews .rp-swatch code {
-  font-size: .7rem;
-}
-
-#resource-previews .rp-panel-footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: start;
-  align-items: center;
-  gap: 0 .8rem;
-  width: auto;
-  height: auto;
-  margin: 0;
-  padding: .35rem 0 0;
-  border: 0;
-  background: transparent;
-  color: var(--text-color);
-  font-size: .8rem;
-  line-height: 1.5;
-}
-
-#resource-previews .rp-panel-footer a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: .35rem 0;
-  border-bottom: 0;
-  color: var(--link-color);
-  text-decoration: underline;
-}
-
-#resource-previews .rp-panel-footer .rp-font-status {
-  flex-basis: 100%;
-  margin: 0;
-  text-align: left;
 }
 
 #resource-previews > :is(.rp-reference, .rp-about, .rp-more) {
@@ -747,17 +453,6 @@ body.resources-page {
   padding-block: .2rem;
 }
 
-#resource-previews #rp-selection-status {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  clip-path: inset(50%);
-  overflow: hidden;
-  white-space: nowrap;
-}
 
 @container resource-previews (min-width: 780px) {
   #resource-previews .rp-gallery-grid {
@@ -771,55 +466,8 @@ body.resources-page {
   }
 }
 
-/* The workspace width, not the gallery width, determines visible slots. */
-@container rp-dock (min-width: 650px) {
-  #resource-previews .rp-comparison {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  #resource-previews .rp-panel[data-active] {
-    display: flex;
-  }
-  #resource-previews .rp-settings {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  #resource-previews .rp-settings label:has(#rp-sample) {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (min-width: 1100px) {
-  body.resources-page.rp-panel-open #main-wrapper {
-    margin-right: var(--rp-dock-width);
-  }
-
-  #resource-previews .rp-dock {
-    inset: 3rem 0 0 auto;
-    width: var(--rp-dock-width);
-    height: auto;
-    max-height: none;
-    border-radius: 0;
-    box-shadow: -6px 0 24px rgb(0 0 0 / 12%);
-  }
-}
-
-@media (max-width: 1099px) {
-  body.resources-page.rp-panel-open {
-    padding-bottom: 55vh;
-    padding-bottom: 55dvh;
-  }
-}
 
 @media (max-width: 480px) {
-  #resource-previews .rp-dock {
-    padding-inline: .75rem;
-  }
-
-  #resource-previews .rp-dock-controls {
-    margin-inline: -.75rem;
-    padding-inline: .75rem;
-  }
 
   #resource-previews .rp-gallery-caption {
     padding-inline: .85rem;

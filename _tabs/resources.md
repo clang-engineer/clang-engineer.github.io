@@ -3,30 +3,29 @@ layout: page
 order: 95
 hidden: true
 title: Resources
-description: 개발 도구용 색상 테마와 폰트를 미리 보고 비교하는 리소스 모음
+description: 개발 도구용 색상 테마와 폰트의 견본·특징·공식 사이트 모음
 permalink: /resources/
-page_class: resources-page
+navigation: devkit
 ---
 
 <link rel="stylesheet" href="{{ '/assets/css/resource-previews.css' | relative_url }}">
 <link rel="stylesheet" href="{{ site.data.resource_previews.font_stylesheet | escape }}">
 
-<div id="resource-previews" class="resource-previews" data-gallery="theme">
-  <p class="rp-intro">색감과 글자 모양을 둘러보고, 비교 패널의 A/B 영역에 견본을 끌어놓아 비교해 보세요.</p>
+<div id="resource-previews" class="resource-previews">
+  <p class="rp-intro">색감과 글자 모양을 둘러보세요. 견본을 누르면 크게 보고, 특징과 공식 사이트를 확인할 수 있습니다.</p>
   <div class="rp-gallery-toolbar" data-rp-only hidden>
     <div class="rp-gallery-kinds" role="group" aria-label="견본 종류">
       <button type="button" data-rp-gallery="theme" aria-pressed="true">테마</button>
       <button type="button" data-rp-gallery="font" aria-pressed="false">폰트</button>
     </div>
-    <button id="rp-open-comparison" type="button" data-rp-only hidden aria-expanded="false" aria-controls="rp-comparison-panel">비교 패널</button>
   </div>
-  <noscript><p>JavaScript 없이도 전체 견본과 접힌 자료의 공식 링크를 볼 수 있습니다. 견본을 끌어놓거나 눌러 비교 패널에서 미리 보려면 JavaScript가 필요합니다.</p></noscript>
+  <noscript><p>JavaScript 없이도 전체 견본과 아래 자료의 공식 링크를 볼 수 있습니다. 큰 견본과 상세 보기를 열려면 JavaScript가 필요합니다.</p></noscript>
 
   <section id="rp-themes" data-rp-gallery-kind="theme" aria-labelledby="rp-themes-title">
     <h2 id="rp-themes-title">테마</h2>
     <div class="rp-gallery-grid">
       {% for theme in site.data.resource_previews.themes %}
-      <button type="button" class="rp-gallery-card rp-theme-card" data-rp-choice-theme="{{ theme.id | escape }}" disabled aria-label="{{ theme.name | escape }} 비교 패널에 넣기" aria-controls="rp-comparison-panel">
+      <button type="button" class="rp-gallery-card rp-theme-card" data-rp-choice-theme="{{ theme.id | escape }}" disabled aria-label="{{ theme.name | escape }} 상세 보기" aria-haspopup="dialog" aria-controls="rp-detail">
         <span class="rp-gallery-editor" style="{% for color in theme.palette %}--rp-{{ color[0] }}: {{ color[1] }};{% endfor %}">
           <span class="rp-editor-header"><span class="rp-editor-dots" aria-hidden="true"><span></span><span></span><span></span></span><span>preview.js · 견본</span></span>
           <code class="rp-gallery-code"><span class="rp-token-comment">// Find your everyday colors.</span>
@@ -52,7 +51,7 @@ page_class: resources-page
     <h2 id="rp-fonts-title">폰트</h2>
     <div class="rp-gallery-grid">
       {% for font in site.data.resource_previews.fonts %}
-      <button type="button" class="rp-gallery-card rp-font-card" data-rp-choice-font="{{ font.id | escape }}" disabled aria-label="{{ font.name | escape }} 비교 패널에 넣기" aria-controls="rp-comparison-panel">
+      <button type="button" class="rp-gallery-card rp-font-card" data-rp-choice-font="{{ font.id | escape }}" disabled aria-label="{{ font.name | escape }} 상세 보기" aria-haspopup="dialog" aria-controls="rp-detail">
         <span class="rp-font-paper" style="--rp-font: '{{ font.family | escape }}', 'Noto Sans KR', {% if font.group == 'code' %}monospace{% else %}sans-serif{% endif %};">
           <span class="rp-font-display">{% if font.group == 'code' %}Aa{% else %}가나다{% endif %}</span>
           <span class="rp-font-glyphs">{% if font.group == 'code' %}0O 1Il · 0123456789<br>!= !== =&gt; -&gt; {} [] (){% else %}한글 Aa · 0123456789<br>바람, 구름 그리고 햇살{% endif %}</span>
@@ -65,106 +64,20 @@ page_class: resources-page
     </div>
   </section>
 
-  <aside id="rp-comparison-panel" class="rp-dock" hidden aria-labelledby="rp-detail-title" data-mode="theme">
-    <div class="rp-dock-controls">
-      <div class="rp-dock-header">
-        <h2 id="rp-detail-title">비교 패널</h2>
-        <button id="rp-panel-close" type="button" aria-label="비교 패널 닫기">닫기</button>
-      </div>
-      <div class="rp-dock-targets" role="group" aria-label="적용할 후보">
-        <button type="button" data-rp-target="0" data-rp-drop="0" aria-pressed="true">A에 넣기</button>
-        <button type="button" data-rp-target="1" data-rp-drop="1" aria-pressed="false">B에 넣기</button>
-      </div>
+  <dialog id="rp-detail" aria-labelledby="rp-detail-title">
+    <header class="rp-detail-header">
+      <h2 id="rp-detail-title">견본 상세</h2>
+      <form method="dialog"><button type="submit" autofocus aria-label="상세 보기 닫기">닫기</button></form>
+    </header>
+    <div id="rp-detail-preview"></div>
+    <div class="rp-detail-info">
+      <p id="rp-detail-meta"></p>
+      <p id="rp-detail-description"></p>
+      <p id="rp-detail-focus" hidden></p>
+      <p id="rp-detail-font-status" class="rp-font-status" role="status" hidden></p>
+      <div id="rp-detail-links" class="rp-detail-links"></div>
     </div>
-    <p id="rp-mode-help">견본을 A/B에 끌어놓거나, A/B를 선택한 뒤 갤러리 견본을 누르세요.</p>
-    <details class="rp-settings-options">
-      <summary>미리보기 설정</summary>
-      <div class="rp-settings">
-        <label for="rp-comparison-mode">비교 종류
-          <select id="rp-comparison-mode">
-            <option value="theme" selected>테마</option>
-            <option value="font">폰트</option>
-            <option value="combination">조합</option>
-          </select>
-        </label>
-        <div class="rp-shared-controls">
-          <label id="rp-shared-font-control" for="rp-shared-font">공통 폰트
-            <select id="rp-shared-font">
-              {% for font in site.data.resource_previews.fonts %}
-              <option value="{{ font.id | escape }}"{% if forloop.first %} selected{% endif %}>{{ font.name | escape }} · {{ font.category | escape }}</option>
-              {% endfor %}
-            </select>
-          </label>
-          <label id="rp-shared-theme-control" for="rp-shared-theme" hidden>공통 테마
-            <select id="rp-shared-theme">
-              {% for theme in site.data.resource_previews.themes %}
-              <option value="{{ theme.id | escape }}"{% if forloop.first %} selected{% endif %}>{{ theme.name | escape }} · {% if theme.appearance == 'light' %}라이트{% else %}다크{% endif %}</option>
-              {% endfor %}
-            </select>
-          </label>
-        </div>
-        <label class="rp-size-control" for="rp-size">크기
-          <input id="rp-size" type="range" min="12" max="24" value="16">
-          <output id="rp-size-value" for="rp-size">16px</output>
-        </label>
-        <label for="rp-sample">미리 볼 문장
-          <textarea id="rp-sample" rows="2" maxlength="500" spellcheck="false">코드 너머의 원리를 기록합니다.
-The quick brown fox jumps over the lazy dog.</textarea>
-        </label>
-      </div>
-    </details>
-    <div class="rp-comparison">
-      {% for slot in (1..2) %}
-        <section class="rp-panel" data-rp-panel="{{ slot | minus: 1 }}" data-rp-drop="{{ slot | minus: 1 }}" data-active="{% if slot == 1 %}true{% else %}false{% endif %}" aria-labelledby="rp-panel-title-{{ slot }}" tabindex="0" aria-label="{% if slot == 1 %}A{% else %}B{% endif %} 비교 영역">
-          <div class="rp-panel-heading">
-            <h3 id="rp-panel-title-{{ slot }}">{% if slot == 1 %}A{% else %}B{% endif %}</h3>
-            <span data-rp-panel-name></span>
-            <button type="button" data-rp-clear="{{ slot | minus: 1 }}" aria-label="{% if slot == 1 %}A{% else %}B{% endif %} 비우기" hidden>비우기</button>
-          </div>
-          <p class="rp-empty" data-rp-empty>견본을 여기에 끌어놓거나, A/B를 선택하고 갤러리 견본을 누르세요.</p>
-          <div class="rp-slot-content" data-rp-slot-content hidden>
-          <div class="rp-selectors">
-            <label for="rp-theme-{{ slot }}" data-rp-theme-control hidden>테마
-              <select id="rp-theme-{{ slot }}" data-rp-theme>
-                {% for theme in site.data.resource_previews.themes %}
-                <option value="{{ theme.id | escape }}"{% if forloop.index == slot %} selected{% endif %}>{{ theme.name | escape }} · {% if theme.appearance == 'light' %}라이트{% else %}다크{% endif %}</option>
-                {% endfor %}
-              </select>
-            </label>
-            <label for="rp-font-{{ slot }}" data-rp-font-control hidden>폰트
-              <select id="rp-font-{{ slot }}" data-rp-font aria-describedby="rp-font-status-{{ slot }}">
-                {% for font in site.data.resource_previews.fonts %}
-                <option value="{{ font.id | escape }}"{% if forloop.index == slot %} selected{% endif %}>{{ font.name | escape }} · {{ font.category | escape }}</option>
-                {% endfor %}
-              </select>
-            </label>
-          </div>
-          <div class="rp-preview">
-            <div class="rp-specimen">
-              <p class="rp-specimen-title">Aa 가</p>
-              <p class="rp-sample-text"></p>
-              <p class="rp-glyphs">0O 1Il · 0123456789<br>!= !== =&gt; -&gt; &lt;= &gt;= {} [] ()</p>
-              <pre class="rp-code" aria-label="색상과 폰트 비교용 JavaScript 코드"><code><span class="rp-token-comment">// 작은 차이를 비교해 보세요.</span>
-<span class="rp-token-keyword">const</span> theme = <span class="rp-token-string">'Hello, world!'</span>;
-<span class="rp-token-keyword">function</span> <span class="rp-token-function">preview</span>(size = <span class="rp-token-number">16</span>) {
-  <span class="rp-token-keyword">return</span> { theme, size };
-}</code></pre>
-            </div>
-            <details class="rp-palette-options">
-              <summary>색상 값</summary>
-              <div class="rp-palette" aria-label="대표 색상과 HEX 값"></div>
-            </details>
-          </div>
-          <footer class="rp-panel-footer">
-            <div><a data-rp-theme-link>테마</a> · <a data-rp-source-link>팔레트</a> · <a data-rp-font-link>폰트</a></div>
-            <p id="rp-font-status-{{ slot }}" class="rp-font-status" role="status" aria-live="polite"></p>
-          </footer>
-          </div>
-        </section>
-      {% endfor %}
-    </div>
-  </aside>
-  <p id="rp-selection-status" class="visually-hidden" role="status" aria-live="polite"></p>
+  </dialog>
 
   <details class="rp-reference">
     <summary>선택 기준·공식 링크</summary>
@@ -202,10 +115,9 @@ The quick brown fox jumps over the lazy dog.</textarea>
   </details>
   <details class="rp-about">
     <summary>미리보기 안내</summary>
-    <p>대표 테마 6종과 폰트 5종을 골랐습니다. 비교 패널을 열고 갤러리 견본을 A/B 영역이나 ‘A에 넣기’·‘B에 넣기’ 버튼에 끌어놓으세요. 터치·키보드로는 A/B 버튼을 선택한 뒤 갤러리 견본을 누르면 같은 방식으로 적용됩니다. 패널이 닫혀 있을 때 견본을 누르면 패널이 열리고 A에 들어갑니다. 패널을 열어 둔 채 갤러리를 계속 둘러볼 수 있습니다.</p>
-    <p>테마·폰트·조합으로 비교 기준을 바꾸고, 공통 조건과 글자 크기·미리 볼 문장을 조정할 수 있습니다. 좁은 화면에서는 A/B 버튼으로 표시할 영역을 바꿉니다. 각 영역의 ‘비우기’ 버튼으로 후보를 지울 수 있습니다.</p>
+    <p>대표 테마 6종과 폰트 5종을 골랐습니다. 견본을 누르면 큰 견본, 특징과 공식 링크를 볼 수 있습니다. 닫기 또는 Esc로 상세 보기를 닫으면 선택했던 카드로 돌아옵니다.</p>
     <p>실제 앱의 구문 강조와 다를 수 있으며, 선택은 이 샘플에만 적용됩니다. 블로그 설정은 바뀌지 않습니다. 실제로 사용할 앱에서도 배경·구문 강조와 글자 모양을 다시 확인하세요.</p>
-    <p>테마 견본은 같은 고정폭 글꼴과 14px로 표시합니다. 폰트 견본은 같은 중립 배경에서 보통 굵기(normal 400), 큰 글자 44px와 본문 20px로 표시하며, 같은 용도의 폰트에는 같은 문장을 사용합니다. 큰 미리보기의 기본 글자 크기는 16px입니다. 웹폰트는 Google Fonts에서 불러옵니다. 코드용 3종은 한글을 지원하지 않아 한글에 Noto Sans KR을 사용합니다. 로딩에 실패하면 대체 글꼴로 보일 수 있습니다.</p>
+    <p>테마 견본은 같은 고정폭 글꼴과 14px로 표시합니다. 폰트 견본은 같은 중립 배경에서 보통 굵기(normal 400), 큰 글자 44px와 본문 20px로 표시하며, 같은 용도의 폰트에는 같은 문장을 사용합니다. 상세 보기에서는 같은 견본을 더 큰 크기로 표시합니다. 웹폰트는 Google Fonts에서 불러옵니다. 코드용 3종은 한글을 지원하지 않아 한글에 Noto Sans KR을 사용합니다. 로딩에 실패하면 대체 글꼴로 보일 수 있습니다.</p>
   </details>
   <details id="rp-more" class="rp-more">
     <summary>더 찾기·만들기</summary>

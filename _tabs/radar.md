@@ -3,6 +3,8 @@ layout: page
 icon: fas fa-satellite-dish
 order: 3
 title: Radar
+navigation: radar
+page_class: radar-page
 ---
 
 현재 공부 중인 기술 바깥의 흐름을 놓치지 않기 위한 **기술 탐색 창구**다.
