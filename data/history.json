@@ -24832,7 +24832,7 @@
   {
     "id": "antonmedv/walk",
     "date": "2026-11-24",
-    "stars": 3653
+    "stars": 3654
   },
   {
     "id": "coderaiser/cloudcmd",
@@ -24857,7 +24857,7 @@
   {
     "id": "ghostty-org/ghostty",
     "date": "2026-11-24",
-    "stars": 64420
+    "stars": 64421
   },
   {
     "id": "Textualize/textual",
@@ -25122,7 +25122,7 @@
   {
     "id": "tmux/tmux",
     "date": "2026-11-24",
-    "stars": 50542
+    "stars": 50543
   },
   {
     "id": "zellij-org/zellij",
@@ -25137,7 +25137,7 @@
   {
     "id": "openclaw/gogcli",
     "date": "2026-11-24",
-    "stars": 8607
+    "stars": 8606
   },
   {
     "id": "binaricat/Netcatty",
@@ -25162,7 +25162,7 @@
   {
     "id": "Helvesec/rmux",
     "date": "2026-11-24",
-    "stars": 2704
+    "stars": 2705
   },
   {
     "id": "muxy-app/muxy",
@@ -25222,7 +25222,7 @@
   {
     "id": "JanDeDobbeleer/oh-my-posh",
     "date": "2026-11-24",
-    "stars": 23782
+    "stars": 23783
   },
   {
     "id": "spaceship-prompt/spaceship-prompt",
@@ -25417,7 +25417,7 @@
   {
     "id": "duxlabs-dev/dux-shell",
     "date": "2026-11-24",
-    "stars": 9194
+    "stars": 9195
   },
   {
     "id": "baskerville/bspwm",
@@ -25542,7 +25542,7 @@
   {
     "id": "acsandmann/rift",
     "date": "2026-11-24",
-    "stars": 2764
+    "stars": 2765
   },
   {
     "id": "karinushka/paneru",
@@ -25727,7 +25727,7 @@
   {
     "id": "C0nw0nk/Nginx-Lua-Anti-DDoS",
     "date": "2026-11-24",
-    "stars": 1675
+    "stars": 1676
   },
   {
     "id": "F9y4ng/GreasyFork-Scripts",
@@ -25977,7 +25977,7 @@
   {
     "id": "m4xshen/hardtime.nvim",
     "date": "2026-11-24",
-    "stars": 3900
+    "stars": 3901
   },
   {
     "id": "ms-jpq/coq_nvim",
@@ -28712,7 +28712,7 @@
   {
     "id": "ohmyzsh/ohmyzsh",
     "date": "2026-11-24",
-    "stars": 190828
+    "stars": 190829
   },
   {
     "id": "zsh-users/zsh-autosuggestions",
@@ -29202,7 +29202,7 @@
   {
     "id": "dandavison/delta",
     "date": "2026-11-24",
-    "stars": 32824
+    "stars": 32825
   },
   {
     "id": "gitui-org/gitui",
@@ -29387,7 +29387,7 @@
   {
     "id": "vorssaint/vorssaint-utils",
     "date": "2026-11-24",
-    "stars": 36035
+    "stars": 36036
   },
   {
     "id": "winsiderss/systeminformer",
@@ -29412,7 +29412,7 @@
   {
     "id": "ersinkoc/phonebox",
     "date": "2026-11-24",
-    "stars": 5997
+    "stars": 5998
   },
   {
     "id": "domcyrus/rustnet",
@@ -29422,7 +29422,7 @@
   {
     "id": "Ray-lea/Argus",
     "date": "2026-11-24",
-    "stars": 2700
+    "stars": 2701
   },
   {
     "id": "iglance/iGlance",
@@ -29467,7 +29467,7 @@
   {
     "id": "neovim/neovim",
     "date": "2026-11-24",
-    "stars": 103861
+    "stars": 103862
   },
   {
     "id": "helix-editor/helix",
@@ -29552,7 +29552,7 @@
   {
     "id": "eugenioenko/ttt",
     "date": "2026-11-24",
-    "stars": 1169
+    "stars": 1170
   },
   {
     "id": "OtterMind/Chat2DB",
@@ -29672,7 +29672,7 @@
   {
     "id": "anomalyco/opencode",
     "date": "2026-11-24",
-    "stars": 228977
+    "stars": 228978
   },
   {
     "id": "ultraworkers/claw-code",
@@ -29692,12 +29692,12 @@
   {
     "id": "openai/codex",
     "date": "2026-11-24",
-    "stars": 136330
+    "stars": 136331
   },
   {
     "id": "VoltAgent/awesome-design-md",
     "date": "2026-11-24",
-    "stars": 128918
+    "stars": 128919
   },
   {
     "id": "earendil-works/pi",
@@ -29707,7 +29707,7 @@
   {
     "id": "JuliusBrussee/caveman",
     "date": "2026-11-24",
-    "stars": 122637
+    "stars": 122638
   },
   {
     "id": "addyosmani/agent-skills",
@@ -29717,17 +29717,17 @@
   {
     "id": "pbakaus/impeccable",
     "date": "2026-11-24",
-    "stars": 116268
+    "stars": 116273
   },
   {
     "id": "career-ops-hq/career-ops",
     "date": "2026-11-24",
-    "stars": 84628
+    "stars": 84629
   },
   {
     "id": "OpenMontageInc/OpenMontage",
     "date": "2026-11-24",
-    "stars": 83055
+    "stars": 83056
   },
   {
     "id": "shareAI-lab/learn-claude-code",
@@ -29737,12 +29737,12 @@
   {
     "id": "colbymchenry/codegraph",
     "date": "2026-11-24",
-    "stars": 78614
+    "stars": 78615
   },
   {
     "id": "cloudflare/security-audit-skill",
     "date": "2026-11-24",
-    "stars": 77951
+    "stars": 77955
   },
   {
     "id": "Fission-AI/OpenSpec",
@@ -29752,22 +29752,22 @@
   {
     "id": "cline/cline",
     "date": "2026-11-24",
-    "stars": 71873
+    "stars": 71874
   },
   {
     "id": "ansible/ansible",
     "date": "2026-11-24",
-    "stars": 71575
+    "stars": 71576
   },
   {
     "id": "openinterpreter/openinterpreter",
     "date": "2026-11-24",
-    "stars": 68961
+    "stars": 68960
   },
   {
     "id": "ayghri/i-have-adhd",
     "date": "2026-11-24",
-    "stars": 62164
+    "stars": 62165
   },
   {
     "id": "bojieli/ai-agent-book",
@@ -29777,17 +29777,17 @@
   {
     "id": "ChromeDevTools/chrome-devtools-mcp",
     "date": "2026-11-24",
-    "stars": 59207
+    "stars": 59209
   },
   {
     "id": "hesreallyhim/awesome-claude-code",
     "date": "2026-11-24",
-    "stars": 58738
+    "stars": 58739
   },
   {
     "id": "K-Dense-AI/scientific-agent-skills",
     "date": "2026-11-24",
-    "stars": 58361
+    "stars": 58362
   },
   {
     "id": "alibaba/open-code-review",
@@ -29797,7 +29797,7 @@
   {
     "id": "DeusData/codebase-memory-mcp",
     "date": "2026-11-24",
-    "stars": 49129
+    "stars": 49131
   },
   {
     "id": "luongnv89/claude-howto",
@@ -29812,7 +29812,7 @@
   {
     "id": "ToolJet/ToolJet",
     "date": "2026-11-24",
-    "stars": 41297
+    "stars": 41298
   },
   {
     "id": "codewhale-hq/Codewhale",
@@ -29822,7 +29822,7 @@
   {
     "id": "yetone/magpie",
     "date": "2026-11-24",
-    "stars": 41003
+    "stars": 41005
   },
   {
     "id": "can1357/oh-my-pi",
@@ -29857,12 +29857,12 @@
   {
     "id": "AgriciDaniel/claude-seo",
     "date": "2026-11-24",
-    "stars": 32181
+    "stars": 32183
   },
   {
     "id": "oraios/serena",
     "date": "2026-11-24",
-    "stars": 31675
+    "stars": 31676
   },
   {
     "id": "browser-use/video-use",
@@ -29877,7 +29877,7 @@
   {
     "id": "ccch1mneyyy/dsh-Go",
     "date": "2026-11-24",
-    "stars": 31336
+    "stars": 31338
   },
   {
     "id": "QwenLM/qwen-code",
@@ -29912,7 +29912,7 @@
   {
     "id": "charmbracelet/crush",
     "date": "2026-11-24",
-    "stars": 29188
+    "stars": 29189
   },
   {
     "id": "google-labs-code/design.md",
@@ -29927,7 +29927,7 @@
   {
     "id": "manaflow-ai/cmux",
     "date": "2026-11-24",
-    "stars": 28946
+    "stars": 28945
   },
   {
     "id": "OthmanAdi/planning-with-files",
@@ -29947,7 +29947,7 @@
   {
     "id": "onlook-dev/onlook",
     "date": "2026-11-24",
-    "stars": 27887
+    "stars": 27888
   },
   {
     "id": "xai-org/grok-build",
@@ -29962,12 +29962,12 @@
   {
     "id": "NVIDIA/SkillSpector",
     "date": "2026-11-24",
-    "stars": 27544
+    "stars": 27546
   },
   {
     "id": "GoogleChrome/modern-web-guidance",
     "date": "2026-11-24",
-    "stars": 25868
+    "stars": 25870
   },
   {
     "id": "agentsmd/agents.md",
@@ -29977,7 +29977,7 @@
   {
     "id": "getpaseo/paseo",
     "date": "2026-11-24",
-    "stars": 25027
+    "stars": 25029
   },
   {
     "id": "citrolabs/ego-lite",
@@ -29987,7 +29987,7 @@
   {
     "id": "PrimeIntellect-ai/prime-agent",
     "date": "2026-11-24",
-    "stars": 22902
+    "stars": 22903
   },
   {
     "id": "winfunc/opcode",
@@ -30227,7 +30227,7 @@
   {
     "id": "CommandCodeAI/command-code",
     "date": "2026-11-24",
-    "stars": 4263
+    "stars": 4262
   },
   {
     "id": "JetBrains/go-modern-guidelines",
@@ -30247,7 +30247,7 @@
   {
     "id": "strukto-ai/mirage",
     "date": "2026-11-24",
-    "stars": 3830
+    "stars": 3828
   },
   {
     "id": "gotalab/cc-sdd",
@@ -30332,7 +30332,7 @@
   {
     "id": "Gentleman-Programming/gentle-shell",
     "date": "2026-11-24",
-    "stars": 2956
+    "stars": 2957
   },
   {
     "id": "compozy/compozy",
@@ -30487,7 +30487,7 @@
   {
     "id": "feigeCode/navop",
     "date": "2026-11-24",
-    "stars": 2235
+    "stars": 2236
   },
   {
     "id": "TommyLemon/APIAuto",
@@ -30587,7 +30587,7 @@
   {
     "id": "heymrun/heym",
     "date": "2026-11-24",
-    "stars": 1760
+    "stars": 1759
   },
   {
     "id": "callstackincubator/agent-skills",
@@ -30927,7 +30927,7 @@
   {
     "id": "affaan-m/ECC",
     "date": "2026-11-24",
-    "stars": 310201
+    "stars": 310203
   },
   {
     "id": "deepseek-ai/deepseek-harness",
@@ -30937,22 +30937,22 @@
   {
     "id": "NousResearch/hermes-agent",
     "date": "2026-11-24",
-    "stars": 265886
+    "stars": 265888
   },
   {
     "id": "firecrawl/firecrawl",
     "date": "2026-11-24",
-    "stars": 208904
+    "stars": 208913
   },
   {
     "id": "DietrichGebert/ponytail",
     "date": "2026-11-24",
-    "stars": 198051
+    "stars": 198050
   },
   {
     "id": "Graphify-Labs/graphify",
     "date": "2026-11-24",
-    "stars": 152996
+    "stars": 153000
   },
   {
     "id": "langchain-ai/langchain",
@@ -30962,7 +30962,7 @@
   {
     "id": "stablyai/orca",
     "date": "2026-11-24",
-    "stars": 136035
+    "stars": 136044
   },
   {
     "id": "browser-use/browser-use",
@@ -30977,12 +30977,12 @@
   {
     "id": "thedotmack/claude-mem",
     "date": "2026-11-24",
-    "stars": 119554
+    "stars": 119555
   },
   {
     "id": "paperclipai/paperclip",
     "date": "2026-11-24",
-    "stars": 116739
+    "stars": 116741
   },
   {
     "id": "google-gemini/gemini-cli",
@@ -31002,7 +31002,7 @@
   {
     "id": "infiniflow/ragflow",
     "date": "2026-11-24",
-    "stars": 94656
+    "stars": 94657
   },
   {
     "id": "modelcontextprotocol/servers",
@@ -31012,22 +31012,22 @@
   {
     "id": "cheaper-inference/OmniRoute",
     "date": "2026-11-24",
-    "stars": 90122
+    "stars": 90123
   },
   {
     "id": "heygen-com/hyperframes",
     "date": "2026-11-24",
-    "stars": 89558
+    "stars": 89560
   },
   {
     "id": "unclecode/crawl4ai",
     "date": "2026-11-24",
-    "stars": 87757
+    "stars": 87758
   },
   {
     "id": "Ebony-Vinyl/dsh-our-free-model",
     "date": "2026-11-24",
-    "stars": 86003
+    "stars": 86006
   },
   {
     "id": "bytedance/deer-flow",
@@ -31047,7 +31047,7 @@
   {
     "id": "headroomlabs-ai/headroom",
     "date": "2026-11-24",
-    "stars": 80775
+    "stars": 80777
   },
   {
     "id": "dair-ai/Prompt-Engineering-Guide",
@@ -31057,7 +31057,7 @@
   {
     "id": "ComposioHQ/awesome-claude-skills",
     "date": "2026-11-24",
-    "stars": 80249
+    "stars": 80250
   },
   {
     "id": "rohitg00/ai-engineering-from-scratch",
@@ -31077,22 +31077,22 @@
   {
     "id": "asgeirtj/system_prompts_leaks",
     "date": "2026-11-24",
-    "stars": 72580
+    "stars": 72581
   },
   {
     "id": "FoundationAgents/MetaGPT",
     "date": "2026-11-24",
-    "stars": 71467
+    "stars": 71466
   },
   {
     "id": "code-yeongyu/oh-my-openagent",
     "date": "2026-11-24",
-    "stars": 71098
+    "stars": 71097
   },
   {
     "id": "mem0ai/mem0",
     "date": "2026-11-24",
-    "stars": 69426
+    "stars": 69427
   },
   {
     "id": "shanraisshan/claude-code-best-practice",
@@ -31107,12 +31107,12 @@
   {
     "id": "coreyhaines31/marketingskills",
     "date": "2026-11-24",
-    "stars": 62458
+    "stars": 62460
   },
   {
     "id": "HKUDS/DeepTutor",
     "date": "2026-11-24",
-    "stars": 62305
+    "stars": 62306
   },
   {
     "id": "crewAIInc/crewAI",
@@ -31137,7 +31137,7 @@
   {
     "id": "herdrdev/herdr",
     "date": "2026-11-24",
-    "stars": 52654
+    "stars": 52657
   },
   {
     "id": "HKUDS/nanobot",
@@ -31207,7 +31207,7 @@
   {
     "id": "JCodesMore/ai-website-cloner-template",
     "date": "2026-11-24",
-    "stars": 39729
+    "stars": 39730
   },
   {
     "id": "virgiliojr94/book-to-skill",
@@ -31222,7 +31222,7 @@
   {
     "id": "ItzCrazyKns/Vane",
     "date": "2026-11-24",
-    "stars": 38306
+    "stars": 38307
   },
   {
     "id": "agentscope-ai/QwenPaw",
@@ -31237,22 +31237,22 @@
   {
     "id": "DayuanJiang/next-ai-draw-io",
     "date": "2026-11-24",
-    "stars": 37162
+    "stars": 37163
   },
   {
     "id": "mukul975/Anthropic-Cybersecurity-Skills",
     "date": "2026-11-24",
-    "stars": 36699
+    "stars": 36700
   },
   {
     "id": "vxcontrol/pentagi",
     "date": "2026-11-24",
-    "stars": 34959
+    "stars": 34960
   },
   {
     "id": "github/github-mcp-server",
     "date": "2026-11-24",
-    "stars": 34724
+    "stars": 34726
   },
   {
     "id": "Fincept-Corporation/FinceptTerminal",
@@ -31262,7 +31262,7 @@
   {
     "id": "davila7/claude-code-templates",
     "date": "2026-11-24",
-    "stars": 34179
+    "stars": 34180
   },
   {
     "id": "topoteretes/cognee",
@@ -31287,7 +31287,7 @@
   {
     "id": "t8y2/dbx",
     "date": "2026-11-24",
-    "stars": 31323
+    "stars": 31322
   },
   {
     "id": "ComposioHQ/composio",
@@ -31317,7 +31317,7 @@
   {
     "id": "Infisical/infisical",
     "date": "2026-11-24",
-    "stars": 30739
+    "stars": 30738
   },
   {
     "id": "kestra-io/kestra",
@@ -31357,12 +31357,12 @@
   {
     "id": "milind-soni/OpenMausBot",
     "date": "2026-11-24",
-    "stars": 27507
+    "stars": 27510
   },
   {
     "id": "earthtojake/text-to-cad",
     "date": "2026-11-24",
-    "stars": 27364
+    "stars": 27365
   },
   {
     "id": "deepset-ai/haystack",
@@ -31377,7 +31377,7 @@
   {
     "id": "VoltAgent/awesome-claude-code-subagents",
     "date": "2026-11-24",
-    "stars": 26764
+    "stars": 26765
   },
   {
     "id": "zai-org/Open-AutoGLM",
@@ -31387,12 +31387,12 @@
   {
     "id": "enescingoz/awesome-n8n-templates",
     "date": "2026-11-24",
-    "stars": 26554
+    "stars": 26555
   },
   {
     "id": "vercel-labs/agent-desktop",
     "date": "2026-11-24",
-    "stars": 26496
+    "stars": 26498
   },
   {
     "id": "dapr/dapr",
@@ -31447,7 +31447,7 @@
   {
     "id": "slopus/happy",
     "date": "2026-11-24",
-    "stars": 24791
+    "stars": 24792
   },
   {
     "id": "lexmount/moli",
@@ -31462,17 +31462,17 @@
   {
     "id": "NVIDIA/NemoClaw",
     "date": "2026-11-24",
-    "stars": 23085
+    "stars": 23084
   },
   {
     "id": "HBAI-Ltd/Toonflow-app",
     "date": "2026-11-24",
-    "stars": 22715
+    "stars": 22716
   },
   {
     "id": "google/elephant-goldfish-model",
     "date": "2026-11-24",
-    "stars": 22678
+    "stars": 22682
   },
   {
     "id": "dipakkr/awesome-ai-engineering",
@@ -31532,7 +31532,7 @@
   {
     "id": "apify/apify-mcp-server",
     "date": "2026-11-24",
-    "stars": 17740
+    "stars": 17741
   },
   {
     "id": "microsoft/mcp-for-beginners",
@@ -31597,7 +31597,7 @@
   {
     "id": "NVIDIA/auto-ontology",
     "date": "2026-11-24",
-    "stars": 14794
+    "stars": 14795
   },
   {
     "id": "tonhowtf/omniget",
@@ -31622,7 +31622,7 @@
   {
     "id": "google-labs-code/stitch-skills",
     "date": "2026-11-24",
-    "stars": 12637
+    "stars": 12639
   },
   {
     "id": "hangwin/mcp-chrome",
@@ -31652,7 +31652,7 @@
   {
     "id": "pestphp/pest",
     "date": "2026-11-24",
-    "stars": 11785
+    "stars": 11786
   },
   {
     "id": "omnigent-ai/omnigent",
@@ -31697,7 +31697,7 @@
   {
     "id": "kajisho5/ffmpeg-skill",
     "date": "2026-11-24",
-    "stars": 10669
+    "stars": 10670
   },
   {
     "id": "Ryze-AI-Adgent/open-seo-mcp-skills",
@@ -31822,7 +31822,7 @@
   {
     "id": "InternLM/MindSearch",
     "date": "2026-11-24",
-    "stars": 6943
+    "stars": 6944
   },
   {
     "id": "Coding-Solo/godot-mcp",
@@ -31832,7 +31832,7 @@
   {
     "id": "qybaihe/bla",
     "date": "2026-11-24",
-    "stars": 6739
+    "stars": 6741
   },
   {
     "id": "genkit-ai/genkit",
@@ -31872,7 +31872,7 @@
   {
     "id": "Q00/ouroboros",
     "date": "2026-11-24",
-    "stars": 6386
+    "stars": 6385
   },
   {
     "id": "bethington/ghidra-mcp",
@@ -31882,7 +31882,7 @@
   {
     "id": "google-research/paper-orchestra",
     "date": "2026-11-24",
-    "stars": 6297
+    "stars": 6298
   },
   {
     "id": "epiral/bb-browser",
@@ -31907,7 +31907,7 @@
   {
     "id": "ageerle/ruoyi-ai",
     "date": "2026-11-24",
-    "stars": 5843
+    "stars": 5842
   },
   {
     "id": "executeautomation/mcp-playwright",
@@ -32082,7 +32082,7 @@
   {
     "id": "punkpeye/awesome-remote-mcp-servers",
     "date": "2026-11-24",
-    "stars": 3993
+    "stars": 3994
   },
   {
     "id": "bytebase/dbhub",
@@ -32517,7 +32517,7 @@
   {
     "id": "gastownhall/gascity",
     "date": "2026-11-24",
-    "stars": 1580
+    "stars": 1579
   },
   {
     "id": "qdrant/mcp-server-qdrant",
