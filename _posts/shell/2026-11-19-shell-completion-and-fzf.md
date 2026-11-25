@@ -1,18 +1,22 @@
 ---
-title       : "Tab을 누르면 무슨 일이 일어날까 — zsh 자동완성과 fzf-tab"
-description : "Harlequin 프로필 자동완성을 사례로 compdef·_arguments·compadd의 역할과 후보 생성·fzf 선택 UI의 분리, 초기화와 조회 시점을 설명한다."
+title       : "Tab 자동완성과 fzf는 어떻게 연결될까 — Zsh와 Fish의 후보·키·선택 UI"
+description : "Harlequin 사례로 Zsh의 fzf-tab과 Fish의 Shift+Tab 연동을 비교하고, 후보 생성·키 바인딩·선택 UI의 경계와 바인딩 충돌 원인을 설명한다."
 date        : 2026-11-19 00:00:00 +0900
-updated     : 2026-11-23 00:00:00 +0900
+updated     : 2026-11-25 00:00:00 +0900
 categories  : [shell, "셸·스크립팅"]
-tags        : [shell, zsh, completion, fzf, guide]
+tags        : [shell, zsh, fish, completion, fzf, guide]
 pin         : false
 hidden      : false
 mermaid     : true
+redirect_from:
+  - /posts/shell/2026-11-19-zsh-completion-and-fzf-tab/
 ---
 
-Harlequin에서 `harlequin -P ` 뒤에 Tab을 누르면 저장된 DB 프로필을 검색하고 선택하게 만들었다. 처음에는 “fzf-tab을 설치했으니 fzf-tab이 프로필을 찾아주는 것”처럼 보였다. 그런데 설정 파일을 읽는 Go 코드도 있고, zsh 함수도 있고, 별도 실행 래퍼까지 있었다.
+`harlequin -P ` 뒤에서 저장된 DB 프로필을 검색하고 선택하도록 자동완성을 붙였다. Zsh에서는 Tab, Fish에서는 Shift+Tab으로 fzf 선택창이 열린다. 화면은 비슷하지만 후보를 만드는 곳과 키를 처리하는 곳은 다르다.
 
-이 구성을 이해하는 열쇠는 **후보를 아는 프로그램, 입력 위치를 아는 셸, 후보를 보여주는 UI가 서로 다르다**는 점이다. 이 글은 Harlequin 설치법 대신, 하나의 Tab 입력이 그 경계를 어떻게 통과하는지 설명한다.
+처음에는 “fzf-tab을 설치했으니 프로필도 알아서 찾아주겠지”라고 생각했다. Fish로 옮길 때는 반대로, fzf 선택창을 연결하려면 전용 키 함수를 만들어야 한다고 생각했다. 둘 다 **후보 생성, 완성 규칙, 키 바인딩, 선택 UI를 한 기능으로 본 데서 생긴 오해**였다.
+
+이 글은 Harlequin 설치법 대신 그 경계를 따라간다. Zsh의 완성 함수가 호출되는 원리부터 Fish의 기본 fzf 연동, 불필요한 바인딩이 기본 기능을 가렸던 원인까지 설명한다.
 
 ## 자동 제안·구문 강조·Tab 완성은 서로 다른 기능이다
 
@@ -29,7 +33,7 @@ Harlequin에서 `harlequin -P ` 뒤에 Tab을 누르면 저장된 DB 프로필�
 
 Oh My Zsh는 Zsh 자체가 아니라 설정·플러그인·테마를 관리하는 프레임워크다. 이 글의 완성 구조를 쓰는 데 필수는 아니다. 프레임워크를 쓰면 구성을 모으기 편하고, 직접 구성하면 로드할 요소를 좁힐 수 있다. 어느 쪽이 항상 빠르다는 결론보다는 실제로 로드한 설정과 플러그인을 확인해야 한다.
 
-이하에서는 이 중 **Tab 완성 후보가 만들어지고 선택 UI에 전달되는 경로**를 Harlequin 사례로 따라간다. 일반적인 Zsh 설정 명령은 [devkit Zsh Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/zsh.md)를 참고한다.
+이하에서는 이 중 **완성 후보가 만들어지고 선택 UI에 전달되는 경로**를 Harlequin 사례로 따라간다. 일반적인 설정·키 목록은 [devkit Zsh Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/zsh.md)와 [Fish Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/fish.md#shift-tab-명령-문맥의-후보를-fzf로-선택)를 참고한다.
 
 `Tab` 완성과 달리 실행했던 명령을 찾는 `Ctrl-R`은 [Atuin과 fzf의 히스토리 검색 비교](../reference/tools/2026-11-23-atuin-vs-fzf-shell-history.md)에서 다룬다. 후보 선택 화면이 비슷해도 저장할 데이터와 담당 키는 별개다.
 
@@ -73,6 +77,8 @@ sequenceDiagram
 ```
 
 이 설정에서는 선택 화면의 Enter가 **명령 실행이 아니라 값 삽입**이다. 완성된 명령을 실행하려면 Enter를 한 번 더 누른다. fzf-tab에는 선택과 실행을 묶는 별도 설정도 있지만, 여기서는 사용하지 않는다.
+
+키 입력을 어느 함수에 넘길지는 **키 바인딩**이 정한다. Zsh에서는 Tab에 연결된 완성 위젯이 완성 시스템을 호출하고, 아래의 `compdef`가 명령 이름과 완성 함수를 연결한다. `compdef` 자체가 Tab 키를 등록하는 것은 아니다. Fish의 Shift+Tab에서는 공식 fzf 연동이 그 진입점 역할을 한다.
 
 ## 명령과 자동완성 함수를 연결하는 `compdef`
 
@@ -181,16 +187,14 @@ compadd -a profiles
 
 완성 함수가 준비된 다음에 fzf-tab을 불러온다. 이 구성에서는 fzf의 셸 연동 뒤, autosuggestions와 syntax-highlighting 앞에 로드한다. 공식 문서도 `compinit` 뒤이면서 위젯을 감싸는 다른 플러그인보다 앞에 로드하도록 안내한다.
 
-다음은 fzf-tab이 설치되어 있다는 전제에서, 표시 계층을 Harlequin에만 적용하는 설정이다.
+다음은 Homebrew로 fzf-tab을 설치한 뒤, 일반적인 Zsh 완성 후보에 fzf UI를 적용하는 부분이다. 앞에서 설명한 `compinit`과 Harlequin 완성 등록 이후에 둔다.
 
 ```zsh
-zstyle ':fzf-tab:*' disabled-on any
-zstyle ':fzf-tab:complete:harlequin:*' disabled-on none
-zstyle ':completion:*:harlequin:*' menu no
+zstyle ':completion:*' menu no
 source "$(brew --prefix)/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
 ```
 
-첫 줄로 전체 비활성화하고, 더 구체적인 Harlequin 문맥에서만 활성화한다. `menu no`는 zsh의 메뉴 완성이 먼저 개입하지 않도록 한다. 이 설정은 **Harlequin 명령의 완성 UI**에 적용되는 것이지 `-P` 한 자리만 대상으로 하는 것은 아니다.
+`menu no`는 Zsh의 메뉴 완성이 먼저 개입하지 않도록 한다. Harlequin 전용 등록이 아니라 기존 완성 시스템에 붙이는 **공통 표시 계층**이므로 `cd`, Git 옵션, Harlequin 프로필 등 각 명령의 완성 후보를 같은 UI로 고를 수 있다. 후보가 하나뿐이거나 완성 결과가 없는 경우까지 항상 선택창이 뜬다는 뜻은 아니다.
 
 따라서 Harlequin 프로필을 `harlequin-config ... | fzf`로 직접 연결하는 코드는 필요 없다. zsh 완성 후보라는 공통 접점을 쓰므로 후보 생성 코드는 UI 플러그인에 의존하지 않는다. `fzf`와 에디터 내 picker의 실행 경계는 [Telescope vs fzf](../neovim/2026-07-03-telescope-vs-fzf.md)와도 이어진다.
 
@@ -212,28 +216,98 @@ source "$(brew --prefix)/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
 
 ## 2026-11-19 보강 — fish로 옮길 때 공유되는 것과 바뀌는 것
 
-같은 Harlequin 완성을 fish로 옮기면서 경계가 더 분명해졌다. **프로필을 조회하는 Go 프로그램과 검색 UI인 fzf는 재사용할 수 있지만, Zsh 완성 함수와 fzf-tab은 그대로 로드할 수 없다.** 셸 문법뿐 아니라 후보 제공과 명령줄 편집 인터페이스가 다르기 때문이다.
+처음 Fish로 옮길 때는 프로필 조회 프로그램과 fzf를 재사용하고, 두 도구 사이에 Harlequin 전용 Tab 함수를 작성했다. 함수가 현재 명령과 `-P` 위치를 직접 판별해 fzf를 실행하고, 다른 위치에서는 Fish 기본 완성으로 넘기는 방식이었다.
 
-| 역할 | Zsh 구성 | 이번 fish 구성 |
+이는 당시의 구현 기록이지 Fish가 요구하는 구조가 아니다. **2026-11-25에는 공식 `fzf --fish`에 이미 범용 Shift+Tab 완성이 있다는 것을 확인하고 전용 연결부를 제거했다.** Zsh 함수와 fzf-tab을 Fish에서 그대로 읽을 수 없다는 점은 여전히 같지만, 그렇다고 선택 UI까지 직접 구현할 필요는 없었다.
+
+현재 두 셸의 경계는 다음과 같다.
+
+| 역할 | Zsh | Fish |
 |---|---|---|
 | 프로필 조회 | `harlequin-config --complete-harlequin-profiles` | 같은 실행 파일과 인자 |
-| 완성 정의 | `compdef`·`_arguments`·`compadd` | fish의 `complete`와 후보 조회 함수 |
-| 검색 UI 연결 | 범용 플러그인 fzf-tab | Harlequin 프로필 위치에 한정한 함수 |
-| 명령줄 편집 | Zsh 완성 시스템과 fzf-tab | fish의 `commandline` |
+| 완성 정의 | `compdef`·`_arguments`·`compadd` | `complete`와 후보 조회 함수 |
+| fzf 진입점 | Tab에 연결된 fzf-tab | 공식 연동의 Shift+Tab → `fzf_complete` |
+| 후보 선택·삽입 | fzf-tab과 Zsh 완성 시스템 | `fzf_complete`와 Fish의 `commandline` |
 
-fish에서는 `completions/harlequin.fish`에 완성을 정의하고, `functions/` 아래 함수에서 후보 조회와 Tab 선택 동작을 연결했다. Tab 함수는 프로필 입력 위치일 때만 fish의 완성 결과를 fzf에 넘기고, 선택값을 현재 토큰에 삽입한다. 그 외에는 fish 기본 완성을 호출한다. 그래서 `git` 뒤에서 보이는 설명 달린 후보 목록은 fzf-tab이 아니라 **fish 기본 완성 UI**다.
+Zsh 함수는 `harlequin-config init zsh`가 출력하고 `.zshrc`가 평가한다. Fish는 `.fish` 파일을 자동 로드하는 함수·완성 디렉터리에 배포한다. **배포 방식은 달라도 후보 조회 명령은 같다.** `harlequin-config init fish` 같은 두 번째 코드 생성 경로를 만들 필요는 없다.
 
-선택 결과는 Harlequin의 표준입력으로 들어가는 것이 아니다. 먼저 셸이 편집 중인 명령줄에 삽입되고, 사용자가 다시 Enter를 눌러 실행할 때 `-P`의 인자로 전달된다.
+## 2026-11-25 보강 — Fish의 Shift+Tab은 이미 범용 fzf 완성이었다
 
-Zsh에도 같은 전용 함수를 만들 수 있었지만, 이미 fzf-tab이 범용 연결을 제공했으므로 중복 구현하지 않았다. fish에서는 기존 선택 동작을 보존하려고 작은 전용 연결부를 작성했다. 이는 fish에 플러그인 생태계가 없어서가 아니며, 모든 명령에 적용하는 범용 fzf 완성을 새로 구현한 것도 아니다.
+아래 동작은 **Fish 4.9.3과 fzf 0.74.4**에서 확인했다. 모든 과거 버전에 같은 기능이 있다고 가정하면 안 된다. 근거는 [fzf 0.74.4의 공식 Fish 완성 구현](https://github.com/junegunn/fzf/blob/v0.74.4/shell/completion.fish)이다.
 
-### 설치·초기화·후보 조회는 여전히 별개다
+### `fzf --fish | source`가 키와 공통 함수를 연결한다
 
-이 사례에서 Zsh 함수는 Go의 `initZsh()`가 반환하는 문자열에 담겨 있다. `harlequin-config init zsh`가 이를 출력하고 `.zshrc`의 `eval`이 현재 셸에 등록한다. fish 쪽은 `.fish` 파일로 배포하므로 `harlequin-config init fish`를 구현할 필요가 없었다. 두 방식 모두 같은 후보 조회 명령을 호출한다.
+Fish 대화형 설정에서 다음 코드를 한 번 읽는다. 이미 초기화했다면 중복 추가하지 않는다.
 
-Zsh에서 fzf-tab을 Harlequin에만 켠 것도 기술적 제약이 아니라 다른 명령의 기존 UI를 보존하려는 선택이다. 문맥별 제한을 해제하면 Git이나 파일 완성에도 사용할 수 있다. Atuin의 Ctrl+R과 fzf-tab의 Tab은 담당 키가 다르지만, 같은 키나 ZLE 위젯을 바꾸는 플러그인은 로드 순서와 실제 바인딩을 확인해야 한다. **후보 제공과 화면 표시를 분리하면 이 선택을 Go 조회 코드와 독립적으로 바꿀 수 있다.**
+```fish
+if status is-interactive
+    fzf --fish | source
+end
+```
 
-fish 측 인터페이스는 공식 [`complete`](https://fishshell.com/docs/current/cmds/complete.html), [`commandline`](https://fishshell.com/docs/current/cmds/commandline.html), [`bind`](https://fishshell.com/docs/current/cmds/bind.html) 문서에서 확인할 수 있다. 셸 코드 출력과 실행의 차이는 [문법 가이드의 초기화 설명](./2026-07-03-bash-syntax-guide.md#2026-11-19-보강--eval로-초기화-코드를-현재-셸에-읽기)으로 이어진다.
+`fzf --fish`는 Fish용 연동 코드를 출력하고, `source`가 현재 셸에서 실행한다. 그 코드에는 `fzf_complete` 함수와 다음 바인딩이 포함돼 있다.
+
+```fish
+bind shift-tab fzf_complete
+```
+
+이 연결은 Harlequin 전용이 아니다. 일반적인 명령 완성 경로에서 `fzf_complete`는 **Fish의 `complete -C`로 현재 명령줄의 후보를 얻고, fzf로 선택한 값을 `commandline`으로 삽입**한다. 명령별 후보의 의미는 Fish 완성 정의가 알고 있다. 공식 함수에는 와일드카드 확장과 사용자 정의 완성 경로도 있지만, 여기서는 일반적인 명령·인자 완성을 본다.
+
+Harlequin 쪽에서 할 일은 후보를 Fish에 등록하는 것뿐이다.
+
+```fish
+complete -c harlequin -s P -l profile -x \
+    -a '(__harlequin_profiles)' -d 'Select a saved profile'
+```
+
+이름을 조회하는 `__harlequin_profiles`는 입력된 `--config-path`를 추출해 Go 조회 명령을 호출한다. UI를 띄우거나 키를 등록하지는 않는다. `complete`가 `-P`·`--profile` 인자 완성 규칙을 제공하므로, fzf 쪽에서 Harlequin의 옵션을 다시 해석할 필요가 없다.
+
+### 같은 Shift+Tab, 다른 후보
+
+아래 명령줄은 **입력만 하고 Enter 대신 Shift+Tab을 누르는 예**다. 끝의 공백은 다음 인자를 완성할 위치라는 뜻이다.
+
+| 입력 중인 명령줄 | 후보를 제공하는 곳 | 선택 후 삽입 |
+|---|---|---|
+| `cd ` | Fish의 디렉터리 완성 | 디렉터리 경로 |
+| `kill -9 ` | Fish의 `kill` 완성 | 프로세스 PID |
+| `harlequin -P ` | 등록한 Harlequin 완성과 프로필 조회 명령 | 프로필 이름 |
+
+같은 UI에서 서로 다른 후보가 나오는 이유는 fzf가 각 프로그램을 이해해서가 아니다. **입력 문맥에 맞는 후보를 셸이 공급하기 때문**이다. 선택한 값도 프로그램의 표준입력으로 들어가지 않는다. 먼저 편집 중인 명령줄에 삽입되고, 사용자가 명령을 실행할 때 인자가 된다. `kill`의 PID를 선택하는 것만으로 프로세스가 종료되지는 않는다.
+
+일반 Tab은 Fish 기본 완성으로 남는다. 이미 기본 완성 pager가 열린 상태에서는 `fzf_complete`도 Fish의 `complete-and-search`로 넘기므로, fzf를 열려면 pager를 닫고 명령줄에서 Shift+Tab을 누른다. 후보가 없거나 관련 완성 정의가 없을 때는 fzf도 원하는 목록을 만들어 줄 수 없다.
+
+### 전용 바인딩이 기본 연동을 덮어썼다
+
+처음에는 모든 Tab을 Harlequin 판별 함수로 보냈다. 이를 Shift+Tab으로 옮기면서 다음과 같은 전용 바인딩을 넣었다.
+
+```fish
+# 당시의 잘못된 연결 — 현재 설정에는 사용하지 않는다.
+bind \e\[Z '__harlequin_profiles --pick'
+```
+
+사용한 터미널에서 `\e\[Z`는 Shift+Tab이었다. 이 바인딩은 기존 `fzf_complete` 연결을 덮어썼다. 전용 함수는 Harlequin 프로필 위치에서만 fzf를 실행하고, `cd`나 `kill -9`에서는 Fish 기본 완성으로 넘겼다. **fzf가 해당 명령을 지원하지 않는 게 아니라, 키가 다른 함수를 실행하고 있었던 것**이다.
+
+해결은 분기를 더 추가하는 것이 아니었다. 전용 바인딩과 picker 코드를 제거하고, 공식 연동을 그대로 사용했다. 프로필 후보를 공급하는 함수와 `complete` 등록만 남겼다. 별도로 덮어쓰는 바인딩이 없다면 새 셸에서 공식 연결이 적용된다.
+
+키가 예상과 다르게 동작하면 현재 소유자부터 확인한다.
+
+```fish
+bind shift-tab
+# 이 구성에서 기대하는 연결: bind shift-tab fzf_complete
+
+complete -C 'harlequin -P '
+# 키·UI와 무관하게 Fish가 제공하는 프로필 후보 확인
+```
+
+후보가 없으면 완성 정의·조회 명령·설정 경로를 확인하고, 후보는 있는데 창이 다르면 키 바인딩과 초기화 순서를 확인한다. 터미널이 전달하는 키 자체가 의심되면 `fish_key_reader`로 확인한다. `Ctrl-R`을 Atuin에 맡기는 것도 같은 원리다. **같은 키에 대한 연결은 서로 독립적이지 않다.**
+
+### reverse 배치는 어디서 오는가
+
+검색 입력줄이 위쪽에 있는 reverse 배치는 Fish가 그리는 UI가 아니다. 확인한 버전의 `fzf_complete`가 fzf 옵션에 **`--reverse`를 포함**하기 때문이다. 따라서 직접 작성한 picker가 없어도 같은 배치가 나온다. 완성 전용 옵션은 `FZF_COMPLETION_OPTS`로 조절할 수 있으며, 자세한 옵션·키 목록은 [devkit fzf Cheatsheet](https://github.com/clang-engineer/devkit/blob/main/reference/cheatsheets/fzf.md)에 둔다.
+
+이 사례의 개선점은 “키마다 함수를 실행하지 않도록 최적화했다”가 아니다. Zsh의 fzf-tab도 Fish의 공식 연동도 키에 연결된 함수를 실행한다. **셸이 이미 제공하는 완성 결과를 공통 UI가 소비하게 만들고, 명령별 입력 판별과 선택 동작의 중복 구현을 없앤 것**이다.
+
+셸 코드 출력과 실행의 차이는 [문법 가이드의 초기화 설명](./2026-07-03-bash-syntax-guide.md#2026-11-19-보강--eval로-초기화-코드를-현재-셸에-읽기)으로 이어진다.
 
 
 ## 참고
@@ -242,4 +316,6 @@ fish 측 인터페이스는 공식 [`complete`](https://fishshell.com/docs/curre
 - [zsh Completion Widgets](https://zsh.sourceforge.io/Doc/Release/Completion-Widgets.html): `compadd`와 완성 내장 명령
 - [fzf-tab 공식 README](https://github.com/Aloxaf/fzf-tab): 기존 완성 시스템과의 역할 구분·로드 순서
 - [fzf-tab Configuration](https://github.com/Aloxaf/fzf-tab/wiki/Configuration): `disabled-on`, `accept-line`, 문맥별 설정
+- [fzf 0.74.4 Fish 완성 소스](https://github.com/junegunn/fzf/blob/v0.74.4/shell/completion.fish): Shift+Tab 바인딩, `complete -C`, pager 예외, `--reverse`
+- [Fish `complete`](https://fishshell.com/docs/current/cmds/complete.html), [`commandline`](https://fishshell.com/docs/current/cmds/commandline.html), [`bind`](https://fishshell.com/docs/current/cmds/bind.html): 후보 제공·입력 편집·키 연결
 - [구현 소스 — dotfiles의 harlequin-config](https://github.com/clang-engineer/dotfiles/tree/main/tools/harlequin-config)

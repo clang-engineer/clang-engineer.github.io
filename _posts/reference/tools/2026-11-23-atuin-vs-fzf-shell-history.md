@@ -48,7 +48,7 @@ Atuin의 [검색 UI](https://docs.atuin.sh/18.25/guide/basic-usage/)에서는 `C
 - **Ctrl-T → fzf:** 파일·경로를 골라 명령줄에 삽입.
 - **Alt-C → fzf:** 디렉터리를 골라 이동.
 
-fzf를 제거하면 히스토리 외의 파일 선택·파이프라인 활용까지 잃게 된다. 따라서 이것은 둘 중 하나만 설치해야 하는 문제가 아니다. Neovim 내부 picker 선택은 [Telescope와 fzf의 경계](../../neovim/2026-07-03-telescope-vs-fzf.md), Tab 완성의 후보와 UI 분리는 [zsh 자동완성과 fzf-tab](../../shell/2026-11-19-zsh-completion-and-fzf-tab.md)에서 별도로 다룬다.
+fzf를 제거하면 히스토리 외의 파일 선택·파이프라인 활용까지 잃게 된다. 따라서 이것은 둘 중 하나만 설치해야 하는 문제가 아니다. Neovim 내부 picker 선택은 [Telescope와 fzf의 경계](../../neovim/2026-07-03-telescope-vs-fzf.md), Tab 완성의 후보와 UI 분리는 [Zsh·Fish 자동완성과 fzf](../../shell/2026-11-19-shell-completion-and-fzf.md)에서 별도로 다룬다.
 
 초기화 순서만 보고 다른 키가 모두 그대로라고 단정해서는 안 된다. Atuin은 기본적으로 위쪽 화살표에도 검색을 연결할 수 있다. 이 글의 역할 분담은 주요 세 키에 관한 설명이며, 기존 방향키 동작을 유지하려면 [키 바인딩 설정](https://docs.atuin.sh/18.25/configuration/key-binding/)도 확인해야 한다.
 

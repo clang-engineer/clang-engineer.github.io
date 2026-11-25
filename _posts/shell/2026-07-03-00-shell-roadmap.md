@@ -61,6 +61,6 @@ Tab 완성은 명령 실행 전의 편집 단계다. 셸은 현재 명령과 입
 
 ## 필요한 경우 더 깊이 살펴보기
 
-[스크립트 실행](./2026-07-04-first-shell-script.md), [Bash 문법](./2026-07-03-bash-syntax-guide.md), [CLI 인자](./2026-06-10-cli-positional-vs-flag.md), [백그라운드 작업](./2026-06-16-background-jobs-and-session.md), [zsh 자동완성과 fzf-tab](./2026-11-19-zsh-completion-and-fzf-tab.md)을 참고할 수 있다. 파이프·리다이렉션·셸 초기화처럼 독립 문서가 없는 핵심 개념도 지도에는 유지한다.
+[스크립트 실행](./2026-07-04-first-shell-script.md), [Bash 문법](./2026-07-03-bash-syntax-guide.md), [CLI 인자](./2026-06-10-cli-positional-vs-flag.md), [백그라운드 작업](./2026-06-16-background-jobs-and-session.md), [Zsh·Fish 자동완성과 fzf](./2026-11-19-shell-completion-and-fzf.md)을 참고할 수 있다. 파이프·리다이렉션·셸 초기화처럼 독립 문서가 없는 핵심 개념도 지도에는 유지한다.
 
 [Terminal](../terminal/2026-09-05-00-terminal-roadmap.md)은 PTY와 화면 입출력, [tmux](../tmux/2026-06-16-00-tmux-roadmap.md)는 작업공간, [dotfiles](./2026-07-08-00-dotfiles-roadmap.md)는 설정 재현을 다룬다. direnv·zoxide는 필요에 따라 사용하는 보조 도구다.

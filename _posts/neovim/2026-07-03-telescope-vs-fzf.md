@@ -24,7 +24,7 @@ Neovim 설정을 훑다 보면 파일을 퍼지 검색하는 도구로 fzf와 Te
 - fzf는 그냥 "줄 목록을 받아 퍼지 매칭해주는 엔진"이다. 파일 목록을 넣으면 파일 검색, 셸 히스토리를 넣으면 히스토리 검색, `git branch` 출력을 넣으면 브랜치 검색. 검색 대상이 뭐든 상관 안 한다.
 - Telescope도 같은 구조인데, 대신 Neovim 안의 것들(LSP 심볼, diagnostics, buffer 등)을 검색 대상으로 쉽게 꽂을 수 있게 picker들이 미리 만들어져 있다.
 
-이 역할 분리는 셸 자동완성에도 적용된다. [zsh 자동완성과 fzf-tab](../shell/2026-11-19-zsh-completion-and-fzf-tab.md)에서는 프로그램이 만든 후보를 zsh가 완성 시스템에 제공하고, fzf-tab이 fzf 선택 화면으로 보여주는 경계를 실제 사례로 설명한다.
+이 역할 분리는 셸 자동완성에도 적용된다. [Zsh·Fish 자동완성과 fzf](../shell/2026-11-19-shell-completion-and-fzf.md)에서는 프로그램이 만든 후보를 셸 완성 시스템에 제공하고, 공통 fzf 연동이 선택 화면으로 보여주는 경계를 실제 사례로 설명한다.
 
 셸의 `Ctrl-R`을 다른 도구에 맡기는 선택은 [Atuin과 fzf의 히스토리 검색 비교](../reference/tools/2026-11-23-atuin-vs-fzf-shell-history.md)에서 다룬다. Neovim picker 선택과 셸 히스토리 저장 방식은 서로 다른 결정이다.
 

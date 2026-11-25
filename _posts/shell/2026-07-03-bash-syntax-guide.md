@@ -51,7 +51,7 @@ end
 
 서버의 대화형 셸이 Bash라면 로컬에서 fish를 쓰더라도 SSH 접속 후 입력하는 코드는 서버 셸의 문법을 따른다. 서버 스크립트를 fish로 바꿔야 하는 것은 아니지만, 즉석 반복문·함수·환경 설정을 두 문법으로 오가는 비용은 있다.
 
-그 비용을 줄이는 것이 우선이면 로컬도 Bash를 쓰거나, 차이를 알고 Zsh를 쓰는 선택이 자연스럽다. 반대로 입력 편의성이 더 중요하면 fish를 대화형으로 쓰고 스크립트는 Bash로 유지할 수 있다. 자동 제안과 Tab 완성의 차이는 [자동완성 글](./2026-11-19-zsh-completion-and-fzf-tab.md)에서, 다른 셸에서 Bash 파일을 실행하는 방법은 [첫 스크립트 글](./2026-07-04-first-shell-script.md)에서 다룬다.
+그 비용을 줄이는 것이 우선이면 로컬도 Bash를 쓰거나, 차이를 알고 Zsh를 쓰는 선택이 자연스럽다. 반대로 입력 편의성이 더 중요하면 fish를 대화형으로 쓰고 스크립트는 Bash로 유지할 수 있다. 자동 제안과 Tab 완성의 차이는 [자동완성 글](./2026-11-19-shell-completion-and-fzf.md)에서, 다른 셸에서 Bash 파일을 실행하는 방법은 [첫 스크립트 글](./2026-07-04-first-shell-script.md)에서 다룬다.
 
 이후 문법 설명은 **Bash·Zsh·POSIX `sh` 코드의 판별**에 집중한다. 서버용 Bash 스크립트는 로컬 Zsh에서 우연히 실행됐다는 사실이 아니라, 배포 대상의 Bash 버전과 도구를 기준으로 검증한다.
 
@@ -323,7 +323,7 @@ fish의 `source`는 파일뿐 아니라 표준입력의 코드도 읽을 수 있
 
 [fish는 의도적으로 POSIX 호환 언어가 아니다](https://fishshell.com/docs/current/fish_for_bash_users.html). Bash·Zsh와 기본적인 외부 명령 실행 방식은 비슷하지만, 독립적인 변수 설정은 `name=value` 대신 `set name value`, 함수는 `function ... end`로 정의한다. Zsh 역시 Bash와 겹치는 문법이 많을 뿐 모든 Bash 스크립트를 그대로 해석하는 것은 아니다.
 
-초기화 코드를 꼭 명령으로 출력해야 하는 것도 아니다. Zsh용 파일을 `source ./init.zsh`로 읽거나 fish용 파일을 fish의 함수·완성 디렉터리에 설치할 수도 있다. **코드를 배포하는 방식과 그 코드가 쓰는 언어는 별개**다. 실제 셸 전환에서 무엇을 공유하고 무엇을 다시 작성하는지는 [Harlequin 자동완성의 fish 연결부](./2026-11-19-zsh-completion-and-fzf-tab.md#2026-11-19-보강--fish로-옮길-때-공유되는-것과-바뀌는-것)에서 다룬다.
+초기화 코드를 꼭 명령으로 출력해야 하는 것도 아니다. Zsh용 파일을 `source ./init.zsh`로 읽거나 fish용 파일을 fish의 함수·완성 디렉터리에 설치할 수도 있다. **코드를 배포하는 방식과 그 코드가 쓰는 언어는 별개**다. 실제 셸 전환에서 무엇을 공유하고 무엇을 다시 작성하는지는 [Harlequin 자동완성의 Fish 연결부](./2026-11-19-shell-completion-and-fzf.md#2026-11-19-보강--fish로-옮길-때-공유되는-것과-바뀌는-것)에서 다룬다.
 
 
 ### 출력 캡처와 코드 실행을 분리해 보기
@@ -365,7 +365,7 @@ after: current shell
 
 이 패턴은 **출처와 출력 형식을 신뢰하는 도구의 고정된 초기화 코드**를 읽을 때로 한정한다. 사용자 입력이나 네트워크에서 받은 임의 데이터를 `eval`에 전달해서는 안 된다. 큰따옴표는 첫 번째 확장에서 인자 경계를 보존할 뿐, 문자열 속 명령을 무해하게 만들지 않는다. `eval`은 바로 그 문자열을 코드로 다시 읽으므로, 출력에 악성 명령이 있으면 현재 셸의 권한으로 실행된다.
 
-문법의 기준은 [Bash 명령 치환 문서](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html)와 [Zsh의 `eval`·`source` 내장 명령 문서](https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html#index-eval)에서 확인할 수 있다. 이 원리가 실제 `-P` 자동완성과 연결되는 과정은 [Zsh 자동완성과 fzf-tab: 후보 생성과 선택 UI의 경계](./2026-11-19-zsh-completion-and-fzf-tab.md)에서 이어진다.
+문법의 기준은 [Bash 명령 치환 문서](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html)와 [Zsh의 `eval`·`source` 내장 명령 문서](https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html#index-eval)에서 확인할 수 있다. 이 원리가 실제 `-P` 자동완성과 연결되는 과정은 [Zsh·Fish 자동완성과 fzf: 후보 생성과 선택 UI의 경계](./2026-11-19-shell-completion-and-fzf.md)에서 이어진다.
 
 ## 견고한 스크립트 — set 옵션과 trap
 
