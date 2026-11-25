@@ -63,6 +63,7 @@ order: 6
 - [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) — vim-dadbod Vertica 어댑터 + dadbod-ui schema-tree 통합 · awesome-neovim 등록
 - [pi-extensions](https://github.com/clang-engineer/pi-extensions) — Pi coding agent extension 모음 · `@clang.engineer/pi-notify`, `@clang.engineer/pi-workloop` npm 배포
 - [dotfiles](https://github.com/clang-engineer/dotfiles) — Neovim·zsh·tmux·Pi 등 개발환경 설정
+- [themeset](https://github.com/clang-engineer/themeset) — 앱 고유 테마를 함께 적용하는 Go CLI · fzf에서 테마 하나를 미리 보고 선택한 뒤 적용 계획 확인·승인
 - [devkit](https://github.com/clang-engineer/devkit) — 개념 지도·로드맵·치트시트 등 기술 참조 자료
 - [ecosystem-rankings](https://github.com/clang-engineer/ecosystem-rankings) — GitHub 개발 도구 분야별 순위 수집기와 웹 뷰어
 
