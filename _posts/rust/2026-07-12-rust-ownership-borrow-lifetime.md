@@ -1,15 +1,15 @@
 ---
-title       : 핵심 ② 소유권·빌림·수명 — borrow checker와 싸우는 구간
-description : "Rust의 소유권·빌림·수명을 C++의 RAII·이동·참조를 발판으로 설명하되, 같은 의미론으로 등치하지 않는다. move, &/&mut, lifetime이 어떤 안전 계약을 강제하는지 정리한다."
+title       : "Rust ownership·borrow·lifetime — 값의 이동과 빌림 규칙"
+description : "Rust의 소유권·빌림·수명을 C++의 RAII·이동·참조와 비교한다. 비슷한 문제를 다루는 두 언어의 규칙이 어디서 달라지는지, move·&·&mut·lifetime으로 정리한다."
 date        : 2026-07-12 11:10:00 +0900
-updated     : 2026-08-22 18:00:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [rust]
 tags        : [rust]
 pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **② 핵심(뼈대, 최우선)** 단계다. 앞 글: [① 문법·불변성·cargo](./2026-07-12-rust-basics-cargo-immutability.md)
+> [Rust 학습 지도](./2026-07-12-00-rust-roadmap.md)에서 가장 중요한 차이인 ownership·borrow·lifetime을 C++의 RAII·move·참조와 비교한다.
 
 Rust에서 가장 먼저 오래 붙잡아야 할 구간이다. C++의 RAII·이동 시맨틱·스마트 포인터·댕글링 참조 문제를 알고 있으면 좋은 발판이 된다. 다만 Rust 소유권은 이 도구들을 단순히 "컴파일러가 강제한 버전"으로 합친 것이 아니라, **값의 소유·빌림·수명 관계를 언어의 타입 규칙으로 만든 별도의 모델**이다.
 
@@ -162,7 +162,7 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 - 값 소유, shared borrow, mutable borrow, clone 중 무엇을 선택할지 이유를 말할 수 있다.
 - lifetime annotation이 실제 수명을 늘리는 문법이 아니라 관계를 표현하는 것임을 이해한다.
 
-다음은 [③ struct·enum·match](./2026-07-12-rust-struct-enum-match.md)다.
+
 
 ## Reference
 
