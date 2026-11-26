@@ -38,6 +38,22 @@ ecosystems:
     topic: terminal-multiplexer
     limit: 100
     min_stars: 1000
+  - id: developer-color-themes
+    name: Developer Color Themes
+    source: github
+    discovery: curated
+    # Cross-tool color theme projects; Stars belong to repositories, not individual variants.
+    repositories:
+      - catppuccin/catppuccin
+      - dracula/dracula-theme
+      - altercation/solarized
+      - morhetz/gruvbox
+      - nordtheme/nord
+      - rose-pine/rose-pine-theme
+      - folke/tokyonight.nvim
+      - sainnhe/everforest
+      - EdenEast/nightfox.nvim
+      - rebelot/kanagawa.nvim
   - id: shell-prompts
     name: Shell Prompts
     source: github
