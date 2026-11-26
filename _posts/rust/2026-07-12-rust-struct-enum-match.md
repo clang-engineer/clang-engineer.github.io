@@ -1,17 +1,17 @@
 ---
-title       : 타입 ③ struct·enum·match — 데이터를 품는 enum
-description : "Rust 타입 시스템은 C++보다 강력하고 특히 enum이 다르다. 데이터는 struct, 동작은 impl 블록. 각 variant가 데이터를 품는 대수적 타입 enum(Option·Result가 여기서 나온다), 그리고 모든 경우를 강제로 다루게 하는 완전성 검사 패턴 매칭 match·if let까지. enum을 '이름 붙은 정수'로만 보던 C++ 습관을 교정한다."
+title       : "Rust struct·enum·match — 상태를 타입으로 표현하기"
+description : "Rust의 struct·impl, 데이터를 담는 enum, exhaustive pattern matching을 C++의 class와 enum 관점에서 비교한다. Option·Result의 기반이 되는 데이터 모델도 함께 설명한다."
 date        : 2026-07-12 11:15:00 +0900
-updated     : 2026-07-12 11:15:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [rust]
 tags        : [rust]
 pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **③ 타입** 단계입니다. 앞 글: [② 소유권·빌림·수명](./2026-07-12-rust-ownership-borrow-lifetime.md)
+> [Rust 학습 지도](./2026-07-12-00-rust-roadmap.md)에서 다루는 데이터 모델을 C++의 class·enum과 비교한다.
 
-Rust의 타입 시스템은 C++보다 강력하고, 특히 **enum이 차원이 다릅니다**. 이 장에서 배우는 enum + 패턴 매칭이 다음 단계인 에러 처리(⑤)의 `Option`/`Result`를 떠받칩니다.
+Rust의 타입 시스템은 C++보다 강력하고, 특히 **enum이 차원이 다릅니다**. enum과 패턴 매칭은 `Option`·`Result` 같은 표준 타입의 데이터 모델을 이해하는 바탕이다.
 
 ## struct와 impl — 데이터와 동작 분리
 
@@ -29,7 +29,7 @@ let r = Rect::new(3.0, 4.0);   // 연관 함수는 :: 로
 println!("{}", r.area());      // 메서드는 . 으로
 ```
 
-`&self`는 ②의 빌림입니다 — 메서드가 인스턴스를 불변으로 빌리는 것(`&self`), 가변으로(`&mut self`), 소유권을 가져가는 것(`self`)이 시그니처에 드러납니다. 리시버 종류가 곧 "이 메서드가 인스턴스에 뭘 하는가"를 말해 줍니다.
+`&self`는 ownership 글에서 다룬 빌림이다 — 메서드가 인스턴스를 불변으로 빌리는 것(`&self`), 가변으로(`&mut self`), 소유권을 가져가는 것(`self`)이 시그니처에 드러납니다. 리시버 종류가 곧 "이 메서드가 인스턴스에 뭘 하는가"를 말해 줍니다.
 
 ## enum — 데이터를 품는 합 타입
 
@@ -96,7 +96,7 @@ if let Shape::Circle(r) = s {   // Circle일 때만
 - `match`의 완전성 검사가 왜 리팩터링을 안전하게 하는지 설명할 수 있다.
 - `if let`과 `match`를 상황에 맞게 고를 수 있다.
 
-다음은 [④ 컬렉션·String vs &str](./2026-07-12-rust-collections-string-str.md)입니다. Vec·HashMap과, Rust 입문자를 가장 헷갈리게 하는 `String`/`&str` 구분으로 ②의 소유권이 다시 몸에 붙는 단계입니다.
+
 
 ## Reference
 
