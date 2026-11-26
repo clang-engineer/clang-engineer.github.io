@@ -1,6 +1,6 @@
 ---
 title       : "Go다운 코드 — 표준 라이브러리·관용구·테스트"
-description : "문법을 넘어 실제로 뭔가 만들고 Go답게 쓰는 단계. net/http만으로 서버를 세우고, encoding/json과 struct tag로 매핑하고, 'accept interfaces, return structs' 같은 Effective Go 관용구를 익히고, 테이블 주도 테스트로 go test를 쓴다. struct tag를 먹게 하는 reflection의 정체까지."
+description : "Go 표준 라이브러리와 관용구를 실제 코드에서 사용하는 방법을 정리한다. net/http, encoding/json, struct tag, Effective Go, 테이블 주도 테스트와 reflection의 역할을 다룬다."
 date        : 2026-07-12 10:55:00 +0900
 updated     : 2026-11-27 16:00:00 +0900
 categories  : [go]
@@ -11,7 +11,7 @@ hidden      : false
 
 > [Go 학습 지도](./2026-07-12-00-go-roadmap.md)의 관련 주제다. 표준 라이브러리와 Go 관용구를 실제 코드에 적용하는 방법을 살펴본다.
 
-문법을 뗐으면 이제 실제로 뭔가 만들고, 무엇보다 **Go답게** 쓰는 단계입니다. 문법이 맞아도 관용구를 모르면 "Go 문법으로 쓴 C++/Java" 코드가 나옵니다.
+Go다운 코드를 읽고 작성하려면 문법 외에도 표준 라이브러리와 관용구를 알아야 합니다. 기본 문법을 Go Tour에서 익힌 뒤 실제 코드에서 자주 만나는 패턴을 살펴보자.
 
 ## net/http — 표준만으로 서버
 
@@ -107,6 +107,6 @@ func TestAbs(t *testing.T) {
 
 ## Reference
 
-- [Effective Go](https://go.dev/doc/effective_go) — 관용구·스타일의 공식 가이드. 이 단계의 필독.
+- [Effective Go](https://go.dev/doc/effective_go) — 관용구와 스타일을 확인할 때 참고하는 공식 가이드.
 - [Go by Example: JSON](https://gobyexample.com/json) · [HTTP Server](https://gobyexample.com/http-server) · [Testing](https://gobyexample.com/testing-and-benchmarking)
 - [Go 블로그 — Table-driven tests](https://go.dev/wiki/TableDrivenTests)
