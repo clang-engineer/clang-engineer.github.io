@@ -1,15 +1,15 @@
 ---
-title       : 타입 ③ slice·map·string — 겉은 C++ 컨테이너, 속은 다르다
+title       : "slice·map·string — C++ 컨테이너와 다른 값·공유 규칙"
 description : "Go의 핵심 자료구조. slice가 std::vector가 아니라 '배열의 뷰'라는 것(len/cap·append 공유 함정), map의 지정되지 않은 순회 순서와 comma-ok·nil map 함정, 그리고 string이 임의 바이트열이라 byte·rune·사용자 인식 문자를 구분해야 하는 이유까지 정리한다."
 date        : 2026-07-12 10:30:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [go]
 tags        : [go]
 pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 **③ 타입** 단계입니다. 앞 글: [② struct·method·interface](./2026-07-12-go-struct-method-interface.md)
+> [Go 학습 지도](./2026-07-12-00-go-roadmap.md)에서 다루는 자료구조 차이를 자세히 설명한다.
 
 Go의 세 핵심 자료구조입니다. C++ 컨테이너와 **겉은 비슷한데 속이 달라서**, `std::vector`·`unordered_map`·`std::string` 감각으로 그냥 오면 미묘하게 걸립니다. 그 차이가 이 단계의 전부입니다.
 
@@ -84,7 +84,7 @@ for i, r := range s {          // range는 rune 단위로 순회
 - map을 comma-ok로 안전하게 조회하고, nil map 함정을 피할 수 있다.
 - byte, rune, grapheme cluster가 각각 무엇을 세는지 구분할 수 있다.
 
-다음은 [④ error 처리 + defer·panic·recover](./2026-07-12-go-error-handling-defer.md)입니다. 예외가 없는 Go에서 에러를 값으로 다루는, C++/Java 출신에게 가장 큰 문화 충격의 단계입니다.
+
 
 ## Reference
 
