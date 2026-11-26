@@ -2,14 +2,14 @@
 title       : "Go Tooling — build·test·fmt·mod·vet을 언제 쓰나"
 description : "Go 표준 배포판이 제공하는 go command와 gofmt를 build/test, formatting, module dependency, static analysis라는 역할로 나눠 정리한다. go build의 package/command 동작, go fmt와 gofmt 차이, go mod, go vet·staticcheck, cgo 배포 경계를 정확히 구분한다."
 date        : 2026-07-12 10:58:00 +0900
-updated     : 2026-09-06 14:05:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [go]
 tags        : [go, tooling, build, modules]
 pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 마지막 단계가 아니라 **처음부터 옆에 두고 사용하는 Cross-cutting Tool 문서**다.
+> Go 코드 작성과 함께 필요할 때 찾아보는 도구 참고 글이다. Go 표준 배포판의 go command와 gofmt가 build, test, formatting, dependency, static analysis에서 맡는 역할을 정리한다.
 
 Go는 언어 specification과 별개로 표준 배포판에 `go` command와 `gofmt`를 함께 제공한다. 일반적인 Go module은 별도 CMake project를 만들지 않고 이 표준 Toolchain만으로 build/test/dependency 작업을 처리할 수 있다.
 
@@ -263,7 +263,7 @@ Tool 명령을 번호 순서대로 한 번씩 배우고 끝내는 것이 아니�
 - `go vet`과 race detector의 차이
 - pure Go와 cgo build의 배포 dependency 차이
 
-Roadmap에서는 이 문서를 어느 마지막 단계에 놓지 않고 **필요한 순간마다 참조하는 Tool/Reference**로 사용한다.
+이 글은 학습 순서에 속하는 강의가 아니라, 명령이 필요할 때 찾아보는 Tool/Reference다.
 
 ## Reference
 
