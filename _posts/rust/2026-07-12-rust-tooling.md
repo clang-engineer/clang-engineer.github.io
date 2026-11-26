@@ -1,15 +1,15 @@
 ---
-title       : "Rust Tooling — Cargo·crate·module·rustfmt·Clippy"
-description : "Rust 개발 도구를 Cargo의 package/build/test/dependency 역할, crate·module·visibility 구조, rustdoc/doctest, rustfmt, Clippy로 나눠 설명한다. Cargo가 모든 외부 도구를 대체한다고 단순화하지 않고 전 과정에서 언제 어떤 도구를 쓰는지 정리한다."
+title       : "Rust 개발 도구 — Cargo·crate·module·rustfmt·Clippy"
+description : "Cargo의 package·build·test·dependency 역할, crate·module 구분, rustdoc·doctest, rustfmt·Clippy를 목적별로 정리한다. Cargo를 전 과정에서 사용하는 독립적인 도구 참고 글이다."
 date        : 2026-07-12 11:50:00 +0900
-updated     : 2026-09-06 14:15:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [rust]
 tags        : [rust, cargo, tooling, modules]
 pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 마지막 단계가 아니라 **1단계부터 계속 사용하는 Cross-cutting Tool/Reference**다.
+> Rust 프로젝트를 만들고 코드·의존성·테스트를 관리할 때 찾아보는 도구 참고 글이다. Cargo가 맡는 일과 crate·module 구조, rustdoc·rustfmt·Clippy의 역할을 구분한다.
 
 Rust 생태계의 강점 중 하나는 package·build·test·dependency workflow가 Cargo를 중심으로 강하게 표준화되어 있다는 점이다. 하지만 다음을 하나의 프로그램이라고 뭉개지는 않는다.
 
@@ -325,7 +325,7 @@ Release artifact 검증
 - rustfmt와 Clippy의 역할
 - dev/release profile 차이
 
-Roadmap에서는 이 글을 “⑩ 마지막”에 두지 않고 **처음부터 필요할 때 찾아보는 Tool/Reference**로 사용한다.
+이 글은 순차 학습 단계가 아니라, 필요할 때 찾아보는 Tool/Reference다.
 
 ## Reference
 
