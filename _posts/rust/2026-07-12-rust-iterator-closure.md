@@ -1,21 +1,21 @@
 ---
-title       : 관용구 ⑦ 반복자·클로저 — Rust다움의 본체
-description : "C++ 대응이 흐릿한, Rust에서 새로 배우는 축. 여길 건너뛰면 'C++을 Rust 문법으로 쓴' 코드가 된다. 환경 캡처 방식이 소유권과 맞물리는 클로저(Fn/FnMut/FnOnce), for문 대신 iter().map().filter().collect()로 짜는 lazy하고 zero-cost한 반복자 체인까지. 인덱스 루프 습관을 교정한다."
+title       : "Rust iterator·closure — 소유권과 함수형 API"
+description : "Rust closure의 환경 캡처와 Fn·FnMut·FnOnce, iterator adapter chain이 ownership과 어떻게 연결되는지 설명한다. C++ 람다와 알고리즘을 발판으로 Rust다운 데이터 처리 방식을 정리한다."
 date        : 2026-07-12 11:35:00 +0900
-updated     : 2026-07-24 12:00:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [rust]
 tags        : [rust]
 pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **⑦ 관용구(고유)** 단계입니다. 앞 글: [⑥ trait·제네릭](./2026-07-12-rust-trait-generics.md)
+> [Rust 학습 지도](./2026-07-12-00-rust-roadmap.md)에서 다루는 closure와 iterator를 C++ 람다·알고리즘과 비교한다.
 
 **C++ 대응이 흐릿한, Rust에서 새로 배우는 축입니다.** 문법만 알고 여길 건너뛰면 "C++을 Rust 문법으로 옮긴" 코드가 나옵니다. Rust 코드가 실제로 어떻게 생겼는지가 여기서 갈립니다. 클로저의 일반 개념은 [클로저란 무엇인가](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/05-소프트웨어-공학/_보충학습/프로그래밍-언어-의미론.md)에서 다룹니다.
 
 ## 클로저 — 캡처가 소유권과 맞물린다
 
-클로저는 익명 함수입니다. C++ 람다에 대응하지만, **환경을 어떻게 캡처하느냐가 ②의 소유권과 정확히 맞물립니다.**
+클로저는 익명 함수입니다. C++ 람다에 대응하지만, **환경 캡처 방식이 ownership 규칙과 맞물립니다.**
 
 ```rust
 let factor = 3;
@@ -62,7 +62,7 @@ let doubled: Vec<i32> = nums.iter().map(|x| x * 2).collect();   // 새 Vec로 �
 C++의 `<algorithm>` + 범위 for를 하나의 흐르는 체인으로 쓰는 셈입니다. 두 가지 특성이 핵심입니다.
 
 - **lazy** — `map`·`filter`는 즉시 계산하지 않습니다. `.sum()`·`.collect()` 같은 **소비자(consumer)**가 붙어야 비로소 한 번의 순회로 전부 처리됩니다. 중간 배열을 만들지 않습니다.
-- **zero-cost** — 이 추상화는 손으로 쓴 인덱스 루프와 **동일한 기계어**로 컴파일됩니다. 읽기 좋으면서 느리지 않습니다. `Iterator` trait(⑥) 하나로 이 모든 게 굴러갑니다.
+- **zero-cost** — 이 추상화는 손으로 쓴 인덱스 루프와 **동일한 기계어**로 컴파일됩니다. 읽기 좋으면서 느리지 않습니다. `Iterator` trait 하나로 이 모든 게 굴러갑니다.
 
 `collect()`는 "어디로 모을지"를 타입으로 정합니다 — `Vec`, `HashMap`, `String`, `Result` 등. 처음엔 타입 추론이 헷갈리는데, 반환 타입이나 터보피시(`collect::<Vec<_>>()`)로 알려 주면 됩니다.
 
@@ -89,7 +89,7 @@ C++의 `<algorithm>` + 범위 for를 하나의 흐르는 체인으로 쓰는 셈
 - `move` 캡처와 `Fn`/`FnMut`/`FnOnce` call trait이 왜 별개인지 설명할 수 있다.
 - 반복자가 왜 lazy하고 zero-cost인지 말할 수 있다.
 
-여기까지 오면 "Rust식 사고"가 붙기 시작한 것입니다. 다음은 [⑧ 스마트 포인터](./2026-07-12-rust-smart-pointers.md)로, ②의 소유권 규칙이 빡빡할 때 푸는 도구입니다(C++ 스마트 포인터와 거의 1:1).
+
 
 ## Reference
 
