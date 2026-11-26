@@ -1,24 +1,24 @@
 ---
-title       : 흐름 ⑤ error 처리 — Result·Option·?
-description : "Rust에도 예외가 없다. 대신 ③의 enum으로 에러를 표현한다. null을 없앤 Option(Some/None), 성공·실패를 값으로 나르는 Result(Ok/Err), 에러를 상위로 전파하는 ? 연산자, 그리고 실전 표준인 thiserror·anyhow까지. unwrap 남발 대신 제대로 다루는 습관을 잡는다."
+title       : "Rust 오류 처리 — Option·Result·?와 명시적 실패 흐름"
+description : "Rust의 Option·Result·?를 C++ 예외와 비교한다. 값의 부재와 recoverable error를 타입으로 표현하는 방법, unwrap과 panic을 구분하는 기준, thiserror·anyhow의 실전 역할을 정리한다."
 date        : 2026-07-12 11:25:00 +0900
-updated     : 2026-07-12 11:25:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [rust]
 tags        : [rust]
 pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **⑤ 흐름** 단계입니다. 앞 글: [④ 컬렉션·String vs &str](./2026-07-12-rust-collections-string-str.md)
+> [Rust 학습 지도](./2026-07-12-00-rust-roadmap.md)에서 다루는 오류와 부재의 표현을 C++ 예외 모델과 비교한다.
 
-C++/Java에서 온 사람에게 문화 충격입니다. **Rust에도 예외가 없습니다.** 대신 ③에서 배운 enum으로 에러를 표현합니다. 파일 하나만 열어도 바로 `Result`를 만나므로, 추상화(trait)보다 먼저 잡습니다(정본 Book도 이 순서). 세 에러 모델의 비교는 [에러 핸들링 모델](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/05-소프트웨어-공학/_보충학습/프로그래밍-언어-의미론.md)에 있습니다.
+C++/Java에서 온 사람에게 문화 충격입니다. **Rust에도 예외가 없습니다.** 대신 enum으로 부재와 실패를 표현합니다. 파일 하나만 열어도 바로 `Result`를 만나므로, 추상화(trait)보다 먼저 잡습니다(정본 Book도 이 순서). 세 에러 모델의 비교는 [에러 핸들링 모델](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/05-소프트웨어-공학/_보충학습/프로그래밍-언어-의미론.md)에 있습니다.
 
 ## Option — null이 없다
 
 Rust에는 null이 없습니다. "값이 있을 수도, 없을 수도"는 enum `Option<T>`로 표현합니다.
 
 ```rust
-enum Option<T> { Some(T), None }   // 표준 정의 (③의 데이터 품는 enum)
+enum Option<T> { Some(T), None }   // 표준 정의 (데이터를 담는 enum)
 
 fn find(v: &[i32], target: i32) -> Option<usize> {
     for (i, &x) in v.iter().enumerate() {
@@ -64,7 +64,7 @@ fn read_config(path: &str) -> Result<String, io::Error> {
 }
 ```
 
-Go의 `if err != nil { return err }`(④의 Go 에러 처리)를 한 글자로 압축한 셈입니다. `?`는 `Option`에도 동작합니다(`None`이면 `None` 반환). 단, `?`를 쓰려면 함수 반환 타입이 `Result`(또는 `Option`)여야 합니다.
+Go의 `if err != nil { return err }` 패턴를 한 글자로 압축한 셈입니다. `?`는 `Option`에도 동작합니다(`None`이면 `None` 반환). 단, `?`를 쓰려면 함수 반환 타입이 `Result`(또는 `Option`)여야 합니다.
 
 ## 실전 에러 생태계 — thiserror·anyhow
 
@@ -110,7 +110,7 @@ fn run() -> Result<()> {
 - `Option`/`Result`를 `.unwrap()` 없이 제대로 다룰 수 있다.
 - 언제 `thiserror`, 언제 `anyhow`를 쓰는지 구분할 수 있다.
 
-다음은 [⑥ trait·제네릭](./2026-07-12-rust-trait-generics.md)입니다. C++의 인터페이스·템플릿·concept에 해당하는 Rust 추상화의 중심입니다.
+
 
 ## Reference
 
