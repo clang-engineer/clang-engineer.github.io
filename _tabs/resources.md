@@ -42,7 +42,7 @@ navigation: devkit
             <span style="background: {{ theme.palette.blue }}" title="파랑 {{ theme.palette.blue }}"></span>
           </span>
         </span>
-        <span class="rp-gallery-caption"><span class="rp-gallery-name">{{ theme.name | escape }}</span><span class="rp-gallery-meta">{% if theme.appearance == 'light' %}라이트{% else %}다크{% endif %}</span></span>
+        <span class="rp-gallery-caption"><span class="rp-gallery-identity">{% assign family = site.data.resource_previews.theme_families | where: 'id', theme.family | first %}{% if family.icon %}<img class="rp-theme-icon" src="{{ family.icon | escape }}" alt="" width="28" height="28" loading="lazy" referrerpolicy="no-referrer">{% endif %}<span class="rp-gallery-name">{{ theme.name | escape }}</span></span><span class="rp-gallery-meta">{% if theme.appearance == 'light' %}라이트{% else %}다크{% endif %}</span></span>
       </button>
       {% endfor %}
     </div>

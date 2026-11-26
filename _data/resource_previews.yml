@@ -3,14 +3,17 @@ theme_families:
     name: Dracula
     description: 어두운 배경에 보라·분홍 계열 강조색을 사용합니다. 에디터와 터미널 등 여러 앱의 색감을 맞출 때 살펴보세요.
     url: https://draculatheme.com/
+    icon: https://draculatheme.com/favicon.ico
   - id: catppuccin
     name: Catppuccin
     description: 부드러운 파스텔 계열입니다. 앱·개발 도구·웹사이트용 포트를 제공하며, 여기서는 다크 Mocha와 라이트 Latte를 비교합니다.
     url: https://catppuccin.com/ports/
+    icon: https://catppuccin.com/favicon.png
   - id: rose-pine
     name: Rosé Pine
     description: 차분한 장미색·소나무색 계열입니다. 여러 앱과 개발 도구에 적용할 수 있으며, 기본 다크와 라이트 Dawn을 나란히 볼 수 있습니다.
     url: https://rosepinetheme.com/themes/
+    icon: https://rosepinetheme.com/favicon.png
   - id: nord
     name: Nord
     description: 청회색·푸른색 계열입니다. 에디터·터미널·라이브러리용 포트에서 사용하는 도구의 지원 여부를 확인하세요.

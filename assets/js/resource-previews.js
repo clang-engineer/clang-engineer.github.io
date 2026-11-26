@@ -16,6 +16,10 @@
   const links = root.querySelector('#rp-detail-links');
   const galleryButtons = root.querySelectorAll('[data-rp-gallery]');
   const gallerySections = root.querySelectorAll('[data-rp-gallery-kind]');
+  root.querySelectorAll('.rp-theme-icon').forEach((icon) => {
+    icon.addEventListener('error', () => icon.remove());
+    if (icon.complete && !icon.naturalWidth) icon.remove();
+  });
   let returnFocus;
   let currentFont;
 

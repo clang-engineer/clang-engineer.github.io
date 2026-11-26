@@ -162,6 +162,20 @@
   font-family: inherit;
 }
 
+#resource-previews .rp-gallery-identity {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  min-width: 0;
+}
+
+#resource-previews .rp-theme-icon {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
 #resource-previews .rp-gallery-name {
   font-size: 18px;
   font-weight: 600;
