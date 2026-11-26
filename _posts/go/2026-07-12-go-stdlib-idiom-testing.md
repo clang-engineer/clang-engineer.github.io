@@ -1,15 +1,15 @@
 ---
-title       : 실전 ⑥ 표준 라이브러리·관용구·testing — Go답게 쓰기
+title       : "Go다운 코드 — 표준 라이브러리·관용구·테스트"
 description : "문법을 넘어 실제로 뭔가 만들고 Go답게 쓰는 단계. net/http만으로 서버를 세우고, encoding/json과 struct tag로 매핑하고, 'accept interfaces, return structs' 같은 Effective Go 관용구를 익히고, 테이블 주도 테스트로 go test를 쓴다. struct tag를 먹게 하는 reflection의 정체까지."
 date        : 2026-07-12 10:55:00 +0900
-updated     : 2026-07-12 10:55:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [go]
 tags        : [go]
 pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 **⑥ 실전** 단계입니다. 앞 글: [⑤ goroutine·channel·context](./2026-07-12-go-concurrency-goroutine-channel.md)
+> [Go 학습 지도](./2026-07-12-00-go-roadmap.md)의 관련 주제다. 표준 라이브러리와 Go 관용구를 실제 코드에 적용하는 방법을 살펴본다.
 
 문법을 뗐으면 이제 실제로 뭔가 만들고, 무엇보다 **Go답게** 쓰는 단계입니다. 문법이 맞아도 관용구를 모르면 "Go 문법으로 쓴 C++/Java" 코드가 나옵니다.
 
@@ -24,7 +24,7 @@ http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
 http.ListenAndServe(":8080", nil)
 ```
 
-`http.Handler`는 `ServeHTTP(w, r)` 메서드 하나짜리 인터페이스입니다(②의 작은 인터페이스). 미들웨어·라우팅이 전부 이 인터페이스 조합으로 굴러갑니다.
+`http.Handler`는 `ServeHTTP(w, r)` 메서드 하나짜리 인터페이스입니다(앞서 설명한 작은 interface). 미들웨어·라우팅이 전부 이 인터페이스 조합으로 굴러갑니다.
 
 ## encoding/json + struct tag
 
@@ -41,13 +41,13 @@ b, _ := json.Marshal(u)        // struct → JSON
 json.Unmarshal(b, &u)          // JSON → struct
 ```
 
-여기서 **대소문자 export 규칙(①)이 다시 등장**합니다 — `encoding/json`은 다른 패키지라, 소문자 필드는 아예 안 보여서 직렬화되지 않습니다. 태그 기반 메타데이터는 JSON뿐 아니라 DB·설정 등 표준 라이브러리 전반을 관통하는 Go 방식입니다.
+여기서 **package의 대소문자 export 규칙이 다시 등장**합니다 — `encoding/json`은 다른 패키지라, 소문자 필드는 아예 안 보여서 직렬화되지 않습니다. 태그 기반 메타데이터는 JSON뿐 아니라 DB·설정 등 표준 라이브러리 전반을 관통하는 Go 방식입니다.
 
 ## 관용구 — Effective Go
 
 문법을 뗀 직후 반드시 한 번 훑어야 하는 **관례**들입니다. 몇 가지 핵심:
 
-- **"accept interfaces, return structs"** — 함수 인자는 **작은 인터페이스**로 받고(유연), 반환은 **구체 타입**으로(명확). ②에서 배운 인터페이스의 실전 지침입니다.
+- **"accept interfaces, return structs"** — 함수 인자는 **작은 인터페이스**로 받고(유연), 반환은 **구체 타입**으로(명확). 앞서 설명한 interface의 실전 지침입니다.
 - **에러 문자열은 소문자로, 마침표 없이** — `fmt.Errorf("파일 없음")`이 아니라 `"file not found"` 식. 감싸일 때 문장 중간에 들어가기 때문.
 - **짧은 이름** — 스코프가 좁으면 `i`, `r`, `buf`처럼 짧게. 긴 이름은 오히려 비관용적.
 - **getter에 `Get` 안 붙이기** — `user.Name()`이지 `user.GetName()`이 아님.
@@ -103,7 +103,7 @@ func TestAbs(t *testing.T) {
 - 테이블 주도 테스트를 작성하고 `go test`로 돌릴 수 있다.
 - "accept interfaces, return structs"를 자기 코드에 적용할 수 있다.
 
-다음은 [⑦ 도구 — build·mod·fmt·vet](./2026-07-12-go-tooling.md)입니다. 언어에 내장된 도구 체계로 로드맵의 마지막 단계입니다.
+
 
 ## Reference
 
