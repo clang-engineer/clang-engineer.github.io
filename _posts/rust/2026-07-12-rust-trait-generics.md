@@ -1,15 +1,15 @@
 ---
-title       : 추상화 ⑥ trait·제네릭 — 인터페이스와 템플릿을 하나로
-description : "C++의 인터페이스·템플릿·concept에 해당하는 Rust 추상화의 중심. 공유 동작을 정의하는 trait, 제약을 미리 선언해 에러가 친절한 제네릭 + trait bound, 런타임 다형성(dyn)과 컴파일 타임 단형화의 트레이드오프, 그리고 라이브러리 설계에서 만나는 orphan rule까지. C++ 템플릿의 '일단 쓰고 안 되면 에러' 습관을 교정한다."
+title       : "Rust trait·generics — C++ interface·template과 다른 추상화"
+description : "Rust의 trait, trait bound, generic, associated type, dyn Trait와 orphan rule을 C++의 interface·template·concept과 비교해 정리한다. 컴파일 시점과 런타임 dispatch의 경계에 집중한다."
 date        : 2026-07-12 11:30:00 +0900
-updated     : 2026-07-12 11:30:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [rust]
 tags        : [rust]
 pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **⑥ 추상화** 단계입니다. 앞 글: [⑤ error 처리 — Result·Option·?](./2026-07-12-rust-error-handling-result-option.md)
+> [Rust 학습 지도](./2026-07-12-00-rust-roadmap.md)에서 다루는 trait과 제네릭을 C++의 interface·template·concept과 비교한다.
 
 C++의 인터페이스·템플릿·concept에 해당하는 축입니다. Rust는 이 셋을 **trait**과 **제네릭**으로 통합합니다. 제네릭 일반론은 [제네릭과 매개변수 다형성](https://github.com/clang-engineer/clang-engineer.github.io/blob/main/_archive/정보관리기술사/05-소프트웨어-공학/_보충학습/프로그래밍-언어-의미론.md)에서 다루고, 여기서는 Rust에서 어떻게 생겼는지에 집중합니다.
 
@@ -91,7 +91,7 @@ for s in &shapes { println!("{}", s.area()); }   // vtable로 동적 디스패�
 - 제네릭(단형화)과 `dyn`(동적 디스패치)의 트레이드오프를 설명할 수 있다.
 - C++ 템플릿과 달리 제약을 미리 선언하는 이점을 말할 수 있다.
 
-다음은 [⑦ 반복자·클로저](./2026-07-12-rust-iterator-closure.md)입니다. C++ 대응이 흐릿한, "Rust답게" 쓰는 법의 본체로 건너뛰면 안 되는 단계입니다.
+
 
 ## Reference
 
