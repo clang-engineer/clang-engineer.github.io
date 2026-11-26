@@ -11,7 +11,7 @@ hidden      : false
 
 > [Go 학습 지도](./2026-07-12-00-go-roadmap.md)에서 다루는 자료구조 차이를 자세히 설명한다.
 
-Go의 세 핵심 자료구조입니다. C++ 컨테이너와 **겉은 비슷한데 속이 달라서**, `std::vector`·`unordered_map`·`std::string` 감각으로 그냥 오면 미묘하게 걸립니다. 그 차이가 이 단계의 전부입니다.
+Go의 세 핵심 자료구조입니다. C++ 컨테이너와 **겉은 비슷한데 속이 달라서**, `std::vector`·`unordered_map`·`std::string` 감각으로 그냥 오면 미묘하게 걸립니다. 그 차이가 이 글의 핵심입니다.
 
 ## slice — vector가 아니라 "배열의 뷰"
 
