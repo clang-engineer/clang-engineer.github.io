@@ -44,7 +44,7 @@ let slice: &str = &owned;                     // 빌림 — owned를 들여다�
 let literal: &str = "world";                  // 문자열 리터럴도 &str
 ```
 
-`String`은 데이터를 **소유**해서 늘리고 줄일 수 있고, `&str`은 그 데이터(또는 리터럴)를 **빌려 보는 창**입니다. `&str`은 소유하지 않으므로 원본보다 오래 살 수 없습니다(②의 수명). Go의 `string`/`[]byte`나 C++의 `string`/`string_view` 관계와 같은 구도입니다.
+`String`은 데이터를 **소유**해서 늘리고 줄일 수 있고, `&str`은 그 데이터(또는 리터럴)를 **빌려 보는 창**입니다. `&str`은 소유하지 않으므로 참조 대상보다 오래 살 수 없습니다. 수명 관계는 [소유권·빌림·수명 글](./2026-07-12-rust-ownership-borrow-lifetime.md)에서 설명한다. Go의 `string`/`[]byte`나 C++의 `string`/`string_view` 관계와 같은 구도입니다.
 
 ## 소유권 기반 API 설계의 첫 감각
 
