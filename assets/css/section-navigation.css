@@ -23,7 +23,7 @@ body.radar-page main > article > :is(.section-header, .content) {
   margin-inline: auto;
 }
 
-body.rankings-page main > article > .content {
+body.rankings-page main > article > :is(.section-header, .content) {
   max-width: 1200px;
 }
 
