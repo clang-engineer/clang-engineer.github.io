@@ -1,17 +1,17 @@
 ---
-title       : 소유권 심화 ⑧ 스마트 포인터 — Box·Rc·RefCell
-description : "②의 소유권 규칙이 너무 빡빡할 때 푸는 도구. C++ 스마트 포인터와 거의 1:1이라 C++ 배경이 크게 유리한 구간이다. 힙 할당 Box(unique_ptr), 참조 카운트 공유 Rc/Arc(shared_ptr), 빌림 검사를 런타임으로 미루는 Rust 특유의 내부 가변성 RefCell/Cell, 순환 참조를 끊는 Weak까지. Rc<RefCell<T>> 관용구가 왜 나오는지 정리한다."
+title       : "Rust 스마트 포인터 — Box·Rc·Arc·RefCell의 역할"
+description : "Box·Rc·Arc·RefCell·Cell·Weak가 Rust의 ownership 구조를 어떻게 바꾸는지 정리한다. unique_ptr·shared_ptr와 비교하되, Rust 고유의 interior mutability와 런타임 borrow checking을 구분한다."
 date        : 2026-07-12 11:40:00 +0900
-updated     : 2026-07-12 11:40:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [rust]
 tags        : [rust]
 pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **⑧ 소유권 심화** 단계입니다. 앞 글: [⑦ 반복자·클로저](./2026-07-12-rust-iterator-closure.md)
+> [Rust 학습 지도](./2026-07-12-00-rust-roadmap.md)에서 다루는 스마트 포인터와 interior mutability를 C++ 스마트 포인터와 비교한다.
 
-②의 "소유자는 하나, 가변 참조는 동시에 하나" 규칙이 때로 너무 빡빡합니다 — 값을 힙에 두거나, 여러 곳이 공유하거나, 공유하면서 수정해야 할 때. 그걸 푸는 도구가 스마트 포인터입니다. **C++ 스마트 포인터와 거의 1:1로 대응**해서 C++ 배경이 가장 크게 유리한 구간입니다.
+ownership 규칙("소유자는 하나, 가변 참조는 동시에 하나")이 때로 너무 빡빡합니다 — 값을 힙에 두거나, 여러 곳이 공유하거나, 공유하면서 수정해야 할 때. 그걸 푸는 도구가 스마트 포인터입니다. **C++ 스마트 포인터와 거의 1:1로 대응**해서 C++ 배경이 가장 크게 유리한 구간입니다.
 
 ## Box — 힙 할당 (unique_ptr)
 
@@ -25,7 +25,7 @@ println!("{}", *b);        // 역참조
 enum List { Cons(i32, Box<List>), Nil }
 ```
 
-주 용도는 두 가지 — **큰 값을 스택 대신 힙에**, 그리고 **재귀 타입**(크기가 무한이 되지 않게 `Box`로 간접 참조). ⑥의 `Box<dyn Trait>`도 이것입니다.
+주 용도는 두 가지 — **큰 값을 스택 대신 힙에**, 그리고 **재귀 타입**(크기가 무한이 되지 않게 `Box`로 간접 참조). trait·generics 글의 `Box<dyn Trait>`도 이것입니다.
 
 ## Rc / Arc — 참조 카운트 공유 (shared_ptr)
 
@@ -38,11 +38,11 @@ let b = Rc::clone(&a);        // 카운트 2 — 데이터 복제가 아니라 �
 println!("{}", Rc::strong_count(&a));   // 2
 ```
 
-`Rc::clone`은 데이터를 복제하지 않고 **카운트만 올립니다**(값싼 연산). `Rc`는 **단일 스레드용**이고, 스레드 간 공유는 원자적 카운트 버전인 **`Arc`**(Atomically Reference Counted)를 씁니다(⑨). "스레드를 넘으면 `Arc`"로 기억하면 됩니다.
+`Rc::clone`은 데이터를 복제하지 않고 **카운트만 올립니다**(값싼 연산). `Rc`는 **단일 스레드용**이고, 스레드 간 공유는 원자적 카운트 버전인 **`Arc`**(Atomically Reference Counted)를 씁니다(동시성 글). "스레드를 넘으면 `Arc`"로 기억하면 됩니다.
 
 ## RefCell·Cell — 내부 가변성 (Rust 특유)
 
-**C++에 직접 대응이 없는 Rust 고유 개념입니다.** ②의 빌림 규칙은 컴파일 타임에 검사되는데, `RefCell<T>`는 그 검사를 **런타임으로 미룹니다**. 겉은 불변(`&`)인데 속을 바꿀 수 있어 "내부 가변성(interior mutability)"이라 부릅니다.
+**C++에 직접 대응이 없는 Rust 고유 개념입니다.** borrow 규칙은 컴파일 타임에 검사되는데, `RefCell<T>`는 그 검사를 **런타임으로 미룹니다**. 겉은 불변(`&`)인데 속을 바꿀 수 있어 "내부 가변성(interior mutability)"이라 부릅니다.
 
 ```rust
 use std::cell::RefCell;
@@ -67,7 +67,7 @@ clone.borrow_mut().push(4);              // 공유된 데이터를 수정
 println!("{:?}", shared.borrow());       // [1, 2, 3, 4]
 ```
 
-`Rc`(공유) + `RefCell`(가변)의 조합이라고 읽으면 됩니다. ②의 규칙을 정공법으로 못 풀 때의 탈출구입니다.
+`Rc`(공유) + `RefCell`(가변)의 조합이라고 읽으면 됩니다. ownership 규칙을 정공법으로 못 풀 때의 탈출구입니다.
 
 ## Weak — 순환 참조 끊기 (weak_ptr)
 
@@ -96,7 +96,7 @@ println!("{:?}", shared.borrow());       // [1, 2, 3, 4]
 - 내부 가변성(`RefCell`)이 왜 필요하고, 그 대가(런타임 검사)가 무엇인지 설명할 수 있다.
 - `Rc<RefCell<T>>` 관용구가 어떤 문제(공유+가변)를 푸는지 안다.
 
-다음은 [⑨ thread·Send/Sync·async](./2026-07-12-rust-concurrency.md)입니다. 소유권 시스템이 데이터 레이스를 컴파일 타임에 막는 "fearless concurrency"로 들어갑니다.
+
 
 ## Reference
 
