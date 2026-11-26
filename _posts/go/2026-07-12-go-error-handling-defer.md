@@ -1,15 +1,15 @@
 ---
-title       : "흐름 ④ error·defer·panic/recover — 실패와 정리의 역할 분리"
+title       : "error·defer·panic/recover — Go의 실패와 자원 정리"
 description : "Go의 일반 실패는 error 값으로 흐르고, defer는 함수 종료 시 실행할 정리를 예약하며, panic/recover는 정상 error 흐름과 다른 stack-unwinding 경계를 만든다. RAII·예외와의 유사점은 발판으로만 쓰고 의미론을 구분한다."
 date        : 2026-07-12 10:40:00 +0900
-updated     : 2026-09-06 13:45:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [go]
 tags        : [go, error-handling, defer, panic]
 pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 **④ 실패·정리 흐름** Zoom-in이다. 앞 글: [③ slice·map·string](./2026-07-12-go-slice-map-string.md)
+> [Go 학습 지도](./2026-07-12-00-go-roadmap.md)에서 다루는 오류와 정리 방식을 C++ 예외·RAII와 비교한다.
 
 Go에서 `error`, `defer`, `panic`, `recover`는 한 묶음처럼 자주 소개되지만 **해결하는 문제가 다르다.**
 
@@ -245,7 +245,7 @@ panic이 process 경계까지 나가면 안 되는 위치인가?
 → 좁은 recovery boundary 검토
 ```
 
-다음 Zoom-in은 [goroutine·channel·context](./2026-07-12-go-concurrency-goroutine-channel.md)다. 실행 단위·통신·공유 상태·취소 전파를 서로 다른 책임으로 나눈다.
+
 
 ## Reference
 
