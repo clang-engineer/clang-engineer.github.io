@@ -1,15 +1,15 @@
 ---
-title       : 동시성 ⑤ goroutine·channel·context — Go의 정체성
+title       : "goroutine·channel·context — C++ 동시성과 다른 Go의 실행 모델"
 description : "goroutine을 단순한 경량 스레드로 등치하지 않고 Go 런타임이 스케줄링하는 경량 실행 단위로 설명한다. channel·select·context·WaitGroup·Mutex·race detector의 역할을 구분한다."
 date        : 2026-07-12 10:50:00 +0900
-updated     : 2026-08-22 18:00:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [go]
 tags        : [go]
 pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 **⑤ 동시성** 단계다. 앞 글: [④ error 처리 + defer](./2026-07-12-go-error-handling-defer.md)
+> [Go 학습 지도](./2026-07-12-00-go-roadmap.md)에서 다루는 Go 동시성의 실행·통신·동기화·취소 모델을 자세히 설명한다.
 
 Go의 동시성 모델을 이해하려면 `goroutine`, channel, `sync`, `context`를 한 덩어리로 외우기보다 **실행 단위·통신·동기화·취소 전파**로 역할을 나눠 보는 편이 좋다.
 
@@ -243,7 +243,7 @@ race detector는 실행 중 실제로 관찰된 메모리 접근을 바탕으로
 - context cancel이 강제 종료가 아니라 협력적 취소 신호임을 설명할 수 있다.
 - race detector가 실행 경로 기반 동적 분석임을 안다.
 
-다음은 [⑥ 표준 라이브러리·관용구·testing](./2026-07-12-go-stdlib-idiom-testing.md)이다.
+
 
 ## Reference
 
