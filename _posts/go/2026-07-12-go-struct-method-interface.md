@@ -1,15 +1,15 @@
 ---
-title       : 타입 ② struct·method·interface — 클래스 없이 사고하기
+title       : "struct·method·interface — C++ 상속과 다른 Go의 조합"
 description : "Go의 struct·method·interface를 클래스 상속의 대체물로 단순화하지 않고, 암묵적 interface 만족·embedding·method set을 각각 다른 규칙으로 정리한다."
 date        : 2026-07-12 10:20:00 +0900
-updated     : 2026-08-22 18:00:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [go]
 tags        : [go]
 pin         : false
 hidden      : false
 ---
 
-> [Go 학습 로드맵](./2026-07-12-00-go-roadmap.md)의 **② 타입(뼈대)** 단계다. 앞 글: [① 문법·패키지·모듈](./2026-07-12-go-basics-package-module.md)
+> [Go 학습 지도](./2026-07-12-00-go-roadmap.md)에서 다루는 핵심 차이 중, Go의 타입 조합을 자세히 설명한다.
 
 Go에는 클래스 상속 계층이 없다. 대신 `struct`, method, interface, embedding을 조합해 타입을 설계한다. C++의 클래스와 비교하면 출발점은 잡기 쉽지만, **상속을 다른 문법으로 옮긴 것**이라고 이해하면 금방 어긋난다.
 
@@ -180,7 +180,7 @@ C++ `std::any`를 떠올리면 "구체 타입을 지운 값 컨테이너"라는 
 - `Rect`와 `*Rect`의 method set 차이를 설명할 수 있다.
 - embedding을 inheritance와 같은 타입 관계라고 오해하지 않는다.
 
-다음은 [③ slice·map·string](./2026-07-12-go-slice-map-string.md)이다.
+
 
 ## Reference
 
