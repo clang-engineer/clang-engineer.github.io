@@ -1,17 +1,17 @@
 ---
-title       : 타입 ④ 컬렉션·String vs &str — 소유권이 다시 붙는 곳
-description : "Vec·HashMap은 C++ 컨테이너 대응이라 쉽지만, String과 &str의 구분이 Rust 입문자를 가장 헷갈리게 한다. String(소유·힙)과 &str(빌린 문자열 슬라이스)의 차이는 ②의 소유권과 직결되고, '받을 땐 &str로 빌리고 줄 때만 String으로 소유'가 소유권 기반 API 설계의 첫 감각이다. 함수 인자를 뭘로 받을지까지 정리한다."
+title       : "Rust 컬렉션·String·&str — 소유와 빌림을 드러내는 API"
+description : "Vec·HashMap의 익숙한 부분보다 String과 &str의 소유·빌림 차이에 집중한다. 컬렉션 조회, 순회, 함수 인자에서 ownership이 API 설계에 미치는 영향을 C++과 비교한다."
 date        : 2026-07-12 11:20:00 +0900
-updated     : 2026-07-12 11:20:00 +0900
+updated     : 2026-11-27 16:00:00 +0900
 categories  : [rust]
 tags        : [rust]
 pin         : false
 hidden      : false
 ---
 
-> [Rust 학습 로드맵](./2026-07-12-00-rust-roadmap.md)의 **④ 타입** 단계입니다. 앞 글: [③ struct·enum·match](./2026-07-12-rust-struct-enum-match.md)
+> [Rust 학습 지도](./2026-07-12-00-rust-roadmap.md)에서 다루는 컬렉션과 문자열의 소유·빌림 규칙을 설명한다.
 
-Vec·HashMap은 C++ 컨테이너와 거의 1:1이라 금방 익숙해집니다. 이 장의 진짜 주제는 **`String`과 `&str`의 구분** — Rust 입문자를 가장 헷갈리게 하는 지점이자, ②의 소유권이 문자열을 통해 다시 몸에 붙는 곳입니다.
+Vec·HashMap은 C++ 컨테이너와 거의 1:1이라 금방 익숙해집니다. 이 글의 핵심는 **`String`과 `&str`의 구분** — Rust 입문자를 가장 헷갈리게 하는 지점이자, 소유권·빌림·수명 글에서 다룬 규칙이 문자열을 통해 다시 몸에 붙는 곳입니다.
 
 ## Vec·HashMap — C++ 컨테이너 대응
 
@@ -27,11 +27,11 @@ scores.insert("alice", 10);
 if let Some(s) = scores.get("alice") { ... }   // get은 Option을 반환
 ```
 
-`Vec`은 `std::vector`, `HashMap`은 `std::unordered_map`에 대응합니다. 다른 점은 조회가 **`Option`을 반환**한다는 것(③) — 없는 키를 조용히 만들지 않고, "있을 수도 없을 수도"를 타입으로 강제합니다. 그리고 `for x in &v`처럼 **빌려서** 순회하지 않으면 컬렉션의 소유권이 넘어가 이후 못 씁니다(②).
+`Vec`은 `std::vector`, `HashMap`은 `std::unordered_map`에 대응합니다. 다른 점은 조회가 **`Option`을 반환**한다는 것(struct·enum·match 글) — 없는 키를 조용히 만들지 않고, "있을 수도 없을 수도"를 타입으로 강제합니다. 그리고 `for x in &v`처럼 **빌려서** 순회하지 않으면 컬렉션의 소유권이 넘어가 이후 못 씁니다(ownership 글).
 
 ## String vs &str — 소유 vs 빌림
 
-문자열이 두 종류입니다. 이 구분이 ②의 소유권을 그대로 문자열에 옮긴 것입니다.
+문자열이 두 종류입니다. 이 구분이 소유권·빌림·수명 글에서 다룬 규칙을 그대로 문자열에 옮긴 것입니다.
 
 | 타입 | 정체 | C++ 대응 |
 |---|---|---|
@@ -76,7 +76,7 @@ greet("Bob");     // 리터럴도 그대로
 ## 자주 막히는 지점
 
 - **인자를 `String`으로 받음** — 습관적으로 `fn f(s: String)`으로 받으면 호출부의 소유권을 뺏어 이후 못 쓰게 만듭니다. **기본은 `&str`**.
-- **`&str`을 저장하려다 수명 지옥** — struct 필드에 `&str`을 담으면 수명 주석이 번집니다(②). 보관해야 하면 소유하는 `String`으로.
+- **`&str`을 저장하려다 수명 지옥** — struct 필드에 `&str`을 담으면 수명 주석이 번집니다(ownership 글). 보관해야 하면 소유하는 `String`으로.
 - **`.to_string()` / `String::from` 남발** — `&str`이면 충분한 곳에 자꾸 `String`을 만들면 불필요한 힙 할당. 빌려서 될지 먼저 보세요.
 - **Vec을 순회하다 소유권 이동** — `for x in v`(빌림 없이)는 `v`를 소비합니다. 이후에도 쓰려면 `for x in &v`.
 
@@ -86,7 +86,7 @@ greet("Bob");     // 리터럴도 그대로
 - 함수 인자로 대부분 `&str`을 받는 이유를 말할 수 있다.
 - Vec·HashMap을 소유권을 잃지 않게(`&`로 빌려) 다룰 수 있다.
 
-다음은 [⑤ error 처리 — Result·Option·?](./2026-07-12-rust-error-handling-result-option.md)입니다. ③의 enum으로 만들어진 `Option`/`Result`를 실제로 다루는, 예외 없는 Rust의 에러 흐름입니다.
+
 
 ## Reference
 
