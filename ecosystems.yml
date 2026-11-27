@@ -41,19 +41,27 @@ ecosystems:
   - id: developer-color-themes
     name: Developer Color Themes
     source: github
-    discovery: curated
-    # Cross-tool color theme projects; Stars belong to repositories, not individual variants.
-    repositories:
-      - catppuccin/catppuccin
-      - dracula/dracula-theme
-      - altercation/solarized
-      - morhetz/gruvbox
-      - nordtheme/nord
-      - rose-pine/rose-pine-theme
-      - folke/tokyonight.nvim
-      - sainnhe/everforest
-      - EdenEast/nightfox.nvim
-      - rebelot/kanagawa.nvim
+    discovery: topic
+    topic: colorscheme
+    searches:
+      - "topic:color-scheme theme in:name,description archived:false"
+      - "topic:neovim-colorscheme archived:false"
+      - "topic:vscode-theme archived:false"
+      - '"color scheme" vim in:description archived:false'
+      - '"all platforms" theme in:description archived:false'
+    limit: 100
+    min_stars: 500
+    # Stars belong to repositories. Independently maintained ports can rank separately.
+    exclude_patterns:
+      - '^awesome-|\bdotfiles?\b|\bpersonal (?:configurations?|configs?|setups?)\b'
+      - '\b(?:collection|megapack|curated list|repository) of (?:(?:awesome|Vim|Neovim|terminal) )?(?:themes|color\s*schemes)\b'
+      - '\b(?:color\s*schemes|themes) for (?:the )?(?:kitty terminal emulator|default macOS Terminal)\b'
+      - '\b(?:theme|palette|color(?:[ -]?scheme)?|LUT)[ -](?:generat(?:or|ion)|designer|manager|switcher)\b'
+      - '^(?:create (?:Neovim )?themes|generate colors)|\bapplication for generating\b|\btool (?:for|to) (?:generate|convert)\b'
+      - '\b(?:icon[ -]themes?|material design icons|WordPress theme|Flutter package|Neovim framework)\b'
+      - '\b(?:over )?\d{2,} (?:terminal )?color\s*schemes\b|^manually ported color themes\b'
+      - '\b(?:collection of wallpapers|find your next .{0,20}colou?r\s*s?cheme|design system into an agent plugin)\b'
+      - '\b(?:customize .{0,30}system prompts|enable Acrylic|Solidity language support)\b'
   - id: shell-prompts
     name: Shell Prompts
     source: github
