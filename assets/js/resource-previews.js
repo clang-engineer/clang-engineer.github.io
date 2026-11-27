@@ -14,8 +14,6 @@
   const focus = root.querySelector('#rp-detail-focus');
   const status = root.querySelector('#rp-detail-font-status');
   const links = root.querySelector('#rp-detail-links');
-  const galleryButtons = root.querySelectorAll('[data-rp-gallery]');
-  const gallerySections = root.querySelectorAll('[data-rp-gallery-kind]');
   root.querySelectorAll('.rp-theme-icon').forEach((icon) => {
     icon.addEventListener('error', () => icon.remove());
     if (icon.complete && !icon.naturalWidth) icon.remove();
@@ -30,7 +28,7 @@
       return false;
     }
   };
-  const fontLoads = new Map(data.fonts.map((font) => [font.id, loadFace(font.family)]));
+  const fontLoads = new Map(root.querySelector('[data-rp-choice-font]') ? data.fonts.map((font) => [font.id, loadFace(font.family)]) : []);
   const fontStatusText = async (font) => {
     const [loaded, koreanLoaded] = await Promise.all([
       fontLoads.get(font.id), font.supports_korean ? true : fontLoads.get('noto-sans-kr')
@@ -44,15 +42,6 @@
     node.textContent = text;
     node.hidden = !text.includes('실패');
   });
-
-  function showGallery(kind) {
-    galleryButtons.forEach((button) => {
-      button.setAttribute('aria-pressed', String(button.dataset.rpGallery === kind));
-    });
-    gallerySections.forEach((section) => {
-      section.hidden = section.dataset.rpGalleryKind !== kind;
-    });
-  }
 
   function addLink(label, url) {
     const link = document.createElement('a');
@@ -108,7 +97,5 @@
     if (event.clientX < rect.left || event.clientX > rect.right ||
         event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
   });
-  galleryButtons.forEach((button) => button.addEventListener('click', () => showGallery(button.dataset.rpGallery)));
   root.querySelectorAll('[data-rp-only]').forEach((element) => { element.hidden = false; });
-  showGallery('theme');
 })();

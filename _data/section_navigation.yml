@@ -5,9 +5,12 @@ devkit:
     - title: 도구 탐색
       url: /devkit/
       icon: fas fa-toolbox
-    - title: 테마·폰트
+    - title: 테마
       url: /resources/
       icon: fas fa-palette
+    - title: 폰트
+      url: /fonts/
+      icon: fas fa-font
 radar:
   title: Radar
   url: /radar/

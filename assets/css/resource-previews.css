@@ -66,12 +66,6 @@
   border-color: var(--link-color);
 }
 
-#resource-previews button[aria-pressed="true"] {
-  border-color: var(--link-color);
-  color: var(--link-color);
-  box-shadow: inset 0 0 0 1px var(--link-color);
-}
-
 #resource-previews button:disabled {
   opacity: 1;
   cursor: default;
@@ -82,48 +76,9 @@
   outline-offset: 3px;
 }
 
-#resource-previews .rp-gallery-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: .75rem;
-  margin-bottom: 1.25rem;
-}
-
-#resource-previews .rp-gallery-kinds {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: .5rem;
-}
-
-#resource-previews .rp-gallery-kinds {
-  gap: .25rem;
-  padding: .25rem;
-  border: 1px solid var(--main-border-color);
-  border-radius: .75rem;
-  background: var(--card-bg);
-}
-
-#resource-previews .rp-gallery-kinds button {
-  min-width: 5rem;
-  border-color: transparent;
-  background: transparent;
-}
-
-#resource-previews .rp-gallery-kinds button[aria-pressed="true"] {
-  border-color: var(--link-color);
-  background: var(--main-bg);
-}
-
-#resource-previews [data-rp-gallery-kind] {
+#resource-previews :is(#rp-themes, #rp-fonts) {
   min-width: 0;
   margin-bottom: 2rem;
-}
-
-#resource-previews [data-rp-gallery-kind] > h2 {
-  margin-bottom: .85rem;
-  font-size: 1.1rem;
 }
 
 #resource-previews .rp-gallery-grid {
