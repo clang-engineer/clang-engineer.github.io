@@ -45,8 +45,7 @@
     </ul>
   </nav>
 
-  <div class="sidebar-bottom d-flex flex-column align-items-start w-100">
-    <div class="sidebar-link-group d-flex align-items-center">
+  <div class="sidebar-bottom d-flex align-items-center w-100">
     {% for entry in site.data.contact %}
       {%- assign url = null -%}
 
@@ -95,71 +94,23 @@
         </a>
       {% endif %}
     {% endfor %}
-    </div>
-    <div class="sidebar-theme-group d-flex align-items-center">
     <div class="visual-theme-picker">
-      <button type="button" class="btn btn-link nav-link" id="visual-theme-toggle" aria-label="디자인 테마 선택" aria-haspopup="true" aria-expanded="false" aria-controls="visual-theme-menu" title="디자인 테마 선택">
+      <button type="button" class="btn btn-link nav-link" id="mode-toggle" aria-label="테마 선택" aria-expanded="false" aria-controls="visual-theme-menu" title="테마 선택">
         <i class="fas fa-palette" aria-hidden="true"></i>
       </button>
-      <div id="visual-theme-menu" class="visual-theme-menu" role="group" aria-label="디자인 테마" hidden>
+      <div id="visual-theme-menu" class="visual-theme-menu dropdown-menu" role="group" aria-label="테마 설정" hidden>
+        {% unless site.theme_mode == 'light' or site.theme_mode == 'dark' %}
+          <div class="theme-menu-label">Appearance</div>
+          {% assign modes = 'light,dark,system' | split: ',' %}
+          {% for mode in modes %}
+            <button class="dropdown-item" type="button" data-theme-mode="{{ mode }}">{{ site.data.locales[include.lang].theme[mode] }}</button>
+          {% endfor %}
+        {% endunless %}
+        <div class="theme-menu-label">Design Theme</div>
         <button type="button" data-theme-option="default">Default <span aria-hidden="true"></span></button>
         <button type="button" data-theme-option="minimal">Minimal <span aria-hidden="true"></span></button>
         <button type="button" data-theme-option="terminal">Terminal <span aria-hidden="true"></span></button>
       </div>
-    </div>
-    {% unless site.theme_mode == 'light' or site.theme_mode == 'dark' %}
-      {%- capture icon_system -%}
-        <i class="fa-solid fa-display" data-theme-mode="system"></i>
-      {%- endcapture -%}
-
-      {%- capture icon_light -%}
-        <i class="fa-regular fa-sun" data-theme-mode="light"></i>
-      {%- endcapture -%}
-
-      {%- capture icon_dark -%}
-        <i class="fa-regular fa-moon" data-theme-mode="dark"></i>
-      {%- endcapture -%}
-
-      <div class="btn-group dropup">
-        <button
-          type="button"
-          class="btn btn-link nav-link"
-          aria-label="Switch Mode"
-          id="mode-toggle"
-          data-bs-toggle="dropdown"
-        >
-          {{- icon_light -}}
-          {{- icon_dark -}}
-          {{- icon_system -}}
-        </button>
-        <ul class="dropdown-menu rounded-3 mb-1 p-1">
-          <li>
-            <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="light">
-              {{- icon_light -}}
-              {{- site.data.locales[include.lang].theme.light -}}
-            </button>
-          </li>
-          <li>
-            <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="dark">
-              {{- icon_dark -}}
-              {{- site.data.locales[include.lang].theme.dark -}}
-            </button>
-          </li>
-          <li>
-            <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="system">
-              {{- icon_system -}}
-              {{- site.data.locales[include.lang].theme.system -}}
-            </button>
-          </li>
-        </ul>
-      </div>
-
-      {% if site.data.contact.size > 0 %}
-        <span class="icon-border"></span>
-      {% endif %}
-    {% endunless %}
-
-
     </div>
   </div>
   <!-- .sidebar-bottom -->
