@@ -44,13 +44,18 @@ ecosystems:
     discovery: topic
     topic: colorscheme
     searches:
-      - "topic:color-scheme theme in:name,description archived:false"
+      - "topic:color-scheme archived:false"
+      - "topic:color-theme archived:false"
       - "topic:neovim-colorscheme archived:false"
+      - "topic:vim-colorscheme archived:false"
       - "topic:vscode-theme archived:false"
+      - "topic:terminal-theme archived:false"
+      - "topic:terminal-colors archived:false"
       - '"color scheme" vim in:description archived:false'
       - '"all platforms" theme in:description archived:false'
-    limit: 100
-    min_stars: 500
+      - '"color palette" theme in:description archived:false'
+    limit: 300
+    min_stars: 100
     # Stars belong to repositories. Independently maintained ports can rank separately.
     exclude_patterns:
       - '^awesome-|\bdotfiles?\b|\bpersonal (?:configurations?|configs?|setups?)\b'
