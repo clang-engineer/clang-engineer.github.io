@@ -8,7 +8,7 @@ pin         : false
 hidden      : false
 ---
 
-Ghostty, Neovim, tmux, fzf의 색상을 통일하려면 같은 이름의 테마라도 도구마다 다른 설정을 준비해야 한다. [themeset](https://github.com/clang-engineer/themeset)을 개발하며 이 문제를 살펴보다 보면 이미 색상 데이터와 도구별 설정 생성을 분리해 온 Base16 생태계를 만나게 된다.
+Ghostty, Neovim, tmux, fzf의 색상을 통일하려면 같은 이름의 테마라도 도구마다 다른 설정을 준비해야 한다. 이 문제를 해결하기 위해 색상 데이터와 도구별 설정 생성을 분리해 온 대표적인 사례가 Base16 생태계다.
 
 핵심 질문은 테마를 어디에서 가져오고, 누가 도구별 설정으로 변환하며, 누가 실제 개발 환경에 적용하는가이다.
 
@@ -19,7 +19,7 @@ Base16에서 Tinty로 이어지는 흐름은 전체 테마 관리 역사의 한 
 ```text
 개발 환경 테마 관리
 ├─ 테마 원본과 도구별 포트 활용
-│  └─ Solarized, Dracula, Catppuccin / themeset
+│  └─ Solarized, Dracula, Catppuccin
 ├─ 공통 색상 역할과 템플릿 활용
 │  └─ Base16, Tinted Theming / Flavours, Tinty
 ├─ 이미지 기반 색상 생성
@@ -143,7 +143,6 @@ tinty apply  → 선택한 scheme의 테마 파일 확보
 | [Flavours](https://github.com/Misterio77/flavours) | Base16 등 | 템플릿 렌더링과 파일 적용 |
 | Tinty | Tinted Theming schemes | 등록된 테마 파일 및 Hook |
 | [recol](https://github.com/nlkli/recol) | 색상 팔레트 | 도구별 변환과 테마 적용 |
-| themeset | 도구별 네이티브 및 공식 테마 | 내장 Adapter로 탐색 및 적용 |
 
 공식 포트 방식은 에디터의 플러그인별 하이라이트나 tmux 테마의 세부 동작까지 활용할 수 있다. 반면 새로운 조합마다 공식 포트의 존재, 버전, 설정 방법을 관리해야 한다.
 
