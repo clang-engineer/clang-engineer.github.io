@@ -6,6 +6,8 @@ from pathlib import Path
 
 GENERIC = {"vim", "nvim", "neovim", "tmux", "vscode", "terminal", "theme", "colorscheme", "colors", "emacs", "kitty", "ghostty", "alacritty"}
 
+VARIANTS = {"dark", "light", "hard", "medium", "soft", "mocha", "latte", "frappe", "macchiato", "moon", "dawn", "day", "night", "storm", "terminal", "wave", "dragon", "darker", "lighter", "contrast", "high", "low", "pale", "deep", "eighties"}
+
 def normalize(value):
     return re.sub(r"[^a-z0-9]", "", value.lower())
 
@@ -29,7 +31,14 @@ def build(items, schemes):
         slug = scheme.split("-", 1)[1]
         words = slug.split("-")
         keys = [normalize("-".join(words[:n])) for n in range(1, len(words)+1)]
-        key = next((k for k in reversed(keys) if k in candidates), None)
+        # Match exact names first; only strip recognized variant suffixes.
+        key = keys[-1] if keys[-1] in candidates else None
+        if key is None:
+            for n in range(len(words)-1, 0, -1):
+                suffix = words[n:]
+                if all(w in VARIANTS for w in suffix) and keys[n-1] in candidates:
+                    key = keys[n-1]
+                    break
         if not key:
             continue
         repos = sorted(candidates[key], key=lambda r: (-r["stars"], r["id"]))
