@@ -57255,9 +57255,14 @@
     "stars": 1004
   },
   {
+    "id": "docmost/docmost",
+    "date": "2026-11-28",
+    "stars": 22449
+  },
+  {
     "id": "sxyazi/yazi",
     "date": "2026-11-28",
-    "stars": 43706
+    "stars": 43707
   },
   {
     "id": "yorukot/superfile",
@@ -57297,27 +57302,27 @@
   {
     "id": "alacritty/alacritty",
     "date": "2026-11-28",
-    "stars": 66337
+    "stars": 66348
   },
   {
     "id": "termux/termux-app",
     "date": "2026-11-28",
-    "stars": 65883
+    "stars": 65898
   },
   {
     "id": "ghostty-org/ghostty",
     "date": "2026-11-28",
-    "stars": 64562
+    "stars": 64567
   },
   {
     "id": "Textualize/textual",
     "date": "2026-11-28",
-    "stars": 37757
+    "stars": 37759
   },
   {
     "id": "Swordfish90/cool-retro-term",
     "date": "2026-11-28",
-    "stars": 26600
+    "stars": 26602
   },
   {
     "id": "yudai/gotty",
@@ -57327,7 +57332,7 @@
   {
     "id": "gnachman/iTerm2",
     "date": "2026-11-28",
-    "stars": 18336
+    "stars": 18337
   },
   {
     "id": "openspug/spug",
@@ -57357,7 +57362,7 @@
   {
     "id": "tw93/Kaku",
     "date": "2026-11-28",
-    "stars": 6270
+    "stars": 6272
   },
   {
     "id": "gnunn1/tilix",
@@ -57367,7 +57372,7 @@
   {
     "id": "HFO4/gameboy.live",
     "date": "2026-11-28",
-    "stars": 4901
+    "stars": 4900
   },
   {
     "id": "Guake/guake",
@@ -57382,7 +57387,7 @@
   {
     "id": "Kuddev/pebrel",
     "date": "2026-11-28",
-    "stars": 3944
+    "stars": 3946
   },
   {
     "id": "TermoraDev/termora",
@@ -57452,12 +57457,12 @@
   {
     "id": "AnalyseDeCircuit/oxideterm",
     "date": "2026-11-28",
-    "stars": 2065
+    "stars": 2067
   },
   {
     "id": "BlueM/cliclick",
     "date": "2026-11-28",
-    "stars": 2042
+    "stars": 2043
   },
   {
     "id": "muesli/termenv",
@@ -57522,7 +57527,7 @@
   {
     "id": "poetaman/arttime",
     "date": "2026-11-28",
-    "stars": 1400
+    "stars": 1401
   },
   {
     "id": "buyukakyuz/install-nothing",
@@ -57547,7 +57552,7 @@
   {
     "id": "libtcod/libtcod",
     "date": "2026-11-28",
-    "stars": 1247
+    "stars": 1248
   },
   {
     "id": "Canop/termimad",
@@ -57567,17 +57572,17 @@
   {
     "id": "tmux/tmux",
     "date": "2026-11-28",
-    "stars": 50601
+    "stars": 50605
   },
   {
     "id": "zellij-org/zellij",
     "date": "2026-11-28",
-    "stars": 36323
+    "stars": 36327
   },
   {
     "id": "wezterm/wezterm",
     "date": "2026-11-28",
-    "stars": 29720
+    "stars": 29721
   },
   {
     "id": "openclaw/gogcli",
@@ -57587,7 +57592,7 @@
   {
     "id": "binaricat/Netcatty",
     "date": "2026-11-28",
-    "stars": 7632
+    "stars": 7641
   },
   {
     "id": "acassen/keepalived",
@@ -57612,7 +57617,7 @@
   {
     "id": "muxy-app/muxy",
     "date": "2026-11-28",
-    "stars": 2397
+    "stars": 2398
   },
   {
     "id": "aaronjanse/3mux",
@@ -57655,6 +57660,11 @@
     "stars": 1020
   },
   {
+    "id": "cmderdev/cmder",
+    "date": "2026-11-28",
+    "stars": 27015
+  },
+  {
     "id": "dracula/dracula-theme",
     "date": "2026-11-28",
     "stars": 23621
@@ -57662,7 +57672,7 @@
   {
     "id": "catppuccin/catppuccin",
     "date": "2026-11-28",
-    "stars": 19987
+    "stars": 19989
   },
   {
     "id": "altercation/solarized",
@@ -57672,7 +57682,7 @@
   {
     "id": "morhetz/gruvbox",
     "date": "2026-11-28",
-    "stars": 15848
+    "stars": 15850
   },
   {
     "id": "chriskempson/tomorrow-theme",
@@ -57682,7 +57692,7 @@
   {
     "id": "bwya77/vscode-dark-islands",
     "date": "2026-11-28",
-    "stars": 8499
+    "stars": 8498
   },
   {
     "id": "SublimeText/Spacegray",
@@ -57700,6 +57710,21 @@
     "stars": 6462
   },
   {
+    "id": "byted-technologies/Coldimail",
+    "date": "2026-11-28",
+    "stars": 5911
+  },
+  {
+    "id": "yeun/open-color",
+    "date": "2026-11-28",
+    "stars": 5584
+  },
+  {
+    "id": "RitikPatni/Front-End-Web-Development-Resources",
+    "date": "2026-11-28",
+    "stars": 5176
+  },
+  {
     "id": "sainnhe/everforest",
     "date": "2026-11-28",
     "stars": 4289
@@ -57712,7 +57737,17 @@
   {
     "id": "kepano/flexoki",
     "date": "2026-11-28",
-    "stars": 3872
+    "stars": 3873
+  },
+  {
+    "id": "daltonmenezes/aura-theme",
+    "date": "2026-11-28",
+    "stars": 3834
+  },
+  {
+    "id": "Textualize/rich-cli",
+    "date": "2026-11-28",
+    "stars": 3784
   },
   {
     "id": "tomasr/molokai",
@@ -57720,9 +57755,24 @@
     "stars": 3619
   },
   {
+    "id": "p-ranav/indicators",
+    "date": "2026-11-28",
+    "stars": 3423
+  },
+  {
+    "id": "jkaving/intellij-colors-solarized",
+    "date": "2026-11-28",
+    "stars": 3238
+  },
+  {
     "id": "catppuccin/tmux",
     "date": "2026-11-28",
     "stars": 3222
+  },
+  {
+    "id": "bennyguitar/Colours",
+    "date": "2026-11-28",
+    "stars": 3079
   },
   {
     "id": "sdras/night-owl-vscode-theme",
@@ -57733,6 +57783,16 @@
     "id": "NLKNguyen/papercolor-theme",
     "date": "2026-11-28",
     "stars": 2845
+  },
+  {
+    "id": "zerosoul/chinese-colors",
+    "date": "2026-11-28",
+    "stars": 2748
+  },
+  {
+    "id": "Mahmud0808/ColorBlendr",
+    "date": "2026-11-28",
+    "stars": 2657
   },
   {
     "id": "nordtheme/vim",
@@ -57748,6 +57808,11 @@
     "id": "cocopon/iceberg.vim",
     "date": "2026-11-28",
     "stars": 2387
+  },
+  {
+    "id": "sharkdp/vivid",
+    "date": "2026-11-28",
+    "stars": 2292
   },
   {
     "id": "catppuccin/vscode",
@@ -57775,6 +57840,11 @@
     "stars": 1873
   },
   {
+    "id": "benruehl/adonis-ui",
+    "date": "2026-11-28",
+    "stars": 1867
+  },
+  {
     "id": "Binaryify/OneDark-Pro",
     "date": "2026-11-28",
     "stars": 1811
@@ -57795,6 +57865,11 @@
     "stars": 1638
   },
   {
+    "id": "gookit/color",
+    "date": "2026-11-28",
+    "stars": 1606
+  },
+  {
     "id": "sindresorhus/iterm2-snazzy",
     "date": "2026-11-28",
     "stars": 1572
@@ -57810,6 +57885,11 @@
     "stars": 1489
   },
   {
+    "id": "s0md3v/huepy",
+    "date": "2026-11-28",
+    "stars": 1479
+  },
+  {
     "id": "ku1ik/vim-monokai",
     "date": "2026-11-28",
     "stars": 1463
@@ -57820,9 +57900,24 @@
     "stars": 1357
   },
   {
+    "id": "Siddharth11/Colorful",
+    "date": "2026-11-28",
+    "stars": 1333
+  },
+  {
+    "id": "whatyouhide/vim-gotham",
+    "date": "2026-11-28",
+    "stars": 1322
+  },
+  {
     "id": "sjl/badwolf",
     "date": "2026-11-28",
     "stars": 1286
+  },
+  {
+    "id": "mayTermux/myTermux",
+    "date": "2026-11-28",
+    "stars": 1281
   },
   {
     "id": "jacoborus/tender.vim",
@@ -57830,9 +57925,29 @@
     "stars": 1276
   },
   {
+    "id": "scottclowe/matlab-schemer",
+    "date": "2026-11-28",
+    "stars": 1257
+  },
+  {
+    "id": "nevertoday/zhongguo-traditional-colors",
+    "date": "2026-11-28",
+    "stars": 1244
+  },
+  {
+    "id": "nuxt-modules/color-mode",
+    "date": "2026-11-28",
+    "stars": 1229
+  },
+  {
     "id": "vague-theme/vague.nvim",
     "date": "2026-11-28",
-    "stars": 1217
+    "stars": 1218
+  },
+  {
+    "id": "AlexAkulov/putty-color-themes",
+    "date": "2026-11-28",
+    "stars": 1215
   },
   {
     "id": "nordtheme/tmux",
@@ -57870,6 +57985,11 @@
     "stars": 1100
   },
   {
+    "id": "sainnhe/edge",
+    "date": "2026-11-28",
+    "stars": 1044
+  },
+  {
     "id": "nordtheme/iterm2",
     "date": "2026-11-28",
     "stars": 1023
@@ -57900,9 +58020,19 @@
     "stars": 942
   },
   {
+    "id": "PapirusDevelopmentTeam/arc-kde",
+    "date": "2026-11-28",
+    "stars": 938
+  },
+  {
     "id": "romainl/Apprentice",
     "date": "2026-11-28",
     "stars": 938
+  },
+  {
+    "id": "Schroedinger-Hat/ImageGoNord-Web",
+    "date": "2026-11-28",
+    "stars": 937
   },
   {
     "id": "jnurmine/Zenburn",
@@ -57910,9 +58040,19 @@
     "stars": 927
   },
   {
+    "id": "yurtaev/idea-one-dark-theme",
+    "date": "2026-11-28",
+    "stars": 920
+  },
+  {
     "id": "srcery-colors/srcery-vim",
     "date": "2026-11-28",
-    "stars": 908
+    "stars": 909
+  },
+  {
+    "id": "a-n-t-h-o-n-y/TermOx",
+    "date": "2026-11-28",
+    "stars": 882
   },
   {
     "id": "pineapplegiant/spaceduck",
@@ -57925,6 +58065,26 @@
     "stars": 863
   },
   {
+    "id": "bbatsov/solarized-emacs",
+    "date": "2026-11-28",
+    "stars": 863
+  },
+  {
+    "id": "ajmwagar/vim-deus",
+    "date": "2026-11-28",
+    "stars": 854
+  },
+  {
+    "id": "fenetikm/falcon",
+    "date": "2026-11-28",
+    "stars": 851
+  },
+  {
+    "id": "nschloe/matplotx",
+    "date": "2026-11-28",
+    "stars": 847
+  },
+  {
     "id": "raphamorim/lucario",
     "date": "2026-11-28",
     "stars": 835
@@ -57932,7 +58092,7 @@
   {
     "id": "eylles/pywal16",
     "date": "2026-11-28",
-    "stars": 832
+    "stars": 833
   },
   {
     "id": "ogdenwebb/emacs-kaolin-themes",
@@ -57945,9 +58105,34 @@
     "stars": 792
   },
   {
+    "id": "Mofiqul/dracula.nvim",
+    "date": "2026-11-28",
+    "stars": 787
+  },
+  {
+    "id": "serudda/steroidesign",
+    "date": "2026-11-28",
+    "stars": 772
+  },
+  {
+    "id": "nanxstats/ggsci",
+    "date": "2026-11-28",
+    "stars": 754
+  },
+  {
+    "id": "Midnight-Lizard/Midnight-Lizard",
+    "date": "2026-11-28",
+    "stars": 741
+  },
+  {
     "id": "loctvl842/monokai-pro.nvim",
     "date": "2026-11-28",
     "stars": 740
+  },
+  {
+    "id": "embark-theme/vim",
+    "date": "2026-11-28",
+    "stars": 736
   },
   {
     "id": "tonsky/vscode-theme-alabaster",
@@ -57965,9 +58150,24 @@
     "stars": 723
   },
   {
+    "id": "TuguiDragos/Peel",
+    "date": "2026-11-28",
+    "stars": 712
+  },
+  {
+    "id": "hyprland-community/pyprland",
+    "date": "2026-11-28",
+    "stars": 710
+  },
+  {
     "id": "wadackel/vim-dogrun",
     "date": "2026-11-28",
     "stars": 709
+  },
+  {
+    "id": "eigenmiao/Rickrack",
+    "date": "2026-11-28",
+    "stars": 708
   },
   {
     "id": "antfu/vscode-theme-vitesse",
@@ -57978,6 +58178,11 @@
     "id": "greduan/emacs-theme-gruvbox",
     "date": "2026-11-28",
     "stars": 690
+  },
+  {
+    "id": "tonsky/sublime-scheme-alabaster",
+    "date": "2026-11-28",
+    "stars": 687
   },
   {
     "id": "evergardentheme/nvim",
@@ -58010,6 +58215,11 @@
     "stars": 622
   },
   {
+    "id": "preservim/vim-colors-pencil",
+    "date": "2026-11-28",
+    "stars": 619
+  },
+  {
     "id": "kaicataldo/material.vim",
     "date": "2026-11-28",
     "stars": 606
@@ -58020,9 +58230,19 @@
     "stars": 589
   },
   {
+    "id": "edelstone/tints-and-shades",
+    "date": "2026-11-28",
+    "stars": 588
+  },
+  {
     "id": "xero/miasma.nvim",
     "date": "2026-11-28",
     "stars": 587
+  },
+  {
+    "id": "Misterio77/flavours",
+    "date": "2026-11-28",
+    "stars": 586
   },
   {
     "id": "catppuccin/jetbrains",
@@ -58035,14 +58255,29 @@
     "stars": 584
   },
   {
+    "id": "joncardasis/ChromaColorPicker",
+    "date": "2026-11-28",
+    "stars": 568
+  },
+  {
     "id": "nordtheme/emacs",
     "date": "2026-11-28",
     "stars": 552
   },
   {
+    "id": "diogocavilha/fancy-git",
+    "date": "2026-11-28",
+    "stars": 551
+  },
+  {
     "id": "kristijanhusak/vim-hybrid-material",
     "date": "2026-11-28",
     "stars": 543
+  },
+  {
+    "id": "javierbyte/cohesive-colors",
+    "date": "2026-11-28",
+    "stars": 538
   },
   {
     "id": "jaredgorski/SpaceCamp",
@@ -58060,9 +58295,24 @@
     "stars": 514
   },
   {
+    "id": "trapd00r/ls--",
+    "date": "2026-11-28",
+    "stars": 512
+  },
+  {
+    "id": "lanx-x/NeoSolarized",
+    "date": "2026-11-28",
+    "stars": 511
+  },
+  {
     "id": "Rigellute/rigel",
     "date": "2026-11-28",
     "stars": 510
+  },
+  {
+    "id": "owainlewis/emacs-color-themes",
+    "date": "2026-11-28",
+    "stars": 509
   },
   {
     "id": "olivercederborg/poimandres.nvim",
@@ -58080,19 +58330,1619 @@
     "stars": 505
   },
   {
+    "id": "ribru17/bamboo.nvim",
+    "date": "2026-11-28",
+    "stars": 498
+  },
+  {
+    "id": "nordtheme/alacritty",
+    "date": "2026-11-28",
+    "stars": 487
+  },
+  {
+    "id": "dgox16/oldworld.nvim",
+    "date": "2026-11-28",
+    "stars": 483
+  },
+  {
+    "id": "neanias/everforest-nvim",
+    "date": "2026-11-28",
+    "stars": 473
+  },
+  {
+    "id": "crusoexia/vim-monokai",
+    "date": "2026-11-28",
+    "stars": 466
+  },
+  {
+    "id": "uloco/bluloco.nvim",
+    "date": "2026-11-28",
+    "stars": 465
+  },
+  {
+    "id": "Relaxed-Theme/relaxed-terminal-themes",
+    "date": "2026-11-28",
+    "stars": 462
+  },
+  {
+    "id": "amiechen/codrops-scribbler",
+    "date": "2026-11-28",
+    "stars": 460
+  },
+  {
+    "id": "luisiacc/gruvbox-baby",
+    "date": "2026-11-28",
+    "stars": 460
+  },
+  {
+    "id": "sindresorhus/terminal-snazzy",
+    "date": "2026-11-28",
+    "stars": 457
+  },
+  {
+    "id": "ramojus/mellifluous.nvim",
+    "date": "2026-11-28",
+    "stars": 455
+  },
+  {
+    "id": "SublimeText/PackageDev",
+    "date": "2026-11-28",
+    "stars": 453
+  },
+  {
+    "id": "catppuccin/rofi",
+    "date": "2026-11-28",
+    "stars": 452
+  },
+  {
+    "id": "miikanissi/modus-themes.nvim",
+    "date": "2026-11-28",
+    "stars": 452
+  },
+  {
+    "id": "EliverLara/Andromeda",
+    "date": "2026-11-28",
+    "stars": 447
+  },
+  {
+    "id": "catppuccin/btop",
+    "date": "2026-11-28",
+    "stars": 444
+  },
+  {
+    "id": "mellow-theme/mellow.nvim",
+    "date": "2026-11-28",
+    "stars": 436
+  },
+  {
+    "id": "aktersnurra/no-clown-fiesta.nvim",
+    "date": "2026-11-28",
+    "stars": 434
+  },
+  {
+    "id": "JohnSundell/XcodeTheme",
+    "date": "2026-11-28",
+    "stars": 427
+  },
+  {
+    "id": "mswift42/themecreator",
+    "date": "2026-11-28",
+    "stars": 425
+  },
+  {
+    "id": "jonathanfilip/vim-lucius",
+    "date": "2026-11-28",
+    "stars": 422
+  },
+  {
+    "id": "azemoh/vscode-one-monokai",
+    "date": "2026-11-28",
+    "stars": 415
+  },
+  {
+    "id": "wzpan/hexo-theme-freemind",
+    "date": "2026-11-28",
+    "stars": 411
+  },
+  {
+    "id": "thesimonho/kanagawa-paper",
+    "date": "2026-11-28",
+    "stars": 410
+  },
+  {
+    "id": "EliverLara/firefox-nordic-theme",
+    "date": "2026-11-28",
+    "stars": 409
+  },
+  {
+    "id": "KeitaNakamura/neodark.vim",
+    "date": "2026-11-28",
+    "stars": 408
+  },
+  {
+    "id": "cargath/WWDC2016-Xcode-Color-Scheme",
+    "date": "2026-11-28",
+    "stars": 399
+  },
+  {
+    "id": "patstockwell/vim-monokai-tasty",
+    "date": "2026-11-28",
+    "stars": 396
+  },
+  {
+    "id": "Railly/shadcn-ui-customizer",
+    "date": "2026-11-28",
+    "stars": 395
+  },
+  {
+    "id": "metalelf0/black-metal-theme-neovim",
+    "date": "2026-11-28",
+    "stars": 394
+  },
+  {
+    "id": "Railly/one-hunter-vscode",
+    "date": "2026-11-28",
+    "stars": 390
+  },
+  {
+    "id": "bojan/xcode-one",
+    "date": "2026-11-28",
+    "stars": 388
+  },
+  {
+    "id": "tanvirtin/monokai.nvim",
+    "date": "2026-11-28",
+    "stars": 388
+  },
+  {
+    "id": "zaldih/themery.nvim",
+    "date": "2026-11-28",
+    "stars": 382
+  },
+  {
+    "id": "nvimdev/zephyr-nvim",
+    "date": "2026-11-28",
+    "stars": 378
+  },
+  {
+    "id": "thang-nm/Flow-Icons",
+    "date": "2026-11-28",
+    "stars": 378
+  },
+  {
+    "id": "oskarnurm/koda.nvim",
+    "date": "2026-11-28",
+    "stars": 376
+  },
+  {
+    "id": "ray-x/aurora",
+    "date": "2026-11-28",
+    "stars": 375
+  },
+  {
+    "id": "danilo-augusto/vim-afterglow",
+    "date": "2026-11-28",
+    "stars": 374
+  },
+  {
+    "id": "nordtheme/terminal-app",
+    "date": "2026-11-28",
+    "stars": 373
+  },
+  {
+    "id": "cormacrelf/vim-colors-github",
+    "date": "2026-11-28",
+    "stars": 372
+  },
+  {
+    "id": "catppuccin/wezterm",
+    "date": "2026-11-28",
+    "stars": 368
+  },
+  {
+    "id": "kyoz/purify",
+    "date": "2026-11-28",
+    "stars": 368
+  },
+  {
+    "id": "wuelnerdotexe/vim-enfocado",
+    "date": "2026-11-28",
+    "stars": 368
+  },
+  {
+    "id": "jacoborus/estilo",
+    "date": "2026-11-28",
+    "stars": 367
+  },
+  {
+    "id": "dblodorn/sanzo-wada",
+    "date": "2026-11-28",
+    "stars": 364
+  },
+  {
+    "id": "nordtheme/jetbrains",
+    "date": "2026-11-28",
+    "stars": 358
+  },
+  {
+    "id": "doprz/dipc",
+    "date": "2026-11-28",
+    "stars": 357
+  },
+  {
+    "id": "jdinhify/vscode-theme-gruvbox",
+    "date": "2026-11-28",
+    "stars": 357
+  },
+  {
+    "id": "oxfist/night-owl.nvim",
+    "date": "2026-11-28",
+    "stars": 353
+  },
+  {
+    "id": "eendroroy/alien",
+    "date": "2026-11-28",
+    "stars": 351
+  },
+  {
+    "id": "connorholyday/vim-snazzy",
+    "date": "2026-11-28",
+    "stars": 341
+  },
+  {
+    "id": "toggle-corp/alacritty-colorscheme",
+    "date": "2026-11-28",
+    "stars": 339
+  },
+  {
+    "id": "robertmeta/nofrils",
+    "date": "2026-11-28",
+    "stars": 336
+  },
+  {
+    "id": "akamud/vscode-theme-onedark",
+    "date": "2026-11-28",
+    "stars": 335
+  },
+  {
+    "id": "braver/Solarized",
+    "date": "2026-11-28",
+    "stars": 332
+  },
+  {
+    "id": "moegi-design/vscode-theme",
+    "date": "2026-11-28",
+    "stars": 331
+  },
+  {
+    "id": "FrenzyExists/aquarium-vim",
+    "date": "2026-11-28",
+    "stars": 327
+  },
+  {
+    "id": "fxn/vim-monochrome",
+    "date": "2026-11-28",
+    "stars": 325
+  },
+  {
+    "id": "lucasb-eyer/libheatmap",
+    "date": "2026-11-28",
+    "stars": 325
+  },
+  {
+    "id": "tyrannicaltoucan/vim-deep-space",
+    "date": "2026-11-28",
+    "stars": 325
+  },
+  {
+    "id": "webkubor/dsh-bloom-theme",
+    "date": "2026-11-28",
+    "stars": 325
+  },
+  {
+    "id": "Everblush/everblush.vim",
+    "date": "2026-11-28",
+    "stars": 324
+  },
+  {
+    "id": "blinksh/themes",
+    "date": "2026-11-28",
+    "stars": 323
+  },
+  {
+    "id": "ThorstenRhau/token",
+    "date": "2026-11-28",
+    "stars": 320
+  },
+  {
+    "id": "tyrannicaltoucan/vim-quantum",
+    "date": "2026-11-28",
+    "stars": 320
+  },
+  {
+    "id": "dikiaap/minimalist",
+    "date": "2026-11-28",
+    "stars": 319
+  },
+  {
+    "id": "nordtheme/xresources",
+    "date": "2026-11-28",
+    "stars": 314
+  },
+  {
+    "id": "sjmgarnier/viridis",
+    "date": "2026-11-28",
+    "stars": 314
+  },
+  {
+    "id": "denysdovhan/one-gnome-terminal",
+    "date": "2026-11-28",
+    "stars": 312
+  },
+  {
+    "id": "gbprod/nord.nvim",
+    "date": "2026-11-28",
+    "stars": 311
+  },
+  {
+    "id": "BrandonKirbyson/VSCode-Animations",
+    "date": "2026-11-28",
+    "stars": 310
+  },
+  {
+    "id": "Everblush/nvim",
+    "date": "2026-11-28",
+    "stars": 310
+  },
+  {
+    "id": "folke/styler.nvim",
+    "date": "2026-11-28",
+    "stars": 310
+  },
+  {
+    "id": "xnng/my-git-bash",
+    "date": "2026-11-28",
+    "stars": 309
+  },
+  {
+    "id": "GideonWolfe/Zathura-Pywal",
+    "date": "2026-11-28",
+    "stars": 304
+  },
+  {
+    "id": "joowani/colorpedia",
+    "date": "2026-11-28",
+    "stars": 304
+  },
+  {
+    "id": "hexonide/rumda",
+    "date": "2026-11-28",
+    "stars": 303
+  },
+  {
+    "id": "subframe7536/vscode-theme-maple",
+    "date": "2026-11-28",
+    "stars": 303
+  },
+  {
+    "id": "moldach/vapoRwave",
+    "date": "2026-11-28",
+    "stars": 302
+  },
+  {
+    "id": "evoluteur/colorpicker",
+    "date": "2026-11-28",
+    "stars": 301
+  },
+  {
+    "id": "dofuuz/dimidium",
+    "date": "2026-11-28",
+    "stars": 299
+  },
+  {
+    "id": "rhysd/vim-color-spring-night",
+    "date": "2026-11-28",
+    "stars": 299
+  },
+  {
+    "id": "jmblog/color-themes-for-google-code-prettify",
+    "date": "2026-11-28",
+    "stars": 296
+  },
+  {
+    "id": "Mofiqul/adwaita.nvim",
+    "date": "2026-11-28",
+    "stars": 296
+  },
+  {
+    "id": "rockerBOO/boo-colorscheme-nvim",
+    "date": "2026-11-28",
+    "stars": 293
+  },
+  {
+    "id": "Konata9/inkstone",
+    "date": "2026-11-28",
+    "stars": 288
+  },
+  {
+    "id": "kyazdani42/blue-moon",
+    "date": "2026-11-28",
+    "stars": 288
+  },
+  {
+    "id": "stefanopitton/flow.nvim",
+    "date": "2026-11-28",
+    "stars": 284
+  },
+  {
+    "id": "catppuccin/cosmic-desktop",
+    "date": "2026-11-28",
+    "stars": 281
+  },
+  {
+    "id": "noahfrederick/vim-hemisu",
+    "date": "2026-11-28",
+    "stars": 281
+  },
+  {
+    "id": "Briles/gruvbox",
+    "date": "2026-11-28",
+    "stars": 280
+  },
+  {
+    "id": "0x20F/paris",
+    "date": "2026-11-28",
+    "stars": 278
+  },
+  {
+    "id": "adamfuhrer/colors.lol",
+    "date": "2026-11-28",
+    "stars": 269
+  },
+  {
+    "id": "JuliaGraphics/ColorSchemes.jl",
+    "date": "2026-11-28",
+    "stars": 268
+  },
+  {
+    "id": "jpo/vim-railscasts-theme",
+    "date": "2026-11-28",
+    "stars": 266
+  },
+  {
+    "id": "zootedb0t/citruszest.nvim",
+    "date": "2026-11-28",
+    "stars": 266
+  },
+  {
+    "id": "nordtheme/xfce-terminal",
+    "date": "2026-11-28",
+    "stars": 260
+  },
+  {
+    "id": "datsfilipe/vesper.nvim",
+    "date": "2026-11-28",
+    "stars": 259
+  },
+  {
+    "id": "schnerring/hugo-theme-gruvbox",
+    "date": "2026-11-28",
+    "stars": 255
+  },
+  {
+    "id": "NTBBloodbath/doom-one.nvim",
+    "date": "2026-11-28",
+    "stars": 253
+  },
+  {
+    "id": "jaredgorski/fogbell.vim",
+    "date": "2026-11-28",
+    "stars": 252
+  },
+  {
+    "id": "zeis/vim-kolor",
+    "date": "2026-11-28",
+    "stars": 252
+  },
+  {
+    "id": "whatyouhide/gotham-contrib",
+    "date": "2026-11-28",
+    "stars": 250
+  },
+  {
+    "id": "etigerstudio/typora-misty-theme",
+    "date": "2026-11-28",
+    "stars": 247
+  },
+  {
+    "id": "franbach/miramare",
+    "date": "2026-11-28",
+    "stars": 247
+  },
+  {
+    "id": "adi1090x/kitty-cat",
+    "date": "2026-11-28",
+    "stars": 244
+  },
+  {
+    "id": "blazkowolf/gruber-darker.nvim",
+    "date": "2026-11-28",
+    "stars": 244
+  },
+  {
+    "id": "Lokaltog/vim-monotone",
+    "date": "2026-11-28",
+    "stars": 242
+  },
+  {
+    "id": "Glitchbone/vscode-base16-term",
+    "date": "2026-11-28",
+    "stars": 241
+  },
+  {
+    "id": "bchiang7/halcyon-vscode",
+    "date": "2026-11-28",
+    "stars": 238
+  },
+  {
+    "id": "dasupradyumna/midnight.nvim",
+    "date": "2026-11-28",
+    "stars": 237
+  },
+  {
+    "id": "nvimdev/oceanic-material",
+    "date": "2026-11-28",
+    "stars": 236
+  },
+  {
+    "id": "sts10/vim-pink-moon",
+    "date": "2026-11-28",
+    "stars": 233
+  },
+  {
+    "id": "beautifulrem/pi-sakura-cyberdeck",
+    "date": "2026-11-28",
+    "stars": 229
+  },
+  {
+    "id": "kinoute/typora-github-night-theme",
+    "date": "2026-11-28",
+    "stars": 229
+  },
+  {
+    "id": "darkvoid-theme/darkvoid.nvim",
+    "date": "2026-11-28",
+    "stars": 227
+  },
+  {
+    "id": "phanviet/vim-monokai-pro",
+    "date": "2026-11-28",
+    "stars": 227
+  },
+  {
+    "id": "JuliaGraphics/Colors.jl",
+    "date": "2026-11-28",
+    "stars": 226
+  },
+  {
+    "id": "sujan-s/code-blue",
+    "date": "2026-11-28",
+    "stars": 226
+  },
+  {
+    "id": "mxcl/Chalk",
+    "date": "2026-11-28",
+    "stars": 224
+  },
+  {
+    "id": "kvrohit/rasmus.nvim",
+    "date": "2026-11-28",
+    "stars": 222
+  },
+  {
+    "id": "rockyzhang24/arctic.nvim",
+    "date": "2026-11-28",
+    "stars": 219
+  },
+  {
+    "id": "casedami/neomodern.nvim",
+    "date": "2026-11-28",
+    "stars": 218
+  },
+  {
+    "id": "e-ink-colorscheme/e-ink.nvim",
+    "date": "2026-11-28",
+    "stars": 218
+  },
+  {
+    "id": "srcery-colors/srcery-terminal",
+    "date": "2026-11-28",
+    "stars": 218
+  },
+  {
+    "id": "xpl/ololog",
+    "date": "2026-11-28",
+    "stars": 218
+  },
+  {
+    "id": "yorumicolors/yorumi.nvim",
+    "date": "2026-11-28",
+    "stars": 217
+  },
+  {
+    "id": "m00qek/baleia.nvim",
+    "date": "2026-11-28",
+    "stars": 216
+  },
+  {
+    "id": "mattvh/solar-theme-jekyll",
+    "date": "2026-11-28",
+    "stars": 215
+  },
+  {
+    "id": "gerane/VSCodeThemes",
+    "date": "2026-11-28",
+    "stars": 214
+  },
+  {
+    "id": "noahfrederick/vim-noctu",
+    "date": "2026-11-28",
+    "stars": 214
+  },
+  {
+    "id": "Lokaltog/vim-distinguished",
+    "date": "2026-11-28",
+    "stars": 212
+  },
+  {
+    "id": "gaplo917/GapStyle",
+    "date": "2026-11-28",
+    "stars": 211
+  },
+  {
+    "id": "ilof2/posterpole.nvim",
+    "date": "2026-11-28",
+    "stars": 211
+  },
+  {
+    "id": "ishan9299/nvim-solarized-lua",
+    "date": "2026-11-28",
+    "stars": 209
+  },
+  {
+    "id": "rafamadriz/neon",
+    "date": "2026-11-28",
+    "stars": 208
+  },
+  {
+    "id": "dchinmay2/alabaster.nvim",
+    "date": "2026-11-28",
+    "stars": 206
+  },
+  {
+    "id": "justcallmekoko/Arduino-FastLED-Music-Visualizer",
+    "date": "2026-11-28",
+    "stars": 202
+  },
+  {
+    "id": "Schroedinger-Hat/ImageGoNord-pip",
+    "date": "2026-11-28",
+    "stars": 202
+  },
+  {
+    "id": "biletskyy/flatwhite-syntax",
+    "date": "2026-11-28",
+    "stars": 199
+  },
+  {
+    "id": "liyasthomas/colorbook",
+    "date": "2026-11-28",
+    "stars": 199
+  },
+  {
+    "id": "aonemd/kuroi.vim",
+    "date": "2026-11-28",
+    "stars": 198
+  },
+  {
+    "id": "connorholyday/nord-kitty",
+    "date": "2026-11-28",
+    "stars": 198
+  },
+  {
+    "id": "mhinz/vim-janah",
+    "date": "2026-11-28",
+    "stars": 198
+  },
+  {
+    "id": "mervick/Qt-Creator-Darcula",
+    "date": "2026-11-28",
+    "stars": 194
+  },
+  {
+    "id": "EliTheSurfer/EliVim-VSCode",
+    "date": "2026-11-28",
+    "stars": 193
+  },
+  {
+    "id": "ricewind012/win95-themes",
+    "date": "2026-11-28",
+    "stars": 193
+  },
+  {
+    "id": "shaunsingh/solarized.nvim",
+    "date": "2026-11-28",
+    "stars": 193
+  },
+  {
+    "id": "frostming/python-cfonts",
+    "date": "2026-11-28",
+    "stars": 192
+  },
+  {
+    "id": "hiberbee/themes",
+    "date": "2026-11-28",
+    "stars": 192
+  },
+  {
+    "id": "Hilbert-beinghappy/seektty",
+    "date": "2026-11-28",
+    "stars": 192
+  },
+  {
+    "id": "typicode/bg.nvim",
+    "date": "2026-11-28",
+    "stars": 192
+  },
+  {
+    "id": "shaobeichen/gradient-theme",
+    "date": "2026-11-28",
+    "stars": 191
+  },
+  {
+    "id": "yyq123/learn-vim",
+    "date": "2026-11-28",
+    "stars": 191
+  },
+  {
+    "id": "Verf/deepwhite.nvim",
+    "date": "2026-11-28",
+    "stars": 188
+  },
+  {
+    "id": "ficd0/ashen.nvim",
+    "date": "2026-11-28",
+    "stars": 186
+  },
+  {
+    "id": "catppuccin/Terminal.app",
+    "date": "2026-11-28",
+    "stars": 185
+  },
+  {
+    "id": "jiyometrik/tokyonight-windows-terminal",
+    "date": "2026-11-28",
+    "stars": 184
+  },
+  {
+    "id": "Aejkatappaja/cendre",
+    "date": "2026-11-28",
+    "stars": 183
+  },
+  {
+    "id": "piousdeer/vscode-adwaita",
+    "date": "2026-11-28",
+    "stars": 183
+  },
+  {
+    "id": "kungfusheep/mfd.nvim",
+    "date": "2026-11-28",
+    "stars": 182
+  },
+  {
+    "id": "johnpapa/vscode-winteriscoming",
+    "date": "2026-11-28",
+    "stars": 181
+  },
+  {
+    "id": "kdheepak/monochrome.nvim",
+    "date": "2026-11-28",
+    "stars": 181
+  },
+  {
+    "id": "MattDMo/Neon-color-scheme",
+    "date": "2026-11-28",
+    "stars": 181
+  },
+  {
+    "id": "kusoroadeolu/Clique",
+    "date": "2026-11-28",
+    "stars": 180
+  },
+  {
+    "id": "poucotm/Guna",
+    "date": "2026-11-28",
+    "stars": 179
+  },
+  {
+    "id": "wnkz/monoglow.nvim",
+    "date": "2026-11-28",
+    "stars": 179
+  },
+  {
+    "id": "SilentGlasses/warp_themes",
+    "date": "2026-11-28",
+    "stars": 178
+  },
+  {
+    "id": "NotNeelPatel/WallpaperThemeConverter",
+    "date": "2026-11-28",
+    "stars": 177
+  },
+  {
+    "id": "vague2k/huez.nvim",
+    "date": "2026-11-28",
+    "stars": 177
+  },
+  {
+    "id": "rstecca/ColorBands",
+    "date": "2026-11-28",
+    "stars": 176
+  },
+  {
+    "id": "tribela/vim-transparent",
+    "date": "2026-11-28",
+    "stars": 174
+  },
+  {
+    "id": "andersevenrud/nordic.nvim",
+    "date": "2026-11-28",
+    "stars": 171
+  },
+  {
+    "id": "sobolevn/sobole-zsh-theme",
+    "date": "2026-11-28",
+    "stars": 171
+  },
+  {
+    "id": "tonsky/intellij-alabaster",
+    "date": "2026-11-28",
+    "stars": 171
+  },
+  {
+    "id": "catppuccin/sublime-text",
+    "date": "2026-11-28",
+    "stars": 170
+  },
+  {
+    "id": "polirritmico/monokai-nightasty.nvim",
+    "date": "2026-11-28",
+    "stars": 170
+  },
+  {
+    "id": "qTipTip/Pylette",
+    "date": "2026-11-28",
+    "stars": 170
+  },
+  {
+    "id": "JoosepAlviste/palenightfall.nvim",
+    "date": "2026-11-28",
+    "stars": 169
+  },
+  {
+    "id": "4513ECHO/vim-colors-hatsunemiku",
+    "date": "2026-11-28",
+    "stars": 167
+  },
+  {
+    "id": "lukinco/lukin-vscode-theme",
+    "date": "2026-11-28",
+    "stars": 167
+  },
+  {
+    "id": "victorqribeiro/oldTerminal",
+    "date": "2026-11-28",
+    "stars": 167
+  },
+  {
+    "id": "daedreth/URXVTConfig",
+    "date": "2026-11-28",
+    "stars": 166
+  },
+  {
+    "id": "joshbeckman/thecolorapi",
+    "date": "2026-11-28",
+    "stars": 166
+  },
+  {
+    "id": "xero/sourcerer",
+    "date": "2026-11-28",
+    "stars": 166
+  },
+  {
+    "id": "AstroNvim/astrotheme",
+    "date": "2026-11-28",
+    "stars": 165
+  },
+  {
+    "id": "HoNamDuong/hybrid.nvim",
+    "date": "2026-11-28",
+    "stars": 165
+  },
+  {
+    "id": "WTFox/luna.nvim",
+    "date": "2026-11-28",
+    "stars": 165
+  },
+  {
+    "id": "Elius94/console-gui-tools",
+    "date": "2026-11-28",
+    "stars": 164
+  },
+  {
+    "id": "liuchengxu/space-vim-theme",
+    "date": "2026-11-28",
+    "stars": 164
+  },
+  {
+    "id": "svrana/neosolarized.nvim",
+    "date": "2026-11-28",
+    "stars": 164
+  },
+  {
+    "id": "Chaosnap/Typewriter-Nocturne",
+    "date": "2026-11-28",
+    "stars": 162
+  },
+  {
+    "id": "Everblush/everblush",
+    "date": "2026-11-28",
+    "stars": 161
+  },
+  {
+    "id": "holoto/color-scheme",
+    "date": "2026-11-28",
+    "stars": 161
+  },
+  {
+    "id": "jsit/toast.vim",
+    "date": "2026-11-28",
+    "stars": 161
+  },
+  {
+    "id": "uhs-robert/oasis.nvim",
+    "date": "2026-11-28",
+    "stars": 161
+  },
+  {
+    "id": "ashish0kumar/tint",
+    "date": "2026-11-28",
+    "stars": 160
+  },
+  {
+    "id": "ErichDonGubler/vim-sublime-monokai",
+    "date": "2026-11-28",
+    "stars": 160
+  },
+  {
+    "id": "nickkadutskyi/jb.nvim",
+    "date": "2026-11-28",
+    "stars": 157
+  },
+  {
+    "id": "Murderlon/cyberpunk-iterm",
+    "date": "2026-11-28",
+    "stars": 156
+  },
+  {
+    "id": "YKizou/VSCode_Template",
+    "date": "2026-11-28",
+    "stars": 156
+  },
+  {
+    "id": "fynnfluegge/monet.nvim",
+    "date": "2026-11-28",
+    "stars": 155
+  },
+  {
+    "id": "kepano/flexoki-neovim",
+    "date": "2026-11-28",
+    "stars": 154
+  },
+  {
+    "id": "Siddharth11/gradstop",
+    "date": "2026-11-28",
+    "stars": 154
+  },
+  {
+    "id": "tobiastimm/code-theme-converter",
+    "date": "2026-11-28",
+    "stars": 154
+  },
+  {
+    "id": "cseelus/vim-colors-lucid",
+    "date": "2026-11-28",
+    "stars": 153
+  },
+  {
+    "id": "brendt/phpstorm-photon-theme",
+    "date": "2026-11-28",
+    "stars": 152
+  },
+  {
+    "id": "nordtheme/notepadplusplus",
+    "date": "2026-11-28",
+    "stars": 152
+  },
+  {
+    "id": "withastro/houston-vscode",
+    "date": "2026-11-28",
+    "stars": 152
+  },
+  {
+    "id": "atelierbram/syntax-highlighting",
+    "date": "2026-11-28",
+    "stars": 151
+  },
+  {
+    "id": "KabbAmine/yowish.vim",
+    "date": "2026-11-28",
+    "stars": 151
+  },
+  {
+    "id": "kyzabuilds/xeno.nvim",
+    "date": "2026-11-28",
+    "stars": 151
+  },
+  {
+    "id": "gojuukaze/terminal_layout",
+    "date": "2026-11-28",
+    "stars": 150
+  },
+  {
+    "id": "Badacadabra/vim-archery",
+    "date": "2026-11-28",
+    "stars": 149
+  },
+  {
+    "id": "kdsuneraavinash/theme_provider",
+    "date": "2026-11-28",
+    "stars": 149
+  },
+  {
+    "id": "davidmathers/tokyo-night-kitty-theme",
+    "date": "2026-11-28",
+    "stars": 147
+  },
+  {
+    "id": "ExpertAnonymous/T-LOAD",
+    "date": "2026-11-28",
+    "stars": 146
+  },
+  {
+    "id": "tonsky/sublime-scheme-writer",
+    "date": "2026-11-28",
+    "stars": 146
+  },
+  {
+    "id": "Mrcuve0/Aritim-Dark",
+    "date": "2026-11-28",
+    "stars": 145
+  },
+  {
+    "id": "ntk148v/vim-horizon",
+    "date": "2026-11-28",
+    "stars": 145
+  },
+  {
+    "id": "yuttie/hydrangea-vim",
+    "date": "2026-11-28",
+    "stars": 145
+  },
+  {
+    "id": "endormi/vscode-2077-theme",
+    "date": "2026-11-28",
+    "stars": 144
+  },
+  {
+    "id": "Serendipity-Theme/vs-code",
+    "date": "2026-11-28",
+    "stars": 144
+  },
+  {
+    "id": "srcery-colors/srcery-emacs",
+    "date": "2026-11-28",
+    "stars": 144
+  },
+  {
+    "id": "cideM/yui",
+    "date": "2026-11-28",
+    "stars": 143
+  },
+  {
+    "id": "romainl/vim-rnb",
+    "date": "2026-11-28",
+    "stars": 143
+  },
+  {
+    "id": "ryanraposo/codeui",
+    "date": "2026-11-28",
+    "stars": 143
+  },
+  {
+    "id": "kvrohit/substrata.nvim",
+    "date": "2026-11-28",
+    "stars": 142
+  },
+  {
+    "id": "Ryo-N7/tvthemes",
+    "date": "2026-11-28",
+    "stars": 142
+  },
+  {
+    "id": "samdark/intellij-visual-studio-code-dark-plus",
+    "date": "2026-11-28",
+    "stars": 142
+  },
+  {
+    "id": "ciscorucinski/ChroMATERIAL",
+    "date": "2026-11-28",
+    "stars": 140
+  },
+  {
+    "id": "nordtheme/sublime-text",
+    "date": "2026-11-28",
+    "stars": 140
+  },
+  {
+    "id": "GulajavaMinistudio/Mayukai-Theme",
+    "date": "2026-11-28",
+    "stars": 139
+  },
+  {
+    "id": "nordtheme/slack",
+    "date": "2026-11-28",
+    "stars": 139
+  },
+  {
+    "id": "sdras/inbedby7pm",
+    "date": "2026-11-28",
+    "stars": 139
+  },
+  {
+    "id": "HuXn-WebDev/Cleanest-VSCode-Setup",
+    "date": "2026-11-28",
+    "stars": 137
+  },
+  {
+    "id": "itchyny/landscape.vim",
+    "date": "2026-11-28",
+    "stars": 137
+  },
+  {
+    "id": "Ucekay/nitro-palette",
+    "date": "2026-11-28",
+    "stars": 137
+  },
+  {
+    "id": "jpwol/thorn.nvim",
+    "date": "2026-11-28",
+    "stars": 135
+  },
+  {
+    "id": "vinhnx/Ciapre-Xcode-theme",
+    "date": "2026-11-28",
+    "stars": 135
+  },
+  {
+    "id": "AhmedAbdulrahman/aylin.vim",
+    "date": "2026-11-28",
+    "stars": 133
+  },
+  {
+    "id": "hachy/eva01.vim",
+    "date": "2026-11-28",
+    "stars": 133
+  },
+  {
+    "id": "ApoorvSaxena/colordrop",
+    "date": "2026-11-28",
+    "stars": 132
+  },
+  {
+    "id": "cmilr/Git-Beautify-For-MacOS-Terminal",
+    "date": "2026-11-28",
+    "stars": 132
+  },
+  {
+    "id": "developer-krushna/MH-TextEditor",
+    "date": "2026-11-28",
+    "stars": 132
+  },
+  {
+    "id": "nikolvs/vim-sunbather",
+    "date": "2026-11-28",
+    "stars": 132
+  },
+  {
+    "id": "bsobol/npp-darcula",
+    "date": "2026-11-28",
+    "stars": 131
+  },
+  {
+    "id": "cocopon/vscode-iceberg-theme",
+    "date": "2026-11-28",
+    "stars": 131
+  },
+  {
+    "id": "felipefdl/warm-burnout",
+    "date": "2026-11-28",
+    "stars": 128
+  },
+  {
+    "id": "kartikp10/noctis.nvim",
+    "date": "2026-11-28",
+    "stars": 128
+  },
+  {
+    "id": "katawful/kat.nvim",
+    "date": "2026-11-28",
+    "stars": 128
+  },
+  {
+    "id": "sanjayadanushka712/Dracula-Deep",
+    "date": "2026-11-28",
+    "stars": 128
+  },
+  {
+    "id": "THMonster/kcm-colorful",
+    "date": "2026-11-28",
+    "stars": 128
+  },
+  {
+    "id": "atelierbram/Base2Tone-vim",
+    "date": "2026-11-28",
+    "stars": 127
+  },
+  {
+    "id": "coeiico/jetbrains-nightfall-theme",
+    "date": "2026-11-28",
+    "stars": 127
+  },
+  {
+    "id": "KatsuteDev/Background",
+    "date": "2026-11-28",
+    "stars": 127
+  },
+  {
+    "id": "omerimzali/uiterminal",
+    "date": "2026-11-28",
+    "stars": 126
+  },
+  {
+    "id": "vimpostor/vim-lumen",
+    "date": "2026-11-28",
+    "stars": 126
+  },
+  {
+    "id": "vukkt/iglass",
+    "date": "2026-11-28",
+    "stars": 125
+  },
+  {
+    "id": "ember-theme/nvim",
+    "date": "2026-11-28",
+    "stars": 124
+  },
+  {
+    "id": "marzapower/MPColorTools",
+    "date": "2026-11-28",
+    "stars": 124
+  },
+  {
+    "id": "material-ocean/Material-Ocean",
+    "date": "2026-11-28",
+    "stars": 123
+  },
+  {
+    "id": "Abstract-IDE/Abstract-cs",
+    "date": "2026-11-28",
+    "stars": 122
+  },
+  {
+    "id": "nordtheme/hyper",
+    "date": "2026-11-28",
+    "stars": 122
+  },
+  {
+    "id": "TsaiKoga/it-tools",
+    "date": "2026-11-28",
+    "stars": 121
+  },
+  {
+    "id": "LunarVim/horizon.nvim",
+    "date": "2026-11-28",
+    "stars": 120
+  },
+  {
+    "id": "nordtheme/tilix",
+    "date": "2026-11-28",
+    "stars": 119
+  },
+  {
+    "id": "nursandiid/vscode-customizations",
+    "date": "2026-11-28",
+    "stars": 119
+  },
+  {
+    "id": "fcpg/vim-fahrenheit",
+    "date": "2026-11-28",
+    "stars": 117
+  },
+  {
+    "id": "mattvh/solar-theme-ghost",
+    "date": "2026-11-28",
+    "stars": 117
+  },
+  {
+    "id": "pouyakary/ProColors",
+    "date": "2026-11-28",
+    "stars": 117
+  },
+  {
+    "id": "EricEzaM/godot-color-palette",
+    "date": "2026-11-28",
+    "stars": 116
+  },
+  {
+    "id": "FuncFusion/mc-dp-icons",
+    "date": "2026-11-28",
+    "stars": 116
+  },
+  {
+    "id": "uloco/theme-bluloco-dark",
+    "date": "2026-11-28",
+    "stars": 116
+  },
+  {
+    "id": "LunarVim/synthwave84.nvim",
+    "date": "2026-11-28",
+    "stars": 115
+  },
+  {
+    "id": "sethlopez/InspiredGitHub.tmtheme",
+    "date": "2026-11-28",
+    "stars": 115
+  },
+  {
+    "id": "bertof/nix-rice",
+    "date": "2026-11-28",
+    "stars": 114
+  },
+  {
+    "id": "FabriceCastel/gvcci",
+    "date": "2026-11-28",
+    "stars": 114
+  },
+  {
+    "id": "lalitmee/cobalt2.nvim",
+    "date": "2026-11-28",
+    "stars": 114
+  },
+  {
+    "id": "lunacookies/sema",
+    "date": "2026-11-28",
+    "stars": 114
+  },
+  {
+    "id": "tallpants/vscode-theme-iterm2",
+    "date": "2026-11-28",
+    "stars": 114
+  },
+  {
+    "id": "uloco/theme-bluloco-light",
+    "date": "2026-11-28",
+    "stars": 114
+  },
+  {
+    "id": "nordtheme/konsole",
+    "date": "2026-11-28",
+    "stars": 113
+  },
+  {
+    "id": "nordtheme/terminator",
+    "date": "2026-11-28",
+    "stars": 113
+  },
+  {
+    "id": "FeatherHunter/dsh-opencode-palette",
+    "date": "2026-11-28",
+    "stars": 112
+  },
+  {
+    "id": "phha/zenburn.nvim",
+    "date": "2026-11-28",
+    "stars": 112
+  },
+  {
+    "id": "Raincode/QtCreator-Color-Schemes",
+    "date": "2026-11-28",
+    "stars": 112
+  },
+  {
+    "id": "woodfishhhh/Woodfish-Theme",
+    "date": "2026-11-28",
+    "stars": 112
+  },
+  {
+    "id": "kiddae/ImageColorizer",
+    "date": "2026-11-28",
+    "stars": 111
+  },
+  {
+    "id": "manekinekko/windows-nt-vscode-theme",
+    "date": "2026-11-28",
+    "stars": 111
+  },
+  {
+    "id": "rileytwo/kiss",
+    "date": "2026-11-28",
+    "stars": 111
+  },
+  {
+    "id": "romgrk/doom-one.vim",
+    "date": "2026-11-28",
+    "stars": 111
+  },
+  {
+    "id": "nordtheme/web",
+    "date": "2026-11-28",
+    "stars": 110
+  },
+  {
+    "id": "nordtheme/xcode",
+    "date": "2026-11-28",
+    "stars": 110
+  },
+  {
+    "id": "NTBBloodbath/sweetie.nvim",
+    "date": "2026-11-28",
+    "stars": 110
+  },
+  {
+    "id": "pineapplegiant/spaceduck-terminal",
+    "date": "2026-11-28",
+    "stars": 110
+  },
+  {
+    "id": "slack-theme/visual-studio-code",
+    "date": "2026-11-28",
+    "stars": 108
+  },
+  {
+    "id": "soft-aesthetic/soft-era-vs-code",
+    "date": "2026-11-28",
+    "stars": 107
+  },
+  {
+    "id": "Teczer/fast-expo-app",
+    "date": "2026-11-28",
+    "stars": 107
+  },
+  {
+    "id": "codesandbox/vscode-theme",
+    "date": "2026-11-28",
+    "stars": 106
+  },
+  {
+    "id": "magimetal/synthwave-themes",
+    "date": "2026-11-28",
+    "stars": 106
+  },
+  {
+    "id": "EliverLara/Nordic-kde",
+    "date": "2026-11-28",
+    "stars": 105
+  },
+  {
+    "id": "EryouHao/brackets-light-pro",
+    "date": "2026-11-28",
+    "stars": 105
+  },
+  {
+    "id": "huyvohcmc/atlas.vim",
+    "date": "2026-11-28",
+    "stars": 105
+  },
+  {
+    "id": "fcancelinha/nordern.nvim",
+    "date": "2026-11-28",
+    "stars": 104
+  },
+  {
+    "id": "midnitefox/Nord-Theme-Ports-and-Assets",
+    "date": "2026-11-28",
+    "stars": 104
+  },
+  {
+    "id": "nordtheme/termite",
+    "date": "2026-11-28",
+    "stars": 104
+  },
+  {
+    "id": "archseer/colibri.vim",
+    "date": "2026-11-28",
+    "stars": 103
+  },
+  {
+    "id": "Meowtrix/MoeIDE",
+    "date": "2026-11-28",
+    "stars": 103
+  },
+  {
+    "id": "fcpg/vim-orbital",
+    "date": "2026-11-28",
+    "stars": 102
+  },
+  {
+    "id": "miskiewiczm/foxberry",
+    "date": "2026-11-28",
+    "stars": 102
+  },
+  {
+    "id": "tek256/simple-dark",
+    "date": "2026-11-28",
+    "stars": 102
+  },
+  {
+    "id": "connorholyday/kitty-snazzy",
+    "date": "2026-11-28",
+    "stars": 101
+  },
+  {
+    "id": "jayeshk/Doric",
+    "date": "2026-11-28",
+    "stars": 101
+  },
+  {
+    "id": "john2x/plan9-theme.el",
+    "date": "2026-11-28",
+    "stars": 101
+  },
+  {
+    "id": "samrap/outrun-theme-vscode",
+    "date": "2026-11-28",
+    "stars": 101
+  },
+  {
+    "id": "ziap/repalette",
+    "date": "2026-11-28",
+    "stars": 101
+  },
+  {
+    "id": "ntk148v/komau.vim",
+    "date": "2026-11-28",
+    "stars": 100
+  },
+  {
+    "id": "Shadorain/shadotheme",
+    "date": "2026-11-28",
+    "stars": 100
+  },
+  {
     "id": "starship/starship",
     "date": "2026-11-28",
-    "stars": 60970
+    "stars": 60982
   },
   {
     "id": "romkatv/powerlevel10k",
     "date": "2026-11-28",
-    "stars": 55406
+    "stars": 55405
   },
   {
     "id": "JanDeDobbeleer/oh-my-posh",
     "date": "2026-11-28",
-    "stars": 23800
+    "stars": 23801
   },
   {
     "id": "spaceship-prompt/spaceship-prompt",
@@ -58142,7 +59992,7 @@
   {
     "id": "ChrisBuilds/terminaltexteffects",
     "date": "2026-11-28",
-    "stars": 4319
+    "stars": 4318
   },
   {
     "id": "pipeseroni/pipes.sh",
@@ -58232,32 +60082,32 @@
   {
     "id": "niri-wm/niri",
     "date": "2026-11-28",
-    "stars": 29307
+    "stars": 29308
   },
   {
     "id": "nikitabobko/AeroSpace",
     "date": "2026-11-28",
-    "stars": 23987
+    "stars": 23986
   },
   {
     "id": "eythaann/Seelen-UI",
     "date": "2026-11-28",
-    "stars": 18719
+    "stars": 18720
   },
   {
     "id": "lwouis/alt-tab-macos",
     "date": "2026-11-28",
-    "stars": 16586
+    "stars": 16584
   },
   {
     "id": "ianyh/Amethyst",
     "date": "2026-11-28",
-    "stars": 16345
+    "stars": 16346
   },
   {
     "id": "LGUG2Z/komorebi",
     "date": "2026-11-28",
-    "stars": 15424
+    "stars": 15426
   },
   {
     "id": "polybar/polybar",
@@ -58282,12 +60132,12 @@
   {
     "id": "abue-ammar/tinycast",
     "date": "2026-11-28",
-    "stars": 9979
+    "stars": 9994
   },
   {
     "id": "duxlabs-dev/dux-shell",
     "date": "2026-11-28",
-    "stars": 9238
+    "stars": 9242
   },
   {
     "id": "baskerville/bspwm",
@@ -58307,7 +60157,7 @@
   {
     "id": "Gaurav-Gosain/tuios",
     "date": "2026-11-28",
-    "stars": 6847
+    "stars": 6848
   },
   {
     "id": "nextapps-de/winbox",
@@ -58322,7 +60172,7 @@
   {
     "id": "RamonUnch/AltSnap",
     "date": "2026-11-28",
-    "stars": 5436
+    "stars": 5437
   },
   {
     "id": "qtile/qtile",
@@ -58337,7 +60187,7 @@
   {
     "id": "mylinuxforwork/dotfiles",
     "date": "2026-11-28",
-    "stars": 5139
+    "stars": 5140
   },
   {
     "id": "nomcopter/react-mosaic",
@@ -58347,12 +60197,12 @@
   {
     "id": "gh0stzk/dotfiles",
     "date": "2026-11-28",
-    "stars": 4793
+    "stars": 4794
   },
   {
     "id": "fosslife/awesome-ricing",
     "date": "2026-11-28",
-    "stars": 4620
+    "stars": 4621
   },
   {
     "id": "paperwm/PaperWM",
@@ -58407,7 +60257,7 @@
   {
     "id": "labwc/labwc",
     "date": "2026-11-28",
-    "stars": 2941
+    "stars": 2942
   },
   {
     "id": "acsandmann/rift",
@@ -58527,7 +60377,7 @@
   {
     "id": "uint23/sxwm",
     "date": "2026-11-28",
-    "stars": 1075
+    "stars": 1076
   },
   {
     "id": "AdamWagner/stackline",
@@ -58547,7 +60397,7 @@
   {
     "id": "junegunn/fzf",
     "date": "2026-11-28",
-    "stars": 84529
+    "stars": 84539
   },
   {
     "id": "kien/ctrlp.vim",
@@ -58562,12 +60412,12 @@
   {
     "id": "alexpasmantier/television",
     "date": "2026-11-28",
-    "stars": 6449
+    "stars": 6448
   },
   {
     "id": "PawanOsman/OpenCursor",
     "date": "2026-11-28",
-    "stars": 6050
+    "stars": 6051
   },
   {
     "id": "oracle/opengrok",
@@ -58617,12 +60467,12 @@
   {
     "id": "rohunvora/x-research-skill",
     "date": "2026-11-28",
-    "stars": 1249
+    "stars": 1248
   },
   {
     "id": "junegunn/vim-plug",
     "date": "2026-11-28",
-    "stars": 35791
+    "stars": 35792
   },
   {
     "id": "LazyVim/LazyVim",
@@ -58637,7 +60487,7 @@
   {
     "id": "folke/lazy.nvim",
     "date": "2026-11-28",
-    "stars": 21800
+    "stars": 21801
   },
   {
     "id": "rockerBOO/awesome-neovim",
@@ -58647,12 +60497,12 @@
   {
     "id": "nvim-telescope/telescope.nvim",
     "date": "2026-11-28",
-    "stars": 19918
+    "stars": 19919
   },
   {
     "id": "nvim-treesitter/nvim-treesitter",
     "date": "2026-11-28",
-    "stars": 14609
+    "stars": 14611
   },
   {
     "id": "AstroNvim/AstroNvim",
@@ -58677,12 +60527,12 @@
   {
     "id": "mason-org/mason.nvim",
     "date": "2026-11-28",
-    "stars": 10573
+    "stars": 10575
   },
   {
     "id": "nvim-mini/mini.nvim",
     "date": "2026-11-28",
-    "stars": 9681
+    "stars": 9682
   },
   {
     "id": "hrsh7th/nvim-cmp",
@@ -58692,7 +60542,7 @@
   {
     "id": "folke/tokyonight.nvim",
     "date": "2026-11-28",
-    "stars": 8307
+    "stars": 8308
   },
   {
     "id": "folke/snacks.nvim",
@@ -58712,7 +60562,7 @@
   {
     "id": "catppuccin/nvim",
     "date": "2026-11-28",
-    "stars": 7672
+    "stars": 7673
   },
   {
     "id": "nvim-neorg/neorg",
@@ -58722,7 +60572,7 @@
   {
     "id": "folke/which-key.nvim",
     "date": "2026-11-28",
-    "stars": 7388
+    "stars": 7389
   },
   {
     "id": "mfussenegger/nvim-dap",
@@ -58732,7 +60582,7 @@
   {
     "id": "lewis6991/gitsigns.nvim",
     "date": "2026-11-28",
-    "stars": 7243
+    "stars": 7245
   },
   {
     "id": "stevearc/oil.nvim",
@@ -58747,12 +60597,12 @@
   {
     "id": "saghen/blink.cmp",
     "date": "2026-11-28",
-    "stars": 6689
+    "stars": 6690
   },
   {
     "id": "lervag/vimtex",
     "date": "2026-11-28",
-    "stars": 6417
+    "stars": 6416
   },
   {
     "id": "epwalsh/obsidian.nvim",
@@ -58777,12 +60627,12 @@
   {
     "id": "stevearc/conform.nvim",
     "date": "2026-11-28",
-    "stars": 5455
+    "stars": 5456
   },
   {
     "id": "MeanderingProgrammer/render-markdown.nvim",
     "date": "2026-11-28",
-    "stars": 5287
+    "stars": 5289
   },
   {
     "id": "ggandor/leap.nvim",
@@ -58802,12 +60652,12 @@
   {
     "id": "numToStr/Comment.nvim",
     "date": "2026-11-28",
-    "stars": 4659
+    "stars": 4660
   },
   {
     "id": "akinsho/bufferline.nvim",
     "date": "2026-11-28",
-    "stars": 4395
+    "stars": 4396
   },
   {
     "id": "kylechui/nvim-surround",
@@ -58852,12 +60702,12 @@
   {
     "id": "m4xshen/hardtime.nvim",
     "date": "2026-11-28",
-    "stars": 3902
+    "stars": 3903
   },
   {
     "id": "ms-jpq/coq_nvim",
     "date": "2026-11-28",
-    "stars": 3813
+    "stars": 3814
   },
   {
     "id": "nvimdev/lspsaga.nvim",
@@ -58932,7 +60782,7 @@
   {
     "id": "nvim-tree/nvim-web-devicons",
     "date": "2026-11-28",
-    "stars": 2737
+    "stars": 2738
   },
   {
     "id": "romgrk/barbar.nvim",
@@ -59150,12 +61000,12 @@
     "stars": 1484
   },
   {
-    "id": "tontinton/maki",
+    "id": "milanglacier/minuet-ai.nvim",
     "date": "2026-11-28",
-    "stars": 1467
+    "stars": 1466
   },
   {
-    "id": "milanglacier/minuet-ai.nvim",
+    "id": "tontinton/maki",
     "date": "2026-11-28",
     "stars": 1466
   },
@@ -59212,7 +61062,7 @@
   {
     "id": "PHPantom-dev/phpantom_lsp",
     "date": "2026-11-28",
-    "stars": 1338
+    "stars": 1340
   },
   {
     "id": "Robitx/gp.nvim",
@@ -59412,7 +61262,7 @@
   {
     "id": "hat0uma/csvview.nvim",
     "date": "2026-11-28",
-    "stars": 714
+    "stars": 715
   },
   {
     "id": "dstein64/nvim-scrollview",
@@ -59842,7 +61692,7 @@
   {
     "id": "agkozak/zcomet",
     "date": "2026-11-28",
-    "stars": 236
+    "stars": 237
   },
   {
     "id": "belak/zsh-utils",
@@ -60892,12 +62742,12 @@
   {
     "id": "ajeetdsouza/zoxide",
     "date": "2026-11-28",
-    "stars": 40818
+    "stars": 40826
   },
   {
     "id": "denisidoro/navi",
     "date": "2026-11-28",
-    "stars": 17904
+    "stars": 17903
   },
   {
     "id": "pystardust/ani-cli",
@@ -61190,12 +63040,12 @@
     "stars": 244
   },
   {
-    "id": "Squirreljetpack/matchmaker",
+    "id": "WTFox/jellybeans.nvim",
     "date": "2026-11-28",
-    "stars": 240
+    "stars": 241
   },
   {
-    "id": "WTFox/jellybeans.nvim",
+    "id": "Squirreljetpack/matchmaker",
     "date": "2026-11-28",
     "stars": 240
   },
@@ -61512,17 +63362,17 @@
   {
     "id": "PowerShell/PowerShell",
     "date": "2026-11-28",
-    "stars": 56354
+    "stars": 56352
   },
   {
     "id": "nushell/nushell",
     "date": "2026-11-28",
-    "stars": 41146
+    "stars": 41156
   },
   {
     "id": "fish-shell/fish-shell",
     "date": "2026-11-28",
-    "stars": 34563
+    "stars": 34565
   },
   {
     "id": "xonsh/xonsh",
@@ -61537,7 +63387,7 @@
   {
     "id": "zsh-users/zsh",
     "date": "2026-11-28",
-    "stars": 4348
+    "stars": 4349
   },
   {
     "id": "oils-for-unix/oils",
@@ -61562,7 +63412,7 @@
   {
     "id": "ibara/oksh",
     "date": "2026-11-28",
-    "stars": 462
+    "stars": 463
   },
   {
     "id": "tcsh-org/tcsh",
@@ -61577,7 +63427,7 @@
   {
     "id": "ohmyzsh/ohmyzsh",
     "date": "2026-11-28",
-    "stars": 190883
+    "stars": 190855
   },
   {
     "id": "zsh-users/zsh-autosuggestions",
@@ -61592,12 +63442,12 @@
   {
     "id": "Bash-it/bash-it",
     "date": "2026-11-28",
-    "stars": 15303
+    "stars": 15304
   },
   {
     "id": "sorin-ionescu/prezto",
     "date": "2026-11-28",
-    "stars": 14584
+    "stars": 14585
   },
   {
     "id": "oh-my-fish/oh-my-fish",
@@ -61632,7 +63482,7 @@
   {
     "id": "zplug/zplug",
     "date": "2026-11-28",
-    "stars": 6054
+    "stars": 6055
   },
   {
     "id": "wfxr/forgit",
@@ -61647,12 +63497,12 @@
   {
     "id": "akinomyoga/ble.sh",
     "date": "2026-11-28",
-    "stars": 4945
+    "stars": 4946
   },
   {
     "id": "zdharma-continuum/zinit",
     "date": "2026-11-28",
-    "stars": 4907
+    "stars": 4908
   },
   {
     "id": "zimfw/zimfw",
@@ -61752,7 +63602,7 @@
   {
     "id": "olets/zsh-abbr",
     "date": "2026-11-28",
-    "stars": 806
+    "stars": 805
   },
   {
     "id": "kazhala/dotbare",
@@ -62057,7 +63907,7 @@
   {
     "id": "jesseduffield/lazygit",
     "date": "2026-11-28",
-    "stars": 84143
+    "stars": 84145
   },
   {
     "id": "Kong/insomnia",
@@ -62067,7 +63917,7 @@
   {
     "id": "dandavison/delta",
     "date": "2026-11-28",
-    "stars": 32896
+    "stars": 32903
   },
   {
     "id": "gitui-org/gitui",
@@ -62077,7 +63927,7 @@
   {
     "id": "gitbutlerapp/gitbutler",
     "date": "2026-11-28",
-    "stars": 22040
+    "stars": 22042
   },
   {
     "id": "airblade/vim-gitgutter",
@@ -62112,7 +63962,7 @@
   {
     "id": "yoshiko-pg/difit",
     "date": "2026-11-28",
-    "stars": 3361
+    "stars": 3362
   },
   {
     "id": "altsem/gitu",
@@ -62147,12 +63997,12 @@
   {
     "id": "sheprd-labs/sheprd",
     "date": "2026-11-28",
-    "stars": 2392
+    "stars": 2394
   },
   {
     "id": "lusingander/serie",
     "date": "2026-11-28",
-    "stars": 2210
+    "stars": 2209
   },
   {
     "id": "KnpLabs/php-github-api",
@@ -62215,6 +64065,11 @@
     "stars": 1291
   },
   {
+    "id": "flint63-code/gitdesk-windows",
+    "date": "2026-11-28",
+    "stars": 1239
+  },
+  {
     "id": "shurcooL/githubv4",
     "date": "2026-11-28",
     "stars": 1205
@@ -62245,19 +64100,14 @@
     "stars": 1020
   },
   {
-    "id": "flint63-code/gitdesk-windows",
-    "date": "2026-11-28",
-    "stars": 1005
-  },
-  {
     "id": "vorssaint/vorssaint-utils",
     "date": "2026-11-28",
-    "stars": 36760
+    "stars": 36776
   },
   {
     "id": "winsiderss/systeminformer",
     "date": "2026-11-28",
-    "stars": 16602
+    "stars": 16604
   },
   {
     "id": "aksakalli/gtop",
@@ -62267,12 +64117,12 @@
   {
     "id": "LibreHardwareMonitor/LibreHardwareMonitor",
     "date": "2026-11-28",
-    "stars": 9476
+    "stars": 9477
   },
   {
     "id": "ersinkoc/phonebox",
     "date": "2026-11-28",
-    "stars": 7859
+    "stars": 7991
   },
   {
     "id": "Diorser/LiteMonitor",
@@ -62287,7 +64137,7 @@
   {
     "id": "Ray-lea/Argus",
     "date": "2026-11-28",
-    "stars": 3110
+    "stars": 3129
   },
   {
     "id": "iglance/iGlance",
@@ -62315,6 +64165,11 @@
     "stars": 1502
   },
   {
+    "id": "Ash793318/windows-hardware-monitor",
+    "date": "2026-11-28",
+    "stars": 1151
+  },
+  {
     "id": "kennss/SiliconScope",
     "date": "2026-11-28",
     "stars": 1044
@@ -62332,17 +64187,17 @@
   {
     "id": "neovim/neovim",
     "date": "2026-11-28",
-    "stars": 103899
+    "stars": 103884
   },
   {
     "id": "helix-editor/helix",
     "date": "2026-11-28",
-    "stars": 47072
+    "stars": 47082
   },
   {
     "id": "vim/vim",
     "date": "2026-11-28",
-    "stars": 41321
+    "stars": 41298
   },
   {
     "id": "micro-editor/micro",
@@ -62352,12 +64207,12 @@
   {
     "id": "sinelaw/fresh",
     "date": "2026-11-28",
-    "stars": 9581
+    "stars": 9583
   },
   {
     "id": "lite-xl/lite-xl",
     "date": "2026-11-28",
-    "stars": 6571
+    "stars": 6572
   },
   {
     "id": "slap-editor/slap",
@@ -62367,7 +64222,7 @@
   {
     "id": "martanne/vis",
     "date": "2026-11-28",
-    "stars": 5324
+    "stars": 5325
   },
   {
     "id": "emacs-mirror/emacs",
@@ -62417,7 +64272,7 @@
   {
     "id": "eugenioenko/ttt",
     "date": "2026-11-28",
-    "stars": 1187
+    "stars": 1188
   },
   {
     "id": "OtterMind/Chat2DB",
@@ -62427,17 +64282,17 @@
   {
     "id": "beekeeper-studio/beekeeper-studio",
     "date": "2026-11-28",
-    "stars": 23939
+    "stars": 23940
   },
   {
     "id": "l0ng-ai/openidea",
     "date": "2026-11-28",
-    "stars": 10484
+    "stars": 10497
   },
   {
     "id": "TableProApp/TablePro",
     "date": "2026-11-28",
-    "stars": 6555
+    "stars": 6554
   },
   {
     "id": "tconbeer/harlequin",
@@ -62457,7 +64312,7 @@
   {
     "id": "jorgerojas26/lazysql",
     "date": "2026-11-28",
-    "stars": 4448
+    "stars": 4449
   },
   {
     "id": "TaKO8Ki/gobang",
@@ -62472,7 +64327,7 @@
   {
     "id": "Datus-ai/Datus-agent",
     "date": "2026-11-28",
-    "stars": 1950
+    "stars": 1951
   },
   {
     "id": "mathaou/termdbms",
@@ -62537,152 +64392,152 @@
   {
     "id": "anomalyco/opencode",
     "date": "2026-11-28",
-    "stars": 229681
+    "stars": 229710
   },
   {
     "id": "ultraworkers/claw-code",
     "date": "2026-11-28",
-    "stars": 194704
+    "stars": 194699
   },
   {
     "id": "anthropics/claude-code",
     "date": "2026-11-28",
-    "stars": 157355
+    "stars": 157357
   },
   {
     "id": "x1xhlol/system-prompts-and-models-of-ai-tools",
     "date": "2026-11-28",
-    "stars": 144903
+    "stars": 144901
   },
   {
     "id": "openai/codex",
     "date": "2026-11-28",
-    "stars": 136667
+    "stars": 136683
   },
   {
     "id": "VoltAgent/awesome-design-md",
     "date": "2026-11-28",
-    "stars": 129492
+    "stars": 129529
   },
   {
     "id": "earendil-works/pi",
     "date": "2026-11-28",
-    "stars": 124411
+    "stars": 124446
   },
   {
     "id": "JuliusBrussee/caveman",
     "date": "2026-11-28",
-    "stars": 123373
+    "stars": 123430
   },
   {
     "id": "addyosmani/agent-skills",
     "date": "2026-11-28",
-    "stars": 120847
+    "stars": 120878
   },
   {
     "id": "pbakaus/impeccable",
     "date": "2026-11-28",
-    "stars": 118220
+    "stars": 118300
   },
   {
     "id": "career-ops-hq/career-ops",
     "date": "2026-11-28",
-    "stars": 85280
+    "stars": 85311
   },
   {
     "id": "OpenMontageInc/OpenMontage",
     "date": "2026-11-28",
-    "stars": 83929
+    "stars": 83976
   },
   {
     "id": "shareAI-lab/learn-claude-code",
     "date": "2026-11-28",
-    "stars": 81012
+    "stars": 81013
   },
   {
     "id": "cloudflare/security-audit-skill",
     "date": "2026-11-28",
-    "stars": 79379
+    "stars": 79445
   },
   {
     "id": "colbymchenry/codegraph",
     "date": "2026-11-28",
-    "stars": 78991
+    "stars": 79006
   },
   {
     "id": "Fission-AI/OpenSpec",
     "date": "2026-11-28",
-    "stars": 75924
+    "stars": 75939
   },
   {
     "id": "cline/cline",
     "date": "2026-11-28",
-    "stars": 71960
+    "stars": 71969
   },
   {
     "id": "ansible/ansible",
     "date": "2026-11-28",
-    "stars": 71574
+    "stars": 71553
   },
   {
     "id": "openinterpreter/openinterpreter",
     "date": "2026-11-28",
-    "stars": 68994
+    "stars": 68990
   },
   {
     "id": "ayghri/i-have-adhd",
     "date": "2026-11-28",
-    "stars": 62817
+    "stars": 62823
   },
   {
     "id": "bojieli/ai-agent-book",
     "date": "2026-11-28",
-    "stars": 60148
+    "stars": 60153
   },
   {
     "id": "ChromeDevTools/chrome-devtools-mcp",
     "date": "2026-11-28",
-    "stars": 59662
+    "stars": 59673
   },
   {
     "id": "hesreallyhim/awesome-claude-code",
     "date": "2026-11-28",
-    "stars": 58958
+    "stars": 58967
   },
   {
     "id": "K-Dense-AI/scientific-agent-skills",
     "date": "2026-11-28",
-    "stars": 58735
+    "stars": 58756
   },
   {
     "id": "multica-ai/multica",
     "date": "2026-11-28",
-    "stars": 58244
+    "stars": 58253
   },
   {
     "id": "alibaba/open-code-review",
     "date": "2026-11-28",
-    "stars": 56979
+    "stars": 57000
   },
   {
     "id": "DeusData/codebase-memory-mcp",
     "date": "2026-11-28",
-    "stars": 49267
+    "stars": 49273
   },
   {
     "id": "luongnv89/claude-howto",
     "date": "2026-11-28",
-    "stars": 47653
+    "stars": 47658
   },
   {
     "id": "LibreChat-AI/LibreChat",
     "date": "2026-11-28",
-    "stars": 47604
+    "stars": 47609
   },
   {
     "id": "ToolJet/ToolJet",
     "date": "2026-11-28",
-    "stars": 41317
+    "stars": 41320
   },
   {
     "id": "codewhale-hq/Codewhale",
@@ -62692,7 +64547,7 @@
   {
     "id": "can1357/oh-my-pi",
     "date": "2026-11-28",
-    "stars": 40053
+    "stars": 40063
   },
   {
     "id": "continuedev/continue",
@@ -62702,12 +64557,12 @@
   {
     "id": "iOfficeAI/AionUi",
     "date": "2026-11-28",
-    "stars": 34560
+    "stars": 34561
   },
   {
     "id": "mksglu/context-mode",
     "date": "2026-11-28",
-    "stars": 34554
+    "stars": 34556
   },
   {
     "id": "TabbyML/tabby",
@@ -62717,57 +64572,57 @@
   {
     "id": "ccch1mneyyy/dsh-Go",
     "date": "2026-11-28",
-    "stars": 33569
+    "stars": 33704
   },
   {
     "id": "zarazhangrui/frontend-slides",
     "date": "2026-11-28",
-    "stars": 33042
+    "stars": 33049
   },
   {
     "id": "AgriciDaniel/claude-seo",
     "date": "2026-11-28",
-    "stars": 32943
+    "stars": 32966
   },
   {
     "id": "oraios/serena",
     "date": "2026-11-28",
-    "stars": 31772
+    "stars": 31778
   },
   {
     "id": "browser-use/video-use",
     "date": "2026-11-28",
-    "stars": 31687
+    "stars": 31692
   },
   {
     "id": "vercel/turborepo",
     "date": "2026-11-28",
-    "stars": 31394
+    "stars": 31395
   },
   {
     "id": "alchaincyf/huashu-design",
     "date": "2026-11-28",
-    "stars": 31155
+    "stars": 31169
   },
   {
     "id": "QwenLM/qwen-code",
     "date": "2026-11-28",
-    "stars": 30997
+    "stars": 31001
   },
   {
     "id": "rohitg00/agentmemory",
     "date": "2026-11-28",
-    "stars": 30644
+    "stars": 30650
   },
   {
     "id": "alirezarezvani/claude-skills",
     "date": "2026-11-28",
-    "stars": 30601
+    "stars": 30602
   },
   {
     "id": "huggingface/smolagents",
     "date": "2026-11-28",
-    "stars": 30575
+    "stars": 30574
   },
   {
     "id": "jarrodwatts/claude-hud",
@@ -62777,27 +64632,27 @@
   {
     "id": "charmbracelet/crush",
     "date": "2026-11-28",
-    "stars": 29222
+    "stars": 29221
   },
   {
     "id": "google-labs-code/design.md",
     "date": "2026-11-28",
-    "stars": 29192
+    "stars": 29193
   },
   {
     "id": "gastownhall/beads",
     "date": "2026-11-28",
-    "stars": 29181
+    "stars": 29183
   },
   {
     "id": "manaflow-ai/cmux",
     "date": "2026-11-28",
-    "stars": 29001
+    "stars": 29004
   },
   {
     "id": "OthmanAdi/planning-with-files",
     "date": "2026-11-28",
-    "stars": 28272
+    "stars": 28269
   },
   {
     "id": "openai/symphony",
@@ -62807,87 +64662,87 @@
   {
     "id": "Kilo-Org/kilocode",
     "date": "2026-11-28",
-    "stars": 28146
+    "stars": 28149
   },
   {
     "id": "onlook-dev/onlook",
     "date": "2026-11-28",
-    "stars": 28022
+    "stars": 28028
   },
   {
     "id": "NVIDIA/SkillSpector",
     "date": "2026-11-28",
-    "stars": 27987
+    "stars": 28005
   },
   {
     "id": "xai-org/grok-build",
     "date": "2026-11-28",
-    "stars": 27908
+    "stars": 27909
   },
   {
     "id": "Fosowl/agenticSeek",
     "date": "2026-11-28",
-    "stars": 27708
+    "stars": 27709
   },
   {
     "id": "GoogleChrome/modern-web-guidance",
     "date": "2026-11-28",
-    "stars": 27161
+    "stars": 27228
   },
   {
     "id": "getpaseo/paseo",
     "date": "2026-11-28",
-    "stars": 26049
+    "stars": 26077
   },
   {
     "id": "agentsmd/agents.md",
     "date": "2026-11-28",
-    "stars": 25739
+    "stars": 25742
   },
   {
     "id": "nocobase/nocobase",
     "date": "2026-11-28",
-    "stars": 25043
+    "stars": 25044
   },
   {
     "id": "citrolabs/ego-lite",
     "date": "2026-11-28",
-    "stars": 24831
+    "stars": 24845
   },
   {
     "id": "PrimeIntellect-ai/prime-agent",
     "date": "2026-11-28",
-    "stars": 22945
-  },
-  {
-    "id": "winfunc/opcode",
-    "date": "2026-11-28",
-    "stars": 22465
+    "stars": 22947
   },
   {
     "id": "liyupi/ai-guide",
     "date": "2026-11-28",
-    "stars": 22461
+    "stars": 22464
+  },
+  {
+    "id": "winfunc/opcode",
+    "date": "2026-11-28",
+    "stars": 22462
   },
   {
     "id": "google/adk-python",
     "date": "2026-11-28",
-    "stars": 22391
+    "stars": 22395
   },
   {
     "id": "jnMetaCode/agency-agents-zh",
     "date": "2026-11-28",
-    "stars": 22370
+    "stars": 22374
   },
   {
     "id": "1jehuang/jcode",
     "date": "2026-11-28",
-    "stars": 22116
+    "stars": 22125
   },
   {
     "id": "NirDiamant/agents-towards-production",
     "date": "2026-11-28",
-    "stars": 21955
+    "stars": 21956
   },
   {
     "id": "SWE-agent/SWE-agent",
@@ -62902,12 +64757,12 @@
   {
     "id": "wanshuiyin/Auto-claude-code-research-in-sleep",
     "date": "2026-11-28",
-    "stars": 20032
+    "stars": 20039
   },
   {
     "id": "greensock/gsap-skills",
     "date": "2026-11-28",
-    "stars": 19209
+    "stars": 19220
   },
   {
     "id": "windmill-labs/windmill",
@@ -62932,17 +64787,17 @@
   {
     "id": "chenhg5/cc-connect",
     "date": "2026-11-28",
-    "stars": 16514
+    "stars": 16512
   },
   {
     "id": "NanmiCoder/cc-haha",
     "date": "2026-11-28",
-    "stars": 15600
+    "stars": 15598
   },
   {
     "id": "AndyMik90/Aperant",
     "date": "2026-11-28",
-    "stars": 14631
+    "stars": 14630
   },
   {
     "id": "coleam00/context-engineering-intro",
@@ -62962,7 +64817,7 @@
   {
     "id": "ccch1mneyyy/dsh-TUI",
     "date": "2026-11-28",
-    "stars": 8371
+    "stars": 8374
   },
   {
     "id": "YaoApp/yao",
@@ -62972,12 +64827,12 @@
   {
     "id": "vastsa/PI-Desktop",
     "date": "2026-11-28",
-    "stars": 8307
+    "stars": 8315
   },
   {
     "id": "microsoft/TokenEconomizer",
     "date": "2026-11-28",
-    "stars": 8182
+    "stars": 8186
   },
   {
     "id": "algorithmicsuperintelligence/openevolve",
@@ -62992,27 +64847,27 @@
   {
     "id": "tw93/Waza",
     "date": "2026-11-28",
-    "stars": 7661
+    "stars": 7662
   },
   {
     "id": "gepa-ai/gepa",
     "date": "2026-11-28",
-    "stars": 7625
+    "stars": 7629
   },
   {
     "id": "ValueCell-ai/ClawX",
     "date": "2026-11-28",
-    "stars": 7586
+    "stars": 7583
   },
   {
     "id": "alchaincyf/darwin-skill",
     "date": "2026-11-28",
-    "stars": 7083
+    "stars": 7086
   },
   {
     "id": "uditgoenka/autoresearch",
     "date": "2026-11-28",
-    "stars": 6876
+    "stars": 6878
   },
   {
     "id": "janus-sh/Janus",
@@ -63022,17 +64877,17 @@
   {
     "id": "google/agents-cli",
     "date": "2026-11-28",
-    "stars": 6434
+    "stars": 6436
   },
   {
     "id": "github/CopilotForXcode",
     "date": "2026-11-28",
-    "stars": 6407
+    "stars": 6408
   },
   {
     "id": "KunAgent/Kun",
     "date": "2026-11-28",
-    "stars": 6382
+    "stars": 6381
   },
   {
     "id": "rllm-org/rllm",
@@ -63042,7 +64897,7 @@
   {
     "id": "junhoyeo/tokscale",
     "date": "2026-11-28",
-    "stars": 5915
+    "stars": 5914
   },
   {
     "id": "the-open-agent/openagent",
@@ -63052,7 +64907,7 @@
   {
     "id": "cloudflare/vibesdk",
     "date": "2026-11-28",
-    "stars": 5491
+    "stars": 5490
   },
   {
     "id": "kodu-ai/claude-coder",
@@ -63072,12 +64927,12 @@
   {
     "id": "nexu-io/html-video",
     "date": "2026-11-28",
-    "stars": 4943
+    "stars": 4942
   },
   {
     "id": "PurpleDoubleD/locally-uncensored",
     "date": "2026-11-28",
-    "stars": 4762
+    "stars": 4765
   },
   {
     "id": "amantus-ai/vibetunnel",
@@ -63087,12 +64942,12 @@
   {
     "id": "HarnessRouter/harnessrouter",
     "date": "2026-11-28",
-    "stars": 4585
+    "stars": 4586
   },
   {
     "id": "gptme/gptme",
     "date": "2026-11-28",
-    "stars": 4499
+    "stars": 4498
   },
   {
     "id": "CommandCodeAI/command-code",
@@ -63107,7 +64962,7 @@
   {
     "id": "tutti-os/tutti",
     "date": "2026-11-28",
-    "stars": 3973
+    "stars": 3956
   },
   {
     "id": "strukto-ai/mirage",
@@ -63122,17 +64977,17 @@
   {
     "id": "gotalab/cc-sdd",
     "date": "2026-11-28",
-    "stars": 3782
+    "stars": 3783
   },
   {
     "id": "zeronsh/zeron",
     "date": "2026-11-28",
-    "stars": 3773
+    "stars": 3774
   },
   {
     "id": "DSH-APP/DSHA",
     "date": "2026-11-28",
-    "stars": 3752
+    "stars": 3759
   },
   {
     "id": "twinnydotdev/twinny",
@@ -63142,7 +64997,7 @@
   {
     "id": "SeemSeam/claude_codex_bridge",
     "date": "2026-11-28",
-    "stars": 3635
+    "stars": 3636
   },
   {
     "id": "superagent-ai/grok-cli",
@@ -63167,7 +65022,7 @@
   {
     "id": "fuxicodex/Fuxi",
     "date": "2026-11-28",
-    "stars": 3180
+    "stars": 3160
   },
   {
     "id": "chaterm/Chaterm",
@@ -63182,7 +65037,7 @@
   {
     "id": "aoci-spec/aoci-code",
     "date": "2026-11-28",
-    "stars": 3095
+    "stars": 3096
   },
   {
     "id": "Pinvou/pinvou-agent",
@@ -63192,7 +65047,7 @@
   {
     "id": "Gentleman-Programming/gentle-shell",
     "date": "2026-11-28",
-    "stars": 3040
+    "stars": 3042
   },
   {
     "id": "cocoindex-io/cocoindex-code",
@@ -63207,7 +65062,7 @@
   {
     "id": "compozy/compozy",
     "date": "2026-11-28",
-    "stars": 2911
+    "stars": 2910
   },
   {
     "id": "Windy3f3f3f3f/claude-code-from-scratch",
@@ -63217,12 +65072,12 @@
   {
     "id": "google/mantis",
     "date": "2026-11-28",
-    "stars": 2843
+    "stars": 2842
   },
   {
     "id": "teaql/teaql-agent-kit",
     "date": "2026-11-28",
-    "stars": 2821
+    "stars": 2822
   },
   {
     "id": "iamsrikanthnani/pluely",
@@ -63272,7 +65127,7 @@
   {
     "id": "Leonxlnx/agentic-ai-prompt-research",
     "date": "2026-11-28",
-    "stars": 2574
+    "stars": 2573
   },
   {
     "id": "leepokai/Codync",
@@ -63347,12 +65202,17 @@
   {
     "id": "aattaran/deepclaude",
     "date": "2026-11-28",
-    "stars": 2276
+    "stars": 2277
   },
   {
     "id": "coleam00/mcp-crawl4ai-rag",
     "date": "2026-11-28",
     "stars": 2269
+  },
+  {
+    "id": "INK-Q/agy-fast",
+    "date": "2026-11-28",
+    "stars": 2263
   },
   {
     "id": "tnm/zclaw",
@@ -63372,17 +65232,17 @@
   {
     "id": "ZiChuanLan/agent-purge",
     "date": "2026-11-28",
-    "stars": 2209
+    "stars": 2212
   },
   {
     "id": "morganlinton/BeautifulRust",
     "date": "2026-11-28",
-    "stars": 2167
+    "stars": 2168
   },
   {
     "id": "omnimind-ai/OmniBot",
     "date": "2026-11-28",
-    "stars": 2165
+    "stars": 2166
   },
   {
     "id": "crshdn/mission-control",
@@ -63390,14 +65250,9 @@
     "stars": 2162
   },
   {
-    "id": "INK-Q/agy-fast",
-    "date": "2026-11-28",
-    "stars": 2143
-  },
-  {
     "id": "nimbalyst/nimbalyst",
     "date": "2026-11-28",
-    "stars": 2123
+    "stars": 2124
   },
   {
     "id": "kenryu42/cc-safety-net",
@@ -63422,7 +65277,7 @@
   {
     "id": "leofan90/Awesome-World-Models",
     "date": "2026-11-28",
-    "stars": 2066
+    "stars": 2067
   },
   {
     "id": "AntigmaLabs/ante",
@@ -63447,12 +65302,17 @@
   {
     "id": "LodyAI/Lody",
     "date": "2026-11-28",
-    "stars": 1874
+    "stars": 1877
   },
   {
     "id": "zubair-trabzada/ai-legal-claude",
     "date": "2026-11-28",
     "stars": 1870
+  },
+  {
+    "id": "heymrun/heym",
+    "date": "2026-11-28",
+    "stars": 1786
   },
   {
     "id": "Twigpine/zero",
@@ -63467,22 +65327,17 @@
   {
     "id": "gi-dellav/zerostack",
     "date": "2026-11-28",
-    "stars": 1762
-  },
-  {
-    "id": "heymrun/heym",
-    "date": "2026-11-28",
-    "stars": 1761
+    "stars": 1763
   },
   {
     "id": "razzant/ouroboros",
     "date": "2026-11-28",
-    "stars": 1731
+    "stars": 1732
   },
   {
     "id": "callstackincubator/agent-skills",
     "date": "2026-11-28",
-    "stars": 1722
+    "stars": 1723
   },
   {
     "id": "siddsachar/row-bot",
@@ -63522,17 +65377,17 @@
   {
     "id": "l0ng-ai/tty7",
     "date": "2026-11-28",
-    "stars": 1544
+    "stars": 1545
   },
   {
     "id": "autonomous-ai/openharness",
     "date": "2026-11-28",
-    "stars": 1540
+    "stars": 1541
   },
   {
     "id": "bradAGI/awesome-cli-coding-agents",
     "date": "2026-11-28",
-    "stars": 1504
+    "stars": 1505
   },
   {
     "id": "inkeep/agents",
@@ -63555,22 +65410,22 @@
     "stars": 1408
   },
   {
+    "id": "kimsungwhee/apple-docs-mcp",
+    "date": "2026-11-28",
+    "stars": 1390
+  },
+  {
     "id": "AnandChowdhary/continuous-claude",
     "date": "2026-11-28",
     "stars": 1389
   },
   {
-    "id": "kimsungwhee/apple-docs-mcp",
+    "id": "grinev/opencode-telegram-bot",
     "date": "2026-11-28",
-    "stars": 1389
+    "stars": 1381
   },
   {
     "id": "H-mmer/pentest-agents",
-    "date": "2026-11-28",
-    "stars": 1382
-  },
-  {
-    "id": "grinev/opencode-telegram-bot",
     "date": "2026-11-28",
     "stars": 1381
   },
@@ -63592,7 +65447,7 @@
   {
     "id": "asheshgoplani/agent-deck",
     "date": "2026-11-28",
-    "stars": 1321
+    "stars": 1324
   },
   {
     "id": "ASCIT31/Dark-Moon",
@@ -63605,19 +65460,19 @@
     "stars": 1315
   },
   {
-    "id": "0xranx/OpenContext",
+    "id": "ys-ll/uniterm",
     "date": "2026-11-28",
-    "stars": 1294
+    "stars": 1295
   },
   {
-    "id": "ys-ll/uniterm",
+    "id": "0xranx/OpenContext",
     "date": "2026-11-28",
     "stars": 1294
   },
   {
     "id": "itsdecodingai/building-a-coding-agent-from-scratch-course",
     "date": "2026-11-28",
-    "stars": 1282
+    "stars": 1290
   },
   {
     "id": "GreatScottyMac/RooFlow",
@@ -63637,12 +65492,12 @@
   {
     "id": "ayuayue/PiDeck",
     "date": "2026-11-28",
-    "stars": 1247
+    "stars": 1248
   },
   {
     "id": "jamro/tiny-engineer",
     "date": "2026-11-28",
-    "stars": 1238
+    "stars": 1239
   },
   {
     "id": "borghei/Claude-Skills",
@@ -63682,7 +65537,7 @@
   {
     "id": "omdsh-dev/dsh-browser",
     "date": "2026-11-28",
-    "stars": 1150
+    "stars": 1151
   },
   {
     "id": "AlexSergey/rockpack",
@@ -63717,7 +65572,7 @@
   {
     "id": "johannesjo/parallel-code",
     "date": "2026-11-28",
-    "stars": 1107
+    "stars": 1108
   },
   {
     "id": "hashgraph-online/awesome-ai-plugins",
@@ -63727,7 +65582,7 @@
   {
     "id": "superdesigndev/superdesign-skill",
     "date": "2026-11-28",
-    "stars": 1088
+    "stars": 1089
   },
   {
     "id": "lucasrosati/claude-code-memory-setup",
@@ -63812,227 +65667,227 @@
   {
     "id": "affaan-m/ECC",
     "date": "2026-11-28",
-    "stars": 312063
+    "stars": 312141
   },
   {
     "id": "deepseek-ai/deepseek-harness",
     "date": "2026-11-28",
-    "stars": 288189
+    "stars": 288259
   },
   {
     "id": "NousResearch/hermes-agent",
     "date": "2026-11-28",
-    "stars": 266650
+    "stars": 266674
   },
   {
     "id": "firecrawl/firecrawl",
     "date": "2026-11-28",
-    "stars": 211892
+    "stars": 211993
   },
   {
     "id": "DietrichGebert/ponytail",
     "date": "2026-11-28",
-    "stars": 200355
+    "stars": 200464
   },
   {
     "id": "Graphify-Labs/graphify",
     "date": "2026-11-28",
-    "stars": 154370
+    "stars": 154426
   },
   {
     "id": "langchain-ai/langchain",
     "date": "2026-11-28",
-    "stars": 150099
+    "stars": 150096
   },
   {
     "id": "stablyai/orca",
     "date": "2026-11-28",
-    "stars": 143006
+    "stars": 143209
   },
   {
     "id": "Leonxlnx/taste-skill",
     "date": "2026-11-28",
-    "stars": 122441
+    "stars": 122498
   },
   {
     "id": "browser-use/browser-use",
     "date": "2026-11-28",
-    "stars": 122261
+    "stars": 122260
   },
   {
     "id": "thedotmack/claude-mem",
     "date": "2026-11-28",
-    "stars": 120287
+    "stars": 120309
   },
   {
     "id": "paperclipai/paperclip",
     "date": "2026-11-28",
-    "stars": 117678
+    "stars": 117714
   },
   {
     "id": "google-gemini/gemini-cli",
     "date": "2026-11-28",
-    "stars": 109270
+    "stars": 109284
   },
   {
     "id": "tt-a1i/archify",
     "date": "2026-11-28",
-    "stars": 101083
+    "stars": 101142
   },
   {
     "id": "punkpeye/awesome-mcp-servers",
     "date": "2026-11-28",
-    "stars": 98589
+    "stars": 98596
   },
   {
     "id": "infiniflow/ragflow",
     "date": "2026-11-28",
-    "stars": 94852
+    "stars": 94859
   },
   {
     "id": "modelcontextprotocol/servers",
     "date": "2026-11-28",
-    "stars": 92309
+    "stars": 92311
   },
   {
     "id": "heygen-com/hyperframes",
     "date": "2026-11-28",
-    "stars": 91710
+    "stars": 91801
   },
   {
     "id": "cheaper-inference/OmniRoute",
     "date": "2026-11-28",
-    "stars": 90833
+    "stars": 90858
   },
   {
     "id": "Ebony-Vinyl/dsh-our-free-model",
     "date": "2026-11-28",
-    "stars": 89473
+    "stars": 89641
   },
   {
     "id": "unclecode/crawl4ai",
     "date": "2026-11-28",
-    "stars": 88071
+    "stars": 88075
   },
   {
     "id": "bytedance/deer-flow",
     "date": "2026-11-28",
-    "stars": 85890
+    "stars": 85894
   },
   {
     "id": "ruvnet/ruflo",
     "date": "2026-11-28",
-    "stars": 82572
+    "stars": 82578
   },
   {
     "id": "microsoft/ai-agents-for-beginners",
     "date": "2026-11-28",
-    "stars": 81133
+    "stars": 81142
   },
   {
     "id": "headroomlabs-ai/headroom",
     "date": "2026-11-28",
-    "stars": 81036
+    "stars": 81042
   },
   {
     "id": "rohitg00/ai-engineering-from-scratch",
     "date": "2026-11-28",
-    "stars": 80930
+    "stars": 80954
   },
   {
     "id": "ComposioHQ/awesome-claude-skills",
     "date": "2026-11-28",
-    "stars": 80484
+    "stars": 80486
   },
   {
     "id": "dair-ai/Prompt-Engineering-Guide",
     "date": "2026-11-28",
-    "stars": 80417
+    "stars": 80419
   },
   {
     "id": "thedaviddias/Front-End-Checklist",
     "date": "2026-11-28",
-    "stars": 74844
+    "stars": 74845
   },
   {
     "id": "ai-job-search-dev/ai-job-search",
     "date": "2026-11-28",
-    "stars": 73785
+    "stars": 73801
   },
   {
     "id": "asgeirtj/system_prompts_leaks",
     "date": "2026-11-28",
-    "stars": 73108
+    "stars": 73204
   },
   {
     "id": "FoundationAgents/MetaGPT",
     "date": "2026-11-28",
-    "stars": 71509
+    "stars": 71510
   },
   {
     "id": "code-yeongyu/oh-my-openagent",
     "date": "2026-11-28",
-    "stars": 71161
+    "stars": 71164
   },
   {
     "id": "mem0ai/mem0",
     "date": "2026-11-28",
-    "stars": 69572
+    "stars": 69577
   },
   {
     "id": "shanraisshan/claude-code-best-practice",
     "date": "2026-11-28",
-    "stars": 69472
+    "stars": 69474
   },
   {
     "id": "Mintplex-Labs/anything-llm",
     "date": "2026-11-28",
-    "stars": 68717
+    "stars": 68719
   },
   {
     "id": "HKUDS/DeepTutor",
     "date": "2026-11-28",
-    "stars": 63910
+    "stars": 63938
   },
   {
     "id": "coreyhaines31/marketingskills",
     "date": "2026-11-28",
-    "stars": 63086
+    "stars": 63112
   },
   {
     "id": "crewAIInc/crewAI",
     "date": "2026-11-28",
-    "stars": 61337
+    "stars": 61336
   },
   {
     "id": "zylon-ai/private-gpt",
     "date": "2026-11-28",
-    "stars": 57666
+    "stars": 57667
   },
   {
     "id": "aaif-goose/goose",
     "date": "2026-11-28",
-    "stars": 57093
+    "stars": 57090
   },
   {
     "id": "CherryHQ/cherry-studio",
     "date": "2026-11-28",
-    "stars": 53938
+    "stars": 53942
   },
   {
     "id": "herdrdev/herdr",
     "date": "2026-11-28",
-    "stars": 53340
+    "stars": 53362
   },
   {
     "id": "sickn33/agentic-awesome-skills",
     "date": "2026-11-28",
-    "stars": 50464
+    "stars": 50473
   },
   {
     "id": "HKUDS/nanobot",
     "date": "2026-11-28",
-    "stars": 50409
+    "stars": 50408
   },
   {
     "id": "zhayujie/CowAgent",
@@ -64042,97 +65897,97 @@
   {
     "id": "AstrBotDevs/AstrBot",
     "date": "2026-11-28",
-    "stars": 47668
+    "stars": 47675
   },
   {
     "id": "langchain-ai/langgraph",
     "date": "2026-11-28",
-    "stars": 45526
+    "stars": 45529
   },
   {
     "id": "agno-agi/agno",
     "date": "2026-11-28",
-    "stars": 43328
+    "stars": 43329
   },
   {
     "id": "wshobson/agents",
     "date": "2026-11-28",
-    "stars": 42999
+    "stars": 43002
   },
   {
     "id": "tinyhumansai/openhuman",
     "date": "2026-11-28",
-    "stars": 42910
+    "stars": 42908
   },
   {
     "id": "yetone/magpie",
     "date": "2026-11-28",
-    "stars": 42675
+    "stars": 42736
   },
   {
     "id": "Donchitos/Claude-Code-Game-Studios",
     "date": "2026-11-28",
-    "stars": 41245
+    "stars": 41258
   },
   {
     "id": "Yeachan-Heo/oh-my-claudecode",
     "date": "2026-11-28",
-    "stars": 41106
+    "stars": 41110
   },
   {
     "id": "ashishpatel26/500-AI-Agents-Projects",
     "date": "2026-11-28",
-    "stars": 40831
+    "stars": 40836
   },
   {
     "id": "VectifyAI/PageIndex",
     "date": "2026-11-28",
-    "stars": 40827
+    "stars": 40830
   },
   {
     "id": "microsoft/playwright-mcp",
     "date": "2026-11-28",
-    "stars": 40232
+    "stars": 40236
   },
   {
     "id": "JCodesMore/ai-website-cloner-template",
     "date": "2026-11-28",
-    "stars": 39914
+    "stars": 39925
   },
   {
     "id": "alchaincyf/nuwa-skill",
     "date": "2026-11-28",
-    "stars": 39228
+    "stars": 39236
   },
   {
     "id": "virgiliojr94/book-to-skill",
     "date": "2026-11-28",
-    "stars": 39184
+    "stars": 39198
   },
   {
     "id": "ItzCrazyKns/Vane",
     "date": "2026-11-28",
-    "stars": 38343
+    "stars": 38342
   },
   {
     "id": "agentscope-ai/QwenPaw",
     "date": "2026-11-28",
-    "stars": 38268
+    "stars": 38274
   },
   {
     "id": "VoltAgent/awesome-agent-skills",
     "date": "2026-11-28",
-    "stars": 37600
+    "stars": 37602
   },
   {
     "id": "DayuanJiang/next-ai-draw-io",
     "date": "2026-11-28",
-    "stars": 37220
+    "stars": 37222
   },
   {
     "id": "mukul975/Anthropic-Cybersecurity-Skills",
     "date": "2026-11-28",
-    "stars": 36875
+    "stars": 36878
   },
   {
     "id": "vxcontrol/pentagi",
@@ -64142,42 +65997,42 @@
   {
     "id": "github/github-mcp-server",
     "date": "2026-11-28",
-    "stars": 34813
+    "stars": 34810
   },
   {
     "id": "Fincept-Corporation/FinceptTerminal",
     "date": "2026-11-28",
-    "stars": 34297
+    "stars": 34299
   },
   {
     "id": "davila7/claude-code-templates",
     "date": "2026-11-28",
-    "stars": 34251
+    "stars": 34247
   },
   {
     "id": "topoteretes/cognee",
     "date": "2026-11-28",
-    "stars": 33682
+    "stars": 33680
   },
   {
     "id": "CloakHQ/CloakBrowser",
     "date": "2026-11-28",
-    "stars": 33115
+    "stars": 33121
   },
   {
     "id": "decolua/9router",
     "date": "2026-11-28",
-    "stars": 32936
+    "stars": 32942
   },
   {
     "id": "t8y2/dbx",
     "date": "2026-11-28",
-    "stars": 31749
+    "stars": 31754
   },
   {
     "id": "hypit-ai/hypit",
     "date": "2026-11-28",
-    "stars": 31714
+    "stars": 31733
   },
   {
     "id": "jackwener/OpenCLI",
@@ -64187,12 +66042,12 @@
   {
     "id": "ComposioHQ/composio",
     "date": "2026-11-28",
-    "stars": 31338
+    "stars": 31341
   },
   {
     "id": "TencentCloud/TencentDB-Agent-Memory",
     "date": "2026-11-28",
-    "stars": 31243
+    "stars": 31241
   },
   {
     "id": "nanocoai/nanoclaw",
@@ -64202,17 +66057,17 @@
   {
     "id": "openai/openai-agents-python",
     "date": "2026-11-28",
-    "stars": 30909
+    "stars": 30912
   },
   {
     "id": "Infisical/infisical",
     "date": "2026-11-28",
-    "stars": 30858
+    "stars": 30861
   },
   {
     "id": "kestra-io/kestra",
     "date": "2026-11-28",
-    "stars": 30392
+    "stars": 30388
   },
   {
     "id": "harvard-edge/cs249r_book",
@@ -64222,42 +66077,42 @@
   {
     "id": "mastra-ai/mastra",
     "date": "2026-11-28",
-    "stars": 29866
+    "stars": 29867
   },
   {
     "id": "chroma-core/chroma",
     "date": "2026-11-28",
-    "stars": 29799
+    "stars": 29801
   },
   {
     "id": "alibaba/page-agent",
     "date": "2026-11-28",
-    "stars": 29775
+    "stars": 29774
   },
   {
     "id": "BloopAI/vibe-kanban",
     "date": "2026-11-28",
-    "stars": 28845
+    "stars": 28846
   },
   {
     "id": "PrefectHQ/fastmcp",
     "date": "2026-11-28",
-    "stars": 28793
+    "stars": 28796
   },
   {
     "id": "milind-soni/OpenMausBot",
     "date": "2026-11-28",
-    "stars": 28652
+    "stars": 28689
   },
   {
     "id": "earthtojake/text-to-cad",
     "date": "2026-11-28",
-    "stars": 27647
+    "stars": 27662
   },
   {
     "id": "vercel-labs/agent-desktop",
     "date": "2026-11-28",
-    "stars": 27162
+    "stars": 27185
   },
   {
     "id": "deepset-ai/haystack",
@@ -64267,27 +66122,27 @@
   {
     "id": "titanwings/distilly",
     "date": "2026-11-28",
-    "stars": 26913
+    "stars": 26914
   },
   {
     "id": "VoltAgent/awesome-claude-code-subagents",
     "date": "2026-11-28",
-    "stars": 26813
+    "stars": 26816
   },
   {
     "id": "zai-org/Open-AutoGLM",
     "date": "2026-11-28",
-    "stars": 26693
+    "stars": 26691
   },
   {
     "id": "enescingoz/awesome-n8n-templates",
     "date": "2026-11-28",
-    "stars": 26608
+    "stars": 26610
   },
   {
     "id": "walkinglabs/learn-harness-engineering",
     "date": "2026-11-28",
-    "stars": 26236
+    "stars": 26242
   },
   {
     "id": "dapr/dapr",
@@ -64297,17 +66152,17 @@
   {
     "id": "browserbase/stagehand",
     "date": "2026-11-28",
-    "stars": 26170
+    "stars": 26171
   },
   {
     "id": "pascalorg/editor",
     "date": "2026-11-28",
-    "stars": 25840
+    "stars": 25853
   },
   {
     "id": "activepieces/activepieces",
     "date": "2026-11-28",
-    "stars": 25765
+    "stars": 25766
   },
   {
     "id": "letta-ai/letta",
@@ -64332,67 +66187,62 @@
   {
     "id": "slopus/happy",
     "date": "2026-11-28",
-    "stars": 24879
+    "stars": 24880
   },
   {
     "id": "lexmount/moli",
     "date": "2026-11-28",
-    "stars": 24572
+    "stars": 24578
   },
   {
     "id": "BaaRai/ARTEX",
     "date": "2026-11-28",
-    "stars": 23917
+    "stars": 24101
   },
   {
     "id": "google/elephant-goldfish-model",
     "date": "2026-11-28",
-    "stars": 23467
+    "stars": 23527
   },
   {
     "id": "czlonkowski/n8n-mcp",
     "date": "2026-11-28",
-    "stars": 23317
+    "stars": 23318
   },
   {
     "id": "Vincentwei1021/video-shotcraft",
     "date": "2026-11-28",
-    "stars": 23188
+    "stars": 23218
   },
   {
     "id": "NVIDIA/NemoClaw",
     "date": "2026-11-28",
-    "stars": 23114
+    "stars": 23111
   },
   {
     "id": "HBAI-Ltd/Toonflow-app",
     "date": "2026-11-28",
-    "stars": 23072
+    "stars": 23091
   },
   {
     "id": "dipakkr/awesome-ai-engineering",
     "date": "2026-11-28",
-    "stars": 22649
+    "stars": 22650
   },
   {
     "id": "KKKKhazix/khazix-skills",
     "date": "2026-11-28",
-    "stars": 22639
-  },
-  {
-    "id": "docmost/docmost",
-    "date": "2026-11-28",
-    "stars": 22449
+    "stars": 22645
   },
   {
     "id": "xerj-org/xerj",
     "date": "2026-11-28",
-    "stars": 22424
+    "stars": 22455
   },
   {
     "id": "openai/swarm",
     "date": "2026-11-28",
-    "stars": 22184
+    "stars": 22185
   },
   {
     "id": "Evil0ctal/Douyin_TikTok_Download_API",
@@ -64407,17 +66257,17 @@
   {
     "id": "apify/apify-mcp-server",
     "date": "2026-11-28",
-    "stars": 18234
+    "stars": 18253
   },
   {
     "id": "camel-ai/camel",
     "date": "2026-11-28",
-    "stars": 18073
+    "stars": 18074
   },
   {
     "id": "zhouxiaoka/autoclip",
     "date": "2026-11-28",
-    "stars": 17776
+    "stars": 17863
   },
   {
     "id": "TransformerOptimus/SuperAGI",
@@ -64432,12 +66282,12 @@
   {
     "id": "pipecat-ai/pipecat",
     "date": "2026-11-28",
-    "stars": 17490
+    "stars": 17491
   },
   {
     "id": "xbtlin/ai-berkshire",
     "date": "2026-11-28",
-    "stars": 17276
+    "stars": 17277
   },
   {
     "id": "cft0808/edict",
@@ -64447,7 +66297,7 @@
   {
     "id": "googleapis/mcp-toolbox",
     "date": "2026-11-28",
-    "stars": 16977
+    "stars": 16980
   },
   {
     "id": "HKUDS/DeepCode",
@@ -64457,57 +66307,57 @@
   {
     "id": "GLips/Figma-Context-MCP",
     "date": "2026-11-28",
-    "stars": 16332
+    "stars": 16330
   },
   {
     "id": "budtmo/docker-android",
     "date": "2026-11-28",
-    "stars": 16207
-  },
-  {
-    "id": "raga-ai-hub/RagaAI-Catalyst",
-    "date": "2026-11-28",
-    "stars": 16199
+    "stars": 16208
   },
   {
     "id": "NVIDIA/auto-ontology",
     "date": "2026-11-28",
-    "stars": 16026
+    "stars": 16203
+  },
+  {
+    "id": "raga-ai-hub/RagaAI-Catalyst",
+    "date": "2026-11-28",
+    "stars": 16198
   },
   {
     "id": "liketrek/TREK",
     "date": "2026-11-28",
-    "stars": 16006
+    "stars": 16011
   },
   {
     "id": "livekit/agents",
     "date": "2026-11-28",
-    "stars": 15380
+    "stars": 15389
   },
   {
     "id": "casdoor/casdoor",
     "date": "2026-11-28",
-    "stars": 14974
+    "stars": 14975
   },
   {
     "id": "tonhowtf/omniget",
     "date": "2026-11-28",
-    "stars": 14749
+    "stars": 14750
   },
   {
     "id": "0x4m4/hexstrike-ai",
     "date": "2026-11-28",
-    "stars": 13971
+    "stars": 13968
   },
   {
     "id": "modelcontextprotocol/typescript-sdk",
     "date": "2026-11-28",
-    "stars": 13834
+    "stars": 13836
   },
   {
     "id": "google-labs-code/stitch-skills",
     "date": "2026-11-28",
-    "stars": 13685
+    "stars": 13740
   },
   {
     "id": "ccfos/nightingale",
@@ -64522,12 +66372,12 @@
   {
     "id": "CursorTouch/Windows-MCP",
     "date": "2026-11-28",
-    "stars": 12238
+    "stars": 12249
   },
   {
     "id": "kajisho5/ffmpeg-skill",
     "date": "2026-11-28",
-    "stars": 12075
+    "stars": 12127
   },
   {
     "id": "LaurieWired/GhidraMCP",
@@ -64552,7 +66402,7 @@
   {
     "id": "omnigent-ai/omnigent",
     "date": "2026-11-28",
-    "stars": 11584
+    "stars": 11585
   },
   {
     "id": "modelcontextprotocol/inspector",
@@ -64572,62 +66422,62 @@
   {
     "id": "VoltAgent/voltagent",
     "date": "2026-11-28",
-    "stars": 11017
+    "stars": 11018
   },
   {
     "id": "mcp-use/mcp-use",
     "date": "2026-11-28",
-    "stars": 11016
+    "stars": 11015
   },
   {
     "id": "mobile-next/mobile-mcp",
     "date": "2026-11-28",
-    "stars": 10950
+    "stars": 10957
   },
   {
     "id": "TykTechnologies/tyk",
     "date": "2026-11-28",
-    "stars": 10904
+    "stars": 10905
   },
   {
     "id": "Ryze-AI-Adgent/open-seo-mcp-skills",
     "date": "2026-11-28",
-    "stars": 10710
+    "stars": 10670
   },
   {
     "id": "wonderwhy-er/DesktopCommanderMCP",
     "date": "2026-11-28",
-    "stars": 10448
+    "stars": 10451
   },
   {
     "id": "mutonby/openshorts",
     "date": "2026-11-28",
-    "stars": 10000
+    "stars": 10004
   },
   {
     "id": "awslabs/mcp",
     "date": "2026-11-28",
-    "stars": 9963
+    "stars": 9964
   },
   {
     "id": "modelcontextprotocol/modelcontextprotocol",
     "date": "2026-11-28",
-    "stars": 9785
+    "stars": 9786
   },
   {
     "id": "Gentleman-Programming/gentle-ai",
     "date": "2026-11-28",
-    "stars": 9625
+    "stars": 9627
   },
   {
     "id": "MervinPraison/PraisonAI",
     "date": "2026-11-28",
-    "stars": 9397
+    "stars": 9439
   },
   {
     "id": "ai-boost/awesome-prompts",
     "date": "2026-11-28",
-    "stars": 9335
+    "stars": 9336
   },
   {
     "id": "mark3labs/mcp-go",
@@ -64652,27 +66502,27 @@
   {
     "id": "gosom/google-maps-scraper",
     "date": "2026-11-28",
-    "stars": 8459
+    "stars": 8464
   },
   {
     "id": "beenuar/AiSOC",
     "date": "2026-11-28",
-    "stars": 8427
+    "stars": 8433
   },
   {
     "id": "irinabuht12-oss/google-ads-meta-ads-mcp",
     "date": "2026-11-28",
-    "stars": 8366
+    "stars": 8338
   },
   {
     "id": "Gentleman-Programming/engram",
     "date": "2026-11-28",
-    "stars": 8336
+    "stars": 8337
   },
   {
     "id": "deanpeters/Product-Manager-Skills",
     "date": "2026-11-28",
-    "stars": 8179
+    "stars": 8181
   },
   {
     "id": "webiny/webiny-js",
@@ -64692,22 +66542,22 @@
   {
     "id": "2FastLabs/agent-squad",
     "date": "2026-11-28",
-    "stars": 7807
+    "stars": 7806
   },
   {
     "id": "modelcontextprotocol/registry",
     "date": "2026-11-28",
-    "stars": 7504
+    "stars": 7506
   },
   {
     "id": "FlorianBruniaux/claude-code-ultimate-guide",
     "date": "2026-11-28",
-    "stars": 7497
+    "stars": 7501
   },
   {
     "id": "BrowserMCP/mcp",
     "date": "2026-11-28",
-    "stars": 7424
+    "stars": 7426
   },
   {
     "id": "kyegomez/swarms",
@@ -64717,12 +66567,12 @@
   {
     "id": "qybaihe/bla",
     "date": "2026-11-28",
-    "stars": 7096
+    "stars": 7102
   },
   {
     "id": "lharries/whatsapp-mcp",
     "date": "2026-11-28",
-    "stars": 6967
+    "stars": 6968
   },
   {
     "id": "InternLM/MindSearch",
@@ -64737,15 +66587,15 @@
   {
     "id": "google-research/paper-orchestra",
     "date": "2026-11-28",
-    "stars": 6699
-  },
-  {
-    "id": "genkit-ai/genkit",
-    "date": "2026-11-28",
-    "stars": 6633
+    "stars": 6719
   },
   {
     "id": "kucherenko/jscpd",
+    "date": "2026-11-28",
+    "stars": 6634
+  },
+  {
+    "id": "genkit-ai/genkit",
     "date": "2026-11-28",
     "stars": 6632
   },
@@ -64762,12 +66612,12 @@
   {
     "id": "agentgateway/agentgateway",
     "date": "2026-11-28",
-    "stars": 6488
+    "stars": 6491
   },
   {
     "id": "agent-infra/sandbox",
     "date": "2026-11-28",
-    "stars": 6401
+    "stars": 6402
   },
   {
     "id": "lavague-ai/LaVague",
@@ -64777,7 +66627,7 @@
   {
     "id": "Q00/ouroboros",
     "date": "2026-11-28",
-    "stars": 6389
+    "stars": 6390
   },
   {
     "id": "bethington/ghidra-mcp",
@@ -64787,12 +66637,12 @@
   {
     "id": "epiral/bb-browser",
     "date": "2026-11-28",
-    "stars": 6264
+    "stars": 6263
   },
   {
     "id": "sooperset/mcp-atlassian",
     "date": "2026-11-28",
-    "stars": 6166
+    "stars": 6167
   },
   {
     "id": "54yyyu/zotero-mcp",
@@ -64802,7 +66652,7 @@
   {
     "id": "AgentOps-AI/agentops",
     "date": "2026-11-28",
-    "stars": 5974
+    "stars": 5975
   },
   {
     "id": "ageerle/ruoyi-ai",
@@ -64812,12 +66662,12 @@
   {
     "id": "executeautomation/mcp-playwright",
     "date": "2026-11-28",
-    "stars": 5684
+    "stars": 5682
   },
   {
     "id": "TabularisDB/tabularis",
     "date": "2026-11-28",
-    "stars": 5557
+    "stars": 5558
   },
   {
     "id": "openclaw/Peekaboo",
@@ -64827,7 +66677,7 @@
   {
     "id": "callstack/agent-device",
     "date": "2026-11-28",
-    "stars": 5538
+    "stars": 5539
   },
   {
     "id": "modelcontextprotocol/go-sdk",
@@ -64840,6 +66690,11 @@
     "stars": 5375
   },
   {
+    "id": "XinaTian/MROffice",
+    "date": "2026-11-28",
+    "stars": 5349
+  },
+  {
     "id": "atilaahmettaner/tradingview-mcp",
     "date": "2026-11-28",
     "stars": 5346
@@ -64848,11 +66703,6 @@
     "id": "superduper-io/superduper",
     "date": "2026-11-28",
     "stars": 5327
-  },
-  {
-    "id": "XinaTian/MROffice",
-    "date": "2026-11-28",
-    "stars": 5289
   },
   {
     "id": "exa-labs/exa-mcp-server",
@@ -64872,12 +66722,12 @@
   {
     "id": "aipotheosis-labs/aci",
     "date": "2026-11-28",
-    "stars": 4944
+    "stars": 4943
   },
   {
     "id": "sandbox-quantum/switch",
     "date": "2026-11-28",
-    "stars": 4883
+    "stars": 4886
   },
   {
     "id": "makenotion/notion-mcp-server",
@@ -64902,27 +66752,27 @@
   {
     "id": "VRSEN/agency-swarm",
     "date": "2026-11-28",
-    "stars": 4645
+    "stars": 4644
   },
   {
     "id": "NVIDIA/SkillEvaluator",
     "date": "2026-11-28",
-    "stars": 4618
+    "stars": 4621
   },
   {
     "id": "MarkusPfundstein/mcp-obsidian",
     "date": "2026-11-28",
-    "stars": 4555
+    "stars": 4554
   },
   {
     "id": "cloudflare/mcp-server-cloudflare",
     "date": "2026-11-28",
-    "stars": 4500
+    "stars": 4502
   },
   {
     "id": "samuelgursky/davinci-resolve-mcp",
     "date": "2026-11-28",
-    "stars": 4466
+    "stars": 4467
   },
   {
     "id": "CodeGraphContext/CodeGraphContext",
@@ -64947,17 +66797,17 @@
   {
     "id": "haris-musa/excel-mcp-server",
     "date": "2026-11-28",
-    "stars": 4339
+    "stars": 4349
   },
   {
     "id": "stickerdaniel/linkedin-mcp-server",
     "date": "2026-11-28",
-    "stars": 4328
+    "stars": 4330
   },
   {
     "id": "punkpeye/awesome-remote-mcp-servers",
     "date": "2026-11-28",
-    "stars": 4308
+    "stars": 4318
   },
   {
     "id": "Pimzino/spec-workflow-mcp",
@@ -64977,12 +66827,12 @@
   {
     "id": "bostrot/wslmanager",
     "date": "2026-11-28",
-    "stars": 4075
+    "stars": 4076
   },
   {
     "id": "simonlin1212/TradingAgents-astock",
     "date": "2026-11-28",
-    "stars": 4055
+    "stars": 4057
   },
   {
     "id": "openai/openai-agents-js",
@@ -65002,7 +66852,7 @@
   {
     "id": "dromara/liteflow",
     "date": "2026-11-28",
-    "stars": 3914
+    "stars": 3915
   },
   {
     "id": "microsoft/mcp",
@@ -65017,7 +66867,7 @@
   {
     "id": "Ar9av/obsidian-wiki",
     "date": "2026-11-28",
-    "stars": 3829
+    "stars": 3830
   },
   {
     "id": "modelcontextprotocol/java-sdk",
@@ -65032,7 +66882,7 @@
   {
     "id": "hi-godot/godot-ai",
     "date": "2026-11-28",
-    "stars": 3740
+    "stars": 3738
   },
   {
     "id": "grafana/mcp-grafana",
@@ -65057,12 +66907,12 @@
   {
     "id": "aws/agent-toolkit-for-aws",
     "date": "2026-11-28",
-    "stars": 3597
+    "stars": 3598
   },
   {
     "id": "taylorwilsdon/google_workspace_mcp",
     "date": "2026-11-28",
-    "stars": 3597
+    "stars": 3598
   },
   {
     "id": "liaokongVFX/MCP-Chinese-Getting-Started-Guide",
@@ -65072,7 +66922,7 @@
   {
     "id": "samugit83/redamon",
     "date": "2026-11-28",
-    "stars": 3531
+    "stars": 3533
   },
   {
     "id": "neka-nat/freecad-mcp",
@@ -65087,7 +66937,7 @@
   {
     "id": "langchain-ai/langgraphjs",
     "date": "2026-11-28",
-    "stars": 3430
+    "stars": 3431
   },
   {
     "id": "cirosantilli/china-dictatorship",
@@ -65097,7 +66947,7 @@
   {
     "id": "GH05TCREW/pentestagent",
     "date": "2026-11-28",
-    "stars": 3348
+    "stars": 3346
   },
   {
     "id": "Meirtz/Awesome-Context-Engineering",
@@ -65137,12 +66987,12 @@
   {
     "id": "wondelai/skills",
     "date": "2026-11-28",
-    "stars": 2809
+    "stars": 2810
   },
   {
     "id": "stellarlinkco/myclaude",
     "date": "2026-11-28",
-    "stars": 2756
+    "stars": 2755
   },
   {
     "id": "brightdata/brightdata-mcp",
@@ -65157,7 +67007,7 @@
   {
     "id": "IBM/AssetOpsBench",
     "date": "2026-11-28",
-    "stars": 2524
+    "stars": 2525
   },
   {
     "id": "Joooook/12306-mcp",
@@ -65222,7 +67072,7 @@
   {
     "id": "Lumiwealth/lumibot",
     "date": "2026-11-28",
-    "stars": 2258
+    "stars": 2259
   },
   {
     "id": "benborla/mcp-server-mysql",
@@ -65282,12 +67132,12 @@
   {
     "id": "CoderGamester/mcp-unity",
     "date": "2026-11-28",
-    "stars": 2022
+    "stars": 2020
   },
   {
     "id": "tuya/TuyaOpen",
     "date": "2026-11-28",
-    "stars": 1967
+    "stars": 1966
   },
   {
     "id": "trpc-group/trpc-agent-go",
@@ -65297,7 +67147,7 @@
   {
     "id": "WordPress/mcp-adapter",
     "date": "2026-11-28",
-    "stars": 1941
+    "stars": 1942
   },
   {
     "id": "yomorun/yomo",
@@ -65327,12 +67177,12 @@
   {
     "id": "bitbonsai/mcpvault",
     "date": "2026-11-28",
-    "stars": 1733
+    "stars": 1734
   },
   {
     "id": "awslabs/cli-agent-orchestrator",
     "date": "2026-11-28",
-    "stars": 1730
+    "stars": 1732
   },
   {
     "id": "modelcontextprotocol/php-sdk",
@@ -65347,7 +67197,7 @@
   {
     "id": "antvis/AVA",
     "date": "2026-11-28",
-    "stars": 1676
+    "stars": 1677
   },
   {
     "id": "johnson7788/MultiAgentPPT",
@@ -65390,19 +67240,19 @@
     "stars": 1595
   },
   {
-    "id": "nickclyde/duckduckgo-mcp-server",
+    "id": "video-db/Director",
     "date": "2026-11-28",
-    "stars": 1592
+    "stars": 1593
   },
   {
-    "id": "video-db/Director",
+    "id": "nickclyde/duckduckgo-mcp-server",
     "date": "2026-11-28",
     "stars": 1592
   },
   {
     "id": "modelcontextprotocol/swift-sdk",
     "date": "2026-11-28",
-    "stars": 1586
+    "stars": 1587
   },
   {
     "id": "patched-codes/patchwork",
@@ -65427,7 +67277,7 @@
   {
     "id": "lgazo/drawio-mcp-server",
     "date": "2026-11-28",
-    "stars": 1502
+    "stars": 1503
   },
   {
     "id": "modelcontextprotocol/kotlin-sdk",
@@ -65510,14 +67360,14 @@
     "stars": 1255
   },
   {
+    "id": "DemonDamon/AgenticX",
+    "date": "2026-11-28",
+    "stars": 1254
+  },
+  {
     "id": "wanxingai/LightAgent",
     "date": "2026-11-28",
     "stars": 1253
-  },
-  {
-    "id": "DemonDamon/AgenticX",
-    "date": "2026-11-28",
-    "stars": 1251
   },
   {
     "id": "modelcontextprotocol/quickstart-resources",
@@ -65550,14 +67400,14 @@
     "stars": 1204
   },
   {
+    "id": "kdlbs/kandev",
+    "date": "2026-11-28",
+    "stars": 1198
+  },
+  {
     "id": "todo-for-ai/todo-for-ai",
     "date": "2026-11-28",
     "stars": 1197
-  },
-  {
-    "id": "kdlbs/kandev",
-    "date": "2026-11-28",
-    "stars": 1196
   },
   {
     "id": "yjacquin/fast-mcp",
@@ -65577,12 +67427,12 @@
   {
     "id": "Softeria/ms-365-mcp-server",
     "date": "2026-11-28",
-    "stars": 1175
+    "stars": 1176
   },
   {
     "id": "TensorBlock/awesome-mcp-servers",
     "date": "2026-11-28",
-    "stars": 1167
+    "stars": 1170
   },
   {
     "id": "mongodb-js/mongodb-mcp-server",
@@ -65627,7 +67477,7 @@
   {
     "id": "YuzeHao2023/Awesome-MCP-Servers",
     "date": "2026-11-28",
-    "stars": 1095
+    "stars": 1096
   },
   {
     "id": "pguso/agents-from-scratch",
@@ -65637,7 +67487,7 @@
   {
     "id": "Zyrexnn/Cybermes",
     "date": "2026-11-28",
-    "stars": 1079
+    "stars": 1078
   },
   {
     "id": "dynamiq-ai/dynamiq",
@@ -65652,7 +67502,7 @@
   {
     "id": "ChiR24/Unreal_mcp",
     "date": "2026-11-28",
-    "stars": 1065
+    "stars": 1066
   },
   {
     "id": "sunblaze-ucb/cybergym",
@@ -65688,5 +67538,10 @@
     "id": "johnhuang316/code-index-mcp",
     "date": "2026-11-28",
     "stars": 1004
+  },
+  {
+    "id": "jame581/GodotPrompter",
+    "date": "2026-11-28",
+    "stars": 1001
   }
 ]
