@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'ecosystems.yml'
+      - 'scripts/build-theme-families.py'
       - '.github/workflows/ecosystem-rankings.yml'
   workflow_dispatch:
   schedule:
@@ -31,11 +32,19 @@ jobs:
             if (!Array.isArray(data.periods) || !data.periods.includes(0)) throw Error("Missing all-time period");
             console.log("Validated", data.categories.length, "categories, default period", data.defaultPeriod);
           '
+      - name: Fetch Tinted schemes
+        uses: actions/checkout@v4
+        with:
+          repository: tinted-theming/schemes
+          ref: spec-0.11
+          path: .tinted-schemes
+      - name: Build theme family metadata
+        run: python3 scripts/build-theme-families.py data/rankings.json .tinted-schemes data/theme-families.json
       - name: Commit updated data
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/rankings.json data/history.json
+          git add data/rankings.json data/history.json data/theme-families.json
           if ! git diff --cached --quiet; then
             git commit -m 'chore: update ecosystem rankings'
             git push
