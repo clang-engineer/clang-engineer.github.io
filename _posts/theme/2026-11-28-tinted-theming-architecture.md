@@ -94,6 +94,21 @@ Template (변환 규칙) ──┘                    │
 
 Tinty는 Flavours의 코드 포크라고 단정할 수 없다. 개발자는 Flavours에서 아이디어를 얻었으며 유지보수가 활발하지 않아 Tinty를 계속 개발했다고 [README](https://github.com/tinted-theming/tinty)에서 밝힌다.
 
+### 커뮤니티 계승과 유지보수 구조
+
+2022년 7월 6일 belak은 [Base16 Project Lives On](https://github.com/tinted-theming/home/issues/51)을 통해 기존 Base16 기여자들의 커뮤니티 계승을 알렸다. 배경에는 특정 개인에게 유지보수가 집중되는 위험(Bus Factor)을 줄이려는 목적이 있었다.
+
+기존 프로젝트의 색상 명세와 호환 생태계를 이어가면서 공통 명세와 도구별 프로젝트의 유지보수 책임을 분담하는 방식이다. 대표적인 기여자는 다음과 같다.
+
+| 기여자 | 대표 담당 영역 |
+|---|---|
+| [JamyGolden](https://github.com/JamyGolden) | Tinty, Rust Builder, 여러 도구 연동 |
+| [belak](https://github.com/belak) | 커뮤니티 계승, Go Builder, Shell 및 Emacs 연동 |
+
+담당 영역은 고정된 직책이나 GitHub 조직의 소유자 권한을 뜻하지 않는다. 프로젝트별 최신 담당자는 [공식 프로젝트 안내](https://github.com/tinted-theming/home)에서 확인한다.
+
+공통 명세를 중심으로 독립 저장소의 유지보수자를 두는 방식은 기술적 확장성과 조직적 지속 가능성을 함께 고려한 설계다. 다만 여러 핵심 프로젝트를 동일한 개발자가 담당하면 유지보수 집중 위험이 남을 수 있다. 분산된 저장소 구조만으로 Bus Factor 문제가 자동으로 해결되는 것은 아니다.
+
 ## 3. Base16과 Base24
 
 Base16은 16가지 색상에 공통 역할을 부여하는 스타일 체계다. 단순히 터미널이 표현할 수 있는 색상 수를 의미하는 것이 아니다.
