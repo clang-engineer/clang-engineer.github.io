@@ -4,6 +4,7 @@ on:
     paths:
       - 'ecosystems.yml'
       - 'scripts/build-theme-families.py'
+      - 'scripts/test-theme-families.py'
       - '.github/workflows/ecosystem-rankings.yml'
   workflow_dispatch:
   schedule:
@@ -38,6 +39,8 @@ jobs:
           repository: tinted-theming/schemes
           ref: spec-0.11
           path: .tinted-schemes
+      - name: Test theme family matching
+        run: python3 scripts/test-theme-families.py
       - name: Build theme family metadata
         run: python3 scripts/build-theme-families.py data/rankings.json .tinted-schemes data/theme-families.json
       - name: Commit updated data
