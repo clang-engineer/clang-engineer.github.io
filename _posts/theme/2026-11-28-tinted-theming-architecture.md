@@ -1,6 +1,6 @@
 ---
 title       : "Base16에서 Tinty까지 — 개발 환경 테마 관리의 역사와 아키텍처"
-description : "Base16과 Base24의 색상 표준, Tinted Theming의 계승 과정, 빌더와 테마 관리자의 책임을 살펴보고 CLI 테마 관리 방식을 비교한다."
+description : "Base16과 Base24의 색상 명세, Tinted Theming의 계승 과정, 빌더와 테마 관리자의 책임을 살펴보고 CLI 테마 관리 방식을 비교한다."
 date        : 2026-11-28 00:00:00 +0900
 categories  : [theme, "테마 관리"]
 tags        : [base16, base24, tinted-theming, tinty, comparison]
@@ -56,6 +56,8 @@ Scheme 제작자                   도구 연동 개발자
 새 도구가 등장하면 해당 도구의 Template과 필요한 적용 연동을 추가한다. 새 팔레트가 등장하면 Scheme을 추가한다. 두 변경 축을 분리했기 때문에 기존의 호환 Scheme과 Template을 재사용할 수 있다. 단, 공통 슬롯으로 표현하기 어려운 UI 요소에는 별도 매핑이 필요할 수 있다.
 
 Base16은 이 결합을 가능하게 하는 규격이고, Tinty는 일반적인 전환 과정에서 이미 생성된 파일을 적용하는 관리자다. 두 프로젝트의 책임은 다르다.
+
+여기서 규격은 ISO나 ECMA 같은 표준화 기관이 제정한 공식 표준을 뜻하지 않는다. Base16과 Base24는 Tinted Theming 생태계에서 사용하는 공개 색상 명세(Specification)다. 개발 환경 전체의 사실상 표준이라고 단정할 근거도 없다. Scheme과 Template이 공통 명세를 따르며, Ghostty나 Neovim 자체가 이를 구현하거나 준수해야 하는 것은 아니다.
 
 ## 1. 전체 구조
 
