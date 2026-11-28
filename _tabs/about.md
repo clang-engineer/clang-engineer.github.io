@@ -9,9 +9,9 @@ order: 6
 
 주로 Java/Kotlin과 JavaScript/TypeScript를 사용합니다. 백엔드와 프론트엔드를 별개로 보기보다 **데이터 흐름과 설계 의도가 실제 인터페이스까지 이어지는 과정**에 관심이 많습니다.
 
-업무 밖에서는 데이터베이스, Neovim, 터미널 도구, 런타임과 운영체제를 탐구합니다. 직접 사용하면서 발견한 불편을 플러그인·어댑터·작은 도구로 해결하고, 그 과정에서 이해한 원리와 도구 간 관계를 기록합니다.
+업무 밖에서는 데이터베이스, Neovim, 터미널 도구, 런타임과 운영체제를 탐구하며 오픈소스 프로젝트를 개발하고 배포합니다. 직접 사용하면서 발견한 불편을 플러그인·어댑터·작은 도구로 해결하고, 그 과정에서 이해한 원리와 도구 간 관계를 기록합니다.
 
-이 블로그의 [로드맵](/roadmap/)은 개념의 큰 구조를, [Devkit](/devkit/)은 다시 찾아볼 참조 자료를, [Rankings](/rankings/)는 새로운 개발 도구를 발견하는 출발점을 제공합니다.
+이 블로그는 기술을 개별 기능이 아니라 연결된 구조로 이해하기 위한 공간입니다. [로드맵](/roadmap/)은 학습의 큰 구조를, [Devkit](/devkit/)은 도구 관계와 실용적인 참조 자료를, [Radar](/radar/)와 [Rankings](/rankings/)는 새로운 기술과 개발 도구를 발견하는 출발점을 제공합니다.
 
 🔗 [github.com/clang-engineer](https://github.com/clang-engineer) · ✉ clang.engineer@gmail.com
 
@@ -56,16 +56,30 @@ order: 6
 | 2011/01 | 병장 만기 전역 | — | — |
 
 ---
-## 주요 저장소
-- [harlequin-h2](https://github.com/clang-engineer/harlequin-h2) — Harlequin용 H2 JDBC community adapter · PyPI 배포 · 공식 Harlequin 문서 등록
-- [harlequin-odbc-vertica](https://github.com/clang-engineer/harlequin-odbc-vertica) — Harlequin용 Vertica ODBC community adapter · PyPI 배포 · 공식 문서 PR 진행 중
-- [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) — Neovim 플러그인 · jdtls/Gradle JDK 환경 분리 · awesome-neovim 등록
-- [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) — vim-dadbod Vertica 어댑터 + dadbod-ui schema-tree 통합 · awesome-neovim 등록
-- [pi-extensions](https://github.com/clang-engineer/pi-extensions) — Pi coding agent extension 모음 · `@clang.engineer/pi-notify`, `@clang.engineer/pi-workloop` npm 배포
-- [dotfiles](https://github.com/clang-engineer/dotfiles) — Neovim·zsh·tmux·Pi 등 개발환경 설정
-- [themeset](https://github.com/clang-engineer/themeset) — 앱 고유 테마를 함께 적용하는 Go CLI · Dracula·Catppuccin·Nightfox 등 테마를 미리 보고 앱별 지원 여부와 적용 계획을 확인한 뒤 승인
-- [devkit](https://github.com/clang-engineer/devkit) — 개념 지도·로드맵·치트시트 등 기술 참조 자료
-- [ecosystem-rankings](https://github.com/clang-engineer/ecosystem-rankings) — GitHub 개발 도구 분야별 순위 수집기와 웹 뷰어
+## 오픈소스 프로젝트
+
+### 개발 도구와 탐색
+
+| 프로젝트 | 설명 |
+|---|---|
+| [ecosystem-rankings](https://github.com/clang-engineer/ecosystem-rankings) | GitHub 생태계 랭킹 수집기와 웹 뷰어 |
+| [reference-explorer](https://github.com/clang-engineer/reference-explorer) | 도구 관계 지도와 검색을 제공하는 웹 컴포넌트 |
+| [tmux-vim-copy](https://github.com/clang-engineer/tmux-vim-copy) | 기본 tmux 복사 모드에 Vim 텍스트 객체 추가 |
+| [pi-extensions](https://github.com/clang-engineer/pi-extensions) | Pi 에이전트 알림과 자동 작업 이어가기 · npm 배포 |
+
+### 데이터베이스와 Neovim
+
+| 프로젝트 | 설명 |
+|---|---|
+| [harlequin-h2](https://github.com/clang-engineer/harlequin-h2) | H2 JDBC 어댑터 · PyPI 배포 · Harlequin 공식 문서 등록 |
+| [harlequin-odbc-vertica](https://github.com/clang-engineer/harlequin-odbc-vertica) | Vertica ODBC 메타데이터 호환 어댑터 · PyPI 배포 |
+| [jvm-env.nvim](https://github.com/clang-engineer/jvm-env.nvim) | jdtls와 Gradle JDK 환경 분리 · awesome-neovim 등록 |
+| [dadbod-vertica.nvim](https://github.com/clang-engineer/dadbod-vertica.nvim) | vim-dadbod Vertica 어댑터 · awesome-neovim 등록 |
+
+### 개발 환경과 기술 자료
+
+- [dotfiles](https://github.com/clang-engineer/dotfiles) — Chezmoi, Fish, LazyVim, tmux, mise, Tinty 기반의 재현 가능한 개발 환경
+- [devkit](https://github.com/clang-engineer/devkit) — 도구 관계 지도, 치트시트, 템플릿
 
 ---
 ## 주요 글
